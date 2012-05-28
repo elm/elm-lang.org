@@ -1,0 +1,2 @@
+
+main = plainText "Hello, World!"

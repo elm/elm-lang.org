@@ -1,0 +1,2 @@
+
+main = image "/elm.jpg"
