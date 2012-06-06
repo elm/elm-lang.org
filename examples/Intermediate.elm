@@ -26,19 +26,17 @@ addSpaces = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") 
 
 section = text . bold . Text.height (5/4) . toText
 
-format lst =
-  let add (x,y,z) = (x, z ++ y ++ ".elm", "/screenshot/" ++ y ++ ".png") in
+addFolder folder lst =
+  let add (x,y) = (x, folder ++ y ++ ".elm", "/screenshot/" ++ y ++ ".png") in
   List.map add lst
 
-examples = format
-  [ ("Layout"       , "FlowDown2" , "Elements/")
-  , ("Centering"    , "Centering" , "Reactive/")
-  , ("Shapes"       , "Shapes"    , "Elements/")
-  , ("Light Box"    , "LightBox"  , "Intermediate/")
-  , ("Graphs"       , "Plot"      , "Intermediate/")
-  , ("Analog Clock" , "Clock"     , "Intermediate/")
-  , ("This Page"    , "Examples"  , "../")
-  , ("Abstract Data Types", "Tree", "Functional/")
+intermediate = addFolder "Intermediate/"
+  [ ("Light Box" , "LightBox")
+  , ("Graphs"        , "Plot")
+  , ("Analog Clock"  , "Clock")
+  , ("Fibonacci Tiles"  , "FibonacciTiles")
+  , ("Pascal's Triangle", "PascalsTriangle")
+  , ("Web" , "Web")
   ]
 
 tileSize = 130
@@ -62,17 +60,10 @@ tile w tiles =
   flow down . addSpaces . List.map (flow right) $ groups (w/tileSize-1) tiles
 
 content w =
-  [ section "Learn by Example"
-  , plainText $ "Elm's interactive editor allows you to learn Elm by seeing and modifying actual code. " ++
-                "Right now there are two categories of examples:"
-  , text $ link "/examples/Basic.elm" (toText "Basic") ++
-           toText " &#8212; the basic building blocks of Elm"
-  , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
-           toText " &#8212; building components with Elm"
-  , plainText "&nbsp;"
-  , section "Quick Overview of Elm"
-  , plainText "If you just want a brief overview, check out the following examples:"
-  , width w . box 2 . tile w $ List.map toTile examples
+  [ section "Intermediate Examples"
+  , plainText $ "These examples bring together display, reaction, and computation to " ++
+                "illustrate how Elm can create useful components."
+  , width w . box 2 . tile w $ List.map toTile intermediate
   ]
 
 exampleSets w = flow down . List.map (width w) . addSpaces $ content w

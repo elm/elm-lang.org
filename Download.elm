@@ -34,6 +34,7 @@ info w = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") . L
   , text $ toText "If you have questions, please take advantage of " ++
            link "http://www.reddit.com/r/haskell/comments/subvk/elm_source_code_and_compilerserver_now_available/" (toText "this reddit post") ++
            toText " or the " ++ link "https://groups.google.com/forum/?fromgroups#!forum/elm-discuss" (toText "mailing list") ++ toText "."
+  , plainText "&nbsp;"
   , section "Download Elm Thesis"
   , text $ toText "My recently completed " ++
            link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "thesis on Elm") ++
