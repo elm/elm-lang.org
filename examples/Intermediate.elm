@@ -31,9 +31,10 @@ addFolder folder lst =
   List.map add lst
 
 intermediate = addFolder "Intermediate/"
-  [ ("Light Box" , "LightBox")
-  , ("Graphs"        , "Plot")
-  , ("Analog Clock"  , "Clock")
+  [ ("Slide Show" , "SlideShow")
+  , ("Graphs"       , "Plot")
+  , ("Analog Clock" , "Clock")
+  , ("Light Box"    , "LightBox")
   , ("Fibonacci Tiles"  , "FibonacciTiles")
   , ("Pascal's Triangle", "PascalsTriangle")
   , ("Web" , "Web")
