@@ -13,6 +13,6 @@ tickCount t = foldp (\x c -> c + 1) 0 (Time.every t)
 
 -- Be sure to also try this with `clickCount` which switches images
 -- each time the user clicks the mouse. You can also try changing the
--- time interval (i.e. `tickCount 7`)
+-- time interval (e.g. `tickCount 7`)
 
 main = lift2 slideShow Window.dimensions (tickCount 4)
