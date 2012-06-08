@@ -27,7 +27,7 @@ addSpaces = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") 
 section = text . bold . Text.height (5/4) . toText
 
 addFolder folder lst =
-  let add (x,y) = (x, folder ++ y ++ ".elm", "/screenshot/" ++ y ++ ".png") in
+  let add (x,y) = (x, folder ++ y ++ ".elm", "/screenshot/" ++ y ++ ".jpg") in
   List.map add lst
 
 intermediate = addFolder "Intermediate/"
