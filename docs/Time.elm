@@ -1,15 +1,6 @@
-map f xs = case xs of { x:xs -> f x : map f xs ; [] -> [] }
-intersperse sep xs =
-  case xs of { a:b:cs -> a : sep : intersperse sep (b:cs)
-             ; a:[] -> [a] ; [] -> [] }
-intercalate sep xs =
-  case xs of { a:b:cs -> a ++ sep ++ intercalate sep (b:cs)
-             ; a:[] -> a ; [] -> [] }
-
-----------------------
 
 button (name, href) = size 100 60 . Element.link href . size 100 60 . box 5 $ plainText name
-buttons = size 400 60 . flow right . map button $
+buttons = size 400 60 . flow right . List.map button $
   [ ("Home","/"), ("Examples","/Examples.elm"), ("Docs","/Documentation.elm"), ("Download","/Download.elm") ]
 
 title w = size w 60 . box 4 . text . header . toText $ "Elm"
@@ -29,7 +20,7 @@ skeleton body outer =
                 toText "&copy; 2011-2012 Evan Czaplicki" 
             ]
 
-addSpaces px = map (\f -> f ()) . intersperse (\x -> height px $ plainText "") . map (\e x -> e)
+addSpaces px = List.map (\f -> f ()) . List.intersperse (\x -> height px $ plainText "") . List.map (\e x -> e)
 
 ----------------------
 
@@ -37,14 +28,14 @@ section = text . bold . Text.height (5/4) . toText
 
 darkerGrey = rgb (114/255) (124/255) (129/255)
 entry w (name, type, desc) =
-  flow down . map (width w) $
+  flow down . List.map (width w) $
     [ text . monospace . toText $ name ++ " :: " ++ type
     , text . Text.color darkerGrey . toText $ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" ++ desc ]
 
-group w (name, fs) = flow down . addSpaces 5 . map (width w) $ (text . bold $ toText name) : map (entry w) fs
+group w (name, fs) = flow down . addSpaces 5 . List.map (width w) $ (text . bold $ toText name) : List.map (entry w) fs
 
 createDocs name cats =
-  let f w = flow down . addSpaces 30 $ section name : map (group w) cats in
+  let f w = flow down . addSpaces 30 $ section name : List.map (group w) cats in
   lift (skeleton f) Window.width
 
 ----------------------
