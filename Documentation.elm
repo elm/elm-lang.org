@@ -1,15 +1,6 @@
-map f xs = case xs of { x:xs -> f x : map f xs ; [] -> [] }
-intersperse sep xs =
-  case xs of { a:b:cs -> a : sep : intersperse sep (b:cs)
-             ; a:[] -> [a] ; [] -> [] }
-intercalate sep xs =
-  case xs of { a:b:cs -> a ++ sep ++ intercalate sep (b:cs)
-             ; a:[] -> a ; [] -> [] }
-
-----------------------
 
 button (name, href) = size 100 60 . Element.link href . size 100 60 . box 5 $ plainText name
-buttons = size 400 60 . flow right . map button $
+buttons = size 400 60 . flow right . List.map button $
   [ ("Home","/"), ("Examples","/Examples.elm"), ("Docs","/Documentation.elm"), ("Download","/Download.elm") ]
 
 title w = size w 60 . box 4 . text . header . toText $ "Elm"
@@ -29,7 +20,7 @@ skeleton body outer =
                 toText "&copy; 2011-2012 Evan Czaplicki" 
             ]
 
-addSpaces = map (\f -> f ()) . intersperse (\x -> plainText "&nbsp;") . map (\e x -> e)
+addSpaces = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") . List.map (\e x -> e)
 
 ----------------------
 
@@ -37,7 +28,7 @@ section = text . bold . Text.height (5/4) . toText
 
 linkify (name, src) = link src (fromString name)
 linkList (name, pairs) =
-  bold (fromString $ name ++ ": ") ++ intercalate (fromString ", ") (map linkify pairs)
+  bold (fromString $ name ++ ": ") ++ List.intercalate (fromString ", ") (List.map linkify pairs)
 
 standard = ("General Purpose",
   [ ("List",  "docs/List.elm")
@@ -72,9 +63,9 @@ intro = [ section "Library Documentation"
                  link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "this thesis") ++
                  toText "."
         ]
-links = map (text . linkList) [ standard, elements, forms, reaction ]
+links = List.map (text . linkList) [ standard, elements, forms, reaction ]
 
 categories w =
-  flow down . map (width w) . addSpaces $ intro ++ links
+  flow down . List.map (width w) . addSpaces $ intro ++ links
 
 main = lift (skeleton categories) Window.width
