@@ -34,7 +34,7 @@ lightBox w h imgs =
      ;  disp loc = constant . size (w/2) h . box loc . fst }
  in
  lift3 size Window.width Window.height . lift (color c3 . box 5 . layers) . listify $
-  [ lift2 beside (disp 6 rightArrow) (disp 4 leftArrow)
+  [ lift2 beside (disp 4 leftArrow) (disp 6 rightArrow)
   , lift (size w h . image . safeIth imgs) index
   ]
 

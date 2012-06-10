@@ -69,13 +69,16 @@ content w =
            toText " &#8212; the basic building blocks of Elm"
   , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
            toText " &#8212; building components with Elm"
-  , text $ toText "To see a larger project, you can view all of the source " ++
-           toText "code of this website on " ++
+  , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
            link "https://github.com/evancz/elm-lang.org" (toText "github") ++
-           toText ". If you want to see these files in the interactive editor, " ++
+           toText ". The download links are " ++
+           link "https://github.com/evancz/elm-lang.org/downloads" (toText "here") ++
+           toText ". The download also includes all of the examples on this site, which might " ++
+           toText "be nice if you prefer to work on your own machine."
+  , text $ toText "If you want to see the source code of a particular page in the online editor, " ++
            toText "just insert " ++ monospace (toText "edit/") ++ toText " after this sites domain name. For instance, " ++
-           link "/edit/Elm.elm" (toText "elm-lang.org/" ++ bold (toText "edit/") ++ toText "Elm.elm") ++
-           toText "."
+           link "/edit/Examples.elm" (toText "elm-lang.org/" ++ bold (toText "edit/") ++ toText "Examples.elm") ++
+           toText " is the source code for this page."
   , plainText "&nbsp;"
   , section "Quick Overview of Elm"
   , plainText "If you just want a brief overview, check out the following examples:"

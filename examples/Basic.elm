@@ -40,7 +40,7 @@ elements = addFolder "Elements/"
   , ("Formatting",
         [ ("Size"    , "Size")
         , ("Opacity" , "Opacity")
---        , ("Text"    , "Text")
+        , ("Text"    , "Text")
         ])
   , ("Layout",
         [ ("Simple Flow", "FlowDown1a")

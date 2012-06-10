@@ -16,7 +16,7 @@ fibSquare n =
 
 ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
 
-dirs = [ flip beside, below, beside, above ]
+dirs = [ beside, above, flip beside, below ]
 
 combine n tiles =
   let dir = ith (n `mod` List.length dirs) dirs in
