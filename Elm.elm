@@ -83,7 +83,7 @@ info w = flow down . List.map (width w) . addSpaces $
   , text $ toText "Version 0.2 of the compiler was recently released. Error messages have been significantly improved, " ++
            toText "basic optimizations are performed, noscript tags are generated, " ++
            toText "there is Haskell integration (to serve code with Yesod, Snap, HAppStack, etc.), " ++
-           toText "pattern matching has been improved, and some minor bugs have been fixed. "
+           toText "pattern matching has been improved, and some minor bugs have been fixed. " ++
            toText "Upgrade with the command " ++ monospace (toText "cabal install elm-server") ++
            toText " or see the " ++ link "/Download.elm" (toText "downloads page") ++ toText " to get started from scratch."
   , text $ toText "New examples are available " ++
