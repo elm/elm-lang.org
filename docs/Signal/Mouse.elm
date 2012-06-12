@@ -15,4 +15,4 @@ mbuttons =
 
 categories = [ ("Position", position), ("Button Status", mbuttons) ]
 
-main = createDocs "Mouse" categories
+main = createDocs "Signal.Mouse" categories

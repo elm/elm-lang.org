@@ -23,4 +23,4 @@ categories =
   , ("Multiple Requests", multis)
   ]
 
-main = createDocs "HTTP" categories
+main = createDocs "Signal.HTTP" categories

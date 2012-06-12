@@ -1,31 +1,10 @@
 
-button (name, href) = size 100 60 . Element.link href . size 100 60 . box 5 $ plainText name
-buttons = size 400 60 . flow right . List.map button $
-  [ ("Home","/"), ("Examples","/Examples.elm"), ("Docs","/Documentation.elm"), ("Download","/Download.elm") ]
-
-title w = size w 60 . box 4 . text . header . toText $ "Elm"
-
-lightGrey = rgb (240/255) (241/255) (244/255)
-mediumGrey = rgb (216/255) (221/255) (225/255)
-heading outer inner =
-  color mediumGrey . size outer 61 . box 1 .
-  color  lightGrey . size outer 60 . box 5 .
-  size inner 60 . box 5 $ title (inner-400) `beside` buttons
-
-skeleton body outer =
-  let inner = if outer < 820 then outer - 20 else 800 in
-  flow down [ heading outer inner
-            , body outer inner
-            , size outer 50 . box 8 . text . Text.color mediumGrey $
-                toText "&copy; 2011-2012 Evan Czaplicki" 
-            ]
-
-----------------------
+import Website.Skeleton
 
 section = text . bold . Text.height (7/6) . toText
-sub s = flow down [ plainText "&nbsp;", text . bold $ toText s ]
+sub s = flow down [ rectangle 10 10 , text . bold $ toText s ]
 
-info w = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") . List.map ((\e x -> e) . width w) $
+info w = flow down . List.map (width w) . addSpaces $
   [ section "Downloads"
   , sub "Installation"
   , text $ toText "See these " ++ link "https://github.com/evancz/Elm/blob/master/README.md" (toText "install instructions") ++
@@ -55,6 +34,4 @@ info w = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") . L
            toText "approach to efficient Functional Reactive Programming."
   ]
  
-body outer inner = width outer . box 2 . flow down . (:) (plainText "&nbsp;") $ info inner
-
-main = lift (skeleton body) Window.width
+main = lift (skeleton info) Window.width

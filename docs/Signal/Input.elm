@@ -20,4 +20,4 @@ categories = [ ("Text Input", txt)
              , ("Drop Downs", drops)
              ]
 
-main = createDocs "Input" categories
+main = createDocs "Signal.Input" categories

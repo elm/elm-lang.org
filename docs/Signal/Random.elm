@@ -8,4 +8,4 @@ ranges =
 
 categories = [ ("In a Range", ranges) ]
 
-main = createDocs "Random" categories
+main = createDocs "Signal.Random" categories
