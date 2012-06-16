@@ -1,11 +1,9 @@
 
 import Website.Skeleton (addSpaces, skeleton)
+import Website.Tiles (tile)
+import Data.List
 
 section = text . bold . Text.height (5/4) . toText
-
-linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)
-linkList (name, pairs) = 
-  flow down . List.map text $ bold (toText name) : List.map linkify pairs
 
 standard = ("General Purpose",
   [ ("Data.Char", "docs/Data/Char.elm")
@@ -41,9 +39,12 @@ intro = [ section "Library Documentation"
                  toText "."
         ]
 
-links = List.map linkList [ standard, elements, reaction ]
+linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)
+linkList (name, pairs) = 
+  flow down . map text $ bold (toText name) : map linkify pairs
+links = map linkList [ standard, elements, reaction ]
 
 categories w =
-  flow down . List.map (width w) . addSpaces $ intro ++ links
+  flow down . map (width w) . addSpaces $ intro ++ links
 
 main = lift (skeleton categories) Window.width
