@@ -1,8 +1,10 @@
 
 module Website.Skeleton (skeleton, addSpaces) where
 
+import Data.List (intersperse)
+
 button (name, href) = size 100 60 . Element.link href . size 100 60 . box 5 $ plainText name
-buttons = size 400 60 . flow right . List.map button $
+buttons = size 400 60 . flow right . map button $
   [ ("Home","/"), ("Examples","/Examples.elm"), ("Docs","/Documentation.elm"), ("Download","/Download.elm") ]
 
 title w = size w 60 . box 4 . text . bold . Text.height 2 . toText $ "Elm"
@@ -22,4 +24,4 @@ skeleton body outer =
                 toText "&copy; 2011-2012 Evan Czaplicki" 
             ]
 
-addSpaces = List.map (\f -> f ()) . List.intersperse (\x -> plainText "&nbsp;") . List.map (\e x -> e)
+addSpaces = map (\f -> f ()) . intersperse (\x -> plainText "&nbsp;") . map (\e x -> e)

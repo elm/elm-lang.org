@@ -1,7 +1,7 @@
 
 module Website.Tiles (tile, toTile) where
 
-import Data.List
+import Data.List (take,drop)
 
 format (x,y,z) = (x, z ++ y ++ ".elm", "/screenshot/" ++ y ++ ".jpg")
 
@@ -15,10 +15,6 @@ toTile info =
        , width x . centeredText $ toText name
        ]
 
-take n lst = if n <= 0 then [] else
-             case lst of { x:xs -> x : take (n-1) xs ; [] -> [] }
-drop n lst = if n <= 0 then lst else
-             case lst of { x:xs -> drop (n-1) xs ; [] -> [] }
 groups n lst =
   case lst of
   { [] -> [] ; x:xs -> take n lst : groups n (drop n lst) }
