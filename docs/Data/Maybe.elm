@@ -6,7 +6,8 @@ def =
   ]
 
 basics =
-  [ ("isJust", "Maybe a -> Bool", "Check if constructed with Just.")
+  [ ("maybe", "b -> (a -> b) -> Maybe a -> b", "Apply a function to the contents of a Maybe. Return default when given Nothing.")
+  , ("isJust", "Maybe a -> Bool", "Check if constructed with Just.")
   , ("isNothing", "Maybe a -> Bool", "Check if constructed with Nothing.")
   , ("fromMaybe", "a -> Maybe a -> a", "Extract the value of from a Maybe. Returns default when given Nothing.")
   ]

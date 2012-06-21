@@ -15,7 +15,11 @@ drops =
   , ("dropDown", "[(String,a)] -> (Element, Signal a)", "Input a list of options. Each option is a pair containing the text to be displayed and a corresponding value of any type. This creates a drop down menu and a signal of the value corresponding to the currently selected option.")
   ]
 
+buttons =
+  [ ("button", "String -> (Element, Signal Bool)", "Create a button and a signal representing whether the button has been pressed. The input specifies the string displayed on the button.") ]
+
 categories = [ ("Text Input", txt)
+             , ("Buttons", buttons)
              , ("Check Boxes", boxes)
              , ("Drop Downs", drops)
              ]
