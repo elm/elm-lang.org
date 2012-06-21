@@ -1,12 +1,13 @@
 
+import Data.List (intercalate)
 import Website.Skeleton
 
 section = text . bold . Text.height (5/4) . toText
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm") in
-  let f (n,xs) = (n, List.map add xs) in
-  List.map f lst
+  let f (n,xs) = (n, map add xs) in
+  map f lst
 
 elements = addFolder "Elements/"
   [ ("Primitives",
@@ -89,20 +90,20 @@ reactive = addFolder "Reactive/"
 example (name, loc) = link ("/edit/examples/" ++ loc) (fromString name)
 toLinks (title, links) =
   text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
-         List.intercalate (fromString ", ") (List.map example links)
+         intercalate (fromString ", ") (map example links)
 
 insertSpace lst = case lst of { x:xs -> x : rectangle 1 5 : xs ; [] -> [] }
 
 subsection w (name,info) =
-  flow down . insertSpace . List.map (width w) $
-    (text . bold $ toText name) : List.map toLinks info
+  flow down . insertSpace . map (width w) $
+    (text . bold $ toText name) : map toLinks info
 
 content w =
   [ section "Basic Examples"
   , plainText $ "Each example listed below focuses on a single function or concept. Together, these " ++
                 "examples should provide the basic building blocks needed to program in Elm."
-  ] ++ List.map (subsection w) [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  ] ++ map (subsection w) [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
 
-exampleSets w = flow down . List.map (width w) . addSpaces $ content w
+exampleSets w = flow down . map (width w) . addSpaces $ content w
 
 main = lift (skeleton exampleSets) Window.width

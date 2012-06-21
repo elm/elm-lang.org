@@ -4,7 +4,7 @@ import Website.Skeleton
 section = text . bold . Text.height (7/6) . toText
 sub s = flow down [ rectangle 10 10 , text . bold $ toText s ]
 
-info w = flow down . List.map (width w) . addSpaces $
+info w = flow down . map (width w) . addSpaces $
   [ section "Downloads"
   , sub "Installation"
   , text $ toText "See these " ++ link "https://github.com/evancz/Elm/blob/master/README.md" (toText "install instructions") ++

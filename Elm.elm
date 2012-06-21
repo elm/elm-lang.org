@@ -12,7 +12,7 @@ examples =
   ]
 
 
-info w = flow down . List.map (width w) . addSpaces $
+info w = flow down . map (width w) . addSpaces $
   [ section "The Elm Programming Language"
   , text $ toText "The Elm programming language aims to make web development " ++
            toText "more pleasant. Elm is a type-safe, functional reactive language " ++
@@ -21,7 +21,7 @@ info w = flow down . List.map (width w) . addSpaces $
            link "/edit/examples/Reactive/Transforms.elm" (toText "interactive editor") ++
            toText ", so start learning Elm by " ++
            link "/Examples.elm" (toText "example") ++ toText ":"
-  , width w . box 2 . tile w $ List.map toTile examples
+  , width w . box 2 . tile w $ map toTile examples
   , text $ toText "Elm's major distinguishing features are support for " ++
            link "http://en.wikipedia.org/wiki/Reactive_programming" (toText "reactive programming") ++
            toText " and its focus on graphical user interfaces. Elm is also " ++

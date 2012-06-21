@@ -36,9 +36,9 @@ content w =
   , plainText "&nbsp;"
   , section "Quick Overview of Elm"
   , plainText "If you just want a brief overview, check out the following examples:"
-  , width w . box 2 . tile w $ List.map toTile examples
+  , width w . box 2 . tile w $ map toTile examples
   ]
 
-exampleSets w = flow down . List.map (width w) . addSpaces $ content w
+exampleSets w = flow down . map (width w) . addSpaces $ content w
 
 main = lift (skeleton exampleSets) Window.width
