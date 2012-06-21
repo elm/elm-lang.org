@@ -4,4 +4,4 @@ content = [ plainText "Bears, Oh My!"
           , image "/yogi.jpg"
           ]
 
-main = flow down (List.map (width 150) content)
+main = flow down (map (width 150) content)

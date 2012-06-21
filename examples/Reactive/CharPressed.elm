@@ -4,9 +4,8 @@
 
 import Data.Char (fromCode)
 
-update chr oldChr =
-  case chr of { Just c -> fromCode c ; Nothing -> oldChr }
-latestKey = foldp update '_' Keyboard.Raw.charPressed 
+latestKey = let step curr prev = maybe prev fromCode curr in
+            foldp step '_' Keyboard.Raw.charPressed 
 
 display chr =
   text $ toText "The last key you pressed was: " ++ show chr

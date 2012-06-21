@@ -9,8 +9,9 @@ buttons = size 400 60 . flow right . map button $
 
 title w = size w 60 . box 4 . text . bold . Text.height 2 . toText $ "Elm"
 
-lightGrey = rgb (240/255) (241/255) (244/255)
-mediumGrey = rgb (216/255) (221/255) (225/255)
+lightGrey  = rgb 245 245 245
+mediumGrey = rgb 216 221 225
+
 heading outer inner =
   color mediumGrey . size outer 61 . box 1 .
   color  lightGrey . size outer 60 . box 5 .

@@ -11,5 +11,6 @@ Fun Fact: We can even define zip in terms of zipWith!
 
 ----------------------------------------------------------------}
 
+import Data.List (zipWith)
 
-main = asText $ List.zipWith (:) ['c','m','t'] ["hop","ill","ape"]
+main = asText $ zipWith (:) ['c','m','t'] ["hop","ill","ape"]

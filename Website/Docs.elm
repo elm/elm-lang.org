@@ -3,8 +3,8 @@ module Website.Docs (createDocs) where
 
 import Data.List (intersperse)
 
-lightGrey = rgb (245/255) (245/255) (245/255)
-mediumGrey = rgb (216/255) (221/255) (225/255)
+lightGrey  = rgb 245 245 245
+mediumGrey = rgb 216 221 225
 
 skeleton body outer =
   flow down [ space 15 , width outer . box 2 . body $ outer - 80

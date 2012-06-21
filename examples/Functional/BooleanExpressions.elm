@@ -32,7 +32,7 @@ e2 = And e1 (Boolean False)
 e3 = Or e1 e2
 e4 = And (Not e2) e1
 
-main = flow down $ List.map display [ e1, e2, e3, e4 ]
+main = flow down $ map display [ e1, e2, e3, e4 ]
 
 display e =
   text . monospace $ show (eval e) ++ toText " <== " ++ show e

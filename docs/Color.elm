@@ -2,9 +2,9 @@
 import Website.Docs (createDocs)
 
 creation =
-    [ ("rgb", "Number -> Number -> Number -> Color", "Create colors from numbers between 0 and 1.")
-    , ("rgba", "Number -> Number -> Number -> Number -> Color", "Create colors with an alpha component for transparency, from numbers between 0 and 1.")
-    , ("red, green, blue, black, white", "Color", "Built-in colors.")
+    [ ("rgb", "Int -> Int -> Int -> Color", "Create rgb colors from numbers between 0 and 255 inclusive.")
+    , ("rgba", "Int -> Int -> Int -> Number -> Color", "Create colors with an alpha component for transparency. The color is specified with numbers between 0 and 255 inclusive, whereas the alpha component is specified with numbers between 0 and 1.")
+    , ("red, green, blue, black, white, grey, gray, cyan, yellow, magenta", "Color", "Built-in colors.")
     ]
 
 categories = 

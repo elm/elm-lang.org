@@ -1,9 +1,9 @@
 
 ----  Shades of Grey  ----
 
-c1 = rgba 1 1 1 (4/9)
-c2 = rgba (3/7) (3/7) (3/7) (5/9)
-c3 = rgb  (244/255) (244/255) (244/255)
+c1 = rgba 255 255 255 (4/9)
+c2 = rgba 110 110 110 (5/9)
+c3 = rgb  244 244 244
 
 
 ----  Clickable left and right arrows  ----
@@ -19,12 +19,10 @@ rightArrow = Mouse.clickedOn $ arrow 0
 
 ----  Helper functions  ----
 
-fst (a,_) = a
-snd (_,b) = b
 countTrue = foldp (\b c -> if b then c + 1 else c) 0
-listify = List.foldr (lift2 (:)) (constant [])
+listify = foldr (lift2 (:)) (constant [])
 ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
-safeIth lst i = ith (i `mod` List.length lst) lst
+safeIth lst i = ith (i `mod` length lst) lst
 
 
 ----  Actual light-box code  ----

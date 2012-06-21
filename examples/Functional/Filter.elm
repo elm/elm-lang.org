@@ -14,4 +14,4 @@ Overview:
 ----------------------------------------------------------------}
 
 
-main = asText $ List.filter (\n -> n `mod` 2 == 0) [1..10]
+main = asText $ filter (\n -> n `mod` 2 == 0) [1..10]

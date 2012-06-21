@@ -32,7 +32,9 @@ stylingContent =
     ]
 
 positioningContent =
-    [ ("box", "Int -> Element -> Element", "Create a box around an element. The given number specifies where the inner element will float within the box (i.e. 1 is top left, 2 is top middle, 3 is top right, ...). Changes to size now only affect the outer box.") ]
+    [ ("box", "Int -> Element -> Element", "Create a box around an element. The given number specifies where the inner element will float within the box (i.e. 1 is top left, 2 is top middle, 3 is top right, ...). Changes to size now only affect the outer box.")
+    , ("rectangle", "Int -> Int -> Element", "Create an empty rectangle. Good for adding spacing between elements.")
+    ]
 
 categories = 
   [ ("Text Content", textContent)

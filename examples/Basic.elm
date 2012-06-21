@@ -91,7 +91,7 @@ toLinks (title, links) =
   text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
          List.intercalate (fromString ", ") (List.map example links)
 
-insertSpace lst = case lst of { x:xs -> x : (height 5 $ plainText "") : xs ; [] -> [] }
+insertSpace lst = case lst of { x:xs -> x : rectangle 1 5 : xs ; [] -> [] }
 
 subsection w (name,info) =
   flow down . insertSpace . List.map (width w) $
