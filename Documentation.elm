@@ -36,7 +36,8 @@ intro = [ section "Library Documentation"
                  toText "standard libraries. The standard libraries are broken up into general " ++
                  toText "catagories below. Additional information about Elm can be found in " ++
                  link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "this thesis") ++
-                 toText "."
+                 toText " and at " ++
+                 link "http://www.testblogpleaseignore.com" (toText "this blog") ++ toText "."
         ]
 
 linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)
