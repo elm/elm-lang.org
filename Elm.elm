@@ -45,7 +45,9 @@ info w = flow down . map (width w) . addSpaces $
   , text $ toText "New examples are available " ++
            link "/examples/Intermediate.elm" (toText "here") ++
            toText ". These larger and more complex examples show how Elm can create mid-size components."
-  , plainText "You can contact me at info (at) elm-lang (dot) org."
+  , text $ toText "See the Elm " ++
+           link "https://groups.google.com/forum/?fromgroups#!forum/elm-discuss" (toText "mailing list") ++
+           toText " for questions, announcements, and discussion. You can contact me directly at info (at) elm-lang (dot) org."
   ]
  
 main = lift (skeleton info) Window.width
