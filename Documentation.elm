@@ -31,6 +31,8 @@ reaction = ("Signals",
   , ("Signal.Random" , "docs/Signal/Random.elm")
   ])
 
+foreign = ("JavaScript Interface", [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") ])
+
 intro = [ section "Library Documentation"
         , text $ toText "This section provides type-signatures and explanations of Elm's current " ++
                  toText "standard libraries. The standard libraries are broken up into general " ++
@@ -43,7 +45,7 @@ intro = [ section "Library Documentation"
 linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)
 linkList (name, pairs) = 
   flow down . map text $ bold (toText name) : map linkify pairs
-links = map linkList [ standard, elements, reaction ]
+links = map linkList [ standard, elements, reaction, foreign ]
 
 categories w =
   flow down . map (width w) . addSpaces $ intro ++ links
