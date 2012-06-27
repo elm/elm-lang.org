@@ -1,2 +1,5 @@
 
-main = lift asText (Random.randomize 0 100 (Time.every 1))
+import Signal.Random
+import Signal.Time (every)
+
+main = lift asText (randomize 0 100 (every 1))

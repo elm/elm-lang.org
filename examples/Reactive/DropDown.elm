@@ -1,8 +1,11 @@
 
+import Signal.Input (dropDown)
+
 component dropDown style =
-  flow down [ text $ toText "Choose a style for the following text: " ++
-                     style (toText "Hello, World!")
-            , dropDown ]
+  let msg = toText "Choose a style for the following text: " ++
+            style (toText "Hello, World!")
+  in
+      text msg `above` dropDown
 
 -- choices :: [(String, Text -> Text)]
 
@@ -15,5 +18,5 @@ choices = [ ("underline", underline)
 
 -- dropDown :: [(String,a)] -> (Element, Signal a)
 
-main = case Input.dropDown choices of
-       { (drop, choice) -> lift (component drop) choice }
+main = let (drop,choice) = dropDown choices in
+       lift (component drop) choice

@@ -1,7 +1,8 @@
 
-component field txt =
-  flow down
-    [ field, text . monospace . toText $ "Your password is: " ++ txt ]
+import Signal.Input (password)
 
-main = case Input.password "" of
-       { (field, txt) -> lift (component field) txt }
+component field txt =
+  field `above` (text . monospace . toText $ "Your password is: " ++ txt)
+
+main = let (field, txt) = password "" in
+       lift (component field) txt

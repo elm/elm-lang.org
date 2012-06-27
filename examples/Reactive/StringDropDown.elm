@@ -1,8 +1,10 @@
 
+import Signal.Input (stringDropDown)
+
 component dropDown choice =
-  flow down [ plainText $ "I do not like green eggs and ham. " ++
-                          "I will not eat them " ++ choice
-            , dropDown ]
+  let msg = "I do not like green eggs and ham. " ++
+            "I will not eat them " ++ choice
+  in  plainText msg `above` dropDown
 
 choices = [ "on a boat."
           , "with a goat."
@@ -12,5 +14,5 @@ choices = [ "on a boat."
           , "ANYWHERE!"
           ]
 
-main = case Input.stringDropDown choices of
-       { (drop, choice) -> lift (component drop) choice }
+main = let (drop, choice) = stringDropDown choices in
+       lift (component drop) choice
