@@ -6,6 +6,7 @@ basics =
   , ("(++)", "[a] -> [a] -> [a]", "Appends two lists.")
   , ("head", "[a] -> a", "Extract the first element of a list. List must be non-empty.")
   , ("tail", "[a] -> [a]", "Extract the elements after the head of the list. List must be non-empty.")
+  , ("last", "[a] -> a", "Extract the last element of a list. List must be non-empty.")
   , ("length", "[a] -> Int", "Determine the length of a list.")
   ]
 
