@@ -10,20 +10,20 @@ casts =
   , ("castFloatToJSNumber"    , "Float -> JSNumber", "")
   , ("castJSStringToString"   , "JSString -> String", "")
   , ("castStringToJSString"   , "String -> JSString", "")
-  , ("castJSElementToElement" , "JSElement -> Element", "")
-  , ("castElementToJSElement" , "Element -> JSElement", "")
+  , ("castJSElementToElement" , "Int -> Int -> JSElement -> Element", "All Elm Elements must have a concrete size, so the desired width and height of the JSElement must be provided.")
+  , ("castElementToJSElement" , "Element -> JSElement", "This produces DOM nodes. Do not depend on the internal structure of the resulting node. It can and will change. I repeat, DO NOT depend on the internal structure of the resulting node! When your code breaks because you have ignored this warning, do not be surprised!")
   ]
 
 polyCasts =
-  [ ("castJSArrayToList"      , "JSArray a -> [a]", "")
-  , ("castListToJSArray"      , "[a] -> JSArray a", "")
-  , ("castTupleToJSTuple2"    , "(a,b) -> JSTuple2 a b", "")
-  , ("castTupleToJSTuple3"    , "(a,b,c) -> JSTuple3 a b c", "")
-  , ("castTupleToJSTuple4"    , "(a,b,c,d) -> JSTuple4 a b c d", "")
-  , ("castTupleToJSTuple5"    , "(a,b,c,d,e) -> JSTuple5 a b c d e", "")
+  [ ("castListToJSArray"      , "[a] -> JSArray a", "Produces a uniform JavaScript array with all members of the same type.")
+  , ("castJSArrayToList"      , "JSArray a -> [a]", "Requires that the input array be uniform (all members have the same type)")
+  , ("castTupleToJSTuple2"    , "(a,b) -> JSTuple2 a b", "A JSTupleN is an array of size N with nonuniform types. Each member can have a different type.")
   , ("castJSTupleToTuple2"    , "JSTuple2 a b -> (a,b)", "")
+  , ("castTupleToJSTuple3"    , "(a,b,c) -> JSTuple3 a b c", "")
   , ("castJSTupleToTuple3"    , "JSTuple3 a b c > (a,b,c)", "")
+  , ("castTupleToJSTuple4"    , "(a,b,c,d) -> JSTuple4 a b c d", "")
   , ("castJSTupleToTuple4"    , "JSTuple4 a b c d -> (a,b,c,d)", "")
+  , ("castTupleToJSTuple5"    , "(a,b,c,d,e) -> JSTuple5 a b c d e", "")
   , ("castJSTupleToTuple5"    , "JSTuple5 a b c d e -> (a,b,c,d,e)", "")
   ]
 
