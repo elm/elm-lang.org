@@ -11,11 +11,22 @@ lifts =
   ]
 
 folds =
-  [ ("foldp", "(a -> b -> b) -> b -> Signal a -> Signal b", "Create a past-dependent signal. Each value given on the input signal will be accumulated, producing a new output value. For instance, (foldp (\t count -> count + 1) 0 (Time.every 3) counts up every time the timer ticks.") ]
+  [ ("foldp", "(a -> b -> b) -> b -> Signal a -> Signal b", "Create a past-dependent signal. Each value given on the input signal will be accumulated, producing a new output value. For instance, (foldp (\t count -> count + 1) 0 (Time.every 3) counts up every time the timer ticks.")
+  , ("count", "Signal a -> Signal Int", "Count the number of events that have occured.")
+  ]
+
+filters =
+  [ ("keepIf", "(a -> Bool) -> a -> Signal a -> Signal a", "Keep only events that satisfy the given predicate. Elm does not allow undefined signals, so a base case must be provided in case the predicate is never satisfied.")
+  , ("dropIf", "(a -> Bool) -> a -> Signal a -> Signal a", "Drop events that satisfy the given predicate. Elm does not allow undefined signals, so a base case must be provided in case the predicate is never satisfied.")
+  , ("keepWhen", "Signal Bool -> a -> Signal a -> Signal a", "Keep events only when the first signal is true. When the first signal becomes true, the most recent value of the second signal will be propagated. Until the first signal becomes false again, all events will be propagated. Elm does not allow undefined signals, so a base case must be provided in case the first signal is never true.")
+  , ("dropWhen", "Signal Bool -> a -> Signal a -> Signal a", "Drop events when the first signal is true. When the first signal becomes false, the most recent value of the second signal will be propagated. Until the first signal becomes true again, all events will be propagated. Elm does not allow undefined signals, so a base case must be provided in case the first signal is always true.")
+  , ("dropRepeats", "Signal a -> Signal a", "Drop sequential repeated values. For example, if a signal produces the sequence [1,1,2,2,1], it becomes [1,2,1] by dropping the values that are the same as the previous value.")
+  ]
 
 categories = 
   [ ("Lifts (Transforming and Combining Signals)", lifts)
   , ("Folds (Past-Dependent Transformations)", folds)
+  , ("Filters", filters)
   ]
 
 main = createDocs "Signal" categories
