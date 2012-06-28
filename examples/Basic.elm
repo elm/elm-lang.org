@@ -78,6 +78,7 @@ reactive = addFolder "Reactive/"
                , ("Clock"           , "Clock")
                ])
   , ("Input",  [ ("Text Fields", "TextField")
+               , ("Field Validation", "Form")
                , ("Passwords"  , "Password")
                , ("Check Boxes", "CheckBox")
                , ("String Drop Down", "StringDropDown")
