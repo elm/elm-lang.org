@@ -28,7 +28,15 @@ content w =
            link "https://github.com/evancz/Elm/tree/master/Examples" (toText "here") ++
            toText "). For more details on using Elm and JavaScript together, see this " ++
            link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "announcement") ++
-           toText "."
+           toText ". The most exciting examples of JavaScript integration are probably regulating frame rate (" ++
+           link "https://github.com/evancz/Elm/tree/master/Examples/elm-js/FrameRate/" (toText "source") ++
+           toText ", " ++
+           link "/misc/FrameRate.html" (toText "result") ++
+           toText ") and use of the OpenStreetMap API (" ++
+           link "https://github.com/evancz/Elm/tree/master/Examples/elm-js/Maps/" (toText "source") ++
+           toText ", " ++
+           link "/misc/Map.html" (toText "result") ++
+           toText ")."
   , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
            link "https://github.com/evancz/elm-lang.org" (toText "github") ++
            toText ". The download links are " ++
