@@ -84,7 +84,11 @@ reactive = addFolder "Reactive/"
                , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("HTTP", [ ("Zip Codes (via AJAX requests)", "ZipCodes") ])
+  , ("HTTP",   [ ("Zip Codes (via AJAX requests)", "ZipCodes") ])
+  , ("Filters",[ ("Sample", "SampleOn")
+               , ("Keep If", "KeepIf")
+               , ("Drop Repeats", "DropRepeats")
+               ])
   ]
 
 example (name, loc) = link ("/edit/examples/" ++ loc) (fromString name)

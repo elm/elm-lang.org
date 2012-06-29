@@ -9,7 +9,7 @@ examples =
   , ("Shapes"       , "Shapes"    , "Elements/")
   , ("Analog Clock" , "Clock"     , "Intermediate/")
   , ("Slide Show"   , "SlideShow" , "Intermediate/")
-  , ("Sign-up Form" , "Form"      , "Intermediate/")
+  , ("Form Validation", "Form"    , "Intermediate/")
   ]
 
 

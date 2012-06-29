@@ -31,7 +31,10 @@ reaction = ("Signals",
   , ("Signal.Random" , "docs/Signal/Random.elm")
   ])
 
-ffi = ("JavaScript Interface", [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") ])
+ffi = ("JavaScript Interface",
+  [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") 
+  , ("Foreign.JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
+  ])
 
 intro = [ section "Library Documentation"
         , text $ toText "This section provides type-signatures and explanations of Elm's current " ++

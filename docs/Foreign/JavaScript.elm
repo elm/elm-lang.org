@@ -2,16 +2,14 @@
 import Website.Docs (createDocs)
 
 casts =
-  [ ("castJSBoolToBool"       , "JSBool -> Bool", "")
-  , ("castBoolToJSBool"       , "Bool -> JSBool", "")
+  [ ("castJSBoolToBool"       , "JSBool -> Bool", "Conversion from JavaScript boolean values to Elm boolean values.")
+  , ("castBoolToJSBool"       , "Bool -> JSBool", "Conversion from Elm boolean values to JavaScript boolean values.")
   , ("castJSNumberToInt"      , "JSNumber -> Int", "")
   , ("castIntToJSNumber"      , "Int -> JSNumber", "")
   , ("castJSNumberToFloat"    , "JSNumber -> Float", "")
   , ("castFloatToJSNumber"    , "Float -> JSNumber", "")
   , ("castJSStringToString"   , "JSString -> String", "")
   , ("castStringToJSString"   , "String -> JSString", "")
-  , ("castJSElementToElement" , "Int -> Int -> JSElement -> Element", "All Elm Elements must have a concrete size, so the desired width and height of the JSElement must be provided.")
-  , ("castElementToJSElement" , "Element -> JSElement", "This produces DOM nodes. Do not depend on the internal structure of the resulting node. It can and will change. I repeat, DO NOT depend on the internal structure of the resulting node! When your code breaks because you have ignored this warning, do not be surprised!")
   ]
 
 polyCasts =

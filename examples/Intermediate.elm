@@ -9,7 +9,7 @@ addFolder folder = map (\(x,y) -> (x, y, folder))
 intermediate = addFolder "Intermediate/"
   [ ("Slide Show"   , "SlideShow")
   , ("Graphs"       , "Plot")
-  , ("Sign-up Form" , "Form")
+  , ("Form Validation" , "Form")
   , ("Light Box"    , "LightBox")
   , ("Stamps"       , "Stamps")
   , ("Fibonacci Tiles"  , "FibonacciTiles")
