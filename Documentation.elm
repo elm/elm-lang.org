@@ -39,10 +39,16 @@ ffi = ("JavaScript Interface",
 intro = [ section "Library Documentation"
         , text $ toText "This section provides type-signatures and explanations of Elm's current " ++
                  toText "standard libraries. The standard libraries are broken up into general " ++
-                 toText "catagories below. Additional information about Elm can be found in " ++
+                 toText "catagories below."
+        , text $ link "http://www.testblogpleaseignore.com" (toText "This blog") ++
+                 toText " is the source of some discussion and announcements. It also has more detailed information on the " ++
+                 link "http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/" (toText "module system") ++
+                 toText " and " ++
+                 link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/" (toText "JavaScript integration") ++
+                 toText "."
+        , text $ toText "Additional information about Elm can be found in " ++
                  link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "this thesis") ++
-                 toText " and at " ++
-                 link "http://www.testblogpleaseignore.com" (toText "this blog") ++ toText "."
+                 toText " which gives a more formal specification of Elm."
         ]
 
 linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)

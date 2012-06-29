@@ -37,7 +37,7 @@ info w = flow down . map (width w) . addSpaces $
   , plainText "&nbsp;"
   , section "Status Update"
   , text $ toText "Version 0.3.5 of the compiler is now available: JavaScript integration, signal filters, and more! Details " ++
-           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "here") ++ toText "."
+           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/" (toText "here") ++ toText "."
   , text $ toText "Version 0.3 of the compiler is now available: Modules and improved errors. Details " ++
            link "http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/" (toText "here") ++ toText "."
   , text $ toText "Version 0.2 of the compiler was recently released. Error messages have been significantly improved, " ++

@@ -8,11 +8,12 @@ examples =
   [ ("Layout"       , "FlowDown2" , "Elements/")
   , ("Centering"    , "Centering" , "Reactive/")
   , ("Shapes"       , "Shapes"    , "Elements/")
+  , ("Abstract Data Types", "Tree", "Functional/")
+  , ("Analog Clock" , "Clock"     , "Intermediate/")
   , ("Light Box"    , "LightBox"  , "Intermediate/")
   , ("Graphs"       , "Plot"      , "Intermediate/")
-  , ("Analog Clock" , "Clock"     , "Intermediate/")
+  , ("Form Validation", "Form"      , "Intermediate/")
   , ("This Page"    , "Examples"  , "../")
-  , ("Abstract Data Types", "Tree", "Functional/")
   ]
 
 content w =
@@ -23,6 +24,11 @@ content w =
            toText " &#8212; the basic building blocks of Elm"
   , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
            toText " &#8212; building components with Elm"
+  , text $ toText "There are also some examples of Elm's integration with JavaScript, Yesod, or HAppStack (available " ++
+           link "https://github.com/evancz/Elm/tree/master/Examples" (toText "here") ++
+           toText "). For more details on using Elm and JavaScript together, see this " ++
+           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "announcement") ++
+           toText "."
   , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
            link "https://github.com/evancz/elm-lang.org" (toText "github") ++
            toText ". The download links are " ++
