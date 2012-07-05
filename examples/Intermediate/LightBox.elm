@@ -1,40 +1,45 @@
 
-----  Shades of Grey  ----
+import Signal.Mouse (isClickedOn)
+import Signal.Window (dimensions)
+
+--  Three Shades of Grey
 
 c1 = rgba 255 255 255 (4/9)
 c2 = rgba 110 110 110 (5/9)
 c3 = rgb  244 244 244
 
 
-----  Clickable left and right arrows  ----
+--  Clickable left and right arrows
 
 arrow theta = let { w = 30 ; h = 60 ; x = w * 2/7 ; y = h*3/11 } in
   collage w h
     [ filled c1 $ rect w h (w/2, h/2)
     , filled c2 . rotate theta $ polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
     ]
-leftArrow  = Mouse.clickedOn $ arrow (1/2)
-rightArrow = Mouse.clickedOn $ arrow 0
+(leftArrow , leftClicked ) = isClickedOn (arrow (1/2))
+(rightArrow, rightClicked) = isClickedOn (arrow 0)
 
 
-----  Helper functions  ----
+--  Helper functions
 
-countTrue = foldp (\b c -> if b then c + 1 else c) 0
-listify = foldr (lift2 (:)) (constant [])
 ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
-safeIth lst i = ith (i `mod` length lst) lst
+safeIth i lst = ith (i `mod` length lst) lst
+
+countTrue = count . keepIf id True
+index = lift2 (-) (countTrue rightClicked) (countTrue leftClicked)
 
 
-----  Actual light-box code  ----
+--  Actual light-box code
 
-lightBox w h imgs =
- let { index = lift2 (-) (countTrue $ snd rightArrow) (countTrue $ snd leftArrow)
-     ;  disp loc = constant . size (w/2) h . box loc . fst }
- in
- lift3 size Window.width Window.height . lift (color c3 . box 5 . layers) . listify $
-  [ lift2 beside (disp 4 leftArrow) (disp 6 rightArrow)
-  , lift (size w h . image . safeIth imgs) index
-  ]
+lightBox boxX boxY imgs =
+  let disp loc = size (boxX/2) boxY . box loc in
+  let scene (w,h) index =
+    color c3 . box 5 $ layers
+      [ disp 4 leftArrow `beside` disp 6 rightArrow
+      , fittedImage boxX boxY (safeIth index imgs)
+      ]
+  in
+     lift2 scene dimensions index
 
 images = [ "book.jpg", "shells.jpg", "stack.jpg", "car.jpg", "pipe.jpg" ]
 

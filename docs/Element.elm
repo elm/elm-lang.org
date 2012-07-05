@@ -10,8 +10,9 @@ textContent =
     ]
 
 visualContent =
-    [ ("image", "String -> Element", "Display images.")
-    , ("video", "String -> Element", "Display videos.")
+    [ ("image", "String -> Element", "Display images based on a resource location.")
+    , ("fittedImage", "Int -> Int -> String -> Element", "Display images fitted to a given width and height. The image will be scaled such that it fills the desired area without stretching the image. If the aspect ratio of the given image does not match, it will be cropped and centered.")
+    , ("video", "String -> Element", "Display videos based on a resource location.")
     , ("collage", "Int -> Int -> [Form] -> Element", "Renders the scene specified by the given width, height, and list of primitive graphical forms.")
     ]
 
