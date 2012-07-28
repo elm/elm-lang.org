@@ -34,6 +34,7 @@ reaction = ("Signals",
 ffi = ("JavaScript Interface",
   [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") 
   , ("Foreign.JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
+  , ("Foreign.JavaScript.JSON", "docs/Foreign/JavaScript/JSON.elm") 
   ])
 
 intro = [ section "Library Documentation"
