@@ -4,7 +4,7 @@ import Website.Docs (createDocs)
 objects =
   [ ("empty", "JsonObject a", "Create an empty JSON mapping.")
   , ("singleton", "String -> a -> JsonObject a", "Create a JSON mapping that contains only a single key-value pair.")
-  , ("insert", "String -> a -> JsonObject a -> JsonObject a", "Add a key value pair to a JSON value.")
+  , ("insert", "String -> a -> JsonObject a -> JsonObject a", "Add a key value pair to a JSON object.")
   , ("lookup", "String -> JsonObject a -> Maybe a", "Lookup a value in a JsonObject. If the key is not found, this returns Nothing.")
   , ("lookupWithDefault", "a -> String -> JsonObject a -> a", "Lookup a value in a JsonObject. If the key is not found, this returns the given default value.")
   , ("remove", "String -> JsonObject a -> JsonObject a", "Remove a key-value pair from a JsonObject.")
@@ -30,8 +30,8 @@ jsStrings =
   , ("fromJSString", "JSString -> JsonObject JsonValue", "Parse a JavaScript string representation of a proper JSON object into its Elm's representation.")
   ]
 
-prettyStrings
-  [ ("toPrettyString", "String -> JsonObject JsonValue -> String", "Convert a proper JSON object (i.e. JsonObject JsonValue) into a prettified string. The first argument is a separator token (e.g. " ", "  ", "\t", etc.) that will be used for indentation in the prettified string version of the JSON object.")
+prettyStrings =
+  [ ("toPrettyString", "String -> JsonObject JsonValue -> String", "Convert a proper JSON object (i.e. JsonObject JsonValue) into a prettified string. The first argument is a separator token (e.g. \" \", \"\\t\", etc.) that will be used for indentation in the prettified string version of the JSON object.")
   , ("toPrettyJSString", "String -> JsonObject JsonValue -> JSString", "Same as toPrettyString except it produces a JavaScript string instead of an Elm string.")
   ]
 
