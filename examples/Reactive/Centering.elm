@@ -16,9 +16,10 @@
 
 ----------------------------------------------------------}
 
+import Signal.Window (dimensions)
 
 scene (w,h) = size w h . box 5 $ plainText "Hello, World!"
 
-main = lift scene Window.dimensions
+main = lift scene dimensions
 
 -- Try changing the size of your browser window.

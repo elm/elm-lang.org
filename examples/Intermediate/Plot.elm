@@ -7,29 +7,28 @@ import Signal.Input (dropDown)
 data Style = Points | Line
 
 plot style w h points =
-  case unzip points of { (xs,ys) ->
-    let { e = 26/25
-        ; xmin = e * minimum xs ; xmax = e * maximum xs
-        ; ymin = e * minimum ys ; ymax = e * maximum ys
-        ; fit scale lo hi z = scale * abs (z-lo) / abs (hi-lo)
-        ; f (x,y) = (fit w xmin xmax x, h - fit h ymin ymax y)
-        ; axis a b = solid black . line . map f $ [a,b]
-        ; xaxis = axis (xmin, clamp ymin ymax 0) (xmax, clamp ymin ymax 0)
-        ; yaxis = axis (clamp xmin xmax 0, ymin) (clamp xmin xmax 0, ymax)
-        ; draw ps = case style of
-                    { Points -> map (outlined blue . ngon 4 3) ps
-                    ; Line   -> [ solid blue $ line ps ]
-                    }
-        }
-    in  collage w h $ [ xaxis, yaxis ] ++ draw (map f points)
-  }
+  let { (xs,ys) = unzip points
+      ; eps = 26/25
+      ; xmin = eps * minimum xs ; xmax = eps * maximum xs
+      ; ymin = eps * minimum ys ; ymax = eps * maximum ys
+      ; fit scale lo hi z = scale * abs (z-lo) / abs (hi-lo)
+      ; f (x,y) = (fit w xmin xmax x, h - fit h ymin ymax y)
+      ; axis a b = solid black . line . map f $ [a,b]
+      ; xaxis = axis (xmin, clamp ymin ymax 0) (xmax, clamp ymin ymax 0)
+      ; yaxis = axis (clamp xmin xmax 0, ymin) (clamp xmin xmax 0, ymax)
+      ; draw ps = case style of
+                  { Points -> map (outlined blue . ngon 4 3) ps
+                  ; Line   -> [ solid blue $ line ps ]
+                  }
+      }
+  in  collage (round w) (round h) $ [ xaxis, yaxis ] ++ draw (map f points)
 
 
 -----  Provide many graphs for display  ----
 
-range = [ 0-10 .. 10 ]
-piRange = map (\x -> x / 20 * pi) [0-20..20]
-offRange = map (\x -> x/5) [0-20..10]
+range    = [ 0-10 .. 10 ]
+piRange  = map (\x -> toFloat x / 20 * pi) [0-20..20]
+offRange = map (\x -> toFloat x / 5) [0-20..10]
 
 graph f range = zip range (map f range)
 

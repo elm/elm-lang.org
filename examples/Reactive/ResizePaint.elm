@@ -3,11 +3,10 @@
 -- Show an image that resizes to fit the window
 -- while maintaining its aspect ratio.
 
-resizeablePaint edgeLen = size edgeLen edgeLen $ image "paint.jpg"
+import Signal.Window (dimensions)
 
-uncurry f (x,y) = f x y
-
-main = lift (resizeablePaint . uncurry min) Window.dimensions
+resizeablePaint edgeLen = size edgeLen edgeLen (image "paint.jpg")
+main = lift (resizeablePaint . uncurry min) dimensions
 
 
 

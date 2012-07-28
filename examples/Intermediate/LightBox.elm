@@ -12,7 +12,7 @@ c3 = rgb  244 244 244
 --  Clickable left and right arrows
 
 arrow theta = let { w = 30 ; h = 60 ; x = w * 2/7 ; y = h*3/11 } in
-  collage w h
+  collage (round w) (round h)
     [ filled c1 $ rect w h (w/2, h/2)
     , filled c2 . rotate theta $ polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
     ]
@@ -32,9 +32,9 @@ index = lift2 (-) (countTrue rightClicked) (countTrue leftClicked)
 --  Actual light-box code
 
 lightBox boxX boxY imgs =
-  let disp loc = size (boxX/2) boxY . box loc in
+  let disp loc = size (boxX `div` 2) boxY . box loc in
   let scene (w,h) index =
-    color c3 . box 5 $ layers
+    size w h . color c3 . box 5 $ layers
       [ disp 4 leftArrow `beside` disp 6 rightArrow
       , fittedImage boxX boxY (safeIth index imgs)
       ]

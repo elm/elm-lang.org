@@ -1,5 +1,5 @@
 
-main = flow down $ List.map (\(f,t) -> text . f $ toText t)
+main = flow down $ map (\(f,t) -> text . f $ toText t)
     [ (header         , "Header")
     , (bold           , "Bold")
     , (italic         , "Italicize")
