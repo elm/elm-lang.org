@@ -26,7 +26,7 @@ plot style w h points =
 
 -----  Provide many graphs for display  ----
 
-range    = [ 0-10 .. 10 ]
+range    = map toFloat [ 0-10 .. 10 ]
 piRange  = map (\x -> toFloat x / 20 * pi) [0-20..20]
 offRange = map (\x -> toFloat x / 5) [0-20..10]
 
