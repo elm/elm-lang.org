@@ -24,11 +24,9 @@ content w =
            toText " &#8212; the basic building blocks of Elm"
   , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
            toText " &#8212; building components with Elm"
-  , text $ toText "There are also some examples of Elm's integration with JavaScript, Yesod, or HAppStack (available " ++
-           link "https://github.com/evancz/Elm/tree/master/Examples" (toText "here") ++
-           toText "). For more details on using Elm and JavaScript together, see this " ++
-           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "announcement") ++
-           toText ". The most exciting examples of JavaScript integration are probably regulating frame rate (" ++
+  , text $ toText "Elm also integrates with JavaScript, so if it cannot be done in Elm you can fall back to JavaScript (" ++
+           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "details") ++
+           toText "). The most exciting examples of JavaScript integration are probably regulating frame rate (" ++
            link "https://github.com/evancz/Elm/tree/master/Examples/elm-js/FrameRate/" (toText "source") ++
            toText ", " ++
            link "/misc/FrameRate.html" (toText "result") ++
@@ -37,6 +35,9 @@ content w =
            toText ", " ++
            link "/misc/Map.html" (toText "result") ++
            toText ")."
+  , text $ toText "There are also some examples of Elm's integration with Yesod and HAppStack (available " ++
+           link "https://github.com/evancz/Elm/tree/master/Examples" (toText "here") ++
+           toText "). The HAppStack example should be helpful for Snap users because they both interact with Elm using API."
   , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
            link "https://github.com/evancz/elm-lang.org" (toText "github") ++
            toText ". The download links are " ++
