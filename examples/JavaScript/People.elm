@@ -38,4 +38,4 @@ bruce = fromList
 people = singleton "people" (JsonArray $ map JsonObject [ john, bruce ])
 
 
-main = text . monospace . toText $ toString people
+main = text . monospace . toText $ toPrettyString "  " people

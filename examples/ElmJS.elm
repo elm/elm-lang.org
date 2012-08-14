@@ -36,7 +36,10 @@ json =
         , ("People" , "/edit/examples/JavaScript/People.elm")
         ])
   , ("Extracting Info",
-        [ ("LookupWithDefault" , "/edit/examples/JavaScript/JsonLookup.elm")
+        [ ("Lookup" , "/edit/examples/JavaScript/Lookup.elm")
+        ])
+  , ("More Realistic Example",
+        [ ("Zip Code Lookup" , "/edit/examples/JavaScript/ZipCodes.elm")
         ])
   ]
 

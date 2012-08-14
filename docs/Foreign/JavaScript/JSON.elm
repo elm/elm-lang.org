@@ -31,7 +31,7 @@ jsStrings =
   ]
 
 prettyStrings =
-  [ ("toPrettyString", "String -> JsonObject JsonValue -> String", "Convert a proper JSON object (i.e. JsonObject JsonValue) into a prettified string. The first argument is a separator token (e.g. \" \", \"\\t\", etc.) that will be used for indentation in the prettified string version of the JSON object.")
+  [ ("toPrettyString", "String -> JsonObject JsonValue -> String", "Convert a proper JSON object (i.e. JsonObject JsonValue) into a prettified string. The first argument is a separator token (e.g. \" \", \"\\n\", etc.) that will be used for indentation in the prettified string version of the JSON object.")
   , ("toPrettyJSString", "String -> JsonObject JsonValue -> JSString", "Same as toPrettyString except it produces a JavaScript string instead of an Elm string.")
   ]
 

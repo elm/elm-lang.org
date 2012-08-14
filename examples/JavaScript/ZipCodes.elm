@@ -11,8 +11,8 @@ detail =
            
 extract response =
   case response of
-  { Just (Success json) -> findWithDefault (JsonString "?") "city" $ fromString json
-  ; _ -> "?" }
+  { Just (Success json) -> findWithDefault JsonNull "city" $ fromString json
+  ; _ -> JsonNull }
 
 display info =
   flow down [ zipPicker, plainText "is the zip code for", asText info ]

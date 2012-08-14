@@ -19,4 +19,4 @@ john = fromList
          , ("nick" , JsonNull)
          ]
 
-main = text . monospace . toText $ toString john
+main = text . monospace . toText $ toPrettyString " " john
