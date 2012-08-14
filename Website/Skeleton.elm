@@ -20,9 +20,9 @@ heading outer inner =
 skeleton body outer =
   let inner = if outer < 820 then outer - 20 else 800 in
   flow down [ heading outer inner
-            , width outer . box 2 $ plainText "&nbsp;" `above` body inner
+            , width outer . box 2 $ rectangle 1 14 `above` body inner
             , size outer 50 . box 8 . text . Text.color mediumGrey $
                 toText "&copy; 2011-2012 Evan Czaplicki" 
             ]
 
-addSpaces = map (\f -> f ()) . intersperse (\x -> plainText "&nbsp;") . map (\e x -> e)
+addSpaces = map (\f -> f ()) . intersperse (\x -> rectangle 1 14) . map (\e x -> e)

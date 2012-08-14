@@ -34,7 +34,7 @@ info w = flow down . map (width w) . addSpaces $
   , plainText $ "The language features mentioned above help catch errors in your code at compile time, but there are " ++
                 "some errors that are external to your code, such as browser incompatabilities. By using HTML, CSS, and " ++
                 "JavaScript as an assembly language, Elm can avoid some of these problems."
-  , plainText "&nbsp;"
+  , rectangle 1 5
   , section "Status Update"
   , text $ toText "Version 0.3.5 of the compiler is now available: JavaScript integration, signal filters, and more! Details " ++
            link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/" (toText "here") ++ toText "."
