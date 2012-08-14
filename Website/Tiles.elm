@@ -20,4 +20,4 @@ groups n lst =
   { [] -> [] ; x:xs -> take n lst : groups n (drop n lst) }
 
 tile w tiles =
-  flow down . addSpaces . map (flow right) $ groups (w/tileSize-1) tiles
+  flow down . addSpaces . map (flow right) $ groups (w `div` tileSize) tiles

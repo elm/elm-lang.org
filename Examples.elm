@@ -19,36 +19,18 @@ examples =
 content w =
   [ section "Learn by Example"
   , plainText $ "Elm's interactive editor allows you to learn Elm by seeing and modifying actual code. " ++
-                "Right now there are two categories of examples:"
+                "There are a couple categories of examples for designed to build certain skills:"
   , text $ link "/examples/Basic.elm" (toText "Basic") ++
            toText " &#8212; the basic building blocks of Elm"
   , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
            toText " &#8212; building components with Elm"
-  , text $ toText "Elm also integrates with JavaScript, so if it cannot be done in Elm you can fall back to JavaScript (" ++
-           link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5javascript-integration-signal-filters-and-more/" (toText "details") ++
-           toText "). The most exciting examples of JavaScript integration are probably regulating frame rate (" ++
-           link "https://github.com/evancz/Elm/tree/master/Examples/elm-js/FrameRate/" (toText "source") ++
-           toText ", " ++
-           link "/misc/FrameRate.html" (toText "result") ++
-           toText ") and use of the OpenStreetMap API (" ++
-           link "https://github.com/evancz/Elm/tree/master/Examples/elm-js/Maps/" (toText "source") ++
-           toText ", " ++
-           link "/misc/Map.html" (toText "result") ++
-           toText ")."
-  , text $ toText "There are also some examples of Elm's integration with Yesod and HAppStack (available " ++
-           link "https://github.com/evancz/Elm/tree/master/Examples" (toText "here") ++
-           toText "). The HAppStack example should be helpful for Snap users because they both interact with Elm using API."
-  , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
-           link "https://github.com/evancz/elm-lang.org" (toText "github") ++
-           toText ". The download links are " ++
-           link "https://github.com/evancz/elm-lang.org/downloads" (toText "here") ++
-           toText ". The download also includes all of the examples on this site, which might " ++
-           toText "be nice if you prefer to work on your own machine."
-  , text $ toText "If you want to see the source code of a particular page in the online editor, " ++
-           toText "just insert " ++ monospace (toText "edit/") ++ toText " after this sites domain name. For instance, " ++
-           link "/edit/Examples.elm" (toText "elm-lang.org/" ++ bold (toText "edit/") ++ toText "Examples.elm") ++
-           toText " is the source code for this page."
-  , plainText "&nbsp;"
+  , text $ link "/examples/ElmJS.elm" (toText "Elm + JavaScript") ++
+           toText " &#8212; use existing JavaScript libraries, features, etc."
+  , text $ link "/examples/ElmHaskell.elm" (toText "Elm + Haskell") ++
+           toText " &#8212; serve Elm code without leaving Haskell"
+  , text $ link "/examples/ThisWebsite.elm" (toText "This Website") ++
+           toText " &#8212; the Elm source code for this site"
+  , rectangle 1 5
   , section "Quick Overview of Elm"
   , plainText "If you just want a brief overview, check out the following examples:"
   , width w . box 2 . tile w $ map toTile examples

@@ -6,7 +6,7 @@ objects =
   , ("singleton", "String -> a -> JsonObject a", "Create a JSON mapping that contains only a single key-value pair.")
   , ("insert", "String -> a -> JsonObject a -> JsonObject a", "Add a key value pair to a JSON object.")
   , ("lookup", "String -> JsonObject a -> Maybe a", "Lookup a value in a JsonObject. If the key is not found, this returns Nothing.")
-  , ("lookupWithDefault", "a -> String -> JsonObject a -> a", "Lookup a value in a JsonObject. If the key is not found, this returns the given default value.")
+  , ("findWithDefault", "a -> String -> JsonObject a -> a", "Find a value in a JsonObject. If the key is not found, this returns the given default value.")
   , ("remove", "String -> JsonObject a -> JsonObject a", "Remove a key-value pair from a JsonObject.")
   ]
 
