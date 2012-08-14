@@ -6,9 +6,6 @@ import Foreign.JavaScript
 import Signal.Input
 import Signal.Window as Win
 
-foreign export jsevent "elm_redirect"
-  redirectTo :: Signal JSString
-
 
 -- Helpers
 
@@ -41,6 +38,9 @@ sendable = lift2 (&&) press (lift isEmpty errors)
 
 redirectTo = lift castStringToJSString $
              keepWhen sendable "" (lift3 url first last email)
+
+foreign export jsevent "elm_redirect"
+  redirectTo :: Signal JSString
 
 
 -- Display

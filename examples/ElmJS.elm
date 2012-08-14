@@ -35,10 +35,18 @@ json =
         [ ("Person" , "/edit/examples/JavaScript/Person.elm")
         , ("People" , "/edit/examples/JavaScript/People.elm")
         ])
+  , ("Finding Info",
+        [ ("Lookup" , "/edit/examples/JavaScript/Lookup.elm")
+        , ("Find with Default" , "/edit/examples/JavaScript/FindWithDefault.elm")
+        ])
+  , ("Modifying Fields",
+        [ ("Insert and Delete" , "/edit/examples/JavaScript/Modify.elm")
+        ])
   , ("Extracting Info",
         [ ("Lookup" , "/edit/examples/JavaScript/Lookup.elm")
+        , ("Find with Default" , "/edit/examples/JavaScript/FindWithDefault.elm")
         ])
-  , ("More Realistic Example",
+  , ("Live Example",
         [ ("Zip Code Lookup" , "/edit/examples/JavaScript/ZipCodes.elm")
         ])
   ]

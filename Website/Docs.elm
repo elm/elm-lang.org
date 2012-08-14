@@ -17,8 +17,8 @@ addSpaces px = map (\f -> f ()) . intersperse (\x -> space px) . map (\e x -> e)
 
 section s = bold . Text.height s . toText
 
-entry w (name, type, desc) =
-  let tipe = if length type > 0 then " :: " ++ type else "" in
+entry w (name, typ, desc) =
+  let tipe = if length typ > 0 then " :: " ++ typ else "" in
   flow down
     [ color mediumGrey $ rectangle w 1
     , width w . color lightGrey . text . monospace $ bold (toText name) ++ toText tipe

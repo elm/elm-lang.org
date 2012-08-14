@@ -36,6 +36,8 @@ info w = flow down . map (width w) . addSpaces $
                 "JavaScript as an assembly language, Elm can avoid some of these problems."
   , rectangle 1 5
   , section "Status Update"
+  , text $ toText "Version 0.3.6 of the compiler is now available: JSON support, improved errors messages, and a bunch of bug fixes. Details " ++
+           link "http://www.testblogpleaseignore.com/" (toText "here") ++ toText "."
   , text $ toText "Version 0.3.5 of the compiler is now available: JavaScript integration, signal filters, and more! Details " ++
            link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/" (toText "here") ++ toText "."
   , text $ toText "Version 0.3 of the compiler is now available: Modules and improved errors. Details " ++

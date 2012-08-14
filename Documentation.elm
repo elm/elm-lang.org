@@ -51,7 +51,7 @@ intro = [ section "Library Documentation"
                  toText " gives a more formal specification of Elm."
         ]
 
-linkify (name, src) = toText "&nbsp;&nbsp;&nbsp;&nbsp;" ++ link src (toText name)
+linkify (name, src) = toText "    " ++ link src (toText name)
 linkList (name, pairs) = 
   flow down . map text $ bold (toText name) : map linkify pairs
 links = map linkList [ standard, elements, reaction, ffi ]

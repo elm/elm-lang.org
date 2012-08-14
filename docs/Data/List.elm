@@ -45,8 +45,8 @@ other =
   , ("partition", "(a -> Bool) -> [a] -> ([a],[a])", "Split a list based on the predicate.")
   , ("zip", "[a] -> [b] -> [(a,b)]", "Combine two lists, combining them into tuples pairwise. If one input list has extra elements (it is longer), those elements are dropped.")
   , ("zipWith", "(a -> b -> c) -> [a] -> [b] -> [c]", "Combine two lists, combining them with the given function. If one input list has extra elements (it is longer), those elements are dropped.")
-  , ("take", "Int -> [a] -> [a]", toText "Take the first n members of a list. Thus, " ++ monospace (toText "take 2 [1,2,3,4] ==> [1,2]"))
-  , ("drop", "Int -> [a] -> [a]", toText "Drop the first n members of a list. Thus, " ++ monospace (toText "drop 2 [1,2,3,4] ==> [3,4]"))
+  , ("take", "Int -> [a] -> [a]", "Take the first n members of a list. Thus, (take 2 [1,2,3,4]) ==> [1,2]")
+  , ("drop", "Int -> [a] -> [a]", "Drop the first n members of a list. Thus, (drop 2 [1,2,3,4]) ==> [3,4]")
   ]
 
 categories =
