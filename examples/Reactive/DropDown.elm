@@ -14,6 +14,7 @@ choices = [ ("underline", underline)
           , ("bold"     , bold)
           , ("red"      , Text.color red)
           , ("monospace", monospace)
+          , ("Georgia"  , typeface "georgia, palatino, serif")
           ]
 
 -- dropDown :: [(String,a)] -> (Element, Signal a)

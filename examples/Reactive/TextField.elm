@@ -2,7 +2,7 @@
 import Data.List
 import Signal.Input (textField)
 
-main = let (fld, txt) = textField "" in
+main = let (fld, txt) = textField "Type here!" in
   lift2 above (constant fld) (lift showLen txt)
 
 showLen n =

@@ -5,8 +5,8 @@
 
 import Signal.Window (dimensions)
 
-resizeablePaint edgeLen = size edgeLen edgeLen (image "paint.jpg")
-main = lift (resizeablePaint . uncurry min) dimensions
+resizeablePaint (w,h) = fittedImage w h "paint.jpg"
+main = lift resizeablePaint dimensions
 
 
 

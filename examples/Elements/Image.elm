@@ -1,2 +1,2 @@
 
-main = image "/elm.jpg"
+main = image 472 315 "/stack.jpg"

@@ -11,6 +11,7 @@
 
 
 import Foreign.JavaScript.JSON
+import Foreign.JavaScript.JSON as Json
 
 
 bruce = fromList
@@ -24,7 +25,7 @@ retiredBruce = remove "nick" (insert "age" (JsonNumber 52) bruce)
 
 main = flow down 
          [ plainText "Bruce Wayne"
-         , text . monospace . toText $ toString bruce
+         , text . monospace . toText $ Json.toString bruce
          , plainText "retires and becomes"
-         , text . monospace . toText $ toString retiredBruce
+         , text . monospace . toText $ Json.toString retiredBruce
          ]

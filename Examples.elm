@@ -2,7 +2,40 @@
 import Website.Skeleton
 import Website.Tiles
 
-section = text . bold . Text.height (5/4) . toText
+words = [markdown|
+
+### Learn by Example
+
+Elm's interactive editor allows you to learn Elm by seeing and modifying
+actual code. There are a couple categories of examples for designed to build
+certain skills:
+
+[Basic][1] &#8212; the basic building blocks of Elm
+
+[Intermediate][2] &#8212; building components with Elm
+
+[Elm + JavaScript][3] &#8212; use existing JavaScript libraries, features, etc.
+
+[Elm + Haskell][4] &#8212; serve Elm code without leaving Haskell
+
+[This Website][5] &#8212; the Elm source code for this site
+
+[Elm for Games][6] &#8212; how to make games in Elm
+
+<br/>
+
+  [1]: /examples/Basic.elm "Basic"
+  [2]: /examples/Intermediate.elm "Intermediate"
+  [3]: /examples/ElmJS.elm "Elm + JavaScript"
+  [4]: /examples/ElmHaskell.elm "Elm + Haskell"
+  [5]: /examples/ThisWebsite.elm "This Website"
+  [6]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
+
+### Quick Overview of Elm
+
+If you just want a brief overview, check out the following examples:
+
+|]
 
 examples =
   [ ("Layout"       , "FlowDown2" , "Elements/")
@@ -16,28 +49,7 @@ examples =
   , ("This Page"    , "Examples"  , "../")
   ]
 
-content w =
-  [ section "Learn by Example"
-  , plainText $ "Elm's interactive editor allows you to learn Elm by seeing and modifying actual code. " ++
-                "There are a couple categories of examples for designed to build certain skills:"
-  , text $ link "/examples/Basic.elm" (toText "Basic") ++
-           toText " &#8212; the basic building blocks of Elm"
-  , text $ link "/examples/Intermediate.elm" (toText "Intermediate") ++
-           toText " &#8212; building components with Elm"
-  , text $ link "/examples/ElmJS.elm" (toText "Elm + JavaScript") ++
-           toText " &#8212; use existing JavaScript libraries, features, etc."
-  , text $ link "/examples/ElmHaskell.elm" (toText "Elm + Haskell") ++
-           toText " &#8212; serve Elm code without leaving Haskell"
-  , text $ link "/examples/ThisWebsite.elm" (toText "This Website") ++
-           toText " &#8212; the Elm source code for this site"
-  , text $ link "/blog/games-in-elm/part-0/Making-Pong.html" (toText "Elm for Games") ++
-           toText " &#8212; how to make games in Elm"
-  , rectangle 1 5
-  , section "Quick Overview of Elm"
-  , plainText "If you just want a brief overview, check out the following examples:"
-  , width w . box 2 . tile w $ map toTile examples
-  ]
+content w = let tiles = tile w $ map toTile examples in
+  width w words `above` container w (heightOf tiles) middle tiles
 
-exampleSets w = flow down . map (width w) . addSpaces $ content w
-
-main = lift (skeleton exampleSets) Window.width
+main = lift (skeleton content) Window.width

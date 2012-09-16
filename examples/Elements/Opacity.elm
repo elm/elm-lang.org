@@ -1,4 +1,4 @@
 
 -- opacity :: Number -> Element -> Element
 
-main = opacity (1/2) (image "/elm.jpg")
+main = opacity 0.5 (fittedImage 300 200 "/book.jpg")

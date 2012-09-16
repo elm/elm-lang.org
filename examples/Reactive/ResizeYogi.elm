@@ -3,5 +3,8 @@
 
 import Signal.Mouse (position)
 
-resizeableYogi edgeLen = size edgeLen edgeLen (image "yogi.jpg")
-main = lift (resizeableYogi . uncurry max) position
+resizeableYogi edgeLen = image edgeLen edgeLen "yogi.jpg"
+
+edgeLen = lift (max 100 . uncurry max) position
+
+main = lift resizeableYogi edgeLen

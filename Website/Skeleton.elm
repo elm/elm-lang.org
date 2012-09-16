@@ -1,28 +1,29 @@
 
-module Website.Skeleton (skeleton, addSpaces) where
+module Website.Skeleton (skeleton) where
 
-import Data.List (intersperse)
-
-button (name, href) = size 100 60 . Element.link href . size 100 60 . box 5 $ plainText name
-buttons = size 400 60 . flow right . map button $
-  [ ("Home","/"), ("Examples","/Examples.elm"), ("Docs","/Documentation.elm"), ("Download","/Download.elm") ]
-
-title w = size w 60 . box 4 . text . bold . Text.height 2 . toText $ "Elm"
+button (name, href) = link href . container 100 60 middle $ plainText name
+buttons = flow right . map button $
+  [ ("Home"    , "/"                 )
+  , ("Examples", "/Examples.elm"     )
+  , ("Docs"    , "/Documentation.elm")
+  , ("Download", "/Download.elm"     ) ]
 
 lightGrey  = rgb 245 245 245
 mediumGrey = rgb 216 221 225
 
-heading outer inner =
-  color mediumGrey . size outer 61 . box 1 .
-  color  lightGrey . size outer 60 . box 5 .
-  size inner 60 . box 5 $ title (inner-400) `beside` buttons
+title w = container w 60 midLeft . text . Text.height 2 . bold $ toText "Elm"
 
-skeleton body outer =
+heading outer inner =
+  color mediumGrey . container outer 61 midTop .
+  color  lightGrey . container outer 60 middle .
+  container inner 60 middle $ title (inner - widthOf buttons) `beside` buttons
+
+skeleton bodyFunc outer =
   let inner = if outer < 820 then outer - 20 else 800 in
+  let body = bodyFunc inner in
   flow down [ heading outer inner
-            , width outer . box 2 $ rectangle 1 30 `above` body inner
-            , size outer 50 . box 8 . text . Text.color mediumGrey $
+            , spacer outer 10
+            , container outer (heightOf body) middle body
+            , container outer 50 midBottom . text . Text.color mediumGrey $
                 toText "&copy; 2011-2012 Evan Czaplicki" 
             ]
-
-addSpaces = map (\f -> f ()) . intersperse (\x -> rectangle 1 14) . map (\e x -> e)

@@ -1,23 +1,25 @@
 
-import Data.List (intercalate)
+import Data.List (intersperse)
 import Website.Skeleton
 
-section = text . bold . Text.height (5/4) . toText
+content w = width w [markdown|
 
-content w =
-  [ section "Source Code for this Website"
-  , text $ toText "This website was written almost entirely in Elm, so if you want to see a larger example, you can browse the source code on " ++
-           link "https://github.com/evancz/elm-lang.org" (toText "github") ++
-           toText ". The download links are " ++
-           link "https://github.com/evancz/elm-lang.org/downloads" (toText "here") ++
-           toText ". The download also includes almost all of the examples on this site, which might " ++
-           toText "be nice if you prefer to work on your own machine."
-  , text $ toText "If you want to see the source code of a particular page in the online editor, " ++
-           toText "just insert " ++ monospace (toText "edit/") ++ toText " after this sites domain name. For instance, " ++
-           link "/edit/Examples.elm" (toText "elm-lang.org/" ++ bold (toText "edit/") ++ toText "Examples.elm") ++
-           toText " is the source code for the examples page."
-  ]
+### Source Code for this Website
 
-exampleSets w = flow down . map (width w) . addSpaces $ content w
+This website was written almost entirely in Elm, so if you want to see
+a larger example, you can browse the source code on [github][1]. The
+download links are [here][2]. The download also includes almost all of
+the examples on this site, which might be nice if you prefer to work on
+your own machine.
 
-main = lift (skeleton exampleSets) Window.width
+If you want to see the source code of a particular page in the online editor,
+just insert `edit/` after this sites domain name. For instance, 
+[elm-lang.org/edit/Examples.elm][3] is the source code for the examples page.
+
+  [1]: https://github.com/evancz/elm-lang.org "github"
+  [2]: https://github.com/evancz/elm-lang.org/downloads "download"
+  [3]: /edit/Examples.elm "edit Examples.elm"
+
+|]
+
+main = lift (skeleton content) Window.width

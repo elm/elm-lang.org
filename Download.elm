@@ -1,21 +1,26 @@
 
 import Website.Skeleton
+import Signal.Window as Window
 
-section = text . bold . Text.height (7/6) . toText
+info w = width w [markdown|
 
-info w = flow down . map (width w) . addSpaces $
-  [ section "Installation"
-  , text $ toText "See these " ++ link "https://github.com/evancz/Elm/blob/master/README.md" (toText "install instructions") ++
-           toText " to get Elm running on your machine. If you run into problems, you should email the " ++
-           link "https://groups.google.com/forum/?fromgroups#!forum/elm-discuss" (toText "mailing list") ++
-           toText " or report an issue to Elm's " ++
-           link "https://github.com/evancz/Elm" (toText "source repository") ++ toText "."
-  , rectangle 1 1
-  , section "Thesis on Elm"
-  , text $ toText "My " ++
-           link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "thesis on Elm") ++
-           toText " is available though. It provides a more formal definition of Elm and a discription of Concurrent FRP, a new " ++
-           toText "approach to efficient Functional Reactive Programming."
-  ]
+### Installation
+
+See these [install instructions][1] to get Elm running on your machine.
+If you run into problems, you should email the [mailing list][2]
+or report an issue to Elm's [source repository][3]
+
+### Thesis on Elm
+
+My [thesis on Elm][4] is available too. It provides a more formal
+definition of Elm and a discription of Concurrent FRP, a new approach
+to efficient Functional Reactive Programming.
+
+  [1]: https://github.com/evancz/Elm/blob/master/README.md "install instructions"
+  [2]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
+  [3]: https://github.com/evancz/Elm "source repository"
+  [4]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis on Elm"
+
+|]
  
 main = lift (skeleton info) Window.width

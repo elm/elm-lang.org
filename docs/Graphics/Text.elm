@@ -16,10 +16,11 @@ styles =
   [ ("italic", "Text -> Text", "Italicize a string.")
   , ("bold", "Text -> Text", "Make a string bold.")
   , ("underline", "Text -> Text", "Underline a string.")
-  , ("overline", "Text -> Text", "Draw a line above a string.")
-  , ("strikeThrough", "Text -> Text", "Draw a line through a string.")
   , ("color", "Color -> Text -> Text", "Set the color of a string.")
   , ("monospace", "Text -> Text", "Switch to a monospace typeface. Good for code snippets.")
+  , ("typeface", "String -> Text -> Text", "Set the typeface of some text. The first argument should be a comma separated listing of the desired typefaces (e.g. \"helvetica, arial, sans-serif\"). Works the same as the CSS font-family property.")
+  , ("overline", "Text -> Text", "Draw a line above a string.")
+  , ("strikeThrough", "Text -> Text", "Draw a line through a string.")
   ]
 
 categories = 

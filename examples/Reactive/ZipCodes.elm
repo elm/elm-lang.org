@@ -11,7 +11,7 @@ url = "http://zip.elevenbasetwo.com/v2/US/"
 
 component (fld, txt) =
   let { toUrl s = if valid s then Just (url ++ s) else Nothing
-      ; input = size 400 50 . box 5 $ plainText "Enter a US Zip Code:" `beside` fld
+      ; input = plainText "Enter a US Zip Code:" `beside` fld
       ; address = lift display . gets . lift toUrl $ txt
       }
   in  lift (above input) address

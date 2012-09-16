@@ -2,8 +2,6 @@
 import Website.Skeleton
 import Website.Tiles
 
-section = text . bold . Text.height (5/4) . toText
-
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
 intermediate = addFolder "Intermediate/"
@@ -18,13 +16,19 @@ intermediate = addFolder "Intermediate/"
   , ("Web" , "Web")
   ]
 
+intro =  [markdown|
+
+### Intermediate Examples
+
+These examples bring together computation, graphics, and reactions to
+build larger components.
+
+<br/>
+
+|]
+
 content w =
-  [ section "Intermediate Examples"
-  , plainText $ "These examples bring together display, reaction, and computation to " ++
-                "illustrate how Elm can create useful components."
-  , width w . box 2 . tile w $ map toTile intermediate
-  ]
+  let tiles = tile w $ map toTile intermediate in
+  width w intro `above` container w (heightOf tiles) midTop tiles
 
-exampleSets w = flow down . map (width w) . addSpaces $ content w
-
-main = lift (skeleton exampleSets) Window.width
+main = lift (skeleton content) Window.width

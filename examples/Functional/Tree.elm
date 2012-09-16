@@ -24,7 +24,7 @@ insert x tree =
                 else Node y left (insert x right)
   }
 
-fromList xs = List.foldl insert empty xs
+fromList xs = foldl insert empty xs
 
 depth tree =
   case tree of

@@ -9,7 +9,7 @@ ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
 images = [ "book.jpg", "shells.jpg", "stack.jpg", "car.jpg", "pipe.jpg" ]
 slideShow (w,h) index =
   let i = index `mod` length images in
-  size w h . color black . box 5 . image $ ith i images
+  color black . container w h middle . image 472 315 $ ith i images
 
 
 clickCount = count clicks

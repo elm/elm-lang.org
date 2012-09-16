@@ -2,8 +2,7 @@
 import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
 import Data.List
-
-section = text . bold . Text.height (5/4) . toText
+import Graphics.Text as Text
 
 standard = ("General Purpose",
   [ ("Data.Char", "docs/Data/Char.elm")
@@ -12,12 +11,10 @@ standard = ("General Purpose",
   , ("Prelude", "docs/Prelude.elm")
   ])
 
-elements = ("Display",
-  [ ("Element", "docs/Element.elm")
-  , ("Text",  "docs/Text.elm")
-  , ("Color", "docs/Color.elm")
-  , ("Shape", "docs/Shape.elm")
-  , ("Line",  "docs/Line.elm")
+elements = ("Graphics",
+  [ ("Graphics.Element", "docs/Graphics/Element.elm")
+  , ("Graphics.Color"  , "docs/Graphics/Color.elm")
+  , ("Graphics.Text",  "docs/Graphics/Text.elm")
   ])
 
 reaction = ("Signals",
@@ -37,26 +34,32 @@ ffi = ("JavaScript Interface",
   , ("Foreign.JavaScript.JSON", "docs/Foreign/JavaScript/JSON.elm") 
   ])
 
-intro = [ section "Library Documentation"
-        , text $ toText "This section provides type-signatures and explanations of Elm's current " ++
-                 toText "standard libraries."
-        , text $ link "http://www.testblogpleaseignore.com" (toText "This blog") ++
-                 toText " is the source of some discussion and announcements. It also has more detailed information on the " ++
-                 link "http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/" (toText "module system") ++
-                 toText " and " ++
-                 link "http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/" (toText "JavaScript integration") ++
-                 toText "."
-        , text $ toText "My " ++
-                 link "http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf" (toText "thesis") ++
-                 toText " gives a more formal specification of Elm."
-        ]
+intro = [markdown|
 
-linkify (name, src) = toText "    " ++ link src (toText name)
+### Library Documentation
+
+This section provides type-signatures and explanations of Elm's current
+standard libraries.
+
+[This blog][1] is the source of some discussion and
+announcements. It also has more detailed information on the [module system][2]
+and [JavaScript integration][3].
+
+My [thesis][4] gives a more formal specification of Elm.
+
+  [1]: http://www.testblogpleaseignore.com "Elm blog"
+  [2]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "module system"
+  [3]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript integration"
+  [4]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "Elm Thesis"
+
+|]
+
+linkify (name, src) = toText "    " ++ Text.link src (toText name)
 linkList (name, pairs) = 
   flow down . map text $ bold (toText name) : map linkify pairs
 links = map linkList [ standard, elements, reaction, ffi ]
 
 categories w =
-  flow down . map (width w) . addSpaces $ intro ++ links
+  flow down . map (width w) . intersperse (plainText "&nbsp;") $ intro : links
 
 main = lift (skeleton categories) Window.width

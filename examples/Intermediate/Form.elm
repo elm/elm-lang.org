@@ -46,23 +46,23 @@ foreign export jsevent "elm_redirect"
 -- Display
 
 field txt fld =
-  width 400 . flow right $
-    [ size 120 30 . box 6 $ plainText txt
-    , size 200 30 . box 5 $ size 180 20 fld
-    ]
+  flow right
+    [ container 120 32 midRight $ plainText txt
+    , container 200 32 middle $ size 180 26 fld ]
 
 showErrors presses errs =
-  if presses == 0 || isEmpty errs then rectangle 10 10 else
+  if presses == 0 || isEmpty errs then spacer 10 10 else
     flow down $ map (text . Text.color red . toText) errs
 
-form presses errs (w,h) =
-  size w h . box 5 . color (rgb 230 230 230) . flow down $
-    [ field "First Name:"     firstBox
-    , field "Last Name:"      lastBox
-    , field "Your Email:"     emailBox
-    , field "Re-enter Email:" remailBox
-    , showErrors presses errs
-    , size 310 40 . box 6 $ size 60 30 butn
-    ]
+form presses errs =
+  let entry = color (rgb 230 230 230) . flow down $
+               [ field "First Name:"     firstBox
+               , field "Last Name:"      lastBox
+               , field "Your Email:"     emailBox
+               , field "Re-enter Email:" remailBox
+               , showErrors presses errs
+               , container 310 40 midRight $ size 60 30 butn
+               ]
+  in  container (widthOf entry + 60) (heightOf entry + 60) middle entry 
 
-main = lift3 form pressCount errors Win.dimensions
+main = lift2 form pressCount errors
