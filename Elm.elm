@@ -50,9 +50,10 @@ an assembly language, Elm can avoid some of these problems.
 
 #### News
 
-Version 0.3.6 of the compiler is available: JSON support, improved errors messages, and a bunch of bug fixes. Details [here][6].
+Elm 0.4: New features for game making and layout, Markdown support,
+optimizations, and more. More information [here][6].
 
-  [6]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/ "announcement"
+  [6]: /blog/announce/version-0.4.0.elm "announcement"
 
 #### Contact
 
