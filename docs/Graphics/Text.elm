@@ -29,4 +29,4 @@ categories =
   , ("Ajust Text Size", textSize)
   ]
 
-main = createDocs "Text" categories
+main = createDocs "Graphics.Text" categories
