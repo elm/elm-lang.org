@@ -1,10 +1,10 @@
 
 -- Click to stamp a pentagon at the current position.
 
-import Signal.Mouse (isClicked,position)
+import Signal.Mouse (clicks,position)
 import Signal.Window (dimensions)
 
-clickLocations = foldp (:) [] (sampleOn isClicked position)
+clickLocations = foldp (:) [] (sampleOn clicks position)
 
 scene (w,h) locs =
   let clearBlue = rgba 0 85 170 (1/2) in
