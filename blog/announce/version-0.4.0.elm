@@ -78,7 +78,7 @@ I had no idea such a simple addition could have such a positive impact!
 
  [1]: http://daringfireball.net/projects/markdown/dingus "Markdown"
  [2]: /edit/examples/Elements/Markdown.elm "Elm+Markdown example"
- [blog]: /edit/blog/announcement/version-0.4.0.elm "Edit Announcement"
+ [blog]: /edit/blog/announce/version-0.4.0.elm "Edit Announcement"
 
 <br/>
 
