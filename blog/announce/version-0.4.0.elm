@@ -12,9 +12,11 @@ blog = [markdown|
 
 This release makes [Elm](/) better for:
 
-* **Making games.** [Elements][a], [sprites][b], and [textures][c] can now be used in a `collage`.
+* **Making games.** Elements, sprites, and textures can now be used in a `collage`
   This includes text, gifs, videos, and any other complex `Element`, making Elm much
-  more flexible for game creation. (Get started with [Pong][pong].)
+  more flexible for game creation. Check out examples of the new features
+  ([Elements][a], [sprites][b], [textures][c]) and learn how to make games with
+  the [Pong walkthrough][pong].
 
 * **Creating text.** Elm now has native [Markdown][1] support ([example][2]).
   You can also set typefaces (a.k.a. "fonts") programatically ([example][typeface]).
