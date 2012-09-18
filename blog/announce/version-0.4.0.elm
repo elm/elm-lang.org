@@ -12,7 +12,7 @@ blog = [markdown|
 
 This release makes [Elm](/) better for:
 
-* **Making games.** Elements, sprites, and textures can now be used in a `collage`.
+* **Making games.** [Elements][a], [sprites][b], and [textures][c] can now be used in a `collage`.
   This includes text, gifs, videos, and any other complex `Element`, making Elm much
   more flexible for game creation. (Get started with [Pong][pong].)
 
@@ -44,6 +44,9 @@ changes, which are detailed below with upgrade advice.
 I hope you enjoy Elm 0.4!
 
  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
+ [a]: /edit/examples/Elements/ToForm.elm "toForm"
+ [b]: /edit/examples/Elements/Sprite.elm "sprites"
+ [c]: /edit/examples/Elements/Texture.elm "texture"
 
 <br/>
 
