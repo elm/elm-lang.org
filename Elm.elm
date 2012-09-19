@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 import Website.Tiles
 
@@ -32,7 +31,7 @@ rest = [markdown|
 
 Elm's major distinguishing features are support for [reactive programming][1]
 and its focus on graphical user interfaces. Elm is also [call-by-value][2] and
-[strongly][3] / [statically][4] typed with [type-inference]5], so those of you
+[strongly][3] / [statically][4] typed with [type inference][5], so those of you
 already familiar with languages like Haskell or ML should be quite comfortable.
 
 The language features mentioned above help catch errors in your code at
