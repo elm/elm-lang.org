@@ -1,2 +1,0 @@
-
-main = plainText "Hello, World!"
