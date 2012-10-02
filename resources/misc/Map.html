@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="UTF-8"><title>Map</title><style type="text/css">html,head,body { padding:0; margin:0; }body { font-family: Arial; }a:link {text-decoration: none}a:visited {text-decoration: none}a:active {text-decoration: none}a:hover {text-decoration: underline; color: #ff8f12;}</style></head><body><script type="text/javascript" src="/elm-mini.js"></script><script type="text/javascript">
+document.body.onload = function() {
+
+var lib = document.createElement('script');
+lib.addEventListener('load', function() {
+	var div = document.createElement('div');
+	div.id = "demoMap";
+	div.style.width = "640px";
+	div.style.height = "360px";
+	
+	var e = document.createEvent('Event');
+	e.initEvent('provideMap', true, true);
+	e.value = div;
+	document.dispatchEvent(e);
+	
+	setTimeout(function() {
+		var map = new OpenLayers.Map("demoMap");
+		map.addLayer(new OpenLayers.Layer.OSM());
+		map.zoomToMaxExtent();
+	    }, 0);
+    });
+lib.src = "http://www.openlayers.org/api/OpenLayers.js";
+document.head.appendChild(lib);
+
+}
+try{
+
+if (ElmCode.Map) throw "Module name collision, 'Map' is already defined."; 
+ElmCode.Map=function(){
+try{ElmCode.Prelude instanceof Object} catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Prelude){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Prelude[i];}
+try{ElmCode.Signal.Window instanceof Object} catch(e) {throw "Module 'Signal.Window' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var Win=ElmCode.Signal.Window;
+try{ElmCode.Foreign.JavaScript.Experimental instanceof Object} catch(e) {throw "Module 'Foreign.JavaScript.Experimental' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Foreign.JavaScript.Experimental){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Foreign.JavaScript.Experimental[i];}
+var jsMaps_0 = Elm.Input(castElementToJSElement(spacer(640)(360)));
+Signal.addListener(document, 'provideMap', function(e) { Dispatcher.notify(jsMaps_0.id, e.value); });
+var maps_2=lift(castJSElementToElement(640)(360))(jsMaps_0);
+var main_3=lift2(center_1)(Win.dimensions)(maps_2);
+function center_1(Tuple2$wh_4){
+return function(elem_5){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return container(case1)(case2)(middle)(elem_5);
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$wh_4);};};
+return {main:main_3};}();
+ElmCode.main=function(){
+return ElmCode.Map.main;};
+
+} catch (e) {ElmCode.main=function() {var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Map module:<br/>' + e + '<br/><br/>The problem may stem from an improper usage of:<br/>Win.dimensions, container, middle, spacer</span>');document.body.innerHTML = Text.monospace(msg);throw e;};}</script><div id="widthChecker" style="width:100%; height:1px; position:absolute; top:-1px;"></div><div id="content"></div><script type="text/javascript">Dispatcher.initialize()</script><noscript></noscript></body></html>

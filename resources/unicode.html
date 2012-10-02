@@ -1,0 +1,102 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="unicode.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin,greek' rel='stylesheet' type='text/css'>
+  <style>
+    body { background-color: #94cfe9; }
+    * { font-family: arial; }
+    textarea { font-family: consolas, 'Inconsolata', monospace; }
+  </style>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25827182-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+
+<body>
+  <h1>Unicode for prettier code?</h1>
+  <p>It's pretty easy to directly translate a source program into a much prettier unicode representation,
+    especially in a functional setting where math-y features are quite common. 
+  </p>
+  <p>I am not advocating the use of unicode everywhere.
+    Rather, I am pointing out that a text editor could present prettier code to the user while leaving the underlying source code unchanged.
+    This way existing languages and compilers do not need to adapt at all. We can potentially reap the benefits of unicode without the hassle.
+  </p>
+  <p>Would this make programming more enjoyable?</p>
+
+  <h3>Demo</h3>
+  <p>Input in the left box will be actively prettified in the right box. Try it out!</p>
+  <textarea id="input" cols="60" rows="30">
+      
+----  Math  ----
+
+distance (x_1, y_1) (x_2, y_2) =
+    sqrt $ (x_1 - x_2)^2 + (y_1 - y_2)^2
+
+area r = pi * r^2
+
+comparisons x = [ x <= 7, x >= 3, x == 13, x /= 5 ]
+
+
+----  Higher order functions  ----
+
+incr = \x -> x + 1
+
+plus3 = incr . incr . incr
+
+
+----  Types  ----
+
+foldl :: ('a -> 'b -> 'b) -> 'b -> ['a] -> 'b
+
+data List 'a = Nil | Cons 'a (List 'a)
+
+
+----  All translated tokens  ----
+-- \ -> . $ * pi ^2 == /= <= >= _1 _2 'a 'b ' '' '''
+
+</textarea>
+  <textarea id="display" cols="60" rows="30" readonly="readonly"></textarea>
+  <p>Ideally, these two views would be merged into one window so that the programmer only sees the translated text.
+    This would almost certainly be problematic for languages such as Haskell which have meaningful whitespace, but I still think it is a cool idea.
+  </p>
+  <h3>Questions:</h3>
+  <ul>
+    <li>What is the best syntax for Greek letters in types? I used the OCaml style here, but it's not my favorite.
+      For some letters (like a and b) the Greek letter is always preferred, but I don't think this is true of all letters.
+    </li>
+    <li>How long should subscripts be? It seems reasonable to limit it to one character because multi-character subscripts look sort of weird in monospaced fonts. I don't have a great reason for disallowing longer subscripts besides the fact that the idea make me weirdly uncomfortable.
+    </li>
+    <li>Has this been tried before? Why did it not work out? I know Coq and Agda (both proof assistants) enable use of unicode in varying degrees. I remember hearing that F# also supported it for a little while. Do you know any more about this?
+    </li>
+  </ul>
+  <h3>Notes:</h3>
+  <p>The unicode characters look best in Chrome with the Consolas font.</p>
+  <p>This is a very naive implementation, so many undesirable things are possible (e.g. floating subscripts, pi only works when surrounded by spaces, etc.).
+    This would not be the case in a serious implementation!
+  </p>
+
+</body>
+
+<script type="text/javascript">
+
+update();
+document.onkeyup = update;
+
+function update() {
+  var input = document.getElementById("input").value;
+  document.getElementById("display").value = rewrite(input);
+}
+
+</script>
+
+</html>

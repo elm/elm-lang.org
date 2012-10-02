@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CodeMirror 2: Haskell mode</title>
+    <link rel="stylesheet" href="../../lib/codemirror.css">
+    <script src="../../lib/codemirror.js"></script>
+    <script src="haskell.js"></script>
+    <link rel="stylesheet" href="../../theme/cobalt.css">
+    <style type="text/css">
+      .activeline {background: #0c1f30 !important;}
+    </style>
+    <link rel="stylesheet" href="../../css/docs.css">
+  </head>
+  <body>
+
+<form><textarea id="code" name="code">
+
+zipWith f xs ys =
+  case (xs, ys) of
+    { (a:as, b:bs) -> f a b : zipWith f as bs
+    ; ([], _) -> []
+    ; (_ ,[]) -> []
+    }
+</textarea></form>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  lineNumbers: false,
+  matchBrackets: true,
+  theme: "cobalt",
+  onCursorActivity: function() {
+    editor.setLineClass(hlLine, null);
+    hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+  }
+  });
+  var hlLine = editor.setLineClass(0, "activeline");
+</script>
+
+  </body>
+</html>

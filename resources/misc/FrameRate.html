@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="UTF-8"><title>FrameRate</title><style type="text/css">html,head,body { padding:0; margin:0; }body { font-family: helvetica, arial, sans-serif; }a:link {text-decoration: none}a:visited {text-decoration: none}a:active {text-decoration: none}a:hover {text-decoration: underline; color: #ff8f12;}</style></head><body><script type="text/javascript" src="/elm-mini.js"></script><script type="text/javascript">
+var FrameRate = function() {
+
+var desiredFPS = 40;
+var msPerFrame = 1000 / desiredFPS;
+
+// Set the desired rate of frames per second.
+// Default is 40 if no desiredFPS event is triggered.
+document.addEventListener('desiredFPS', function(e) {
+	console.log(e.value);
+	desiredFPS = e.value;
+	msPerFrame = 1000 / desiredFPS;
+    });
+
+
+var date = new Date();
+var startTime = date.getTime();
+var frameStart = startTime;
+var frameEnd   = startTime;
+var timeoutID = 0;
+
+// Trigger time events to try to maintain the desired FPS.
+document.addEventListener('finished', function(evt) {
+	clearTimeout(timeoutID);
+	date = new Date();
+	frameEnd = date.getTime();
+	var diff = frameEnd - frameStart;
+	var waitTime = Math.max(msPerFrame-diff,3);
+	timeoutID = setTimeout(function() {
+		date = new Date();
+		frameStart = date.getTime();
+		var e = document.createEvent('Event');
+		e.initEvent('trigger', true, true);
+		e.value = (frameStart - startTime) / 1000;
+		document.dispatchEvent(e);
+	    }, waitTime);
+    });
+
+}();
+try{
+
+if (ElmCode.FrameRate) throw "Module name collision, 'FrameRate' is already defined."; 
+ElmCode.FrameRate=function(){
+try{ElmCode.Prelude instanceof Object} catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Prelude){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Prelude[i];}
+try{ElmCode.Data.Maybe instanceof Object} catch(e) {throw "Module 'Data.Maybe' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var mapMaybe=ElmCode.Data.Maybe.mapMaybe;
+try{ElmCode.Foreign.JavaScript instanceof Object} catch(e) {throw "Module 'Foreign.JavaScript' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Foreign.JavaScript){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Foreign.JavaScript[i];}
+try{ElmCode.Signal.Keyboard.Raw instanceof Object} catch(e) {throw "Module 'Signal.Keyboard.Raw' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Signal.Keyboard.Raw){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Signal.Keyboard.Raw[i];}
+try{ElmCode.Signal.Input instanceof Object} catch(e) {throw "Module 'Signal.Input' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+var hiddenVars=[];
+for(var i in ElmCode.Signal.Input){
+if (hiddenVars.indexOf(i) >= 0) continue;
+this[i]=ElmCode.Signal.Input[i];}
+var Tuple2$dropdFPS_0=dropDown(["Cons",["Tuple2",Value.str("30"),30],["Cons",["Tuple2",Value.str("4"),4],["Cons",["Tuple2",Value.str("10"),10],["Cons",["Tuple2",Value.str("60"),60],["Cons",["Tuple2",Value.str("100"),100],["Nil"]]]]]]);
+var drop_1=function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return case1;
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$dropdFPS_0);
+var dFPS_2=function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return case2;
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$dropdFPS_0);
+var desiredFPS_3=lift(castIntToJSNumber)(dFPS_2);
+var jsTime_4 = Elm.Input(castIntToJSNumber(0));
+Signal.addListener(document, 'trigger', function(e) { Dispatcher.notify(jsTime_4.id, e.value); });
+var time_5=lift(castJSNumberToFloat)(jsTime_4);
+var fps_7=lift(function(x){
+return truncate(getFPS_6(x));})(foldp(function(t_25){
+return function(ts_26){
+return take(10)(["Cons",t_25,ts_26]);};})(["Cons",0,["Nil"]])(time_5));
+var velocity_11=lift(foldl(addKey_10)(["Tuple2",0,0]))(keysDown);
+var timestep_12=lift(snd)(foldp(function(t1_41){
+return function(Tuple2$t0d_42){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return ["Tuple2",t1_41,(t1_41-case1)];
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$t0d_42);};})(["Tuple2",0,0])(time_5));
+var delta_13=function(x){
+return dropIf(function(Tuple2$xy_45){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return (eq(case1,0)&&eq(case2,0));
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$xy_45);})(["Tuple2",0,0])(sampleOn(timestep_12)(x));}(lift(scaleBy_9(100))(lift2(scaleBy_9)(timestep_12)(velocity_11)));
+var position_14=foldp(addVecs_8)(["Tuple2",0,0])(delta_13);
+var game_16=lift2(screen_15)(position_14)(fps_7);
+var done_17=lift(function(__50){
+return castBoolToJSBool(true);})(game_16);
+var main_18=game_16;
+function getFPS_6(ts_23){
+return function(){
+var len_24=length(ts_23);
+return ((compare(len_24)(1)[0] === 'GT')?((len_24-1)/(head(ts_23)-last(ts_23))):0);}();};
+function addVecs_8(Tuple2$x1y1_27){
+return function(Tuple2$x2y2_28){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return function(case7){
+var case4=case7;
+switch(case4[0]){
+case "Tuple2":
+var case5=case4[1],case6=case4[2];
+return ["Tuple2",(case1+case5),(case2+case6)];
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$x2y2_28);
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$x1y1_27);};};
+function scaleBy_9(s_33){
+return function(Tuple2$xy_34){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return ["Tuple2",(case1*s_33),(case2*s_33)];
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$xy_34);};};
+function addKey_10(k_37){
+return function(Tuple2$xy_38){
+return function(case3){
+var case0=case3;
+switch(case0[0]){
+case "Tuple2":
+var case1=case0[1],case2=case0[2];
+return (((compare(k_37)(37)[0] === 'LT')||(compare(k_37)(40)[0] === 'GT'))?["Tuple2",case1,case2]:(eq(mod(k_37)(2),1)?["Tuple2",(case1+(k_37-38)),case2]:["Tuple2",case1,(case2+(k_37-39))]));
+}
+throw "Non-exhaustive pattern match in case";}(Tuple2$xy_38);};};
+function screen_15(pos_48){
+return function(actual_49){
+return flow(down)(["Cons",collage(400)(400)(["Cons",outlined(black)(rect(40)(40)(pos_48)),["Nil"]]),["Cons",plainText("Move the square around with the arrow keys."),["Cons",text(Value.append(toText("Actual frames per second: "),show(actual_49))),["Cons",beside(plainText("Desired frames per second: "))(drop_1),["Nil"]]]]]);};};
+lift(function(v) { var e = document.createEvent('Event');e.initEvent('desiredFPS', true, true);e.value = v;document.dispatchEvent(e); return v; })(desiredFPS_3);
+lift(function(v) { var e = document.createEvent('Event');e.initEvent('finished', true, true);e.value = v;document.dispatchEvent(e); return v; })(done_17);
+return {main:main_18};}();
+ElmCode.main=function(){
+return ElmCode.FrameRate.main;};
+
+} catch (e) {ElmCode.main=function() {var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in FrameRate module:<br/>' + e + '<br/><br/>The problem may stem from an improper usage of:<br/>beside, dropDown, last, snd</span>');document.body.innerHTML = Text.monospace(msg);throw e;};}</script><div id="widthChecker" style="width:100%; height:1px; position:absolute; top:-1px;"></div><div id="content"></div><script type="text/javascript">Dispatcher.initialize()</script><noscript><p>30</p><p>4</p><p>10</p><p>60</p><p>100</p><p>Move the square around with the arrow keys.</p><p>Actual frames per second: </p><p>Desired frames per second: </p></noscript></body></html>
