@@ -9,36 +9,48 @@ import Happstack.Server.Compression
 import Text.Blaze.Html (Html)
 import Control.Monad.Trans (MonadIO(liftIO))
 
-import ElmEditor
+import ElmToHtml
+import Editor
+import Utils
 
-
-compilePart :: ServerPart Response
-compilePart = do
-  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
-  code <- look "input"
-  ok $ toResponse $ compile "Compiled Elm" code
-
+-- | Set up the server.
 main :: IO ()
 main = simpleHTTP nullConf $ do
          compressedResponseFilter
          msum [ nullDir >> compileFile "Elm.elm"
               , serveDirectory DisableBrowsing [] "resources"
               , dir "compile" $ compilePart
-              , dir "edit" . uriRest $ withFile editor
-              , dir "code" . uriRest $ withFile codeFrame
+              , dir "edit" . uriRest $ withFile ide
+              , dir "code" . uriRest $ withFile editor
               , dir "login" sayHi
               , uriRest compileFile
               ]
 
-withFile f fp = do
+
+-- | Compile an Elm program that has been POST'd to the server.
+compilePart :: ServerPart Response
+compilePart = do
+  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
+  code <- look "input"
+  ok $ toResponse $ elmToHtml "Compiled Elm" code
+
+
+-- | Do something with the contents of a File.
+withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
+withFile handler fp = do
   content <- liftIO $ readFile ("public/" ++ fp)
-  ok . toResponse $ f fp content
+  ok . toResponse $ handler fp content
 
+
+-- | Compile an arbitrary Elm program from the public/ directory.
+compileFile :: FilePath -> ServerPart Response
 compileFile fp =
-    let pageTitle = reverse . takeWhile (/='/') . drop 4 $ reverse fp in
     do content <- liftIO $ readFile ("public/" ++ fp)
-       ok $ toResponse $ compile pageTitle content
+       ok $ toResponse $ elmToHtml (pageTitle fp) content
 
+
+-- | Simple response for form-validation demo.
+sayHi :: ServerPart Response
 sayHi = do
   first <- look "first"
   last  <- look "last"
