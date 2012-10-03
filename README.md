@@ -6,7 +6,7 @@ All source files used to create [elm-lang.org](http://elm-lang.org/), the home-p
 ### Structure
 
 - `public/` -- all of the .elm files used for the site. This makes up the majority of client-side code.
-- `server/` -- the two Haskell files responsible for serving everything from .elm files to images.
+- `server/` -- the Haskell files responsible for serving everything from .elm files to images.
 - `resources/` -- the various resources needed for Elm.
 
 ### Set up
