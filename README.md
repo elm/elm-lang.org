@@ -1,5 +1,4 @@
-elm-lang.org
-============
+# elm-lang.org
 
 All source files used to create [elm-lang.org](http://elm-lang.org/), the home-page of the Elm programming language.
 
@@ -13,13 +12,13 @@ All source files used to create [elm-lang.org](http://elm-lang.org/), the home-p
 
 Follow these steps to get this all running on your local machine:
 
-##### Unix / Mac
+###### Unix / Mac
 
 - Fork or [download](https://github.com/evancz/elm-lang.org/downloads) this project.
 - Run `bash compile.sh`. This will compile the server.
 - Run `./Server` to start the server.
 
-##### Windows
+###### Windows
 
 - Fork or [download](https://github.com/evancz/elm-lang.org/downloads) this project.
 - Run `compile.bat`. This will compile the server and start it on your machine.
