@@ -13,6 +13,8 @@ lifts =
 folds =
   [ ("foldp", "(a -> b -> b) -> b -> Signal a -> Signal b", "Create a past-dependent signal. Each value given on the input signal will be accumulated, producing a new output value. For instance, (foldp (\t count -> count + 1) 0 (Time.every 3) counts up every time the timer ticks.")
   , ("count", "Signal a -> Signal Int", "Count the number of events that have occured.")
+  , ("foldp1", "(a -> a -> a) -> Signal a -> Signal a", "Create a past-dependent signal. The first value on the signal is used as the base case.")
+  , ("foldp'", "(a -> b -> b) -> (a -> b) -> Signal a -> Signal b", "Just like foldp, but instead of a base case, you provide a function to be applied to the first value, creating the base case.")
   ]
 
 filters =

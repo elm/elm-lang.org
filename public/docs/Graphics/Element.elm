@@ -56,6 +56,7 @@ forms =
   , ("move", "Number -> Number -> Form -> Form", "Translate a form by a given x and y offset.")
   , ("rotate", "Number -> Number -> Form -> Form", "Rotate a form by a given fraction of a full turn (not degrees or radians). For instance, (rotate 0.5) will rotate a form by a half turn.")
   , ("scale", "Number -> Form -> Form", "Scale a form by a given scale factor.")
+  , ("isWithin", "(Number,Number) -> Form -> Bool", "Check to see if a point is within a given form. Forms can be concave (e.g. the letter C).")
   ]
 
 
