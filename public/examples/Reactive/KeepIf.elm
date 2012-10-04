@@ -3,7 +3,7 @@ import Signal.Input
 
 (field, input) = textField ""
 
-isValid s = exists ((==) 'a') s
+isValid s = any ((==) 'a') s
 
 scene inp =
   field `above` plainText ("Last input that contained an 'a' was: " ++ inp)
