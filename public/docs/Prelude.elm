@@ -9,6 +9,7 @@ math =
   , ("rem", "Int -> Int -> Int", "Finds the remainder after dividing one number by another. (4 `rem` 3) == 1.")
   , ("mod", "Int -> Int -> Int", "Perform modular arithmetic. (-2 `mod` 5) == 3")
   , ("sin, cos, tan, asin, acos, atan", "Number -> Number", "Basic functions of trigonometry.")
+  , ("atan2", "Number -> Number -> Number", "Returns the arctangent of the quotient of its arguments in radians. So (atan2 y x) computes the angle from the positive x-axis to the vector starting at the origin and ending at (x,y).")
   , ("sqrt", "Number -> Number", "Take the square root of a number.")
   , ("abs", "Number -> Number", "Take the absolute value of a number.")
   , ("logBase", "Number -> Number -> Number", "Calculate the logarithm of a number with a given base: logBase 10 100 == 2.")
