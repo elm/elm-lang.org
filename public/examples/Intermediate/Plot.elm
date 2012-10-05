@@ -1,5 +1,5 @@
 
-import Data.List (zip,unzip)
+import Data.List (zip,unzip,zipWith)
 import Signal.Input (dropDown)
 
 ----  Create graphs from scratch  ----
@@ -32,11 +32,20 @@ offRange = map (\x -> toFloat x / 5) [0-20..10]
 
 graph f range = zip range (map f range)
 
+polarGraph f thetas =
+  let { fromPolar theta r = (r * cos theta, r * sin theta)
+      }
+  in zipWith fromPolar thetas (map f thetas)
+
 styles = [ ("Line Graph", Line)
          , ("Scatter Plot", Points)
          ]
 
-points = [ ("Circle"     , map (\t -> (cos t, sin t)) piRange)
+lissajous m n = \t -> (cos (m*t), sin(n*t))
+
+points = [ ("r = cos 4 theta" , polarGraph (\t -> cos (4*t)) piRange)
+         , ("Lissajous"  , map (lissajous 3 2) piRange)
+         , ("Circle"     , map (\t -> (cos t, sin t)) piRange)
          , ("x^2"        , graph (\x -> x*x) range)
          , ("x^2 + x - 9", graph (\x -> x*x + x - 9) offRange)
          , ("x^3"        , graph (\x -> x*x*x) range)
