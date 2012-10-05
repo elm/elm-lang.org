@@ -27,21 +27,20 @@ plot style w h points =
 -----  Provide many graphs for display  ----
 
 range    = map toFloat [ 0-10 .. 10 ]
-piRange  = map (\x -> toFloat x / 20 * pi) [0-20..20]
+piRange  = map (\x -> toFloat x / 40 * pi) [0-40..40]
 offRange = map (\x -> toFloat x / 5) [0-20..10]
 
 graph f range = zip range (map f range)
 
 polarGraph f thetas =
-  let { fromPolar theta r = (r * cos theta, r * sin theta)
-      }
-  in zipWith fromPolar thetas (map f thetas)
+  let fromPolar theta r = (r * cos theta, r * sin theta) in
+  zipWith fromPolar thetas (map f thetas)
 
 styles = [ ("Line Graph", Line)
          , ("Scatter Plot", Points)
          ]
 
-lissajous m n = \t -> (cos (m*t), sin(n*t))
+lissajous m n t = (cos (m*t), sin (n*t))
 
 points = [ ("r = cos 4 theta" , polarGraph (\t -> cos (4*t)) piRange)
          , ("Lissajous"  , map (lissajous 3 2) piRange)
