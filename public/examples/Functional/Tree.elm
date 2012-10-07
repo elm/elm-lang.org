@@ -47,8 +47,8 @@ main = flow down [ display "depth" depth t1
                  ]
 
 display name f v =
-  text . monospace $
-  show (f v) ++ toText (" <== " ++ name ++ " ") ++ show v
+  text . monospace . toText $
+  concat [ show (f v), " <== ", name, " ", show v ]
 
 {-----------------------------------------------------------------
 

@@ -41,5 +41,5 @@ main = flow down [ display "safeLog" safeLog 100
                  ]
 
 display name f v =
-  text . monospace $
-  show (f v) ++ toText (" <== " ++ name ++ " ") ++ show v
+  text . monospace . toText $
+  show (f v) ++ " <== " ++ name ++ " " ++ show v

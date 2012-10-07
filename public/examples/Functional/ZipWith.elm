@@ -7,7 +7,7 @@ Overview:
   that is applied pairwise to the elements of each list.
 
 Fun Fact: We can even define zip in terms of zipWith!
-    zip = zipWith (\x y -> (x,y))
+    zip = zipWith (,)
 
 ----------------------------------------------------------------}
 

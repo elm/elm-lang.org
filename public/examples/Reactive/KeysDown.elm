@@ -5,6 +5,8 @@
 import Signal.Keyboard.Raw (keysDown)
 
 display codes =
-  text $ toText "You are holding down the following keys: " ++ show codes
+  let keys = monospace . toText $ show codes in
+  text $ toText "You are holding down the following keys: " ++ keys
+                
 
 main = lift display keysDown

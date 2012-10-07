@@ -8,7 +8,7 @@ import Signal.Keyboard.Raw
 latestKey = let step curr prev = maybe prev fromCode curr in
             foldp step '_' charPressed 
 
-display chr =
-  text $ toText "The last key you pressed was: " ++ show chr
+display char =
+  plainText $  "The last key you pressed was: " ++ show char
 
 main = lift display latestKey

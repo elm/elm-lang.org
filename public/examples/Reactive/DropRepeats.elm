@@ -9,6 +9,6 @@ latestKey = let step curr prev = maybe prev fromCode curr in
             foldp step '_' charPressed 
 
 display chr =
-  text $ toText "Number of non-repeated key presses: " ++ show chr
+  plainText $ "Number of non-repeated key presses: " ++ show chr
 
 main = lift display $ count (dropRepeats latestKey)
