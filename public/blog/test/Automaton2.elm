@@ -19,17 +19,14 @@ formsAutomaton =
   in  init' [] fstep
 
 allInput =
-  let { commands =
-            let { step decr incr = if decr then Decr else
-                                   if incr then Incr else Idnt }
-            in  lift2 step pressLess pressMore
-      ; pos = lift2 (\x y -> (x,y)) (randomize 0 400 commands)
-                                    (randomize 0 400 commands)
-      ; color = lift3 rgb (randomize 0 255 commands)
-                          (randomize 0 255 commands)
-                          (randomize 0 255 commands)
-      ; mouse = lift2 (\a b -> (a,b)) Mouse.isDown Mouse.position }
-  in  lift4 (\a b c d -> (a,b,c,d)) commands pos color mouse
+  let { commands = let step less more = if less then Decr else
+                                        if more then Incr else Idnt
+                   in  lift2 step pressLess pressMore
+      ; rand n = randomize 0 n commands
+      ; pos = lift2 (,) (rand 400) (rand 400)
+      ; color = lift3 rgb (rand 255) (rand 255) (rand 255)
+      ; mouse = lift2 (,) Mouse.isDown Mouse.position }
+  in  lift4 (,,,) commands pos color mouse
 
 controls = 
   container 400 50 middle $

@@ -2,7 +2,7 @@
 import Automaton
 
 
-input = lift2 (\a b -> (a,b)) Mouse.isDown Mouse.position
+input = lift2 (,) Mouse.isDown Mouse.position
 
 formsAutomaton =
     combine $ map dragForm
