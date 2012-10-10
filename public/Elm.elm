@@ -40,7 +40,7 @@ Elm's features include:
 
   [web]: http://www.webplatform.org/ "web platform"
 
-For a quick introduction to Elm, definitely look at the [basic examples](/examples/Basic.elm).
+For a quick introduction to Elm, look at the [basic examples](/examples/Basic.elm).
 
 <br/>
 
