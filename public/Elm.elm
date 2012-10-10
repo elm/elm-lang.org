@@ -17,7 +17,7 @@ Elm's features include:
 
 - [Strongly][strong] / [statically][static] typed with [type inference][infer]
 - [Functional Reactive Programming][frp] (FRP)
-- [Markdown support][md]
+- [Markdown support][md] ([example](/edit/examples/Elements/Markdown.elm))
 - [Module system][module]
 - [Growing set of core libraries](/Documentation.elm)
 - [Online interactive editor][ide]
