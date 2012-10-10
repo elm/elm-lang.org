@@ -8,6 +8,8 @@ standard = ("General Purpose",
   [ ("Data.Char", "docs/Data/Char.elm")
   , ("Data.Maybe", "docs/Data/Maybe.elm")
   , ("Data.List",  "docs/Data/List.elm")
+  , ("Data.Map",  "docs/Data/Map.elm")
+  , ("Data.Set",  "docs/Data/Set.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
 
