@@ -120,3 +120,8 @@ display exs w =
     ]
 
 main = lift2 skeleton (lift display exampleColumn) Window.width
+
+
+titles = lift Foreign.JavaScript.castStringToJSString (constant "What is FRP?")
+foreign export jsevent "elm_title"
+  titles :: Signal JSString
