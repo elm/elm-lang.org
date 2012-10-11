@@ -21,7 +21,7 @@ elmToHtml name src =
         H.title . H.toHtml $ name
         css
         H.style ! A.type_ "text/css" $ preEscapedToMarkup
-         ("a:link {text-decoration: none; color: rgb(96,181,204);}\
+         ("a:link {text-decoration: none; color: rgb(15,102,230);}\
           \a:visited {text-decoration: none}\
           \a:active {text-decoration: none}\
           \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
