@@ -1,12 +1,7 @@
 
 module Website.Skeleton (skeleton) where
 
-a0 = rgb 90 99 120
-
-a1 = rgb 96 181 204
-a2 = rgb 240 173 0
-a3 = rgb 234 21 122
-a4 = rgb 127 209 59 --212 212 214
+import Website.ColorScheme
 
 button (name, href, clr) =
     let accent = color clr (spacer 100 2) in
@@ -14,13 +9,10 @@ button (name, href, clr) =
     link href $ accent `below` butn
 
 buttons = flow right . map button $
-  [ ("Home"    , "/"                 , a1)
-  , ("Examples", "/Examples.elm"     , a2)
-  , ("Docs"    , "/Documentation.elm", a3)
-  , ("Download", "/Download.elm"     , a4) ]
-
-lightGrey  = rgb 245 245 245
-mediumGrey = rgb 216 221 225
+  [ ("Home"    , "/"                 , accent1)
+  , ("Examples", "/Examples.elm"     , accent2)
+  , ("Docs"    , "/Documentation.elm", accent3)
+  , ("Download", "/Download.elm"     , accent4) ]
 
 title w = container w 60 midLeft . text . Text.height 2 . bold $ toText "Elm"
 
