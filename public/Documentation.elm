@@ -5,11 +5,11 @@ import Data.List
 import Graphics.Text as Text
 
 standard = ("General Purpose",
-  [ ("Data.List",  "docs/Data/List.elm")
-  , ("Data.Map",  "docs/Data/Map.elm")
-  , ("Data.Set",  "docs/Data/Set.elm")
-  , ("Data.Char", "docs/Data/Char.elm")
-  , ("Data.Maybe", "docs/Data/Maybe.elm")
+  [ ("List",  "docs/Data/List.elm")
+  , ("Map",  "docs/Data/Map.elm")
+  , ("Set",  "docs/Data/Set.elm")
+  , ("Char", "docs/Data/Char.elm")
+  , ("Maybe", "docs/Data/Maybe.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
 
@@ -21,17 +21,17 @@ graphics = ("Graphics",
 
 input = ("Interaction",
   [ ("Signal" , "docs/Signal/Signal.elm")
-  , ("Signal.Mouse"  , "docs/Signal/Mouse.elm")
-  , ("Signal.Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
-  , ("Signal.Window" , "docs/Signal/Window.elm")
-  , ("Signal.Input"  , "docs/Signal/Input.elm")
-  , ("Signal.Time"   , "docs/Signal/Time.elm")
-  , ("Signal.HTTP"   , "docs/Signal/HTTP.elm")
-  , ("Signal.Random" , "docs/Signal/Random.elm")
+  , ("Mouse"  , "docs/Signal/Mouse.elm")
+  , ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
+  , ("Window" , "docs/Signal/Window.elm")
+  , ("Input"  , "docs/Signal/Input.elm")
+  , ("Time"   , "docs/Signal/Time.elm")
+  , ("HTTP"   , "docs/Signal/HTTP.elm")
+  , ("Random" , "docs/Signal/Random.elm")
   ])
 
 
-ffi = ("JavaScript Interface",
+ffi = ("JavaScript",
   [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") 
   , ("Foreign.JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
   , ("Foreign.JavaScript.JSON", "docs/Foreign/JavaScript/JSON.elm") 
@@ -44,11 +44,24 @@ intro = [markdown|
 This section provides type-signatures and explanations of Elm's current
 standard libraries.
 
+<br/>
+
+|]
+
+outro = [markdown|
+
+<br/>
+
+### More Info
+
+Look [here](/WhatIsFRP.elm) to answer the question &ldquo;What is Functional Reactive Programming?&rdquo;
+
+My [thesis][4] discusses the theory behind FRP in Elm and how to make FRP efficient. It also provides a
+detailed history of FRP in the *Related Works* section.
+
 [This blog][1] is the source of some discussion and
 announcements. It also has more detailed information on the [module system][2]
 and [JavaScript integration][3].
-
-My [thesis][4] gives a more formal specification of Elm.
 
   [1]: http://www.testblogpleaseignore.com "Elm blog"
   [2]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "module system"
@@ -71,6 +84,7 @@ categories w =
   flow down
   [ width w intro
   , threeCol w (linkList standard) (linkList input) (flow down [ linkList graphics, spacer 10 40, linkList ffi ])
+  , width w outro
   ]
 
 main = lift (skeleton categories) Window.width

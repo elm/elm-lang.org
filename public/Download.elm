@@ -10,6 +10,8 @@ See these [install instructions][1] to get Elm running on your machine.
 If you run into problems, you should email the [mailing list][2]
 or report an issue to Elm's [source repository][3]
 
+<br/>
+
 ### Thesis on Elm
 
 My [thesis on Elm][4] is available too. It provides a more formal
