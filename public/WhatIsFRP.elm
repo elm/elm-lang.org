@@ -33,6 +33,9 @@ with FRP in [Elm](/). More information on signals can be found [here](/docs/Sign
 and in the *Related Work* section of
 [my thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf).
 
+FRP becomes truly powerful when paired with a good [graphics library](/docs/Graphics/Element.elm),
+making it possible to create pages such as this one ([source](/edit/WhatIsFRP.elm)).
+
 |]
 
 what2 = [markdown|
@@ -107,9 +110,9 @@ display exs w =
     [ [markdown|## What is &ldquo;Functional Reactive Programming&rdquo;? |]
     , flow right [ width hw what1
                  , spacer 30 10
-                 , flow down [ spacer hw 30
+                 , flow down [ spacer hw 50
                              , container hw (heightOf exs) middle exs
-                             , spacer hw 30
+                             , spacer hw 50
                              , width hw what2
                              ]
                  ]
