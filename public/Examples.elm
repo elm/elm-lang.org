@@ -31,25 +31,8 @@ certain skills:
   [5]: /examples/ThisWebsite.elm "This Website"
   [6]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
 
-### Quick Overview of Elm
-
-If you just want a brief overview, check out the following examples:
-
 |]
 
-examples =
-  [ ("Layout"       , "FlowDown2" , "Elements/")
-  , ("Centering"    , "Centering" , "Reactive/")
-  , ("Shapes"       , "Shapes"    , "Elements/")
-  , ("Abstract Data Types", "Tree", "Functional/")
-  , ("Analog Clock" , "Clock"     , "Intermediate/")
-  , ("Light Box"    , "LightBox"  , "Intermediate/")
-  , ("Graphs"       , "Plot"      , "Intermediate/")
-  , ("Form Validation", "Form"      , "Intermediate/")
-  , ("This Page"    , "Examples"  , "../")
-  ]
-
-content w = let tiles = tile w $ map toTile examples in
-  width w words `above` container w (heightOf tiles) middle tiles
+content w = width w words
 
 main = lift (skeleton content) Window.width
