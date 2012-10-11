@@ -87,6 +87,7 @@ info w =
   in  flow down
        [ width w intro
        , twoCol features examples
+       , spacer 10 20
        , twoCol news contact
        ]
 
