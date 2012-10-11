@@ -20,6 +20,11 @@ elmToHtml name src =
         H.meta ! A.charset "UTF-8"
         H.title . H.toHtml $ name
         css
+        H.style ! A.type_ "text/css" $ preEscapedToMarkup
+         ("a:link {text-decoration: none; color: rgb(96,181,204);}\
+          \a:visited {text-decoration: none}\
+          \a:active {text-decoration: none}\
+          \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
       H.body $ do
         body
         H.script ! A.type_ "text/javascript" ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
