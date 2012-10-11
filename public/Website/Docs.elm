@@ -20,8 +20,9 @@ skeleton body outer =
   flow down [ topBar 10 outer 
             , spacer outer 15
             , container outer (heightOf content) midTop content
-            , container outer 50 midBottom . text . Text.color mediumGrey $
-                toText "&copy; 2011-2012 Evan Czaplicki" 
+            , container outer 50 midBottom . text $
+                Text.color (rgb 145 145 145) (toText "&copy; 2011-2012 ") ++
+                    Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
             ]
 
 addSpaces px = intersperse (spacer 1 px)
