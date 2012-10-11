@@ -34,7 +34,7 @@ and in the *Related Work* section of
 [my thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf).
 
 FRP becomes truly powerful when paired with a good [graphics library](/docs/Graphics/Element.elm),
-making it possible to create pages such as this one ([source](/edit/WhatIsFRP.elm)).
+making it possible to create pages such as this one ([source](/edit/learn/What-is-FRP.elm)).
 
 |]
 

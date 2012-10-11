@@ -13,7 +13,7 @@ Elm has tons of [interactive examples][examples], so it easy to learn
 for beginners and experts alike.
 
   [examples]: /Examples.elm "example"
-  [frp]:    /WhatIsFRP.elm "functional reactive programming"
+  [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
 
 |]
 
@@ -26,7 +26,7 @@ features = [markdown|
 - [Native Markdown support](/edit/examples/Elements/Markdown.elm)
 - [Growing set of core libraries](/Documentation.elm)
 
-  [frp]:    /WhatIsFRP.elm "functional reactive programming"
+  [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
   [strong]: http://en.wikipedia.org/wiki/Strong_typing "strongly"
   [static]: http://en.wikipedia.org/wiki/Type_system#Static_typing "statically"
   [infer]:  http://en.wikipedia.org/wiki/Type_inference "type inference"

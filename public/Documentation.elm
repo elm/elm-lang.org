@@ -54,7 +54,8 @@ outro = [markdown|
 
 ### More Info
 
-Look [here](/WhatIsFRP.elm) to answer the question &ldquo;What is Functional Reactive Programming?&rdquo;
+Look [here](/learn/What-is-FRP.elm) to answer the question
+&ldquo;What is Functional Reactive Programming?&rdquo;
 
 My [thesis][4] discusses the theory behind FRP in Elm and how to make FRP efficient. It also provides a
 detailed history of FRP in the *Related Works* section.
