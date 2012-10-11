@@ -1,5 +1,5 @@
 import Website.Skeleton
-import Website.Tiles
+import Website.ColorScheme
 
 intro = [markdown|
 
@@ -11,9 +11,11 @@ and use Elm for beginners and experts alike.
 
   [examples]: /Examples.elm "example"
 
-Elm compiles to HTML, CSS and JavaScript. So you can use the [web platform][web]
-with all the benefits of a modern programming language.
-Elm's features include:
+|]
+
+features = [markdown|
+
+#### Features
 
 - [Strong][strong] / [static][static] typing with [type inference][infer]
 - [Functional Reactive Programming][frp] (FRP)
@@ -37,19 +39,37 @@ Elm's features include:
   [match]:  http://en.wikipedia.org/wiki/Pattern_matching "pattern matching"
   [cbv]:    http://en.wikipedia.org/wiki/Evaluation_strategy "call-by-value"
 
+|]
 
-  [web]: http://www.webplatform.org/ "web platform"
+examples = [markdown|
 
-For a quick introduction to Elm, look at the [basic examples](/examples/Basic.elm).
+#### Examples
 
-<br/>
+- [Hello, world!](/edit/examples/Elements/HelloWorld.elm)
+- [Images](/edit/examples/Elements/Image.elm)
+- [Mouse position](/edit/examples/Reactive/Position.elm)
+- [The Basics](/examples/Basic.elm)
+- [Analog Clock](/edit/examples/Reactive/Clock.elm)
+- [Much, much more!](/Examples.elm)
+
+|]
+
+
+news = [markdown|
 
 #### News
+
+[Making Pong in Elm][pong]: a comprehensive walkthrough of how to make purely functional games.
 
 Elm 0.4: New features for game making and layout, Markdown support,
 optimizations, and more. More info [here][6].
 
+  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [6]: /blog/announce/version-0.4.0.elm "announcement"
+
+|]
+
+contact = [markdown|
 
 #### Contact
 
@@ -59,6 +79,15 @@ See the Elm [mailing list][7] for questions, announcements, and discussion. You 
 
 |]
 
-info w = flow down $ map (width w) [ intro ]
+info w =
+  let { more = if w < 800 then (w * 3) `div` 5 - 15 else 465
+      ; less = if w < 800 then (w * 2) `div` 5 - 15 else 305
+      ; twoCol l r = flow right [ width more l, spacer 30 10, width less r ]
+      }
+  in  flow down
+       [ width w intro
+       , twoCol features examples
+       , twoCol news contact
+       ]
 
 main = lift (skeleton info) Window.width
