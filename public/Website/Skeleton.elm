@@ -9,12 +9,15 @@ button (name, href, clr) =
     link href $ accent `below` butn
 
 buttons = flow right . map button $
-  [ ("Home"    , "/"                 , accent1)
-  , ("Examples", "/Examples.elm"     , accent2)
-  , ("Docs"    , "/Documentation.elm", accent3)
-  , ("Download", "/Download.elm"     , accent4) ]
+  [ ("About"   , "/learn/What-is-FRP.elm", accent1)
+  , ("Examples", "/Examples.elm"         , accent2)
+  , ("Docs"    , "/Documentation.elm"    , accent3)
+  , ("Download", "/Download.elm"         , accent4) ]
 
-title w = container w 60 midLeft . text . Text.height 2 . bold $ toText "Elm"
+title w =
+  let elm = text . Text.link "/" . Text.color black . Text.height 2 . bold $ toText "Elm" in
+  container w 60 midLeft elm
+            
 
 heading outer inner =
   let header = container outer 60 middle $

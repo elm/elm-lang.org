@@ -5,15 +5,13 @@ intro = [markdown|
 
 ### The Elm Programming Language
 
-The Elm programming language aims to make web development more pleasant.
-Elm uses [Functional Reactive Programming][frp] to drastically reduce
-the amount of code and conceptual overhead needed to get from idea to
-implementation.
-Elm has tons of [interactive examples][examples], so it easy to learn
-for beginners and experts alike.
+Elm makes front-end web development more pleasant.
+Influenced by [Haskell][why-elm] and [Functional Reactive Programming][frp],
+Elm is a new approach to GUI programming that corrects the
+systemic problems of HTML, CSS, and JavaScript.
 
-  [examples]: /Examples.elm "example"
-  [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
+  [why-elm]: http://www.testblogpleaseignore.com/2012/06/21/why-elm/ "Why Elm?"
+  [frp]:     /learn/What-is-FRP.elm "functional reactive programming"
 
 |]
 
@@ -41,7 +39,7 @@ examples = [markdown|
 - [Images](/edit/examples/Elements/Image.elm)
 - [Mouse position](/edit/examples/Reactive/Position.elm)
 - [The Basics](/examples/Basic.elm)
-- [Analog Clock](/edit/examples/Reactive/Clock.elm)
+- [This website](/edit/Elm.elm)
 - [Much, much more!](/Examples.elm)
 
 |]
@@ -73,8 +71,8 @@ You can contact me directly at info (at) elm-lang (dot) org.
 |]
 
 info w =
-  let { more = if w < 800 then (w * 3) `div` 6 - 20 else 380
-      ; less = if w < 800 then (w * 3) `div` 6 - 20 else 380
+  let { more = if w < 800 then w `div` 2 - 20 else 380
+      ; less = if w < 800 then w `div` 2 - 20 else 380
       ; twoCol l r = flow right [ width more l, spacer 40 10, width less r ]
       }
   in  flow down
