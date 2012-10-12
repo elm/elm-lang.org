@@ -11,4 +11,4 @@ categories =
   [ ("Creating Colors", creation)
   ]
 
-main = createDocs "Color" categories
+main = createDocs "Graphics.Color" categories
