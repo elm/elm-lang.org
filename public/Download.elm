@@ -34,8 +34,11 @@ The [source code of the Elm compiler and server](https://github.com/evancz/Elm)
 is available, so please browse, fork, and contribute to the project.
 
 The [source code of this website](https://github.com/evancz/elm-lang.org) is also
-available. You can easily get this entire website running on your own machine
-and use Elm's interactive editor locally.
+available. Follow [these instructions][instruct] and you can easily get this entire website
+running on your own machine and use Elm's interactive editor locally. From there
+you can use it as a starting point for creating your own website!
+
+ [instruct]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "install"
 
 <br/>
 
