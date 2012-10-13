@@ -30,7 +30,7 @@ Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
 ### Project Structure
 
 - `public/` &mdash; all of the .elm files used for the site. This makes up the majority of client-side code.
-  You can change/delete the existing files and add entirely new files. The changes and additions will
+  You can change/delete the existing files and add entirely new files. The changes, deletions, and additions will
   be served automatically.
 - `resources/` &mdash; the various resources needed for Elm. This is where you put all of your non-Elm content,
   like images, videos, JavaScript code, etc.
