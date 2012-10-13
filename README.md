@@ -29,12 +29,12 @@ Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
 
 ### Project Structure
 
-- `public/` -- all of the .elm files used for the site. This makes up the majority of client-side code.
+- `public/` &mdash; all of the .elm files used for the site. This makes up the majority of client-side code.
   You can change/delete the existing files and add entirely new files. The changes and additions will
   be served automatically.
-- `resources/` -- the various resources needed for Elm. This is where you put all of your non-Elm content,
+- `resources/` &mdash; the various resources needed for Elm. This is where you put all of your non-Elm content,
   like images, videos, JavaScript code, etc.
-- `server/` -- the Haskell files responsible for serving everything from .elm files to images. Look here
+- `server/` &mdash; the Haskell files responsible for serving everything from .elm files to images. Look here
   if you need to change how a particular resource is served or if you want to disable some of the sites
   features (such as the online editor).
 
