@@ -5,10 +5,12 @@ intro = [markdown|
 
 ### The Elm Programming Language
 
-Elm makes front-end web development more pleasant.
-Influenced by [Haskell][why-elm] and [Functional Reactive Programming][frp],
-Elm is a new approach to GUI programming that corrects the
-systemic problems of HTML, CSS, and JavaScript.
+Elm aims to make front-end web development more pleasant.
+It introduces a new approach to GUI programming that corrects the
+systemic problems that make HTML, CSS, and JavaScript a headache to use.
+Strongly influenced by [Haskell][why-elm] and [Functional Reactive Programming][frp],
+Elm allows you to quickly and easily work with visual layout, create scenes
+with HTML5&rsquo;s canvas, and handle complicated user input.
 
   [why-elm]: http://www.testblogpleaseignore.com/2012/06/21/why-elm/ "Why Elm?"
   [frp]:     /learn/What-is-FRP.elm "functional reactive programming"

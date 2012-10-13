@@ -9,6 +9,6 @@ latestKey = let step curr prev = maybe prev fromCode curr in
             foldp step '_' charPressed 
 
 display char =
-  plainText $  "The last key you pressed was: " ++ show char
+  plainText "The last key you pressed was: " `beside` asText char
 
 main = lift display latestKey
