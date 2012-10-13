@@ -20,7 +20,7 @@ See these [install instructions][1] to get Elm running on your machine.
 If you run into problems, you should email the [mailing list][2]
 or report an issue to Elm's [source repository][3]
 
-  [1]: https://github.com/evancz/Elm/blob/master/README.md#installation-for-general-use "install instructions"
+  [1]: https://github.com/evancz/Elm/blob/master/README.md#elm "install instructions"
   [2]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
   [3]: https://github.com/evancz/Elm "source repository"
 
