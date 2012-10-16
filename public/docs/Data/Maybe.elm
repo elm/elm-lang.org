@@ -20,4 +20,4 @@ lists =
 
 categories = [ ("Definition", def), ("Basic Utilities", basics), ("Maybe with Lists", lists) ]
 
-main = createDocs "Data.Maybe" categories
+main = createDocs "Maybe" categories

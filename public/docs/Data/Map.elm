@@ -12,6 +12,6 @@ basics =
 --  , ("values", "Map k v -> [v]", "Get all of the values in a map.")
   ]
 
-categories = [ ("Using Maps", basics) ]
+categories = [ ("Using Dictionaries", basics) ]
 
-main = createDocs "Data.Map" categories
+main = createDocs "Dict" categories

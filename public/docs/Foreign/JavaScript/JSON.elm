@@ -45,4 +45,4 @@ categories =
   , ("JavaScript String Conversions", jsStrings)
   ]
 
-main = createDocs "Foreign.JavaScript.JSON" categories
+main = createDocs "JSON" categories

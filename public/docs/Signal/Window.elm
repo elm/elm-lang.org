@@ -9,4 +9,4 @@ dims =
 
 categories = [ ("Dimensions", dims) ]
 
-main = createDocs "Signal.Window" categories
+main = createDocs "Window" categories

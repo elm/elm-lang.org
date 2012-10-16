@@ -30,4 +30,4 @@ categories =
   , ("Conversion between Data Structures", polyCasts)
   ]
 
-main = createDocs "Foreign.JavaScript" categories
+main = createDocs "JavaScript" categories

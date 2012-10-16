@@ -26,4 +26,4 @@ categories =
   , ("Conversion", conversion)
   ]
 
-main = createDocs "Data.Char" categories
+main = createDocs "Char" categories

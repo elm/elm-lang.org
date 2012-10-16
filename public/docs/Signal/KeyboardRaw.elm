@@ -8,4 +8,4 @@ sigs =
 
 categories = [ ("Keyboard Status", sigs) ]
 
-main = createDocs "Signal.Keyboard.Raw" categories
+main = createDocs "Keyboard.Raw" categories

@@ -13,4 +13,4 @@ other =
 
 categories = [ ("Tickers", ticker), ("Simple Timers", other) ]
 
-main = createDocs "Signal.Time" categories
+main = createDocs "Time" categories

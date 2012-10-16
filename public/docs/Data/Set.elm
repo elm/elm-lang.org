@@ -11,4 +11,4 @@ basics =
 
 categories = [ ("Using Sets", basics) ]
 
-main = createDocs "Data.Set" categories
+main = createDocs "Set" categories

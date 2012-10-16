@@ -56,4 +56,4 @@ categories =
   , ("Special Folds", special)
   , ("Other Useful Functions", other) ]
 
-main = createDocs "Data.List" categories
+main = createDocs "List" categories

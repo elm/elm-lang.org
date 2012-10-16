@@ -35,4 +35,4 @@ categories =
   , ("Creating Requests", requests)
   ]
 
-main = createDocs "Signal.HTTP" categories
+main = createDocs "HTTP" categories
