@@ -6,7 +6,7 @@ import Graphics.Text as Text
 
 standard = ("General Purpose",
   [ ("List",  "docs/Data/List.elm")
-  , ("Map",  "docs/Data/Map.elm")
+  , ("Dict",  "docs/Data/Dict.elm")
   , ("Set",  "docs/Data/Set.elm")
   , ("Char", "docs/Data/Char.elm")
   , ("Maybe", "docs/Data/Maybe.elm")
