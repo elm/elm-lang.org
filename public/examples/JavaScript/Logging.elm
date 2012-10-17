@@ -12,7 +12,7 @@
 
 module Logging where
 
-import Foreign.JavaScript
+import JavaScript
 import Signal.Input
 
 

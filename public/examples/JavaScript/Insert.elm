@@ -7,7 +7,7 @@
 ------------------------------------------------------------------}
 
 
-import Foreign.JavaScript.JSON
+import JSON
 
 
 bruce = fromList

@@ -1,5 +1,5 @@
 
-import Signal.Input (stringDropDown)
+import Input (stringDropDown)
 
 component dropDown choice =
   let msg = "I do not like green eggs and ham. " ++

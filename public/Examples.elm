@@ -1,6 +1,7 @@
 
 import Website.Skeleton
 import Website.Tiles
+import Window as Window
 
 words = [markdown|
 

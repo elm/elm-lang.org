@@ -1,8 +1,8 @@
 
-import Data.Char
-import Data.Maybe
-import Signal.HTTP
-import Signal.Input (textField)
+import Char
+import Maybe
+import HTTP
+import Input (textField)
 
 
 (field,rawInput) = textField "Zip Code"

@@ -1,7 +1,7 @@
 
 import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
-import Data.List
+import List
 import Graphics.Text as Text
 
 standard = ("General Purpose",
@@ -32,9 +32,9 @@ input = ("Interaction",
 
 
 ffi = ("JavaScript",
-  [ ("Foreign.JavaScript", "docs/Foreign/JavaScript.elm") 
-  , ("Foreign.JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
-  , ("Foreign.JavaScript.JSON", "docs/Foreign/JavaScript/JSON.elm") 
+  [ ("JavaScript", "docs/Foreign/JavaScript.elm") 
+  , ("JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
+  , ("JSON", "docs/Foreign/JavaScript/JSON.elm") 
   ])
 
 intro = [markdown|

@@ -1,5 +1,5 @@
 
-import Signal.Input (dropDown)
+import Input (dropDown)
 
 component dropDown style =
   let msg = toText "Choose a style for the following text: " ++

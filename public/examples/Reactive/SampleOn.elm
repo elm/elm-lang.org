@@ -1,6 +1,6 @@
 
-import Signal.Mouse (clicks)
-import Signal.Time (every)
+import Mouse (clicks)
+import Time (every)
 
 
 -- Displays the approximate time of your click

@@ -3,7 +3,7 @@
 -- Show an image that resizes to fit the window
 -- while maintaining its aspect ratio.
 
-import Signal.Window (dimensions)
+import Window (dimensions)
 
 resizeablePaint (w,h) = fittedImage w h "paint.jpg"
 main = lift resizeablePaint dimensions

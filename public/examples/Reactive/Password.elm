@@ -1,5 +1,5 @@
 
-import Signal.Input (password)
+import Input (password)
 
 component field txt =
   field `above` (text . monospace . toText $ "Your password is: " ++ txt)

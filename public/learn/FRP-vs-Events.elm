@@ -76,6 +76,6 @@ main = lift (skeleton (\w -> width w content)) Window.width
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift Foreign.JavaScript.castStringToJSString (constant "FRP vs Events")
+titles = lift JavaScript.castStringToJSString (constant "FRP vs Events")
 foreign export jsevent "elm_title"
   titles :: Signal JSString

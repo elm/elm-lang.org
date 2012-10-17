@@ -1,7 +1,7 @@
 
 module Website.Tiles (tile, toTile) where
 
-import Data.List (take,drop,intersperse)
+import List (take,drop,intersperse)
 
 format (x,y,z) = (x, z ++ y ++ ".elm", "/screenshot/" ++ y ++ ".jpg")
 

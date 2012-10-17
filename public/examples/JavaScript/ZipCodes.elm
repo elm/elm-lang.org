@@ -1,7 +1,7 @@
 
 import Signal.HTTP
 import Signal.Input (stringDropDown)
-import Foreign.JavaScript.JSON
+import JSON
 
 (zipPicker, zipCode) = stringDropDown [ "10001", "90210", "12345" ]
     

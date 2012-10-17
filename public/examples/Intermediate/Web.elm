@@ -1,5 +1,5 @@
 
-import Data.List (zipWith)
+import List (zipWith)
 
 quadrant spc n =
     let { scale = map ((*) spc)

@@ -1,6 +1,6 @@
 
-import Data.List (zip,unzip,zipWith)
-import Signal.Input (dropDown)
+import List (zip,unzip,zipWith)
+import Input (dropDown)
 
 ----  Create graphs from scratch  ----
 

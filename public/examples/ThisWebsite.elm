@@ -1,5 +1,5 @@
 
-import Data.List (intersperse)
+import List (intersperse)
 import Website.Skeleton
 
 content w = width w [markdown|

@@ -1,5 +1,5 @@
 
-import Signal.Window (dimensions)
+import Window (dimensions)
 
 scene (w,h) = container w h middle $ plainText "Hello, World!"
 

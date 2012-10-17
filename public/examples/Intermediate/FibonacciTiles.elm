@@ -25,4 +25,4 @@ combine n tiles =
 
 ----  Put it all together  ----
 
-main = List.foldl combine (fibSquare 1) [2..7]
+main = foldl combine (fibSquare 1) [2..7]

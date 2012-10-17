@@ -10,7 +10,7 @@
 
 module Redirect where
 
-import Foreign.JavaScript
+import JavaScript
 import Signal.Input
 
 

@@ -1,7 +1,7 @@
 
 module Website.Docs (createDocs) where
 
-import Data.List (intersperse,zipWith)
+import List (intersperse,zipWith)
 import Website.ColorScheme
 
 accents = [accent0,accent1,accent2,accent3,accent4]

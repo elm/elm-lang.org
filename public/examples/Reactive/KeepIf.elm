@@ -1,5 +1,5 @@
 
-import Signal.Input
+import Input
 
 (field, input) = textField ""
 

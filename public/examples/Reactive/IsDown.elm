@@ -1,5 +1,5 @@
 
-import Signal.Mouse (isDown)
+import Mouse (isDown)
 
 
 -- Mouse.isDown is true whenever the left mouse button

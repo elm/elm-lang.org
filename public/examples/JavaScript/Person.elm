@@ -10,7 +10,7 @@
 ------------------------------------------------------------------}
 
 
-import Foreign.JavaScript.JSON
+import JSON
 
 john = fromList
          [ ("first", JsonString "John")

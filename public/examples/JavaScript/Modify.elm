@@ -10,8 +10,8 @@
 ------------------------------------------------------------------}
 
 
-import Foreign.JavaScript.JSON
-import Foreign.JavaScript.JSON as Json
+import JSON
+import JSON as Json
 
 
 bruce = fromList

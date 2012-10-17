@@ -1,6 +1,6 @@
 
 -- Display the current position of the mouse.
 
-import Signal.Mouse (position)
+import Mouse (position)
 
 main = lift asText position

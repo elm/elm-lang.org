@@ -1,5 +1,5 @@
 
-import Data.List (intercalate,intersperse)
+import List (intercalate,intersperse)
 import Website.Skeleton
 import Graphics.Text as Text
 

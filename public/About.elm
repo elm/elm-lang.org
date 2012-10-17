@@ -1,6 +1,5 @@
 import Website.Skeleton
 
-
 ---- Text of the page: all written in Markdown ----
 
 content = [markdown|

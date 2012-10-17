@@ -2,7 +2,7 @@
 -- Demonstrates Time.before and Time.after, booolean signals
 -- indicating whether or not a given amount of time has passed.
 
-import Signal.Time (before,after)
+import Time (before,after)
 
 between t1 t2 = lift2 (&&) (after t1) (before t2)
 

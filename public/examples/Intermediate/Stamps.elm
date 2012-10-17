@@ -1,8 +1,8 @@
 
 -- Click to stamp a pentagon at the current position.
 
-import Signal.Mouse (clicks,position)
-import Signal.Window (dimensions)
+import Mouse (clicks,position)
+import Window (dimensions)
 
 clickLocations = foldp (:) [] (sampleOn clicks position)
 

@@ -1,7 +1,7 @@
 
-import Signal.Mouse (clicks)
-import Signal.Time (every)
-import Signal.Window (dimensions)
+import Mouse (clicks)
+import Time (every)
+import Window (dimensions)
 
 
 ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }

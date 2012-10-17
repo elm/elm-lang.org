@@ -198,6 +198,6 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift Foreign.JavaScript.castStringToJSString (constant "What is FRP?")
+titles = lift JavaScript.castStringToJSString (constant "What is FRP?")
 foreign export jsevent "elm_title"
   titles :: Signal JSString

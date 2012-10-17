@@ -1,6 +1,5 @@
 
 import Website.Skeleton
-import Signal.Window as Window
 
 install = [markdown|
 

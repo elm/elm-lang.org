@@ -1,10 +1,10 @@
 
 module Form where
 
-import Data.Maybe (mapMaybe)
-import Foreign.JavaScript
-import Signal.Input
-import Signal.Window as Win
+import Maybe (mapMaybe)
+import JavaScript
+import Input
+import Window as Win
 
 
 -- Helpers

@@ -1,6 +1,6 @@
 
-import Signal.Mouse (isClickedOn)
-import Signal.Window (dimensions)
+import Mouse (isClickedOn)
+import Window (dimensions)
 
 --  Three Shades of Grey
 

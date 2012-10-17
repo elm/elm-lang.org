@@ -1,5 +1,5 @@
 
-import Signal.Time (every)
+import Time (every)
 
 main = lift asText (every 1)
 

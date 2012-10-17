@@ -1,8 +1,8 @@
 
 -- Move your mouse around above the canvas!
 
-import Signal.Mouse (position)
-import Signal.Window (dimensions)
+import Mouse (position)
+import Window (dimensions)
 
 myBlue  = rgb 0 85 170
 myGreen = rgba 28 267 85 0.5
