@@ -13,7 +13,7 @@
 module Logging where
 
 import JavaScript
-import Signal.Input
+import Input
 
 
 (field, message) = textField ""

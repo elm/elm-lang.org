@@ -11,8 +11,6 @@
 
 
 import JSON
-import JSON as Json
-
 
 bruce = fromList
          [ ("first", JsonString "Bruce")
@@ -25,7 +23,7 @@ retiredBruce = remove "nick" (insert "age" (JsonNumber 52) bruce)
 
 main = flow down 
          [ plainText "Bruce Wayne"
-         , text . monospace . toText $ Json.toString bruce
+         , text . monospace . toText $ JSON.toString bruce
          , plainText "retires and becomes"
-         , text . monospace . toText $ Json.toString retiredBruce
+         , text . monospace . toText $ JSON.toString retiredBruce
          ]

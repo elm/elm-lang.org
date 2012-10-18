@@ -11,7 +11,7 @@
 module Redirect where
 
 import JavaScript
-import Signal.Input
+import Input
 
 
 (butn, pressed) = button " Redirect to elm-lang.org "

@@ -14,7 +14,7 @@
 module ChangeTitle where
 
 import JavaScript
-import Signal.Input
+import Input
 
 
 (field, title) = let (f,t) = textField "" in
