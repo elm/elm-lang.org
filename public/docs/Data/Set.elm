@@ -19,10 +19,12 @@ combine =
   ]
 
 morph =
-  [ ("fold", "(a -> b -> b) -> b -> Set a -> b"
-    , "Fold over the values in a set.")
-  , ("map", "(a -> b) -> Set a -> Set b"
+  [ ("map", "(a -> b) -> Set a -> Set b"
     , "Map a function onto a set, creating a new set with no duplicates.")
+  , ("foldl", "(k -> v -> b -> b) -> b -> Dict k v -> b"
+    , "Fold over the values in a set, in order from lowest to highest.")
+  , ("foldr", "(k -> v -> b -> b) -> b -> Dict k v -> b"
+    , "Fold over the values in a set, in order from highest to lowest.")
   ]
 
 lists =

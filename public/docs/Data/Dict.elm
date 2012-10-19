@@ -22,10 +22,12 @@ combine =
   ]
 
 morph =
-  [ ("fold", "(k -> v -> b -> b) -> b -> Dict k v -> b"
-    , "Fold over the key-value pairs in a dictionary. Fold makes no guarantees about the order of traversal.")
-  , ("map", "(a -> b) -> Dict k a -> Dict k b"
+  [ ("map", "(a -> b) -> Dict k a -> Dict k b"
     , "Apply a function to all values in a dictionary.")
+  , ("foldl", "(k -> v -> b -> b) -> b -> Dict k v -> b"
+    , "Fold over the key-value pairs in a dictionary, in order from lowest key to highest key.")
+  , ("foldr", "(k -> v -> b -> b) -> b -> Dict k v -> b"
+    , "Fold over the key-value pairs in a dictionary, in order from highest key to lowest key.")
   ]
 
 lists =
