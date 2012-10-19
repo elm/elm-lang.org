@@ -21,6 +21,7 @@ graphics = ("Graphics",
 
 input = ("Interaction",
   [ ("Signal" , "docs/Signal/Signal.elm")
+  , ("Automaton", "docs/Automaton.elm")
   , ("Mouse"  , "docs/Signal/Mouse.elm")
   , ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
   , ("Window" , "docs/Signal/Window.elm")
