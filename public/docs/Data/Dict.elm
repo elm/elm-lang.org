@@ -12,7 +12,7 @@ query =
   [ ("member", "k -> Dict k v -> Bool", "Determine if a key is in a dictionary.")
   , ("lookup", "k -> Dict k v -> Maybe v", "Lookup the value associated with a key.")
   , ("findWithDefault", "v -> k -> Dict k v -> v", "Find the value associated with a key. If the key is not found, return the default value.")
-  , ("find", "k -> Dict k v -> v", "Find the value associated with a key. If the key is not found, there will be a runtime error.")
+--  , ("find", "k -> Dict k v -> v", "Find the value associated with a key. If the key is not found, there will be a runtime error.")
   ]
 
 combine =

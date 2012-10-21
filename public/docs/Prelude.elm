@@ -25,6 +25,9 @@ convert =
   , ("floor", "Float -> Int", "Floor function, rounding down.")
   , ("ceiling", "Float -> Int", "Ceiling function, rounding up.")
   , ("toFloat", "Int -> Float", "Convert an integer into a float.")
+  , ("show", "a -> String", "Convert almost any value to its string representation.")
+  , ("readInt", "String -> Maybe Int", "Read an integer from a string")
+  , ("readFloat", "String -> Maybe Float", "Read a float from a string.")
   ]
 
 funcs =
@@ -32,11 +35,13 @@ funcs =
   , ("($)", "(a -> b) -> a -> b", "Function application (f $ x == f x). This function is useful for avoiding parenthesis. Consider the following code to create a text element: (text (monospace (toText \"code\"))). This can also be written as (text . monospace $ toText \"code\").")
   , ("id", "a -> a", "Given a value, returns exactly the same value.")
   , ("flip", "(a -> b -> c) -> (b -> a -> c)", "Flips the order of the first two arguments to a function.")
+  , ("curry", "((a,b) -> c) -> a -> b -> c", "Change how arguments are passed to a function. This splits paired arguments into two separate arguments.")
+  , ("uncurry", "(a -> b -> c) -> (a,b) -> c", "Change how arguments are passed to a function. This combines two arguments into a sigle pair.")
   ]
 
 categories = 
   [ ("Mathematics", math)
-  , ("Number Conversions", convert)
+  , ("Conversions", convert)
   , ("Function Helpers", funcs)
   ]
 

@@ -1,13 +1,22 @@
 
 import Website.Docs (createDocs)
 
-objects =
+build =
   [ ("empty", "JsonObject a", "Create an empty JSON mapping.")
   , ("singleton", "String -> a -> JsonObject a", "Create a JSON mapping that contains only a single key-value pair.")
   , ("insert", "String -> a -> JsonObject a -> JsonObject a", "Add a key value pair to a JSON object.")
-  , ("lookup", "String -> JsonObject a -> Maybe a", "Lookup a value in a JsonObject. If the key is not found, this returns Nothing.")
-  , ("findWithDefault", "a -> String -> JsonObject a -> a", "Find a value in a JsonObject. If the key is not found, this returns the given default value.")
   , ("remove", "String -> JsonObject a -> JsonObject a", "Remove a key-value pair from a JsonObject.")
+  ]
+
+query =
+  [ ("lookup", "String -> JsonObject a -> Maybe a", "Lookup a value in a JsonObject. If the key is not found, this returns Nothing.")
+  , ("findString", "String -> JsonObject JsonValue -> String"
+    , "Find a string value in a JsonObject. If the key is not found or the value found is not a string, this returns the empty string.")
+  , ("findObject", "String -> JsonObject JsonValue -> JsonObject JsonValue"
+    , "Find an object value in a JsonObject. If the key is not found or the value found is not an object, this returns an empty object.")
+  , ("findArray", "String -> JsonObject JsonValue -> [JsonObject JsonValue]"
+    , "Find an array value in a JsonObject. If the key is not found or the value found is not an array, this returns an empty list.")
+  , ("findWithDefault", "a -> String -> JsonObject a -> a", "Find a value in a JsonObject. If the key is not found, this returns the given default value.")
   ]
 
 lists =
@@ -16,8 +25,8 @@ lists =
   ]
 
 values =
-  [ ("data JsonValue = JsonString String | JsonNumber Float | JsonBool Bool | JsonNull | JsonArray [JsonValue] | JsonObject (JsonObject JsonValue)", ""
-    , "This datatype can represent all valid values that can be held in a JSON object. In Elm, a proper JSON object is represented as a (JsonObject JsonValue) which is a mapping from strings to JsonValues.")
+  [ ("data JsonValue = JsonString String | JsonNumber Float | JsonBool Bool | JsonNull\n               | JsonArray [JsonValue] | JsonObject (JsonObject JsonValue)", ""
+    , "This datatype can represent all valid values that can be held in a JSON object. In Elm, a proper JSON object is represented as a (JsonObject JsonValue) which is a mapping from strings to JsonValues. Note that the name &ldquo;JsonObject&rdquo; is used as a type constructor that creates JsonValues AND a completely separate type.")
   ]
 
 strings =
@@ -37,12 +46,13 @@ prettyStrings =
 
 
 categories =
-  [ ("Using JSON Objects", objects)
-  , ("List Conversions", lists)
-  , ("Constructors for JsonValues", values)
-  , ("String Conversions", strings)
-  , ("Prettified Strings", prettyStrings)
-  , ("JavaScript String Conversions", jsStrings)
+  [ ("JSON Values", values)
+  , ("Conversion", strings)
+  , ("Query", query)
+  , ("Pretty Strings", prettyStrings)
+  , ("Build", build)
+  , ("Lists", lists)
+  , ("JavaScript Strings", jsStrings)
   ]
 
 main = createDocs "JSON" categories
