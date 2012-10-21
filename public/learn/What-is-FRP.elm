@@ -149,9 +149,9 @@ examples2 =
   let title = text . bold . toText in
   let example' = example 420 200 in
     [ constant (entry 420 200 (title "Source Code") (title "Value"))
-    , example' "lift2 (/) Mouse.x Window.width" (lift2 (/) Mouse.x Window.width)
+    , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
     , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
-    , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown 0 Mouse.position)
+    , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
     ]
 
 box exs =

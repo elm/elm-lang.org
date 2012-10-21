@@ -35,4 +35,4 @@ e4 = And (Not e2) e1
 main = flow down $ map display [ e1, e2, e3, e4 ]
 
 display e =
-  text . monospace . toText $ show (eval e) ++ " <== " ++ show e
+  text . monospace . toText $ show (eval e) ++ " &lArr; " ++ show e
