@@ -96,10 +96,21 @@ Elm.JSON = function() {
         };
       };
     }
+
     function lookup(key) { return function(obj) {
         var k = JS.castStringToJSString(key);
         return obj[1].hasOwnProperty(k) ? Just(obj[1][k]) : Nothing ;
       };
+    }
+    function find(tipe,base) { return function (key) { return function(obj) {
+          var k = JS.castStringToJSString(key);
+          if (obj[1].hasOwnProperty(k)) {
+	    var v = obj[1][k];
+	    if (v[0] === tipe) { return v[1]; }
+          }
+          return base;
+        };
+      }
     }
     function lookupWithDefault(base) { return function(key) { return function(obj) {
           var k = JS.castStringToJSString(key);
@@ -107,6 +118,7 @@ Elm.JSON = function() {
         };
       };
     }
+
     function remove(k) { return function(inObj) {
         var obj = inObj[1];
         var outObj = {};
@@ -192,6 +204,9 @@ Elm.JSON = function() {
 	    singleton : singleton,
 	    insert : insert,
 	    lookup : lookup,
+	    findString : find("JsonString",["Nil"]),
+	    findObject : find("JsonObject", empty ),
+	    findArray  : find("JsonArray" ,["Nil"]),
 	    findWithDefault : lookupWithDefault,
 	    remove : remove,
 	    toPrettyJSString : toPrettyJSString,
@@ -264,7 +279,11 @@ var Value = function(){
         arr[i] = spaces.join('');
       }
     }
-    return arr.join('');
+    arr = arr.join('');
+    if (arr[arr.length-1] === " ") {
+	return arr.slice(0,-1) + '&nbsp;';
+    }
+    return arr;
   }
 
   function properEscape(str) {
@@ -400,7 +419,7 @@ var Value = function(){
 	} else if (v[0] === "Nil") {
 	    return "[]";
 	} else if (v[0] === "JSON") {
-	    return "(JSON.fromList " + toString(ElmJSON.toList(v)) + ")";
+	    return "(JSON.fromList " + toString(Elm.JSON.toList(v)) + ")";
 	} else if (v[0] === "RBNode" || v[0] === "RBEmpty") {
 	    function cons(k){ return function(v) { return function(acc) { return ["Cons",["Tuple2",k,v],acc]; }; }; }
 	    return "(Map.fromList " + toString(Elm.Dict.fold(cons)(["Nil"])(v)) + ")";
@@ -958,17 +977,53 @@ Elm.List = function() {
 	    take:take,
 	    drop:drop};
 }();
-try{
+var Elm = Elm || {};
+Elm.Maybe = function() {
+    function consMaybe(x) { return function(xs) {
+	    if (x[0] === "Just") return ["Cons", x[1], xs];
+	    return xs;
+	};
+    }
+    function fromMaybe(b) { return function(m) {
+	    if (m[0] === "Just") return m[1];
+	    return b;
+	};
+    }
+    function mapCons(f) { return function(y) { return function(xs) {
+		var x = f(y);
+		if (x[0] === "Just") return ["Cons", x[1], xs];
+		return xs;
+	    };
+	};
+    }
+    function maybe(b) { return function(f) { return function(m) {
+		if (m[0] === "Just") return f(m[1]);
+		return b;
+	    };
+	};
+    }
+
+    return {Just : function(x) { return ["Just",x]; },
+	    Nothing : ["Nothing"],
+	    catMaybes : Elm.List.foldr(consMaybe)(["Nil"]),
+	    isJust : function(m) { return m[0] === "Just"; },
+	    isNothing : function(m) { return m[0] === "Nothing"; },
+	    fromMaybe : fromMaybe,
+	    consMaybe : consMaybe,
+	    mapMaybe : function(f) { return Elm.List.foldr(mapCons(f))(["Nil"]); },
+	    maybe : maybe
+    };
+}();
+
+(function() {
 
 for(var i in Elm) { this[i] = Elm[i]; }
 if (Elm.Dict) throw "Module name collision, 'Dict' is already defined."; 
 Elm.Dict=function(){
- try{if (!(Elm.Prelude instanceof Object)) throw 'module not found'; } catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
  var hiddenVars=[];
  for(var i in Elm.Prelude){
   if (hiddenVars.indexOf(i) >= 0) continue;
   this[i]=Elm.Prelude[i];}
- try{if (!(Elm.Maybe instanceof Object)) throw 'module not found'; } catch(e) {throw "Module 'Maybe' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
  var isJust=Elm.Maybe.isJust;
  var Red_0=["Red"];
  var Black_1=["Black"];
@@ -1035,26 +1090,6 @@ Elm.Dict=function(){
      throw "Non-exhaustive pattern match in case";}();
     }
     throw "Non-exhaustive pattern match in case";}();};};};
- function find_9(k_60){
-  return function(t_61){
-   return function(){
-   switch(t_61[0]){
-    case "RBEmpty":
-    return raise_5(Value.str("Key was not found in dictionary!"));
-    case "RBNode":
-    return function(){
-    var case6=compare(k_60)(t_61[2]);
-    switch(case6[0]){
-     case "EQ":
-     return t_61[3];
-     case "GT":
-     return find_9(k_60)(t_61[5]);
-     case "LT":
-     return find_9(k_60)(t_61[4]);
-    }
-    throw "Non-exhaustive pattern match in case";}();
-   }
-   throw "Non-exhaustive pattern match in case";}();};};
  function member_10(k_66){
   return function(t_67){
    return isJust(lookup_7(k_66)(t_67));};};
@@ -1456,16 +1491,12 @@ Elm.Dict=function(){
      return ["Cons",["Tuple2",k_232,v_233],acc_234];};};})(["Nil"])(t_231);};
  function fromList_42(assocs_235){
   return List.foldl(uncurry(insert_20))(empty_4)(assocs_235);};
- return {empty:empty_4,lookup:lookup_7,findWithDefault:findWithDefault_8,find:find_9,member:member_10,insert:insert_20,singleton:singleton_21,remove:remove_32,map:map_33,foldl:foldl_34,foldr:foldr_35,union:union_36,intersect:intersect_37,diff:diff_38,keys:keys_39,values:values_40,toList:toList_41,fromList:fromList_42};}();
-Elm.main=function(){
- return Elm.Dict.main;};
-} catch (e) {Elm.main=function() {var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Dict module:<br/>' + e + '</span>');document.body.innerHTML = Text.monospace(msg);throw e;};}
-try{
+ return {empty:empty_4,lookup:lookup_7,findWithDefault:findWithDefault_8,member:member_10,insert:insert_20,singleton:singleton_21,remove:remove_32,map:map_33,foldl:foldl_34,foldr:foldr_35,union:union_36,intersect:intersect_37,diff:diff_38,keys:keys_39,values:values_40,toList:toList_41,fromList:fromList_42};}();
+}());
+(function() {
 
 for(var i in Elm) { this[i] = Elm[i]; }
-if (Elm.Set) throw "Module name collision, 'Set' is already defined."; 
 Elm.Set=function(){
- try{if (!(Elm.Prelude instanceof Object)) throw 'module not found'; } catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
  var hiddenVars=[];
  for(var i in Elm.Prelude){
   if (hiddenVars.indexOf(i) >= 0) continue;
@@ -1499,9 +1530,7 @@ Elm.Set=function(){
    return function(x){
     return fromList_9(List.map(f_25)(x));}(toList_8(t_26));};};
  return {empty:empty_0,singleton:singleton_1,insert:insert_2,remove:remove_3,member:member_4,union:union_5,intersect:intersect_6,diff:diff_7,toList:toList_8,fromList:fromList_9,foldl:foldl_10,foldr:foldr_11,map:map_12};}();
-Elm.main=function(){
- return Elm.Set.main;};
-} catch (e) {Elm.main=function() {var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Set module:<br/>' + e + '</span>');document.body.innerHTML = Text.monospace(msg);throw e;};}
+}());
 var Elm = Elm || {};
 Elm.Char = function() {
     function isBetween(lo,hi) { return function(chr) {
@@ -1524,44 +1553,6 @@ Elm.Char = function() {
 	    isDigit    : isDigit,
 	    isOctDigit : isBetween('0'.charCodeAt(0),'7'.charCodeAt(0)),
 	    isHexDigit : function(c) { return isDigit(c) || chk1(c) || chk2(c); }
-    };
-}();
-
-var Elm = Elm || {};
-Elm.Maybe = function() {
-    function consMaybe(x) { return function(xs) {
-	    if (x[0] === "Just") return ["Cons", x[1], xs];
-	    return xs;
-	};
-    }
-    function fromMaybe(b) { return function(m) {
-	    if (m[0] === "Just") return m[1];
-	    return b;
-	};
-    }
-    function mapCons(f) { return function(y) { return function(xs) {
-		var x = f(y);
-		if (x[0] === "Just") return ["Cons", x[1], xs];
-		return xs;
-	    };
-	};
-    }
-    function maybe(b) { return function(f) { return function(m) {
-		if (m[0] === "Just") return f(m[1]);
-		return b;
-	    };
-	};
-    }
-
-    return {Just : function(x) { return ["Just",x]; },
-	    Nothing : ["Nothing"],
-	    catMaybes : Elm.List.foldr(consMaybe)(["Nil"]),
-	    isJust : function(m) { return m[0] === "Just"; },
-	    isNothing : function(m) { return m[0] === "Nothing"; },
-	    fromMaybe : fromMaybe,
-	    consMaybe : consMaybe,
-	    mapMaybe : function(f) { return Elm.List.foldr(mapCons(f))(["Nil"]); },
-	    maybe : maybe
     };
 }();
 
@@ -1648,8 +1639,7 @@ var String = function() {
 
 var String = {toText:Value.toText, properEscape:Value.properEscape};
 var Elm = Elm || {};
-Elm.Graphics = Elm.Graphics || {};
-Elm.Graphics.Color = function() {
+Elm.Color = function() {
   function Color_0(a1) {
     return function(a2) {
       return function(a3) {
@@ -1696,13 +1686,13 @@ function tracePoints(ctx,points) {
 
 function solid(ctx,color,points) {
     tracePoints(ctx,points);
-    ctx.strokeStyle = Elm.Graphics.Color.extract(color);
+    ctx.strokeStyle = Elm.Color.extract(color);
     ctx.stroke();
 };
 
 function filled(ctx,color,points) {
     tracePoints(ctx,points);
-    ctx.fillStyle = Elm.Graphics.Color.extract(color);
+    ctx.fillStyle = Elm.Color.extract(color);
     ctx.fill();
 }
 
@@ -1719,7 +1709,7 @@ function textured(redo,ctx,src,points) {
 function customLine(pattern,ctx,color,points) {
     if (pattern.length === 0) { pattern = [8,4]; }
     customLineHelp(ctx, pattern, points);
-    ctx.strokeStyle = Elm.Graphics.Color.extract(color);
+    ctx.strokeStyle = Elm.Color.extract(color);
     ctx.stroke();
 };
 
@@ -1992,8 +1982,7 @@ function insideShape(point,theta,scale,pos,points) {
 return {collage:collage, updateCollage:updateCollage, insideForm:insideForm};
 
 }();var Elm = Elm || {};
-Elm.Graphics = Elm.Graphics || {};
-Elm.Graphics.Element = function() {
+Elm.Graphics = function() {
   var JS = Elm.JavaScript;
   var DLeft_0 = ["DLeft"];
   var DRight_1 = ["DRight"];
@@ -2507,7 +2496,8 @@ Elm.Graphics.Element = function() {
 	 outlined:outlined_94, customOutline:customOutline_95, textured:textured, sprite:sprite_96, toForm:toForm_97, rotate:rotate_98, scale:scale_99, move:move_100,
 	 isWithin: Collage.insideForm}
 }();
-var Text = function() {
+var Elm = Elm || {};
+Elm.Text = function() {
   function fromString(s) { return Value.toText(s); }
 
   var addTag = function(tag) { return function(text) {
@@ -2531,7 +2521,7 @@ var Text = function() {
   var italic = addStyle('font-style', 'italic');
   var bold = addTag('b');
   var color = function(c) {
-    return addStyle('color', Elm.Graphics.Color.extract(c));
+    return addStyle('color', Elm.Color.extract(c));
   };
   var underline = addStyle('text-decoration', 'underline');
   var overline = addStyle('text-decoration', 'overline');
@@ -2555,9 +2545,6 @@ var Text = function() {
 	  color : color,
 	  link : link };
 }();
-
-var Elm = Elm || {};
-Elm.Graphics.Text = Text;
 
 var Render = function(){
 
@@ -2737,7 +2724,7 @@ function render(elem) {
     e.style.height = (~~elem[4]) + 'px';
     if (elem[5] !== 1) { e.style.opacity = elem[5]; }
     if (elem[6][0] === "Just") {
-	e.style.backgroundColor = Elm.Graphics.Color.extract(elem[6][1]);
+	e.style.backgroundColor = Elm.Color.extract(elem[6][1]);
     }
     if (elem[7][0] === "Just") {
 	var a = newElement('a');
@@ -2823,7 +2810,7 @@ function update(node,curr,next) {
     if (next[4] !== curr[4]) node.style.height  = (~~next[4]) + 'px';
     if (next[5] !== curr[5]) node.style.opacity = next[5];
     if (next[6].length === 2) {
-	var clr = Elm.Graphics.Color.extract(next[6][1]);
+	var clr = Elm.Color.extract(next[6][1]);
 	if (clr !== node.style.backgroundColor) node.style.backgroundColor = clr;
     }
     if (next[7].length === 2) {
@@ -3146,7 +3133,7 @@ Elm.Input = function() {
 	var opts = [];
 	while (options[0] === "Cons") {
 	    var opt = newElement('option');
-	    var str = Text.toText(options[1][1]);
+	    var str = Value.toText(options[1][1]);
 	    opt.value = str;
 	    opt.innerHTML = str;
 	    slct.appendChild(opt);
@@ -3379,6 +3366,42 @@ Elm.Prelude = function() {
     };
 
     var logBase=function(b){return function(x){return Math.log(x)/Math.log(b);};};
+
+    function readInt(str) {
+	var s = JavaScript.castStringToJSString(str);
+	var len = s.length;
+	if (len === 0) { return Nothing; }
+	var start = 0;
+	if (s[0] == '-') {
+	    if (len === 1) { return Nothing; }
+	    start = 1;
+	}
+	for (var i = start; i < len; ++i) {
+	    if (!Char.isDigit(s[i])) { return Nothing; }
+	}
+	return Just(parseInt(s));
+    }
+
+    function readFloat(str) {
+	var s = JavaScript.castStringToJSString(str);
+	var len = s.length;
+	if (len === 0) { return Nothing; }
+	var start = 0;
+	if (s[0] == '-') {
+	    if (len === 1) { return Nothing; }
+	    start = 1;
+	}
+	var dotCount = 0;
+	for (var i = start; i < len; ++i) {
+	    if (Char.isDigit(s[i])) { continue; }
+	    if (s[i] === '.') {
+		dotCount += 1;
+		if (dotCount <= 1) { continue; }
+	    }
+	    return Nothing;
+	}
+	return Just(parseFloat(s));
+    }
     
     return {eq   : Value.eq,
 	    id   : function(x) { return x; },
@@ -3398,6 +3421,8 @@ Elm.Prelude = function() {
 	    floor : function(n) { return Math.floor(n); },
 	    ceiling : function(n) { return Math.ceil(n); },
 	    truncate : function(n) { return ~~n; },
+	    readInt : readInt,
+	    readFloat : readFloat,
 	    sqrt : Math.sqrt,
 	    abs  : Math.abs,
 	    pi   : Math.PI,
@@ -3472,20 +3497,17 @@ Elm.Prelude = function() {
 	Elm.Prelude[i] = library[i];
     }
   };
-  include (Elm.Graphics.Color);
-  include (Elm.Graphics.Text);
-  include (Elm.Graphics.Element);
+  include (Elm.Color);
+  include (Elm.Text);
+  include (Elm.Graphics);
 
   show = Value.show;
   
 }());
-
-try{
+(function() {
 
 for(var i in Elm) { this[i] = Elm[i]; }
-if (Elm.Automaton) throw "Module name collision, 'Automaton' is already defined."; 
 Elm.Automaton=function(){
- try{if (!(Elm.Prelude instanceof Object)) throw 'module not found'; } catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
  var hiddenVars=[];
  for(var i in Elm.Prelude){
   if (hiddenVars.indexOf(i) >= 0) continue;
@@ -3665,9 +3687,7 @@ Elm.Automaton=function(){
  function draggable_14(form_93){
   return init__7(["Tuple2",Listen_9,form_93])(stepDrag_13);};
  return {Automaton:Automaton_0,run:run_1,step:step_2,composeAuto:composeAuto_3,combine:combine_4,pure:pure_5,init:init_6,init_:init__7,count:count_8,Listen:Listen_9,Ignore:Ignore_10,DragFrom:DragFrom_11,vecSub:vecSub_12,stepDrag:stepDrag_13,draggable:draggable_14};}();
-Elm.main=function(){
- return Elm.Automaton.main;};
-} catch (e) {Elm.main=function() {var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Automaton module:<br/>' + e + '</span>');document.body.innerHTML = Text.monospace(msg);throw e;};}try{Elm.Website=Elm.Website||{};if(Elm.Website.ColorScheme)throw "Module name collision, 'Website.ColorScheme' is already defined.";Elm.Website.ColorScheme=function(){try{if(!(Elm.Prelude instanceof Object))throw 'module not found'}catch(e){throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file."};var hiddenVars=[];for(var i in Elm.Prelude){if(hiddenVars.indexOf(i)>=0)continue;this[i]=Elm.Prelude[i]};var accent0_0=rgb(90)(99)(120),accent1_1=rgb(96)(181)(204),accent2_2=rgb(240)(173)(0),accent3_3=rgb(234)(21)(122),accent4_4=rgb(127)(209)(59),lightGrey_5=rgb(245)(245)(245),mediumGrey_6=rgb(216)(221)(225);return {accent0:accent0_0,accent1:accent1_1,accent2:accent2_2,accent3:accent3_3,accent4:accent4_4,lightGrey:lightGrey_5,mediumGrey:mediumGrey_6}}();Elm.main=function(){return Elm.Website.ColorScheme.main}}catch(e){Elm.main=function(){var msg=('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>'+'<br/><span style="color:grey">Runtime Error in Website.ColorScheme module:<br/>'+e+'</span>');document.body.innerHTML=Text.monospace(msg);throw e}}
+}());try{Elm.Website=Elm.Website||{};if(Elm.Website.ColorScheme)throw "Module name collision, 'Website.ColorScheme' is already defined.";Elm.Website.ColorScheme=function(){try{if(!(Elm.Prelude instanceof Object))throw 'module not found'}catch(e){throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file."};var hiddenVars=[];for(var i in Elm.Prelude){if(hiddenVars.indexOf(i)>=0)continue;this[i]=Elm.Prelude[i]};var accent0_0=rgb(90)(99)(120),accent1_1=rgb(96)(181)(204),accent2_2=rgb(240)(173)(0),accent3_3=rgb(234)(21)(122),accent4_4=rgb(127)(209)(59),lightGrey_5=rgb(245)(245)(245),mediumGrey_6=rgb(216)(221)(225);return {accent0:accent0_0,accent1:accent1_1,accent2:accent2_2,accent3:accent3_3,accent4:accent4_4,lightGrey:lightGrey_5,mediumGrey:mediumGrey_6}}();Elm.main=function(){return Elm.Website.ColorScheme.main}}catch(e){Elm.main=function(){var msg=('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>'+'<br/><span style="color:grey">Runtime Error in Website.ColorScheme module:<br/>'+e+'</span>');document.body.innerHTML=Text.monospace(msg);throw e}}
 try{
 
 Elm.Website=Elm.Website || {};

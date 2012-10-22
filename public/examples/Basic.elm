@@ -1,7 +1,6 @@
 
 import List (intercalate,intersperse)
 import Website.Skeleton
-import Graphics.Text as Text
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm") in

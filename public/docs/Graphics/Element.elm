@@ -93,4 +93,4 @@ categories =
   , ("Collage: Lines", lines)
   ]
 
-main = createDocs "Graphics.Element" categories
+main = createDocs "Graphics" categories

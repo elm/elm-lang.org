@@ -2,7 +2,6 @@
 import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
 import List
-import Graphics.Text as Text
 
 standard = ("General Purpose",
   [ ("List",  "docs/Data/List.elm")
@@ -14,9 +13,9 @@ standard = ("General Purpose",
   ])
 
 graphics = ("Graphics",
-  [ ("Graphics.Element", "docs/Graphics/Element.elm")
-  , ("Graphics.Color"  , "docs/Graphics/Color.elm")
-  , ("Graphics.Text",  "docs/Graphics/Text.elm")
+  [ ("Graphics", "docs/Graphics/Element.elm")
+  , ("Color"  , "docs/Graphics/Color.elm")
+  , ("Text",  "docs/Graphics/Text.elm")
   ])
 
 input = ("Interaction",

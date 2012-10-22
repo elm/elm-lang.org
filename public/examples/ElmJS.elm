@@ -1,7 +1,6 @@
 
 import List (intercalate,intersperse)
 import Website.Skeleton
-import Graphics.Text as Text
 
 basics =
   [ ("Change Page Title",
