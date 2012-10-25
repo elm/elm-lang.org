@@ -1,8 +1,8 @@
 
 import Automaton
-import Signal.Input
-import Signal.Random
-import Data.List
+import Input
+import Random
+import List
 
 (butnMore,pressMore) = button "  +  "
 (butnLess,pressLess) = button "  -  "
@@ -12,10 +12,10 @@ data Command = Incr | Decr | Idnt
 formsAutomaton =
   let fstep (cmd,pos,color,mouse) fs =
           let fs' = case cmd of
-                    { Incr -> fs ++ [dragForm $ filled color (rect 40 40 pos)]
+                    { Incr -> fs ++ [draggable $ filled color (rect 40 40 pos)]
                     ; Decr -> if fs == [] then [] else tail fs
                     ; Idnt -> fs }
-          in  unzip $ map (step mouse) fs'
+          in  unzip $ map (\f -> step f mouse) fs'
   in  init' [] fstep
 
 allInput =
