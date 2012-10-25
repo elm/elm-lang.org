@@ -8,4 +8,4 @@ casts =
 
 categories = [ ("Experimental Conversions", casts) ]
 
-main = createDocs "Foreign.JavaScript.Experimental" categories
+main = createDocs "JavaScript.Experimental" categories
