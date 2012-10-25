@@ -83,7 +83,7 @@ That example uses draggable pentagons, but images, `Elements`, or any other shap
 Check out the [source][self] of this page if you want to mess around with it!
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
-takes inputs and produces outputs. Without input, an automaton just sits quitely, waiting for something to do.
+takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
 Automatons can have a &ldquo;memory&rdquo; so their output may depend on their past experiences. All automatons
 are interchangeable, so they are easy to switch in and out of programs.
 
@@ -109,7 +109,7 @@ HTTP requests and produces a signal of responses. The responses only update when
 it just like any other signal, but it updates asynchronously, so you can write nice code that is both readable
 and efficient. No callbacks! No nested-callbacks! ...
 
-See this library in action with the [Zip Code fetcher][zips]
+See this library in action with the [Zip Code fetcher][zips].
 
 I will be writing more about this library fairly soon
 because I think it is an important and novel part of Elm.
@@ -159,19 +159,20 @@ graphical components that would be super nice to have, like general purpose navi
 and sidebars.
 
 (As for naming the parser, perhaps `Parsely`&trade; to start a plant theme in Elm, or
-perhaps `Parser` because that is a clear descriptive name. It's not actually trade marked
+perhaps `Parser` because that is a clear descriptive name. `Parsely` not actually trade marked
 but I'd be really sad if someone stole such a nice name!)
 
 ## Other News
 
-I recently started an `#elm` IRC channel at freenode, so feel free to come hang out
-and chat. It will probably be a bit quite because it has not been announced until now, but
+I recently started an [`#elm` IRC channel at freenode][irc], so feel free to come hang out
+and chat. It will probably be a bit quiet because it has not been announced until now, but
 I'll join whenever I can!
 
 In other cool news, Elm just got its 100th star on [github][github]! Yay growth!
 
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "Elm-Discuss"
-  [github]: https://github.com/evancz/Elm "Elm on GitHub"
+  [github]: https://github.com/evancz "Elm on GitHub"
+  [irc]: http://webchat.freenode.net/ "IRC"
 
 |]
 
