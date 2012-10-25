@@ -1,6 +1,6 @@
 
-import Foreign.JavaScript
-import Signal.Window as Win
+import JavaScript
+import Window as Win
 
 title = constant (castStringToJSString "Elm 0.4: Graphics Upgrade")
 foreign export jsevent "elm_title"
