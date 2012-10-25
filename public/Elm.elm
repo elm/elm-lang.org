@@ -53,11 +53,10 @@ news = [markdown|
 
 [Making Pong in Elm][pong]: a comprehensive walkthrough of how to make purely functional games.
 
-[Elm 0.4][announcement]: New features for game making and layout, Markdown support,
-optimizations, and more.
+[Elm 0.5][announcement]: Lots of new and useful libraries!
 
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [announcement]: /blog/announce/version-0.4.0.elm "announcement"
+  [announcement]: /blog/announce/version-0.5.0.elm "announcement"
 
 |]
 

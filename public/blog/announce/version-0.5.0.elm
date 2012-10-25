@@ -159,11 +159,16 @@ and sidebars.
 perhaps `Parser` because that is a clear descriptive name. It's not actually trade marked
 but I'd be really sad if someone stole such a nice name!)
 
-I also recently started an `#elm` IRC channel at freenode, so feel free to come hang out
+## Other News
+
+I recently started an `#elm` IRC channel at freenode, so feel free to come hang out
 and chat. It will probably be a bit quite because it has not been announced until now, but
 I'll join whenever I can!
 
+In other cool news, Elm just got its 100th star on [github][github]! Yay growth!
+
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "Elm-Discuss"
+  [github]: https://github.com/evancz/Elm "Elm on GitHub"
 
 |]
 
