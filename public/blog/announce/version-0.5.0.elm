@@ -109,6 +109,8 @@ HTTP requests and produces a signal of responses. The responses only update when
 it just like any other signal, but it updates asynchronously, so you can write nice code that is both readable
 and efficient. No callbacks! No nested-callbacks! ...
 
+See this library in action with the [Zip Code fetcher][zips]
+
 I will be writing more about this library fairly soon
 because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
@@ -116,6 +118,7 @@ now they do not have to!
 
   [send]: /docs/Signal/HTTP.elm "send"
   [http]: /docs/Signal/HTTP.elm "HTTP docs"
+  [zips]: /edit/examples/JavaScript/ZipCodes.elm
 
 ### New Functions and Syntax
 

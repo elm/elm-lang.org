@@ -65,9 +65,10 @@ contact = [markdown|
 #### Contact
 
 Elm's [mailing list][7] is the place to go for questions, announcements, and discussion.
-You can contact me directly at info (at) elm-lang (dot) org.
+Or see if anyone is on IRC ([`#elm` on freenode][irc]).
 
   [7]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
+  [irc]: http://webchat.freenode.net/ "#elm"
 
 |]
 
