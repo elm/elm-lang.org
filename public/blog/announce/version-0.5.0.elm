@@ -178,6 +178,8 @@ page =
                , width 600 blog ]
       ; mid = widget (heightOf top) Win.width
       ; bot = flow down [ width 600 outro
+                        , container 600 60 middle
+                          [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
                         , container 600 60 middle . text . Text.color (rgb 216 221 225) $
                           toText "&copy; 2011-2012 Evan Czaplicki" ]
       }
