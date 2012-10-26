@@ -15,13 +15,13 @@ Follow these steps to get this all running on your local machine:
 
 ###### Unix / Mac
 
-- Fork (or download) this project.
+- Fork this project.
 - Run `bash compile.sh`. This will compile the server.
 - Run `./Server` to start the server.
 
 ###### Windows
 
-- Fork (or download) this project.
+- Fork this project.
 - Run `compile.bat`. This will compile the server and start it on your machine.
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at [localhost:8000/](http://localhost:8000/).
