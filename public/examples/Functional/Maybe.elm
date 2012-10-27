@@ -1,7 +1,7 @@
 
 {-----------------------------------------------------------------
 
-Overview: The "Maybe" abstract data type can either have a value
+Overview: The "Maybe" algebraic data type can either have a value
 (Just 4) or it can have no value (Nothing). "Nothing" is sort of
 like saying the value is undefined.
 

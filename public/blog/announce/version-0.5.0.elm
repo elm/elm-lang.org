@@ -91,7 +91,8 @@ This library is based on the very clever ideas introduced by [Arrowized FRP][afr
 I have made an effort to make it easier to understand and use for people unfamiliar with
 &ldquo;Arrows&rdquo; and other concepts that are largely orthoganal to doing-things-in-real-life.
 I am hoping that the term [&ldquo;automaton&rdquo;][wiki] is somewhat familiar (or at least
-a better anology than &ldquo;arrow&rdquo;).
+a better anology than &ldquo;arrow&rdquo;). Huge thangs to Joey Adams for suggesting this library
+and working through the details with me!
 
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they
 are totally rad.
@@ -150,26 +151,16 @@ but please email [the list][list] if you want assistance with this (e.g. a scrip
 - `String` is now treated as an alias of `[Char]`.
 - Better type error reporting for ambiguous uses of variables and for variables in aliased modules.
 
-## Get involved!
-
-If you want to help create libraries, please email [the list][list] or just get started on
-your own. Elm needs your support! I'd love to have a nice parsing library so web developers
-will stop trying to parse XML with regular expressions. And there are tons of cool
-graphical components that would be super nice to have, like general purpose navigation bars
-and sidebars.
-
-(As for naming the parser, perhaps `Parsely`&trade; to start a plant theme in Elm, or
-perhaps `Parser` because that is a clear descriptive name. `Parsely` not actually trade marked
-but I'd be really sad if someone stole such a nice name!)
-
 ## Other News
 
 I recently started an [`#elm` IRC channel at freenode][irc], so feel free to come hang out
-and chat. It will probably be a bit quiet because it has not been announced until now, but
-I'll join whenever I can!
+and chat. Big thank you to `tac` for helping get the channel set up!
 
 In other cool news, Elm just got its 100th star on [github][github]! Yay growth!
 
+If you want to help out, there are [tons of ways to contribute][contribute]!
+
+  [contribute]: /Contribute.elm "how to contribute"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "Elm-Discuss"
   [github]: https://github.com/evancz "Elm on GitHub"
   [irc]: http://webchat.freenode.net/ "IRC"

@@ -58,7 +58,7 @@ functional = addFolder "Functional/"
         , ("Filter" , "Filter")
         , ("ZipWith", "ZipWith")
         ])
-  , ("Abstract Data Types",
+  , ("Algebraic Data Types",
         [ ("Maybe", "Maybe")
         , ("Boolean Expressions", "BooleanExpressions")
         , ("Tree", "Tree")

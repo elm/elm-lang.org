@@ -1,13 +1,13 @@
 
 {-----------------------------------------------------------------
 
-Overview: This code demonstrates a more advanced use of abstract
+Overview: This code demonstrates a more advanced use of algebraic
 data types. Here we are creating an abstract representation of
 Boolean expressions and defining an evaluation strategy. These
 tasks are the first steps towards writing an interpreter for a
 programming language. We will see the following functions:
 
-  Expr : an abstract data type that represents
+  Expr : an algebraic data type that represents
     simple boolean expressions.
 
   eval : recursively computes the value of a given

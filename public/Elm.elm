@@ -10,10 +10,11 @@ It introduces a new approach to GUI programming that corrects the
 systemic problems that make HTML, CSS, and JavaScript a headache to use.
 Strongly influenced by [Haskell][why-elm] and [Functional Reactive Programming][frp],
 Elm allows you to quickly and easily work with visual layout, create scenes
-with HTML5&rsquo;s canvas, and handle complicated user input.
+with HTML5&rsquo;s canvas, make [asynchronous requests][http], and handle complicated user input.
 
   [why-elm]: http://www.testblogpleaseignore.com/2012/06/21/why-elm/ "Why Elm?"
   [frp]:     /learn/What-is-FRP.elm "functional reactive programming"
+  [http]:    /edit/examples/JavaScript/ZipCodes.elm "HTTP requests"
 
 |]
 
@@ -62,13 +63,14 @@ news = [markdown|
 
 contact = [markdown|
 
-#### Contact
+#### Contact / Contribute
 
 Elm's [mailing list][7] is the place to go for questions, announcements, and discussion.
-Or see if anyone is on IRC ([`#elm` on freenode][irc]).
+Or see if anyone is on IRC ([`#elm` on freenode][irc]). There are also tons of ways to
+[contribute to Elm](/Contribute.elm).
 
   [7]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
-  [irc]: http://webchat.freenode.net/ "#elm"
+  [irc]: http://webchat.freenode.net/?channels=elm "#elm"
 
 |]
 
