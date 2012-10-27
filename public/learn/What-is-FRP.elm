@@ -98,7 +98,7 @@ why = [markdown|<br/>
 
 * * *
 
-## Why FRP is a good idea?
+## &ldquo;Why is FRP a good idea?&rdquo;
 
 Functional reactive programming (FRP) is a *declarative* approach to GUI design. The
 term *declarative* makes a distinction between the &ldquo;what&rdquo; and the
