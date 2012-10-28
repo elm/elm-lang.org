@@ -1,12 +1,11 @@
 
 import Input
+import Char
 
 (field, input) = textField ""
 
-isValid s = any ((==) 'a') s
-
 scene inp =
-  field `above` plainText ("Last input that contained an 'a' was: " ++ inp)
+  field `above` plainText ("Last input of all digits: " ++ inp)
 
-main = lift scene (keepIf isValid "" input)
+main = lift scene (keepIf (all isDigit) "" input)
 
