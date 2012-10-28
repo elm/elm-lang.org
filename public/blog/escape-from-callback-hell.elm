@@ -28,7 +28,7 @@ solves these problems, and ultimately convince you that:
 
 |]
 
-quote1 w = spacer w 180 `above` width w [markdown|
+quote1 = spacer 170 180 `above` width 170 [markdown|
 
 <div style="color:#666;font-size:0.6em;text-align:center">
 &ldquo;The unbridled use of the go to statement has an immediate consequence that it
@@ -39,7 +39,7 @@ becomes terribly hard to find a meaningful set of coordinates in which to descri
 
 |]
 
-quote2 w = spacer w 20 `above` width w [markdown|
+quote2 = spacer 170 20 `above` width 170 [markdown|
 
 <div style="color:#666;font-size:0.6em;text-align:center">
 &ldquo;For a number of years I have been familiar with the observation that the quality
@@ -222,7 +222,7 @@ lets us write one-liners like:
 
 |]
 
-types w = spacer w 80 `above` width w [markdown|
+types = spacer 170 80 `above` width 170 [markdown|
 
 <span style="color:#666;font-size:0.6em">
 **How to read types:**<br/>The `::` character can be read as &ldquo;has type&rdquo;.
@@ -230,8 +230,8 @@ So we say that `(42 :: Int)` which means that 42 has type integer. The arrow `->
 So that could be something like `(toFloat :: Int -> Float)` or `(not :: Bool -> Bool)`. 
 The lower case letters are like wild cards, usually called *type variables*.
 Just like normal variables, they can be anything but every occurance of a variabled is the same.
-For instance, `(==) :: a -> a -> Bool` meaning that equality will work on any types that are
-the same.
+For instance, we say that `(==) :: a -> a -> Bool`, meaning that equality will work with any two
+arguments of the same type.
 </span>
 
 <span style="color:#666;font-size:0.6em">
@@ -291,17 +291,25 @@ between readability and responsiveness!
 
 |]
 
+content w ex1 =
+  let p0 = width w intro in
+  let p1 = flow right [ width w midtro1, spacer 30 100, quote1 ] in
+  let p2 = flow right [ width w midtro2, spacer 30 100, quote2 ] in
+  let p3 = width w midtro3 in
+  let p4 = width w outro in
+  flow down
+    [ p0, p1, p2
+    , flow right [ flow down [ p3, width w ex1, p4 ]
+                 , spacer 30 100
+                 , types ] ]
+
+defaultContent = content 600
+
 blog ex1 w' = 
     let w = w' - 200 in
-    let content = flow down
-                  [ width w intro
-                  , flow right [ width w midtro1, spacer 30 100, quote1 170 ]
-                  , flow right [ width w midtro2, spacer 30 100, quote2 170 ]
-                  , flow right [ flow down $ map (width w) [ midtro3, ex1, outro ]
-                               , spacer 30 100
-                               , types 170 ] ]
-    in  container w' (heightOf content) middle content
+    let c = if w' == 800 then defaultContent ex1 else content w ex1 in
+      container w' (heightOf c) middle c
 
-content = lift blog example1
+everything = lift blog example1
 
-main = lift2 skeleton content Window.width
+main = lift2 skeleton everything Window.width
