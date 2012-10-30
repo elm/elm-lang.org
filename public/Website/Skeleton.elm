@@ -6,7 +6,7 @@ import Website.ColorScheme
 button (name, href, clr) =
     let accent = color clr (spacer 100 2) in
     let butn = container 100 58 middle $ text . Text.color black $ toText name in
-    link href $ accent `below` butn
+    Graphics.link href $ accent `below` butn
 
 buttons = flow right . map button $
   [ ("About"   , "/About.elm"        , accent1)
