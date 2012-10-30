@@ -28,6 +28,9 @@ solves these problems, and ultimately convince you that:
   [frp]: /learn/What-is-FRP.elm "FRP"
   [struct]: http://en.wikipedia.org/wiki/Structured_programming "Structured Programming"
 
+If this post proves convincing, the [Elm programming language](/) has full support for
+functional reactive web programming, so you can start experimenting today.
+
 |]
 
 quote1 = spacer 170 200 `above` width 170 [markdown|
@@ -95,7 +98,7 @@ We often want to say, &ldquo;When this value is ready, take this action.&rdquo;
 This is a time-dependent relationships. One value depends on another
 that changes over time. We want to say, &ldquo;While this is happening,
 that can happen too.&rdquo; This is a time-dependent relationship too.
-These computatinos can happen concurrently. 
+These computations can happen concurrently. 
 These time relationships are not covered by traditional control structures,
 so we use the modern `goto` to work around it.
 
@@ -126,7 +129,7 @@ funcs = spacer 170 300 `above` width 170 [markdown|
 <div style="color:#666;font-size:0.6em;text-align:left">
 `requestTag` which turns a tag &ndash; such as `"badger"` &ndash; into
 a valid Flickr API request. These requests will return a JSON object
-containing `"badger"` photos.
+containing a list of `"badger"` photos.
 </div>
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.6em;text-align:left">
@@ -145,7 +148,7 @@ the previous request.
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.6em;text-align:left">
 `drawOnScreen` puts the image on screen for the user to see. You do not need to
-mess around with the DOM in Elm, so this function only gets used in the JS code.
+mess around with the DOM in [Elm](/), so this function only gets used in the JS code.
 </div>
 
 |]
@@ -328,27 +331,21 @@ is hard to read, maintain, and understand. Functional Reactive Programming
 introduces high-level control structures that let you easily express
 time-dependencies in a way that is more flexible and readable without
 sacrificing efficiency. Signals model change-over-time, allowing you to
-express [many different time-relationships][signal], such as [direct
-dependence][clock], [dependence on the past][stamp], time-sensitive [sampling][sample]
+express [many different time-relationships][signal], such as dependence on the
+[present][clock] or [past][stamp], time-sensitive [sampling][sample]
 and [filtering][filter], and [asynchrony][http].
 
   [stamp]: /edit/examples/Intermediate/Stamps.elm "Stamps"
   [clock]: /edit/examples/Intermediate/Clock.elm "Clock"
-  [sample]: /edit/examples/Reactive/SampleOn.elm "SampleOn"
-  [filter]: /edit/examples/Reactive/keepIf.elm "keepIf"
+  [sample]: /edit/examples/Reactive/SampleOn.elm "sampleOn"
+  [filter]: /edit/examples/Reactive/KeepIf.elm "keepIf"
   [http]: /edit/examples/JavaScript/ZipCodes.elm "Zip Codes"
 
-The use of callbacks is an ad-hoc, low-level, and error-prone way of
-describing these time relationships. With callbacks, we also end up
-implementing these time dependencies from scratch each time we need
-them, giving ourselves more opportunities to write buggy code.
+If you interested in this approach, [download Elm][download] and experiment!
+Elm is currently at version 0.5, and it is quickly maturing. If you feel like
+there are some libraries or features missing, [you can help add them](/Contribute.elm).
 
-Just like switching from `goto` to structured programming, it will take
-some effort to learn and appreciate FRP, but hopefully the benefits are
-clear by now. With FRP, your code becomes nicer to read, easier
-to understand, and just as efficient. Once you overcome the conceptual
-hurdles and embrace the logic of FRP, it is hard to go back to something
-as primive as callbacks.
+  [download]: https://github.com/evancz/Elm/blob/master/README.md#elm "Dowload"
 
 If you have questions or want to learn more, there are lots of helpful
 resources. This [thesis][thesis] describes the history of FRP and
@@ -385,3 +382,7 @@ blog ex1 w' =
 everything = lift blog example1
 
 main = lift2 skeleton everything Window.width
+
+titles = constant (JavaScript.castStringToJSString "Escape from Callback Hell")
+foreign export jsevent "elm_title"
+  titles :: Signal JSString
