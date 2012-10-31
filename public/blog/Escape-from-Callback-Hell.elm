@@ -236,8 +236,8 @@ asyncElm1 = [markdown|
 #### 3. Responsive *and* Readable
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
-all interactive time-varying content. For example, the position of the mouse is a
-&ldquo;signal&rdquo; because it changes over time.
+all interactive time-varying content. For example, the value of a text input field is a
+&ldquo;signal&rdquo; because it changes over time. We can create such a signal with:
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
@@ -245,11 +245,14 @@ all interactive time-varying content. For example, the position of the mouse is 
 
 This creates two values. The first is a visual element called `inputField` that users can type into.
 This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
-as the user types into `inputField`. Here are the `inputField` and `tags` in action:
+as the user types into `inputField`. Here are the `inputField` and the `tags` signl in action:
 
 |]
 
-asyncElm2 = [markdown|We can then do all sorts of computations with `tags`.|]
+asyncElm2 = [markdown|
+We can then do all sorts of computations with `tags`. When `tags` changes
+the signals that depend on it change automatically:
+|]
 
 asyncElm3 = [markdown|
 
@@ -280,9 +283,9 @@ are going to do. Here is the full Elm code for making many requests to the Flick
             let photoSizes = send (lift requestOneFrom photoList) in
                 lift sizesToPhoto photoSizes
 
-We have effectively set up a workflow of how to handle user input:
-turn a tag into a request, send it, turn the response into a new request,
-send it, and finally turn *that* response into an image!
+We have effectively set up a processing pipeline of how to handle user input:
+we take in a tag, turn it into a request, send it, turn the response into a
+new request, send it, and finally turn *that* response into an image!
 
 We have clear, linear control flow, and the resulting program automatically
 optimizes for asynchrony. It does not block while waiting for a response and
