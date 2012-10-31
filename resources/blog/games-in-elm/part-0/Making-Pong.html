@@ -62,8 +62,8 @@ code > span.er { font-weight: bold; }
 <p>First we have the ever exciting module imports. We need the JavaScript FFI to manage our frame rate, the keyboard input so that people can actually play Pong, and the window size to make sure the game displays nicely on many screen sizes.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Pong</span> <span class="kw">where</span></code></pre>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">import</span> <span class="dt">Foreign.JavaScript</span>
-<span class="kw">import</span> <span class="dt">Signal.Keyboard.Raw</span>
-<span class="kw">import</span> <span class="dt">Signal.Window</span> <span class="kw">as</span> <span class="dt">Win</span></code></pre>
+<span class="kw">import</span> <span class="dt">Keyboard.Raw</span>
+<span class="kw">import</span> <span class="dt">Window</span> <span class="kw">as</span> <span class="dt">Win</span></code></pre>
 <p>Next we extract timesteps from JavaScript. We cannot just update at a fixed interval because some browsers may be too slow, so we would just keep giving them more work until they crashed. This next bit of code communicates with a JavaScript file that manages frame rates. This way users of fast and slow browsers can all have the best experience possible.</p>
 <p>This exports our desired FPS to JavaScript. We just want a steady 30 frames per second for this game.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">desiredFPS <span class="fu">=</span> constant (castIntToJSNumber <span class="dv">30</span>)</code></pre>
