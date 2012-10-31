@@ -231,26 +231,90 @@ the same reason. It is pretty much the same as using `goto` to structure your pr
 
 |]
 
-midtro4 = [markdown|
+asyncElm1 = [markdown|
 
 #### 3. Responsive *and* Readable
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
 all interactive time-varying content. For example, the position of the mouse is a
-&ldquo;signal&rdquo; because it changes over time. FRP provides functions such as:
-
-        lift :: (a -> b) -> Signal a -> Signal b
-
-The `lift` function applies a given function to a time-varying value whenever that value changes.
-This creates a new time varying value `Signal b` that is time-dependent on `Signal a`. This
-lets us write one-liners like:
+&ldquo;signal&rdquo; because it changes over time.
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
+        (inputField, tags) = Input.textField "Tag"
+
+This creates two values. The first is a visual element called `inputField` that users can type into.
+This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
+as the user types into `inputField`. Here are the `inputField` and `tags` in action:
+
 |]
 
-types = spacer 170 80 `above` width 170 [markdown|
+asyncElm2 = [markdown|We can then do all sorts of computations with `tags`.|]
 
+asyncElm3 = [markdown|
+
+The `lift` function is used to transform a signal. It takes functions such as
+`length`, `reverse`, or `requestTag` and applies them to a signal. This lets
+us create new signals that automatically change whenever `tags` changes.
+
+We are particularly interested in the third signal we created.
+The code `(lift requestTag tags)` produces a Flickr request that
+corresponds to the current user input (abbreviated for the sake of presentation).
+Now we just need to send this request! For this we use the `send` function:
+
+|]
+
+asyncElm4 = [markdown|
+
+Notice that when `tags` changes, the result of `send` does *not* change immediately.
+The responses are sent and received asynchronously, so a response only arrives when
+it is ready. In the meantime, your program is free to go about its normal business.
+
+This is great because it allows us to have asynchrony without leaving the conceptual
+framework of signals. The response is just another signal, exactly the same as `tags`.
+We can turn its values into requests and send them too. In fact, that's exactly what we
+are going to do. Here is the full Elm code for making many requests to the Flickr API:
+
+        getPhotos tags =
+            let photoList  = send (lift requestTag tags) in
+            let photoSizes = send (lift requestOneFrom photoList) in
+                lift sizesToPhoto photoSizes
+
+We have effectively set up a workflow of how to handle user input:
+turn a tag into a request, send it, turn the response into a new request,
+send it, and finally turn *that* response into an image!
+
+We have clear, linear control flow, and the resulting program automatically
+optimizes for asynchrony. It does not block while waiting for a response and
+our program is still well defined. We now have the readability of synchronous
+code with the efficiency of asynchronous callbacks. There is no trade-off
+between readability and responsiveness!
+
+And because it is so easy to work with graphics in Elm, we can create a
+workable Flickr search interface with only five additional lines of code!
+The full source code and interface [can be seen here][flickr]. Take a look!
+All of the graphics code lives in the definition of `scene`, taking up a
+grand total of two lines.
+
+ [flickr]: /edit/examples/Intermediate/Flickr.elm "Flickr API Example"
+
+|]
+
+{--
+It takes in a time-varying request string. It outputs a time-varying
+responses. These signals depend on each other, but they do not need to have the
+instantaneous time-dependency that we saw with `lift` where the second signal changes
+*immediately* after the first one. So with `send`, the signal of responses is updated
+only when the response is ready. And most importantly, `send` is non-blocking.
+Other code can execute while requests are in transit.
+
+Let's see the code:
+
+--}
+
+types = spacer 170 80 `above` width 170 [markdown||]
+
+{--
 <div style="color:#666;font-size:0.6em">
 **How to read types:**
 </div>
@@ -281,60 +345,25 @@ And with [type inference][infer], this does not require *any* type annotations.
 
  [infer]: http://en.wikipedia.org/wiki/Type_inference "Type Inference"
 
-|]
-
-example1 =
-  let code = text . monospace $ toText "    lift asText Mouse.position  &rArr;  " in
-  lift (\p -> code `beside` asText p) Mouse.position
+--}
 
 outro = [markdown|
-
-where `(asText :: a -> Element)` turns any value into a viewable graphical
-element (called an `Element`). And an `Element` that changes over time is
-an animation! That means that `lift asText Mouse.position` results in an
-animation that is tied directly to the mouse position.
-
-There are [tons of time-dependent relationships][signal] that can be expressed with FRP. The one
-we care about is the [`send`][http] relationship.
-
- [signal]: /docs/Signal/Signal.elm "Signal Docs"
- [http]: /docs/Signal/HTTP.elm "HTTP Docs"
-
-        send :: Signal (Request String) -> Signal (Response String)
-
-It takes in a time-varying request string. It outputs a time-varying
-responses. These signals depend on each other, but they do not need to have the
-instantaneous time-dependency that we saw with `lift` where the second signal changes
-*immediately* after the first one. So with `send`, the signal of responses is updated
-only when the response is ready. And most importantly, `send` is non-blocking.
-Other code can execute while requests are in transit.
-
-Let's see the code:
-
-        getPhotos :: Signal String -> Signal Element
-        getPhotos tags =
-            let photoList  = send (lift requestTag tags) in
-            let photoSizes = send (lift requestOneFrom photoList) in
-                lift sizesToPhoto photoSizes
-
-We have clear, linear control flow, but the resulting program automatically
-optimizes for asynchrony. It does not block while waiting for a response and
-our program is still well defined. We now have the readability of synchronous
-code with the efficiency of asynchronous callbacks. There is no trade-off
-between readability and responsiveness!
-
 
 ### Conclusions
 
 Callbacks are the modern `goto`. Callbacks result in non-linear code that
 is hard to read, maintain, and understand. Functional Reactive Programming
 introduces high-level control structures that let you easily express
-time-dependencies in a way that is more flexible and readable without
-sacrificing efficiency. Signals model change-over-time, allowing you to
-express [many different time-relationships][signal], such as dependence on the
-[present][clock] or [past][stamp], time-sensitive [sampling][sample]
-and [filtering][filter], and [asynchrony][http].
+time-dependencies. The resulting code is both readable, responsive, and
+significantly more concise.
 
+Signals can express [many different time-relationships][signal],
+such as dependence on the [present][clock] or [past][stamp],
+time-sensitive [sampling][sample] and [filtering][filter], and [asynchrony][http].
+This makes it much easier to deal with complicated time-dependent interactions,
+a task that is extremely common when designing user interfaces.
+
+  [signal]: /docs/Signal/Signal.elm "Signal Docs"
   [stamp]: /edit/examples/Intermediate/Stamps.elm "Stamps"
   [clock]: /edit/examples/Intermediate/Clock.elm "Clock"
   [sample]: /edit/examples/Reactive/SampleOn.elm "sampleOn"
@@ -342,16 +371,16 @@ and [filtering][filter], and [asynchrony][http].
   [http]: /edit/examples/JavaScript/ZipCodes.elm "Zip Codes"
 
 If you interested in this approach, [download Elm][download] and experiment!
-Elm is currently at version 0.5, and it is quickly maturing. If you feel like
+Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
 there are some libraries or features missing, [you can help add them](/Contribute.elm).
 
   [download]: https://github.com/evancz/Elm/blob/master/README.md#elm "Dowload"
 
 If you have questions or want to learn more, there are lots of helpful
-resources. This [thesis][thesis] describes the history of FRP and
-how FRP works in Elm. It is quite accessible even if you do not have
-any experience reading academic papers. You can also email [the list][list]
-or ask questions on the [#elm channel at freenode][irc].
+resources. This [thesis][thesis] has much more information on how asynchrony
+works in Elm. It also describes the history of FRP. It is quite accessible even
+if you do not have any experience reading academic papers. You can also email
+[the list][list] or ask questions on the [#elm channel at freenode][irc].
 
   [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
@@ -359,27 +388,54 @@ or ask questions on the [#elm channel at freenode][irc].
 
 |]
 
-content w ex1 =
-  let p0 = width w intro in
-  let p1 = flow right [ width w midtro1, spacer 30 100, quote1 ] in
-  let p2 = flow right [ width w midtro2, spacer 30 100, quote2 ] in
-  let p3 = flow right [ width w midtro3, spacer 30 100, funcs ] in
-  let p4 = width w midtro4 in
-  let p5 = width w outro in
+(inputField, tags) = Input.textField "Tag"
+
+code = text . monospace . toText
+box w e = container w 30 middle e
+pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
+
+requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
+dropTil s = case s of { h:t -> if h == '[' then t else dropTil t ; _ -> s }
+format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
+showResponse r = code (case r of { Success r -> "Success \"... " ++ format r ++ " ...\""
+                                 ; Waiting -> "Waiting"
+                                 ; Failure n _ -> "Failure " ++ show n ++ " \"...\"" })
+
+content w tags response =
+  let sideBySide big small = flow right [ width w big, spacer 30 100, small ] in
+  let codePair l r = pairing w (code l) (asText r) in
+  let asyncElm = flow down . map (width w) $
+                 [ asyncElm1
+                 , pairing w inputField (asText tags)
+                 , asyncElm2
+                 , codePair "lift length tags" (length tags)
+                 , codePair "lift reverse tags" (reverse tags)
+                 , codePair "lift requestTag tags" (requestTagSimple tags)
+                 , asyncElm3
+                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , asyncElm4 ] in
   flow down
-    [ p0, p1, p2, p3
-    , flow right [ flow down [ p4, width w ex1, p5 ]
-                 , spacer 30 100
-                 , types ] ]
+    [ width w intro
+    , sideBySide midtro1 quote1
+    , sideBySide midtro2 quote2
+    , sideBySide midtro3 funcs
+    , sideBySide asyncElm types
+    , width w outro ]
 
 defaultContent = content 600
 
-blog ex1 w' = 
+blog tags response w' = 
     let w = w' - 200 in
-    let c = if w' == 800 then defaultContent ex1 else content w ex1 in
+    let c = if w' == 800 then defaultContent tags response else content w tags response in
       container w' (heightOf c) middle c
 
-everything = lift blog example1
+requestTag tag =
+  if tag == "" then "" else
+  concat [ "http://api.flickr.com/services/rest/?format=json"
+         , "&nojsoncallback=1&api_key=66c61b93c4723c7c3a3c519728eac252"
+         , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
+  
+everything = lift2 blog tags (HTTP.sendGet (lift requestTag tags))
 
 main = lift2 skeleton everything Window.width
 
