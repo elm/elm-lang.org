@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 
 intro = [markdown|
@@ -245,7 +244,8 @@ all interactive time-varying content. For example, the value of a text input fie
 
 This creates two values. The first is a visual element called `inputField` that users can type into.
 This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
-as the user types into `inputField`. Here are the `inputField` and the `tags` signl in action:
+as the user types into `inputField`. Here are the `inputField` and the `tags` signal in action. Try typing
+into the input box to see `tags` update automatically.
 
 |]
 
@@ -373,7 +373,8 @@ a task that is extremely common when designing user interfaces.
   [filter]: /edit/examples/Reactive/KeepIf.elm "keepIf"
   [http]: /edit/examples/JavaScript/ZipCodes.elm "Zip Codes"
 
-If you interested in this approach, [download Elm][download] and experiment!
+If you interested in this approach, [download Elm][download] and
+[experiment](http://elm-lang.org/edit/examples/Reactive/Transforms.elm)!
 Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
 there are some libraries or features missing, [you can help add them](/Contribute.elm).
 
