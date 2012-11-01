@@ -1,6 +1,5 @@
 
 import HTTP
-import List (intercalate)
 import JSON
 
 {------------------------  Core Logic  ------------------------}
