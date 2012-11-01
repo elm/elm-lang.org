@@ -76,7 +76,7 @@ why do we *really* need callbacks? What task do they perform? What is their fund
 role in our programs?
 
 Well we often want to say, &ldquo;When this value is ready, take this action.&rdquo;
-This is a time-dependent relationships. We depend on a value as changes over time.
+This is a time-dependent relationships. We depend on a value as it changes over time.
 We also want to say, &ldquo;While this is happening, that can happen too.&rdquo;
 This is a time-dependent relationship too. These computations can happen concurrently. 
 These time relationships are not covered by traditional control structures,
