@@ -5,15 +5,16 @@ import Website.Tiles
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
 intermediate = addFolder "Intermediate/"
-  [ ("Slide Show"   , "SlideShow")
-  , ("Graphs"       , "Plot")
-  , ("Form Validation" , "Form")
-  , ("Light Box"    , "LightBox")
-  , ("Stamps"       , "Stamps")
-  , ("Fibonacci Tiles"  , "FibonacciTiles")
-  , ("Analog Clock" , "Clock")
+  [ ("Slide Show", "SlideShow")
+  , ("Graphs", "Plot")
+  , ("Form Validation", "Form")
+  , ("Flickr API", "Flickr")
+  , ("Light Box", "LightBox")
+  , ("Stamps", "Stamps")
+  , ("Fibonacci Tiles", "FibonacciTiles")
+  , ("Analog Clock", "Clock")
   , ("Pascal's Triangle", "PascalsTriangle")
-  , ("Web" , "Web")
+  , ("Web", "Web")
   ]
 
 intro =  [markdown|
