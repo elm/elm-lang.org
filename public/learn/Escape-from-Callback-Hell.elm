@@ -339,7 +339,7 @@ flickrSearch = lift scene (getPhotos (dropRepeats tags'))
 
 flickrRequest =
   "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=66c61b93c4723c7c3a3c519728eac252"
+  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858"
 
 extract response =
   case response of
