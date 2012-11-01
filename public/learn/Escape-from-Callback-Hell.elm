@@ -1,4 +1,6 @@
 import Website.Skeleton
+import HTTP
+import JSON
 
 intro = [markdown|
 
@@ -7,28 +9,6 @@ intro = [markdown|
 <h1><div style="text-align:center">Escape from Callback Hell
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
 </h1>
-
-
-Just like `goto`, callbacks lead to non-linear code that
-is hard to read, maintain, and understand. And just like
-with `goto`, this problem can be solved by introducing higher
-level control flow mechanisms. So if you want to escape from
-Callback Hell, you need to understand [Functional Reactive Programming][frp] (FRP).
-
-This post is intended to highlight the problems with callbacks, show how FRP
-solves these problems, and ultimately convince you that:
-
-<div style="text-align:center">
-[goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
-</div>
-
-  [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
-  [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
-  [frp]: /learn/What-is-FRP.elm "FRP"
-  [struct]: http://en.wikipedia.org/wiki/Structured_programming "Structured Programming"
-
-If this post proves convincing, the [Elm programming language](/) has full support for
-functional reactive web programming, so you can start experimenting today.
 
 |]
 
@@ -60,14 +40,15 @@ of programmers is a decreasing function of the density of go to statements in th
 
 midtro1 = [markdown|
 
-### The Problem
+Callbacks are used to structure programs. They let us say, &ldquo;When this value is ready,
+go to another function and run that.&rdquo; From there, maybe you go to *another* function
+and run that too. Pretty soon you are jumping around the whole codebase.
 
 If you have worked with [AJAX][ajax] or [node.js][nodejs] or any other callback heavy
 framework, you have probably been to Callback Hell. Your whole application ends up
 being passed around as callbacks, making the code extremely difficult to read and
-maintain. Borrowing terminology from the days of `goto` when the flow of control
-easily became a tangled mess, modern callback-heavy code is often pejoritively called
-[spaghetti code][spaghetti].
+maintain. The resulting tangled mess of code is often pejoritively called
+[spaghetti code][spaghetti], a term borrowed from the days of `goto`.
 
   [ajax]: http://en.wikipedia.org/wiki/Ajax_(programming) "AJAX"
   [nodejs]: http://nodejs.org "node.js"
@@ -78,11 +59,12 @@ in a way that is really hard to understand. You basically have
 to read the whole program to understand what any individual function does.
 
 And good luck if you want to add something to your code. A change in one function
-may break functions that *appear* to be unrelated (neither function calls the other).
+may break functions that *appear* to be unrelated (the functions may never even
+appear together in the entire codebase, connected only by deeply nested callbacks).
 You'll usually find yourself carefully tracing through the entire sequence of
 callbacks to find out what your change will really do.
 
-If you are not convinced that callbacks and `goto` are comparably bad practices,
+If you are not convinced that callbacks and `goto` are equally harmful,
 read Edsger Dijkstra's famous [&ldquo;Go To Statement Considered Harmful&rdquo;][goto]
 and replace the mentions of `goto` with mentions of callbacks.
 
@@ -93,28 +75,51 @@ vital role in modern programs. In an effort to reach a better solution we must a
 why do we *really* need callbacks? What task do they perform? What is their fundamental
 role in our programs?
 
-We often want to say, &ldquo;When this value is ready, take this action.&rdquo;
-This is a time-dependent relationships. One value depends on another
-that changes over time. We want to say, &ldquo;While this is happening,
-that can happen too.&rdquo; This is a time-dependent relationship too.
-These computations can happen concurrently. 
+Well we often want to say, &ldquo;When this value is ready, take this action.&rdquo;
+This is a time-dependent relationships. We depend on a value as changes over time.
+We also want to say, &ldquo;While this is happening, that can happen too.&rdquo;
+This is a time-dependent relationship too. These computations can happen concurrently. 
 These time relationships are not covered by traditional control structures,
 so we use the modern `goto` to work around it.
+
+
+## A Preview of the Solution
+
+Just like `goto`, callbacks lead to non-linear
+code that is hard to read, maintain, and understand. And just like
+with `goto`, this problem can be solved by introducing higher
+level control flow mechanisms. So if you want to escape from
+Callback Hell, you need to understand [Functional Reactive Programming][frp] (FRP).
+In short:
+
+<div style="text-align:center">
+[goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
+</div>
+
+<br/>
+
+  [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
+  [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
+  [frp]: /learn/What-is-FRP.elm "FRP"
+  [struct]: http://en.wikipedia.org/wiki/Structured_programming "Structured Programming"
 
 |]
 
 midtro2 = [markdown|
 
-[Functional Reactive Programming][frp] (FRP) explicitly models &ldquo;changes over time&rdquo;,
-providing a high-level framework for describing time-dependent relationships.
-It formalizes these relationships, resulting in simple syntax and semantics.
+[Functional Reactive Programming][frp] (FRP) is a high-level framework for
+describing time-dependent relationships. FRP formalizes these time-dependencies,
+resulting in simple syntax and semantics.
+
 FRP lets you make asynchronous calls without the callbacks. Without the non-linear
-control flow. Without the headache. You can write code that is both responsive *and* readable.
+control flow. Without the headache. You can write code that is both readable *and* responsive.
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
 To understand the existing problem and how it is solved with FRP, let's make
-this more concrete.
+this more concrete. The following example will explain the current state
+of affairs and fully explain how to create readable, responsive code that is
+entirely free of callbacks.
 
 |]
 
@@ -155,7 +160,7 @@ mess around with the DOM in [Elm](/), so this function only gets used in the JS 
 
 midtro3 = [markdown|
 
-### Case Study: Using the Flickr API
+## Case Study: Using the Flickr API
 
 Flickr &ndash; a photo sharing service &ndash; exposes an [API][api] that allows
 you to programmatically find and download photos. We want to find an image with
@@ -232,7 +237,7 @@ the same reason. It is pretty much the same as using `goto` to structure your pr
 
 asyncElm1 = [markdown|
 
-#### 3. Responsive *and* Readable
+#### 3. Readable *and* Responsive
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
 all interactive time-varying content. For example, the value of a text input field is a
@@ -294,65 +299,82 @@ code with the efficiency of asynchronous callbacks. There is no trade-off
 between readability and responsiveness!
 
 And because it is so easy to work with graphics in Elm, we can create a
-workable Flickr search interface with only five additional lines of code!
-The full source code and interface [can be seen here][flickr]. Take a look!
+workable Flickr search interface with only four additional lines of code!
+The [full source code and interface can be seen here][flickr]. Take a look!
 All of the graphics code lives in the definition of `scene`, taking up a
 grand total of two lines.
 
  [flickr]: /edit/examples/Intermediate/Flickr.elm "Flickr API Example"
 
+In fact, here is an abbreviated version that fits in this blog post:
+
+        scene img = flow down [ container 300  60 middle inputField
+                              , fittedImage 300 300 img ]
+
+        main = lift scene (getPhotos (dropRepeats tags))
+
+In `scene` we create stack two elements vertically. The first one
+is a 300 by 60 container with our `inputField` text field right in
+the middle. The second is an image that is automatically cropped to
+fit nicely in a 300 by 300. The `main` function is what actually
+gets put on screen. The only new thing in this line is `dropRepeats`
+which filters out any values that are repeated, cutting down the number
+of HTTP requests we make. The result looks like this:
+
+
 |]
 
-{--
-It takes in a time-varying request string. It outputs a time-varying
-responses. These signals depend on each other, but they do not need to have the
-instantaneous time-dependency that we saw with `lift` where the second signal changes
-*immediately* after the first one. So with `send`, the signal of responses is updated
-only when the response is ready. And most importantly, `send` is non-blocking.
-Other code can execute while requests are in transit.
+(tagInput',tags') = Input.textField "Flickr Instant Search"
 
-Let's see the code:
+getPhotos tags =
+  let photoList  = send (lift requestTag tags) in
+  let photoSizes = send (lift requestOneFrom photoList) in
+      lift sizesToPhoto photoSizes
 
---}
+scene img = flow down [ container 300  60 middle tagInput'
+                      , fittedImage 300 300 img ]
 
-types = spacer 170 80 `above` width 170 [markdown||]
+flickrSearch = lift scene (getPhotos (dropRepeats tags'))
 
-{--
-<div style="color:#666;font-size:0.6em">
-**How to read types:**
-</div>
-<div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em">
-The `::` can be read as &ldquo;has type&rdquo;.
-So we say that `(42 :: Int)` which means that 42 has type integer. The arrow `(->)` represents a function.
-So that could be something like `(not :: Bool -> Bool)` which means `not` takes a boolean and returns
-a boolean. The lower case letters are like wild cards, usually called *type variables*.
-They mean &ldquo;any type can go here&rdquo;. For instance, we say that `(==) :: a -> a -> Bool`,
-meaning that equality takes two arguments of the same type.
-</div>
 
-<br/>
-<br/>
+flickrRequest =
+  "http://api.flickr.com/services/rest/?format=json" ++
+  "&nojsoncallback=1&api_key=66c61b93c4723c7c3a3c519728eac252"
 
-<div style="color:#666;font-size:0.6em">
-**Why types are useful:**
-</div>
-<div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em">
-The types create interfaces on a per function basis.
-That means you can *safely* assume that the input you are getting is exactly what you expect.
-No one can break your code by providing `null`, providing an object instead of an array, or
-some other silly mistake where you end up with an unexpected *type* of argument.
-And with [type inference][infer], this does not require *any* type annotations.
-</div>
+extract response =
+  case response of
+  { Success str -> JSON.fromString str
+  ; _ -> empty }
 
- [infer]: http://en.wikipedia.org/wiki/Type_inference "Type Inference"
+requestTag tag =
+  if tag == "" then get "" else
+  get (concat [ flickrRequest
+              , "&method=flickr.photos.search&sort=random&per_page=10"
+              , "&tags=", tag ])
 
---}
+requestOneFrom photoList =
+  let { getPhotoID json =
+          case findArray "photo" (findObject "photos" json) of
+          { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
+      ; requestSizes id = if id == "" then "" else
+                              concat [ flickrRequest
+                                     , "&method=flickr.photos.getSizes"
+                                     , "&photo_id=", id ]
+      }
+  in  get (requestSizes (getPhotoID (extract photoList)))
+
+sizesToPhoto sizeOptions =
+  let getImg sizes =
+          case reverse sizes of
+          { _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
+          ; (JsonObject obj) : _ -> findString "source" obj
+          ; _ -> "waiting.gif" }
+  in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
+
 
 outro = [markdown|
 
-### Conclusions
+## Conclusions
 
 Callbacks are the modern `goto`. Callbacks result in non-linear code that
 is hard to read, maintain, and understand. Functional Reactive Programming
@@ -405,7 +427,7 @@ showResponse r = code (case r of { Success r -> "Success \"... " ++ format r ++ 
                                  ; Waiting -> "Waiting"
                                  ; Failure n _ -> "Failure " ++ show n ++ " \"...\"" })
 
-content w tags response =
+content w tags response search =
   let sideBySide big small = flow right [ width w big, spacer 30 100, small ] in
   let codePair l r = pairing w (code l) (asText r) in
   let asyncElm = flow down . map (width w) $
@@ -423,23 +445,24 @@ content w tags response =
     , sideBySide midtro1 quote1
     , sideBySide midtro2 quote2
     , sideBySide midtro3 funcs
-    , sideBySide asyncElm types
+    , asyncElm
+    , container w (heightOf search) middle search
     , width w outro ]
 
 defaultContent = content 600
 
-blog tags response w' = 
+blog tags response search w' = 
     let w = w' - 200 in
-    let c = if w' == 800 then defaultContent tags response else content w tags response in
+    let c = if w' == 800 then defaultContent tags response search else content w tags response search in
       container w' (heightOf c) middle c
 
-requestTag tag =
+requestTag' tag =
   if tag == "" then "" else
   concat [ "http://api.flickr.com/services/rest/?format=json"
          , "&nojsoncallback=1&api_key=66c61b93c4723c7c3a3c519728eac252"
          , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
   
-everything = lift2 blog tags (HTTP.sendGet (lift requestTag tags))
+everything = lift3 blog tags (HTTP.sendGet (lift requestTag' tags)) flickrSearch
 
 main = lift2 skeleton everything Window.width
 
