@@ -395,13 +395,6 @@ a task that is extremely common when designing user interfaces.
   [filter]: /edit/examples/Reactive/KeepIf.elm "keepIf"
   [http]: /edit/examples/JavaScript/ZipCodes.elm "Zip Codes"
 
-If you interested in this approach, [download Elm][download] or
-[experiment online](http://elm-lang.org/edit/examples/Basic.elm)!
-Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
-there are some libraries or features missing, [you can help add them](/Contribute.elm).
-
-  [download]: https://github.com/evancz/Elm/blob/master/README.md#elm "Dowload"
-
 Look out for an upcoming post on **integrating Elm with JS code**. This
 post will show how Elm can be used to handle your time dependent
 logic without disrupting an existing codebase.
@@ -409,7 +402,14 @@ So you can use FRP to escape Callback Hell and still directly use JavaScript,
 JQuery, Bootstrap, or any other existing web technology. Until then, you can
 read up on the [JavaScript Event Interface][jsei] which makes this all possible.
 
- [jsei]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Event Interface"
+  [jsei]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Event Interface"
+
+If you interested in this approach, [download Elm][download] or
+[experiment online](http://elm-lang.org/edit/examples/Basic.elm)!
+Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
+there are some libraries or features missing, [you can help add them](/Contribute.elm).
+
+  [download]: https://github.com/evancz/Elm/blob/master/README.md#elm "Dowload"
 
 If you have questions or want to learn more, there are lots of helpful
 resources. This [thesis][thesis] has much more information on how asynchrony
