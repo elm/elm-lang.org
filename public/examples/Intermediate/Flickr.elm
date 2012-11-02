@@ -71,10 +71,7 @@ extract response =
 requestTag tag =
   if tag == "" then get "" else
   get (concat [ flickrRequest
-              , "&method=flickr.photos.search"
-              , "&sort=random"
-              , "&tags=", tag
-              , "&per_page=10" ])
+              , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
 
 
 -- Take a list of photos and choose one, resulting in a request.
@@ -84,8 +81,7 @@ requestOneFrom photoList =
           { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
       ; requestSizes id = if id == "" then "" else
                               concat [ flickrRequest
-                                     , "&method=flickr.photos.getSizes"
-                                     , "&photo_id=", id ]
+                                     , "&method=flickr.photos.getSizes&photo_id=", id ]
       }
   in  get (requestSizes (getPhotoID (extract photoList)))
 
