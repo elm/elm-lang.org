@@ -324,7 +324,7 @@ of HTTP requests we make. The result looks like this:
 
 |]
 
-(tagInput',tags') = Input.textField "Flickr Instant Search"
+(tagInput',tags') = Input.textField "Flickr Search"
 
 getPhotos tags =
   let photoList  = send (lift requestTag tags) in
@@ -363,10 +363,10 @@ requestOneFrom photoList =
 
 sizesToPhoto sizeOptions =
   let getImg sizes =
-          case reverse sizes of
-          { _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
+          case sizes of
+          { _ : _ : _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
           ; (JsonObject obj) : _ -> findString "source" obj
-          ; _ -> "waiting.gif" }
+          ; _ -> "/grey.jpg" }
   in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
 
 
