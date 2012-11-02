@@ -313,10 +313,10 @@ In fact, here is an abbreviated version that fits in this blog post:
 
         main = lift scene (getPhotos (dropRepeats tags))
 
-In `scene` we create stack two elements vertically. The first one
-is a 300 by 60 container with our `inputField` text field right in
+In `scene` we stack two elements vertically so that they flow downward.
+The first one is a 300 by 60 container with our `inputField` text field right in
 the middle. The second is an image that is automatically cropped to
-fit nicely in a 300 by 300. The `main` function is what actually
+fit nicely in a 300 by 300 square. The `main` function is what actually
 gets put on screen. The only new thing in this line is `dropRepeats`
 which filters out any values that are repeated, cutting down the number
 of HTTP requests we make. The result looks like this:
@@ -349,8 +349,7 @@ extract response =
 requestTag tag =
   if tag == "" then get "" else
   get (concat [ flickrRequest
-              , "&method=flickr.photos.search&sort=random&per_page=10"
-              , "&tags=", tag ])
+              , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
 
 requestOneFrom photoList =
   let { getPhotoID json =
@@ -358,8 +357,7 @@ requestOneFrom photoList =
           { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
       ; requestSizes id = if id == "" then "" else
                               concat [ flickrRequest
-                                     , "&method=flickr.photos.getSizes"
-                                     , "&photo_id=", id ]
+                                     , "&method=flickr.photos.getSizes&photo_id=", id ]
       }
   in  get (requestSizes (getPhotoID (extract photoList)))
 
@@ -458,9 +456,7 @@ blog tags response search w' =
 
 requestTag' tag =
   if tag == "" then "" else
-  concat [ "http://api.flickr.com/services/rest/?format=json"
-         , "&nojsoncallback=1&api_key=66c61b93c4723c7c3a3c519728eac252"
-         , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
+  concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
   
 everything = lift3 blog tags (HTTP.sendGet (lift requestTag' tags)) flickrSearch
 
