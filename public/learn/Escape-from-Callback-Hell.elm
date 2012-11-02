@@ -76,7 +76,7 @@ why do we *really* need callbacks? What task do they perform? What is their fund
 role in our programs?
 
 Well we often want to say, &ldquo;When this value is ready, take this action.&rdquo;
-This is a time-dependent relationships. We depend on a value as changes over time.
+This is a time-dependent relationships. We depend on a value as it changes over time.
 We also want to say, &ldquo;While this is happening, that can happen too.&rdquo;
 This is a time-dependent relationship too. These computations can happen concurrently. 
 These time relationships are not covered by traditional control structures,
@@ -393,8 +393,17 @@ a task that is extremely common when designing user interfaces.
   [filter]: /edit/examples/Reactive/KeepIf.elm "keepIf"
   [http]: /edit/examples/JavaScript/ZipCodes.elm "Zip Codes"
 
-If you interested in this approach, [download Elm][download] and
-[experiment](http://elm-lang.org/edit/examples/Reactive/Transforms.elm)!
+Look out for an upcoming post on **integrating Elm with JS code**. This
+post will show how Elm can be used to handle your time dependent
+logic without disrupting an existing codebase.
+So you can use FRP to escape Callback Hell and still directly use JavaScript,
+JQuery, Bootstrap, or any other existing web technology. Until then, you can
+read up on the [JavaScript Event Interface][jsei] which makes this all possible.
+
+  [jsei]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Event Interface"
+
+If you interested in this approach, [download Elm][download] or
+[experiment online](http://elm-lang.org/edit/examples/Basic.elm)!
 Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
 there are some libraries or features missing, [you can help add them](/Contribute.elm).
 
