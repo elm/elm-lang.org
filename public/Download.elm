@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 
 install = [markdown|
@@ -44,7 +43,7 @@ you can use it as a starting point for creating your own website!
 ### Thesis on Elm
 
 My [thesis on Elm][4] is available too. It provides a more formal
-definition of Elm and a discription of Concurrent FRP, a new approach
+definition of Elm and a description of Concurrent FRP, a new approach
 to efficient [Functional Reactive Programming][frp].
 
   [4]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis on Elm"
