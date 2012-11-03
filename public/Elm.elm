@@ -8,10 +8,13 @@ intro = [markdown|
 Elm aims to make front-end web development more pleasant.
 It introduces a new approach to GUI programming that corrects the
 systemic problems that make HTML, CSS, and JavaScript a headache to use.
-Strongly influenced by [Haskell][why-elm] and [Functional Reactive Programming][frp],
-Elm allows you to quickly and easily work with visual layout, create scenes
-with HTML5&rsquo;s canvas, make [asynchronous requests][http], and handle complicated user input.
+Elm allows you to quickly and easily [work with visual layout][flow],
+[use the canvas][canvas], [manage complicated user input][frp],
+and [escape from callback hell][escape].
 
+  [flow]:    /edit/examples/Elements/FlowDown2.elm "Flow down example"
+  [canvas]:  /edit/examples/Reactive/Transforms.elm "Canvas Example"
+  [escape]:  /learn/Escape-from-Callback-Hell.elm
   [why-elm]: http://www.testblogpleaseignore.com/2012/06/21/why-elm/ "Why Elm?"
   [frp]:     /learn/What-is-FRP.elm "functional reactive programming"
   [http]:    /edit/examples/JavaScript/ZipCodes.elm "HTTP requests"
@@ -52,12 +55,12 @@ news = [markdown|
 
 #### News
 
+[Escape from Callback Hell][escape]: Never write a callback again!
+
 [Making Pong in Elm][pong]: a comprehensive walkthrough of how to make purely functional games.
 
-[Elm 0.5][announcement]: Lots of new and useful libraries!
-
+  [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [announcement]: /blog/announce/version-0.5.0.elm "announcement"
 
 |]
 
