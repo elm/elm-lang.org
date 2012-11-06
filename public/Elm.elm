@@ -7,7 +7,7 @@ intro = [markdown|
 
 Elm aims to make front-end web development more pleasant.
 It introduces a new approach to GUI programming that corrects the
-systemic problems that make HTML, CSS, and JavaScript a headache to use.
+systemic problems of HTML, CSS, and JavaScript.
 Elm allows you to quickly and easily [work with visual layout][flow],
 [use the canvas][canvas], [manage complicated user input][frp],
 and [escape from callback hell][escape].
@@ -90,3 +90,7 @@ info w =
        ]
 
 main = lift (skeleton info) Window.width
+
+title = constant (JavaScript.castStringToJSString "Elm - Making the Web Functional")
+foreign export jsevent "elm_title"
+  title :: Signal JSString

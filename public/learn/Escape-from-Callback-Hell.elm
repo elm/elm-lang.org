@@ -76,7 +76,7 @@ why do we *really* need callbacks? What task do they perform? What is their fund
 role in our programs?
 
 Well we often want to say, &ldquo;When this value is ready, take this action.&rdquo;
-This is a time-dependent relationships. We depend on a value as it changes over time.
+This is a time-dependent relationship. We depend on a value as it changes over time.
 We also want to say, &ldquo;While this is happening, that can happen too.&rdquo;
 This is a time-dependent relationship too. These computations can happen concurrently. 
 These time relationships are not covered by traditional control structures,
@@ -189,7 +189,7 @@ functions specified to the right. Here is our code:
         drawOnScreen(getPhoto('tokyo'));
 
 It's pretty clear what is going on here. The `syncGet` function takes a request and blocks
-until it recieves a response. The logic of the program is simple and linear. If you wanted
+until it receives a response. The logic of the program is simple and linear. If you wanted
 to add anything, it is pretty obvious where it would go. You never have moments where you
 need a value but it does not exist yet.
 
@@ -215,7 +215,7 @@ callbacks that give finer-grained control over time-dependencies.
     
         getPhoto('tokyo', drawOnScreen);
 
-The `asyncGet` function takes a request and a callback to run once a response is recieved.
+The `asyncGet` function takes a request and a callback to run once a response is received.
 We can now say, &ldquo;These computations must happen one after another, but other things
 can happen in the meantime.&rdquo;
 
@@ -300,9 +300,11 @@ between readability and responsiveness!
 
 And because it is so easy to work with graphics in Elm, we can create a
 workable Flickr search interface with only four additional lines of code!
-The [full source code and interface can be seen here][flickr]. Take a look!
+The [full source code and interface can be seen here][flickr], with a more
+idiomatic implementation of `getPhotos` that takes only one line. Take a look!
 All of the graphics code lives in the definition of `scene`, taking up a
-grand total of two lines.
+grand total of two lines. All told, [the core logic][flickr] is seven lines
+from start to finish.
 
  [flickr]: /edit/examples/Intermediate/Flickr.elm "Flickr API Example"
 

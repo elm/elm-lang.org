@@ -12,13 +12,16 @@ import JSON
 
 -- Asynchronously get a photo with a given tag. Makes two
 -- asynchronous HTTP requests to Flickr, resulting in
--- the URL of an image.
+-- the URL of an image. This function uses the composition
+-- operator:
+--
+--     f . g  ==  (\x -> f(g(x)))
+--
+-- to make things a bit more concise. You can read it from
+-- right to left.
 
-getPhotos tags =
-  let photoList  = send (lift requestTag tags) in
-  let photoSizes = send (lift requestOneFrom photoList) in
-      lift sizesToPhoto photoSizes
-
+getPhotos =
+  lift sizesToPhoto . send . lift requestOneFrom . send . lift requestTag
 
 -- Create a text input box and a signal of tags, as seen in
 -- "Escape from Callback Hell".
