@@ -91,6 +91,6 @@ info w =
 
 main = lift (skeleton info) Window.width
 
-title = constant (JavaScript.castStringToJSString "Elm - Making the Web Functional")
+title = constant (JavaScript.castStringToJSString "The Elm Programming Language")
 foreign export jsevent "elm_title"
   title :: Signal JSString
