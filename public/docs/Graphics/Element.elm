@@ -1,4 +1,3 @@
-
 import Website.Docs
 
 textContent =
@@ -23,7 +22,7 @@ combiningContent =
     , ("above", "Element -> Element -> Element", "(a `above` b) is the same as (flow down [a,b]), placing element a above element b")
     , ("below", "Element -> Element -> Element", "(a `below` b) is the same as (flow down [b,a]), placing element a below element b")
     , ("beside", "Element -> Element -> Element", "(a `beside` b) is the same as (flow right [a,b]), placing element a to the left of element b.")
-    , ("layers", "[Element] -> Element", "Stack elements on top of each other.")
+    , ("layers", "[Element] -> Element", "Stack elements on top of each other from bottom to top. Equivalent to (flow outward).")
     ]
 
 stylingContent =
@@ -43,7 +42,7 @@ inspectingContent =
 
 positioningContent =
     [ ("spacer", "Int -> Int -> Element", "Create an empty element. Good for adding spaces.")
-    , ("container", "Int -> Int -> Position -> Element -> Element", "Put an element in a container.")
+    , ("container", "Int -> Int -> Position -> Element -> Element", "Create a container with a given width and height. Place an element at a given position within the container.")
     , ("topLeft, midLeft, bottomLeft, midTop, middle, midBottom, topRight, midRight, bottomRight", "Position", "Basic positions for an element in a container.")
     , ("topLeftAt, bottomLeftAt, middleAt, topRightAt, bottomRightAt", "Location -> Location -> Position", "Allows more flexible positioning of elements.")
     , ("absolute", "Int -> Location", "An absolute location in pixels.")
