@@ -20,12 +20,11 @@ Finally, we will see these functions in action with some examples.
 data Expr = Boolean Bool | Not Expr | And Expr Expr | Or Expr Expr
 
 eval expr =
-  case expr of
-  { Boolean b -> b
-  ; Not e -> not (eval e)
-  ; And e1 e2 -> eval e1 && eval e2
-  ; Or  e1 e2 -> eval e1 || eval e2
-  }
+  case expr of {
+    Boolean b -> b ;
+    Not e -> not (eval e) ;
+    And e1 e2 -> eval e1 && eval e2 ;
+    Or  e1 e2 -> eval e1 || eval e2 }
 
 e1 = Boolean True
 e2 = And e1 (Boolean False)

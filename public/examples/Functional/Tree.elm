@@ -16,27 +16,24 @@ empty = Empty
 singleton v = Node v Empty Empty
 
 insert x tree =
-  case tree of
-  { Empty -> singleton x
-  ; Node y left right ->
+  case tree of {
+    Empty -> singleton x ;
+    Node y left right ->
       if x == y then tree else
       if x <  y then Node y (insert x left) right
-                else Node y left (insert x right)
-  }
+                else Node y left (insert x right) }
 
 fromList xs = foldl insert empty xs
 
 depth tree =
-  case tree of
-  { Node v left right -> 1 + max (depth left) (depth right)
-  ; Empty -> 0
-  }
+  case tree of {
+    Node v left right -> 1 + max (depth left) (depth right) ;
+    Empty -> 0 }
 
 map f tree =
-  case tree of
-  { Node v left right -> Node (f v) (map f left) (map f right)
-  ; Empty -> Empty
-  }
+  case tree of {
+    Node v left right -> Node (f v) (map f left) (map f right) ;
+    Empty -> Empty }
 
 t1 = fromList [1,2,3]
 t2 = fromList [2,1,3]
@@ -48,7 +45,7 @@ main = flow down [ display "depth" depth t1
 
 display name f v =
   text . monospace . toText $
-  concat [ show (f v), " <== ", name, " ", show v ]
+  concat [ show (f v), " &lArr; ", name, " ", show v ]
 
 {-----------------------------------------------------------------
 

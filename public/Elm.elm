@@ -1,4 +1,5 @@
 import Website.Skeleton
+import Website.Tiles
 import Website.ColorScheme
 
 intro = [markdown|
@@ -25,15 +26,19 @@ features = [markdown|
 
 #### Features
 
-- [Functional Reactive Programming][frp]
-- [Strong][strong] / [static][static] typing with [type inference][infer]
-- [Native Markdown support](/edit/examples/Elements/Markdown.elm)
-- [Growing set of core libraries](/Documentation.elm)
+[Functional Reactive Programming][frp]
+
+[Strong][strong] / [static][static] types, [type inference][infer]
+
+[Native Markdown support](/edit/examples/Elements/Markdown.elm)
+
+[Libraries](/Documentation.elm) and [Module System][modules]
 
   [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
   [strong]: http://en.wikipedia.org/wiki/Strong_typing "strongly"
   [static]: http://en.wikipedia.org/wiki/Type_system#Static_typing "statically"
   [infer]:  http://en.wikipedia.org/wiki/Type_inference "type inference"
+  [modules]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Module System"
 
 |]
 
@@ -77,17 +82,29 @@ Or see if anyone is on IRC ([`#elm` on freenode][irc]). There are also tons of w
 
 |]
 
+addFolder folder = map (\(x,y) -> (x, y, folder))
+
+examples' = addFolder "Intermediate/"
+  [ ("Analog Clock", "Clock")
+  , ("Slide Show", "SlideShow")
+  , ("Stamps", "Stamps")
+  , ("Diagrams", "Physics")
+  , ("Fibonacci Tiles", "FibonacciTiles")
+  ]
+
+content w =
+  let tiles = tile w $ map toTile examples' in
+  container w (heightOf tiles) midTop tiles
+
 info w =
-  let { more = if w < 800 then w `div` 2 - 20 else 380
-      ; less = if w < 800 then w `div` 2 - 20 else 380
-      ; twoCol l r = flow right [ width more l, spacer 40 10, width less r ]
-      }
-  in  flow down
-       [ width w intro
-       , twoCol features examples
-       , spacer 10 20
-       , twoCol news contact
-       ]
+  let wid = (w-60) `div` 3 in
+  flow down
+    [ width w intro
+    , spacer 10 40
+    , content w
+    , spacer 10 40
+    , flow right . List.intersperse (spacer 30 10) $ map (width wid) [ features, news, contact ]
+    ]
 
 main = lift (skeleton info) Window.width
 
