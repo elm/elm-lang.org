@@ -1,6 +1,7 @@
 
 import List (intercalate,intersperse)
 import Website.Skeleton
+import Website.ColorScheme
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm") in
@@ -46,19 +47,19 @@ functional = addFolder "Functional/"
         , ("Zip"        , "Zip")
         , ("Quick Sort" , "QuickSort")
         ])
-  , ("Functions as Values",
+  , ("Functions",
         [ ("Anonymous Functions", "Anonymous")
         , ("Application"        , "Application")
         , ("Composition"        , "Composition")
         , ("Infix Operators"    , "Infix")
         ])
-  , ("Higher-Order Functions",
+  , ("Higher-Order",
         [ ("Map"    , "Map")
         , ("Fold"   , "Sum")
         , ("Filter" , "Filter")
         , ("ZipWith", "ZipWith")
         ])
-  , ("Algebraic Data Types",
+  , ("Data Types",
         [ ("Maybe", "Maybe")
         , ("Boolean Expressions", "BooleanExpressions")
         , ("Tree", "Tree")
@@ -90,7 +91,7 @@ reactive = addFolder "Reactive/"
                , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("HTTP",   [ ("Zip Codes (via AJAX requests)", "ZipCodes") ])
+  , ("HTTP",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
                , ("Keep If", "KeepIf")
                , ("Drop Repeats", "DropRepeats")
@@ -99,13 +100,14 @@ reactive = addFolder "Reactive/"
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
-  text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
-         intercalate (fromString ", ") (map example links)
+  flow right [ width 130 (text $ toText "   " ++ italic (toText title))
+             , text (intercalate (bold . Text.color accent4 $ toText "  &middot;  ") $ map example links)
+             ]
 
 insertSpace lst = case lst of { x:xs -> x : spacer 1 5 : xs ; [] -> [] }
 
 subsection w (name,info) =
-  flow down . insertSpace . map (width w) $
+  flow down . insertSpace . intersperse (spacer 1 1) . map (width w) $
     (text . bold $ toText name) : map toLinks info
 
 words = [markdown|
@@ -120,6 +122,6 @@ These examples demonstrate all of the basic building blocks of Elm.
 content w =
   words : map (subsection w) [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
 
-exampleSets w = flow down . map (width w) . intersperse (plainText "&nbsp;") $ content w
+exampleSets w = flow down . map (width w) . intersperse (plainText " ") $ content w
 
 main = lift (skeleton exampleSets) Window.width
