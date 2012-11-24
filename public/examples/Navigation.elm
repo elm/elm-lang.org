@@ -102,7 +102,7 @@ js = [markdown|
 
 <img src="/yogi.jpg"
      style="visibility:hidden;width:0;"
-     onload="body.onload=function(){var p=top.location.pathname;console.log(p);if (p.slice(0,15) == '/edit/examples/') { var e=document.createEvent('Event');e.initEvent('location', true, true);e.value = p.slice(15).split('/')[0];document.dispatchEvent(e);}}" />
+     onload="body.onload=function(){var p=top.location.pathname;if (p.slice(0,15) == '/edit/examples/') { var e=document.createEvent('Event');e.initEvent('location', true, true);e.value = p.slice(15).split('/')[0];document.dispatchEvent(e);}}" />
 
 |]
 

@@ -42,20 +42,6 @@ features = [markdown|
 
 |]
 
-examples = [markdown|
-
-#### Examples
-
-- [Hello, world!](/edit/examples/Elements/HelloWorld.elm)
-- [Images](/edit/examples/Elements/Image.elm)
-- [Mouse position](/edit/examples/Reactive/Position.elm)
-- [The Basics](/examples/Basic.elm)
-- [This website](/edit/Elm.elm)
-- [Much, much more!](/Examples.elm)
-
-|]
-
-
 news = [markdown|
 
 #### News
@@ -84,7 +70,7 @@ Or see if anyone is on IRC ([`#elm` on freenode][irc]). There are also tons of w
 
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
-examples' = addFolder "Intermediate/"
+examples = addFolder "Intermediate/"
   [ ("Analog Clock", "Clock")
   , ("Slide Show", "SlideShow")
   , ("Stamps", "Stamps")
@@ -93,7 +79,7 @@ examples' = addFolder "Intermediate/"
   ]
 
 content w =
-  let tiles = tile w $ map toTile examples' in
+  let tiles = tile w $ map toTile examples in
   container w (heightOf tiles) midTop tiles
 
 info w =

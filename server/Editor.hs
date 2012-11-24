@@ -15,7 +15,6 @@ ide fileName code =
     H.docTypeHtml $ do
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ pageTitle fileName
-        googleAnalytics
       preEscapedToMarkup $ 
          concat [ "<frameset rows=\"*,160px\">\n"
                 , "<frameset cols=\"50%,50%\">\n"

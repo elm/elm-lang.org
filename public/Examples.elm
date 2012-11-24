@@ -15,22 +15,25 @@ certain skills:
 
 [Intermediate][2] &#8212; building components with Elm
 
-[Elm + JavaScript][3] &#8212; use existing JavaScript libraries, features, etc.
+[Syntax][3] &#8212; the syntax of Elm and some larger examples
 
-[Elm + Haskell][4] &#8212; serve Elm code without leaving Haskell
+[Elm + JavaScript][4] &#8212; use existing JavaScript libraries, features, etc.
 
-[This Website][5] &#8212; the Elm source code for this site
+[Elm + Haskell][5] &#8212; serve Elm code without leaving Haskell
 
-[Elm for Games][6] &#8212; how to make games in Elm
+[This Website][6] &#8212; the Elm source code for this site
+
+[Elm for Games][7] &#8212; how to make games in Elm
 
 <br/>
 
   [1]: /examples/Basic.elm "Basic"
   [2]: /examples/Intermediate.elm "Intermediate"
-  [3]: /examples/ElmJS.elm "Elm + JavaScript"
-  [4]: /examples/ElmHaskell.elm "Elm + Haskell"
-  [5]: /examples/ThisWebsite.elm "This Website"
-  [6]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
+  [3]: http://www.grzegorzbalcerek.net/elm/index.html "Syntax and More"
+  [4]: /examples/ElmJS.elm "Elm + JavaScript"
+  [5]: /examples/ElmHaskell.elm "Elm + Haskell"
+  [6]: /examples/ThisWebsite.elm "This Website"
+  [7]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
 
 |]
 
