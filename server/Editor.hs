@@ -17,10 +17,13 @@ ide fileName code =
         H.title . toHtml $ "Elm Editor: " ++ pageTitle fileName
         googleAnalytics
       preEscapedToMarkup $ 
-         concat [ "<frameset cols=\"50%,50%\">\n"
+         concat [ "<frameset rows=\"*,160px\">\n"
+                , "<frameset cols=\"50%,50%\">\n"
                 , "  <frame name=\"input\" src=\"/code/" ++ fileName ++ "\" />\n"
                 , "  <frame name=\"output\" src=\"/compile?input="
-                , urlEncode code ++ "\" />\n</frameset>" ]
+                , urlEncode code ++ "\" />\n</frameset>\n"
+                , "<frame src=\"/examples/Navigation.elm\" />\n"
+                , "</frameset>" ]
 
 
 -- | Create an HTML document that allows you to edit and submit Elm code
