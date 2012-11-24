@@ -30,6 +30,13 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
         }
         return switchState(source, setState, ncomment(t, 1));
       }
+      if (ch == '['  &&
+	  source.eat('m') && source.eat('a') && source.eat('r') && source.eat('k') && 
+	  source.eat('d') && source.eat('o') && source.eat('w') && source.eat('n') &&
+	  source.eat('|')) {
+        setState(nmarkdown);
+        return null;
+      }
       return null;
     }
     
@@ -130,6 +137,18 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
       setState(ncomment(type, currNest));
       return type;
     }
+  }
+
+  function nmarkdown(source, setState) {
+    while (!source.eol()) {
+      var ch = source.next();
+      if (ch == '|' && source.eat(']')) {
+        setState(normal);
+	return null;
+      }
+    }
+    setState(nmarkdown);
+    return "string";
   }
     
   function stringLiteral(source, setState) {
