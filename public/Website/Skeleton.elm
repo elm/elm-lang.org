@@ -1,5 +1,5 @@
 
-module Website.Skeleton (skeleton) where
+module Website.Skeleton where
 
 import Website.ColorScheme
 
@@ -17,14 +17,22 @@ buttons = flow right . map button $
 title w =
   let elm = text . Text.link "/" . Text.color black . Text.height 2 . bold $ toText "Elm" in
   container w 60 midLeft elm
-            
+
+veiwSource = [markdown|
+<a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!='/edit')top.location.href='/edit'+(p=='/'?'/Elm.elm':p);">
+<img style="position: absolute; top: 0; right: 0; border: 0;"
+     src="/ribbon.gif"
+     alt="View Page Source">
+</a>
+|]
 
 heading outer inner =
   let header = container outer 60 middle $
                title (inner - widthOf buttons) `beside` buttons
   in  layers [ flow down [ color lightGrey (spacer outer 58)
                          , color mediumGrey (spacer outer 1) ]
-             , header ]
+             , header
+             , width outer veiwSource ]
 
 skeleton bodyFunc outer =
   let inner = if outer < 820 then outer - 20 else 800 in
