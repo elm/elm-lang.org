@@ -1,7 +1,4 @@
 
-import Mouse (isClickedOn)
-import Window (dimensions)
-
 --  Three Shades of Grey
 
 c1 = rgba 255 255 255 0.4
@@ -16,8 +13,8 @@ arrow theta = let { w = 30 ; h = 60 ; x = w * 2/7 ; y = h*3/11 } in
     [ filled c1 $ rect w h (w/2, h/2)
     , rotate theta . filled c2 $ polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
     ]
-(leftArrow , leftClicked ) = isClickedOn (arrow 0.5)
-(rightArrow, rightClicked) = isClickedOn (arrow 0)
+(leftArrow , leftClicked ) = Mouse.isClickedOn (arrow 0.5)
+(rightArrow, rightClicked) = Mouse.isClickedOn (arrow 0)
 
 
 --  Helper functions
@@ -37,7 +34,7 @@ lightBox imgW imgH imgs =
        color c3 . container w h middle $ layers
         [ fittedImage imgW imgH (safeIth index imgs)
         , disp midLeft leftArrow `beside` disp midRight rightArrow ]
-  in  lift2 scene dimensions index
+  in  lift2 scene Window.dimensions index
 
 images = [ "book.jpg", "shells.jpg", "stack.jpg", "car.jpg", "pipe.jpg" ]
 

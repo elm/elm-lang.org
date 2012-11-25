@@ -1,8 +1,4 @@
 
-import Mouse (clicks)
-import Time (every)
-import Window (dimensions)
-
 
 ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
 
@@ -12,10 +8,10 @@ slideShow (w,h) index =
   color black . container w h middle . image 472 315 $ ith i images
 
 
-clickCount = count clicks
-tickCount t = count (every t)
+clickCount = count Mouse.clicks
+tickCount t = count (Time.every t)
 
-main = lift2 slideShow dimensions (tickCount 4)
+main = lift2 slideShow Window.dimensions (tickCount 4)
 
 -- Be sure to also try this with `clickCount` which switches images
 -- each time the user clicks the mouse. You can also try changing the

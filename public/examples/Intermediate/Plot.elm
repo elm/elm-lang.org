@@ -1,6 +1,4 @@
 
-import List (zip,unzip,zipWith)
-import Input (dropDown)
 
 ----  Create graphs from scratch  ----
 
@@ -54,7 +52,7 @@ points = [ ("r = cos 4 theta" , polarGraph (\t -> cos (4*t)) piRange)
 
 ----  Put it all on screen  ----
 
-main = scene (dropDown styles) (dropDown points)
+main = scene (Input.dropDown styles) (Input.dropDown points)
 
 scene (styleDrop, style) (pointsDrop, points) =
   let f sty ps = flow down

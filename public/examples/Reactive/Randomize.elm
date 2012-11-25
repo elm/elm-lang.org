@@ -1,5 +1,2 @@
 
-import Random
-import Time (every)
-
-main = lift asText (randomize 0 100 (every 1))
+main = lift asText (Random.randomize 0 100 (Time.every 1))

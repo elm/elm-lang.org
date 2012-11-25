@@ -1,6 +1,4 @@
 
-import List (zipWith)
-
 quadrant spc n =
     let scale = map ((*) spc)
         xs = map (\x -> (x,0)) . scale $ [0..n]

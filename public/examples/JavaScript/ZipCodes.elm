@@ -1,9 +1,8 @@
 
 import HTTP
-import Input (stringDropDown)
 import JSON
 
-(zipPicker, zipCode) = stringDropDown [ "10001", "90210", "12345" ]
+(zipPicker, zipCode) = Input.stringDropDown [ "10001", "90210", "12345" ]
     
 detail =
   let toRequest s = get $ "http://zip.elevenbasetwo.com/v2/US/" ++ s in

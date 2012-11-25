@@ -1,10 +1,7 @@
 
 module Form where
 
-import Maybe (mapMaybe)
 import JavaScript
-import Input
-import Window as Win
 
 
 -- Helpers
@@ -12,7 +9,7 @@ import Window as Win
 isEmpty xs = case xs of { [] -> True ; _ -> False }
 
 getErrors first last email remail =
-  mapMaybe (\(err,msg) -> if err then Just msg else Nothing)
+  Maybe.mapMaybe (\(err,msg) -> if err then Just msg else Nothing)
   [ (isEmpty first  , "First name required.")
   , (isEmpty last   , "Last name required.")
   , (isEmpty email  , "Must enter your email address.")
@@ -26,11 +23,11 @@ url first last email =
 
 -- Signals
 
-(firstBox , first)  = textField "First Name"
-(lastBox  , last)   = textField "Last Name"
-(emailBox , email)  = textField "Your Email"
-(remailBox, remail) = textField "Re-enter Email"
-(butn     , press)  = button "Submit"
+(firstBox , first)  = Input.textField "First Name"
+(lastBox  , last)   = Input.textField "Last Name"
+(emailBox , email)  = Input.textField "Your Email"
+(remailBox, remail) = Input.textField "Re-enter Email"
+(butn     , press)  = Input.button "Submit"
 
 pressCount = foldp (\p c -> if p then c+1 else c) 0 press
 errors = lift4 getErrors first last email remail

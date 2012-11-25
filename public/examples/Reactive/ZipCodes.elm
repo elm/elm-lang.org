@@ -1,14 +1,12 @@
 
-import Char
 import Maybe
 import HTTP
-import Input (textField)
 
 
-(field,rawInput) = textField "Zip Code"
+(field,rawInput) = Input.textField "Zip Code"
 
 -- Covert raw input into a usable URL.
-toUrl s = if length s == 5 && all isDigit s
+toUrl s = if length s == 5 && all Char.isDigit s
              then Just ("http://zip.elevenbasetwo.com/v2/US/" ++ s)
              else Nothing
 
@@ -22,9 +20,9 @@ responses = sendGet . lift (fromMaybe "") $ keepIf isJust Nothing realInput
 -- Display a response.
 display response = 
   case response of
-    { Success address -> text . monospace $ toText address
-    ; Waiting -> image 16 16 "waiting.gif"
-    ; Failure _ _ -> asText response }
+    Success address -> text . monospace $ toText address
+    Waiting -> image 16 16 "waiting.gif"
+    Failure _ _ -> asText response
 
 -- Give the user a message depending on whether their input is valid and
 -- the response from any AJAX requests.

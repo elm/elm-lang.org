@@ -1,6 +1,4 @@
 
-import Input (dropDown)
-
 component dropDown style =
   let msg = toText "Choose a style for the following text: " ++
             style (toText "Hello, World!")
@@ -19,5 +17,6 @@ choices = [ ("underline", underline)
 
 -- dropDown :: [(String,a)] -> (Element, Signal a)
 
-main = let (drop,choice) = dropDown choices in
-       lift (component drop) choice
+(drop,choice) = Input.dropDown choices
+
+main = lift (component drop) choice

@@ -1,5 +1,4 @@
 
-import Input (stringDropDown)
 
 component dropDown choice =
   let msg = "I do not like green eggs and ham. " ++
@@ -14,5 +13,6 @@ choices = [ "on a boat."
           , "ANYWHERE!"
           ]
 
-main = let (drop, choice) = stringDropDown choices in
-       lift (component drop) choice
+(drop, choice) = Input.stringDropDown choices
+
+main = lift (component drop) choice
