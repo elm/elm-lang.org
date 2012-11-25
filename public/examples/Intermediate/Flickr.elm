@@ -66,8 +66,8 @@ flickrRequest =
 -- Extract a JSON object from a HTTP response.
 extract response =
   case response of
-  { Success str -> JSON.fromString str
-  ; _ -> empty }
+    Success str -> JSON.fromString str
+    _ -> empty
 
 
 -- Turn a tag into a request.
@@ -79,13 +79,12 @@ requestTag tag =
 
 -- Take a list of photos and choose one, resulting in a request.
 requestOneFrom photoList =
-  let { getPhotoID json =
+  let getPhotoID json =
           case findArray "photo" (findObject "photos" json) of
           { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
-      ; requestSizes id = if id == "" then "" else
-                              concat [ flickrRequest
-                                     , "&method=flickr.photos.getSizes&photo_id=", id ]
-      }
+      requestSizes id | id == ""  = ""
+                      | otherwise = concat [ flickrRequest
+                                           , "&method=flickr.photos.getSizes&photo_id=", id ]
   in  get (requestSizes (getPhotoID (extract photoList)))
 
 
@@ -93,9 +92,9 @@ requestOneFrom photoList =
 sizesToPhoto sizeOptions =
   let getImg sizes =
           case reverse sizes of
-          { _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
-          ; (JsonObject obj) : _ -> findString "source" obj
-          ; _ -> "waiting.gif" }
+            _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
+            (JsonObject obj) : _ -> findString "source" obj
+            _ -> "waiting.gif"
   in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
 
 

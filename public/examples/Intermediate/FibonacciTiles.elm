@@ -5,10 +5,9 @@ fibHelp a b n = if n <= 0 then a else fibHelp b (a+b) (n-1)
 fib = fibHelp 0 1
 
 fibSquare n = 
-  let { fN = fib n
-      ; len = fN * 15
-      ; clr = rgb ((85*n) `mod` 256) ((36*n) `mod` 256) ((51*n) `mod` 256)
-      }
+  let fN = fib n
+      len = fN * 15
+      clr = rgb ((85*n) `mod` 256) ((36*n) `mod` 256) ((51*n) `mod` 256)
   in  color clr . container len len middle $ asText fN
 
 

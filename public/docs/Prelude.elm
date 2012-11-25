@@ -37,6 +37,7 @@ funcs =
   , ("flip", "(a -> b -> c) -> (b -> a -> c)", "Flips the order of the first two arguments to a function.")
   , ("curry", "((a,b) -> c) -> a -> b -> c", "Change how arguments are passed to a function. This splits paired arguments into two separate arguments.")
   , ("uncurry", "(a -> b -> c) -> (a,b) -> c", "Change how arguments are passed to a function. This combines two arguments into a sigle pair.")
+  , ("otherwise", "Bool", "Equal to true. Useful as the last case of a guarded definition.")
   ]
 
 categories = 
