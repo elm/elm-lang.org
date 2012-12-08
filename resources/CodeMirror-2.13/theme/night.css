@@ -1,5 +1,6 @@
 /* Loosely based on the Midnight Textmate theme */
 
+.cm-s-night .activeline {background: #00162a;}
 .cm-s-night { background: #0a001f; color: #f8f8f8; }
 .cm-s-night span.CodeMirror-selected { background: #a8f !important; }
 .cm-s-night .CodeMirror-gutter { background: #0a001f; border-right: 1px solid #aaa; }

@@ -71,7 +71,6 @@ editorCss :: Markup
 editorCss = preEscapedToMarkup $
     ("body { margin: 0; }\n\
      \.CodeMirror-scroll { height: 100%; }\n\
-     \.activeline {background: #00162a !important;}\n\
      \form { margin-bottom: 0; }\n\
      \#compile_options, #editor_options {\n\
      \   position: fixed;\n\
