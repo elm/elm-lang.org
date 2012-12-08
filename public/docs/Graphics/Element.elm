@@ -50,7 +50,7 @@ positioningContent =
     ]
 
 forms =
-  [ ("toForm", "(Number,Number) -> Element -> Form", "Turn any Element into a Form")
+  [ ("toForm", "(Number,Number) -> Element -> Form", "Turn any Element into a Form. The given position will be the center of the resulting form.")
   , ("sprite", "String -> Number -> Number -> (Number,Number) -> Form", "Create a sprite.")
   , ("move", "Number -> Number -> Form -> Form", "Translate a form by a given x and y offset.")
   , ("rotate", "Number -> Number -> Form -> Form", "Rotate a form by a given fraction of a full turn (not degrees or radians). For instance, (rotate 0.5) will rotate a form by a half turn.")

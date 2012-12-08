@@ -1,5 +1,5 @@
 
-module Website.Docs (createDocs) where
+module Website.Docs (createDocs2,createDocs) where
 
 import List (intersperse,zipWith)
 import Website.ColorScheme
@@ -29,23 +29,34 @@ addSpaces px = intersperse (spacer 1 px)
 
 section s = bold . Text.height s . toText
 
-entry w (name, typ, desc) =
+entry f w (name, typ, desc) =
   let colons = Text.color accent1 $ toText " :: " in
   let tipe = if length typ > 0 then colons ++ toText typ else toText "" in
   flow down
     [ color mediumGrey $ spacer w 1
     , width w . color lightGrey . text . monospace $ bold (toText name) ++ tipe
-    , spacer 1 10
-    , flow right [ spacer 50 10, width (w-50) $ plainText desc ]
-    , spacer 1 20
+    , flow right [ spacer 50 10, f (w-50) desc ]
     ]
 
-group w (name, fs) =
-  flow down $ text (section (5/4) name) : spacer 1 20 : map (entry w) fs
+f1 w c = flow down [ spacer 1 10, width w $ plainText c, spacer 1 20 ]
+f2 w c = let c' = width w c
+             pos = topLeftAt (absolute 0) (absolute (0-5))
+         in  container w (heightOf c') pos c'
+
+group f w (name, fs) =
+  flow down $ text (section (5/4) name) : spacer 1 20 : map (entry f w) fs
 
 createDocs name cats =
   let f w = flow down $ [ text $ Text.link "/Documentation.elm" (toText "Back")
                         , width w . centeredText $ section 2 name
                         , spacer 1 30
-                        ] ++ (addSpaces 50 $ map (group w) cats)
+                        ] ++ (addSpaces 50 $ map (group f1 w) cats)
+  in  lift (skeleton f) Window.width
+
+createDocs2 name overview cats =
+  let f w = flow down $ [ text $ Text.link "/Documentation.elm" (toText "Back")
+                        , width w . centeredText $ section 2 name
+                        , width w overview
+                        , spacer 1 30
+                        ] ++ (addSpaces 50 $ map (group f2 w) cats)
   in  lift (skeleton f) Window.width

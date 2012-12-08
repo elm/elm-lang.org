@@ -8,7 +8,7 @@ txt =
   ]
 
 boxes =
-  [ ("checkBox", "Bool -> (Element, Signal Bool)", "Create a check box and a signal representing whether the box is checked. The input specifies the default value for the box.") ]
+  [ ("checkbox", "Bool -> (Element, Signal Bool)", "Create a check box and a signal representing whether the box is checked. The input specifies the default value for the box.") ]
 
 drops =
   [ ("stringDropDown", "[String] -> (Element, Signal String)", "Input a list of options to create a drop down menu and a signal of the currently selected option.")

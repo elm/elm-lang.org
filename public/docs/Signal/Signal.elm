@@ -1,43 +1,112 @@
 
-import Website.Docs (createDocs)
+import Website.Docs (createDocs2)
 
 
 lifts =
-  [ ("constant", "a -> Signal a", "Create a constant signal that never changes.")
-  , ("lift", "(a -> b) -> Signal a -> Signal b", "Transform a signal with a given function.")
-  , ("lift2", "(a -> b -> c) -> Signal a -> Signal b -> Signal c", "Combine two signals with a given function.")
-  , ("lift3", "(a -> b -> c -> d) -> Signal a -> Signal b -> Signal c -> Signal d", "Combine three signals with a given function.")
-  , ("lift4", "(a -> b -> c -> d -> e) -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e", "Combine four signals with a given function.")
+  [ ("constant", "a -> Signal a", [markdown|
+Create a constant signal that never changes.|])
+  , ("lift", "(a -> b) -> Signal a -> Signal b", [markdown|
+Transform a signal with a given function.|])
+  , ("lift2", "(a -> b -> c) -> Signal a -> Signal b -> Signal c", [markdown|
+Combine two signals with a given function.|])
+  , ("lift3", "(a -> b -> c -> d) -> Signal a -> Signal b -> Signal c -> Signal d", [markdown|
+Combine three signals with a given function.|])
+  , ("merge", "Signal a -> Signal a -> Signal a", [markdown|
+Merge two signals into one, biased towards the first signal if both signals
+update at the same time.|])
+  , ("merges", "[Signal a] -> Signal a", [markdown|
+Merge many signals into one, biased towards the left-most signal if multiple
+signals update simultaneously.|])
   ]
 
 folds =
-  [ ("foldp", "(a -> b -> b) -> b -> Signal a -> Signal b", "Create a past-dependent signal. Each value given on the input signal will be accumulated, producing a new output value. For instance, (foldp (\t count -> count + 1) 0 (Time.every 3) counts up every time the timer ticks.")
-  , ("count", "Signal a -> Signal Int", "Count the number of events that have occured.")
-  , ("countIf", "(a -> Bool) -> Signal a -> Signal Int", "Count the number of events that have occured that satisfy a given predicate.")
-  , ("foldp1", "(a -> a -> a) -> Signal a -> Signal a", "Create a past-dependent signal. The first value on the signal is used as the base case.")
-  , ("foldp'", "(a -> b -> b) -> (a -> b) -> Signal a -> Signal b", "Just like foldp, but instead of a base case, you provide a function to be applied to the first value, creating the base case.")
-  ]
+  [ ("foldp", "(a -> b -> b) -> b -> Signal a -> Signal b", [markdown|
+Create a past-dependent signal. Each value given on the input signal will
+be accumulated, producing a new output value.
 
-other =
-  [ ("delay", "Time -> Signal a -> Signal a", "Delay a signal by a certain amount of time.")
-  , ("merge", "Signal a -> Signal a -> Signal a", "Merge two signals into one, biased towards the first signal if both signals update.")
+For instance,
+`(foldp (\\t acc -> acc + 1) 0 (Time.every second))` increments every second.|])
+  , ("count", "Signal a -> Signal Int", [markdown|
+Count the number of events that have occured.|])
+  , ("countIf", "(a -> Bool) -> Signal a -> Signal Int", [markdown|
+Count the number of events that have occured that satisfy a given predicate.|])
+  , ("average", "Int -> Signal Number -> Signal Float", [markdown|
+Takes an integer `n` and a signal of numbers. Computes the running
+average of the signal over the last `n` events.
+
+So `(average 20 (fps 40))` would be the average time between the frames for
+the last 20 frames.|])
+  , ("foldp1", "(a -> a -> a) -> Signal a -> Signal a", [markdown|
+Create a past-dependent signal. The first value on the signal is used
+as the base case.|])
+  , ("foldp'", "(a -> b -> b) -> (a -> b) -> Signal a -> Signal b", [markdown|
+Just like foldp, but instead of a base case, you provide a function to be
+applied to the first value, creating the base case.|])
   ]
 
 filters =
-  [ ("keepIf", "(a -> Bool) -> a -> Signal a -> Signal a", "Keep only events that satisfy the given predicate. Elm does not allow undefined signals, so a base case must be provided in case the predicate is never satisfied.")
-  , ("dropIf", "(a -> Bool) -> a -> Signal a -> Signal a", "Drop events that satisfy the given predicate. Elm does not allow undefined signals, so a base case must be provided in case the predicate is never satisfied.")
-  , ("keepWhen", "Signal Bool -> a -> Signal a -> Signal a", "Keep events only when the first signal is true. When the first signal becomes true, the most recent value of the second signal will be propagated. Until the first signal becomes false again, all events will be propagated. Elm does not allow undefined signals, so a base case must be provided in case the first signal is never true.")
-  , ("dropWhen", "Signal Bool -> a -> Signal a -> Signal a", "Drop events when the first signal is true. When the first signal becomes false, the most recent value of the second signal will be propagated. Until the first signal becomes true again, all events will be propagated. Elm does not allow undefined signals, so a base case must be provided in case the first signal is always true.")
-  , ("dropRepeats", "Signal a -> Signal a", "Drop sequential repeated values. For example, if a signal produces the sequence [1,1,2,2,1], it becomes [1,2,1] by dropping the values that are the same as the previous value.")
-  , ("sampleOn", "Signal a -> Signal b -> Signal b"
-    , "Sample from the second input every time an event occurs on the first input. For example, (sampleOn clicks (every 1)) will give the approximate time of the latest click.")
+  [ ("keepIf", "(a -> Bool) -> a -> Signal a -> Signal a", [markdown|
+Keep only events that satisfy the given predicate. Elm does not allow
+undefined signals, so a base case must be provided in case the predicate is
+never satisfied.|])
+  , ("dropIf", "(a -> Bool) -> a -> Signal a -> Signal a", [markdown|
+Drop events that satisfy the given predicate. Elm does not allow undefined
+signals, so a base case must be provided in case the predicate is never
+satisfied.|])
+  , ("keepWhen", "Signal Bool -> a -> Signal a -> Signal a", [markdown|
+Keep events only when the first signal is true. When the first signal becomes
+true, the most recent value of the second signal will be propagated. Until
+the first signal becomes false again, all events will be propagated. Elm does
+not allow undefined signals, so a base case must be provided in case the first
+signal is never true.|])
+  , ("dropWhen", "Signal Bool -> a -> Signal a -> Signal a", [markdown|
+Drop events when the first signal is true. When the first signal becomes false,
+the most recent value of the second signal will be propagated. Until the first
+signal becomes true again, all events will be propagated. Elm does not allow
+undefined signals, so a base case must be provided in case the first signal is
+always true.|])
+  , ("dropRepeats", "Signal a -> Signal a", [markdown|
+Drop sequential repeated values. For example, if a signal produces the
+sequence `[1,1,2,2,1]`, it becomes `[1,2,1]` by dropping the values that
+are the same as the previous value.|])
+  , ("sampleOn", "Signal a -> Signal b -> Signal b", [markdown|
+Sample from the second input every time an event occurs on the first input.
+For example, `(sampleOn clicks (every second))` will give the approximate
+time of the latest click.|])
+  ]
+
+moreLifts =
+  [ ("lift4"
+    ,"(a -> b -> c -> d -> e)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e"
+    , spacer 0 0)
+  , ("lift5"
+    ,"(a -> b -> c -> d -> e -> f)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f"
+    , spacer 0 0)
+  , ("lift6"
+    ,"(a -> b -> c -> d -> e -> f -> g)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g"
+    , spacer 0 0)
+  , ("lift7"
+    ,"(a -> b -> c -> d -> e -> f -> g -> h)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g -> Signal h"
+    , spacer 0 0)
+  , ("lift8"
+    ,"(a -> b -> c -> d -> e -> f -> g -> h -> i)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g -> Signal h -> Signal i"
+    , spacer 0 0)
   ]
 
 categories = 
-  [ ("Lifts (Transforming and Combining Signals)", lifts)
-  , ("Folds (Past-Dependent Transformations)", folds)
+  [ ("Combining Signals", lifts)
+  , ("Past-Dependent Signals", folds)
   , ("Filters", filters)
-  , ("Other", other)
+  , ("More Lifts", moreLifts)
   ]
 
-main = createDocs "Signal" categories
+intro = [markdown|
+The library for general signal manipulation. Some useful functions for
+working with time (e.g. setting FPS) and combining signals and time (e.g.
+delaying updates, getting timestamps) can be found in the
+[`Time`](/docs/Signal/Time.elm) library.
+
+Note: There are lift functions up to `lift8`.
+|]
+
+main = createDocs2 "Signal" intro categories
