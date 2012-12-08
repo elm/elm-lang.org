@@ -4,15 +4,11 @@ import Website.ColorScheme
 
 intro = [markdown|
 
-## The Elm Programming Language
+### The Elm Programming Language
 
-**Elm is a high-level language to replace HTML, CSS, and JavaScript.** By
-introducing a [Functional Reactive Programming][frp], Elm corrects many of the
-systemic problems of current web technologies and their derivatives.
-
-Elm allows you to quickly and easily [work with visual layout][flow],
-[use the canvas][canvas], [manage complicated user input][frp],
-and [escape from callback hell][escape].
+**Elm is a [functional reactive programming][frp] language meant to replace HTML/CSS/JavaScript.**
+Elm is optimized for creating [web][flow] [GUIs][canvas], [supporting complex user input][frp],
+and [avoiding callbacks][escape].
 
   [flow]:    /edit/examples/Elements/FlowDown2.elm "Flow down example"
   [canvas]:  /edit/examples/Reactive/Transforms.elm "Canvas Example"
@@ -27,13 +23,13 @@ features = [markdown|
 
 #### Features
 
-[Functional Reactive Programming][frp]
+* [Functional Reactive Programming][frp]
 
-[Strong][strong] / [static][static] types, [type inference][infer]
+* [Strong][strong] / [static][static] types with [type inference][infer]
 
-[Native Markdown support](/edit/examples/Elements/Markdown.elm)
+* [Native Markdown support](/edit/examples/Elements/Markdown.elm)
 
-[Libraries](/Documentation.elm) and [Module System][modules]
+* [Core Libraries](/Documentation.elm) and [Module System][modules]
 
   [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
   [strong]: http://en.wikipedia.org/wiki/Strong_typing "strongly"
@@ -47,12 +43,19 @@ news = [markdown|
 
 #### News
 
-[Escape from Callback Hell][escape]: Never write a callback again!
+[Escape from Callback Hell][escape]: AJAX without callbacks
 
-[Making Pong in Elm][pong]: a comprehensive walkthrough of how to make purely functional games.
+[Making Pong in Elm][pong]: a comprehensive walkthrough
+
+[Elm 0.6 Released][v6]
+
+Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
 
   [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
+  [v6]: /blog/announce/version-0.6.elm "Elm 0.6 Released"
+  [video]: http://www.infoq.com/presentations/Elm "Making the Web Functional"
+  [radar]: http://radar.oreilly.com/2012/12/emerging-languages-spotlight-elm.html "Emerging Languages Spotlight"
 
 |]
 
@@ -61,37 +64,85 @@ contact = [markdown|
 #### Contact / Contribute
 
 Elm's [mailing list][7] is the place to go for questions, announcements, and discussion.
-Or see if anyone is on IRC ([`#elm` on freenode][irc]). There are also tons of ways to
-[contribute to Elm](/Contribute.elm).
+Or see if anyone is on IRC ([`#elm` on freenode][irc]).
+
+There are also tons of ways to [contribute to Elm](/Contribute.elm).
 
   [7]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
   [irc]: http://webchat.freenode.net/?channels=elm "#elm"
 
 |]
 
-addFolder folder = map (\(x,y) -> (x, y, folder))
+exampleText = [markdown|
 
-examples = addFolder "Intermediate/"
-  [ ("Diagrams", "Physics")
-  , ("Analog Clock", "Clock")
+#### Examples
+
+Read, use, and edit real Elm programs. Think about how
+you would implement the same things with HTML, CSS, and JavaScript.
+Tons more examples can be found [here](/Examples.elm).
+
+|]
+
+infoqDesc = [markdown|
+
+#### Making the Web Functional
+
+An introduction to Elm. Why you should care. How it works. How to make cool stuff.
+
+|]
+
+downloadText = [markdown|
+
+#### Get Started!
+
+Download Elm and start using it now. Or just start using
+Elm&rsquo;s [online compiler](/edit/examples/Reactive/Position.elm)
+with no set-up at all.
+
+|]
+
+examples = map (\(x,y) -> (x, y, "Intermediate/"))
+  [ ("Analog Clock", "Clock")
   , ("Slide Show", "SlideShow")
   , ("Stamps", "Stamps")
-  , ("Fibonacci Tiles", "FibonacciTiles")
+  , ("Diagrams", "Physics")
+  , ("Quick Animations", "Slide")
+  , ("Pascal's Triangle", "PascalsTriangle")
   ]
 
 content w =
-  let tiles = tile w $ map toTile examples in
-  container w (heightOf tiles) midTop tiles
+  let tiles = miniTiles 250 examples in
+  flow down [ width w exampleText
+            , container w (heightOf tiles) middle tiles ]
+
+infoq w =
+  let { lnk = "http://www.infoq.com/presentations/Elm"
+      ; vid = layers [ image 320 240 "/infoq.jpg"
+                   , Graphics.link lnk $ spacer 320 240 ]
+      }
+  in  width w infoqDesc `above` container w (heightOf vid) middle vid
+
+download w =
+  let lnk = "https://github.com/evancz/Elm/blob/master/README.md#elm" in
+  flow down [ width w downloadText
+            , container w 60 middle $
+              layers [ color mediumGrey . container 200 60 middle .
+                       color lightGrey  . container 198 58 middle .
+                       text . Text.height 1.5 $ toText "Download"
+                     , Graphics.link lnk $ spacer 200 60 ]
+            ]
 
 info w =
-  let wid = (w-60) `div` 3 in
-  flow down
-    [ width w intro
-    , spacer 10 40
-    , content w
-    , spacer 10 40
-    , flow right . List.intersperse (spacer 30 10) $ map (width wid) [ features, news, contact ]
-    ]
+  let wid = (w-60) `div` 2
+  in  flow down
+       [ width w intro
+       , spacer 10 30
+       , flow right [ width wid features, spacer 60 10, width wid news ]
+       , spacer 10 50
+       , flow right [ content wid, spacer 60 10, infoq wid ]
+       , spacer 10 50
+       , flow right [ width wid contact, spacer 60 10, download wid ]
+       ]
 
 main = lift (skeleton info) Window.width
 

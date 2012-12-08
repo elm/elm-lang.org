@@ -80,9 +80,14 @@ creating highly interactive animations. Before we get to the cool stuff, there
 are some basic changes to discuss.
 
 The new Time library is based on milliseconds. This is a departure from past
-versions of Elm, but I think it is a better choice for reasons we will soon see.
-To help make the change to milliseconds more natural, the library provides
-the values:
+versions of Elm, and will be a breaking change for any uses of `every`. A quick
+fix is to define:
+
+        every' t = lift inSeconds . every (t * seconds)
+
+And replace any use of `every` with the new `every'`.
+To help make the change to milliseconds more natural in new code, the library
+provides the values:
 
         ms, second, minute, hour :: Time
 
