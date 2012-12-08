@@ -8,7 +8,7 @@ Today we are going to learn how to gravity.
 |]
 
 body = [markdown|
-Now that we can gravity, lets see if we can do it with elasticity!
+Now that we can gravity, let's see if we can do it with elasticity!
 |]
 
 outro = [markdown|
@@ -18,22 +18,25 @@ Now you know how to gravity with elasticity! Good work physics friend!
 
 ---- Figures ----
 
-drawFig1 t =
-  let pos = (150 + 120 * cos t, 150 + 80 * sin t) in
-  collage 300 300 [ filled cyan $ circle 20 pos
-                  , toForm pos (plainText "Earth")
-                  , filled yellow $ circle 35 (150,150)
-                  , toForm (150,150) (plainText "Sun") ]
+time = timeOf (fps 40)
 
-figure1 = lift drawFig1 (Time.every 0.1)
+drawFig1 t =
+  let pos = ( 150 + 120 * cos (inSeconds t)
+            , 150 +  80 * sin (inSeconds t) )
+  in  collage 300 300 [ filled cyan $ circle 20 pos
+                      , toForm pos (plainText "Earth")
+                      , filled yellow $ circle 35 (125,150)
+                      , toForm (125,150) (plainText "Sun") ]
+
+figure1 = lift drawFig1 time
 
 
 drawFig2 t =
-  let pos = (150, 250 - abs (200 * sin t)) in
+  let pos = (150, 250 - abs (200 * sin (inSeconds t))) in
   collage 300 300 [ filled red $ circle 15 pos
                   , filled green $ rect 300 50 (150,275) ]
 
-figure2 = lift drawFig2 (Time.every 0.1)
+figure2 = lift drawFig2 time
 
 
 ---- Put it together and show it ----

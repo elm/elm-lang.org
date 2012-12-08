@@ -10,6 +10,7 @@ intermediate = addFolder "Intermediate/"
   , ("Flickr API", "Flickr")
   , ("Light Box", "LightBox")
   , ("Stamps", "Stamps")
+  , ("Quick Animations", "Slide")
   , ("Form Validation", "Form")
   , ("Diagrams", "Physics")
   , ("Fibonacci Tiles", "FibonacciTiles")

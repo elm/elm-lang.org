@@ -100,7 +100,7 @@ reactive = addFolder "Reactive/"
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
-  flow right [ width 130 (text $ toText "   " ++ italic (toText title))
+  flow right [ width 130 (plainText $ "   " ++ title)
              , text (intercalate (bold . Text.color accent4 $ toText "  &middot;  ") $ map example links)
              ]
 

@@ -1,5 +1,5 @@
 
-(fld, txt) = Input.textField "Type here!" in
+(fld, txt) = Input.textField "Type here!"
 
 main = lift2 above (constant fld) (lift showLen txt)
 

@@ -11,6 +11,4 @@ Fun Fact: We can even define zip in terms of zipWith!
 
 ----------------------------------------------------------------}
 
-import List (zipWith)
-
 main = asText $ zipWith (:) ['c','m','t'] ["hop","ill","ape"]

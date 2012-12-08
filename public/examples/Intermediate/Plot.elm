@@ -7,8 +7,10 @@ data Style = Points | Line
 plot style w h points =
   let (xs,ys) = unzip points
       eps = 26/25
-      xmin = eps * minimum xs ; xmax = eps * maximum xs
-      ymin = eps * minimum ys ; ymax = eps * maximum ys
+      xmin = eps * minimum xs
+      xmax = eps * maximum xs
+      ymin = eps * minimum ys
+      ymax = eps * maximum ys
       fit scale lo hi z = scale * abs (z-lo) / abs (hi-lo)
       f (x,y) = (fit w xmin xmax x, h - fit h ymin ymax y)
       axis a b = solid black . line . map f $ [a,b]

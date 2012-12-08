@@ -9,9 +9,9 @@ slideShow (w,h) index =
 
 
 clickCount = count Mouse.clicks
-tickCount t = count (Time.every t)
+tickCount t = count (every t)
 
-main = lift2 slideShow Window.dimensions (tickCount 4)
+main = lift2 slideShow Window.dimensions (tickCount (4 * second))
 
 -- Be sure to also try this with `clickCount` which switches images
 -- each time the user clicks the mouse. You can also try changing the
