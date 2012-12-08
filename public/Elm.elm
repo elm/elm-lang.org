@@ -4,11 +4,12 @@ import Website.ColorScheme
 
 intro = [markdown|
 
-### The Elm Programming Language
+## The Elm Programming Language
 
-Elm aims to make front-end web development more pleasant.
-It introduces a new approach to GUI programming that corrects the
-systemic problems of HTML, CSS, and JavaScript.
+**Elm is a high-level language to replace HTML, CSS, and JavaScript.** By
+introducing a [Functional Reactive Programming][frp], Elm corrects many of the
+systemic problems of current web technologies and their derivatives.
+
 Elm allows you to quickly and easily [work with visual layout][flow],
 [use the canvas][canvas], [manage complicated user input][frp],
 and [escape from callback hell][escape].
@@ -71,10 +72,10 @@ Or see if anyone is on IRC ([`#elm` on freenode][irc]). There are also tons of w
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
 examples = addFolder "Intermediate/"
-  [ ("Analog Clock", "Clock")
+  [ ("Diagrams", "Physics")
+  , ("Analog Clock", "Clock")
   , ("Slide Show", "SlideShow")
   , ("Stamps", "Stamps")
-  , ("Diagrams", "Physics")
   , ("Fibonacci Tiles", "FibonacciTiles")
   ]
 
