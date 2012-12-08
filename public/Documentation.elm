@@ -9,6 +9,7 @@ standard = ("General Purpose",
   , ("Set",  "docs/Data/Set.elm")
   , ("Char", "docs/Data/Char.elm")
   , ("Maybe", "docs/Data/Maybe.elm")
+  , ("Date", "docs/Date.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
 
