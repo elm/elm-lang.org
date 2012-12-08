@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title>Games in Elm: Pong</title>
+  <title>Making Games in Elm: Pong</title>
   <style type="text/css">
 body { font-family: helvetica, arial, sans-serif; }
 a:link {text-decoration: none; color: rgb(15,102,230);}
@@ -34,14 +34,14 @@ code > span.er { font-weight: bold; }
 <body>
 <div style="width:600px;margin-left:auto;margin-right:auto;">
 <p style="text-align:right"><a href="/">Home</a></p>
-<h1 id="making-games-in-elm-part-0-pong">Making Games in Elm, Part 0: Pong</h1>
+<h1 id="making-games-in-elm-part-0-pong">Making Games in Elm: Pong</h1>
 <p>This series has two major goals:</p>
 <ol style="list-style-type: decimal">
-<li>Get you thinking about <a href="/learn/What-is-FRP.elm">Functional Reactive Programming</a> (FRP) for games.</li>
+<li>Get you thinking about <a href="/learn/What-is-FRP.elm" title="Functional Reactive Programming">Functional Reactive Programming</a> (FRP) for games.</li>
 <li>Teach you how to make games with Elm.</li>
 </ol>
 <p>In this post we will be looking into <a href="/blog/games-in-elm/part-0/Pong.html">Pong in Elm</a>: a functional game written in Elm, playable in any modern browser.</p>
-<h3 id="functional-game-design">Functional Game Design</h3>
+<h2 id="functional-game-design">Functional Game Design</h2>
 <p>Making games is historically a very imperative undertaking, so it has long missed the benefits of purely functional programming. FRP makes it possible to program rich user interactions without resorting to traditional imperative idioms.</p>
 <p>By the end of this post we will have written an entire GUI/game without any imperative code. No global mutable state, no flipping pixels, no destructive updates. In fact, Elm disallows all of these things at the language level. So good design and safe coding practices are a requirement, not just self-inforced suggestions.</p>
 <p>Imperative programs allow you to reach into objects and data structures whenever you want, so it is not a huge deal if your code is somewhat disorganized. With functional game design, we must be more careful about how our programs are structured. In fact in Elm, all games will share the same underlying structure.</p>
@@ -56,30 +56,19 @@ code > span.er { font-weight: bold; }
 <li><strong>Update:</strong> When new inputs come in, we need to update the game. Without updates, this version of Pong would be very very boring! This section defines a number of 'step functions' that step the game forward based on our inputs. By separating this from the model and display code, we can change how the game works (how it steps forward) without changing anything else: the underlying model and the display code need not be touched.</li>
 <li><strong>View:</strong> Finally, we need a display function that defines the user's view of the game. This code is completely separate from the game logic, so it can be modified without affecting any other part of the program. We can also define many different views of the same underlying model. In Pong there is not much need for this, but as your model becomes more complex this may be very useful!</li>
 </ol>
-<p>If you would like to make a game or larger application in Elm, use this structure! Maybe even use this version of Pong (<a href="https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong">source</a>) as a starting point for playing around with your own ideas.</p>
+<p>If you would like to make a game or larger application in Elm, use this structure! I provide both <a href="https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong" title="Pong Source Code">the source code for Pong</a> and <a href="https://github.com/evancz/Elm/tree/master/Examples/elm-js/GameSkeleton" title="Game Skeleton">an empty skeleton for game creation</a> which can both be a starting point for playing around with your own ideas.</p>
 <p>Let's get into the code!</p>
 <h1 id="programming-pong">Programming Pong</h1>
-<p>First we have the ever exciting module imports. We need the JavaScript FFI to manage our frame rate, the keyboard input so that people can actually play Pong, and the window size to make sure the game displays nicely on many screen sizes.</p>
+<p>First we have the ever exciting module declaration. We are about to name our module <code>Pong</code>. Whoo!</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Pong</span> <span class="kw">where</span></code></pre>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">import</span> <span class="dt">JavaScript</span>
-<span class="kw">import</span> <span class="dt">Keyboard.Raw</span>
-<span class="kw">import</span> <span class="dt">Window</span> <span class="kw">as</span> <span class="dt">Win</span></code></pre>
-<p>Next we extract timesteps from JavaScript. We cannot just update at a fixed interval because some browsers may be too slow, so we would just keep giving them more work until they crashed. This next bit of code communicates with a JavaScript file that manages frame rates. This way users of fast and slow browsers can all have the best experience possible.</p>
-<p>This exports our desired FPS to JavaScript. We just want a steady 30 frames per second for this game.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">desiredFPS <span class="fu">=</span> constant (castIntToJSNumber <span class="dv">30</span>)</code></pre>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">foreign export jsevent <span class="st">&quot;desiredFPS&quot;</span>
-<span class="ot">  desiredFPS ::</span> <span class="dt">Signal</span> <span class="dt">JSNumber</span></code></pre>
-<p>This import the current time from JavaScript. These events will come in roughly 30 times per second.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">foreign <span class="kw">import</span> jsevent <span class="st">&quot;trigger&quot;</span> (castIntToJSNumber <span class="dv">0</span>)
-<span class="ot">  jsTime ::</span> <span class="dt">Signal</span> <span class="dt">JSNumber</span></code></pre>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">time <span class="fu">=</span> lift castJSNumberToFloat jsTime</code></pre>
-<p>Once we have a signal of times, we can determine the time that has elapsed since the last event. This is our timestep, telling us how far everything should move in the next frame.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">delta <span class="fu">=</span> lift <span class="fu">snd</span> <span class="fu">$</span> foldp (\t1 (t0,d) <span class="ot">-&gt;</span> (t1, t1<span class="fu">-</span>t0)) (<span class="dv">0</span>,<span class="dv">0</span>) time</code></pre>
+<p>Next we set our desired frames-per-second (FPS). We'll shoot for 50 FPS. The <code>fps</code> function produces a sequence of time deltas indicating how much time has passed since the previous frame.</p>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">delta <span class="fu">=</span> lift inSeconds (fps <span class="dv">50</span>)</code></pre>
+<p>If someone's machine cannot handle 50 FPS, the updates will happen as quickly as possible within the limits of that machine.</p>
 <h1 id="section-1-models">Section 1: Models</h1>
 <p>Here we will define the data structures that will be used throughout the rest of the program. This is the foundation of our game, so changes here will likely cause changes everywhere else.</p>
 <p>These models are a rough specification for your game. They force you to ask: Which features do I want? What information do I need for those features? How do I represent that information? Once you have figured out the core information needed for your game, you have already done a lot of planning about how everything else will work.</p>
 <p>Do not be afraid to spend a lot of time thinking about this!</p>
-<h3 id="modelling-user-input">Modelling User Input</h3>
+<h2 id="modelling-user-input">Modelling User Input</h2>
 <p>Each paddle can be moving up, down, or not at all. We'll call this the 'direction' of the paddle.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Direction</span> <span class="fu">=</span> <span class="dt">Up</span> <span class="fu">|</span> <span class="dt">Neutral</span> <span class="fu">|</span> <span class="dt">Down</span></code></pre>
 <p>During gameplay, all keyboard input is about the position of the two paddles. So the keyboard input can be reduced to two 'Directions'. Furthermore, the SPACE key is used to start the game between rounds, so we also need a boolean value to represent whether it is pressed.</p>
@@ -89,11 +78,10 @@ code > span.er { font-weight: bold; }
 <p>First we determine how to update the direction of a paddle based on a single keyboard input. The first two args of <code>updatePaddle</code> are the key codes of the up and down keys. The next argument is the single key that has been pressed. The last argument is the previously calculated direction of the paddle (which we are updating).</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">updateDirection upKey downKey key direction <span class="fu">=</span>
   <span class="kw">case</span> direction <span class="kw">of</span>
-  { <span class="dt">Up</span>      <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> downKey <span class="kw">then</span> <span class="dt">Neutral</span> <span class="kw">else</span> <span class="dt">Up</span>
-  ; <span class="dt">Down</span>    <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> upKey   <span class="kw">then</span> <span class="dt">Neutral</span> <span class="kw">else</span> <span class="dt">Down</span>
-  ; <span class="dt">Neutral</span> <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> upKey   <span class="kw">then</span> <span class="dt">Up</span>   <span class="kw">else</span>
-               <span class="kw">if</span> key <span class="fu">==</span> downKey <span class="kw">then</span> <span class="dt">Down</span> <span class="kw">else</span> <span class="dt">Neutral</span>
-  }</code></pre>
+    <span class="dt">Up</span>      <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> downKey <span class="kw">then</span> <span class="dt">Neutral</span> <span class="kw">else</span> <span class="dt">Up</span>
+    <span class="dt">Down</span>    <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> upKey   <span class="kw">then</span> <span class="dt">Neutral</span> <span class="kw">else</span> <span class="dt">Down</span>
+    <span class="dt">Neutral</span> <span class="ot">-&gt;</span> <span class="kw">if</span> key <span class="fu">==</span> upKey   <span class="kw">then</span> <span class="dt">Up</span>   <span class="kw">else</span>
+               <span class="kw">if</span> key <span class="fu">==</span> downKey <span class="kw">then</span> <span class="dt">Down</span> <span class="kw">else</span> <span class="dt">Neutral</span></code></pre>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">updateDirection1 <span class="fu">=</span> updateDirection <span class="dv">87</span> <span class="dv">83</span> <span class="co">-- &#39;w&#39; for up and &#39;s&#39; for down</span>
 updateDirection2 <span class="fu">=</span> updateDirection <span class="dv">38</span> <span class="dv">40</span> <span class="co">-- &#39;UP&#39; for up and &#39;DOWN&#39; for down</span></code></pre>
 <p>Now we update the entire keyboard input model for a single key press.</p>
@@ -101,16 +89,16 @@ updateDirection2 <span class="fu">=</span> updateDirection <span class="dv">38</
   <span class="dt">KeyInput</span> (space <span class="fu">||</span> key <span class="fu">==</span> <span class="dv">32</span>)
     (updateDirection1 key dir1)
     (updateDirection2 key dir2)</code></pre>
-<p><code>keysDown</code> has type (Signal [Int]) so we need to fold <code>updateInput</code> over all of the keys that are currently pressed to get the current keyboard state.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">keyInput <span class="fu">=</span> lift (<span class="fu">foldl</span> updateInput defaultKeyInput) keysDown</code></pre>
+<p><code>Keyboard.Raw.keysDown</code> has type (<code>Signal [Int]</code>) so we need to fold <code>updateInput</code> over all of the keys that are currently pressed to get the current keyboard state.</p>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">keyInput <span class="fu">=</span> lift (<span class="fu">foldl</span> updateInput defaultKeyInput) Keyboard.Raw.keysDown</code></pre>
 <p>We now have a concise representation of the keyboard input that updates automatically as new key presses occur.</p>
-<h3 id="combining-all-inputs">Combining All Inputs</h3>
+<h2 id="combining-all-inputs">Combining All Inputs</h2>
 <p>The inputs to this game include a timestep (which we extracted from JavaScript) and the keyboard input from the users.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Input</span> <span class="fu">=</span> <span class="dt">Input</span> <span class="dt">Float</span> <span class="dt">KeyInput</span></code></pre>
 <p>Combine both kinds of inputs and filter out keyboard events. We only want the game to refresh on clock-ticks, not key presses too.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">input <span class="fu">=</span> sampleOn delta (lift2 <span class="dt">Input</span> delta keyInput)</code></pre>
 <p>This signal represents <em>all</em> of the input to our game!</p>
-<h3 id="modelling-pong-a-state-machine">Modelling Pong / a State Machine</h3>
+<h2 id="modelling-pong-a-state-machine">Modelling Pong / a State Machine</h2>
 <p>Now we need to model the actual game.</p>
 <p>Pong has two obvious components: the ball and two paddles.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Paddle</span> <span class="fu">=</span> <span class="dt">Paddle</span> <span class="dt">Float</span>                      <span class="co">-- y-position</span>
@@ -136,16 +124,15 @@ halfHeight <span class="fu">=</span> gameHeight <span class="fu">/</span> <span 
 <h1 id="section-2-update">Section 2: Update</h1>
 <p>Our <code>GameState</code> data structure holds all of the information needed to represent the game at any moment. In this section we will define a 'step function' that steps from <code>GameState</code> to <code>GameState</code>, moving the game forward as new inputs come in.</p>
 <p>You can think of our game as a finite state machine. Here we are defining a transition function that takes an input and a state, and then steps to the <em>next</em> state. If you are not familiar with finite state machines, do not worry about this analogy!</p>
-<h3 id="stepping-from-state-to-state">Stepping from State to State</h3>
+<h2 id="stepping-from-state-to-state">Stepping from State to State</h2>
 <p>To make our step function more managable, we can break it up into smaller components.</p>
 <p>First, we define a step function for updating the position of paddles. It only depends on our timestep and a desired direction (given by keyboard input).</p>
 <p>We use the <code>clamp</code> function to keep the paddle within the boundaries of the game. The distance moved is determined in part by <code>delta</code>, the time since the last update. This will make the motion of the paddles look smooth even if updates happen irregularly.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepPaddle delta dir (<span class="dt">Paddle</span> y) <span class="fu">=</span>
   <span class="kw">case</span> dir <span class="kw">of</span>
-  { <span class="dt">Up</span>      <span class="ot">-&gt;</span> <span class="dt">Paddle</span> <span class="fu">$</span> clamp <span class="dv">20</span> (gameHeight<span class="dv">-20</span>) (y <span class="fu">-</span> <span class="dv">200</span> <span class="fu">*</span> delta)
-  ; <span class="dt">Down</span>    <span class="ot">-&gt;</span> <span class="dt">Paddle</span> <span class="fu">$</span> clamp <span class="dv">20</span> (gameHeight<span class="dv">-20</span>) (y <span class="fu">+</span> <span class="dv">200</span> <span class="fu">*</span> delta)
-  ; <span class="dt">Neutral</span> <span class="ot">-&gt;</span> <span class="dt">Paddle</span> y
-  }</code></pre>
+    <span class="dt">Up</span>      <span class="ot">-&gt;</span> <span class="dt">Paddle</span> <span class="fu">$</span> clamp <span class="dv">20</span> (gameHeight<span class="dv">-20</span>) (y <span class="fu">-</span> <span class="dv">200</span> <span class="fu">*</span> delta)
+    <span class="dt">Down</span>    <span class="ot">-&gt;</span> <span class="dt">Paddle</span> <span class="fu">$</span> clamp <span class="dv">20</span> (gameHeight<span class="dv">-20</span>) (y <span class="fu">+</span> <span class="dv">200</span> <span class="fu">*</span> delta)
+    <span class="dt">Neutral</span> <span class="ot">-&gt;</span> <span class="dt">Paddle</span> y</code></pre>
 <p>Before we define <code>stepBall</code> we want a couple helper functions to help detect collisions, a surprisingly tricky task, even in Pong.</p>
 <p>Since updates may not happen regularly, the ball may move different distances for each update. So imagine that the ball moves into the paddle with a particularly large step. We want to reverse its velocity! So <code>vx = -vx</code>, right? But what if the ball moves out of the paddle with a small step. A step so small that it does not actually make it all the way. That is another collision and we reverse the velocity again! Now we are back where we started! The ball is 'stuck' in a collision.</p>
 <p>To be extra careful, we use the <code>makePositive</code> and <code>makeNegative</code> functions to change the velocity of the ball when it hits a wall or paddle. We also use the <code>within</code> function to figure out if <code>x</code> is within <code>epsilon</code> of the number <code>n</code>, helping to detect collisions in the first place.</p>
@@ -153,35 +140,35 @@ halfHeight <span class="fu">=</span> gameHeight <span class="fu">/</span> <span 
 makeNegative n <span class="fu">=</span> <span class="kw">if</span> n <span class="fu">&gt;</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">0</span><span class="fu">-</span>n <span class="kw">else</span> n
 within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <span class="fu">-</span> epsilon <span class="fu">&amp;&amp;</span> x <span class="fu">&lt;</span> n <span class="fu">+</span> epsilon</code></pre>
 <p>The <code>stepVelocity</code> function is used to reverse the velocity of the ball when it has collided with a lower or upper boundary. Notice that the collisions set the direction of the velocity rather than simply negating it!</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepVelocity velocity lowerCollision upperCollision <span class="fu">=</span>
-  <span class="kw">if</span> lowerCollision <span class="kw">then</span> makePositive velocity <span class="kw">else</span>
-  <span class="kw">if</span> upperCollision <span class="kw">then</span> makeNegative velocity <span class="kw">else</span> velocity</code></pre>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepVelocity velocity lowerCollision upperCollision
+    <span class="fu">|</span> lowerCollision <span class="fu">=</span> makePositive velocity
+    <span class="fu">|</span> upperCollision <span class="fu">=</span> makeNegative velocity
+    <span class="fu">|</span> <span class="fu">otherwise</span>      <span class="fu">=</span> velocity</code></pre>
 <p>Now that we have a bunch of helper functions, we will actually step the ball forward. The <code>stepBall</code> function first figures out the new velocity of the ball. The velocity only changes when there is a collision with a paddle or a wall. More specifically, the x-velocity depends on paddle collisions, and the y-velocity depends on wall collisions. This new velocity is then used to calculate a new position.</p>
 <p>This function also determines whether a point has been scored and who receives the point. Thus, its output is a new Ball and points to be added to each player.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepBall delta (<span class="dt">Ball</span> (x,y) (vx,vy)) (<span class="dt">Paddle</span> y1) (<span class="dt">Paddle</span> y2) <span class="fu">=</span>
-  <span class="kw">let</span> { hitPaddle1 <span class="fu">=</span> within <span class="dv">20</span> y1 y <span class="fu">&amp;&amp;</span> within <span class="dv">8</span> <span class="dv">25</span> x
-      ; hitPaddle2 <span class="fu">=</span> within <span class="dv">20</span> y2 y <span class="fu">&amp;&amp;</span> within <span class="dv">8</span> (gameWidth <span class="fu">-</span> <span class="dv">25</span>) x
-      ; vx&#39; <span class="fu">=</span> stepVelocity vx hitPaddle1 hitPaddle2
-      ; vy&#39; <span class="fu">=</span> stepVelocity vy (y <span class="fu">&lt;</span> <span class="dv">7</span>) (y <span class="fu">&gt;</span> gameHeight <span class="fu">-</span> <span class="dv">7</span>)
-      ; scored <span class="fu">=</span> x <span class="fu">&gt;</span> gameWidth <span class="fu">||</span> x <span class="fu">&lt;</span> <span class="dv">0</span>
-      ; x&#39; <span class="fu">=</span> <span class="kw">if</span> scored <span class="kw">then</span> halfWidth  <span class="kw">else</span> x <span class="fu">+</span> vx&#39; <span class="fu">*</span> delta
-      ; y&#39; <span class="fu">=</span> <span class="kw">if</span> scored <span class="kw">then</span> halfHeight <span class="kw">else</span> y <span class="fu">+</span> vy&#39; <span class="fu">*</span> delta
-      }
-  <span class="kw">in</span> ( <span class="dt">Ball</span> (x&#39;,y&#39;) (vx&#39;,vy&#39;)
-     , <span class="kw">if</span> x <span class="fu">&gt;</span> gameWidth <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span>
-     , <span class="kw">if</span> x <span class="fu">&lt;</span> <span class="dv">0</span>         <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span> )</code></pre>
+  <span class="kw">let</span> hitPaddle1 <span class="fu">=</span> within <span class="dv">20</span> y1 y <span class="fu">&amp;&amp;</span> within <span class="dv">8</span> <span class="dv">25</span> x
+      hitPaddle2 <span class="fu">=</span> within <span class="dv">20</span> y2 y <span class="fu">&amp;&amp;</span> within <span class="dv">8</span> (gameWidth <span class="fu">-</span> <span class="dv">25</span>) x
+      vx&#39; <span class="fu">=</span> stepVelocity vx hitPaddle1 hitPaddle2
+      vy&#39; <span class="fu">=</span> stepVelocity vy (y <span class="fu">&lt;</span> <span class="dv">7</span>) (y <span class="fu">&gt;</span> gameHeight <span class="fu">-</span> <span class="dv">7</span>)
+      scored <span class="fu">=</span> x <span class="fu">&gt;</span> gameWidth <span class="fu">||</span> x <span class="fu">&lt;</span> <span class="dv">0</span>
+      x&#39; <span class="fu">=</span> <span class="kw">if</span> scored <span class="kw">then</span> halfWidth  <span class="kw">else</span> x <span class="fu">+</span> vx&#39; <span class="fu">*</span> delta
+      y&#39; <span class="fu">=</span> <span class="kw">if</span> scored <span class="kw">then</span> halfHeight <span class="kw">else</span> y <span class="fu">+</span> vy&#39; <span class="fu">*</span> delta
+  <span class="kw">in</span>  ( <span class="dt">Ball</span> (x&#39;,y&#39;) (vx&#39;,vy&#39;)
+      , <span class="kw">if</span> x <span class="fu">&gt;</span> gameWidth <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span>
+      , <span class="kw">if</span> x <span class="fu">&lt;</span> <span class="dv">0</span>         <span class="kw">then</span> <span class="dv">1</span> <span class="kw">else</span> <span class="dv">0</span> )</code></pre>
 <p>Finally, we define a step function for the entire game. This steps from state to state based on the inputs to the game.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepGame (<span class="dt">Input</span> delta (<span class="dt">KeyInput</span> space dir1 dir2))
          (<span class="dt">GameState</span> state (<span class="dt">Score</span> s1 s2) ball paddle1 paddle2) <span class="fu">=</span>
-  <span class="kw">let</span> { (ball&#39;,s1&#39;,s2&#39;) <span class="fu">=</span> <span class="kw">if</span> state <span class="fu">==</span> <span class="dt">Play</span> <span class="kw">then</span> stepBall delta ball paddle1 paddle2
-                                           <span class="kw">else</span> (ball, <span class="dv">0</span>, <span class="dv">0</span>)
-      ; state&#39; <span class="fu">=</span> <span class="kw">case</span> state <span class="kw">of</span> { <span class="dt">Play</span> <span class="ot">-&gt;</span> <span class="kw">if</span> s1&#39; <span class="fu">/=</span> s2&#39; <span class="kw">then</span> <span class="dt">BetweenRounds</span> <span class="kw">else</span> state
-                               ; <span class="dt">BetweenRounds</span> <span class="ot">-&gt;</span> <span class="kw">if</span> space <span class="kw">then</span> <span class="dt">Play</span> <span class="kw">else</span> state }
-  } <span class="kw">in</span>  <span class="dt">GameState</span> state&#39;
-                  (<span class="dt">Score</span> (s1<span class="fu">+</span>s1&#39;) (s2<span class="fu">+</span>s2&#39;))
-                  ball&#39;
-                  (stepPaddle delta dir1 paddle1)
-                  (stepPaddle delta dir2 paddle2)</code></pre>
+  <span class="kw">let</span> (ball&#39;,s1&#39;,s2&#39;) <span class="fu">=</span> <span class="kw">if</span> state <span class="fu">==</span> <span class="dt">Play</span> <span class="kw">then</span> stepBall delta ball paddle1 paddle2
+                                         <span class="kw">else</span> (ball, <span class="dv">0</span>, <span class="dv">0</span>)
+      state&#39; <span class="fu">=</span> <span class="kw">case</span> state <span class="kw">of</span> <span class="dt">Play</span> <span class="ot">-&gt;</span> <span class="kw">if</span> s1&#39; <span class="fu">/=</span> s2&#39; <span class="kw">then</span> <span class="dt">BetweenRounds</span> <span class="kw">else</span> state
+                             <span class="dt">BetweenRounds</span> <span class="ot">-&gt;</span> <span class="kw">if</span> space <span class="kw">then</span> <span class="dt">Play</span> <span class="kw">else</span> state
+  <span class="kw">in</span>  <span class="dt">GameState</span> state&#39;
+                (<span class="dt">Score</span> (s1<span class="fu">+</span>s1&#39;) (s2<span class="fu">+</span>s2&#39;))
+                ball&#39;
+                (stepPaddle delta dir1 paddle1)
+                (stepPaddle delta dir2 paddle2)</code></pre>
 <p>Now we put everything together. We combine the input, game representation, and step function into one signal.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">gameState <span class="fu">=</span> foldp stepGame defaultGame input</code></pre>
 <p>The <code>gameState</code> signal carries the current state of the game. It starts with our default game and steps forward based on user input. All we need to do now is show the game to the user.</p>
@@ -190,14 +177,13 @@ within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <s
 <p>This section gives you much more freedom than the previous ones because you can be as fancy and elaborate as you want. I will try to keep our display fairly simple for the sake of clarity!</p>
 <p>The <code>scoreBoard</code> function displays the current score and some directions for the users. When the game is between rounds, this will display a message to users &quot;Press SPACE to begin&quot;, letting them know how to start playing. This message disappears when the ball is in play because it is irrelevant at that point. The score is always displayed.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">scoreBoard w inPlay p1 p2 <span class="fu">=</span>
-  <span class="kw">let</span> { code <span class="fu">=</span> text <span class="fu">.</span> monospace <span class="fu">.</span> toText
-      ; stack top bottom <span class="fu">=</span> flow down [ code <span class="st">&quot; &quot;</span>, code top, code bottom ]
-      ; msg <span class="fu">=</span> width w <span class="fu">.</span> centeredText <span class="fu">.</span> monospace <span class="fu">$</span> toText <span class="st">&quot;Press SPACE to begin&quot;</span>
-      ; score <span class="fu">=</span> width w <span class="fu">.</span> box <span class="dv">2</span> <span class="fu">$</span> flow right
-                  [ stack <span class="st">&quot;W&quot;</span> <span class="st">&quot;S&quot;</span>, rectangle <span class="dv">20</span> <span class="dv">1</span>
-                  , text <span class="fu">.</span> Text.height <span class="dv">4</span> <span class="fu">$</span> <span class="fu">show</span> p1 <span class="fu">++</span> toText <span class="st">&quot;    &quot;</span> <span class="fu">++</span> <span class="fu">show</span> p2
-                  , rectangle <span class="dv">20</span> <span class="dv">1</span>, stack <span class="st">&quot;&amp;uarr;&quot;</span> <span class="st">&quot;&amp;darr;&quot;</span> ]
-      }
+  <span class="kw">let</span> code <span class="fu">=</span> text <span class="fu">.</span> monospace <span class="fu">.</span> toText
+      stack top bottom <span class="fu">=</span> flow down [ code <span class="st">&quot; &quot;</span>, code top, code bottom ]
+      msg <span class="fu">=</span> width w <span class="fu">.</span> centeredText <span class="fu">.</span> monospace <span class="fu">$</span> toText <span class="st">&quot;Press SPACE to begin&quot;</span>
+      score <span class="fu">=</span> width w <span class="fu">.</span> box <span class="dv">2</span> <span class="fu">$</span> flow right
+                [ stack <span class="st">&quot;W&quot;</span> <span class="st">&quot;S&quot;</span>, rectangle <span class="dv">20</span> <span class="dv">1</span>
+                , text <span class="fu">.</span> Text.height <span class="dv">4</span> <span class="fu">$</span> <span class="fu">show</span> p1 <span class="fu">++</span> toText <span class="st">&quot;    &quot;</span> <span class="fu">++</span> <span class="fu">show</span> p2
+                , rectangle <span class="dv">20</span> <span class="dv">1</span>, stack <span class="st">&quot;&amp;uarr;&quot;</span> <span class="st">&quot;&amp;darr;&quot;</span> ]
   <span class="kw">in</span>  <span class="kw">if</span> inPlay <span class="kw">then</span> score <span class="kw">else</span> score <span class="ot">`above`</span> msg</code></pre>
 <p>This function displays the entire GameState. Part of that is the score board, but the most vital part is the display of the game. This uses Elm's <code>collage</code> interface to draw shapes on screen. We just need to draw four things: a field, a ball, the left paddle, and the right paddle.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">display (w,h) (<span class="dt">GameState</span> state (<span class="dt">Score</span> p1 p2) (<span class="dt">Ball</span> pos _) (<span class="dt">Paddle</span> y1) (<span class="dt">Paddle</span> y2)) <span class="fu">=</span>
@@ -212,45 +198,26 @@ within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <s
         ]
     ]</code></pre>
 <p>We can now define a view of the game (a signal of Elements) that changes as the GameState changes. This is what the users will see.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">view <span class="fu">=</span> lift2 display Win.dimensions gameState</code></pre>
-<p>Here we tell the JavaScript FPS manager that all of the computations for this frame are complete. This allows the manager to calculate when the next step should happen.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">done <span class="fu">=</span> lift (\_ <span class="ot">-&gt;</span> castBoolToJSBool <span class="kw">True</span>) view
-foreign export jsevent <span class="st">&quot;finished&quot;</span>
-<span class="ot">  done ::</span> <span class="dt">Signal</span> <span class="dt">JSBool</span></code></pre>
-<p>And finally, we display the view of the game to the user.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">main <span class="fu">=</span> view</code></pre>
-<p>And that is it! <a href="/blog/games-in-elm/part-0/Pong.html">Pong in Elm</a>!</p>
-<br/>
+<p>And finally, we display the view of the game to the user!</p>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">main <span class="fu">=</span> lift2 display Window.dimensions gameState</code></pre>
+<p>And that is it! <a href="http://elm-lang.org/misc/Pong.html">Pong in Elm</a>!</p>
 <h1 id="post-script">Post Script</h1>
-<h3 id="learn-by-doing-programming-challenges">Learn by Doing: Programming Challenges</h3>
-<p>If you want to learn more about making games in Elm, download the <a href="https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong">source code for Pong</a> and try tackling some of these challenges:</p>
+<h2 id="learn-by-doing-programming-challenges">Learn by Doing: Programming Challenges</h2>
+<p>If you want to learn more about making games in Elm, try tackling some of these challenges:</p>
 <ul>
 <li>Make the Pong field look nicer. Add a line (or dotted line) at mid-field.</li>
 <li>Add the ability to pause the game during game play.</li>
 <li>Add the ability to reset the game (besides refreshing the page!)</li>
-<li>Make ball collisions more complicated. Possibilities:
+<li>Make ball collisions more complicated. Possiblities:
 <ul>
-<li>Check to see if the ball is even close to a paddle before the full collision check. This should be a bit more efficient.</li>
 <li>When the ball hits the corner of a paddle, it changes direction.</li>
 <li>If the ball hits a moving paddle, it adds spin to the ball, making it rebound in a different direction.</li>
 </ul></li>
 <li>Add a second ball to the game.</li>
 <li>Write a simple AI for a paddle. A simple strategy is to always put the paddle at the same y height as the ball, but this is not very fun to play against. Maybe try an AI that is not so smart to make things more interesting.</li>
 </ul>
-<h3>New Features</h3>
-<p>As of Elm 0.4, the collage is much more flexible. You can now use images, text, gifs, videos, or any other element you can think of in games. See <a href="/blog/announce/version-0.4.0.elm">this upgrade announcement</a> for more information.</p>
-<h3 id="further-reading">Further Reading</h3>
-<p>If you want to read more about FRP for games, see <a href="http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf">this paper</a>. Note that it is specific to Arrowized FRP, a paradigm which will <em>eventually</em> be supported in Elm. I am planning on doing a post about how Elm and Arrowized FRP will work together, but it will be a while before it actually makes it into a public release.</p>
-<br/>
+<h2 id="further-reading">Further Reading</h2>
+<p>If you want to read more about FRP for games, see <a href="http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf">this paper</a>. Note that it is specific to Arrowized FRP, which is supported by Elm's <a href="http://elm-lang.org/docs/Automaton.elm">Automaton library</a>.</p>
 </div>
-<script type="text/javascript">var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-25827182-1']);
-_gaq.push(['_trackPageview']);
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
 </body>
 </html>
