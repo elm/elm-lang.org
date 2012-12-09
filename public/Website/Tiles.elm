@@ -31,4 +31,4 @@ toMiniTile info =
 
 miniTiles w info =
   let tiles = map toMiniTile info in
-  flow down . intersperse (spacer 1 14) . map (flow right) $ groups (w `div` 70) tiles
+  flow down . intersperse (spacer 1 14) . map (flow right) $ groups (w `div` 100) tiles

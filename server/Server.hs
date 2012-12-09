@@ -1,13 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Prelude hiding (head,span,id)
+import Prelude hiding (head,span,id,catch)
 import Control.Monad (msum,when)
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
 
 import Text.Blaze.Html (Html)
 import Control.Monad.Trans (MonadIO(liftIO))
+import Control.Exception
 
 import ElmToHtml
 import Editor
@@ -19,6 +20,7 @@ main = simpleHTTP nullConf $ do
          compressedResponseFilter
          msum [ nullDir >> compileFile "Elm.elm"
               , serveDirectory DisableBrowsing [] "resources"
+              , dir "try" (ok $ toResponse $ emptyIDE)
               , dir "compile" $ compilePart
               , dir "edit" . uriRest $ withFile ide
               , dir "code" . uriRest $ withFile editor
@@ -34,18 +36,21 @@ compilePart = do
   code <- look "input"
   ok $ toResponse $ elmToHtml "Compiled Elm" code
 
+open :: String -> ServerPart String
+open fp = liftIO $ catch (readFile ("public/" ++ fp))
+                         ((\_ -> return "") :: SomeException -> IO String)
 
 -- | Do something with the contents of a File.
 withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
 withFile handler fp = do
-  content <- liftIO $ readFile ("public/" ++ fp)
-  ok . toResponse $ handler fp content
+  content <- open fp
+  ok . toResponse $ handler fp (content :: String)
 
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
 compileFile fp =
-    do content <- liftIO $ readFile ("public/" ++ fp)
+    do content <- open fp
        ok $ toResponse $ elmToHtml (pageTitle fp) content
 
 

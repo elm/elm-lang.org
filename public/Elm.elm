@@ -100,9 +100,7 @@ downloadText = [markdown|
 #### Get Started!
 
 Download Elm and start using it now. Or just start using
-Elm&rsquo;s [online compiler](/edit/examples/Reactive/Position.elm)
-with no set-up at all.
-
+Elm&rsquo;s [online compiler](/try) with no set-up at all.
 |]
 
 examples = map (\(x,y) -> (x, y, "Intermediate/"))
@@ -115,9 +113,9 @@ examples = map (\(x,y) -> (x, y, "Intermediate/"))
   ]
 
 content w =
-  let tiles = miniTiles 250 examples in
-  flow down [ width w exampleText
-            , container w (heightOf tiles) middle tiles ]
+  let tiles = miniTiles w examples
+  in  flow down [ width w exampleText
+                , container w (heightOf tiles) middle tiles ]
 
 infoq w =
   let lnk = "http://www.infoq.com/presentations/Elm"

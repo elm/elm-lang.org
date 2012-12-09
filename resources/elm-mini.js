@@ -1,142 +1,4263 @@
-var Guid=function(){var d=0;return{guid:function(){return d+=1}}}(),Elm=Elm||{};
-Elm.JavaScript=function(){function d(a){for(var b=["Nil"],m=a.length;m--;)b=["Cons",a[m],b];return b}function a(a){for(var b=[];"Cons"===a[0];)b.push(a[1]),a=a[2];return b}function g(a){return a.slice(1)}function j(a){return["Tuple"+a.length].concat(a)}return{castJSBoolToBool:function(a){return a},castBoolToJSBool:function(a){return a},castJSNumberToFloat:function(a){return a},castFloatToJSNumber:function(a){return a},castJSNumberToInt:function(a){return~~a},castIntToJSNumber:function(a){return a},
-Experimental:{castJSElementToElement:function(a){return function(b){return function(m){return["Element",Guid.guid(),["EExternalHtml",m],a,b,1,Nothing,Nothing]}}},castElementToJSElement:function(a){return Render.render(a)}},castJSArrayToList:d,castListToJSArray:a,castJSStringToString:d,castStringToJSString:function(g){return"string"===typeof g?g:a(g).join("")},castTupleToJSTuple2:g,castTupleToJSTuple3:g,castTupleToJSTuple4:g,castTupleToJSTuple5:g,castJSTupleToTuple2:j,castJSTupleToTuple3:j,castJSTupleToTuple4:j,
-castJSTupleToTuple5:j}}();var Elm=Elm||{},JSjson=JSON;
-Elm.JSON=function(){function d(b,a){return function(f){return function(e){var c=j.castStringToJSString(f);return e[1].hasOwnProperty(c)&&(e=e[1][c],e[0]===b)?e[1]:a}}}function a(b){return function(a){function f(b){switch(b[0]){case "JsonNull":return null;case "JsonString":return j.castStringToJSString(b[1]);case "JsonObject":var c={},b=b[1][1],h;for(h in b)c[h]=f(b[h]);return c;case "JsonArray":c=j.castListToJSArray(b[1]);for(h=c.length;h--;)c[h]=f(c[h]);return c;default:return b[1]}}return JSjson.stringify(f(["JsonObject",
-a]),null,j.castStringToJSString(b))}}function g(b){function a(b){switch(typeof b){case "string":return["JsonString",j.castJSStringToString(b)];case "number":return["JsonNumber",j.castJSNumberToFloat(b)];case "boolean":return["JsonBool",j.castJSBoolToBool(b)];case "object":if(null===b)return["JsonNull"];for(var c in b)b[c]=a(b[c]);return b instanceof Array?["JsonArray",j.castJSArrayToList(b)]:["JsonObject",["JSON",b]]}}var b=JSjson.parse(b),f;for(f in b)b[f]=a(b[f]);return["JSON",b]}var j=Elm.JavaScript,
-k=["JSON",{}];return{empty:k,singleton:function(b){return function(a){var f={};f[j.castStringToJSString(b)]=a;return["JSON",f]}},insert:function(b){return function(a){return function(f){var f=f[1],e={},c;for(c in f)e[c]=f[c];e[j.castStringToJSString(b)]=a;return["JSON",e]}}},lookup:function(b){return function(a){var f=j.castStringToJSString(b);return a[1].hasOwnProperty(f)?Just(a[1][f]):Nothing}},findString:d("JsonString",["Nil"]),findObject:d("JsonObject",k),findArray:d("JsonArray",["Nil"]),findWithDefault:function(b){return function(a){return function(f){var e=
-j.castStringToJSString(a);return f[1].hasOwnProperty(e)?f[1][e]:b}}},remove:function(b){return function(a){var a=a[1],f={},e;for(e in a)f[e]=a[e];delete f[j.castStringToJSString(b)];return["JSON",f]}},toPrettyJSString:a,toJSString:a(""),fromJSString:g,toPrettyString:function(b){return function(g){return j.castJSStringToString(a(b)(g))}},toString:function(b){return j.castJSStringToString(a("")(b))},fromString:function(b){return g(j.castStringToJSString(b))},toList:function(b){var b=b[1],a=[],f;for(f in b)a.push(Value.Tuple(j.castJSStringToString(f),
-b[f]));return j.castJSArrayToList(a)},fromList:function(b){for(var b=j.castListToJSArray(b),a={},f=b.length;f--;)a[j.castStringToJSString(b[f][1])]=b[f][2];return["JSON",a]},JsonString:function(b){return["JsonString",b]},JsonNumber:function(b){return["JsonNumber",b]},JsonBool:function(b){return["JsonBool",b]},JsonNull:["JsonNull"],JsonArray:function(b){return["JsonArray",b]},JsonObject:function(b){return["JsonObject",b]}}}();
-var Value=function(){function d(b){if(0==b.length)return b;for(var b=b.replace(/"/g,"&#34;").replace(/'/g,"&#39;").replace(/</g,"&#60;").replace(/>/g,"&#62;").replace(/\n/g,"<br/>"),b=b.split("<br/>"),a=b.length;a--;){var f=b,e=a,c;c=b[a];if(0!=c.length){c=c.split("");" "==c[0]&&(c[0]="&nbsp;");for(var h=c.length;--h;)" "==c[h][0]&&" "==c[h-1]&&(c[h-1]+=c[h],c[h]="");for(h=c.length;h--;)if(1<c[h].length&&" "==c[h][0]){for(var r=c[h].split(""),g=r.length-2;0<=g;g-=2)r[g]="&nbsp;";c[h]=r.join("")}c=
-c.join("");c=" "===c[c.length-1]?c.slice(0,-1)+"&nbsp;":c}f[e]=c}return b.join("<br/>")}var a=function(b,g){if("object"===typeof b){if(b===g)return!0;if(b.length!==g.length)return!1;for(var f=b.length;f--;)if(!a(b[f],g[f]))return!1;return!0}return b===g},g=function(b){if("boolean"===typeof b)return b?"True":"False";if("number"!==typeof b){if("string"===typeof b&&2>b.length)return"'"+b+"'";if(b[0]){if("Tuple"===b[0].substring(0,5)){for(var a="",f=b.length;--f;)a=","+g(b[f])+a;","===a[0]&&(a=a.substring(1));
-return"("+a+")"}if("Cons"===b[0])for(var f="string"===typeof b[1]?'"':"]",e="string"===typeof b[1]?"":",",c="string"===typeof b[1]?function(c){return c}:g,a=("string"===typeof b[1]?'"':"[")+c(b[1]),b=b[2];;)if("Cons"===b[0])a+=e+c(b[1]),b=b[2];else return a+f;else{if("Nil"===b[0])return"[]";if("JSON"===b[0])return"(JSON.fromList "+g(Elm.JSON.toList(b))+")";if("RBNode"===b[0]||"RBEmpty"===b[0])return"(Map.fromList "+g(Elm.Dict.fold(function(c){return function(b){return function(a){return["Cons",["Tuple2",
-c,b],a]}}})(["Nil"])(b))+")";a="";for(f=b.length;--f;)a=" "+g(b[f])+a;a=b[0]+a;return 1<b.length?"("+a+")":a}}}return b+""},j=function(b){for(var a=["Nil"],f=b.length;f--;)a=["Cons",b[f],a];return a},k;k=document.addEventListener?function(b,a,f){b.addEventListener(a,f,!1)}:function(b,a,f){b.attachEvent("on"+a,f)};return{eq:a,str:j,show:function(b){return j(g(b))},Tuple:function(){var b=arguments.length,a=Array(b+1);for(a[0]="Tuple"+arguments.length;b--;)a[b+1]=arguments[b];return a},append:function(b,
-a){if("string"===typeof b&&"string"===typeof a)return b.concat(a);if("Nil"===b[0])return a;for(var f=["Cons",b[1],["Nil"]],e=f,b=b[2];"Cons"===b[0];)e[2]=["Cons",b[1],["Nil"]],b=b[2],e=e[2];e[2]=a;return f},listToArray:function(b){for(var a=[];"Cons"===b[0];)a.push(b[1]),b=b[2];return a},toText:function(b){if("string"===typeof b)return d(b);for(var a=[];"Cons"===b[0];)a.push(b[1]),b=b[2];return d(a.join(""))},properEscape:d,getTextSize:function(b,a,f){var e=document.createElement("div");e.innerHTML=
-f;e.style.textAlign="left";0<b&&(e.style.width=b+"px");e.style.visibility="hidden";e.style.styleFloat="left";e.style.cssFloat="left";document.body.appendChild(e);f=window.getComputedStyle(e);b=f.getPropertyValue("width").slice(0,-2)-0;f=f.getPropertyValue("height").slice(0,-2)-0;document.body.removeChild(e);delete e;return[Math.ceil(b),Math.ceil(Math.max(a,f))]},getSize:function(b){b=b.cloneNode(!0);b.style.visibility="hidden";b.style.styleFloat="left";b.style.cssFloat="left";document.body.appendChild(b);
-var a=b.offsetWidth,f=b.offsetHeight;document.body.removeChild(b);delete b;return[a,f]},getExcess:function(b){b=b.cloneNode(!0);b.style.visibility="hidden";b.style.styleFloat="left";b.style.cssFloat="left";document.body.appendChild(b);var a=b.offsetWidth,f=b.offsetHeight,e=window.getComputedStyle(b),c=e.getPropertyValue("width").slice(0,-2)-0,e=e.getPropertyValue("height").slice(0,-2)-0;document.body.removeChild(b);delete b;return[a-c,f-e]},groupForms:function(b){for(var b=Elm.JavaScript.castListToJSArray(b),
-a=[],f=[],e=b.length;e--;){var c=b[e];switch(c[4][0]){case "FElement":0<f.length&&(a.push(f),f=[]);a.push(c);break;default:f.push(c)}}0<f.length&&a.push(f);return a},wrap:function(b){var a=Value.getSize(b);return["Element",Guid.guid(),["EHtml",b],a[0],a[1],1,Nothing,Nothing]},addListener:k}}(),Elm=Elm||{};
-Elm.List=function(){function d(b){return function(a){if("Nil"===a[0])return a;"Cons"!==a[0]&&c("map");for(var h=["Cons",b(a[1]),["Nil"]],e=h,a=a[2];"Cons"===a[0];)e[2]=["Cons",b(a[1]),["Nil"]],a=a[2],e=e[2];return h}}function a(a){return function(b){return function(h){var e=b;if("Nil"===h[0])return e;for("Cons"!==h[0]&&c("foldl");"Cons"===h[0];)e=a(h[1])(e),h=h[2];return e}}}function g(a){return function(b){return function(h){var e=b;if("Nil"===h[0])return e;"Cons"!==h[0]&&c("foldr");for(var f=[];"Cons"===
-h[0];)f.push(h[1]),h=h[2];for(h=f.length;h--;)e=a(f[h])(e);return e}}}function j(c){return function(b){var h;"Cons"!==b[0]?h=void 0:(h=b[1],b=b[2],h=a(c)(h)(b));return h}}function k(b){return function(a){return function(h){if("Nil"===h[0])return["Cons",a,["Nil"]];"Cons"!==h[0]&&c("scanl");for(var e=[a];"Cons"===h[0];)a=b(h[1])(a),e.push(a),h=h[2];for(var h=["Nil"],f=e.length;f--;)h=["Cons",e[f],h];return h}}}function b(c){return function(a){a:{for(var h=[function(c){return"Nil"!==c[0]?void 0:["Tuple2",
-["Nil"],["Nil"]]},function(a){if("Cons"===a[0]){var h=a[1],a=a[2];var e=b(c)(a);"Tuple2"!==e[0]?h=void 0:(a=e[1],e=e[2],h=c(h)?["Tuple2",["Cons",h,a],e]:["Tuple2",a,["Cons",h,e]]);return h}}],e=h.length;e--;){var f=h[e](a);if(void 0!==f){a=f;break a}}a=void 0}return a}}function m(c){a:{for(var a=[function(c){return"Nil"!==c[0]?void 0:["Tuple2",["Nil"],["Nil"]]},function(c){if("Cons"!==c[0])c=void 0;else if(c=["Tuple2",c[1],m(c[2])],"Tuple2"!==c[0]||"Tuple2"!==c[1][0])c=void 0;else var a=c[1][1],b=
-c[1][2],c="Tuple2"!==c[2][0]?void 0:["Tuple2",["Cons",a,c[2][1]],["Cons",b,c[2][2]]];return c}],b=a.length;b--;){var h=a[b](c);if(void 0!==h){c=h;break a}}c=void 0}return c}function f(c){return function(a){a:{for(var b=[function(c){return"Nil"!==c[0]?void 0:["Nil"]},function(c){if("Cons"===c[0]){var a=c[1];return"Nil"!==c[2][0]?void 0:["Cons",a,["Nil"]]}},function(a){if("Cons"===a[0]){var b=a[1];if("Cons"===a[2][0]){var h=a[2][1],a=a[2][2];return["Cons",b,["Cons",c,f(c)(["Cons",h,a])]]}}}],h=b.length;h--;){var e=
-b[h](a);if(void 0!==e){a=e;break a}}a=void 0}return a}}function e(c){return function(a){a:{for(var b=[function(c){return"Nil"!==c[0]?void 0:["Nil"]},function(c){if("Cons"===c[0]){var a=c[1];return"Nil"!==c[2][0]?void 0:a}},function(a){if("Cons"===a[0]){var b=a[1];if("Cons"===a[2][0]){var h=a[2][1],a=a[2][2];return Value.append(b,Value.append(c,e(c)(["Cons",h,a])))}}}],h=b.length;h--;){var f=b[h](a);if(void 0!==f){a=f;break a}}a=void 0}return a}}var c=function(c){throw"Function '"+c+"' expecting a list!";
-},h=a(function(c){return function(a){return["Cons",c,a]}})(["Nil"]),r=g(function(c){return function(a){return Value.append(c,a)}})(["Nil"]),s=a(function(c){return function(a){return c&&a}})(!0),t=a(function(c){return function(a){return c||a}})(!1),p=a(function(c){return function(a){return c+a}})(0),l=a(function(c){return function(a){return c*a}})(1),w=j(function(c){return function(a){return Math.max(c,a)}}),z=j(function(c){return function(a){return Math.min(c,a)}});return{head:function(c){if("Cons"!==
-c[0])throw"Error: 'head' only accepts lists of length greater than one.";return c[1]},tail:function(c){if("Cons"!==c[0])throw"Error: 'tail' only accepts lists of length greater than one.";return c[2]},last:function(c){if("Cons"!==c[0])throw"Error: 'last' only accepts lists of length greater than one.";for(var a=c[1];"Cons"===c[0];)a=c[1],c=c[2];return a},map:d,foldl:a,foldr:g,foldl1:j,foldr1:function(a){return function(b){if("Nil"===b[0])throw"'foldr1' requires an non-empty list.";"Cons"!==b[0]&&
-c("foldr1");for(var h=[];"Cons"===b[0];)h.push(b[1]),b=b[2];for(var b=h.pop(),e=h.length;e--;)b=a(h[e])(b);return b}},scanl:k,scanl1:function(c){return function(a){if("Cons"!==a[0])throw"Error: 'scanl1' requires a list of at least length 1.";return k(c)(a[1])(a[2])}},filter:function(a){return function(b){if("Nil"===b[0])return b;"Cons"!==b[0]&&c("filter");for(var h=[];"Cons"===b[0];)a(b[1])&&h.push(b[1]),b=b[2];for(var b=["Nil"],e=h.length;e--;)b=["Cons",h[e],b];return b}},length:function(c){for(var a=
-0;"Cons"===c[0];)a+=1,c=c[2];return a},reverse:h,concat:r,concatMap:function(c){return function(a){return r(d(c)(a))}},and:s,or:t,all:function(c){return a(function(a){return function(b){return b&&c(a)}})(!0)},any:function(c){return a(function(a){return function(b){return b||c(a)}})(!1)},sum:p,product:l,maximum:w,minimum:z,partition:b,zipWith:function(a){return function(b){return function(h){if("Nil"===b[0]||"Nil"===h[0])return["Nil"];("Cons"!==b[0]||"Cons"!==h[0])&&c("zipWith");for(var e=[];"Cons"===
-b[0]&&"Cons"===h[0];)e.push(a(b[1])(h[1])),b=b[2],h=h[2];for(var h=["Nil"],f=e.length;f--;)h=["Cons",e[f],h];return h}}},zip:function(a){return function(b){if("Nil"===a[0]||"Nil"===b[0])return["Nil"];("Cons"!==a[0]||"Cons"!==b[0])&&c("zip");for(var h=[];"Cons"===a[0]&&"Cons"===b[0];)h.push(["Tuple2",a[1],b[1]]),a=a[2],b=b[2];for(var b=["Nil"],e=h.length;e--;)b=["Cons",h[e],b];return b}},unzip:m,intersperse:f,intercalate:e,sort:function(a){if("Nil"===a[0])return a;"Cons"!==a[0]&&c("sort");for(var b=
-[];"Cons"===a[0];)b.push(a[1]),a=a[2];b.sort(function(c,a){return c-a});for(var a=["Nil"],h=b.length;h--;)a=["Cons",b[h],a];return a},take:function(a){return function(b){if(0>=a)return["Nil"];if("Nil"===b[0])return b;"Cons"!==b[0]&&c("take");var h=["Cons",b[1],["Nil"]],e=h,b=b[2];for(--a;"Cons"===b[0]&&0<a;)e[2]=["Cons",b[1],["Nil"]],e=e[2],b=b[2],--a;return h}},drop:function(a){return function(b){if("Nil"===b[0])return b;for("Cons"!==b[0]&&c("drop");"Cons"===b[0]&&0<a;)b=b[2],--a;return b}}}}();
-Elm=Elm||{};
-Elm.Maybe=function(){function d(a){return function(j){return"Just"===a[0]?["Cons",a[1],j]:j}}function a(a){return function(j){return function(d){var b=a(j);return"Just"===b[0]?["Cons",b[1],d]:d}}}return{Just:function(a){return["Just",a]},Nothing:["Nothing"],catMaybes:Elm.List.foldr(d)(["Nil"]),isJust:function(a){return"Just"===a[0]},isNothing:function(a){return"Nothing"===a[0]},fromMaybe:function(a){return function(j){return"Just"===j[0]?j[1]:a}},consMaybe:d,mapMaybe:function(g){return Elm.List.foldr(a(g))(["Nil"])},maybe:function(a){return function(j){return function(d){return"Just"===
-d[0]?j(d[1]):a}}}}}();
-(function(){for(var d in Elm)this[d]=Elm[d];if(Elm.Dict)throw"Module name collision, 'Dict' is already defined.";Elm.Dict=function(){function a(a){return function(c){return function(b){return function(h){return function(e){return["RBNode",a,c,b,h,e]}}}}}function g(a){return function(){switch(a[0]){case "RBEmpty":return B(Value.str("(min RBEmpty) is not defined"));case "RBNode":switch(a[4][0]){case "RBEmpty":return["Tuple2",a[2],a[3]]}return g(a[4])}throw"Non-exhaustive pattern match in case";}()}
-function d(a){return function(c){var b;a:{switch(c[0]){case "RBEmpty":b=Nothing;break a;case "RBNode":b=function(){switch(compare(a)(c[2])[0]){case "EQ":return Just(c[3]);case "GT":return d(a)(c[5]);case "LT":return d(a)(c[4])}throw"Non-exhaustive pattern match in case";}();break a}throw"Non-exhaustive pattern match in case";}return b}}function k(a){return function(c){return function(b){var h;a:{switch(b[0]){case "RBEmpty":h=a;break a;case "RBNode":h=function(){switch(compare(c)(b[2])[0]){case "EQ":return b[3];
-case "GT":return k(a)(c)(b[5]);case "LT":return k(a)(c)(b[4])}throw"Non-exhaustive pattern match in case";}();break a}throw"Non-exhaustive pattern match in case";}return h}}}function b(a){return function(c){return y(d(a)(c))}}function m(c){a:{switch(c[0]){case "RBNode":switch(c[5][0]){case "RBNode":c=a(c[1])(c[5][2])(c[5][3])(a(x)(c[2])(c[3])(c[4])(c[5][4]))(c[5][5]);break a}}c=B(Value.str("rotateLeft of a node without enough children"))}return c}function f(c){a:{switch(c[0]){case "RBNode":switch(c[4][0]){case "RBNode":c=
-a(c[1])(c[4][2])(c[4][3])(c[4][4])(a(x)(c[2])(c[3])(c[4][5])(c[5]));break a}}c=B(Value.str("rotateRight of a node without enough children"))}return c}function e(c){a:{switch(c[0]){case "Black":c=x;break a;case "Red":c=D;break a}throw"Non-exhaustive pattern match in case";}return c}function c(c){a:{switch(c[0]){case "RBNode":switch(c[4][0]){case "RBNode":switch(c[5][0]){case "RBNode":c=a(e(c[1]))(c[2])(c[3])(a(e(c[4][1]))(c[4][2])(c[4][3])(c[4][4])(c[4][5]))(a(e(c[5][1]))(c[5][2])(c[5][3])(c[5][4])(c[5][5]));
-break a}}}c=B(Value.str("color_flip called on a RBEmpty or RBNode with a RBEmpty child"))}return c}function h(a){a:switch(a[0]){case "RBNode":switch(a[5][0]){case "RBNode":switch(a[5][1][0]){case "Red":a=m(a);break a}}}a:switch(a[0]){case "RBNode":switch(a[4][0]){case "RBNode":switch(a[4][1][0]){case "Red":switch(a[4][4][0]){case "RBNode":switch(a[4][4][1][0]){case "Red":a=f(a);break a}}}}}a:switch(a[0]){case "RBNode":switch(a[4][0]){case "RBNode":switch(a[4][1][0]){case "Red":switch(a[5][0]){case "RBNode":switch(a[5][1][0]){case "Red":a=
-c(a);break a}}}}}return a}function r(c){a:switch(c[0]){case "RBNode":switch(c[1][0]){case "Red":c=a(D)(c[2])(c[3])(c[4])(c[5]);break a}}return c}function s(c){return function(b){return function(e){var f=function(e){var r;a:{switch(e[0]){case "RBEmpty":r=a(x)(c)(b)(A)(A);break a;case "RBNode":r=function(){switch(compare(c)(e[2])[0]){case "EQ":return a(e[1])(e[2])(b)(e[4])(e[5]);case "GT":return a(e[1])(e[2])(e[3])(e[4])(f(e[5]));case "LT":return a(e[1])(e[2])(e[3])(f(e[4]))(e[5])}throw"Non-exhaustive pattern match in case";
-}();r=h(r);break a}throw"Non-exhaustive pattern match in case";}return r};return r(f(e))}}}function t(c){a:{switch(c[0]){case "RBNode":switch(c[4][0]){case "RBNode":switch(c[4][1][0]){case "Red":c=!0;break a}}}c=!1}return c}function p(c){a:{switch(c[0]){case "RBNode":switch(c[4][0]){case "RBNode":switch(c[4][4][0]){case "RBNode":switch(c[4][4][1][0]){case "Red":c=!0;break a}}}}c=!1}return c}function l(b){if(not(t(b))&&not(p(b))){b=c(b);a:switch(b[0]){case "RBNode":b:switch(b[5][0]){case "RBNode":switch(b[5][4][0]){case "RBNode":switch(b[5][4][1][0]){case "Red":b=
-c(m(a(b[1])(b[2])(b[3])(b[4])(f(b[5]))));break b}}}break a}}return b}function w(b){return function(e){var d;a:{switch(e[0]){case "RBEmpty":d=A;break a;case "RBNode":if("LT"===compare(b)(e[2])[0]){d=l(e);b:{switch(d[0]){case "RBEmpty":d=B(Value.str("delLT on RBEmpty"));break b;case "RBNode":d=h(a(d[1])(d[2])(d[3])(del(d[4]))(d[5]));break b}break}}else{e=t(e)?f(e):e;b:{switch(e[0]){case "RBNode":switch(e[5][0]){case "RBEmpty":e=eq(b,e[2]);break b}}e=!1}if(e)d=A;else{var e=not,j;b:{switch(d[0]){case "RBNode":switch(d[5][0]){case "RBNode":switch(d[5][1][0]){case "Red":j=
-!0;break b}}}j=!1}if(e=e(j)){e=not;b:{switch(d[0]){case "RBNode":switch(d[5][0]){case "RBNode":switch(d[5][4][0]){case "RBNode":switch(d[5][4][1][0]){case "Red":j=!0;break b}}}}j=!1}e=e(j)}e&&(d=c(d),d=p(d)?c(f(d)):d);b:{switch(d[0]){case "RBNode":e=eq(b,d[2]);break b}e=!1}if(e)b:{switch(d[0]){case "RBEmpty":d=B(Value.str("delEQ called on a RBEmpty"));break b;case "RBNode":j=g(d[5]);c:{switch(j[0]){case "Tuple2":e=j[1];break c}break}c:{switch(j[0]){case "Tuple2":j=j[2];break c}break}var e=a(d[1])(e)(j)(d[4]),
-s=function(c){a:{switch(c[0]){case "RBNode":switch(c[4][0]){case "RBEmpty":c=A;break a}}c=l(c);b:{switch(c[0]){case "RBEmpty":c=A;break b;case "RBNode":c=h(a(c[1])(c[2])(c[3])(s(c[4]))(c[5]));break b}throw"Non-exhaustive pattern match in case";}}return c};d=r(s(d[5]));d=h(e(d));break b}break}else b:{switch(d[0]){case "RBEmpty":d=B(Value.str("delGT called on a RBEmpty"));break b;case "RBNode":d=h(a(d[1])(d[2])(d[3])(d[4])(del(d[5])));break b}break}}}break a}throw"Non-exhaustive pattern match in case";
-}return r(d)}}function z(c){return function(b){a:{switch(b[0]){case "RBEmpty":b=A;break a;case "RBNode":b=a(b[1])(b[2])(c(b[3]))(z(c)(b[4]))(z(c)(b[5]));break a}throw"Non-exhaustive pattern match in case";}return b}}function n(c){return function(a){return function(b){a:{switch(b[0]){case "RBEmpty":b=a;break a;case "RBNode":b=n(c)(c(b[2])(b[3])(n(c)(a)(b[4])))(b[5]);break a}throw"Non-exhaustive pattern match in case";}return b}}}function q(c){return function(a){return function(b){a:{switch(b[0]){case "RBEmpty":b=
-a;break a;case "RBNode":b=q(c)(c(b[2])(b[3])(q(c)(a)(b[5])))(b[4]);break a}throw"Non-exhaustive pattern match in case";}return b}}}var u=[],v;for(v in Elm.Prelude)0<=u.indexOf(v)||(this[v]=Elm.Prelude[v]);var y=Elm.Maybe.isJust,x=["Red"],D=["Black"],A=["RBEmpty"],C=A,B=console.log;return{empty:C,lookup:d,findWithDefault:k,member:b,insert:s,singleton:function(c){return function(a){return s(c)(a)(A)}},remove:w,map:z,foldl:n,foldr:q,union:function(c){return function(a){return n(s)(a)(c)}},intersect:function(c){return function(a){return n(function(c){return function(h){return function(e){return b(c)(a)?
-s(c)(h)(e):e}}})(C)(c)}},diff:function(c){return function(a){return n(function(c){return function(){return function(a){return w(c)(a)}}})(c)(a)}},keys:function(c){return n(function(c){return function(){return function(a){return["Cons",c,a]}}})(["Nil"])(c)},values:function(c){return n(function(){return function(c){return function(a){return["Cons",c,a]}}})(["Nil"])(c)},toList:function(c){return n(function(c){return function(a){return function(b){return["Cons",["Tuple2",c,a],b]}}})(["Nil"])(c)},fromList:function(c){return List.foldl(uncurry(s))(C)(c)}}}()})();
-(function(){for(var d in Elm)this[d]=Elm[d];Elm.Set=function(){var a=[],d;for(d in Elm.Prelude)0<=a.indexOf(d)||(this[d]=Elm.Prelude[d]);a=Dict.empty;d=Dict.remove;var j=Dict.member,k=Dict.union,b=Dict.intersect,m=Dict.diff,f=Dict.keys,e=List.foldl(function(c){return function(a){return Dict.insert(c)(["Tuple0"])(a)}})(a);return{empty:a,singleton:function(c){return Dict.singleton(c)(["Tuple0"])},insert:function(c){return Dict.insert(c)(["Tuple0"])},remove:d,member:j,union:k,intersect:b,diff:m,toList:f,
-fromList:e,foldl:function(c){return Dict.foldl(function(a){return function(){return function(b){return c(a)(b)}}})},foldr:function(c){return Dict.foldr(function(a){return function(){return function(b){return c(a)(b)}}})},map:function(c){return function(a){a=f(a);return e(List.map(c)(a))}}}}()})();Elm=Elm||{};
-Elm.Char=function(){function d(a,b){return function(d){d=d.charCodeAt(0);return a<=d&&d<=b}}var a=d(48,57),g=d(97,102),j=d(65,70);return{fromCode:function(a){return String.fromCharCode(a)},toCode:function(a){return a.charCodeAt(0)},toUpper:function(a){return a.toUpperCase()},toLower:function(a){return a.toLowerCase()},toLocaleUpper:function(a){return a.toLocaleUpperCase()},toLocaleLower:function(a){return a.toLocaleLowerCase()},isLower:d(97,122),isUpper:d(65,90),isDigit:a,isOctDigit:d(48,55),isHexDigit:function(d){return a(d)||
-g(d)||j(d)}}}();Elm=Elm||{};
-Elm.Color=function(){return{rgba:function(d){return function(a){return function(g){return function(j){return["Color",d,a,g,j]}}}},rgb:function(d){return function(a){return function(g){return["Color",d,a,g,1]}}},red:["Color",255,0,0,1],green:["Color",0,255,0,1],blue:["Color",0,0,255,1],yellow:["Color",255,255,0,1],cyan:["Color",0,255,255,1],magenta:["Color",255,0,255,1],black:["Color",0,0,0,1],white:["Color",255,255,255,1],gray:["Color",128,128,128,1],grey:["Color",128,128,128,1],complement:function(d){var a,
-g=d[1]/255;a=d[2]/255;var j=d[3]/255,d=Math.max(g,a,j),k=Math.min(g,a,j),k=d-k,b=0;0===k?b=0:d===g?b=(a-j)/k%6:d===a?b=(j-g)/k+2:d===j&&(b=(g-a)/k+4);a=60*b;var g=d*(0===d?0:k/d),b=(a+180)%360/60,m=g*(1-Math.abs(b%2-1)),k=j=a=0;0<=b&&1>b?(a=g,j=m,k=0):1<=b&&2>b?(a=m,j=g,k=0):2<=b&&3>b?(a=0,j=g,k=m):3<=b&&4>b?(a=0,j=m,k=g):4<=b&&5>b?(a=m,j=0,k=g):5<=b&&6>b&&(a=g,j=0,k=m);d-=g;return["Color",Math.round(255*(a+d)),Math.round(255*(j+d)),Math.round(255*(k+d)),1]},extract:function(d){return 1===d[4]?"rgb("+
-d[1]+","+d[2]+","+d[3]+")":"rgba("+d[1]+","+d[2]+","+d[3]+","+d[4]+")"}}}();
-var Collage=function(){function d(a,c){var b=c.length-1;if(!(0>=b))for(a.moveTo(c[b][1],c[b][2]);b--;)a.lineTo(c[b][1],c[b][2])}function a(a,c,b,d){0===a.length&&(a=[8,4]);var f=d.length-1;if(!(0>=f)){var j=d[f][1],g=d[f][2],l=0,m=0,k=0,n=0,q=0,u=0,v=a.length,y=!0,x=a[0];for(c.moveTo(j,g);f--;){l=d[f][1];m=d[f][2];k=l-j;n=m-g;for(q=Math.sqrt(k*k+n*n);x<=q;)j+=k*x/q,g+=n*x/q,c[y?"lineTo":"moveTo"](j,g),k=l-j,n=m-g,q=Math.sqrt(k*k+n*n),y=!y,u=(u+1)%v,x=a[u];0<q&&(c[y?"lineTo":"moveTo"](l,m),x-=q);j=
-l;g=m}}c.strokeStyle=Elm.Color.extract(b);c.stroke()}function g(b,c,h,r,j){c.clearRect(0,0,h,r);for(h=j.length;h--;){var g=j[h],p=b,r=c,l=g[1],m=g[2],k=g[3][1],n=g[3][2],g=g[4];r.save();(0!==k||0!==n)&&r.translate(k,n);l!==~~l&&r.rotate(2*Math.PI*l);1!==m&&r.scale(m,m);r.beginPath();switch(g[0]){case "FLine":a:switch(p=r,l=g,g=l[3][1],l[1][0]){case "Solid":l=l[2];d(p,g);p.strokeStyle=Elm.Color.extract(l);p.stroke();break;case "Dotted":a([3,3],p,l[2],g);break a;case "Dashed":a([8,4],p,l[2],g);break a;
-case "Custom":a(l[1][1],p,l[2],g)}break;case "FShape":a:switch(k=p,m=r,p=g[1],l=g[2],g=g[3][1],p[0]){case "Filled":p=m;d(p,g);p.fillStyle=Elm.Color.extract(l);p.fill();break a;case "Outlined":p=m;d(p,g);p.strokeStyle=Elm.Color.extract(l);p.stroke();break a;case "Textured":l=k;p=p[1];k=new Image;k.src=f.castStringToJSString(p);k.onload=l;d(m,g);m.fillStyle=m.createPattern(k,"repeat");m.fill();break a;case "CustomOutline":a(p[1],m,l,g)}break;case "FImage":l=r,m=g[1],k=g[2],g=g[3],n=new Image,n.onload=
-p,n.src=f.castStringToJSString(g),l.drawImage(n,-m/2,-k/2,m,k)}r.restore()}}function j(a,c,b){var d=Render.newElement("canvas");d.style.width=~~a+"px";d.style.height=~~c+"px";d.style.display="block";d.width=~~a;d.height=~~c;if(d.getContext){var f=d.getContext("2d"),a=d.width,c=d.height;g(function(){g(this,f,a,c,b)},f,a,c,b);return d}d.innerHTML="Your browser does not support the canvas element.";return d}function k(a,c,b,d,f,g,j){var l=Render.render(j),b="translate("+(f-j[3]/2)+"px,"+(g-j[4]/2)+"px) "+
-(1===d?"":"scale("+d+","+d+")")+" "+(b===~~b?"":"rotate("+360*b+"deg)");l.style.transform=b;l.style.msTransform=b;l.style.MozTransform=b;l.style.webkitTransform=b;l.style.OTransform=b;b=Render.newElement("div");Render.addTo(b,l);b.style.width=~~a+"px";b.style.height=~~c+"px";b.style.overflow="hidden";return b}function b(a,c,b){if(!Value.eq(b,c)){var d=a.style.width.slice(0,-2)-0,f=a.style.height.slice(0,-2)-0;if("object"===typeof b[0]){if("object"===typeof c[0]&&a.getContext){var m=a.getContext("2d");
-return g(function(){g(this,m,d,f,b)},m,d,f,b)}c=j(d,f,b);c.style.position="absolute";return a.parentNode.replaceChild(c,a)}c=k(d,f,b[1],b[2],b[3][1],b[3][2],b[4][1]);c.style.position="absolute";return a.parentNode.replaceChild(c,a)}}function m(a,c,b,d,f){var g=0,j,l=(a[1]-d[1])/b,a=(a[2]-d[2])/b;0!==c&&(c*=-2*Math.PI,b=l*Math.cos(c)-a*Math.sin(c),a=l*Math.sin(c)+a*Math.cos(c),l=b);if(0===f.length)return!1;j=f[0];for(b=f.length-1;b--;){c=f[b];d=j[1];j=j[2];var m=c[1],k=c[2];if(j<k)var n=j,q=k;else n=
-k,q=j;if(d<m)var u=d,v=m;else u=m,v=d;n<a&&a<=q&&l<=v&&(l<=u||l<=(a-j)*(m-d)/(k-j)+d)&&++g;j=c}return 1===g%2}var f=Elm.JavaScript;return{collage:function(a,c,b){if(0===b.length)return j(a,c,[]);for(var d=Array(b.length),f=b.length;f--;){var g=b[f];d[f]="string"===typeof g[0]?k(a,c,g[1],g[2],g[3][1],g[3][2],g[4][1]):j(a,c,g)}return 1===b.length?d[0]:Render.flowWith(Render.goIn,function(c){return c},d)},updateCollage:function(a,c,h){if(1===h.length)return b(a,c[0],h[0]);for(var a=a.childNodes,d=a.length,
-f=d;f--;)b(a[d-f-1],c[f],h[f])},insideForm:function(a){return function(c){var b=a[1],d=a[2];if(6>c.length){var f=c[3][1],g=c[3][2],j=0,l=c[2];switch(c[4][0]){case "FShape":for(var k=c[4][3][1],z=k.length;--z;)var n=k[z],j=Math.max(j,n[1]*n[1]+n[2]*n[2]);j*=l*l;break;case "FImage":k=l*c[4][1]/2;l=l*c[4][2]/2;j=k*k+l*l;break;case "FElement":k=l*c[4][1][3]/2,l=l*c[4][1][4]/2,j=k*k+l*l}c.push(function(c,a){var b=c-f,h=a-g;return b*b+h*h<j+1})}if(!c[5](b,d))return!1;var q,u;switch(c[4][0]){case "FShape":return m(a,
-c[1],c[2],c[3],c[4][3][1]);case "FLine":return!1;case "FImage":q=c[4][1]/2;u=c[4][2]/2;break;case "FElement":q=c[4][1][3]/2,u=c[4][1][4]/2}return m(a,c[1],c[2],c[3],[[null,q,u],[null,-q,u],[null,-q,-u],[null,q,-u],[null,q,u]])}}}}(),Elm=Elm||{};
-Elm.Graphics=function(){function d(c){return function(a){return["Position",c,a]}}function a(c){return function(a){return["EText",c,a]}}function g(c){return function(a){return["EFlow",c,l.castListToJSArray(a)]}}function j(c){return["Line",l.castListToJSArray(c)]}function k(c){return function(a){var b=l.castListToJSArray(c);0<b.length&&b.push(b[0]);return["Shape",b,a]}}function b(c){return function(a){return function(b){return function(h){return["Form",c,a,b,h]}}}}function m(c){return function(a){return function(b){return["FLine",
-c,a,b]}}}function f(c){return function(a){return function(b){return["FShape",c,a,b]}}}function e(c,a,b,h,e,d){return["Element",Guid.guid(),c,a,b,h,e,d]}function c(c,a,b){return["Element",Guid.guid(),c,a,b,1,Nothing,Nothing]}function h(c){return~~c[3]}function r(c){return~~c[4]}function s(a){return function(b){return function(h){return c(["EImage",l.castStringToJSString(h)],a,b)}}}function t(a){return function(b){return c(y,a,b)}}function p(c){return function(a){return function(b){var h=map(function(b){return["Tuple2",
-c/2*cos(2*(pi/50)*b),a/2*sin(2*(pi/50)*b)]}),e=49,d=["Nil"];if(0<=e){do d=["Cons",e,d];while(0<e--)}return k(h(d))(b)}}}var l=Elm.JavaScript,w=["DRight"],z=["DDown"],n=["DOut"],q=["Near"],u=["Mid"],v=["Far"],y=["EEmpty"],x=["Solid"],D=["Dotted"],A=["Dashed"],C=["Filled"],B=["Outlined"],E=d(q)(q),F=d(v)(q),G=d(q)(v),H=d(v)(v),I=d(q)(u),J=d(v)(u),q=d(u)(q),v=d(u)(v),u=d(u)(u);return{left:["DLeft"],right:w,down:z,up:["DUp"],inward:["DIn"],outward:n,topLeft:E,topRight:F,bottomLeft:G,bottomRight:H,midLeft:I,
-midRight:J,midTop:q,midBottom:v,middle:u,middleAt:function(c){return function(a){return["PositionAt",c,a]}},topLeftAt:function(c){return function(a){return["PositionTL",c,a]}},topRightAt:function(c){return function(a){return["PositionTR",c,a]}},bottomLeftAt:function(c){return function(a){return["PositionBL",c,a]}},bottomRightAt:function(c){return function(a){return["PositionBR",c,a]}},absolute:function(c){return["Absolute",c]},relative:function(c){return["Relative",c]},width:function(c){return function(a){var b=
-a[2];switch(b[0]){case "EImage":case "EVideo":return e(a[2],c,a[4]*c/a[3],a[5],a[6],a[7]);case "EText":return b=Value.getTextSize(c,a[4],b[2]),e(a[2],c,b[1],a[5],a[6],a[7])}return e(a[2],c,a[4],a[5],a[6],a[7])}},height:function(c){return function(a){switch(a[2][0]){case "EImage":case "EVideo":return e(a[2],a[3]*c/a[4],c,a[5],a[6],a[7])}return e(a[2],a[3],c,a[5],a[6],a[7])}},size:function(a){return function(c){return function(b){return e(b[2],a,c,b[5],b[6],b[7])}}},opacity:function(a){return function(c){return e(c[2],
-c[3],c[4],a,c[6],c[7])}},color:function(c){return function(a){return e(a[2],a[3],a[4],a[5],Just(c),a[7])}},link:function(a){return function(c){return e(c[2],c[3],c[4],c[5],c[6],Just(l.castStringToJSString(a)))}},widthOf:h,heightOf:r,sizeOf:function(c){return["Tuple2",~~c[3],~~c[4]]},text:function(b){var h=Value.getTextSize(0,0,b);return c(a("left")(b),h[0],h[1])},asText:function(b){var b=monospace(Value.toText(Value.show(b))),h=Value.getTextSize(0,0,b);return c(a("left")(b),h[0],h[1])},plainText:function(b){var b=
-Value.toText(b),h=Value.getTextSize(0,0,b);return c(a("left")(b),h[0],h[1])},centeredText:function(b){var h=Value.getTextSize(0,0,b);return c(a("center")(b),h[0],h[1])},justifiedText:function(b){var h=Value.getTextSize(0,0,b);return c(a("justify")(b),h[0],h[1])},rightedText:function(b){var h=Value.getTextSize(0,0,b);return c(a("right")(b),h[0],h[1])},image:s,images:function(c){var a=Elm.Signal.constant(t(0)(0)),c=Elm.Signal.lift(function(c){var c=l.castStringToJSString(c),b=new Image;b.onload=function(){Dispatcher.notify(a.id,
-s(this.width)(this.height)(c))};b.src=c})(c);return Elm.Signal.lift2(function(c){return function(){return c}})(a)(c)},video:function(a){return function(b){return function(h){return c(["EVideo",l.castStringToJSString(h)],a,b)}}},fittedImage:function(a){return function(b){return function(h){return c(["EFittedImage",l.castStringToJSString(h)],a,b)}}},flow:function(a){return function(b){var e;e=map(h)(b);a:{switch(a[0]){case "DLeft":e=sum(e);break a;case "DRight":e=sum(e);break a}e=maximum(e)}var d;d=
-map(r)(b);a:{switch(a[0]){case "DDown":d=sum(d);break a;case "DUp":d=sum(d);break a}d=maximum(d)}return c(g(a)(b),e,d)}},above:function(a){return function(b){return c(g(z)(["Cons",a,["Cons",b,["Nil"]]]),max(~~a[3])(~~b[3]),~~a[4]+~~b[4])}},below:function(a){return function(b){return c(g(z)(["Cons",b,["Cons",a,["Nil"]]]),max(~~a[3])(~~b[3]),~~a[4]+~~b[4])}},beside:function(a){return function(b){return c(g(w)(["Cons",a,["Cons",b,["Nil"]]]),~~a[3]+~~b[3],max(~~a[4])(~~b[4]))}},layers:function(a){return c(g(n)(a),
-maximum(map(h)(a)),maximum(map(r)(a)))},collage:function(a){return function(b){return function(h){return c(["ECollage",a,b,Value.groupForms(h)],a,b)}}},spacer:t,container:function(a){return function(b){return function(h){return function(e){return c(["EContainer",h,e],a,b)}}}},line:j,segment:function(a){return function(c){return j(["Cons",a,["Cons",c,["Nil"]]])}},polygon:k,rect:function(a){return function(c){return function(b){return k(["Cons",["Tuple2",0-a/2,0-c/2],["Cons",["Tuple2",0-a/2,c/2],["Cons",
-["Tuple2",a/2,c/2],["Cons",["Tuple2",a/2,0-c/2],["Nil"]]]]])(b)}}},oval:p,circle:function(a){return p(2*a)(2*a)},ngon:function(a){return function(c){return function(b){var h=toFloat(a),e=map(function(a){return["Tuple2",c*cos(2*(pi/h)*a),c*sin(2*(pi/h)*a)]}),d=a-1,f=["Nil"];if(0<=d){do f=["Cons",d,f];while(0<d--)}return k(e(f))(b)}}},solid:function(a){return function(c){return b(0)(1)(["Tuple2",0,0])(m(x)(a)(c))}},dotted:function(a){return function(c){return b(0)(1)(["Tuple2",0,0])(m(D)(a)(c))}},dashed:function(a){return function(c){return b(0)(1)(["Tuple2",
-0,0])(m(A)(a)(c))}},customLine:function(a){return function(c){return function(h){return b(0)(1)(["Tuple2",0,0])(m(["Custom",l.castListToJSArray(a)])(c)(h))}}},filled:function(a){return function(c){return b(0)(1)(c[2])(f(C)(a)(c))}},outlined:function(a){return function(c){return b(0)(1)(c[2])(f(B)(a)(c))}},customOutline:function(a){return function(c){return function(h){return b(0)(1)(h[2])(f(["CustomOutline",l.castListToJSArray(a)])(c)(h))}}},textured:function(a){return function(c){return b(0)(1)(c[2])(f(["Textured",
-a])(null)(c))}},sprite:function(a){return function(c){return function(h){return function(e){return b(0)(1)(e)(["FImage",c,h,l.castStringToJSString(a)])}}}},toForm:function(a){return function(c){return b(0)(1)(a)(["FElement",c])}},rotate:function(a){return function(c){a:{switch(c[0]){case "Form":var h=c[2],e=c[3],d=c[4],c=b(a+c[1])(h)(e)(d);break a}throw"Non-exhaustive pattern match in case";}return c}},scale:function(a){return function(c){return b(c[1])(a*c[2])(c[3])(c[4])}},move:function(a){return function(c){return function(h){var e;
-a:{switch(h[0]){case "Form":e=h[1];var d=h[2],f=h[3],h=h[4];switch(f[0]){case "Tuple2":var g=f[1],f=f[2];e=b(e)(d)(["Tuple2",a+g,c+f])(h);break a}}throw"Non-exhaustive pattern match in case";}return e}}},isWithin:Collage.insideForm}}();Elm=Elm||{};
-Elm.Text=function(){function d(a){return Value.toText(a)}var a=function(a){return function(b){return"<"+a+' style="padding:0;margin:0">'+b+"</"+a+">"}},g=function(a,b){return function(e){return"<span style='"+a+":"+b+"'>"+e+"</span>"}},j=function(a){a=Elm.JavaScript.castStringToJSString(a);return g("font-family",a)},k=a("h1"),b=g("font-style","italic"),a=a("b"),m=g("text-decoration","underline"),f=g("text-decoration","overline"),e=g("text-decoration","line-through");return{fromString:d,toText:d,header:k,
-height:function(a){return g("font-size",a+"em")},italic:b,bold:a,underline:m,overline:f,strikeThrough:e,monospace:j("monospace"),typeface:j,color:function(a){return g("color",Elm.Color.extract(a))},link:function(a){return function(b){return"<a href='"+d(a)+"'>"+b+"</a>"}}}}();
-var Render=function(){function d(a){a=document.createElement(a);a.style.padding="0";a.style.margin="0";return a}function a(a){return a}function g(a){a.style.styleFloat="left";a.style.cssFloat="left";return a}function j(a){a.style.position="absolute";return a}function k(a,b,e){for(var f=d("div"),g=e.length;g--;){var j=a(b(e[g]));f.appendChild(j)}return f}function b(a){switch(a[0]){case "Absolute":return a[1]+"px";case "Relative":return 100*a[1]+"%"}}function m(a,h){h.style.position="absolute";h.style.margin=
-"auto";switch(a[0]){case "Position":"Far"!==a[1][0]&&(h.style.left=0);"Near"!==a[1][0]&&(h.style.right=0);"Far"!==a[2][0]&&(h.style.top=0);"Near"!==a[2][0]&&(h.style.bottom=0);break;case "PositionAt":h.style.top=b(a[2]);h.style.left=b(a[1]);var e="translate("+-elem[3]/2+"px,"+-elem[4]/2+"px)";h.style.transform=e;h.style.msTransform=e;h.style.MozTransform=e;h.style.webkitTransform=e;h.style.OTransform=e;break;default:e=a[0].slice(-2),h.style["T"===e[0]?"top":"bottom"]=b(a[2]),h.style["L"===e[1]?"left":
-"right"]=b(a[1])}}function f(c){var b={};switch(c[2][0]){case "EText":var b=c[2][1],e=c[2][2],s=d("div");s.innerHTML=e;s.style.textAlign=b;b=s;break;case "EImage":b=c[2][1];e=d("img");e.src=b;e.name=b;e.style.display="block";b=e;break;case "EVideo":s=c[2][1];b=d("video");b.controls="controls";e=d("source");e.src=s;s=s.split(".");e.type="video/"+s[s.length-1];b.appendChild(e);b.style.display="block";break;case "EFittedImage":var t=c[3],p=c[4],b=c[2][1],l=d("canvas");l.style.display="block";l.style.width=
-t+"px";l.style.height=p+"px";l.width=t;l.height=p;l.innerHTML="Your browser does not support the canvas element.";var w=d("img");w.onload=function(){if(l.getContext){var a=l.getContext("2d"),c=0,b=0,e=this.width,d=this.height;t/p>this.width/this.height?(d=this.width*p/t,b=(this.height-d)/2):(e=this.height*t/p,c=(this.width-e)/2);a.drawImage(w,c,b,e,d,0,0,l.width,l.height)}};w.src=b;b=l;break;case "EFlow":a:{b=c[2][2];switch(c[2][1][0]){case "DDown":b=b.slice(0).reverse();case "DUp":b=k(a,f,b);break a;
-case "DRight":b=b.slice(0).reverse();case "DLeft":b=k(g,f,b);break a;case "DOut":b=b.slice(0).reverse();case "DIn":b=k(j,f,b);break a}b=void 0}break;case "ECollage":b=Collage.collage(c[2][1],c[2][2],c[2][3]);break;case "EEmpty":b=d("div");break;case "EContainer":e=c[2][1];b=f(c[2][2]);m(e,b);e=d("div");e.style.position="relative";e.style.overflow="hidden";e.appendChild(b);b=e;break;case "EHtml":b=c[2][1];"button"!==b.type&&(e=Value.getExcess(b),c[3]-=e[0],c[4]-=e[1]);break;case "EExternalHtml":b=
-d("div"),b.appendChild(c[2][1])}b.id=c[1];b.style.width=~~c[3]+"px";b.style.height=~~c[4]+"px";1!==c[5]&&(b.style.opacity=c[5]);"Just"===c[6][0]&&(b.style.backgroundColor=Elm.Color.extract(c[6][1]));return"Just"===c[7][0]?(e=d("a"),e.href=c[7][1],e.appendChild(b),e):b}function e(c,b,d){"A"===c.tagName&&(c=c.firstChild);if(b[1]!==d[1]){if(b[2][0]!==d[2][0])return c.parentNode.replaceChild(f(d),c);var k=d[2],t=b[2];switch(k[0]){case "EText":k[1]!==t[1]&&(c.style.textAlign=k[1]);k[2]!==t[2]&&(c.innerHTML=
-k[2]);break;case "EImage":k[1]!==t[1]&&(c.src=k[1]);break;case "EVideo":case "EFittedImage":if(!Value.eq(k,t)||d[3]!==b[3]||d[4]!==b[4])return c.parentNode.replaceChild(f(d),c);break;case "ECollage":if(k[1]!==t[1]||k[2]!==t[2]||k[3].length!==t[3].length)return c.parentNode.replaceChild(f(d),c);Collage.updateCollage(c,t[3],k[3]);break;case "EFlow":if(k[1]!==t[1])return c.parentNode.replaceChild(f(d),c);var p=k[2],l=c.childNodes;if(p.length!==l.length)return c.parentNode.replaceChild(f(d),c);var t=
-t[2],w={};switch(k[1][0]){case "DDown":case "DUp":w=a;break;case "DRight":case "DLeft":w=g;break;case "DOut":case "DIn":w=j}for(k=l.length;k--;)e(l[k],t[k],p[k]),w(l[k]);break;case "EContainer":e(c.childNodes[0],t[2],k[2]);m(k[1],c.childNodes[0]);break;case "EHtml":d[1]!==b[1]&&(p=f(d),c.parentNode.replaceChild(p,c),c=p);"button"!==p.type&&(k=Value.getExcess(c),d[3]-=k[0],d[4]-=k[1]);break;case "EExternalHtml":d[1]!==b[1]&&c.parentNode.replaceChild(f(d),c)}d[3]!==b[3]&&(c.style.width=~~d[3]+"px");
-d[4]!==b[4]&&(c.style.height=~~d[4]+"px");d[5]!==b[5]&&(c.style.opacity=d[5]);2===d[6].length&&(k=Elm.Color.extract(d[6][1]),k!==c.style.backgroundColor&&(c.style.backgroundColor=k));if(2===d[7].length&&(1===b[7].length||d[7][1]!==b[7][1]))c.parentNode.href=d[7][1];d[1]=b[1]}}return{render:f,update:e,addTo:function(a,b){a.appendChild(b)},newElement:d,flowWith:k,goIn:j}}(),Elm=Elm||{};
-Elm.Signal=function(){var d=function(a,b,d){for(var f=a.kids,g=f.length;g--;)f[g].recv(b,d,a.id)},a=function(a){this.id=Guid.guid();this.value=a;this.kids=[];this.defaultNumberOfKids=0;this.recv=function(a,b,e){if(b=b===this.id)this.value=e;d(this,a,b);return b};Dispatcher.inputs.push(this)},g=function(a,b){this.id=Guid.guid();this.value=null;this.kids=[];this.count=0;this.changed=!1;b.reverse();this.recalc=function(){for(var d=a,f=b.length;f--;)d=d(b[f].value);this.value=d};this.recalc();this.recv=
-function(a,e){this.count+=1;e&&(this.changed=!0);this.count==b.length&&(this.changed&&this.recalc(),d(this,a,this.changed),this.changed=!1,this.count=0)};for(var f=b.length;f--;)b[f].kids.push(this)},j=function(a,b,f,g){this.id=Guid.guid();this.value=f?b(g.value):b;this.kids=[];this.recv=function(b,c){c&&(this.value=a(g.value)(this.value));d(this,b,c)};g.kids.push(this)},k=function(a,b,f){this.id=Guid.guid();this.value=a(f.value)?b:f.value;this.kids=[];this.recv=function(b,c){var g=c&&!a(f.value);
-g&&(this.value=f.value);d(this,b,g)};f.kids.push(this)},b=function(a){this.id=Guid.guid();this.value=a.value;this.kids=[];this.recv=function(b,f){var g=f&&!eq(this.value,a.value);g&&(this.value=a.value);d(this,b,g)};a.kids.push(this)},m=function(a){return function(b){return function(d){d=new g(function(a){return function(b){return[a,b]}},[a,d]);d=new k(function(a){return a[0]},[!0,b],d);return new g(function(a){return a[1]},[d])}}},f=function(a,b){this.id=Guid.guid();this.value=b.value;this.kids=
-[];this.count=0;this.changed=!1;this.recv=function(f,g,j){j===a.id&&(this.changed=g);this.count+=1;2==this.count&&(this.changed&&(this.value=b.value),d(this,f,this.changed),this.count=0,this.changed=!1)};a.kids.push(this);b.kids.push(this)};return{constant:function(b){return new a(b)},lift:function(a){return function(b){return new g(a,[b])}},lift2:function(a){return function(b){return function(d){return new g(a,[b,d])}}},lift3:function(a){return function(b){return function(d){return function(f){return new g(a,
-[b,d,f])}}}},lift4:function(a){return function(b){return function(d){return function(f){return function(j){return new g(a,[b,d,f,j])}}}}},foldp:function(a){return function(b){return function(d){return new j(a,b,!1,d)}}},foldp_:function(a){return function(b){return function(d){return new j(a,b,!0,d)}}},foldp1:function(a){return function(b){return new j(a,function(a){return a},!0,b)}},count:function(a){return new j(function(){return function(a){return a+1}},0,!1,a)},keepIf:function(a){return function(b){return function(d){return new k(function(b){return!a(b)},
-b,d)}}},dropIf:function(a){return function(b){return function(d){return new k(a,b,d)}}},keepWhen:function(a){return m(new g(function(a){return!a},[a]))},dropWhen:m,dropRepeats:function(a){return new b(a)},sampleOn:function(a){return function(b){return new f(a,b)}}}}();
-var Dispatcher=function(){function d(a){if(!a.hasOwnProperty("defaultNumberOfKids"))return!0;var g=a.kids.length;if(0==g)return!1;if(g>a.defaultNumberOfKids)return!0;for(var f=!1;g--;)f=f||d(a.kids[g]);return f}var a=null,g=0,j=[],k=null;return{initialize:function(){a=Elm.main();a.hasOwnProperty("recv")||(a=Elm.Signal.constant(a));k=a.value;for(var b=[],g=j.length;g--;)d(j[g])&&b.push(j[g]);j=b;document.getElementById("content").appendChild(Render.render(k));b=document.getElementById("widthChecker").offsetWidth;
-b!==window.innerWidth&&Dispatcher.notify(Window.dimensions.id,Value.Tuple(b,window.innerHeight));a=Elm.Signal.lift(function(a){var b=document.getElementById("content");Render.update(b.firstChild,k,a);return k=a})(a)},notify:function(a,d){g+=1;for(var f=!1,e=j.length;e--;)f=j[e].recv(g,a,d)||f;return f},inputs:j}}();
-Elm.HTTP=function(){function d(a){return function(d){return function(c){return function(g){return{"0":"Request",length:1,verb:b.castStringToJSString(a),url:b.castStringToJSString(d),data:null===c?null:b.castStringToJSString(c),headers:g}}}}}function a(a){return d("GET")(a)(null)(["Nil"])}function g(a,d){return function(c){if(""!==c.url){var g={value:["Waiting"]};a.push(g);var k=null;window.ActiveXObject&&(k=new ActiveXObject("Microsoft.XMLHTTP"));window.XMLHttpRequest&&(k=new XMLHttpRequest);k.onreadystatechange=
-function(){4===k.readyState&&(g.value=200===k.status?["Success",m(k.responseText)]:["Failure",k.status,m(k.statusText)],setTimeout(function(){j(a,d)},0))};k.open(c.verb,c.url,!0);Elm.List.map(function(a){k.setRequestHeader(b.castStringToJSString(a[1]),b.castStringToJSString(a[2]))})(c.headers);k.send(c.data)}}}function j(a,b){0<a.length&&(Dispatcher.notify(b.id,a[0].value),"Waiting"!==a[0].value[0]&&(a.shift(),setTimeout(function(){j(a,b)},0)))}function k(a){var b=Elm.Signal.constant(["Waiting"]),
-a=Elm.Signal.lift(g([],b))(a);return Elm.Signal.lift2(function(a){return function(){return a}})(b)(a)}var b=Elm.JavaScript,m=Elm.JavaScript.castJSStringToString;return{get:a,post:function(a){return function(b){return d("POST")(a)(b)(["Nil"])}},request:d,send:k,sendGet:function(b){return k(Elm.Signal.lift(a)(b))}}}();
-Elm.Input=function(){var d=Elm.JavaScript,a=Elm.JavaScript.castJSStringToString,g=function(b,g){b.placeholder=d.castStringToJSString(g);var f=Elm.Signal.constant(["Nil"]);Value.addListener(b,"keyup",function(){Dispatcher.notify(f.id,a(b.value));b.focus()});b.style.padding="1px";return Value.Tuple(Value.wrap(b),f)},j=function(a){a=document.createElement(a);a.style.padding="0";a.style.margin="0";return a},k=function(a){for(var d=j("select"),f=[];"Cons"===a[0];){var e=j("option"),c=Value.toText(a[1][1]);
-e.value=c;e.innerHTML=c;d.appendChild(e);f.push(a[1][2]);a=a[2]}var g=Elm.Signal.constant(f[0]);Value.addListener(d,"change",function(){Dispatcher.notify(g.id,f[d.selectedIndex])});return Value.Tuple(Value.wrap(d),g)};return{textArea:function(a){return function(d){var f=j("textarea");f.rows=d;f.cols=a;return g(f,"")}},textField:function(a){var d=j("input");d.type="text";return g(d,a)},password:function(a){var d=j("input");d.type="password";return g(d,a)},checkbox:function(a){var d=j("input");d.type=
-"checkbox";d.checked=a;var f=Elm.Signal.constant(a);Value.addListener(d,"change",function(){Dispatcher.notify(f.id,d.checked)});return Value.Tuple(Value.wrap(d),f)},dropDown:k,stringDropDown:function(a){return k(Elm.List.map(function(a){return Value.Tuple(a,a)})(a))},button:function(a){var g=j("input");g.type="button";g.value=d.castStringToJSString(a);var f=Elm.Signal.constant(!1);Value.addListener(g,"click",function(){Dispatcher.notify(f.id,!0);Dispatcher.notify(f.id,!1)});return Value.Tuple(Value.wrap(g),
-f)}}}();
-Elm.Keyboard={Raw:function(){function d(a,g){return"Nil"===g[0]?g:g[1]===a?g[2]:["Cons",g[1],d(a,g[2])]}var a=Elm.Signal.constant(["Nil"]),g=Elm.Signal.constant(["Nothing"]);Value.addListener(document,"keydown",function(d){var g;a:{for(g=a.value;"Nil"!==g[0];){if(g[1]===d.keyCode){g=!0;break a}g=g[2]}g=!1}g||Dispatcher.notify(a.id,["Cons",d.keyCode,a.value])||this.removeEventListener("keydown",arguments.callee,!1)});Value.addListener(document,"keyup",function(g){var k=d(g.keyCode,a.value);Dispatcher.notify(a.id,
-k)||this.removeEventListener("keyup",arguments.callee,!1)});Value.addListener(window,"blur",function(d){Dispatcher.notify(a.id,["Nil"])||this.removeEventListener("blur",arguments.callee,!1)});Value.addListener(document,"keypress",function(a){var d=Dispatcher.notify(g.id,["Just",a.charCode||a.keyCode]);Dispatcher.notify(g.id,["Nothing"]);d||this.removeEventListener("keypress",arguments.callee,!1)});return{keysDown:a,charPressed:g}}()};
-Elm.Mouse=function(){function d(a){var b=0,c=0;a||(a=window.event);if(a.pageX||a.pageY)b=a.pageX,c=a.pageY;else if(a.clientX||a.clientY)b=a.clientX+document.body.scrollLeft+document.documentElement.scrollLeft,c=a.clientY+document.body.scrollTop+document.documentElement.scrollTop;return Value.Tuple(b,c)}var a=Elm.Signal.constant(Value.Tuple(0,0));a.defaultNumberOfKids=2;var g=Elm.Signal.lift(function(a){return a[1]})(a);g.defaultNumberOfKids=0;var j=Elm.Signal.lift(function(a){return a[2]})(a);j.defaultNumberOfKids=
-0;var k=Elm.Signal.constant(!1),b=Elm.Signal.constant(!1),m=Elm.Signal.constant(Value.Tuple());Value.addListener(document,"click",function(a){var d=Dispatcher.notify(b.id,!0),c=Dispatcher.notify(m.id,Value.Tuple());Dispatcher.notify(b.id,!1);!d&&!c&&this.removeEventListener("click",arguments.callee,!1)});Value.addListener(document,"mousedown",function(a){Dispatcher.notify(k.id,!0)||this.removeEventListener("mousedown",arguments.callee,!1)});Value.addListener(document,"mouseup",function(a){Dispatcher.notify(k.id,
-!1)||this.removeEventListener("mouseup",arguments.callee,!1)});Value.addListener(document,"mousemove",function(b){Dispatcher.notify(a.id,d(b))||this.removeEventListener("mousemove",arguments.callee,!1)});return{position:a,x:g,y:j,isClicked:b,isDown:k,clicks:m,isClickedOn:function(a){var a=Render.render(a),b=Elm.Signal.constant(!1);Value.addListener(a,"click",function(){Dispatcher.notify(b.id,!0);Dispatcher.notify(b.id,!1)});return Value.Tuple(Value.wrap(a),b)}}}();
-Elm.Random=function(){return{inRange:function(d){return function(a){return Elm.Signal.constant(Math.floor(Math.random()*(a-d+1))+d)}},randomize:function(d){return function(a){return function(g){return Elm.Signal.lift(function(){return Math.floor(Math.random()*(a-d+1))+d})(g)}}}}}();
-Elm.Time=function(){return{every:function(d){var d=1E3*d,a=Elm.Signal.constant(0),g=0;setInterval(function(){g+=d;Dispatcher.notify(a.id,g/1E3)},d);return a},after:function(d){var d=1E3*d,a=Elm.Signal.constant(!1);setTimeout(function(){Dispatcher.notify(a.id,!0)},d);return a},before:function(d){var d=1E3*d,a=Elm.Signal.constant(!0);setTimeout(function(){Dispatcher.notify(a.id,!1)},d);return a}}}();
-Elm.Window=function(){var d=Elm.Signal.constant(Value.Tuple(window.innerWidth,window.innerHeight));d.defaultNumberOfKids=2;var a=Elm.Signal.lift(function(a){return a[1]})(d);a.defaultNumberOfKids=0;var g=Elm.Signal.lift(function(a){return a[2]})(d);g.defaultNumberOfKids=0;Value.addListener(window,"resize",function(a){var g=document.getElementById("widthChecker").offsetWidth;Dispatcher.notify(d.id,Value.Tuple(g,window.innerHeight))||this.removeEventListener("resize",arguments.callee,!1)});return{dimensions:d,
-width:a,height:g}}();Value.addListener(document,"elm_log",function(d){console.log(d.value)});Value.addListener(document,"elm_title",function(d){document.title=d.value});Value.addListener(document,"elm_redirect",function(d){0<d.value.length&&(window.location=d.value)});Elm=Elm||{};
-Elm.Prelude=function(){var d=function(a){return function(g){var j=a%g,j=0==a?0:0<g?0<=a?j:j+g:-d(-a)(-g);return j==g?0:j}};return{eq:Value.eq,id:function(a){return a},not:function(a){return!a},fst:function(a){return a[1]},snd:function(a){return a[2]},rem:function(a){return function(d){return a%d}},div:function(a){return function(d){return~~(a/d)}},compare:function(a){return function(d){a="object"===typeof a?toText(a):a;d="object"===typeof d?toText(d):d;return[a===d?"EQ":a<d?"LT":"GT"]}},toFloat:function(a){return a},
-round:function(a){return Math.round(a)},floor:function(a){return Math.floor(a)},ceiling:function(a){return Math.ceil(a)},truncate:function(a){return~~a},readInt:function(a){var a=JavaScript.castStringToJSString(a),d=a.length;if(0===d)return Nothing;var j=0;if("-"==a[0]){if(1===d)return Nothing;j=1}for(;j<d;++j)if(!Char.isDigit(a[j]))return Nothing;return Just(parseInt(a))},readFloat:function(a){var a=JavaScript.castStringToJSString(a),d=a.length;if(0===d)return Nothing;var j=0;if("-"==a[0]){if(1===
-d)return Nothing;j=1}for(var k=0;j<d;++j)if(!Char.isDigit(a[j])){if("."===a[j]&&(k+=1,1>=k))continue;return Nothing}return Just(parseFloat(a))},sqrt:Math.sqrt,abs:Math.abs,pi:Math.PI,e:Math.E,sin:Math.sin,cos:Math.cos,tan:Math.tan,asin:Math.asin,acos:Math.acos,atan:Math.atan,atan2:function(a){return function(d){return Math.atan2(a,d)}},mod:d,min:function(a){return function(d){return Math.min(a,d)}},max:function(a){return function(d){return Math.max(a,d)}},flip:function(a){return function(d){return function(j){return a(j)(d)}}},
-clamp:function(a){return function(d){return function(j){return Math.min(d,Math.max(a,j))}}},curry:function(a){return function(d){return function(j){return a(["Tuple2",d,j])}}},uncurry:function(a){return function(d){if("Tuple2"!==d[0])throw"Function was uncurry'd but was not given a pair.";return a(d[1])(d[2])}},logBase:function(a){return function(d){return Math.log(d)/Math.log(a)}},Just:Elm.Maybe.Just,Nothing:Elm.Maybe.Nothing,maybe:Elm.Maybe.maybe,map:Elm.List.map,filter:Elm.List.filter,head:Elm.List.head,
-tail:Elm.List.tail,last:Elm.List.last,length:Elm.List.length,reverse:Elm.List.reverse,foldr:Elm.List.foldr,foldr1:Elm.List.foldr1,foldl:Elm.List.foldl,foldl1:Elm.List.foldl1,and:Elm.List.and,or:Elm.List.or,all:Elm.List.all,any:Elm.List.any,sum:Elm.List.sum,product:Elm.List.product,concat:Elm.List.concat,concatMap:Elm.List.concatMap,maximum:Elm.List.maximum,minimum:Elm.List.minimum,scanl:Elm.List.scanl,scanl1:Elm.List.scanl1,take:Elm.List.take,drop:Elm.List.drop,zip:Elm.List.zip,unzip:Elm.List.unzip,
-lift:Elm.Signal.lift,lift2:Elm.Signal.lift2,lift3:Elm.Signal.lift3,lift4:Elm.Signal.lift4,foldp:Elm.Signal.foldp,foldp1:Elm.Signal.foldp1,foldp_:Elm.Signal.foldp_,constant:Elm.Signal.constant,count:Elm.Signal.count,keepIf:Elm.Signal.keepIf,dropIf:Elm.Signal.dropIf,keepWhen:Elm.Signal.keepWhen,dropWhen:Elm.Signal.dropWhen,dropRepeats:Elm.Signal.dropRepeats,sampleOn:Elm.Signal.sampleOn}}();
-(function(){var d=function(a){for(var d in a)Elm.Prelude[d]=a[d]};d(Elm.Color);d(Elm.Text);d(Elm.Graphics);show=Value.show})();
-(function(){for(var d in Elm)this[d]=Elm[d];Elm.Automaton=function(){function a(a){return["Automaton",a]}function d(a){return["DragFrom",a]}function j(b){return function(c){var d;a:{switch(b[0]){case "Automaton":d=b[1];break a}throw"Non-exhaustive pattern match in case";}var e;a:{switch(c[0]){case "Automaton":e=c[1];break a}throw"Non-exhaustive pattern match in case";}return a(function(a){var a=d(a),b;a:{switch(a[0]){case "Tuple2":b=a[1];break a}throw"Non-exhaustive pattern match in case";}a:{switch(a[0]){case "Tuple2":a=
-a[2];break a}throw"Non-exhaustive pattern match in case";}var c=e(b);a:{switch(c[0]){case "Tuple2":b=c[1];break a}throw"Non-exhaustive pattern match in case";}a:{switch(c[0]){case "Tuple2":c=c[2];break a}throw"Non-exhaustive pattern match in case";}return["Tuple2",b,j(a)(c)]})}}function k(b){return a(function(a){var c=unzip(map(function(b){a:{switch(b[0]){case "Automaton":b=b[1](a);break a}throw"Non-exhaustive pattern match in case";}return b})(b)),d;a:{switch(c[0]){case "Tuple2":d=c[1];break a}throw"Non-exhaustive pattern match in case";
-}a:{switch(c[0]){case "Tuple2":c=c[2];break a}throw"Non-exhaustive pattern match in case";}return["Tuple2",d,k(c)]})}function b(c){return a(function(a){return["Tuple2",c(a),b(c)]})}function m(b){return function(c){return a(function(a){a=c(a)(b);return["Tuple2",a,m(a)(c)]})}}function f(b){return function(c){return a(function(a){var d=c(a)(b);a:{switch(d[0]){case "Tuple2":a=d[1];break a}throw"Non-exhaustive pattern match in case";}a:{switch(d[0]){case "Tuple2":d=d[2];break a}throw"Non-exhaustive pattern match in case";
-}return["Tuple2",a,f(d)(c)]})}}function e(a){return function(b){a:{switch(a[0]){case "Tuple2":b:{switch(b[0]){case "Tuple2":b=["Tuple2",a[1]-b[1],a[2]-b[2]];break b}break}break a}throw"Non-exhaustive pattern match in case";}return b}}function c(a){return function(b){var c;a:{switch(a[0]){case "Tuple2":b:{switch(b[0]){case "Tuple2":var f=function(a){return["Tuple2",b[2],["Tuple2",a,b[2]]]};c=function(){switch(b[1][0]){case "DragFrom":var c;a[1]?c=["Tuple2",uncurry(move)(e(a[2])(b[1][1]))(b[2]),["Tuple2",
-d(b[1][1]),b[2]]]:(c=uncurry(move)(e(a[2])(b[1][1]))(b[2]),c=["Tuple2",c,["Tuple2",s,c]]);return c;case "Ignore":return f(a[1]?t:s);case "Listen":return f(not(a[1])?s:isWithin(a[2])(b[2])?d(a[2]):t)}throw"Non-exhaustive pattern match in case";}();break b}break}break a}throw"Non-exhaustive pattern match in case";}return c}}var h=[],r;for(r in Elm.Prelude)0<=h.indexOf(r)||(this[r]=Elm.Prelude[r]);var s=["Listen"],t=["Ignore"],h=m(0)(function(){return function(a){return 1+a}});return{Automaton:a,run:function(a){return function(b){a:{switch(a[0]){case "Automaton":b=
-lift(fst)(foldp_(function(a){return function(b){a:{switch(b[0]){case "Tuple2":switch(b[2][0]){case "Automaton":b=b[2][1](a);break a}}throw"Non-exhaustive pattern match in case";}return b}})(a[1])(b));break a}throw"Non-exhaustive pattern match in case";}return b}},step:function(a){return function(b){a:{switch(a[0]){case "Automaton":b=a[1](b);break a}throw"Non-exhaustive pattern match in case";}return b}},composeAuto:j,combine:k,pure:b,init:m,init_:f,count:h,Listen:s,Ignore:t,DragFrom:d,vecSub:e,stepDrag:c,
-draggable:function(a){return f(["Tuple2",s,a])(c)}}}()})();
-try{Elm.Website=Elm.Website||{};if(Elm.Website.ColorScheme)throw"Module name collision, 'Website.ColorScheme' is already defined.";Elm.Website.ColorScheme=function(){try{if(!(Elm.Prelude instanceof Object))throw"module not found";}catch(d){throw"Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var a=[],g;for(g in Elm.Prelude)0<=a.indexOf(g)||(this[g]=Elm.Prelude[g]);a=rgb(90)(99)(120);g=rgb(96)(181)(204);var j=rgb(240)(173)(0),k=rgb(234)(21)(122),
-b=rgb(127)(209)(59),m=rgb(245)(245)(245),f=rgb(216)(221)(225);return{accent0:a,accent1:g,accent2:j,accent3:k,accent4:b,lightGrey:m,mediumGrey:f}}();Elm.main=function(){return Elm.Website.ColorScheme.main}}catch(e$$62){Elm.main=function(){document.body.innerHTML=Text.monospace('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2><br/><span style="color:grey">Runtime Error in Website.ColorScheme module:<br/>'+e$$62+"</span>");throw e$$62;}}
-try{Elm.Website=Elm.Website||{};if(Elm.Website.Docs)throw"Module name collision, 'Website.Docs' is already defined.";Elm.Website.Docs=function(){function d(a){return function(b){return bold(Text.height(a)(toText(b)))}}try{if(!(Elm.Prelude instanceof Object))throw"module not found";}catch(a){throw"Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var g=[],j;for(j in Elm.Prelude)0<=g.indexOf(j)||(this[j]=Elm.Prelude[j]);try{if(!(Elm.List instanceof
-Object))throw"module not found";}catch(k){throw"Module 'List' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var b=Elm.List.intersperse,m=Elm.List.zipWith;try{if(!(Elm.Website.ColorScheme instanceof Object))throw"module not found";}catch(f){throw"Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}g=[];for(j in Elm.Website.ColorScheme)0<=g.indexOf(j)||(this[j]=Elm.Website.ColorScheme[j]);
-try{if(!(Elm.Window instanceof Object))throw"module not found";}catch(e){throw"Module 'Window' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var c=Elm.Window,h=["Cons",accent0,["Cons",accent1,["Cons",accent2,["Cons",accent3,["Cons",accent4,["Nil"]]]]]];return{createDocs:function(a){return function(e){return lift(function(c){var f,g=c-80,j=flow(down);f=text(Text.link(Value.str("/Documentation.elm"))(toText("Back")));var k;k=d(2)(a);k=width(g)(centeredText(k));
-var n=spacer(1)(30),q=b(spacer(1)(50));f=j(["Cons",f,["Cons",k,["Cons",n,q(map(function(a){a:{switch(a[0]){case "Tuple2":var b=flow(down),c=text(d(1.25)(a[1])),e=spacer(1)(20),a=b(["Cons",c,["Cons",e,map(function(a){a:{switch(a[0]){case "Tuple3":var b=Text.color(accent1)(toText(" :: ")),c="GT"===compare(length(a[2]))(0)[0]?Value.append(b,toText(a[2])):toText(""),b=flow(down),d=color(mediumGrey)(spacer(g)(1)),c=Value.append(bold(toText(a[1])),c),c=width(g)(color(lightGrey)(text(monospace(c)))),a=b(["Cons",
-d,["Cons",c,["Cons",spacer(1)(10),["Cons",flow(right)(["Cons",spacer(50)(10),["Cons",width(g-50)(plainText(a[3])),["Nil"]]]),["Cons",spacer(1)(20),["Nil"]]]]]]);break a}throw"Non-exhaustive pattern match in case";}return a})(a[2])]]);break a}throw"Non-exhaustive pattern match in case";}return a})(e))]]]);var j=flow(down),u=toFloat(c),v=toFloat(10);k=map(function(a){return round(u*(toFloat(a)/v))});n=10;q=["Nil"];if(1<=n){do q=["Cons",n,q];while(1<n--)}k=k(q);k=m(function(a){return function(b){return a-
-b}})(k)(["Cons",0,k]);var n=concatMap(function(){return h}),q=div(10)(5),y=["Nil"];if(0<=q){do y=["Cons",q,y];while(0<q--)}n=n(y);k=flow(right)(m(function(a){return function(b){return color(a)(spacer(b)(5))}})(n)(k));n=spacer(c)(15);f=container(c)(heightOf(f))(midTop)(f);q=Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2012 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")));c=container(c)(50)(midBottom)(text(q));return j(["Cons",k,["Cons",n,["Cons",f,
-["Cons",c,["Nil"]]]]])})(c.width)}}}}();Elm.main=function(){return Elm.Website.Docs.main}}catch(e$$67){Elm.main=function(){document.body.innerHTML=Text.monospace('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2><br/><span style="color:grey">Runtime Error in Website.Docs module:<br/>'+e$$67+"<br/><br/>The problem may stem from an improper usage of:<br/>Text.color, Text.link, Window.width, accent0, accent1, accent2, accent3, accent4, lightGrey, mediumGrey</span>");throw e$$67;
-}}
-try{Elm.Website=Elm.Website||{};if(Elm.Website.Tiles)throw"Module name collision, 'Website.Tiles' is already defined.";Elm.Website.Tiles=function(){function d(a){return function(c){a:{switch(c[0]){case "Cons":c=["Cons",b(a)(c),d(a)(m(a)(c))];break a;case "Nil":c=["Nil"];break a}throw"Non-exhaustive pattern match in case";}return c}}try{if(!(Elm.Prelude instanceof Object))throw"module not found";}catch(a){throw"Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var g=
-[],j;for(j in Elm.Prelude)0<=g.indexOf(j)||(this[j]=Elm.Prelude[j]);try{if(!(Elm.List instanceof Object))throw"module not found";}catch(k){throw"Module 'List' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}var b=Elm.List.take,m=Elm.List.drop,f=Elm.List.intersperse;return{toTile:function(a){var b;a:{switch(a[0]){case "Tuple3":a=["Tuple3",a[1],Value.append(a[3],Value.append(a[2],Value.str(".elm"))),Value.append(Value.str("/screenshot/"),Value.append(a[2],
-Value.str(".jpg")))];break a}throw"Non-exhaustive pattern match in case";}b=a;a:{switch(b[0]){case "Tuple3":a=b[1];break a}throw"Non-exhaustive pattern match in case";}var d;a:{switch(b[0]){case "Tuple3":d=b[2];break a}throw"Non-exhaustive pattern match in case";}var f;a:{switch(b[0]){case "Tuple3":f=b[3];break a}throw"Non-exhaustive pattern match in case";}d=link(Value.append(Value.str("/edit/examples/"),d));b=flow(down);f=container(130)(130)(middle)(image(120)(120)(f));a=toText(a);a=width(130)(centeredText(a));
-return d(b(["Cons",f,["Cons",a,["Nil"]]]))},tile:function(a){return function(b){b=d(div(a)(130))(b);return flow(down)(f(spacer(1)(14))(map(flow(right))(b)))}}}}();Elm.main=function(){return Elm.Website.Tiles.main}}catch(e$$70){Elm.main=function(){document.body.innerHTML=Text.monospace('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2><br/><span style="color:grey">Runtime Error in Website.Tiles module:<br/>'+e$$70+"</span>");throw e$$70;}}
-try{for(var i in Elm)this[i]=Elm[i];Elm.Website=Elm.Website||{};if(Elm.Website.Skeleton)throw"Module name collision, 'Website.Skeleton' is already defined.";Elm.Website.Skeleton=function(){try{if(!(Elm.Prelude instanceof Object))throw"module not found";}catch(d){throw"Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}try{if(!(Elm.Website.ColorScheme instanceof Object))throw"module not found";}catch(a){throw"Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";
-}var g=[],j;for(j in Elm.Website.ColorScheme)0<=g.indexOf(j)||(this[j]=Elm.Website.ColorScheme[j]);var k=flow(right)(map(function(a){a:{switch(a[0]){case "Tuple3":var d=color(a[3])(spacer(100)(2)),f=container(100)(58)(middle),e;e=toText(a[1]);e=text(Text.color(black)(e));f=f(e);a=Graphics.link(a[2])(below(d)(f));break a}throw"Non-exhaustive pattern match in case";}return a})(["Cons",["Tuple3",Value.str("About"),Value.str("/About.elm"),accent1],["Cons",["Tuple3",Value.str("Examples"),Value.str("/Examples.elm"),
-accent2],["Cons",["Tuple3",Value.str("Docs"),Value.str("/Documentation.elm"),accent3],["Cons",["Tuple3",Value.str("Download"),Value.str("/Download.elm"),accent4],["Nil"]]]]]));return{skeleton:function(a){return function(d){var f="LT"===compare(d)(820)[0]?d-20:800,e=a(f),c=flow(down),g;g=container(d)(60)(middle);var j=beside,f=f-widthOf(k),s;s=toText("Elm");s=text(Text.link(Value.str("/"))(Text.color(black)(Text.height(2)(bold(s)))));f=container(f)(60)(midLeft)(s);g=g(j(f)(k));g=layers(["Cons",flow(down)(["Cons",
-color(lightGrey)(spacer(d)(58)),["Cons",color(mediumGrey)(spacer(d)(1)),["Nil"]]]),["Cons",g,["Nil"]]]);j=spacer(d)(10);e=container(d)(heightOf(e))(middle)(e);f=Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2012 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")));d=container(d)(50)(midBottom)(text(f));return c(["Cons",g,["Cons",j,["Cons",e,["Cons",d,["Nil"]]]]])}}}}();Elm.main=function(){return Elm.Website.Skeleton.main}}catch(e$$73){Elm.main=function(){document.body.innerHTML=
-Text.monospace('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2><br/><span style="color:grey">Runtime Error in Website.Skeleton module:<br/>'+e$$73+"<br/><br/>The problem may stem from an improper usage of:<br/>Text.color, accent1, accent2, accent3, accent4, below, beside, lightGrey, mediumGrey</span>");throw e$$73;}};
+
+Elm = {};
+
+var Guid = function() {
+ var counter = 0;
+ var guid = function() { counter += 1; return counter; };
+ return {guid : guid};
+}();
+Elm.JavaScript = function() {
+  function castJSBoolToBool(b) { return b; }
+  function castBoolToJSBool(b) { return b; }
+
+  function castJSNumberToFloat(n) { return n; }
+  function castFloatToJSNumber(n) { return n; }
+  
+  function castJSNumberToInt(n) { return ~~n; }
+  function castIntToJSNumber(n) { return n; }
+
+  function castJSElementToElement(w) {
+    return function(h) {
+      return function(node) {
+	return ["Element",Guid.guid(),
+		["EExternalHtml",node],
+		w,h,1,Nothing,Nothing];
+      }
+    }
+  }
+  function castElementToJSElement(elem) { return Render.render(elem); }
+
+  function castJSArrayToList(arr) {
+      var list = ["Nil"];
+      for (var i = arr.length; i--; ) {
+	  list = [ "Cons", arr[i], list ];
+      }
+      return list;
+  }
+  function castListToJSArray(list) {
+      var a = [];
+      while (list[0] === "Cons") {
+	  a.push(list[1]);
+	  list = list[2];
+      }
+      return a;
+  }
+  
+  var castJSStringToString = castJSArrayToList;
+  function castStringToJSString(str) {
+      if (typeof str === "string") return str;
+      return castListToJSArray(str).join('');
+  }
+  
+  function fromTuple(t) { return t.slice(1); }
+  function toTuple(a) { return ["Tuple" + a.length].concat(a); }
+  
+  return {castJSBoolToBool:castJSBoolToBool,
+	  castBoolToJSBool:castBoolToJSBool,
+	  castJSNumberToFloat:castJSNumberToFloat,
+	  castFloatToJSNumber:castFloatToJSNumber,
+	  castJSNumberToInt:castJSNumberToInt,
+	  castIntToJSNumber:castIntToJSNumber,
+	  Experimental : {castJSElementToElement:castJSElementToElement,
+			  castElementToJSElement:castElementToJSElement},
+	  castJSArrayToList:castJSArrayToList,
+	  castListToJSArray:castListToJSArray,
+	  castJSStringToString:castJSStringToString,
+	  castStringToJSString:castStringToJSString,
+	  castTupleToJSTuple2:fromTuple,
+	  castTupleToJSTuple3:fromTuple,
+	  castTupleToJSTuple4:fromTuple,
+	  castTupleToJSTuple5:fromTuple,
+	  castJSTupleToTuple2:toTuple,
+	  castJSTupleToTuple3:toTuple,
+	  castJSTupleToTuple4:toTuple,
+	  castJSTupleToTuple5:toTuple
+  };
+}();
+
+var JSjson = window.JSON;
+Elm.JSON = function() {
+    var JS = Elm.JavaScript;
+    var empty = ['JSON',{}];
+    function singleton(k) { return function(v) {
+	    var obj = {};
+	    obj[JS.castStringToJSString(k)] = v;
+	    return ['JSON', obj ];
+	};
+    }
+    function insert(k) { return function(v) { return function(inObj) {
+          var obj = inObj[1];
+	  var outObj = {};
+          for (var i in obj) {
+	      outObj[i] = obj[i];
+	  }
+	  outObj[JS.castStringToJSString(k)] = v;
+	  return ['JSON', outObj ];
+        };
+      };
+    }
+
+    function lookup(key) { return function(obj) {
+        var k = JS.castStringToJSString(key);
+        return obj[1].hasOwnProperty(k) ? ["Just", obj[1][k]] : ["Nothing"] ;
+      };
+    }
+    function find(tipe,base) { return function (key) { return function(obj) {
+          var k = JS.castStringToJSString(key);
+          if (obj[1].hasOwnProperty(k)) {
+	    var v = obj[1][k];
+	    if (v[0] === tipe) { return v[1]; }
+          }
+          return base;
+        };
+      }
+    }
+    function lookupWithDefault(base) { return function(key) { return function(obj) {
+          var k = JS.castStringToJSString(key);
+          return obj[1].hasOwnProperty(k) ? obj[1][k] : base ;
+        };
+      };
+    }
+
+    function remove(k) { return function(inObj) {
+        var obj = inObj[1];
+        var outObj = {};
+	for (var i in obj) {
+	    outObj[i] = obj[i];
+	}
+	delete outObj[JS.castStringToJSString(k)];
+	return ['JSON', outObj];
+      };
+    }
+
+    function JsonString(v) { return [ "JsonString", v ]; }
+    function JsonNumber(v) { return [ "JsonNumber", v ]; }
+    function JsonBool(v) { return [ "JsonBool", v ]; }
+    var JsonNull = [ "JsonNull" ];
+    function JsonArray(v) { return [ "JsonArray", v ]; }
+    function JsonObject(v) { return [ "JsonObject", v ]; }
+
+    function toList(json) {
+	var obj = json[1];
+	var arr = [];
+	for (var i in obj) {
+	    arr.push(Value.Tuple(JS.castJSStringToString(i), obj[i]));
+	}
+	return JS.castJSArrayToList(arr);
+    }
+    function fromList(list) {
+	var arr = JS.castListToJSArray(list);
+	var obj = {};
+	for (var i = arr.length; i--; ) {
+	    obj[JS.castStringToJSString(arr[i][1])] = arr[i][2];
+	}
+	return [ "JSON", obj ];
+    }
+
+    function toPrettyJSString(sep) { return function (obj) {
+	function fromValue(v) {
+	    switch (v[0]) {
+	    case 'JsonNull'   : return null;
+	    case 'JsonString' : return JS.castStringToJSString(v[1]);
+	    case 'JsonObject' :
+	    var o = {};
+	    var from = v[1][1];
+	    for (var i in from) {
+		o[i] = fromValue(from[i]);
+	    }
+	    return o;
+	    case 'JsonArray'  :
+	    var a = JS.castListToJSArray(v[1]);
+	    for (var i = a.length; i--; ) {
+		a[i] = fromValue(a[i]);
+	    }
+	    return a;
+	    default :
+	    return v[1];
+	    }
+	}
+	return JSjson.stringify(fromValue([ 'JsonObject', obj ]), null, JS.castStringToJSString(sep));
+      };
+    }
+    function fromJSString(str) {
+	var obj = JSjson.parse(str);
+	function toValue(v) {
+	    switch (typeof v) {
+	    case 'string'  : return [ "JsonString", JS.castJSStringToString(v) ];
+	    case 'number'  : return [ "JsonNumber", JS.castJSNumberToFloat(v) ];
+	    case 'boolean' : return [ "JsonBool", JS.castJSBoolToBool(v) ];
+	    case 'object'  :
+		if (v === null) return [ "JsonNull" ];
+		for (var i in v) {
+		    v[i] = toValue(v[i]);
+		}
+		if (v instanceof Array) return [ "JsonArray", JS.castJSArrayToList(v) ];
+		return [ "JsonObject",  [ "JSON", v ] ];
+	    }
+	}
+	for (var i in obj) {
+	    obj[i] = toValue(obj[i]);
+	}
+	return ['JSON',obj];
+    }
+    return {empty : empty,
+	    singleton : singleton,
+	    insert : insert,
+	    lookup : lookup,
+	    findString : find("JsonString",["Nil"]),
+	    findObject : find("JsonObject", empty ),
+	    findArray  : find("JsonArray" ,["Nil"]),
+	    findWithDefault : lookupWithDefault,
+	    remove : remove,
+	    toPrettyJSString : toPrettyJSString,
+	    toJSString : toPrettyJSString(''),
+	    fromJSString : fromJSString,
+	    toPrettyString : function(sep) { return function(v) {
+		return JS.castJSStringToString(toPrettyJSString(sep)(v)); }; },
+	    toString : function(v) { return JS.castJSStringToString(toPrettyJSString('')(v)); },
+	    fromString : function(v) { return fromJSString(JS.castStringToJSString(v)); },
+	    toList : toList,
+	    fromList : fromList,
+	    JsonString : JsonString,
+	    JsonNumber : JsonNumber,
+	    JsonBool : JsonBool,
+	    JsonNull : JsonNull,
+	    JsonArray : JsonArray,
+	    JsonObject : JsonObject
+    };
+}();
+
+var Value = function(){
+
+  var eq = function(x,y) {
+    if (typeof x === "object") {
+	if (x === y) return true;
+	if (x.length !== y.length) return false;
+	for (var i = x.length; i--; ) {
+	    if (!eq(x[i],y[i])) return false;
+	}
+	return true;
+    }
+    return x === y;
+  };
+
+  var Tuple = function() {
+      var len = arguments.length;
+      var arr = new Array(len+1);
+      arr[0] = "Tuple" + arguments.length;
+      for (var i = len; i--; ) {
+	  arr[i+1] = arguments[i];
+      }
+      return arr;
+  };
+
+  var listToArray = function(list) {
+      var arr = [];
+      while (list[0] === "Cons") {
+        arr.push(list[1]);
+	list = list[2];
+      }
+      return arr;
+  };
+
+  function makeSpaces(s) {
+    if (s.length == 0) { return s; }
+    var arr = s.split('');
+    if (arr[0] == ' ') { arr[0] = "&nbsp;" }      
+    for (var i = arr.length; --i; ) {
+      if (arr[i][0] == ' ' && arr[i-1] == ' ') {
+        arr[i-1] = arr[i-1] + arr[i];
+        arr[i] = '';
+      }
+    }
+    for (var i = arr.length; i--; ) {
+      if (arr[i].length > 1 && arr[i][0] == ' ') {
+        var spaces = arr[i].split('');
+        for (var j = spaces.length - 2; j >= 0; j -= 2) {
+          spaces[j] = '&nbsp;';
+        }
+        arr[i] = spaces.join('');
+      }
+    }
+    arr = arr.join('');
+    if (arr[arr.length-1] === " ") {
+	return arr.slice(0,-1) + '&nbsp;';
+    }
+    return arr;
+  }
+
+  function properEscape(str) {
+    if (str.length == 0) return str;
+    str = str //.replace(/&/g,  "&#38;")
+             .replace(/"/g, /*"*/  "&#34;")
+             .replace(/'/g, /*'*/  "&#39;")
+             .replace(/</g,  "&#60;")
+             .replace(/>/g,  "&#62;")
+             .replace(/\n/g, "<br/>");
+    var arr = str.split('<br/>');
+    for (var i = arr.length; i--; ) {
+	arr[i] = makeSpaces(arr[i]);
+    }
+    return arr.join('<br/>');
+  }
+
+  var toText = function(elmList) {
+    if (typeof elmList === "string") return properEscape(elmList);
+    var a = [];
+    while (elmList[0] === "Cons") {
+      a.push(elmList[1]);
+      elmList = elmList[2];
+    }
+    return properEscape(a.join(''));
+  };
+
+  function getTextSize(w,h,txt) {
+    var t = document.createElement('div');
+    t.innerHTML = txt;
+    t.style.textAlign = 'left';
+    if (w > 0) { t.style.width  = w + "px"; }
+    
+    t.style.visibility = "hidden";
+    t.style.styleFloat = "left";
+    t.style.cssFloat   = "left";
+    
+    document.body.appendChild(t);
+    var cStyle = window.getComputedStyle(t,null);
+    var realW = cStyle.getPropertyValue("width").slice(0,-2) - 0;
+    var realH = cStyle.getPropertyValue("height").slice(0,-2) - 0;
+    document.body.removeChild(t);
+    //delete t;
+    return [Math.ceil(realW),Math.ceil(Math.max(h,realH))];
+  }
+
+  function getSize(e) {
+    var t = e.cloneNode(true);
+    
+    t.style.visibility = "hidden";
+    t.style.styleFloat = "left";
+    t.style.cssFloat   = "left";
+    
+    document.body.appendChild(t);
+    var w = t.offsetWidth;
+    var h = t.offsetHeight;
+    document.body.removeChild(t);
+    //delete t;
+    return [w,h];
+  }
+
+  function getExcess(e) {
+    var t = e.cloneNode(true);
+    
+    t.style.visibility = "hidden";
+    t.style.styleFloat = "left";
+    t.style.cssFloat   = "left";
+    
+    document.body.appendChild(t);
+    var ow = t.offsetWidth;
+    var oh = t.offsetHeight;
+    var cStyle = window.getComputedStyle(t,null);
+    var w = cStyle.getPropertyValue("width").slice(0,-2) - 0;
+    var h = cStyle.getPropertyValue("height").slice(0,-2) - 0;
+    document.body.removeChild(t);
+    //delete t;
+    return [ow-w,oh-h];
+  }
+
+
+  function groupForms(forms) {
+    forms = Elm.JavaScript.castListToJSArray(forms);
+    var groups = [];
+    var arr = [];
+    for (var i = forms.length; i--; ) {
+	var f = forms[i];
+	switch(f[4][0]) {
+	case "FElement":
+	    if (arr.length > 0) {
+		groups.push(arr);
+		arr = [];
+	    }
+	    groups.push(f);
+	    break;
+	default:
+	    arr.push(f);
+	}
+    }
+    if (arr.length > 0) groups.push(arr);
+    return groups;
+  }
+
+  var toString = function(v) {
+    if (typeof v === "boolean") {
+	return v ? "True" : "False";
+    } else if (typeof v === "number") {
+	return v+"";
+    } else if (typeof v === "string" && v.length < 2) {
+	return "'"+v+"'";
+    } else if (v[0]) {
+	if (v[0].substring(0,5) === "Tuple") {
+	    var output = "";
+	    for (var i = v.length; --i; ) {
+		output = "," + toString(v[i]) + output;
+	    }
+	    if (output[0] === ",") output = output.substring(1);
+	    return "("+output+")";
+	} else if (v[0] === "Cons") {
+	    var start = (typeof v[1] === "string") ? '"' : "[";
+	    var  end  = (typeof v[1] === "string") ? '"' : "]";
+	    var  div  = (typeof v[1] === "string") ?  "" : ",";
+	    var   f   = (typeof v[1] === "string") ? function(x){return x} : toString;
+	    var output = start + f(v[1]);
+	    v = v[2];
+	    while (true) {
+		if (v[0] === "Cons") {
+		    output += div + f(v[1]);
+		    v = v[2];
+		} else {
+		    return output + end;
+		}
+	    }
+	} else if (v[0] === "Nil") {
+	    return "[]";
+	} else if (v[0] === "JSON") {
+	    return "(JSON.fromList " + toString(Elm.JSON.toList(v)) + ")";
+	} else if (v[0] === "RBNode" || v[0] === "RBEmpty") {
+	    function cons(k){ return function(v) { return function(acc) { return ["Cons",["Tuple2",k,v],acc]; }; }; }
+	    var list = Elm.Dict.foldr(cons)(["Nil"])(v);
+	    var name = "Dict";
+	    if (list[0] === "Cons" && list[1][2][0] === "Tuple0") {
+		name = "Set";
+		list = Elm.List.map(function(x) { return x[1]; })(list);
+	    }
+	    return "(" + name + ".fromList " + toString(list) + ")";
+	} else {
+	    var output = "";
+	    for (var i = v.length; --i; ) {
+		output = " " + toString(v[i]) + output
+	    }
+	    output = v[0] + output;
+	    return (v.length > 1) ? "(" + output + ")" : output;
+	}
+    }
+    return v+"";
+  };
+  var show = function(v) { return str(toString(v)); };
+  var append = function(xs,ys) {
+    if (typeof xs === "string" && typeof ys === "string") {
+	return xs.concat(ys);
+    }
+    if (xs[0] === "Nil") {
+	return ys;
+    }
+    var root = ["Cons", xs[1], ["Nil"]];
+    var curr = root;
+    xs = xs[2];
+    while (xs[0]==="Cons") {
+	curr[2] = ["Cons", xs[1], ["Nil"]];
+	xs = xs[2];
+	curr = curr[2];
+    }
+    curr[2] = ys;
+    return root;
+  };
+
+  var str = function(s) {
+    var out = ["Nil"];
+    for (var i = s.length; i--; ) {
+      out = ["Cons", s[i], out];
+    }
+    return out;
+  };
+  
+  function wrap(elem) {
+      var p = Value.getSize(elem);
+      return ["Element", Guid.guid(), ["EHtml",elem],
+	      p[0], p[1], 1, ["Nothing"], ["Nothing"]];
+  }
+  var addListener = function() {
+      if(document.addEventListener) {
+	  return function(element, event, handler) {
+	      element.addEventListener(event, handler, false);
+	  };
+      } else {
+	  return function(element, event, handler) {
+	      element.attachEvent('on' + event, handler);
+	  };
+      }
+  }();
+
+  return {eq:eq,
+	  str:str,
+	  show:show,
+	  Tuple:Tuple,
+	  append:append,
+	  listToArray:listToArray,
+	  toText : toText,
+	  properEscape : properEscape,
+	  getTextSize : getTextSize,
+	  getSize : getSize,
+	  getExcess : getExcess,
+	  groupForms : groupForms,
+	  wrap : wrap,
+	  addListener : addListener
+       };
+}();Elm.List = function() {
+
+    var throwError = function(f) {
+	throw "Function '" + f + "' expecting a list!";
+    }
+
+    function length(xs) {
+	var out = 0;
+	while (xs[0] === "Cons") {
+	    out += 1;
+	    xs = xs[2];
+	}
+	return out;
+    };
+    var reverse = foldl(function(x_72) {
+      return function(y_73) {
+        return["Cons", x_72, y_73]
+      }
+    })(["Nil"]);
+    var concat = foldr(function(x_74) {
+      return function(y_75) {
+        return Value.append(x_74, y_75)
+      }
+    })(["Nil"]);
+    var and = foldl(function(x_77) {
+      return function(y_78) {
+        return x_77 && y_78
+      }
+    })(true);
+    var or = foldl(function(x_79) {
+      return function(y_80) {
+        return x_79 || y_80
+      }
+    })(false);
+    var sum = foldl(function(x_89) {
+      return function(y_90) {
+        return x_89 + y_90
+      }
+    })(0);
+    var product = foldl(function(x_91) {
+      return function(y_92) {
+        return x_91 * y_92
+      }
+    })(1);
+    var maximum = foldl1(function(x) { return function(y) { return Math.max(x,y) } });
+    var minimum = foldl1(function(x) { return function(y) { return Math.min(x,y) } });
+    function head(v) {
+	if (v[0] !== "Cons") {
+	    throw "Error: 'head' only accepts lists of length greater than one.";
+	}
+	return v[1];
+    }
+    function tail(v) {
+	if (v[0] !== "Cons") {
+	    throw "Error: 'tail' only accepts lists of length greater than one.";
+	}
+	return v[2];
+    }
+    function last(v) {
+	if (v[0] !== "Cons") {
+	    throw "Error: 'last' only accepts lists of length greater than one.";
+	}
+	var out = v[1];
+	while (v[0] === "Cons") {
+	    out = v[1];
+	    v = v[2];
+	}
+	return out;
+    }
+    function map(f) {
+      return function(xs) {
+	  if (xs[0] === "Nil") { return xs; }
+	  if (xs[0] !== "Cons") { throwError('map'); }
+	  var root = ["Cons", f(xs[1]), ["Nil"]];
+	  var curr = root;
+	  xs = xs[2];
+	  while (xs[0]==="Cons") {
+	      curr[2] = ["Cons", f(xs[1]), ["Nil"]];
+	      xs = xs[2];
+	      curr = curr[2];
+	  }
+	  return root;
+      }
+    }
+    function foldl(f) {
+      return function(b) {
+        return function(xs) {
+          var acc = b;
+	  if (xs[0] === "Nil") { return acc; }
+	  if (xs[0] !== "Cons") { throwError('foldl'); }
+	  while (xs[0] === "Cons") {
+	      acc = f(xs[1])(acc);
+	      xs = xs[2];
+	  }
+	  return acc;
+        }
+      }
+    }
+    function foldr(f) {
+      return function(b) {
+        return function(xs) {
+          var acc = b;
+	  if (xs[0] === "Nil") { return acc; }
+	  if (xs[0] !== "Cons") { throwError('foldr'); }
+	  var arr = [];
+	  while (xs[0] === "Cons") {
+	      arr.push(xs[1]);
+	      xs = xs[2];
+	  }
+	  for (var i = arr.length; i--; ) {
+	      acc = f(arr[i])(acc);
+	  }
+	  return acc;
+        }
+      }
+    }
+    function foldl1(f_49) {
+      return function(_temp_50) {
+        return function(v) {
+          if("Cons" !== v[0]) {
+            return undefined
+          }else {
+            var x_51 = v[1];
+            var xs_52 = v[2];
+            return foldl(f_49)(x_51)(xs_52)
+          }
+        }(_temp_50)
+      }
+    }
+    function foldr1(f) {
+      return function(xs) {
+	if (xs[0] === "Nil") { throw "'foldr1' requires an non-empty list." }
+	if (xs[0] !== "Cons") { throwError('foldr1'); }
+	var arr = [];
+	while (xs[0] === "Cons") {
+	    arr.push(xs[1]);
+	    xs = xs[2];
+	}
+        var acc = arr.pop();
+	for (var i = arr.length; i--; ) {
+	    acc = f(arr[i])(acc);
+	}
+	return acc;
+      }
+    }
+    function scanl(f) {
+      return function(b) {
+        return function(xs) {
+          if (xs[0] === "Nil") { return ["Cons",b,["Nil"]]; }
+	  if (xs[0] !== "Cons") { throwError('scanl'); }
+	  var arr = [b];
+	  while (xs[0] === "Cons") {
+	      b = f(xs[1])(b);
+	      arr.push(b);
+	      xs = xs[2];
+	  }
+	  var out = ["Nil"];
+	  for (var i = arr.length; i--; ) {
+	      out = ["Cons", arr[i], out];
+	  }
+	  return out;
+        }
+      }
+    }
+    function scanl1(f) {
+      return function(xs) {
+	if (xs[0] !== "Cons") {
+	    throw "Error: 'scanl1' requires a list of at least length 1.";
+	}
+	return scanl(f)(xs[1])(xs[2]);
+      }
+    }
+    function filter(pred) {
+      return function(xs) {
+        if (xs[0] === "Nil") { return xs; }
+	if (xs[0] !== "Cons") { throwError('filter'); }
+	var arr = [];
+	while (xs[0] === "Cons") {
+          if (pred(xs[1])) { arr.push(xs[1]); }
+	  xs = xs[2];
+	}
+	var out = ["Nil"];
+	for (var i = arr.length; i--; ) {
+	    out = ["Cons", arr[i], out];
+	}
+	return out;
+      }
+    }
+    function concatMap(f_76) {
+      return function(x) {
+        return concat(map(f_76)(x))
+      }
+    }
+    function all(pred) {
+	return foldl(function(x) { return function(acc) {
+		    return acc && pred(x);
+		};})(true);
+    }
+    function any(pred) {
+	return foldl(function(x) { return function(acc) {
+		    return acc || pred(x);
+		};})(false);
+    }
+    function partition(pred_93) {
+      return function(lst_94) {
+        return function() {
+          var v = lst_94;
+          var c = [function(v) {
+            if("Nil" !== v[0]) {
+              return undefined
+            }else {
+              return["Tuple2", ["Nil"], ["Nil"]]
+            }
+          }, function(v) {
+            if("Cons" !== v[0]) {
+              return undefined
+            }else {
+              var x_95 = v[1];
+              var xs_96 = v[2];
+              return function(v) {
+                if("Tuple2" !== v[0]) {
+                  return undefined
+                }else {
+                  var as_97 = v[1];
+                  var bs_98 = v[2];
+                  return pred_93(x_95) ? ["Tuple2", ["Cons", x_95, as_97], bs_98] : ["Tuple2", as_97, ["Cons", x_95, bs_98]]
+                }
+              }(partition(pred_93)(xs_96))
+            }
+          }];
+          for(var i = c.length;i--;) {
+            var r = c[i](v);
+            if(r !== undefined) {
+              return r
+            }
+          }
+        }()
+      }
+    }
+    function zipWith(f) {
+      return function(listA) {
+	  return function(listB) {
+	  if (listA[0] === "Nil" || listB[0] === "Nil") { return ["Nil"]; }
+	  if (listA[0] !== "Cons" || listB[0] !== "Cons") { throwError('zipWith'); }
+	  var arr = [];
+	  while (listA[0] === "Cons" && listB[0] === "Cons") {
+	      arr.push(f(listA[1])(listB[1]));
+	      listA = listA[2];
+	      listB = listB[2];
+	  }
+	  var out = ["Nil"];
+	  for (var i = arr.length; i--; ) {
+	      out = ["Cons", arr[i], out];
+	  }
+	  return out;
+        }
+      }
+    }
+    function zip(listA) {
+      return function(listB) {
+	  if (listA[0] === "Nil" || listB[0] === "Nil") { return ["Nil"]; }
+	  if (listA[0] !== "Cons" || listB[0] !== "Cons") { throwError('zip'); }
+	  var arr = [];
+	  while (listA[0] === "Cons" && listB[0] === "Cons") {
+	      arr.push(["Tuple2", listA[1], listB[1]]);
+	      listA = listA[2];
+	      listB = listB[2];
+	  }
+	  var out = ["Nil"];
+	  for (var i = arr.length; i--; ) {
+	      out = ["Cons", arr[i], out];
+	  }
+	  return out;
+      }
+    }
+    function unzip(pairs_112) {
+      return function() {
+        var v = pairs_112;
+        var c = [function(v) {
+          if("Nil" !== v[0]) {
+            return undefined
+          }else {
+            return["Tuple2", ["Nil"], ["Nil"]]
+          }
+        }, function(v) {
+          if("Cons" !== v[0]) {
+            return undefined
+          }else {
+            var p_113 = v[1];
+            var ps_114 = v[2];
+            return function(v) {
+              if("Tuple2" !== v[0]) {
+                return undefined
+              }else {
+                if("Tuple2" !== v[1][0]) {
+                  return undefined
+                }else {
+                  var x_115 = v[1][1];
+                  var y_116 = v[1][2];
+                  if("Tuple2" !== v[2][0]) {
+                    return undefined
+                  }else {
+                    var xs_117 = v[2][1];
+                    var ys_118 = v[2][2];
+                    return["Tuple2", ["Cons", x_115, xs_117], ["Cons", y_116, ys_118]]
+                  }
+                }
+              }
+            }(["Tuple2", p_113, unzip(ps_114)])
+          }
+        }];
+        for(var i = c.length;i--;) {
+          var r = c[i](v);
+          if(r !== undefined) {
+            return r
+          }
+        }
+      }()
+    }
+    function intersperse(sep_119) {
+      return function(xs_120) {
+        return function() {
+          var v = xs_120;
+          var c = [function(v) {
+            if("Nil" !== v[0]) {
+              return undefined
+            }else {
+              return["Nil"]
+            }
+          }, function(v) {
+            if("Cons" !== v[0]) {
+              return undefined
+            }else {
+              var a_124 = v[1];
+              if("Nil" !== v[2][0]) {
+                return undefined
+              }else {
+                return["Cons", a_124, ["Nil"]]
+              }
+            }
+          }, function(v) {
+            if("Cons" !== v[0]) {
+              return undefined
+            }else {
+              var a_121 = v[1];
+              if("Cons" !== v[2][0]) {
+                return undefined
+              }else {
+                var b_122 = v[2][1];
+                var cs_123 = v[2][2];
+                return["Cons", a_121, ["Cons", sep_119, intersperse(sep_119)(["Cons", b_122, cs_123])]]
+              }
+            }
+          }];
+          for(var i = c.length;i--;) {
+            var r = c[i](v);
+            if(r !== undefined) {
+              return r
+            }
+          }
+        }()
+      }
+    }
+    function intercalate(sep_125) {
+      return function(xs_126) {
+        return function() {
+          var v = xs_126;
+          var c = [function(v) {
+            if("Nil" !== v[0]) {
+              return undefined
+            }else {
+              return["Nil"]
+            }
+          }, function(v) {
+            if("Cons" !== v[0]) {
+              return undefined
+            }else {
+              var a_130 = v[1];
+              if("Nil" !== v[2][0]) {
+                return undefined
+              }else {
+                return a_130
+              }
+            }
+          }, function(v) {
+            if("Cons" !== v[0]) {
+              return undefined
+            }else {
+              var a_127 = v[1];
+              if("Cons" !== v[2][0]) {
+                return undefined
+              }else {
+                var b_128 = v[2][1];
+                var cs_129 = v[2][2];
+                return Value.append(a_127, Value.append(sep_125, intercalate(sep_125)(["Cons", b_128, cs_129])))
+              }
+            }
+          }];
+          for(var i = c.length;i--;) {
+            var r = c[i](v);
+            if(r !== undefined) {
+              return r
+            }
+          }
+        }()
+      }
+    }
+    function sort(xs) {
+      if (xs[0] === "Nil") { return xs; }
+      if (xs[0] !== "Cons") { throwError('sort'); }
+      var arr = [];
+      while (xs[0] === "Cons") {
+	  arr.push(xs[1]);
+	  xs = xs[2];
+      }
+      arr.sort(function(a,b) { return a - b});
+      var out = ["Nil"];
+      for (var i = arr.length; i--; ) {
+	  out = [ "Cons", arr[i], out ];
+      }
+      return out;
+    }
+    function take(n) { return function(xs) {
+        if (n <= 0) { return ["Nil"]; }
+	if (xs[0] === "Nil") { return xs; }
+	if (xs[0] !== "Cons") { throwError('take'); }
+	var out = [ "Cons", xs[1], ["Nil"] ];
+	var temp = out;
+	xs = xs[2];
+	--n;
+	while (xs[0] === "Cons" && n > 0) {
+	    temp[2] = [ "Cons", xs[1], ["Nil"] ];
+	    temp = temp[2];
+	    xs = xs[2];
+	    --n;
+	}
+	return out;
+      };
+    }
+    function drop(n) { return function(xs) {
+	if (xs[0] === "Nil") { return xs; }
+	if (xs[0] !== "Cons") { throwError('drop'); }
+	while (xs[0] === "Cons" && n > 0) {
+	    xs = xs[2];
+	    --n;
+	}
+	return xs;
+      };
+    }
+    return {head:head,
+	    tail:tail,
+	    last:last,
+	    map:map,
+	    foldl:foldl,
+	    foldr:foldr,
+	    foldl1:foldl1,
+	    foldr1:foldr1,
+	    scanl:scanl,
+	    scanl1:scanl1,
+	    filter:filter,
+	    length:length,
+	    reverse:reverse,
+	    concat:concat,
+	    concatMap:concatMap,
+	    and:and,
+	    or:or,
+	    all:all,
+	    any:any,
+	    sum:sum,
+	    product:product,
+	    maximum:maximum,
+	    minimum:minimum,
+	    partition:partition,
+	    zipWith:zipWith,
+	    zip:zip,
+	    unzip:unzip,
+	    intersperse:intersperse,
+	    intercalate:intercalate,
+	    sort:sort,
+	    take:take,
+	    drop:drop};
+}();
+Elm.Maybe = function() {
+    function consMaybe(x) { return function(xs) {
+	    if (x[0] === "Just") return ["Cons", x[1], xs];
+	    return xs;
+	};
+    }
+    function fromMaybe(b) { return function(m) {
+	    if (m[0] === "Just") return m[1];
+	    return b;
+	};
+    }
+    function mapCons(f) { return function(y) { return function(xs) {
+		var x = f(y);
+		if (x[0] === "Just") return ["Cons", x[1], xs];
+		return xs;
+	    };
+	};
+    }
+    function maybe(b) { return function(f) { return function(m) {
+		if (m[0] === "Just") return f(m[1]);
+		return b;
+	    };
+	};
+    }
+
+    return {Just : function(x) { return ["Just",x]; },
+	    Nothing : ["Nothing"],
+	    catMaybes : Elm.List.foldr(consMaybe)(["Nil"]),
+	    isJust : function(m) { return m[0] === "Just"; },
+	    isNothing : function(m) { return m[0] === "Nothing"; },
+	    fromMaybe : fromMaybe,
+	    consMaybe : consMaybe,
+	    mapMaybe : function(f) { return Elm.List.foldr(mapCons(f))(["Nil"]); },
+	    maybe : maybe
+    };
+}();
+
+Elm.Char = function() {
+    function isBetween(lo,hi) { return function(chr) {
+	    var c = chr.charCodeAt(0);
+	    return lo <= c && c <= hi;
+	};
+    }
+    var isDigit = isBetween('0'.charCodeAt(0),'9'.charCodeAt(0));
+    var chk1 = isBetween('a'.charCodeAt(0),'f'.charCodeAt(0));
+    var chk2 = isBetween('A'.charCodeAt(0),'F'.charCodeAt(0));
+    
+    return {fromCode : function(c) { return String.fromCharCode(c); },
+	    toCode : function(c) { return c.charCodeAt(0); },
+	    toUpper : function(c) { return c.toUpperCase(); },
+	    toLower : function(c) { return c.toLowerCase(); },
+	    toLocaleUpper : function(c) { return c.toLocaleUpperCase(); },
+	    toLocaleLower : function(c) { return c.toLocaleLowerCase(); },
+	    isLower    : isBetween('a'.charCodeAt(0),'z'.charCodeAt(0)),
+	    isUpper    : isBetween('A'.charCodeAt(0),'Z'.charCodeAt(0)),
+	    isDigit    : isDigit,
+	    isOctDigit : isBetween('0'.charCodeAt(0),'7'.charCodeAt(0)),
+	    isHexDigit : function(c) { return isDigit(c) || chk1(c) || chk2(c); }
+    };
+}();
+Elm.Color = function() {
+
+function Color_0(a1) {
+  return function(a2) {
+    return function(a3) {
+      return function(a4) {
+        return["Color", a1, a2, a3, a4]
+      }
+    }
+  }
+}
+var rgba_1 = Color_0;
+var red_3 = ["Color",255,0,0,1];
+var green_4 = ["Color",0,255,0,1];
+var blue_5 = ["Color",0,0,255,1];
+var yellow_6 = ["Color",255,255,0,1];
+var cyan_7 = ["Color",0,255,255,1];
+var magenta_8 = ["Color",255,0,255,1];
+var black_9 = ["Color",0,0,0,1];
+var white_10 = ["Color",255,255,255,1];
+var gray_11 = ["Color",128,128,128,1];
+var grey_12 = ["Color",128,128,128,1];
+function rgb_2(r_13) {
+  return function(g_14) {
+    return function(b_15) {
+      return ["Color",r_13,g_14,b_15,1]
+    }
+  }
+}
+function extract(c) {
+    if (c[4] === 1) { return 'rgb(' + c[1] + ',' + c[2] + ',' + c[3] + ')'; }
+    return 'rgba(' + c[1] + ',' + c[2] + ',' + c[3] + ',' + c[4] + ')';
+}
+function complement(rgb) {
+  var hsv = toHSV(rgb);
+  hsv.hue = (hsv.hue + 180) % 360;
+  return toRGB(hsv);
+}
+
+function hsva(h) { return function(s) { return function(v) { return function(a) {
+    var clr = toRGB({hue:h, saturation:s, value:v});
+    clr[4] = a;
+    return clr;
+  }; }; };
+}
+
+function hsv(h) { return function(s) { return function(v) {
+   return toRGB({hue:h, saturation:s, value:v}); }; }; }
+
+function toHSV(rgb) {
+    var hsv = {};
+    var r = rgb[1] / 255.0, g = rgb[2] / 255.0, b = rgb[3] / 255.0;
+    var M = Math.max(r,g,b);
+    var m = Math.min(r,g,b);
+    var c = M - m;
+
+    var h = 0;
+    if (c === 0) { h = 0; }
+    else if (M === r) { h = ((g - b) / c) % 6; }
+    else if (M === g) { h = ((b - r) / c) + 2; }
+    else if (M === b) { h = ((r - g) / c) + 4; }
+    h *= 60;
+
+    return { value : M, hue : h, saturation : (M === 0 ? 0 : c / M) };
+}
+
+function between(lo,hi,x) { return lo <= x && x < hi; }
+function norm(n) { return Math.round(n*255); }
+
+function toRGB(hsv) {
+    var c = hsv.value * hsv.saturation;
+    var hue = hsv.hue / 60;
+    var x = c * (1 - Math.abs((hue % 2) - 1));
+    var r = 0, g = 0, b = 0;
+         if (between(0,1,hue)) { r = c; g = x; b = 0; }
+    else if (between(1,2,hue)) { r = x; g = c; b = 0; }
+    else if (between(2,3,hue)) { r = 0; g = c; b = x; }
+    else if (between(3,4,hue)) { r = 0; g = x; b = c; }
+    else if (between(4,5,hue)) { r = x; g = 0; b = c; }
+    else if (between(5,6,hue)) { r = c; g = 0; b = x; }
+
+    var m = hsv.value - c;
+    return ["Color", norm(r+m), norm(g+m), norm(b+m), 1 ];
+}
+  return{rgba:rgba_1, rgb:rgb_2, hsva:hsva, hsv:hsv, red:red_3, green:green_4, blue:blue_5, yellow:yellow_6, cyan:cyan_7, magenta:magenta_8, black:black_9, white:white_10, gray:gray_11, grey:grey_12,complement:complement,extract:extract}
+}();
+var Collage = function() {
+
+var JS = Elm.JavaScript;
+
+function tracePoints(ctx,points) {
+    var i = points.length - 1;
+    if (i <= 0) return;
+    ctx.moveTo(points[i][1], points[i][2]);
+    while (i--) { ctx.lineTo(points[i][1], points[i][2]); }
+}
+
+function solid(ctx,color,points) {
+    tracePoints(ctx,points);
+    ctx.strokeStyle = Elm.Color.extract(color);
+    ctx.stroke();
+};
+
+function filled(ctx,color,points) {
+    tracePoints(ctx,points);
+    ctx.fillStyle = Elm.Color.extract(color);
+    ctx.fill();
+}
+
+function textured(redo,ctx,src,points) {
+    var img = new Image();
+    img.src = JS.castStringToJSString(src);
+    img.onload = redo;
+ 
+    tracePoints(ctx,points);
+    ctx.fillStyle = ctx.createPattern(img,'repeat');
+    ctx.fill();
+}
+
+function customLine(pattern,ctx,color,points) {
+    if (pattern.length === 0) { pattern = [8,4]; }
+    customLineHelp(ctx, pattern, points);
+    ctx.strokeStyle = Elm.Color.extract(color);
+    ctx.stroke();
+};
+
+var customLineHelp = function(ctx, pattern, points) {
+    var i = points.length - 1;
+    if (i <= 0) return;
+    var x0 = points[i][1], y0 = points[i][2];
+    var x1=0, y1=0, dx=0, dy=0, remaining=0, nx=0, ny=0;
+    var pindex = 0, plen = pattern.length;
+    var draw = true, segmentLength = pattern[0];
+    ctx.moveTo(x0,y0);
+    while (i--) {
+	x1 = points[i][1]; y1 = points[i][2];
+	dx = x1 - x0; dy = y1 - y0;
+	remaining = Math.sqrt(dx * dx + dy * dy);
+	while (segmentLength <= remaining) {
+	    x0 += dx * segmentLength / remaining;
+	    y0 += dy * segmentLength / remaining;
+	    ctx[draw ? 'lineTo' : 'moveTo'](x0, y0);
+	    // update starting position
+	    dx = x1 - x0; dy = y1 - y0;
+	    remaining = Math.sqrt(dx * dx + dy * dy);
+	    // update pattern
+	    draw = !draw;
+	    pindex = (pindex + 1) % plen;
+	    segmentLength = pattern[pindex];
+	}
+	if (remaining > 0) {
+	    ctx[draw ? 'lineTo' : 'moveTo'](x1, y1);
+	    segmentLength -= remaining;
+	}
+	x0 = x1; y0 = y1;
+    }
+};
+
+function drawLine(ctx,form) {
+    var points = form[3][1];
+    switch(form[1][0]) {
+    case "Solid" : return solid(ctx,form[2],points);
+    case "Dotted": return customLine([3,3],ctx,form[2],points);
+    case "Dashed": return customLine([8,4],ctx,form[2],points);
+    case "Custom": return customLine(form[1][1],ctx,form[2],points);
+    }
+};
+
+function drawShape(redo,ctx,shapeStyle,color,points) {
+    switch(shapeStyle[0]) {
+    case "Filled":   return filled(ctx,color,points);
+    case "Outlined": return solid(ctx,color,points);
+    case "Textured": return textured(redo,ctx,shapeStyle[1],points);
+    case "CustomOutline":
+	return customLine(shapeStyle[1],ctx,color,points);
+    }
+};
+
+function drawImage(redo,ctx,w,h,src) {
+    var img = new Image();
+    img.onload = redo;
+    img.src = JS.castStringToJSString(src);
+    ctx.drawImage(img,-w/2,-h/2,w,h);
+}
+
+function renderForm(redo,ctx,theta,scale,x,y,form) {
+    ctx.save();
+    if (x !== 0 || y !== 0) ctx.translate(x,y);
+    if (theta !== ~~theta)  ctx.rotate(2*Math.PI*theta);
+    if (scale !== 1)        ctx.scale(scale,scale);
+    ctx.beginPath();
+    switch(form[0]) {
+    case "FLine":  drawLine(ctx,form); break;
+    case "FShape": drawShape(redo,ctx,form[1],form[2],form[3][1]); break;
+    case "FImage": drawImage(redo,ctx,form[1],form[2],form[3]); break;
+    }
+    ctx.restore();
+};
+
+function renderForms(redo,ctx,w,h,forms) {
+    ctx.clearRect(0,0,w,h);
+    for (var i = forms.length; i--; ) {
+	var f = forms[i];
+	renderForm(redo,ctx,f[1],f[2],f[3][1],f[3][2],f[4]);
+    }
+}
+
+function collageForms(w,h,forms) {
+    var canvas = Render.newElement('canvas');
+    w = ~~w;
+    h = ~~h;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    canvas.style.display = "block";
+    canvas.width  = w;
+    canvas.height = h;
+    if (canvas.getContext) {
+	var ctx = canvas.getContext('2d');
+	function redo() { renderForms(this,ctx,w,h,forms); }
+	renderForms(redo,ctx,w,h,forms);
+	return canvas;
+    }
+    canvas.innerHTML = "Your browser does not support the canvas element.";
+    return canvas;
+};
+
+function collageElement(w,h,theta,scale,x,y,elem) {
+    var e = Render.render(elem);
+    var t = "translate(" + (x - elem[3] / 2) + "px,"+ (y - elem[4] / 2) + "px)";
+    var r = theta === (~~theta) ? "" : "rotate(" + theta*360 + "deg)";
+    var s = scale === 1 ? "" : "scale(" + scale + "," + scale + ")";
+    var transforms = t + " " + s + " " + r;
+    e.style.transform       = transforms;
+    e.style.msTransform     = transforms;
+    e.style.MozTransform    = transforms;
+    e.style.webkitTransform = transforms;
+    e.style.OTransform      = transforms;
+    var div = Render.newElement('div');
+    Render.addTo(div,e);
+    div.style.width = (~~w) + "px";
+    div.style.height = (~~h) + "px";
+    div.style.overflow = "hidden";
+    return div;
+}
+
+function collage(w,h,formss) {
+    if (formss.length === 0) { return collageForms(w,h,[]); }
+    var elems = new Array(formss.length);
+    for (var i = formss.length; i--; ) {
+	var f = formss[i];
+	if (typeof f[0] === "string") {
+	    elems[i] = collageElement(w,h,f[1],f[2],f[3][1],f[3][2],f[4][1]);
+	} else {
+	    elems[i] = collageForms(w,h,f);
+	}
+    }
+    if (formss.length === 1) { return elems[0]; }
+    return Render.flowWith(Render.goIn,function(x){return x},elems);
+}
+
+function updateFormSet(node,currSet,nextSet) {
+    if (Value.eq(nextSet,currSet)) return;
+    var w = node.style.width.slice(0,-2) - 0;
+    var h = node.style.height.slice(0,-2) - 0;
+    if (typeof nextSet[0] === "object") {
+	if (typeof currSet[0] === "object") {
+	    if (node.getContext) {
+		var ctx = node.getContext('2d');
+		function redo() { renderForms(this,ctx,w,h,nextSet); }
+		return renderForms(redo,ctx,w,h,nextSet);
+	    }
+	}
+	var newNode = collageForms(w,h,nextSet);
+	newNode.style.position = 'absolute';
+	return node.parentNode.replaceChild(newNode,node);
+    }
+    var f = nextSet;
+    var newNode = collageElement(w,h,f[1],f[2],f[3][1],f[3][2],f[4][1]);
+    newNode.style.position = 'absolute';
+    return node.parentNode.replaceChild(newNode,node);
+}
+
+// assumes that the form sets are the same length.
+function updateCollage(node,currs,nexts) {
+    if (nexts.length === 1) {
+	return updateFormSet(node,currs[0],nexts[0]);
+    }
+    var kids = node.childNodes;
+    var len = kids.length;
+    for (var i = len; i--; ) {
+	updateFormSet(kids[len-i-1], currs[i], nexts[i]);
+    }
+}
+
+function style(clr,n,list) {
+    return ["Tuple2",
+	    '<span style="font-size:100%;color:' + clr + ';">' + n + '</span>',
+	    list];
+}
+
+function insideForm(point) { return function(form) {
+    if (!inBoundsOf(point[1],point[2],form)) return false;
+    var hw, hh;
+    switch (form[4][0]) {
+    case "FShape": return insideShape(point,form[1],form[2],form[3],form[4][3][1]);
+    case "FLine":  return false;
+    case "FImage":
+	hw = form[4][1] / 2;
+	hh = form[4][2] / 2;
+	break;
+    case "FElement":
+	hw = form[4][1][3] / 2;
+	hh = form[4][1][4] / 2;
+	break;
+    }
+    return insideShape(point,form[1],form[2],form[3],
+		       [ [null, hw, hh],
+			 [null,-hw, hh],
+			 [null,-hw,-hh],
+			 [null, hw,-hh],
+			 [null, hw, hh] ]);
+    };
+}
+
+function inBoundsOf(px,py,form) {
+  if (form.length < 6) {
+    var fx = form[3][1], fy = form[3][2];
+    var radiusSquared = 0;
+    var scale = form[2];
+    switch (form[4][0]) {
+    case "FShape":
+      var points = form[4][3][1];
+      for (var i = points.length; --i; ) {
+	  var p = points[i];
+	  radiusSquared = Math.max(radiusSquared, p[1]*p[1] + p[2]*p[2]);
+      }
+      radiusSquared *= scale * scale;
+      break;
+    case "FLine":
+      break;
+    case "FImage":
+      var x = scale * form[4][1] / 2;
+      var y = scale * form[4][2] / 2;
+      radiusSquared = x*x + y*y;
+      break;
+    case "FElement":
+      var x = scale * form[4][1][3] / 2;
+      var y = scale * form[4][1][4] / 2;
+      radiusSquared = x*x + y*y;
+      break;
+    }
+    form.push(function(px,py) {
+	    var dx = px - fx;
+	    var dy = py - fy;
+	    return dx*dx + dy*dy < radiusSquared + 1;
+	});
+  }
+  return form[5](px,py);
+}
+
+function insideShape(point,theta,scale,pos,points) {
+  var counter = 0;
+  var list = ["Nil"];
+  var p1,p2;
+
+  var x = (point[1] - pos[1]) / scale;
+  var y = (point[2] - pos[2]) / scale;
+  if (theta !== 0) {
+      var t = -2 * Math.PI * theta;
+      var nx = x * Math.cos(t) - y * Math.sin(t);
+      y = x * Math.sin(t) + y * Math.cos(t);
+      x = nx;
+  }
+
+  if (points.length === 0) { return false; }
+  p1 = points[0];
+  for (var i = points.length - 1; i--; ) {
+    p2 = points[i];
+    var p1x = p1[1], p1y = p1[2], p2x = p2[1], p2y = p2[2];
+
+    if (p1y < p2y) {var ymin=p1y, ymax=p2y;} else {var ymin=p2y, ymax=p1y;}
+    if (p1x < p2x) {var xmin=p1x, xmax=p2x;} else {var xmin=p2x, xmax=p1x;}
+
+    if (ymin < y && y <= ymax && x <= xmax) {
+	if (x <= xmin || x <= ((y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x)) {
+	    ++counter;
+	}
+    }
+    p1 = p2;
+  }
+  return (counter % 2) === 1;
+}
+
+return {collage:collage, updateCollage:updateCollage, insideForm:insideForm};
+
+}();Elm.Graphics = function() {
+  for (this['i'] in Elm.List) {
+      eval('var ' + this['i'] + ' = Elm.List[this.i];');
+  }
+  var JS = Elm.JavaScript;
+  var DLeft_0 = ["DLeft"];
+  var DRight_1 = ["DRight"];
+  var DUp_2 = ["DUp"];
+  var DDown_3 = ["DDown"];
+  var DIn_4 = ["DIn"];
+  var DOut_5 = ["DOut"];
+  function Absolute_12(a1) {
+    return["Absolute", a1]
+  }
+  function Relative_13(a1) {
+    return["Relative", a1]
+  }
+  var Near_14 = ["Near"];
+  var Mid_15 = ["Mid"];
+  var Far_16 = ["Far"];
+  function Position_17(a1) {
+    return function(a2) {
+      return["Position", a1, a2]
+    }
+  }
+  function PositionTL_18(a1) {
+    return function(a2) {
+      return["PositionTL", a1, a2]
+    }
+  }
+  function PositionTR_19(a1) {
+    return function(a2) {
+      return["PositionTR", a1, a2]
+    }
+  }
+  function PositionBL_20(a1) {
+    return function(a2) {
+      return["PositionBL", a1, a2]
+    }
+  }
+  function PositionBR_21(a1) {
+    return function(a2) {
+      return["PositionBR", a1, a2]
+    }
+  }
+  function Element_37(id,e,w,h,o,c,l) {
+    return["Element", id, e, w, h, o, c, l ]
+  }
+  function EText_39(a1) {
+    return function(a2) {
+	return["EText", a1, a2]
+    }
+  }
+  function EImage_40(a1) {
+    return["EImage", JS.castStringToJSString(a1)]
+  }
+  function EVideo_41(a1) {
+    return["EVideo", JS.castStringToJSString(a1)]
+  }
+  function EFittedImage_42(a1) {
+    return["EFittedImage", JS.castStringToJSString(a1)]
+  }
+  function EFlow_43(a1) {
+    return function(a2) {
+      return["EFlow", a1, JS.castListToJSArray(a2)]
+    }
+  }
+  function ECollage_44(a1) {
+    return function(a2) {
+      return function(a3) {
+	  return["ECollage", a1, a2, Value.groupForms(a3)]
+      }
+    }
+  }
+  var EEmpty_45 = ["EEmpty"];
+  function EContainer_46(a1) {
+    return function(a2) {
+      return["EContainer", a1, a2]
+    }
+  }
+  var Solid_68 = ["Solid"];
+  var Dotted_69 = ["Dotted"];
+  var Dashed_70 = ["Dashed"];
+  function Custom_71(a1) {
+    return["Custom", JS.castListToJSArray(a1)]
+  }
+  var Filled_72 = ["Filled"];
+  var Outlined_73 = ["Outlined"];
+  function CustomOutline_74(a1) {
+    return["CustomOutline", JS.castListToJSArray(a1)]
+  }
+  function Line_75(a1) {
+    return["Line", JS.castListToJSArray(a1)]
+  }
+  function Shape_78(a1) {
+    return function(a2) {
+	var points = JS.castListToJSArray(a1);
+	if (points.length > 0) { points.push(points[0]); }
+	return["Shape", points, a2];
+    }
+  }
+  function Form_84(a1) {
+    return function(a2) {
+      return function(a3) {
+        return function(a4) {
+          return["Form", a1, a2, a3, a4]
+        }
+      }
+    }
+  }
+  function FLine_85(a1) {
+    return function(a2) {
+      return function(a3) {
+        return["FLine", a1, a2, a3]
+      }
+    }
+  }
+  function FShape_86(a1) {
+    return function(a2) {
+      return function(a3) {
+        return["FShape", a1, a2, a3]
+      }
+    }
+  }
+  function FImage_87(a1) {
+    return function(a2) {
+      return function(a3) {
+          return["FImage", a1, a2, JS.castStringToJSString(a3)]
+      }
+    }
+  }
+  function FElement_88(a1) {
+      return["FElement", a1]
+  }
+  var left_6 = DLeft_0;
+  var right_7 = DRight_1;
+  var down_8 = DDown_3;
+  var up_9 = DUp_2;
+  var inward_10 = DIn_4;
+  var outward_11 = DOut_5;
+  var topLeft_22 = Position_17(Near_14)(Near_14);
+  var topRight_23 = Position_17(Far_16)(Near_14);
+  var bottomLeft_24 = Position_17(Near_14)(Far_16);
+  var bottomRight_25 = Position_17(Far_16)(Far_16);
+  var midLeft_26 = Position_17(Near_14)(Mid_15);
+  var midRight_27 = Position_17(Far_16)(Mid_15);
+  var midTop_28 = Position_17(Mid_15)(Near_14);
+  var midBottom_29 = Position_17(Mid_15)(Far_16);
+  var middle_30 = Position_17(Mid_15)(Mid_15);
+  function middleAt(a1) {
+    return function(a2) {
+      return["PositionAt", a1, a2]
+    }
+  }
+  var topLeftAt_31 = PositionTL_18;
+  var topRightAt_32 = PositionTR_19;
+  var bottomLeftAt_33 = PositionBL_20;
+  var bottomRightAt_34 = PositionBR_21;
+  var absolute_35 = Absolute_12;
+  var relative_36 = Relative_13;
+  function newElement_38(e,w,h,o,c,l) { return Element_37(Guid.guid(),e,w,h,o,c,l); }
+  function basicNewElement(e,w,h) { return Element_37(Guid.guid(),e,w,h,1,["Nothing"],["Nothing"]); }
+  var line_76 = Line_75;
+  var polygon_79 = Shape_78;
+  function sprite_96(src) {
+    return function(w) {
+      return function(h) {
+        return function(pos) {
+          return Form_84(0)(1)(pos)(FImage_87(w)(h)(src))
+	}
+      }
+    }
+  }
+  function toForm_97(pos) {
+    return function(e) {
+      return Form_84(0)(1)(pos)(FElement_88(e))
+    }
+  }
+  function width_47(w__101) {
+    return function(e) {
+      var be = e[2];
+      switch(be[0]) {
+      case "EImage":
+      case "EVideo":
+	  return newElement_38(e[2],w__101,e[4] * w__101 / e[3], e[5], e[6], e[7]);
+      case "EText":
+	  var p = Value.getTextSize(w__101,e[4],be[2]);
+	  return newElement_38(e[2], w__101, p[1], e[5], e[6], e[7]);
+      }
+      return newElement_38(e[2], w__101, e[4], e[5], e[6], e[7]);
+    }
+  }
+  function height_48(h__108) {
+    return function(e) {
+      var be = e[2];
+      switch(be[0]) {
+      case "EImage":
+      case "EVideo":
+	  return newElement_38(e[2], e[3] * h__108 / e[4], h__108, e[5], e[6], e[7]);
+      }
+      return newElement_38(e[2], e[3], h__108, e[5], e[6], e[7]);
+    }
+  }
+  function size_49(w) {
+    return function(h) {
+      return function(e) {
+        return newElement_38(e[2], w, h, e[5], e[6], e[7]);
+      }
+    }
+  }
+  function opacity_50(o) {
+    return function(e) {
+      return newElement_38(e[2], e[3], e[4], o, e[6], e[7]);
+    }
+  }
+  function color_51(c) {
+    return function(e) {
+	return newElement_38(e[2], e[3], e[4], e[5], ["Just",c], e[7]);
+    }
+  }
+  function link(lnk) {
+    return function(e) {
+	return newElement_38(e[2], e[3], e[4], e[5], e[6], ["Just", JS.castStringToJSString(lnk)]);
+    }
+  }
+  function widthOf_52(e)  { return ~~e[3]; }
+  function heightOf_53(e) { return ~~e[4]; }
+  function sizeOf_54(e)   { return["Tuple2", ~~e[3], ~~e[4]] }
+  function text_56(txt) {
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("left")(txt), p[0], p[1])
+  }
+  function plainText(str) {
+    var txt = Value.toText(str);
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("left")(txt),p[0],p[1])
+  }
+  function asText(v) {
+    var txt = Elm.Text.monospace(Value.toText(Value.show(v)));
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("left")(txt),p[0],p[1])
+  }
+  function centeredText(txt) {
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("center")(txt),p[0],p[1])
+  }
+  function justifiedText(txt) {
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("justify")(txt),p[0],p[1])
+  }
+  function rightedText(txt) {
+    var p = Value.getTextSize(0,0,txt);
+    return basicNewElement(EText_39("right")(txt),p[0],p[1])
+  }
+  function image_57(w) {
+    return function(h) {
+      return function(src) {
+	  return basicNewElement(EImage_40(src),w,h)
+      }
+    }
+  }
+  function images(srcs) {
+      var pics = Elm.Signal.constant(spacer_66(0)(0));
+      var update = Elm.Signal.lift(function(src) {
+	      src = JS.castStringToJSString(src);
+	      var img = new Image();
+	      img.onload = function() {
+		  Dispatcher.notify(pics.id,
+				    image_57(this.width)(this.height)(src));
+	      };
+	      img.src = src;
+	  })(srcs);
+      function f(x) { return function(y) { return x; } }
+      var combine = Elm.Signal.lift2(f)(pics)(update);
+      return combine;
+  }
+  function video_58(w) {
+    return function(h) {
+      return function(src) {
+	  return basicNewElement(EVideo_41(src),w,h)
+      }
+    }
+  }
+  function fittedImage_59(w_147) {
+    return function(h_148) {
+      return function(s_149) {
+	  return basicNewElement(EFittedImage_42(s_149),w_147,h_148)
+      }
+    }
+  }
+  function flow_60(dir_150) {
+    return function(es_151) {
+      return function() {
+        var w_152 = function() {
+          var ws_154 = map(widthOf_52)(es_151);
+          return function(case1) {
+            var case0 = case1;
+            switch(case0[0]) {
+              case "DLeft":
+                return sum(ws_154);
+              case "DRight":
+                return sum(ws_154)
+            }
+            return maximum(ws_154)
+          }(dir_150)
+        }();
+        var h_153 = function() {
+          var hs_155 = map(heightOf_53)(es_151);
+          return function(case3) {
+            var case2 = case3;
+            switch(case2[0]) {
+              case "DDown":
+                return sum(hs_155);
+              case "DUp":
+                return sum(hs_155)
+            }
+            return maximum(hs_155)
+          }(dir_150)
+        }();
+        return basicNewElement(EFlow_43(dir_150)(es_151), w_152, h_153)
+      }()
+    }
+  }
+  function above_61(e1_156) {
+    return function(e2_157) {
+	return basicNewElement(EFlow_43(DDown_3)(["Cons", e1_156, ["Cons", e2_157, ["Nil"]]]), Math.max(widthOf_52(e1_156),widthOf_52(e2_157)), heightOf_53(e1_156) + heightOf_53(e2_157));
+    }
+  }
+  function below_62(e1_158) {
+    return function(e2_159) {
+	return basicNewElement(EFlow_43(DDown_3)(["Cons", e2_159, ["Cons", e1_158, ["Nil"]]]), Math.max(widthOf_52(e1_158),widthOf_52(e2_159)), heightOf_53(e1_158) + heightOf_53(e2_159));
+    }
+  }
+  function beside_63(e1_160) {
+    return function(e2_161) {
+	return basicNewElement(EFlow_43(DRight_1)(["Cons", e1_160, ["Cons", e2_161, ["Nil"]]]), widthOf_52(e1_160) + widthOf_52(e2_161), Math.max(heightOf_53(e1_160),heightOf_53(e2_161)));
+    }
+  }
+  function layers_64(es_162) {
+      return basicNewElement(EFlow_43(DOut_5)(es_162), maximum(map(widthOf_52)(es_162)), maximum(map(heightOf_53)(es_162)))
+  }
+  function collage_65(w_163) {
+    return function(h_164) {
+      return function(forms_165) {
+	  return basicNewElement(ECollage_44(w_163)(h_164)(forms_165),w_163,h_164)
+      }
+    }
+  }
+  function spacer_66(w_166) {
+    return function(h_167) {
+	return basicNewElement(EEmpty_45,w_166,h_167)
+    }
+  }
+  function container_67(w_169) {
+    return function(h_170) {
+      return function(pos_168) {
+        return function(e_171) {
+	    return basicNewElement(EContainer_46(pos_168)(e_171),w_169,h_170)
+        }
+      }
+    }
+  }
+  function segment_77(p1_172) {
+    return function(p2_173) {
+      return Line_75(["Cons", p1_172, ["Cons", p2_173, ["Nil"]]])
+    }
+  }
+  function rect_80(w_174) {
+    return function(h_175) {
+      return function(pos_176) {
+        return Shape_78(["Cons", ["Tuple2", 0 - w_174 / 2, 0 - h_175 / 2],
+			 ["Cons", ["Tuple2", 0 - w_174 / 2, h_175 / 2],
+			  ["Cons", ["Tuple2", w_174 / 2, h_175 / 2],
+			   ["Cons", ["Tuple2", w_174 / 2, 0 - h_175 / 2], ["Nil"]]]]])(pos_176)
+      }
+    }
+  }
+  function oval_81(w_177) {
+    return function(h_178) {
+      return function(pos_179) {
+        return function() {
+          var n_180 = 50;
+          return function() {
+            function f_181(i_182) {
+		return["Tuple2", w_177 / 2 * Math.cos(2 * (Math.PI / n_180) * i_182), h_178 / 2 * Math.sin(2 * (Math.PI / n_180) * i_182)];
+            }
+            return Shape_78(map(f_181)(function() {
+              var lo = 0;
+              var hi = n_180 - 1;
+              var lst = ["Nil"];
+              if(lo <= hi) {
+                do {
+                  lst = ["Cons", hi, lst]
+                }while(hi-- > lo)
+              }
+              return lst
+            }()))(pos_179)
+          }()
+        }()
+      }
+    }
+  }
+  function circle_82(r_183) {
+    return oval_81(2 * r_183)(2 * r_183)
+  }
+  function ngon_83(n_184) {
+    return function(r_185) {
+      return function(pos_186) {
+        return function() {
+          var m_187 = n_184;
+          return function() {
+            function f_188(i_189) {
+		return["Tuple2", r_185 * Math.cos(2 * (Math.PI / m_187) * i_189), r_185 * Math.sin(2 * (Math.PI / m_187) * i_189)];
+            }
+            return Shape_78(map(f_188)(function() {
+              var lo = 0;
+              var hi = n_184 - 1;
+              var lst = ["Nil"];
+              if(lo <= hi) {
+                do {
+                  lst = ["Cons", hi, lst]
+                }while(hi-- > lo)
+              }
+              return lst
+            }()))(pos_186)
+          }()
+        }()
+      }
+    }
+  }
+  function solid_89(clr_190) {
+    return function(ln_191) {
+      return Form_84(0)(1)(["Tuple2", 0, 0])(FLine_85(Solid_68)(clr_190)(ln_191))
+    }
+  }
+  function dotted_90(clr_192) {
+    return function(ln_193) {
+      return Form_84(0)(1)(["Tuple2", 0, 0])(FLine_85(Dotted_69)(clr_192)(ln_193))
+    }
+  }
+  function dashed_91(clr_194) {
+    return function(ln_195) {
+      return Form_84(0)(1)(["Tuple2", 0, 0])(FLine_85(Dashed_70)(clr_194)(ln_195))
+    }
+  }
+  function customLine_92(pattern_196) {
+    return function(clr_197) {
+      return function(ln_198) {
+        return Form_84(0)(1)(["Tuple2", 0, 0])(FLine_85(Custom_71(pattern_196))(clr_197)(ln_198))
+      }
+    }
+  }
+  function filled_93(clr) {
+    return function(shape) {
+      return Form_84(0)(1)(shape[2])(FShape_86(Filled_72)(clr)(shape));
+    }
+  }
+  function outlined_94(clr) {
+    return function(shape) {
+      return Form_84(0)(1)(shape[2])(FShape_86(Outlined_73)(clr)(shape));
+    }
+  }
+  function customOutline_95(pattern) {
+    return function(clr) {
+      return function(shape) {
+	  return Form_84(0)(1)(shape[2])(FShape_86(CustomOutline_74(pattern))(clr)(shape));
+      }
+    }
+  }
+  function textured(src) {
+    return function(shape) {
+      return Form_84(0)(1)(shape[2])(FShape_86(["Textured",src])(null)(shape));
+    }
+  }
+  function rotate_98(t_212) {
+    return function(Form$thetascaleposform_213) {
+      return function(case5) {
+        var case0 = case5;
+        switch(case0[0]) {
+          case "Form":
+            var case1 = case0[1], case2 = case0[2], case3 = case0[3], case4 = case0[4];
+            return Form_84(t_212 + case1)(case2)(case3)(case4)
+        }
+        throw"Non-exhaustive pattern match in case";
+      }(Form$thetascaleposform_213)
+    }
+  }
+  function scale_99(s) {
+    return function(form) {
+      return Form_84(form[1])(s * form[2])(form[3])(form[4])
+    }
+  }
+  function move_100(x_224) {
+    return function(y_225) {
+      return function(Form$thetascaleTuple2$pxpyform_226) {
+        return function(case7) {
+          var case0 = case7;
+          switch(case0[0]) {
+            case "Form":
+              var case1 = case0[1], case2 = case0[2], case3 = case0[3], case4 = case0[4];
+              switch(case3[0]) {
+                case "Tuple2":
+                  var case5 = case3[1], case6 = case3[2];
+                  return Form_84(case1)(case2)(["Tuple2", x_224 + case5, y_225 + case6])(case4)
+              }
+              break
+          }
+          throw"Non-exhaustive pattern match in case";
+        }(Form$thetascaleTuple2$pxpyform_226)
+      }
+    }
+  }
+  return{left:left_6, right:right_7, down:down_8, up:up_9, inward:inward_10, outward:outward_11, topLeft:topLeft_22, topRight:topRight_23, bottomLeft:bottomLeft_24, bottomRight:bottomRight_25, midLeft:midLeft_26, midRight:midRight_27, midTop:midTop_28, midBottom:midBottom_29, middle:middle_30, middleAt:middleAt, topLeftAt:topLeftAt_31, topRightAt:topRightAt_32, bottomLeftAt:bottomLeftAt_33, bottomRightAt:bottomRightAt_34, absolute:absolute_35, relative:relative_36, width:width_47, height:height_48, size:size_49, opacity:opacity_50, 
+	 color:color_51, link:link, widthOf:widthOf_52, heightOf:heightOf_53, sizeOf:sizeOf_54, text:text_56, asText:asText, plainText:plainText, centeredText:centeredText, justifiedText:justifiedText, rightedText:rightedText, image:image_57, images:images, video:video_58, fittedImage:fittedImage_59, flow:flow_60, above:above_61, below:below_62, beside:beside_63, layers:layers_64, collage:collage_65, spacer:spacer_66, container:container_67, line:line_76, segment:segment_77, polygon:polygon_79, rect:rect_80, oval:oval_81, circle:circle_82, ngon:ngon_83, solid:solid_89, dotted:dotted_90, dashed:dashed_91, customLine:customLine_92, filled:filled_93, 
+	 outlined:outlined_94, customOutline:customOutline_95, textured:textured, sprite:sprite_96, toForm:toForm_97, rotate:rotate_98, scale:scale_99, move:move_100,
+	 isWithin: Collage.insideForm}
+}();
+Elm.Text = function() {
+  function fromString(s) { return Value.toText(s); }
+
+  var addTag = function(tag) { return function(text) {
+	return '<' + tag + ' style="padding:0;margin:0">' + text + '</' + tag + '>';
+    };
+  };
+  var addStyle = function(style, value) { return function(text) {
+	return "<span style='" + style + ":" + value + "'>" + text + "</span>";
+    };
+  };
+
+  var typeface = function(name) {
+      name = Elm.JavaScript.castStringToJSString(name);
+      return addStyle('font-family', name);
+  };
+  var size = function(px) {
+    return addStyle('font-size', px + 'px');
+  };
+  var header = addTag('h1');
+  var height = function(h) { return addStyle('font-size', h+'em'); }
+  var italic = addStyle('font-style', 'italic');
+  var bold = addTag('b');
+  var color = function(c) {
+    return addStyle('color', Elm.Color.extract(c));
+  };
+  var underline = addStyle('text-decoration', 'underline');
+  var overline = addStyle('text-decoration', 'overline');
+  var strikeThrough = addStyle('text-decoration', 'line-through');
+  var link = function(href) { return function(text) {
+      return "<a href='" + fromString(href) + "'>" + text + "</a>";
+    };
+  };
+
+  return {fromString : fromString,
+	  toText: fromString,
+	  header : header,
+	  height : height,
+	  italic : italic,
+	  bold : bold,
+	  underline : underline,
+	  overline : overline,
+	  strikeThrough : strikeThrough,
+	  monospace : typeface('monospace'),
+	  typeface : typeface,
+	  color : color,
+	  link : link };
+}();
+
+var Render = function(){
+
+function newElement(elementType) {
+    var e = document.createElement(elementType);    
+    e.style.padding = "0";
+    e.style.margin = "0";
+    return e;
+};
+
+function addTo(container, elem) {
+    container.appendChild(elem);
+};
+
+function makeText(pos,txt) {
+    var e = newElement('div');
+    e.innerHTML = txt;
+    e.style.textAlign = pos;
+    return e;
+};
+
+function image(src) {
+    var img = newElement('img');
+    img.src = src;
+    img.name = src;
+    img.style.display = "block";
+    return img;
+}
+
+function fittedImage(w,h,src) {
+    var e = newElement('div');
+    e.style.width  = w + 'px';
+    e.style.height = h + 'px';
+    e.style.position = "relative";
+    e.style.overflow = "hidden";
+
+    var img = newElement('img');
+    img.onload = function() {
+	img.style.position = 'absolute';
+	img.style.margin = 'auto';
+
+	var sw = w, sh = h;
+	if (w / h > this.width / this.height) {
+	    sh = Math.round(this.height * w / this.width);
+	} else {
+	    sw = Math.round(this.width * h / this.height);
+	}
+	img.style.width = sw + 'px';
+	img.style.height = sh + 'px';
+	img.style.left = ((w - sw) / 2) + 'px';
+	img.style.top = ((h - sh) / 2) + 'px';
+    };
+    img.src = src;
+    img.name = src;
+    addTo(e,img);
+    return e;
+};
+
+var video = function(src) {
+    var e = newElement('video');
+    e.controls = "controls";
+    var source = newElement('source');
+    source.src = src;
+    var segs = src.split('.');
+    source.type = "video/" + segs[segs.length-1];
+    addTo(e, source);
+    e.style.display = "block";
+    return e;
+};
+
+function divify(e) {
+    var div = newElement('div');
+    addTo(div, e);
+    return div;
+};
+function goDown(e) {
+    return e //.tagName === "DIV" ? e : divify(e);
+};
+function goRight(e) {
+    e.style.styleFloat = "left";
+    e.style.cssFloat = "left";
+    return e;
+};
+function goIn(e) {
+    e.style.position = 'absolute';
+    return e;
+};
+function flowWith(f, prep, elist) {
+    var container = newElement('div');
+    for (var i = elist.length; i--; ) {
+	addTo(container, f(prep(elist[i])));
+    }
+    return container;
+};
+
+function flow(dir,elist) {
+    switch(dir) {
+    case "DDown":  elist = elist.slice(0).reverse();
+    case "DUp":    return flowWith(goDown,render,elist);
+    case "DRight": elist = elist.slice(0).reverse();
+    case "DLeft":  return flowWith(goRight,render,elist);
+    case "DOut":   elist = elist.slice(0).reverse();
+    case "DIn":    return flowWith(goIn,render,elist);
+    };
+};
+
+function toPos(pos) {
+    switch(pos[0]) {
+    case "Absolute": return  pos[1] + "px";
+    case "Relative": return (pos[1] * 100) + "%";
+    }
+}
+
+function setPos(pos,e) {
+  e.style.position = 'absolute';
+  e.style.margin = 'auto';
+  switch(pos[0]) {
+  case "Position":
+      if (pos[1][0] !== "Far")  e.style.left = 0;
+      if (pos[1][0] !== "Near") e.style.right = 0;
+      if (pos[2][0] !== "Far")  e.style.top = 0;
+      if (pos[2][0] !== "Near") e.style.bottom = 0;
+      break;
+  case "PositionAt":
+      e.style.top  = toPos(pos[2]);
+      e.style.left = toPos(pos[1]);
+      var shift = "translate(" + ~~(-e.style.width.slice(0,-2) / 2) + "px," + ~~(-e.style.height.slice(0,-2) / 2) + "px)";
+      e.style.transform       = shift;
+      e.style.msTransform     = shift;
+      e.style.MozTransform    = shift;
+      e.style.webkitTransform = shift;
+      e.style.OTransform      = shift;
+      break;
+  default:
+      var p = pos[0].slice(-2);
+      e.style[p[0] === "T" ? 'top' : 'bottom'] = toPos(pos[2]);
+      e.style[p[1] === "L" ? 'left' : 'right'] = toPos(pos[1]);
+  }
+}
+
+function container(pos,elem) {
+    var e = render(elem);
+    setPos(pos,e);
+    var div = newElement('div');
+    div.style.position = "relative";
+    div.style.overflow = "hidden";
+    addTo(div,e);
+    return div;
+};
+
+function render(elem) {
+    var e = {};
+    switch(elem[2][0]) {
+    case "EText":        e = makeText(elem[2][1],elem[2][2]); break;
+    case "EImage":       e = image(elem[2][1]); break;
+    case "EVideo":       e = video(elem[2][1]); break;
+    case "EFittedImage": e = fittedImage(elem[3],elem[4],elem[2][1]); break;
+    case "EFlow":        e = flow(elem[2][1][0],elem[2][2]); break;
+    case "ECollage":     e = Collage.collage(elem[2][1],elem[2][2],elem[2][3]); break;
+    case "EEmpty":       e = newElement('div'); break;
+    case "EContainer":   e = container(elem[2][1],elem[2][2]); break;
+    case "EHtml":
+	e = elem[2][1];
+	if (e.type !== 'button') {
+	    var p = Value.getExcess(e);
+	    elem[3] -= p[0];
+	    elem[4] -= p[1];
+	}
+	break;
+    case "EExternalHtml":
+	e = newElement('div');
+	addTo(e, elem[2][1]);
+	break;
+    }
+    e.id = elem[1];
+    e.style.width  = (~~elem[3]) + 'px';
+    e.style.height = (~~elem[4]) + 'px';
+    if (elem[5] !== 1) { e.style.opacity = elem[5]; }
+    if (elem[6][0] === "Just") {
+	e.style.backgroundColor = Elm.Color.extract(elem[6][1]);
+    }
+    if (elem[7][0] === "Just") {
+	var a = newElement('a');
+	a.href = elem[7][1];
+	addTo(a,e);
+	return a;
+    }
+    return e;
+};
+
+function update(node,curr,next) {
+    if (node.tagName === 'A') { node = node.firstChild; }
+    if (curr[1] === next[1]) return;
+    if (curr[2][0] !== next[2][0]) {
+	return node.parentNode.replaceChild(render(next),node);
+    }
+    var nextE = next[2], currE = curr[2];
+    switch(nextE[0]) {
+    case "EText":
+	if (nextE[1] !== currE[1]) node.style.textAlign = nextE[1];
+	if (nextE[2] !== currE[2]) node.innerHTML = nextE[2];
+	break;
+    case "EImage":
+	if (nextE[1] !== currE[1]) node.src = nextE[1];
+	break;
+    case "EVideo":
+    case "EFittedImage":
+	if (!Value.eq(nextE,currE) || next[3]!==curr[3] || next[4]!==curr[4]) {
+	    return node.parentNode.replaceChild(render(next),node);
+	}
+    break;
+    case "ECollage":
+	if (nextE[1] !== currE[1] || nextE[2] !== currE[2] || nextE[3].length !== currE[3].length) {
+	    return node.parentNode.replaceChild(render(next),node);
+	}
+	Collage.updateCollage(node,currE[3],nextE[3]);
+	break;
+    case "EFlow":
+	if (nextE[1] !== currE[1]) {
+	    return node.parentNode.replaceChild(render(next),node);
+	}
+	var nexts = nextE[2];
+	var kids = node.childNodes;
+	if (nexts.length !== kids.length) {
+	    return node.parentNode.replaceChild(render(next),node);
+	}
+	var currs = currE[2];
+	var goDir = function(x) { return x; };
+	switch(nextE[1][0]) {
+	case "DDown":  case "DUp":   goDir = goDown; break;
+	case "DRight": case "DLeft": goDir = goRight; break;
+	case "DOut":   case "DIn":   goDir = goIn; break;
+	}
+	for (var i = kids.length; i-- ;) {
+	    update(kids[i],currs[i],nexts[i]);
+	    goDir(kids[i]);
+	}
+	break;
+    case "EContainer":
+	update(node.childNodes[0],currE[2],nextE[2]);
+	setPos(nextE[1],node.childNodes[0]);
+	break;
+    case "EEmpty":
+	break;
+    case "EHtml":
+	if (next[1] !== curr[1]) {
+	    var e = render(next);
+	    node.parentNode.replaceChild(e,node);
+	    node = e;
+	}
+	if (e.type !== 'button') {
+	    var p = Value.getExcess(node);
+	    next[3] -= p[0];
+	    next[4] -= p[1];
+	}
+	break;
+    case "EExternalHtml":
+	if (next[1] !== curr[1])
+	    node.parentNode.replaceChild(render(next),node);
+	break;
+    }
+    if (next[3] !== curr[3]) node.style.width   = (~~next[3]) + 'px';
+    if (next[4] !== curr[4]) node.style.height  = (~~next[4]) + 'px';
+    if (next[5] !== curr[5]) node.style.opacity = next[5];
+    if (next[6].length === 2) {
+	var clr = Elm.Color.extract(next[6][1]);
+	if (clr !== node.style.backgroundColor) node.style.backgroundColor = clr;
+    }
+    if (next[7].length === 2) {
+	if (curr[7].length === 1 || next[7][1] !== curr[7][1]) node.parentNode.href = next[7][1];
+    }
+    next[1] = curr[1];
+}
+
+return {render:render,update:update,addTo:addTo,newElement:newElement,flowWith:flowWith,goIn:goIn};
+
+}(); 
+Elm.Signal = function() {
+  var send = function(node, timestep, changed) {
+    var kids = node.kids;
+    for (var i = kids.length; i--; ) {
+      kids[i].recv(timestep, changed, node.id);
+    }
+  };
+  /**
+   * @constructor
+   */
+  function input(base) {
+    this.id = Guid.guid();
+    this.value = base;
+    this.kids = [];
+    this.defaultNumberOfKids = 0;
+    this.recv = function(timestep, eid, v) {
+      var changed = eid === this.id;
+      if (changed) { this.value = v; }
+      send(this, timestep, changed);
+      return changed;
+    };
+    Dispatcher.inputs.push(this);
+  };
+  /**
+   * @constructor
+   */
+  function lift(func,args) {
+    this.id = Guid.guid();
+    this.value = null;
+    this.kids = [];
+    this.count = 0;
+    this.changed = false;
+    
+    args.reverse();
+    this.recalc = function() {
+	var f = func;
+	for (var i = args.length; i--; ) {
+	    f = f(args[i].value);
+	}
+	this.value = f;
+    };
+    this.recalc();
+    
+    this.recv = function(timestep, changed, parentID) {
+      this.count += 1;
+      if (changed) { this.changed = true; }
+      if (this.count == args.length) {
+	  if (this.changed) { this.recalc() }
+	  send(this, timestep, this.changed);
+	  this.changed = false;
+	  this.count = 0;
+      }
+    };
+    for (var i = args.length; i--; ) {
+      args[i].kids.push(this);
+    }
+  };
+  /**
+   * @constructor
+   */
+  function fold(func,base,baseIsFunc,input) {
+    this.id = Guid.guid();
+    this.value = baseIsFunc ? base(input.value) : base;
+    this.kids = [];
+    this.recv = function(timestep, changed, parentID) {
+      if (changed) { this.value = func(input.value)(this.value); }
+      send(this, timestep, changed);
+    };
+    input.kids.push(this);
+  };
+
+  /**
+   * @constructor
+   */
+  function dropIf(pred,base,input) {
+    this.id = Guid.guid();
+    this.value = pred(input.value) ? base : input.value;
+    this.kids = [];
+    this.recv = function(timestep, changed, parentID) {
+	var chng = changed && !pred(input.value);
+	if (chng) { this.value = input.value; }
+	send(this, timestep, chng);
+    };
+    input.kids.push(this);
+  };
+
+  /**
+   * @constructor
+   */
+  function dropRepeats(input) {
+      this.id = Guid.guid();
+      this.value = input.value;
+      this.kids = [];
+      this.recv = function(timestep, changed, parentID) {
+	  var chng = changed && !Value.eq(this.value,input.value);
+	  if (chng) { this.value = input.value; }
+	  send(this, timestep, chng);
+      };
+      input.kids.push(this);
+  };
+  
+  var dropWhen = function(s1) { return function(b) { return function(s2) {
+    var pairs = new lift(function(x){return function(y){return [x,y];};},[s1,s2]);
+    var dropped = new dropIf(function(p){return p[0];},[true,b],pairs);
+    return new lift(function(p){return p[1];},[dropped]); }; };
+  };
+
+  /**
+   * @constructor
+   */
+  function timeIndex(pair,s) {
+      this.id = Guid.guid();
+      var t = (new window.Date).getTime();
+      this.value = pair ? Value.Tuple(t,s.value) : t;
+      this.kids = [];
+      this.recv = function(timestep, changed, parentID) {
+	  if (changed) this.value = pair ? Value.Tuple(timestep, s.value) : timestep;
+	  send(this, timestep, changed);
+      };
+      s.kids.push(this);
+  }
+
+  /**
+   * @constructor
+   */
+  function sampleOn(s1,s2) {
+    this.id = Guid.guid();
+    this.value = s2.value;
+    this.kids = [];
+    this.count = 0;
+    this.changed = false;
+    
+    this.recv = function(timestep, changed, parentID) {
+	if (parentID === s1.id) this.changed = changed;
+	this.count += 1;
+	if (this.count == 2) {
+	    if (this.changed) { this.value = s2.value; }
+	    send(this, timestep, this.changed);
+	    this.count = 0;
+	    this.changed = false;
+	}
+    };
+    s1.kids.push(this);
+    s2.kids.push(this);
+  };
+
+  function delay(t) { return function(s) {
+      var delayed = new input(s.value);
+      var firstEvent = true;
+      function update(v) {
+	  if (firstEvent) return;
+	  setTimeout(function() { Dispatcher.notify(delayed.id,v); },t);
+      }
+      function first(a) { return function(b) { return a; }; }
+      var out = new sampleOn(delayed,new lift(first, [delayed, new lift(update,[s])]));
+      firstEvent = false;
+      return out;
+    };
+  }
+  
+  /**
+   * @constructor
+   */
+  function merge(s1,s2) {
+    this.id = Guid.guid();
+    this.value = s1.value;
+    this.kids = [];
+    this.next = null;
+    this.count = 0;
+    this.changed = false;
+    
+    this.recv = function(timestep, changed, parentID) {
+      this.count += 1;
+      if (changed) {
+	  this.changed = true;
+	  if (parentID == s2.id && this.next === null) { this.next = s2.value; }
+	  if (parentID == s1.id) { this.next = s1.value; }
+      }
+
+      if (this.count == 2) {
+	  if (this.changed) {
+	      this.value = this.next;
+	      this.next = null;
+	  }
+	  send(this, timestep, this.changed);
+	  this.changed = false;
+	  this.count = 0;
+      }
+    };
+    s1.kids.push(this);
+    s2.kids.push(this);
+  };
+
+  function merges(ss) {
+      function mrg(x) { return function(y) { return new merge(x,y); }; }
+      return Elm.List.foldl1(mrg)(ss);
+  }
+
+  function average(sampleSize) { return function(s) {
+    var sample = new Array(sampleSize);
+    var i = sampleSize;
+    while (i--) sample[i] = 0;
+    i = 0;
+    var full = false;
+    var total = 0;
+    function f(n) {
+	total += n - sample[i];
+	sample[i] = n;
+	var avg = total / Math.max(1, full ? sampleSize : i);
+	if (++i == sampleSize) { full = true; i = 0; }
+	return avg;
+    }
+    return new lift(f, [s]);
+   };
+  }
+
+  return {
+    constant : function(v) { return new input(v); },
+    lift  : function(f){return function(e){return new lift(f,[e]);};},
+    lift2 : function(f) {
+	      return function(e1) { return function(e2) {
+	      return new lift(f, [e1,e2]); };};},
+    lift3 : function(f) {
+	      return function(e1) { return function(e2) {
+	      return function(e3){return new lift(f,[e1,e2,e3]);};};};},
+    lift4 : function(f) {
+	      return function(e1) { return function(e2) {
+	      return function(e3) { return function(e4) {
+	      return new lift(f, [e1,e2,e3,e4]);};};};};},
+    lift5 : function(f) {
+	      return function(e1) { return function(e2) {
+	      return function(e3) { return function(e4) {
+	      return function(e5) {
+	      return new lift(f, [e1,e2,e3,e4,e5]);};};};};};},
+    lift6 : function(f) { return function(e1) { return function(e2) {
+              return function(e3) { return function(e4) {
+              return function(e5) { return function(e6) {
+	      return new lift(f, [e1,e2,e3,e4,e5,e6]); };};};};};};},
+    lift7 : function(f) { return function(e1) { return function(e2) {
+              return function(e3) { return function(e4) {
+              return function(e5) { return function(e6) {
+              return function(e7) {
+              return new lift(f, [e1,e2,e3,e4,e5,e6,e7]);};};};};};};};},
+    lift8 : function(f) { return function(e1) { return function(e2) {
+              return function(e3) { return function(e4) {
+              return function(e5) { return function(e6) {
+              return function(e7) { return function(e8) {
+              return new lift(f, [e1,e2,e3,e4,e5,e6,e7,e8]);};};};};};};};};},
+    foldp : function(f) { return function(b) { return function(e) {
+		  return new fold(f,b,false,e); }; }; },
+    foldp_ : function(f) { return function(b) { return function(e) {
+		  return new fold(f,b,true,e); }; }; },
+    foldp1 : function(f) { return function(e) {
+	      return new fold(f,function(x){return x;},true,e); }; },
+    delay : delay,
+    merge : function(s1) { return function(s2) { return new merge(s1,s2)}; },
+    merges : merges,
+    average : average,
+    count : function(sig) {
+	  var incr = function(_){return function(c){return c+1;};};
+	  return new fold(incr,0,false,sig) },
+    countIf : function(pred) { return function(sig) {
+	      var incr = function(x){return function(c){return pred(x) ? c+1 : c;};};
+	      return new fold(incr,0,false,sig) }; },
+    keepIf : function(pred) { return function(base) { return function(sig) {
+		  return new dropIf(function(x) { return !pred(x)},base,sig); }; }; },
+    dropIf : function(pred) { return function(base) { return function(sig) {
+		  return new dropIf(pred,base,sig); }; }; },
+    keepWhen : function(s) { return dropWhen(new lift(function(b){return !b;},[s])); },
+    dropWhen : dropWhen,
+    dropRepeats : function(s) { return new dropRepeats(s);},
+    sampleOn : function(s1){return function(s2){return new sampleOn(s1,s2);};},
+    timestamp : function(s) { return new timeIndex(true, s); },
+    timeOf : function(s) { return new timeIndex(false, s); }
+  };
+}();
+var Dispatcher = function() {
+    var program = null;
+    var inputs = [];
+    var currentElement = null;
+
+    var initialize = function() {
+	program = Elm.main();
+	if (!program.hasOwnProperty('recv')) {
+	    program = Elm.Signal.constant(program);
+	}
+
+	currentElement = program.value;
+	filterDeadInputs();
+
+	var content = document.getElementById('content');
+	content.appendChild(Render.render(currentElement));
+	var w = document.getElementById('widthChecker').offsetWidth;
+	if (w !== window.innerWidth) {
+	    Dispatcher.notify(Elm.Window.dimensions.id, Value.Tuple(w, window.innerHeight));
+	}
+	program = Elm.Signal.lift(function(value) {
+		var content = document.getElementById('content');
+		Render.update(content.firstChild,currentElement,value);
+		currentElement = value;
+		return value;
+	    })(program);
+    };
+    var notify = function(id, v) {
+	var timestep = (new window.Date).getTime();
+	var hasListener = false;
+	for (var i = inputs.length; i--; ) {
+	    hasListener = inputs[i].recv(timestep, id, v) || hasListener;
+	}
+	return hasListener;
+    };
+
+    function isAlive(input) {
+	if (!input.hasOwnProperty('defaultNumberOfKids')) return true;
+	var len = input.kids.length;
+	if (len == 0) return false;
+	if (len > input.defaultNumberOfKids) return true;
+	var alive = false;
+	for (var i = len; i--; ) {
+	    alive = alive || isAlive(input.kids[i]);
+	}
+	return alive;
+    }
+    function filterDeadInputs() {
+	var temp = [];
+	for (var i = inputs.length; i--; ) {
+	    if (isAlive(inputs[i])) temp.push(inputs[i]);
+	}
+	inputs = temp;
+    }
+
+    return {initialize:initialize, notify:notify, inputs:inputs};
+}();Elm.HTTP = function() {
+  var JS = Elm.JavaScript;
+  var toElmString = Elm.JavaScript.castJSStringToString;
+  function request(verb) { return function(url) { return function(data) {
+    return function(headers) {
+	return {0 : "Request",
+		length : 1,
+		verb : JS.castStringToJSString(verb),
+		url : JS.castStringToJSString(url),
+		data : data === null ? null : JS.castStringToJSString(data),
+		headers : headers }; }; }; };
+  }
+  function get(url) { return request("GET")(url)(null)(["Nil"]); }
+  function post(url) { return function(data) {
+	  return request("POST")(url)(data)(["Nil"]); }; }
+
+  function registerReq(queue,responses) { return function(req) {
+    if (req.url !== "") { sendReq(queue,responses,req); }
+   };
+  }
+
+  function updateQueue(queue,responses) {
+      if (queue.length > 0) {
+	Dispatcher.notify(responses.id, queue[0].value);
+        if (queue[0].value[0] !== "Waiting") {
+	  queue.shift();
+	  setTimeout(function() { updateQueue(queue,responses); }, 0);
+	}
+      }
+  }
+
+  function sendReq(queue,responses,req) {
+    var response = { value: ["Waiting"] };
+    queue.push(response);
+
+    var request = null;
+    if (window.ActiveXObject)  { request = new ActiveXObject("Microsoft.XMLHTTP"); }
+    if (window.XMLHttpRequest) { request = new XMLHttpRequest(); }
+    request.onreadystatechange = function(e) {
+	if (request.readyState === 4) {
+	    response.value = (request.status === 200
+			      ? ["Success", toElmString(request.responseText)]
+			      : ["Failure", request.status,
+				 toElmString(request.statusText)]);
+	    setTimeout(function() { updateQueue(queue,responses); }, 0);
+	}
+    };
+    request.open(req.verb, req.url, true);
+    Elm.List.map(function(pair) {
+	    request.setRequestHeader(
+		JS.castStringToJSString(pair[1]),
+		JS.castStringToJSString(pair[2]));
+	  })(req.headers);
+    request.send(req.data);
+    return null;
+  }
+
+  function send(requests) {
+    var responses = Elm.Signal.constant(["Waiting"]);
+    var sender = Elm.Signal.lift(registerReq([],responses))(requests);
+    function f(x) { return function(y) { return x; } }
+    var combine = Elm.Signal.lift2(f)(responses)(sender);
+    return combine;
+  }
+
+  return {get   : get,
+	  post  : post,
+	  request : request,
+	  send  : send,
+	  sendGet : function(urls){return send(Elm.Signal.lift(get)(urls));}
+	  };
+}();
+
+Elm.Input = function() {
+    var JS = Elm.JavaScript;
+    var toElmString = Elm.JavaScript.castJSStringToString;
+    var newTextInput = function(elem, ghostText) {
+	elem.placeholder = JS.castStringToJSString(ghostText);
+	var str = Elm.Signal.constant(["Nil"]);
+	Value.addListener(elem, 'keyup', function(e) {
+		Dispatcher.notify(str.id, toElmString(elem.value));
+		elem.focus();
+	    });
+	elem.style.padding = "1px";
+	return Value.Tuple(Value.wrap(elem), str);
+    };
+    var newElement = function(name) {
+	var e = document.createElement(name);
+	e.style.padding = "0";
+	e.style.margin = "0";
+	return e;
+    };
+    var textArea = function(cols) { return function(rows) {
+	    var textarea = newElement('textarea');
+	    textarea.rows = rows;
+	    textarea.cols = cols;
+	    return newTextInput(textarea, "");
+	};
+    };
+    var textField = function(ghostText) {
+	var field = newElement('input');
+	field.type = 'text';
+	return newTextInput(field, ghostText);
+    };
+    var password = function(ghostText) {
+	var field = newElement('input');
+	field.type = 'password';
+	return newTextInput(field, ghostText);
+    };
+    var checkbox = function(checked) {
+	var box = newElement('input');
+	box.type = 'checkbox';
+	box.checked = checked;
+	var status = Elm.Signal.constant(checked);
+	Value.addListener(box, 'change', function(e) {
+		Dispatcher.notify(status.id, box.checked);
+	    });
+	return Value.Tuple(Value.wrap(box), status);
+    };
+    var dropDown = function(options) {
+	var slct = newElement('select');
+	var opts = [];
+	while (options[0] === "Cons") {
+	    var opt = newElement('option');
+	    var str = Value.toText(options[1][1]);
+	    opt.value = str;
+	    opt.innerHTML = str;
+	    slct.appendChild(opt);
+	    opts.push(options[1][2]);
+	    options = options[2];
+	}
+	var status = Elm.Signal.constant(opts[0]);
+	Value.addListener(slct, 'change', function(e) {
+		Dispatcher.notify(status.id, opts[slct.selectedIndex]);
+	    });
+	return Value.Tuple(Value.wrap(slct), status);
+    };
+    var stringDropDown = function(opts) {
+	return dropDown(Elm.List.map (function(x) {return Value.Tuple(x,x);}) (opts));
+    };
+    var button = function(name) {
+	var b = newElement('input');
+	b.type = "button";
+	b.value = JS.castStringToJSString(name);
+	var press = Elm.Signal.constant(false);
+	Value.addListener(b, 'click', function(e) {
+		Dispatcher.notify(press.id, true);
+		Dispatcher.notify(press.id, false);
+	    });
+	return Value.Tuple(Value.wrap(b),press);
+    };
+    return {textArea:textArea, textField:textField,
+	    password:password, checkbox:checkbox,
+	    dropDown:dropDown, stringDropDown:stringDropDown,
+	    button:button};
+}();
+
+Elm.Keyboard = { Raw : function() {
+  var keysDown = Elm.Signal.constant(["Nil"]);
+  var charPressed = Elm.Signal.constant(["Nothing"]);
+  function remove(x,xs) {
+	if (xs[0] === "Nil") return xs;
+	if (xs[1] === x) return xs[2];
+	return ["Cons", xs[1], remove(x,xs[2])];
+  }
+  function has(x,xs) {
+	while (xs[0] !== "Nil") {
+	  if (xs[1] === x) return true;
+	  xs = xs[2];
+	}
+	return false;
+  }
+  Value.addListener(document, 'keydown', function(e) {
+	  if (has(e.keyCode, keysDown.value)) return;
+	  var hasListener = Dispatcher.notify(keysDown.id, ["Cons", e.keyCode, keysDown.value]);
+	  if (!hasListener)
+		this.removeEventListener('keydown',arguments.callee,false);
+	});
+  Value.addListener(document, 'keyup', function(e) {
+	  var codes = remove(e.keyCode, keysDown.value);
+	  var hasListener = Dispatcher.notify(keysDown.id, codes);
+	  if (!hasListener)
+		this.removeEventListener('keyup',arguments.callee,false);
+	});
+  Value.addListener(window, 'blur', function(e) {
+	  var hasListener = Dispatcher.notify(keysDown.id, ["Nil"]);
+	  if (!hasListener)
+		this.removeEventListener('blur',arguments.callee,false);
+	});
+  Value.addListener(document, 'keypress', function(e) {
+	  var hasListener = Dispatcher.notify(charPressed.id, ["Just",e.charCode || e.keyCode]);
+	  Dispatcher.notify(charPressed.id, ["Nothing"]);
+	  if (!hasListener)
+		this.removeEventListener('keypress',arguments.callee,false);
+	});
+  return {keysDown:keysDown,
+	  charPressed:charPressed};
+    }()
+};
+Elm.Mouse = function() {
+  var position  = Elm.Signal.constant(Value.Tuple(0,0));
+  position.defaultNumberOfKids = 2;
+
+  var x = Elm.Signal.lift(function(p){return p[1];})(position);
+  x.defaultNumberOfKids = 0;
+  var y = Elm.Signal.lift(function(p){return p[2];})(position);
+  y.defaultNumberOfKids = 0;
+
+  var isDown    = Elm.Signal.constant(false);
+  var isClicked = Elm.Signal.constant(false);
+  var clicks = Elm.Signal.constant(Value.Tuple());
+  
+  function getXY(e) {
+    var posx = 0;
+    var posy = 0;
+    if (!e) e = window.event;
+    if (e.pageX || e.pageY) {
+	posx = e.pageX;
+	posy = e.pageY;
+    } else if (e.clientX || e.clientY) 	{
+	posx = e.clientX + document.body.scrollLeft +
+	  document.documentElement.scrollLeft;
+	posy = e.clientY + document.body.scrollTop +
+	  document.documentElement.scrollTop;
+    }
+    return Value.Tuple(posx, posy);
+  }
+
+  Value.addListener(document, 'click', function(e) {
+	  var hasListener1 = Dispatcher.notify(isClicked.id, true);
+	  var hasListener2 = Dispatcher.notify(clicks.id, Value.Tuple());
+	  Dispatcher.notify(isClicked.id, false);
+	  if (!hasListener1 && !hasListener2)
+		this.removeEventListener('click',arguments.callee,false);
+	});
+  Value.addListener(document, 'mousedown', function(e) {
+	  var hasListener = Dispatcher.notify(isDown.id, true);
+	  if (!hasListener)
+		this.removeEventListener('mousedown',arguments.callee,false);
+	});
+  Value.addListener(document, 'mouseup', function(e) {
+	  var hasListener = Dispatcher.notify(isDown.id, false);
+	  if (!hasListener)
+		this.removeEventListener('mouseup',arguments.callee,false);
+	});
+  Value.addListener(document, 'mousemove', function(e) {
+	  var hasListener = Dispatcher.notify(position.id, getXY(e));
+	  if (!hasListener)
+		this.removeEventListener('mousemove',arguments.callee,false);
+	});
+  var clickedOn = function(elem) {
+	var node = Render.render(elem);
+	var click = Elm.Signal.constant(false);
+	Value.addListener(node, 'click', function(e) {
+		Dispatcher.notify(click.id, true);
+		Dispatcher.notify(click.id, false);
+	  });
+	return Value.Tuple(Value.wrap(node), click);
+  };
+  return {position: position,
+	  x:x,
+	  y:y,
+	  isClicked: isClicked,
+	  isDown: isDown,
+	  clicks: clicks,
+	  isClickedOn: clickedOn
+	  };
+  }();
+Elm.Random = function() {
+  var inRange = function(min) { return function(max) {
+      return Elm.Signal.constant(Math.floor(Math.random() * (max-min+1)) + min);
+    };
+  };
+  var randomize = function(min) { return function(max) { return function(signal) {
+      function f(x) { return Math.floor(Math.random() * (max-min+1)) + min; }
+      return Elm.Signal.lift(f)(signal);
+    };
+   };
+  };
+  return { inRange:inRange, randomize:randomize };
+}();Elm.Time = function() {
+  function timeNow() { return (new window.Date).getTime(); }
+  function everyWhen(isOn) { return function(t) {
+      var clock = Elm.Signal.constant(timeNow());
+      function tellTime() { Dispatcher.notify(clock.id, timeNow()); }
+      setInterval(tellTime, t);
+      return clock;
+    };
+  }
+  function fpsWhen(desiredFPS) { return function (isOn) {
+      var msPerFrame = 1000 / desiredFPS;
+      var prev = timeNow(), curr = prev, diff = 0, wasOn = true;
+      var ticker = Elm.Signal.constant(diff);
+      function tick(zero) { return function() {
+	  curr = timeNow();
+	  diff = zero ? 0 : curr - prev;
+	  prev = curr;
+	  Dispatcher.notify(ticker.id, diff);
+        };
+      }
+      var timeoutID = 0;
+      function f(isOn) { return function(t) {
+	if (isOn) {
+	    timeoutID = setTimeout(tick(!wasOn && isOn), msPerFrame);
+	} else if (wasOn) {
+	    clearTimeout(timeoutID);	    
+	}
+	wasOn = isOn;
+	return t;
+       };
+      }
+      return Elm.Signal.lift2(f)(isOn)(ticker);
+    };
+  }
+  function since(t) { return function(s) {
+	  function cmp(a) { return function(b) { return !Value.eq(a,b); }; }
+	  var dcount = Elm.Signal.count(Elm.Signal.delay(t)(s));
+	  return Elm.Signal.lift2(cmp)(Elm.Signal.count(s))(dcount);
+      };
+  }
+  function after(t) {
+      t *= 1000;
+      var thread = Elm.Signal.constant(false);
+      setTimeout(function() { Dispatcher.notify(thread.id, true); }, t);
+      return thread;
+  }
+  function before(t) {
+      t *= 1000;
+      var thread = Elm.Signal.constant(true);
+      setTimeout(function() { Dispatcher.notify(thread.id, false); }, t);
+      return thread;
+  }
+  function read(s) {
+      var t = window.Date.parse(s);
+      return isNaN(t) ? ["Nothing"] : ["Just",t];
+  }
+  return {fpsWhen : fpsWhen,
+	  fps : function(t) { return fpsWhen(t)(Elm.Signal.constant(true)); },
+	  every : everyWhen(Elm.Signal.constant(true)),
+	  delay : Elm.Signal.delay,
+	  since : since,
+	  after  : after,
+	  before : before,
+	  hour   : 3600000,
+	  minute : 60000,
+	  second : 1000,
+	  ms     : 1,
+	  inHours   : function(t) { return t / 3600000; },
+	  inMinutes : function(t) { return t / 60000; },
+	  inSeconds : function(t) { return t / 1000; },
+	  inMss     : function(t) { return t; },
+	  toDate : function(t) { return new window.Date(t); },
+	  read   : read
+  };
+
+}();Elm.Window = function() {
+  var dimensions = Elm.Signal.constant(Value.Tuple(window.innerWidth,
+						   window.innerHeight));
+  dimensions.defaultNumberOfKids = 2;
+
+  var width  = Elm.Signal.lift(function(p){return p[1];})(dimensions);
+  width.defaultNumberOfKids = 0;
+  var height = Elm.Signal.lift(function(p){return p[2];})(dimensions);
+  height.defaultNumberOfKids = 0;
+
+  Value.addListener(window, 'resize', function(e) {
+	  var w = document.getElementById('widthChecker').offsetWidth;
+	  var hasListener = Dispatcher.notify(dimensions.id,
+					      Value.Tuple(w, window.innerHeight));
+	  if (!hasListener)
+		this.removeEventListener('resize',arguments.callee,false);
+	});
+  return {dimensions:dimensions,width:width,height:height};
+}();
+
+Elm.Date = function() {
+
+ function dateNow() { return new window.Date; }
+ function readDate(str) {
+     var d = new window.Date(Elm.JavaScript.castStringToJSString(str));
+     if (isNaN(d.getTime())) return ["Nothing"];
+     return ["Just",d];
+ }
+
+ var dayTable = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+ var monthTable = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; 
+
+ return {
+     read    : readDate,
+     year    : function(d) { return d.getFullYear(); },
+     month   : function(d) { return [monthTable[d.getMonth()]]; },
+     day     : function(d) { return d.getDate(); },
+     hour    : function(d) { return d.getHours(); },
+     minute  : function(d) { return d.getMinutes(); },
+     second  : function(d) { return d.getSeconds(); },
+     dayOfWeek : function(d) { return [dayTable[d.getDay()]]; },
+     toTime  : function(d) { return d.getTime(); },
+     Mon : ["Mon"], Tue : ["Tue"], Wed : ["Wed"],
+     Thu : ["Thu"], Fri : ["Fri"], Sat : ["Sat"], Sun : ["Sun"],
+     Jan : ["Jan"], Feb : ["Feb"], Mar : ["Mar"], Apr : ["Apr"],
+     May : ["May"], Jun : ["Jun"], Jul : ["Jul"], Aug : ["Aug"],
+     Sep : ["Sep"], Oct : ["Oct"], Nov : ["Nov"], Dec : ["Dec"]
+ };
+
+}();
+
+Value.addListener(document, 'elm_log', function(e) { console.log(e.value); });
+Value.addListener(document, 'elm_title', function(e) {document.title = e.value;});
+Value.addListener(document, 'elm_redirect', function(e) {
+	if (e.value.length > 0) { window.location = e.value; }
+    });
+
+Elm.Prelude = function() {
+    var mod = function(x) { return function(y) {
+	    var r = x % y;
+	    var m = x==0 ? 0 : (y>0 ? (x>=0 ? r : r+y) : -mod(-x)(-y));
+	    return m == y ? 0 : m;
+	}; };
+
+    var min = function(x) { return function(y) { return Math.min(x,y); }; };
+    var max = function(x) { return function(y) { return Math.max(x,y); }; };
+    
+    var flip=function(f){return function(x){return function(y){return f(y)(x);};};};
+    var clamp = function(lo) { return function(hi) {
+	    return function(x) { return Math.min(hi, Math.max(lo, x)); }; 
+	};
+    };
+    var curry = function(f) { return function(x) { return function(y) {
+		return f(["Tuple2",x,y]); }; };
+    };
+    var uncurry = function(f) { return function(p) {
+	    if (p[0] !== "Tuple2") {
+		throw "Function was uncurry'd but was not given a pair.";
+	    }
+	    return f(p[1])(p[2]); };
+    };
+
+    var logBase=function(b){return function(x){return Math.log(x)/Math.log(b);};};
+
+    function readInt(str) {
+	var s = Elm.JavaScript.castStringToJSString(str);
+	var len = s.length;
+	if (len === 0) { return ["Nothing"]; }
+	var start = 0;
+	if (s[0] == '-') {
+	    if (len === 1) { return ["Nothing"]; }
+	    start = 1;
+	}
+	for (var i = start; i < len; ++i) {
+	    if (!Char.isDigit(s[i])) { return ["Nothing"]; }
+	}
+	return ["Just", parseInt(s)];
+    }
+
+    function readFloat(str) {
+	var s = Elm.JavaScript.castStringToJSString(str);
+	var len = s.length;
+	if (len === 0) { return ["Nothing"]; }
+	var start = 0;
+	if (s[0] == '-') {
+	    if (len === 1) { return ["Nothing"]; }
+	    start = 1;
+	}
+	var dotCount = 0;
+	for (var i = start; i < len; ++i) {
+	    if (Char.isDigit(s[i])) { continue; }
+	    if (s[i] === '.') {
+		dotCount += 1;
+		if (dotCount <= 1) { continue; }
+	    }
+	    return ["Nothing"];
+	}
+	return ["Just", parseFloat(s)];
+    }
+    
+    return {eq   : Value.eq,
+	    id   : function(x) { return x; },
+	    not  : function(b) { return !b; },
+	    fst  : function(p) { return p[1]; },
+	    snd  : function(p) { return p[2]; },
+	    rem  : function(x) { return function(y) { return x % y; }; },
+	    div  : function(x) { return function(y) { return ~~(x / y); }; },
+	    otherwise : true,
+	    compare : function(x) { return function (y) {
+		if (x instanceof Array && y instanceof Array) {
+		    var len = x.length;
+		    if (len == y.length) {
+			for (var i = 0; i < len; ++i) {
+			    var cmp = compare(x[i])(y[i]);
+			    if (cmp[0] === 'EQ') continue;
+			    return cmp;
+			}
+			return ['EQ'];
+		    }
+		}
+		return [ x === y ? 'EQ' : (x < y ? 'LT' : 'GT') ];
+	      };
+	    },
+	    toFloat : function(x) { return x; },
+	    round : function(n) { return Math.round(n); },
+	    floor : function(n) { return Math.floor(n); },
+	    ceiling : function(n) { return Math.ceil(n); },
+	    truncate : function(n) { return ~~n; },
+	    readInt : readInt,
+	    readFloat : readFloat,
+	    sqrt : Math.sqrt,
+	    abs  : Math.abs,
+	    pi   : Math.PI,
+	    e    : Math.E,
+	    sin  : Math.sin,
+	    cos  : Math.cos,
+	    tan  : Math.tan,
+	    asin : Math.asin,
+	    acos : Math.acos,
+	    atan : Math.atan,
+	    atan2 : function(y) { return function(x) { return Math.atan2(y,x); }; },
+	    mod  : mod,
+	    min  : min,
+	    max  : max,
+	    flip : flip,
+	    clamp : clamp,
+	    curry : curry,
+	    uncurry : uncurry,
+	    logBase : logBase,
+	    Just    : Elm.Maybe.Just,
+	    Nothing : Elm.Maybe.Nothing,
+	    maybe   : Elm.Maybe.maybe,
+	    map     : Elm.List.map,
+	    zip     : Elm.List.zip,
+	    zipWith : Elm.List.zipWith,
+	    filter  : Elm.List.filter,
+	    head    : Elm.List.head,
+	    tail    : Elm.List.tail,
+	    last    : Elm.List.last,
+	    length  : Elm.List.length,
+	    reverse : Elm.List.reverse,
+	    foldr   : Elm.List.foldr,
+	    foldr1  : Elm.List.foldr1,
+	    foldl   : Elm.List.foldl,
+	    foldl1  : Elm.List.foldl1,
+	    and     : Elm.List.and,
+	    or      : Elm.List.or,
+	    all     : Elm.List.all,
+	    any     : Elm.List.any,
+	    sum     : Elm.List.sum,
+	    product : Elm.List.product,
+	    concat  : Elm.List.concat,
+	    concatMap : Elm.List.concatMap,
+	    maximum : Elm.List.maximum,
+	    minimum : Elm.List.minimum,
+	    scanl   : Elm.List.scanl,
+	    scanl1  : Elm.List.scanl1,
+	    take    : Elm.List.take,
+	    drop    : Elm.List.drop,
+	    zip     : Elm.List.zip,
+	    unzip   : Elm.List.unzip,
+	    lift  : Elm.Signal.lift,
+	    lift2 : Elm.Signal.lift2,
+	    lift3 : Elm.Signal.lift3,
+	    lift4 : Elm.Signal.lift4,
+	    lift5 : Elm.Signal.lift5,
+	    lift6 : Elm.Signal.lift6,
+	    lift7 : Elm.Signal.lift7,
+	    lift8 : Elm.Signal.lift8,
+	    foldp : Elm.Signal.foldp,
+	    foldp1 : Elm.Signal.foldp1,
+	    foldp_ : Elm.Signal.foldp_,
+	    constant : Elm.Signal.constant,
+	    merge : Elm.Signal.merge,
+	    count : Elm.Signal.count,
+	    countIf : Elm.Signal.countIf,
+	    average : Elm.Signal.average,
+	    keepIf : Elm.Signal.keepIf,
+	    dropIf : Elm.Signal.dropIf,
+	    keepWhen : Elm.Signal.keepWhen,
+	    dropWhen : Elm.Signal.dropWhen,
+	    dropRepeats : Elm.Signal.dropRepeats,
+	    sampleOn : Elm.Signal.sampleOn,
+	    timestamp : Elm.Signal.timestamp,
+	    timeOf : Elm.Signal.timeOf
+	    };
+
+}();
+
+(function() {
+  var include = function(library) {
+    for (var i in library) {
+	Elm.Prelude[i] = library[i];
+    }
+  };
+  include (Elm.Color);
+  include (Elm.Text);
+  include (Elm.Graphics);
+  include (Elm.Time);
+
+  show = Value.show;
+  
+}());
+
+Elm.Dict=function(){
+ for(this['i'] in Elm.Prelude){
+     eval('var ' + this['i'] + '=Elm.Prelude[this.i];'); }
+ var isJust=Elm.Maybe.isJust;
+ var Red_0=["Red"];
+ var Black_1=["Black"];
+ function RBNode_2(a1){
+  return function(a2){
+   return function(a3){
+    return function(a4){
+     return function(a5){
+      return ["RBNode",a1,a2,a3,a4,a5];};};};};};
+ var RBEmpty_3=["RBEmpty"];
+ var empty_4=RBEmpty_3;
+ var raise_5=function(x){return x;};
+ function min_6(t_43){
+  return function(){
+  switch(t_43[0]){
+   case "RBEmpty":
+   return raise_5(Value.str("(min RBEmpty) is not defined"));
+   case "RBNode":
+   switch(t_43[4][0]){
+    case "RBEmpty":
+    return ["Tuple2",t_43[2],t_43[3]];
+   }
+   return min_6(t_43[4]);
+  }
+  throw "Non-exhaustive pattern match in case";}();};
+ function lookup_7(k_47){
+  return function(t_48){
+   return function(){
+   switch(t_48[0]){
+    case "RBEmpty":
+    return Nothing;
+    case "RBNode":
+    return function(){
+    var case6=compare(k_47)(t_48[2]);
+    switch(case6[0]){
+     case "EQ":
+     return Just(t_48[3]);
+     case "GT":
+     return lookup_7(k_47)(t_48[5]);
+     case "LT":
+     return lookup_7(k_47)(t_48[4]);
+    }
+    throw "Non-exhaustive pattern match in case";}();
+   }
+   throw "Non-exhaustive pattern match in case";}();};};
+ function findWithDefault_8(base_53){
+  return function(k_54){
+   return function(t_55){
+    return function(){
+    switch(t_55[0]){
+     case "RBEmpty":
+     return base_53;
+     case "RBNode":
+     return function(){
+     var case6=compare(k_54)(t_55[2]);
+     switch(case6[0]){
+      case "EQ":
+      return t_55[3];
+      case "GT":
+      return findWithDefault_8(base_53)(k_54)(t_55[5]);
+      case "LT":
+      return findWithDefault_8(base_53)(k_54)(t_55[4]);
+     }
+     throw "Non-exhaustive pattern match in case";}();
+    }
+    throw "Non-exhaustive pattern match in case";}();};};};
+ function member_10(k_66){
+  return function(t_67){
+   return isJust(lookup_7(k_66)(t_67));};};
+ function rotateLeft_11(t_68){
+  return function(){
+  switch(t_68[0]){
+   case "RBNode":
+   switch(t_68[5][0]){
+    case "RBNode":
+    return RBNode_2(t_68[1])(t_68[5][2])(t_68[5][3])(RBNode_2(Red_0)(t_68[2])(t_68[3])(t_68[4])(t_68[5][4]))(t_68[5][5]);
+   }break;
+  }
+  return raise_5(Value.str("rotateLeft of a node without enough children"));}();};
+ function rotateRight_12(t_78){
+  return function(){
+  switch(t_78[0]){
+   case "RBNode":
+   switch(t_78[4][0]){
+    case "RBNode":
+    return RBNode_2(t_78[1])(t_78[4][2])(t_78[4][3])(t_78[4][4])(RBNode_2(Red_0)(t_78[2])(t_78[3])(t_78[4][5])(t_78[5]));
+   }break;
+  }
+  return raise_5(Value.str("rotateRight of a node without enough children"));}();};
+ function rotateLeftIfNeeded_13(t_88){
+  return function(){
+  switch(t_88[0]){
+   case "RBNode":
+   switch(t_88[5][0]){
+    case "RBNode":
+    switch(t_88[5][1][0]){
+     case "Red":
+     return rotateLeft_11(t_88);
+    }break;
+   }break;
+  }
+  return t_88;}();};
+ function rotateRightIfNeeded_14(t_89){
+  return function(){
+  switch(t_89[0]){
+   case "RBNode":
+   switch(t_89[4][0]){
+    case "RBNode":
+    switch(t_89[4][1][0]){
+     case "Red":
+     switch(t_89[4][4][0]){
+      case "RBNode":
+      switch(t_89[4][4][1][0]){
+       case "Red":
+       return rotateRight_12(t_89);
+      }break;
+     }break;
+    }break;
+   }break;
+  }
+  return t_89;}();};
+ function otherColor_15(c_90){
+  return function(){
+  switch(c_90[0]){
+   case "Black":
+   return Red_0;
+   case "Red":
+   return Black_1;
+  }
+  throw "Non-exhaustive pattern match in case";}();};
+ function color_flip_16(t_91){
+  return function(){
+  switch(t_91[0]){
+   case "RBNode":
+   switch(t_91[4][0]){
+    case "RBNode":
+    switch(t_91[5][0]){
+     case "RBNode":
+     return RBNode_2(otherColor_15(t_91[1]))(t_91[2])(t_91[3])(RBNode_2(otherColor_15(t_91[4][1]))(t_91[4][2])(t_91[4][3])(t_91[4][4])(t_91[4][5]))(RBNode_2(otherColor_15(t_91[5][1]))(t_91[5][2])(t_91[5][3])(t_91[5][4])(t_91[5][5]));
+    }break;
+   }break;
+  }
+  return raise_5(Value.str("color_flip called on a RBEmpty or RBNode with a RBEmpty child"));}();};
+ function color_flipIfNeeded_17(t_105){
+  return function(){
+  switch(t_105[0]){
+   case "RBNode":
+   switch(t_105[4][0]){
+    case "RBNode":
+    switch(t_105[4][1][0]){
+     case "Red":
+     switch(t_105[5][0]){
+      case "RBNode":
+      switch(t_105[5][1][0]){
+       case "Red":
+       return color_flip_16(t_105);
+      }break;
+     }break;
+    }break;
+   }break;
+  }
+  return t_105;}();};
+ function fixUp_18(t_106){
+  return color_flipIfNeeded_17(rotateRightIfNeeded_14(rotateLeftIfNeeded_13(t_106)));};
+ function ensureBlackRoot_19(t_107){
+  return function(){
+  switch(t_107[0]){
+   case "RBNode":
+   switch(t_107[1][0]){
+    case "Red":
+    return RBNode_2(Black_1)(t_107[2])(t_107[3])(t_107[4])(t_107[5]);
+   }break;
+  }
+  return t_107;}();};
+ function insert_20(k_112){
+  return function(v_113){
+   return function(t_114){
+    return function(){
+     function ins_115(t_116){
+      return function(){
+      switch(t_116[0]){
+       case "RBEmpty":
+       return RBNode_2(Red_0)(k_112)(v_113)(RBEmpty_3)(RBEmpty_3);
+       case "RBNode":
+       return function(){
+        var h_122=function(){
+        var case6=compare(k_112)(t_116[2]);
+        switch(case6[0]){
+         case "EQ":
+         return RBNode_2(t_116[1])(t_116[2])(v_113)(t_116[4])(t_116[5]);
+         case "GT":
+         return RBNode_2(t_116[1])(t_116[2])(t_116[3])(t_116[4])(ins_115(t_116[5]));
+         case "LT":
+         return RBNode_2(t_116[1])(t_116[2])(t_116[3])(ins_115(t_116[4]))(t_116[5]);
+        }
+        throw "Non-exhaustive pattern match in case";}();
+        return fixUp_18(h_122);}();
+      }
+      throw "Non-exhaustive pattern match in case";}();};
+     return ensureBlackRoot_19(ins_115(t_114));}();};};};
+ function singleton_21(k_123){
+  return function(v_124){
+   return insert_20(k_123)(v_124)(RBEmpty_3);};};
+ function isRed_22(t_125){
+  return function(){
+  switch(t_125[0]){
+   case "RBNode":
+   switch(t_125[1][0]){
+    case "Red":
+    return true;
+   }break;
+  }
+  return false;}();};
+ function isRedLeft_23(t_126){
+  return function(){
+  switch(t_126[0]){
+   case "RBNode":
+   switch(t_126[4][0]){
+    case "RBNode":
+    switch(t_126[4][1][0]){
+     case "Red":
+     return true;
+    }break;
+   }break;
+  }
+  return false;}();};
+ function isRedLeftLeft_24(t_127){
+  return function(){
+  switch(t_127[0]){
+   case "RBNode":
+   switch(t_127[4][0]){
+    case "RBNode":
+    switch(t_127[4][4][0]){
+     case "RBNode":
+     switch(t_127[4][4][1][0]){
+      case "Red":
+      return true;
+     }break;
+    }break;
+   }break;
+  }
+  return false;}();};
+ function isRedRight_25(t_128){
+  return function(){
+  switch(t_128[0]){
+   case "RBNode":
+   switch(t_128[5][0]){
+    case "RBNode":
+    switch(t_128[5][1][0]){
+     case "Red":
+     return true;
+    }break;
+   }break;
+  }
+  return false;}();};
+ function isRedRightLeft_26(t_129){
+  return function(){
+  switch(t_129[0]){
+   case "RBNode":
+   switch(t_129[5][0]){
+    case "RBNode":
+    switch(t_129[5][4][0]){
+     case "RBNode":
+     switch(t_129[5][4][1][0]){
+      case "Red":
+      return true;
+     }break;
+    }break;
+   }break;
+  }
+  return false;}();};
+ function moveRedLeft_27(t_130){
+  return function(){
+   var t__131=color_flip_16(t_130);
+   return function(){
+   switch(t__131[0]){
+    case "RBNode":
+    return function(){
+    switch(t__131[5][0]){
+     case "RBNode":
+     switch(t__131[5][4][0]){
+      case "RBNode":
+      switch(t__131[5][4][1][0]){
+       case "Red":
+       return color_flip_16(rotateLeft_11(RBNode_2(t__131[1])(t__131[2])(t__131[3])(t__131[4])(rotateRight_12(t__131[5]))));
+      }break;
+     }break;
+    }
+    return t__131;}();
+   }
+   return t__131;}();}();};
+ function moveRedRight_28(t_137){
+  return function(){
+   var t__138=color_flip_16(t_137);
+   return (isRedLeftLeft_24(t__138)?color_flip_16(rotateRight_12(t__138)):t__138);}();};
+ function moveRedLeftIfNeeded_29(t_139){
+  return ((not(isRedLeft_23(t_139))&&not(isRedLeftLeft_24(t_139)))?moveRedLeft_27(t_139):t_139);};
+ function moveRedRightIfNeeded_30(t_140){
+  return ((not(isRedRight_25(t_140))&&not(isRedRightLeft_26(t_140)))?moveRedRight_28(t_140):t_140);};
+ function deleteMin_31(t_141){
+  return function(){
+   function del_142(t_143){
+    return function(){
+    switch(t_143[0]){
+     case "RBNode":
+     switch(t_143[4][0]){
+      case "RBEmpty":
+      return RBEmpty_3;
+     }break;
+    }
+    return function(){
+     var t__144=moveRedLeftIfNeeded_29(t_143);
+     return function(){
+     switch(t__144[0]){
+      case "RBEmpty":
+      return RBEmpty_3;
+      case "RBNode":
+      return fixUp_18(RBNode_2(t__144[1])(t__144[2])(t__144[3])(del_142(t__144[4]))(t__144[5]));
+     }
+     throw "Non-exhaustive pattern match in case";}();}();}();};
+   return ensureBlackRoot_19(del_142(t_141));}();};
+ function remove_32(k_150){
+  return function(t_151){
+   return function(){
+    function eq_and_noRightNode_152(t_153){
+     return function(){
+     switch(t_153[0]){
+      case "RBNode":
+      switch(t_153[5][0]){
+       case "RBEmpty":
+       return eq(k_150,t_153[2]);
+      }break;
+     }
+     return false;}();};
+    return function(){
+     function eq_155(t_156){
+      return function(){
+      switch(t_156[0]){
+       case "RBNode":
+       return eq(k_150,t_156[2]);
+      }
+      return false;}();};
+     return function(){
+      function delLT_158(t_159){
+       return function(){
+        var t__160=moveRedLeftIfNeeded_29(t_159);
+        return function(){
+        switch(t__160[0]){
+         case "RBEmpty":
+         return raise_5(Value.str("delLT on RBEmpty"));
+         case "RBNode":
+         return fixUp_18(RBNode_2(t__160[1])(t__160[2])(t__160[3])(del(t__160[4]))(t__160[5]));
+        }
+        throw "Non-exhaustive pattern match in case";}();}();};
+      return function(){
+       function delEQ_166(t_167){
+        return function(){
+        switch(t_167[0]){
+         case "RBEmpty":
+         return raise_5(Value.str("delEQ called on a RBEmpty"));
+         case "RBNode":
+         return function(){
+          var Tuple2$k_v__171=min_6(t_167[5]);
+          var k__172=function(){
+          switch(Tuple2$k_v__171[0]){
+           case "Tuple2":
+           return Tuple2$k_v__171[1];
+          }
+          throw "Non-exhaustive pattern match in case";}();
+          var v__173=function(){
+          switch(Tuple2$k_v__171[0]){
+           case "Tuple2":
+           return Tuple2$k_v__171[2];
+          }
+          throw "Non-exhaustive pattern match in case";}();
+          return fixUp_18(RBNode_2(t_167[1])(k__172)(v__173)(t_167[4])(deleteMin_31(t_167[5])));}();
+        }
+        throw "Non-exhaustive pattern match in case";}();};
+       return function(){
+        function delGT_178(t_179){
+         return function(){
+         switch(t_179[0]){
+          case "RBEmpty":
+          return raise_5(Value.str("delGT called on a RBEmpty"));
+          case "RBNode":
+          return fixUp_18(RBNode_2(t_179[1])(t_179[2])(t_179[3])(t_179[4])(del(t_179[5])));
+         }
+         throw "Non-exhaustive pattern match in case";}();};
+        return function(){
+         function del_185(t_186){
+          return function(){
+          switch(t_186[0]){
+           case "RBEmpty":
+           return RBEmpty_3;
+           case "RBNode":
+           return ((compare(k_150)(t_186[2])[0] === 'LT')?delLT_158(t_186):function(){
+            var t__188=(isRedLeft_23(t_186)?rotateRight_12(t_186):t_186);
+            return (eq_and_noRightNode_152(t__188)?RBEmpty_3:function(){
+             var t_189=moveRedRightIfNeeded_30(t_189);
+             return (eq_155(t_189)?delEQ_166(t_189):delGT_178(t_189));}());}());
+          }
+          throw "Non-exhaustive pattern match in case";}();};
+         return ensureBlackRoot_19(del_185(t_151));}();}();}();}();}();}();};};
+ function map_33(f_190){
+  return function(t_191){
+   return function(){
+   switch(t_191[0]){
+    case "RBEmpty":
+    return RBEmpty_3;
+    case "RBNode":
+    return RBNode_2(t_191[1])(t_191[2])(f_190(t_191[3]))(map_33(f_190)(t_191[4]))(map_33(f_190)(t_191[5]));
+   }
+   throw "Non-exhaustive pattern match in case";}();};};
+ function foldl_34(f_197){
+  return function(acc_198){
+   return function(t_199){
+    return function(){
+    switch(t_199[0]){
+     case "RBEmpty":
+     return acc_198;
+     case "RBNode":
+     return foldl_34(f_197)(f_197(t_199[2])(t_199[3])(foldl_34(f_197)(acc_198)(t_199[4])))(t_199[5]);
+    }
+    throw "Non-exhaustive pattern match in case";}();};};};
+ function foldr_35(f_204){
+  return function(acc_205){
+   return function(t_206){
+    return function(){
+    switch(t_206[0]){
+     case "RBEmpty":
+     return acc_205;
+     case "RBNode":
+     return foldr_35(f_204)(f_204(t_206[2])(t_206[3])(foldr_35(f_204)(acc_205)(t_206[5])))(t_206[4]);
+    }
+    throw "Non-exhaustive pattern match in case";}();};};};
+ function union_36(t1_211){
+  return function(t2_212){
+   return foldl_34(insert_20)(t2_212)(t1_211);};};
+ function intersect_37(t1_213){
+  return function(t2_214){
+   return foldl_34(function(k_215){
+    return function(v_216){
+     return function(t_217){
+      return (member_10(k_215)(t2_214)?insert_20(k_215)(v_216)(t_217):t_217);};};})(empty_4)(t1_213);};};
+ function diff_38(t1_218){
+  return function(t2_219){
+   return foldl_34(function(k_220){
+    return function(__221){
+     return function(t_222){
+      return remove_32(k_220)(t_222);};};})(t1_218)(t2_219);};};
+ function keys_39(t_223){
+  return foldl_34(function(k_224){
+   return function(__225){
+    return function(acc_226){
+     return ["Cons",k_224,acc_226];};};})(["Nil"])(t_223);};
+ function values_40(t_227){
+  return foldl_34(function(__228){
+   return function(x_229){
+    return function(y_230){
+     return ["Cons",x_229,y_230];};};})(["Nil"])(t_227);};
+ function toList_41(t_231){
+  return foldl_34(function(k_232){
+   return function(v_233){
+    return function(acc_234){
+     return ["Cons",["Tuple2",k_232,v_233],acc_234];};};})(["Nil"])(t_231);};
+ function fromList_42(assocs_235){
+  return List.foldl(uncurry(insert_20))(empty_4)(assocs_235);};
+ return {empty:empty_4,lookup:lookup_7,findWithDefault:findWithDefault_8,member:member_10,insert:insert_20,singleton:singleton_21,remove:remove_32,map:map_33,foldl:foldl_34,foldr:foldr_35,union:union_36,intersect:intersect_37,diff:diff_38,keys:keys_39,values:values_40,toList:toList_41,fromList:fromList_42};}();
+
+Elm.Set=function(){
+ var empty_0=Elm.Dict.empty;
+ var remove_3=Elm.Dict.remove;
+ var member_4=Elm.Dict.member;
+ var union_5=Elm.Dict.union;
+ var intersect_6=Elm.Dict.intersect;
+ var diff_7=Elm.Dict.diff;
+ var toList_8=Elm.Dict.keys;
+ var fromList_9=Elm.List.foldl(function(k_15){
+  return function(t_16){
+   return Elm.Dict.insert(k_15)(["Tuple0"])(t_16);};})(empty_0);
+ function singleton_1(k_13){
+  return Elm.Dict.singleton(k_13)(["Tuple0"]);};
+ function insert_2(k_14){
+  return Elm.Dict.insert(k_14)(["Tuple0"]);};
+ function foldl_10(f_17){
+  return Elm.Dict.foldl(function(k_18){
+   return function(v_19){
+    return function(b_20){
+     return f_17(k_18)(b_20);};};});};
+ function foldr_11(f_21){
+  return Elm.Dict.foldr(function(k_22){
+   return function(v_23){
+    return function(b_24){
+     return f_21(k_22)(b_24);};};});};
+ function map_12(f_25){
+  return function(t_26){
+   return function(x){
+    return fromList_9(Elm.List.map(f_25)(x));}(toList_8(t_26));};};
+ return {empty:empty_0,singleton:singleton_1,insert:insert_2,remove:remove_3,member:member_4,union:union_5,intersect:intersect_6,diff:diff_7,toList:toList_8,fromList:fromList_9,foldl:foldl_10,foldr:foldr_11,map:map_12};}();
+
+(function() {
+try{
+
+var $op={};
+for(this['i'] in Elm){eval('var '+this['i']+'=Elm[this.i];');}
+if (Elm.Automaton) throw "Module name collision, 'Automaton' is already defined."; 
+Elm.Automaton=function(){
+ try{
+  if (!(Elm.Prelude instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (this['i'] in Elm.Prelude) {
+  if (hiddenVars[this['i']]) continue;
+  eval('var ' + this['i'] + ' = Elm.Prelude[this.i];');}
+ function Automaton_0(a1){
+  return ["Automaton",a1];}
+ var Listen_8=["Listen"];
+ var Ignore_9=["Ignore"];
+ function DragFrom_10(a1){
+  return ["DragFrom",a1];}
+ $op['>>>'] = function(a1_24){
+  return function(a2_25){
+   return function(){
+    var Automaton$m1_26=a1_24;
+    var m1_27=function(){
+    switch(Automaton$m1_26[0]){
+     case "Automaton":
+     return Automaton$m1_26[1];
+    }
+    throw "Non-exhaustive pattern match in case";}();
+    var Automaton$m2_28=a2_25;
+    var m2_29=function(){
+    switch(Automaton$m2_28[0]){
+     case "Automaton":
+     return Automaton$m2_28[1];
+    }
+    throw "Non-exhaustive pattern match in case";}();
+    return Automaton_0(function(a_32){
+     return function(){
+      var Tuple2$bm1__33=m1_27(a_32);
+      var b_34=function(){
+      switch(Tuple2$bm1__33[0]){
+       case "Tuple2":
+       return Tuple2$bm1__33[1];
+      }
+      throw "Non-exhaustive pattern match in case";}();
+      var m1__35=function(){
+      switch(Tuple2$bm1__33[0]){
+       case "Tuple2":
+       return Tuple2$bm1__33[2];
+      }
+      throw "Non-exhaustive pattern match in case";}();
+      return function(){
+       var Tuple2$cm2__40=m2_29(b_34);
+       var c_41=function(){
+       switch(Tuple2$cm2__40[0]){
+        case "Tuple2":
+        return Tuple2$cm2__40[1];
+       }
+       throw "Non-exhaustive pattern match in case";}();
+       var m2__42=function(){
+       switch(Tuple2$cm2__40[0]){
+        case "Tuple2":
+        return Tuple2$cm2__40[2];
+       }
+       throw "Non-exhaustive pattern match in case";}();
+       return ["Tuple2",c_41,$op['>>>'](m1__35)(m2__42)];}();}();});}();};};
+ $op['<<<'] = function(a2_47){
+  return function(a1_48){
+   return $op['>>>'](a1_48)(a2_47);};};
+ $op['^>>'] = function(f_49){
+  return function(a_50){
+   return $op['>>>'](pure_4(f_49))(a_50);};};
+ $op['>>^'] = function(a_51){
+  return function(f_52){
+   return $op['>>>'](a_51)(pure_4(f_52));};};
+ $op['^<<'] = function(f_53){
+  return function(a_54){
+   return $op['>>>'](a_54)(pure_4(f_53));};};
+ $op['<<^'] = function(a_55){
+  return function(f_56){
+   return $op['>>>'](pure_4(f_56))(a_55);};};
+ var count_7=init_5(0)(function(__84){
+  return function(c_85){
+   return (1+c_85);};});
+ function run_1(Automaton$m0_14){
+  return function(input_15){
+   return function(){
+   switch(Automaton$m0_14[0]){
+    case "Automaton":
+    return lift(fst)(foldp_(function(a_17){
+     return function(Tuple2$bAutomaton$m_18){
+      return function(){
+      switch(Tuple2$bAutomaton$m_18[0]){
+       case "Tuple2":
+       switch(Tuple2$bAutomaton$m_18[2][0]){
+        case "Automaton":
+        return Tuple2$bAutomaton$m_18[2][1](a_17);
+       }break;
+      }
+      throw "Non-exhaustive pattern match in case";}();};})(Automaton$m0_14[1])(input_15));
+   }
+   throw "Non-exhaustive pattern match in case";}();};}
+ function step_2(Automaton$m_21){
+  return function(a_22){
+   return function(){
+   switch(Automaton$m_21[0]){
+    case "Automaton":
+    return Automaton$m_21[1](a_22);
+   }
+   throw "Non-exhaustive pattern match in case";}();};}
+ function combine_3(autos_57){
+  return Automaton_0(function(a_58){
+   return function(){
+    var Tuple2$bsautos__59=unzip(map(function(Automaton$m_62){
+     return function(){
+     switch(Automaton$m_62[0]){
+      case "Automaton":
+      return Automaton$m_62[1](a_58);
+     }
+     throw "Non-exhaustive pattern match in case";}();})(autos_57));
+    var bs_60=function(){
+    switch(Tuple2$bsautos__59[0]){
+     case "Tuple2":
+     return Tuple2$bsautos__59[1];
+    }
+    throw "Non-exhaustive pattern match in case";}();
+    var autos__61=function(){
+    switch(Tuple2$bsautos__59[0]){
+     case "Tuple2":
+     return Tuple2$bsautos__59[2];
+    }
+    throw "Non-exhaustive pattern match in case";}();
+    return ["Tuple2",bs_60,combine_3(autos__61)];}();});}
+ function pure_4(f_68){
+  return Automaton_0(function(x_69){
+   return ["Tuple2",f_68(x_69),pure_4(f_68)];});}
+ function init_5(s_70){
+  return function(step_71){
+   return Automaton_0(function(a_72){
+    return function(){
+     var s__73=step_71(a_72)(s_70);
+     return ["Tuple2",s__73,init_5(s__73)(step_71)];}();});};}
+ function init__6(s_74){
+  return function(step_75){
+   return Automaton_0(function(a_76){
+    return function(){
+     var Tuple2$bs__77=step_75(a_76)(s_74);
+     var b_78=function(){
+     switch(Tuple2$bs__77[0]){
+      case "Tuple2":
+      return Tuple2$bs__77[1];
+     }
+     throw "Non-exhaustive pattern match in case";}();
+     var s__79=function(){
+     switch(Tuple2$bs__77[0]){
+      case "Tuple2":
+      return Tuple2$bs__77[2];
+     }
+     throw "Non-exhaustive pattern match in case";}();
+     return ["Tuple2",b_78,init__6(s__79)(step_75)];}();});};}
+ function vecSub_11(Tuple2$x1y1_86){
+  return function(Tuple2$x2y2_87){
+   return function(){
+   switch(Tuple2$x1y1_86[0]){
+    case "Tuple2":
+    return function(){
+    switch(Tuple2$x2y2_87[0]){
+     case "Tuple2":
+     return ["Tuple2",(Tuple2$x1y1_86[1]-Tuple2$x2y2_87[1]),(Tuple2$x1y1_86[2]-Tuple2$x2y2_87[2])];
+    }
+    throw "Non-exhaustive pattern match in case";}();
+   }
+   throw "Non-exhaustive pattern match in case";}();};}
+ function stepDrag_12(Tuple2$presspos_92){
+  return function(Tuple2$dsform_93){
+   return function(){
+   switch(Tuple2$presspos_92[0]){
+    case "Tuple2":
+    return function(){
+    switch(Tuple2$dsform_93[0]){
+     case "Tuple2":
+     return function(){
+      function wrap_98(ds__99){
+       return ["Tuple2",Tuple2$dsform_93[2],["Tuple2",ds__99,Tuple2$dsform_93[2]]];}
+      return function(){
+      switch(Tuple2$dsform_93[1][0]){
+       case "DragFrom":
+       return (Tuple2$presspos_92[1]?["Tuple2",uncurry(move)(vecSub_11(Tuple2$presspos_92[2])(Tuple2$dsform_93[1][1]))(Tuple2$dsform_93[2]),["Tuple2",DragFrom_10(Tuple2$dsform_93[1][1]),Tuple2$dsform_93[2]]]:function(){
+        var form__101=uncurry(move)(vecSub_11(Tuple2$presspos_92[2])(Tuple2$dsform_93[1][1]))(Tuple2$dsform_93[2]);
+        return ["Tuple2",form__101,["Tuple2",Listen_8,form__101]];}());
+       case "Ignore":
+       return wrap_98((Tuple2$presspos_92[1]?Ignore_9:Listen_8));
+       case "Listen":
+       return wrap_98((not(Tuple2$presspos_92[1])?Listen_8:(isWithin(Tuple2$presspos_92[2])(Tuple2$dsform_93[2])?DragFrom_10(Tuple2$presspos_92[2]):Ignore_9)));
+      }
+      throw "Non-exhaustive pattern match in case";}();}();
+    }
+    throw "Non-exhaustive pattern match in case";}();
+   }
+   throw "Non-exhaustive pattern match in case";}();};}
+ function draggable_13(form_102){
+  return init__6(["Tuple2",Listen_8,form_102])(stepDrag_12);}
+ return {$op : {'>>>' : $op['>>>'], '<<<' : $op['<<<'], '^>>' : $op['^>>'], '>>^' : $op['>>^'], '^<<' : $op['^<<'], '<<^' : $op['<<^']},
+ run:run_1,
+ step:step_2,
+ combine:combine_3,
+ pure:pure_4,
+ init:init_5,
+ init_:init__6,
+ count:count_7,
+ draggable:draggable_13};}();
+Elm.main=function(){
+ return Elm.Automaton.main;};
+} catch (e) {
+Elm.main=function() {
+var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Automaton module:<br/>' + e + '</span>');
+document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}}());
+(function() {
+try{
+
+for(this['i'] in Elm) { eval('var ' + this['i'] + '=Elm[this.i];'); }
+Elm.Website=Elm.Website || {};
+if (Elm.Website.ColorScheme) throw "Module name collision, 'Website.ColorScheme' is already defined."; 
+Elm.Website.ColorScheme=function(){
+ try{if (!(Elm.Prelude instanceof Object)) throw 'module not found'; } catch(e) {throw "Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.";}
+ var hiddenVars={};
+ for(this['i'] in Elm.Prelude){
+  if (hiddenVars[i]) continue;
+  eval('var ' + this['i'] + ' = Elm.Prelude[this.i];');}
+ var accent0_0=rgb(90)(99)(120);
+ var accent1_1=rgb(96)(181)(204);
+ var accent2_2=rgb(240)(173)(0);
+ var accent3_3=rgb(234)(21)(122);
+ var accent4_4=rgb(127)(209)(59);
+ var lightGrey_5=rgb(245)(245)(245);
+ var mediumGrey_6=rgb(216)(221)(225);
+ return {accent0:accent0_0,accent1:accent1_1,accent2:accent2_2,accent3:accent3_3,accent4:accent4_4,lightGrey:lightGrey_5,mediumGrey:mediumGrey_6};}();
+Elm.main=function(){
+ return Elm.Website.ColorScheme.main;};
+} catch (e) {
+Elm.main=function() {
+var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Website.ColorScheme module:<br/>' + e + '</span>');
+document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}}());
+try{
+
+Elm.Website=Elm.Website || {};
+if (Elm.Website.Docs) throw "Module name collision, 'Website.Docs' is already defined."; 
+Elm.Website.Docs=function(){
+ var $op={};
+ for(Elm['i'] in Elm){eval('var '+Elm['i']+'=Elm[Elm.i];');}
+ try{
+  if (!(Elm.Prelude instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (Elm['i'] in Elm.Prelude) {
+  if (hiddenVars[Elm['i']]) continue;
+  eval('var ' + Elm['i'] + ' = Elm.Prelude[Elm.i];');}
+ try{
+  if (!(Elm.List instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'List' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var intersperse=Elm.List.intersperse;
+ var zipWith=Elm.List.zipWith;
+ try{
+  if (!(Elm.Website.ColorScheme instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (Elm['i'] in Elm.Website.ColorScheme) {
+  if (hiddenVars[Elm['i']]) continue;
+  eval('var ' + Elm['i'] + ' = Elm.Website.ColorScheme[Elm.i];');}
+ function topBar_1(k_11){
+  return function(n_12){
+   return function(){
+    var n__13=toFloat(n_12);
+    var k__14=toFloat(k_11);
+    var segs_15=map(function(i_18){
+     return round((n__13*(toFloat(i_18)/k__14)));})(function(){
+     var lo=1;
+     var hi=k_11;
+     var lst=["Nil"];if(lo<=hi){do{lst=['Cons',hi,lst]}while(hi-->lo)}
+     return lst;}());
+    var ws_16=zipWith(function(x_19){
+     return function(y_20){
+      return (x_19-y_20);};})(segs_15)(['Cons',0,segs_15]);
+    var accentCycle_17=concatMap(function(__21){
+     return accents_0;})(function(){
+     var lo=0;
+     var hi=div(k_11)(5);
+     var lst=["Nil"];if(lo<=hi){do{lst=['Cons',hi,lst]}while(hi-->lo)}
+     return lst;}());
+    return flow(right)(zipWith(function(c_22){
+     return function(w_23){
+      return color(c_22)(spacer(w_23)(5));};})(accentCycle_17)(ws_16));}();};}
+ function skeleton_2(body_24){
+  return function(outer_25){
+   return function(){
+    var content_26=body_24((outer_25-80));
+    return flow(down)(['Cons',topBar_1(10)(outer_25),['Cons',spacer(outer_25)(15),['Cons',container(outer_25)(heightOf(content_26))(midTop)(content_26),['Cons',function(x){
+     return container(outer_25)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText('&copy; 2011-2012 ')),Text.link(Value.str('https://github.com/evancz'))(toText('Evan Czaplicki')))),['Nil']]]]]);}();};}
+ function addSpaces_3(px_27){
+  return intersperse(spacer(1)(px_27));}
+ function section_4(s_28){
+  return function(x){
+   return bold(Text.height(s_28)(toText(x)));};}
+ function entry_5(f_29){
+  return function(w_30){
+   return function(Tuple3$nametypdesc_31){
+    return function(){
+    switch(Tuple3$nametypdesc_31[0]){
+     case 'Tuple3':
+     return function(){
+      var colons_35=Text.color(accent1)(toText(' :: '));
+      return function(){
+       var tipe_36=((compare(length(Tuple3$nametypdesc_31[2]))(0)[0] === 'GT')?Value.append(colons_35,toText(Tuple3$nametypdesc_31[2])):toText(''));
+       return flow(down)(['Cons',color(mediumGrey)(spacer(w_30)(1)),['Cons',function(x){
+        return width(w_30)(color(lightGrey)(text(monospace(x))));}(Value.append(bold(toText(Tuple3$nametypdesc_31[1])),tipe_36)),['Cons',flow(right)(['Cons',spacer(50)(10),['Cons',f_29((w_30-50))(Tuple3$nametypdesc_31[3]),['Nil']]]),['Nil']]]]);}();}();
+    }
+    throw "Non-exhaustive pattern match in case";}();};};}
+ function f1_6(w_37){
+  return function(c_38){
+   return flow(down)(['Cons',spacer(1)(10),['Cons',width(w_37)(plainText(c_38)),['Cons',spacer(1)(20),['Nil']]]]);};}
+ function f2_7(w_39){
+  return function(c_40){
+   return function(){
+    var c__41=width(w_39)(c_40);
+    var pos_42=topLeftAt(absolute(0))(absolute(-5));
+    return container(w_39)(heightOf(c__41))(pos_42)(c__41);}();};}
+ function group_8(f_43){
+  return function(w_44){
+   return function(Tuple2$namefs_45){
+    return function(){
+    switch(Tuple2$namefs_45[0]){
+     case 'Tuple2':
+     return flow(down)(['Cons',text(section_4((5/4))(Tuple2$namefs_45[1])),['Cons',spacer(1)(20),map(entry_5(f_43)(w_44))(Tuple2$namefs_45[2])]]);
+    }
+    throw "Non-exhaustive pattern match in case";}();};};}
+ function createDocs_9(name_48){
+  return function(cats_49){
+   return function(){
+    function f_50(w_51){
+     return flow(down)(['Cons',text(Text.link(Value.str('/Documentation.elm'))(toText('Back'))),['Cons',function(x){
+      return width(w_51)(centeredText(x));}(section_4(2)(name_48)),['Cons',spacer(1)(30),addSpaces_3(50)(map(group_8(f1_6)(w_51))(cats_49))]]]);}
+    return lift(skeleton_2(f_50))(Window.width);}();};}
+ function createDocs2_10(name_52){
+  return function(overview_53){
+   return function(cats_54){
+    return function(){
+     function f_55(w_56){
+      return flow(down)(['Cons',text(Text.link(Value.str('/Documentation.elm'))(toText('Back'))),['Cons',function(x){
+       return width(w_56)(centeredText(x));}(section_4(2)(name_52)),['Cons',width(w_56)(overview_53),['Cons',spacer(1)(30),addSpaces_3(50)(map(group_8(f2_7)(w_56))(cats_54))]]]]);}
+     return lift(skeleton_2(f_55))(Window.width);}();};};}
+ var accents_0=['Cons',accent0,['Cons',accent1,['Cons',accent2,['Cons',accent3,['Cons',accent4,['Nil']]]]]];
+ return {$op : {},
+ createDocs:createDocs_9,
+ createDocs2:createDocs2_10};}();
+Elm.main=function(){
+ return Elm.Website.Docs.main;};
+} catch (e) {
+Elm.main=function() {
+var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Website.Docs module:<br/>' + e + '<br/><br/>The problem may stem from an improper usage of:<br/>Text.color, accent0, accent1, accent2, accent3, accent4, lightGrey, mediumGrey</span>');
+document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}
+try{
+
+Elm.Website=Elm.Website || {};
+if (Elm.Website.Tiles) throw "Module name collision, 'Website.Tiles' is already defined."; 
+Elm.Website.Tiles=function(){
+ var $op={};
+ for(Elm['i'] in Elm){eval('var '+Elm['i']+'=Elm[Elm.i];');}
+ try{
+  if (!(Elm.Prelude instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (Elm['i'] in Elm.Prelude) {
+  if (hiddenVars[Elm['i']]) continue;
+  eval('var ' + Elm['i'] + ' = Elm.Prelude[Elm.i];');}
+ try{
+  if (!(Elm.List instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'List' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var take=Elm.List.take;
+ var drop=Elm.List.drop;
+ var intersperse=Elm.List.intersperse;
+ function format_0(Tuple3$xyz_7){
+  return function(){
+  switch(Tuple3$xyz_7[0]){
+   case 'Tuple3':
+   return ['Tuple3',Tuple3$xyz_7[1],Value.append(Tuple3$xyz_7[3],Value.append(Tuple3$xyz_7[2],Value.str('.elm'))),Value.append(Value.str('/screenshot/'),Value.append(Tuple3$xyz_7[2],Value.str('.jpg')))];
+  }
+  throw "Non-exhaustive pattern match in case";}();}
+ function toTile_2(info_11){
+  return function(){
+   var Tuple3$nameexpic_12=format_0(info_11);
+   var name_13=function(){
+   switch(Tuple3$nameexpic_12[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_12[1];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   var ex_14=function(){
+   switch(Tuple3$nameexpic_12[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_12[2];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   var pic_15=function(){
+   switch(Tuple3$nameexpic_12[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_12[3];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   var x_16=tileSize_1;
+   return Graphics.link(Value.append(Value.str('/edit/examples/'),ex_14))(flow(down)(['Cons',container(x_16)(x_16)(middle)(image((x_16-10))((x_16-10))(pic_15)),['Cons',function(x){
+    return width(x_16)(centeredText(x));}(toText(name_13)),['Nil']]]));}();}
+ function groups_3(n_26){
+  return function(lst_27){
+   return function(){
+   switch(lst_27[0]){
+    case 'Cons':
+    return ['Cons',take(n_26)(lst_27),groups_3(n_26)(drop(n_26)(lst_27))];
+    case 'Nil':
+    return ['Nil'];
+   }
+   throw "Non-exhaustive pattern match in case";}();};}
+ function tile_4(w_30){
+  return function(tiles_31){
+   return function(x){
+    return flow(down)(intersperse(spacer(1)(14))(map(flow(right))(x)));}(groups_3(div(w_30)(tileSize_1))(tiles_31));};}
+ function toMiniTile_5(info_32){
+  return function(){
+   var Tuple3$nameexpic_33=format_0(info_32);
+   var name_34=function(){
+   switch(Tuple3$nameexpic_33[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_33[1];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   var ex_35=function(){
+   switch(Tuple3$nameexpic_33[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_33[2];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   var pic_36=function(){
+   switch(Tuple3$nameexpic_33[0]){
+    case 'Tuple3':
+    return Tuple3$nameexpic_33[3];
+   }
+   throw "Non-exhaustive pattern match in case";}();
+   return Graphics.link(Value.append(Value.str('/edit/examples/'),ex_35))(container(100)(100)(middle)(image(90)(90)(pic_36)));}();}
+ function miniTiles_6(w_46){
+  return function(info_47){
+   return function(){
+    var tiles_48=map(toMiniTile_5)(info_47);
+    return function(x){
+     return flow(down)(intersperse(spacer(1)(14))(map(flow(right))(x)));}(groups_3(div(w_46)(100))(tiles_48));}();};}
+ var tileSize_1=130;
+ return {$op : {},
+ toTile:toTile_2,
+ tile:tile_4,
+ miniTiles:miniTiles_6};}();
+Elm.main=function(){
+ return Elm.Website.Tiles.main;};
+} catch (e) {
+Elm.main=function() {
+var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Website.Tiles module:<br/>' + e + '</span>');
+document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}
+try{
+
+Elm.Website=Elm.Website || {};
+if (Elm.Website.Skeleton) throw "Module name collision, 'Website.Skeleton' is already defined."; 
+Elm.Website.Skeleton=function(){
+ var $op={};
+ for(Elm['i'] in Elm){eval('var '+Elm['i']+'=Elm[Elm.i];');}
+ try{
+  if (!(Elm.Prelude instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (Elm['i'] in Elm.Prelude) {
+  if (hiddenVars[Elm['i']]) continue;
+  eval('var ' + Elm['i'] + ' = Elm.Prelude[Elm.i];');}
+ try{
+  if (!(Elm.Website.ColorScheme instanceof Object)) throw 'module not found';
+ } catch(e) {
+  throw ("Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+ }
+ var hiddenVars={};
+ for (Elm['i'] in Elm.Website.ColorScheme) {
+  if (hiddenVars[Elm['i']]) continue;
+  eval('var ' + Elm['i'] + ' = Elm.Website.ColorScheme[Elm.i];');}
+ var buttons_1=flow(right)(map(button_0)(["Cons",["Tuple3",Value.str("About"),Value.str("/About.elm"),accent1],["Cons",["Tuple3",Value.str("Examples"),Value.str("/Examples.elm"),accent2],["Cons",["Tuple3",Value.str("Docs"),Value.str("/Documentation.elm"),accent3],["Cons",["Tuple3",Value.str("Download"),Value.str("/Download.elm"),accent4],["Nil"]]]]]));
+ var veiwSource_3=text('<div style="height:0;width:0;">&nbsp;</div><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a><div style="height:0;width:0;">&nbsp;</div>');
+ function button_0(Tuple3$namehrefclr_6){
+  return function(){
+  switch(Tuple3$namehrefclr_6[0]){
+   case "Tuple3":
+   return function(){
+    var accent_10=color(Tuple3$namehrefclr_6[3])(spacer(100)(2));
+    return function(){
+     var butn_11=container(100)(58)(middle)(function(x){
+      return text(Text.color(black)(x));}(toText(Tuple3$namehrefclr_6[1])));
+     return Graphics.link(Tuple3$namehrefclr_6[2])(below(accent_10)(butn_11));}();}();
+  }
+  throw "Non-exhaustive pattern match in case";}();}
+ function title_2(w_12){
+  return function(){
+   var elm_13=function(x){
+    return text(Text.link(Value.str("/"))(Text.color(black)(Text.height(2)(bold(x)))));}(toText("Elm"));
+   return container(w_12)(60)(midLeft)(elm_13);}();}
+ function heading_4(outer_14){
+  return function(inner_15){
+   return function(){
+    var header_16=container(outer_14)(60)(middle)(beside(title_2((inner_15-widthOf(buttons_1))))(buttons_1));
+    return layers(["Cons",flow(down)(["Cons",color(lightGrey)(spacer(outer_14)(58)),["Cons",color(mediumGrey)(spacer(outer_14)(1)),["Nil"]]]),["Cons",header_16,["Cons",width(outer_14)(veiwSource_3),["Nil"]]]]);}();};}
+ function skeleton_5(bodyFunc_17){
+  return function(outer_18){
+   return function(){
+    var inner_19=((compare(outer_18)(820)[0] === 'LT')?(outer_18-20):800);
+    return function(){
+     var body_20=bodyFunc_17(inner_19);
+     return flow(down)(["Cons",heading_4(outer_18)(inner_19),["Cons",spacer(outer_18)(10),["Cons",container(outer_18)(heightOf(body_20))(middle)(body_20),["Cons",function(x){
+      return container(outer_18)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2012 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")))),["Nil"]]]]]);}();}();};}
+ return {$op : {},
+ button:button_0,
+ buttons:buttons_1,
+ title:title_2,
+ veiwSource:veiwSource_3,
+ heading:heading_4,
+ skeleton:skeleton_5};}();
+Elm.main=function(){
+ return Elm.Website.Skeleton.main;};
+} catch (e) {
+Elm.main=function() {
+var msg = ('<br/><h2>Your browser may not be supported. Are you using a modern browser?</h2>' + '<br/><span style="color:grey">Runtime Error in Website.Skeleton module:<br/>' + e + '<br/><br/>The problem may stem from an improper usage of:<br/>Text.color, accent1, accent2, accent3, accent4, below, beside, lightGrey, mediumGrey</span>');
+document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}

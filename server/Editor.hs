@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Editor (editor,ide) where
+module Editor (editor,ide,emptyIDE) where
 
 import Data.Monoid (mempty)
 import Text.Blaze.Html
@@ -23,6 +23,18 @@ ide fileName code =
                 , urlEncode code ++ "\" />\n</frameset>\n"
                 , "<frame src=\"/examples/Navigation.elm\" />\n"
                 , "</frameset>" ]
+
+-- | Display an editor and the compiled result side-by-side.
+emptyIDE :: Html
+emptyIDE =
+    H.docTypeHtml $ do
+      H.head $ do
+        H.title $ toHtml ("Try Elm" :: String)
+      preEscapedToMarkup $ 
+         concat [ "<frameset cols=\"50%,50%\">\n"
+                , "  <frame name=\"input\" src=\"/code/\" />\n"
+                , "  <frame name=\"output\" src=\"/Try.elm\" />\n"
+                , "</frameset>" :: String ]
 
 
 -- | Create an HTML document that allows you to edit and submit Elm code
