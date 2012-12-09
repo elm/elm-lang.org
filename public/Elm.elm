@@ -77,7 +77,7 @@ exampleText = [markdown|
 
 #### Examples
 
-Read, use, and edit real Elm programs. Think about how
+Read, use, and edit real Elm programs online. Think about how
 you would implement the same things with HTML, CSS, and JavaScript.
 Tons more examples can be found [here](/Examples.elm).
 
@@ -87,7 +87,11 @@ infoqDesc = [markdown|
 
 #### Making the Web Functional
 
-An introduction to Elm. Why you should care. How it works. How to make cool stuff.
+[An introduction to Elm][vid]. Why you should care. How it works. How to make cool stuff.
+The live examples came out a bit grainy, so follow along [here][exs].
+
+  [vid]: http://www.infoq.com/presentations/Elm "Elm at Emerging Languages Camp"
+  [exs]: https://github.com/evancz/elm-at-strangeloop#elm-at-strangeloop "Non-grainy Examples"
 
 |]
 
@@ -116,10 +120,9 @@ content w =
             , container w (heightOf tiles) middle tiles ]
 
 infoq w =
-  let { lnk = "http://www.infoq.com/presentations/Elm"
-      ; vid = layers [ image 320 240 "/infoq.jpg"
+  let lnk = "http://www.infoq.com/presentations/Elm"
+      vid = layers [ image 320 240 "/infoq.jpg"
                    , Graphics.link lnk $ spacer 320 240 ]
-      }
   in  width w infoqDesc `above` container w (heightOf vid) middle vid
 
 download w =
@@ -136,12 +139,13 @@ info w =
   let wid = (w-60) `div` 2
   in  flow down
        [ width w intro
-       , spacer 10 30
-       , flow right [ width wid features, spacer 60 10, width wid news ]
-       , spacer 10 50
+       , spacer 10 10
        , flow right [ content wid, spacer 60 10, infoq wid ]
-       , spacer 10 50
+       , spacer 10 40
+       , flow right [ width wid features, spacer 60 10, width wid news ]
+       , spacer 10 40
        , flow right [ width wid contact, spacer 60 10, download wid ]
+       , spacer 10 40
        ]
 
 main = lift (skeleton info) Window.width
