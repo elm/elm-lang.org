@@ -50,16 +50,31 @@ editor filePath code =
                 \  var input = document.getElementById('editor_theme');\n\
                 \  var theme = input.options[input.selectedIndex].innerHTML;\n\
                 \  editor.setOption('theme', theme);\n\
+                \};\n\
+                \function setZoom() {\n\
+                \  var editorDiv = document.getElementsByClassName('CodeMirror')[0];\n\
+                \  var classes = editorDiv.getAttribute('class').split(' ');\n\
+                \  var input = document.getElementById('editor_zoom');\n\
+                \  var zoom = 'zoom-' + input.options[input.selectedIndex].innerHTML;\n\
+                \  var newClasses = [];\n\
+                \  for (var i = 0; i < classes.length; i++)\n\
+                \    if (!(classes[i].match(/^zoom-/)))\n\
+                \      newClasses.push(classes[i]);\n\
+                \  newClasses.push(zoom);\n\
+                \  editorDiv.setAttribute('class', newClasses.join(' '));\n\
                 \};"                 
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
                H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n' : code)
                H.div ! A.id "editor_options" $ do
-                 "Theme: "
-                 H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ do
-                   let optionFor :: String -> Html
-                       optionFor theme = H.option ! A.value (toValue theme) $ toHtml theme
-                     in mapM_ (optionFor) themes
+                 let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
+                   in do
+                     "Theme: "
+                     H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ do
+                       mapM_ (optionFor) themes
+                     " Zoom: "
+                     H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ do
+                       mapM_ (optionFor) ["normal", "larger", "largest"]
                H.div ! A.id "compile_options" $ do
                  "Compile: "
                  H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
@@ -72,6 +87,9 @@ editorCss = preEscapedToMarkup $
     ("body { margin: 0; }\n\
      \.CodeMirror-scroll { height: 100%; }\n\
      \form { margin-bottom: 0; }\n\
+     \.zoom-normal { font-size: 100%; }\n\
+     \.zoom-larger { font-size: 150%; }\n\
+     \.zoom-largest { font-size: 200%; }\n\
      \#compile_options, #editor_options {\n\
      \   position: fixed;\n\
      \   bottom: 0;\n\
