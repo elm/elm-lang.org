@@ -1,7 +1,9 @@
 
-(fld, txt) = Input.textField "Type here!"
+import List
+import Input (textField)
 
-main = lift2 above (constant fld) (lift showLen txt)
+main = let (fld, txt) = Input.textField "Type here!" in
+  lift2 above (constant fld) (lift showLen txt)
 
 showLen n =
   text . monospace . toText $
