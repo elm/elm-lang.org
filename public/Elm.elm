@@ -99,8 +99,8 @@ downloadText = [markdown|
 
 #### Get Started!
 
-Download Elm and start using it now. Or just start using
-Elm&rsquo;s [online compiler](/try) with no set-up at all.
+Download Elm and start using it now. Or [Try Elm](/try) online
+with no set-up at all.
 |]
 
 examples = map (\(x,y) -> (x, y, "Intermediate/"))
