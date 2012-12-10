@@ -38,7 +38,7 @@ emptyIDE =
 
 
 -- | list of themes to use with CodeMirror
-themes = [ "cobalt", "default", "elegant", "neat", "night" ]
+themes = [ "cobalt", "night", "default", "elegant" ]
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
@@ -78,19 +78,17 @@ editor filePath code =
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
                H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n' : code)
-               H.div ! A.id "editor_options" $ do
-                 let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
-                   in do
-                     "Theme: "
-                     H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ do
-                       mapM_ (optionFor) themes
-                     " Zoom: "
-                     H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ do
-                       mapM_ (optionFor) ["normal", "larger", "largest"]
-               H.div ! A.id "compile_options" $ do
-                 "Compile: "
-                 H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
-                 H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
+               H.div ! A.id "options" $ do
+                 H.div ! A.style "float:left;" $ do
+                   let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
+                   do "Theme: "
+                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor themes
+                      " Zoom: "
+                      H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ mapM_ optionFor ["normal", "larger", "largest"]
+                 H.div ! A.style "float: right; padding-right: 6px;" $ do
+                   "Compile: "
+                   H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
+                   H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
         H.script ! A.type_ "text/javascript" $ editorJS
 
 -- | CSS needed to style the CodeMirror frame.
@@ -102,19 +100,14 @@ editorCss = preEscapedToMarkup $
      \.zoom-normal { font-size: 100%; }\n\
      \.zoom-larger { font-size: 150%; }\n\
      \.zoom-largest { font-size: 200%; }\n\
-     \#compile_options, #editor_options {\n\
-     \   position: fixed;\n\
-     \   bottom: 0;\n\
-     \   background-color: rgb(208,208,208);//#b5b7b8;\n\
+     \#options {\n\
+     \   background-color: rgb(216,221,225);\n\
      \   padding: 4px;\n\
      \   font-family: Arial;\n\
      \   font-size: 14px;\n\
-     \}\n\
-     \#compile_options {\n\
-     \   right: 0;\n\
-     \}\n\
-     \#editor_options {\n\
-     \   left: 0;\n\
+     \   position: fixed;\n\
+     \   bottom: 0;\n\
+     \   width: 100%;\n\
      \}" :: String)
 
 -- | JS needed to set up CodeMirror.
