@@ -11,7 +11,7 @@ only need to think about the content.
 
 ### Set up
 
-First make sure that you have the ELm compiler installed ([directions](https://github.com/evancz/Elm#elm)).
+First make sure that you have the Elm compiler installed ([directions](https://github.com/evancz/Elm#elm)).
 
 Then follow these steps to get this all running on your local machine:
 
