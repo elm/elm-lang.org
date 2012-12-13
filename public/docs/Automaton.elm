@@ -25,11 +25,20 @@ misc =
   , ("draggable", "Form -> Automaton (Bool,(Int,Int)) Form", "Create a draggable form that can be dynamically created and added to a scene.")
   ]
 
+combine2 =
+  [ ("(^>>)", "(a -> b) -> Automaton b c -> Automaton a c", "Turn a pure function into an automaton and compose it with an existing automaton.")
+  , ("(>>^)", "Automaton a b -> (b -> c) -> Automaton a c", "")
+  , ("(<<^)", "Automaton b c -> (a -> b) -> Automaton a c", "")
+  , ("(^<<)", "(b -> c) -> Automaton a b -> Automaton a c", "")
+  ]
+
+
 categories = 
   [ ("Create", create)
   , ("Evaluate", eval)
   , ("Combine", combine)
   , ("Pre-defined Automatons", misc)
+  , ("Composition Helpers", combine2)
   ]
 
 main = createDocs "Automaton" categories

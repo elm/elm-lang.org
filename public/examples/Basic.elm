@@ -116,6 +116,9 @@ words = [markdown|
 
 Each example listed below focuses on a single function or concept.
 These examples demonstrate all of the basic building blocks of Elm.
+For more details on the syntax of Elm, take a look at [The Syntax of Elm][syntax].
+
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
 |]
 

@@ -15,7 +15,7 @@ certain skills:
 
 [Intermediate][2] &#8212; building components with Elm
 
-[Syntax][3] &#8212; the syntax of Elm and some larger examples
+[Syntax][3] &#8212; the [syntax of Elm][syntax] and some larger examples
 
 [Elm + JavaScript][4] &#8212; use existing JavaScript libraries, features, etc.
 
@@ -35,6 +35,7 @@ certain skills:
   [6]: /examples/ThisWebsite.elm "This Website"
   [7]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
 
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 |]
 
 content w = width w words

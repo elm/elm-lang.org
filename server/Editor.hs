@@ -38,7 +38,7 @@ emptyIDE =
 
 
 -- | list of themes to use with CodeMirror
-themes = [ "cobalt", "night", "default", "elegant" ]
+themes = [ "cobalt", "night", "default" ]
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.

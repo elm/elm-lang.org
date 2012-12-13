@@ -13,9 +13,7 @@ ramp up in difficulty, taking you from beginner to expert.
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
 
-* [Escape from Callback Hell][efch]
-
-* [What do I need to learn to master Elm?][wiki]
+* [What is the syntax of Elm?][syntax]
 
 * [How do I set up Elm on my machine?][install]
 
@@ -23,12 +21,14 @@ ramp up in difficulty, taking you from beginner to expert.
 
 * [How can I create a larger interactive project with Elm?][pong]
 
+* [Escape from Callback Hell][efch]
+
 * What new features came out in each version of the compiler?
-  [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5].
+  [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5], [0.6][6]
 
 * [What is the theory behind FRP in Elm?][thesis] (PDF)
 
-  [wiki]: https://github.com/evancz/Elm/wiki "wiki"
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
   [frp]: /learn/What-is-FRP.elm "What is FRP?"
   [efch]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
@@ -42,6 +42,7 @@ ramp up in difficulty, taking you from beginner to expert.
   [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/ "JSON"
   [4]: /blog/announce/version-0.4.0.elm "Graphics Upgrade"
   [5]: /blog/announce/version-0.5.0.elm "Libraries"
+  [6]: /blog/announce/version-0.6.elm "Time, Date, and Syntax"
 
 <br/>
 

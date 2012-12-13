@@ -53,13 +53,18 @@ outro = [markdown|
 
 <br/>
 
-### More Info
+### Syntax, Semantics, and More
+
+[The Syntax of Elm][syntax] is a brief overview of all of Elm&rsquo;s syntax.
+
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
+
+My [thesis][4] discusses the semantics of FRP in
+Elm and how to make FRP efficient. It also provides a
+detailed history of FRP in the *Related Works* section.
 
 Look [here](/learn/What-is-FRP.elm) to answer the question
 &ldquo;What is Functional Reactive Programming?&rdquo;
-
-My [thesis][4] discusses the theory behind FRP in Elm and how to make FRP efficient. It also provides a
-detailed history of FRP in the *Related Works* section.
 
 [This blog][1] is the source of some discussion and
 announcements. It also has more detailed information on the [module system][2]
