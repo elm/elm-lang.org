@@ -159,7 +159,7 @@ very quickly. For instance, you could only send HTTP requests if the user input
 has been stable for half a second. Or you could only use mouse values if the
 mouse has been stable for 10 milliseconds.
 
-The Time libray also includes some helpers based on the `delay` function:
+The Time library also includes some helpers based on the `delay` function:
 
         since :: Time -> Signal a -> Signal Bool
         after :: Time -> Signal a -> Signal Bool
