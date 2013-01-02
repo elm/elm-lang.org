@@ -38,7 +38,7 @@ emptyIDE =
 
 
 -- | list of themes to use with CodeMirror
-themes = [ "cobalt", "night", "default", "elegant" ]
+themes = [ "cobalt", "night", "elegant" ]
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
@@ -47,10 +47,10 @@ editor filePath code =
     H.html $ do
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
-        H.link ! A.rel "stylesheet" ! A.href "/CodeMirror-2.13/lib/codemirror.css"
-        H.script ! A.src "/CodeMirror-2.13/lib/codemirror.js" $ mempty
-        H.script ! A.src "/CodeMirror-2.13/mode/haskell/haskell.js" $ mempty
-        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/CodeMirror-2.13/theme/" ++ theme ++ ".css" :: String))) themes
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.0/lib/codemirror.css"
+        H.script ! A.src "/codemirror-3.0/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.0/mode/haskell/haskell.js" $ mempty
+        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.0/theme/" ++ theme ++ ".css" :: String))) themes
         H.style ! A.type_ "text/css" $ editorCss
         H.script ! A.type_ "text/javascript" $
                 "function compile(formTarget) {\n\
@@ -95,7 +95,7 @@ editor filePath code =
 editorCss :: Markup
 editorCss = preEscapedToMarkup $
     ("body { margin: 0; }\n\
-     \.CodeMirror-scroll { height: 100%; }\n\
+     \.CodeMirror { height: 100%; }\n\
      \form { margin-bottom: 0; }\n\
      \.zoom-normal { font-size: 100%; }\n\
      \.zoom-larger { font-size: 150%; }\n\
@@ -117,11 +117,5 @@ editorJS =
     \lineNumbers: false,\
     \matchBrackets: true,\
     \theme: 'cobalt',\
-    \tabMode: 'shift',\
-    \onCursorActivity: function() {\
-    \editor.setLineClass(hlLine, null);\
-    \hlLine = editor.setLineClass(editor.getCursor().line, 'activeline');\
-    \}\
     \});\
-    \var hlLine = editor.setLineClass(0, 'activeline');\
     \editor.focus();"
