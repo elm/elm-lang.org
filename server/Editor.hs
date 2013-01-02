@@ -58,6 +58,18 @@ editor filePath code =
                 \  form.target = formTarget;\n\
                 \  form.submit();\n\
                 \};\n\
+                \var delay;\
+                \function toggleAutoUpdate(enable) {\n\
+                \  if (enable) {\
+                \    editor.on('change', updateOutput);\n\
+                \  } else {\
+                \    editor.off('change', updateOutput);\n\
+                \  }\
+                \};\n\
+                \function updateOutput() {\
+                  \clearTimeout(delay);\
+                  \delay = setTimeout(function(){compile('output');}, 300);\
+                \};\n\
                 \function setTheme() {\n\
                 \  var input = document.getElementById('editor_theme');\n\
                 \  var theme = input.options[input.selectedIndex].innerHTML;\n\
@@ -89,6 +101,8 @@ editor filePath code =
                    "Compile: "
                    H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
                    H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
+                   " Auto update: "
+                   H.input ! A.type_ "checkbox" ! A.onchange "toggleAutoUpdate(this.checked)"
         H.script ! A.type_ "text/javascript" $ editorJS
 
 -- | CSS needed to style the CodeMirror frame.
