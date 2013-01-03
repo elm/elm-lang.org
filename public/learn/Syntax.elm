@@ -136,7 +136,7 @@ the [initial announcement][v7], or [this academic paper][records].
     point = { x = 3, y = 4 }       -- create a record
 
     point.x                        -- access field
-    map .x [point,{x=0,x=0}]       -- field access function
+    map .x [point,{x=0,y=0}]       -- field access function
 
     { point - x }                  -- remove field
     { point | z = 12 }             -- add field
@@ -153,6 +153,8 @@ the [initial announcement][v7], or [this academic paper][records].
     lib = { id x = x }             -- polymorphic fields
     (lib.id 42 == 42)
     (lib.id [] == [])
+
+    data Located a = Located {line :: Int, column :: Int} a
 
 ### Functions
 

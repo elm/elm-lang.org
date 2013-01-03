@@ -20,7 +20,7 @@ skeleton body outer =
             , spacer outer 15
             , container outer (heightOf content) midTop content
             , container outer 50 midBottom . text $
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2012 ") ++
+                Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
                     Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
             ]
 

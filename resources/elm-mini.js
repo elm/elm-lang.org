@@ -4047,7 +4047,7 @@ Elm.Website.Docs=function(){
    return function(){
     var content_26=body_24((outer_25-80));
     return flow(down)(['Cons',topBar_1(10)(outer_25),['Cons',spacer(outer_25)(15),['Cons',container(outer_25)(heightOf(content_26))(midTop)(content_26),['Cons',function(x){
-     return container(outer_25)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText('&copy; 2011-2012 ')),Text.link(Value.str('https://github.com/evancz'))(toText('Evan Czaplicki')))),['Nil']]]]]);}();};}
+     return container(outer_25)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText('&copy; 2011-2013 ')),Text.link(Value.str('https://github.com/evancz'))(toText('Evan Czaplicki')))),['Nil']]]]]);}();};}
  function addSpaces_3(px_27){
   return intersperse(spacer(1)(px_27));}
  function section_4(s_28){
@@ -4274,7 +4274,7 @@ Elm.Website.Skeleton=function(){
     return function(){
      var body_20=bodyFunc_17(inner_19);
      return flow(down)(["Cons",heading_4(outer_18)(inner_19),["Cons",spacer(outer_18)(10),["Cons",container(outer_18)(heightOf(body_20))(middle)(body_20),["Cons",function(x){
-      return container(outer_18)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2012 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")))),["Nil"]]]]]);}();}();};}
+      return container(outer_18)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2013 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")))),["Nil"]]]]]);}();}();};}
  return {$op : {},
  button:button_0,
  buttons:buttons_1,

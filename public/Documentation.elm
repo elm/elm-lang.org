@@ -55,6 +55,9 @@ outro = [markdown|
 
 ### Syntax, Semantics, and More
 
+There are more in depth introductions to many of the concepts in Elm in [the
+About section](/About.elm).
+
 [The Syntax of Elm][syntax] is a brief overview of all of Elm&rsquo;s syntax.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"

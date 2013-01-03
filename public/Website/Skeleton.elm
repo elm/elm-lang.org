@@ -41,6 +41,6 @@ skeleton bodyFunc outer =
             , spacer outer 10
             , container outer (heightOf body) middle body
             , container outer 50 midBottom . text $
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2012 ") ++
+                Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
                     Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
             ]

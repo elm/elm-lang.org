@@ -11,28 +11,23 @@ Each one focuses on a specific question, and aims to increase your
 general understanding. When read in sequence, they should slowly
 ramp up in difficulty, taking you from beginner to expert.
 
+About the language:
+
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
+* [Syntax Reference][syntax]
+* [Learn by example][learn]
+* [Pattern matching and algebraic data types][adt]
+* [Extensible records][records]
+* [Escape from Callback Hell][efch]
+* [Create a purely functional game][pong] and [a skeleton for making games][games]
+* [The semantics of FRP in Elm][thesis]
+* Release notes for versions:
+  [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5], [0.6][6], [0.7][7]
 
-* What is [the syntax of Elm][syntax]?
+Getting set up:
 
-* [What is pattern matching? What is an &ldquo;algebraic data type&rdquo;?][adt]
-
-* What are [records? How do they work?][records]
-
-* Is it possible to [learn Elm by example][learn]?
-
-* How do I [set up Elm on my machine][install]?
-
-* How can I [create a working website][this]?
-
-* How can I [create a larger interactive project][pong]?
-
-* How do I [Escape from Callback Hell][efch]?
-
-* What new features came out in each version of the compiler?
-  [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5], [0.6][6]
-
-* What are the [semantics of FRP in Elm][thesis]? (PDF)
+* [Setting up the Elm compiler and server][install]
+* [Creating a working website][this]
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
   [adt]: learn/Pattern-Matching.elm
@@ -45,6 +40,7 @@ ramp up in difficulty, taking you from beginner to expert.
   [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+  [games]: https://github.com/evancz/Elm/blob/master/Examples/elm-js/GameSkeleton/GameSkeleton.elm#L1 "Game Skeleton"
 
   [3]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
@@ -52,6 +48,7 @@ ramp up in difficulty, taking you from beginner to expert.
   [4]: /blog/announce/version-0.4.0.elm "Graphics Upgrade"
   [5]: /blog/announce/version-0.5.0.elm "Libraries"
   [6]: /blog/announce/version-0.6.elm "Time, Date, and Syntax"
+  [7]: /blog/announce/version-0.7.elm "Extensible Records & More"
 
 <br/>
 
