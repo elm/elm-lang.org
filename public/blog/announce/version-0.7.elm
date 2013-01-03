@@ -115,7 +115,15 @@ and it is fine if there are additional fields.
 
 It is fine to call `dist` on `point2`, `point3`, and anything else that has
 an `x` and `y` field. And the value of `titles` is
-`["Steppenwolf","Demian","Gertrud"]`.
+`["Steppenwolf","Demian","Gertrud"]`. You can also pattern match in let expressions
+and lambdas.
+
+    \\{x,y} -> (x,y)
+    let {author} = book in ...
+
+As a result, it is no longer possible to use the `{;;}` syntax to separate definitions
+in let expressions. This is a breaking change that may require some minor refactoring,
+but I think it will make code nicer overall.
 
 Again, I highly recommend reading [this paper][records] and [this overview][over]
 to get a more complete understanding of records in Elm.
