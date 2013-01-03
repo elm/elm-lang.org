@@ -9,4 +9,4 @@ clock t = collage 400 400
   , hand black 100 (t/60)
   , hand black 60  (t/720) ]
 
-main = lift clock (every second)
+main = clock <~ every second

@@ -80,8 +80,8 @@ reactive = addFolder "Reactive/"
   , ("Window", [ ("Size", "ResizePaint")
                , ("Centering", "Centering")
                ])
-  , ("Time",   [ ("Before and After", "Between")
-               , ("Every"           , "Every")
+  , ("Time",   [ --("Before and After", "Between")
+                 ("Every"           , "Every")
                , ("Clock"           , "Clock")
                ])
   , ("Input",  [ ("Text Fields", "TextField")
@@ -127,4 +127,4 @@ content w =
 
 exampleSets w = flow down . map (width w) . intersperse (plainText " ") $ content w
 
-main = lift (skeleton exampleSets) Window.width
+main = skeleton exampleSets <~ Window.width

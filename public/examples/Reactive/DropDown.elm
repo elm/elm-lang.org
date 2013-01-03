@@ -19,4 +19,4 @@ choices = [ ("underline", underline)
 
 (drop,choice) = Input.dropDown choices
 
-main = lift (component drop) choice
+main = component drop <~ choice

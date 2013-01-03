@@ -12,10 +12,10 @@ toUrl s = if length s == 5 && all Char.isDigit s
 
 -- Transform the signal of raw input into usable data, indicating if the input
 -- is valid and, if so, what it is.
-realInput = lift toUrl rawInput
+realInput = toUrl <~ rawInput
 
 -- Send AJAX requests for any valid input!
-responses = sendGet . lift (fromMaybe "") $ keepIf isJust Nothing realInput
+responses = sendGet (fromMaybe "" <~ keepIf isJust Nothing realInput)
 
 -- Display a response.
 display response = 
@@ -27,7 +27,8 @@ display response =
 -- Give the user a message depending on whether their input is valid and
 -- the response from any AJAX requests.
 message =
-  let msg = plainText "Enter a valid zip code, such as 12345 or 90210." in
-  lift2 (\i r -> maybe msg (\_ -> display r) i) realInput responses
+  let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
+      output inp rsp = maybe msg (\_ -> display rsp) inp
+  in  output <~ realInput ~ responses
 
-main = lift (above field) message
+main = above field <~ message

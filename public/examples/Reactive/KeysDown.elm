@@ -6,4 +6,4 @@ display codes =
   plainText "You are holding down the following keys: " `beside` asText codes
 
 
-main = lift display Keyboard.Raw.keysDown
+main = display <~ Keyboard.Raw.keysDown

@@ -4,4 +4,4 @@ component field txt =
 
 (field, txt) = Input.password "Password"
 
-main = lift (component field) txt
+main = component field <~ txt

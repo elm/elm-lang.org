@@ -8,4 +8,4 @@ latestKey = let step curr prev = maybe prev Char.fromCode curr in
 display chr =
   plainText $ "Number of non-repeated key presses: " ++ show chr
 
-main = lift display $ count (dropRepeats latestKey)
+main = display <~ count (dropRepeats latestKey)

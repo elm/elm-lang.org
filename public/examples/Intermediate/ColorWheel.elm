@@ -41,5 +41,5 @@ scene (w,h) angle =
                         , container 150 300 topRight rButton ]
            ]
 
-main = lift2 scene Window.dimensions (lift snd $ foldp step (0,0) input)
+main = scene <~ Window.dimensions ~ (snd <~ foldp step (0,0) input)
 

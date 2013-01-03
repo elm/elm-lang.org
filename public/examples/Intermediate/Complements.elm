@@ -11,4 +11,4 @@ colorCycle t =
                           toDot 20 t2 : map (toDot 10 . (*) 30) [0..11]
                 , container 300 40 middle $ plainText "On / Off  " `beside` box ]
 
-main = lift colorCycle (foldp (+) 0 (30 `fpsWhen` checked))
+main = colorCycle <~ foldp (+) 0 (30 `fpsWhen` checked)

@@ -73,4 +73,4 @@ content w =
 
 exampleSets w = flow down . intersperse (plainText "&nbsp;") $ content w
 
-main = lift (skeleton exampleSets) Window.width
+main = skeleton exampleSets <~ Window.width

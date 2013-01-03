@@ -15,4 +15,4 @@ choices = [ "on a boat."
 
 (drop, choice) = Input.stringDropDown choices
 
-main = lift (component drop) choice
+main = component drop <~ choice

@@ -1,7 +1,7 @@
 
 data Either a b = Left a | Right b
 
-mergeEither xs ys = merge (lift Left xs) (lift Right ys)
+mergeEither xs ys = merge (Left <~ xs) (Right <~ ys)
 
 input = let clickPos = sampleOn Mouse.clicks Mouse.position
         in  mergeEither clickPos (40 `fpsWhen` (second `since` clickPos))
@@ -17,5 +17,6 @@ follower (w,h) (target,pos) =
          , plainText "Click anywhere and the circle will follow."
          ]
 
-main = lift2 follower Window.dimensions $ foldp step ((200,200),(200,200)) input
+main = follower <~ Window.dimensions
+                 ~ foldp step ((200,200),(200,200)) input
 

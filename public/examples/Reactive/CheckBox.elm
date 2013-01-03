@@ -4,4 +4,4 @@ component chkBox checked =
 
 (box, checked) = Input.checkbox True
 
-main = lift (component box) checked
+main = component box <~ checked

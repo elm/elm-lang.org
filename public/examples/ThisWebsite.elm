@@ -22,4 +22,4 @@ just insert `edit/` after this sites domain name. For instance,
 
 |]
 
-main = lift (skeleton content) Window.width
+main = skeleton content <~ Window.width

@@ -21,7 +21,7 @@ import Input
 
 
 messages =
-  lift castStringToJSString $ keepWhen pressed "" message
+  castStringToJSString <~ keepWhen pressed "" message
 
 foreign export jsevent "elm_log"
   messages :: Signal JSString

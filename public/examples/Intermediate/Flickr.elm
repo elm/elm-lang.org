@@ -40,8 +40,7 @@ scene (w,h) img = flow down [ container w 60 middle tagInput
 -- Pass in the current dimensions and image. Both inputs are
 -- signals so they will update automatically.
 
-main = lift2 scene Window.dimensions
-                   (images (getPhotos (dropRepeats tags)))
+main = scene <~ Window.dimensions ~ images (getPhotos (dropRepeats tags))
 
 
 
@@ -82,9 +81,9 @@ requestOneFrom photoList =
   let getPhotoID json =
           case findArray "photo" (findObject "photos" json) of
           { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
-      requestSizes id | id == ""  = ""
-                      | otherwise = concat [ flickrRequest
-                                           , "&method=flickr.photos.getSizes&photo_id=", id ]
+      requestSizes id = if id == ""  then "" else
+                        concat [ flickrRequest
+                               , "&method=flickr.photos.getSizes&photo_id=", id ]
   in  get (requestSizes (getPhotoID (extract photoList)))
 
 
