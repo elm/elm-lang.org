@@ -49,7 +49,7 @@ editor filePath code =
         H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.0/lib/codemirror.css"
         H.script ! A.src "/codemirror-3.0/lib/codemirror.js" $ mempty
-        H.script ! A.src "/codemirror-3.0/mode/haskell/haskell.js" $ mempty
+        H.script ! A.src "/codemirror-3.0/mode/elm/elm.js" $ mempty
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.0/theme/" ++ theme ++ ".css" :: String))) themes
         H.style ! A.type_ "text/css" $ editorCss
         H.script ! A.type_ "text/javascript" $
