@@ -39,17 +39,28 @@ pre.code {
 }
 
 .grey {
-  font-size: 2.2em;
-  padding: .5em 1em;
-  line-height: 1.2em;
-  margin-top: .5em;
+  background-color: #eee;
+  border-radius: 6px;
+  margin-bottom: 1.65em;
+  margin-top: 0.825em;
+  padding: 0.825em 1.65em;
   position: relative;
 }
 
 img.logo {
   position: absolute;
-  right: -25px;
+  right: -1em;
   bottom: 4px;
+  max-width: 23.6875em; /* Scale image down with text to prevent clipping */
+}
+
+.grey > pre {
+  background:none;
+  border-radius:0;
+  padding:0;
+  margin:0;
+  font-size:2.2em;
+  line-height:1.2em;
 }
 
 a:link, a:visited, .quasilink {
@@ -112,7 +123,8 @@ a.download:hover {
 }
 
 .left {
-  width: 37em;
+  margin-right: 20.68em;
+  max-width: 37em;
   padding-right: 6.53em;
   padding-bottom: 1em;
 }
@@ -123,11 +135,12 @@ a.download:hover {
 }
 
 .left2 {
-  width: 15.24em;
+  max-width: 15.24em;
 }
 
 .right {
   width: 20.68em;
+  margin-left: -20.68em;
 }
 
 .leftbig {

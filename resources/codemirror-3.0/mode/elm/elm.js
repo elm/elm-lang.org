@@ -1,4 +1,4 @@
-CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
+CodeMirror.defineMode("elm", function() {
 
   function switchState(source, setState, f) {
     setState(f);
@@ -11,7 +11,7 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
   var digitRE = /[0-9]/;
   var hexitRE = /[0-9A-Fa-f]/;
   var octitRE = /[0-7]/;
-  var idRE = /[a-z_A-Z0-9']/; //'
+  var idRE = /[a-z_A-Z0-9']/;
   var symbolRE = /[-!#$%&*+.\/<=>?@\\^|~:\u03BB\u2192]/;
   var specialRE = /[(),;[\]`{}]/;
   var whiteCharRE = /[ \t\v\f]/; // newlines are handled in tokenizer
@@ -190,7 +190,7 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
       return function () {
         for (var i = 0; i < arguments.length; i++)
           wkw[arguments[i]] = t;
-      }
+      };
     }
     
     setType("keyword")(
@@ -198,14 +198,13 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
       "hiding", "jsevent", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let",
       "module", "newtype", "of", "then", "type", "where", "_");
       
-    /*
     setType("keyword")(
       "\.\.", ":", "::", "=", "\\", "\"", "<-", "->", "@", "~", "=>", "\u2192", "\u03BB");
 
     setType("builtin")(
       "!!", "$!", "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=", "=<<",
       "==", ">", ">=", ">>", ">>=", "^", "^^", "||", "*", "**");
-
+      
     setType("builtin")(
       "Bool", "Bounded", "Char", "Double", "EQ", "Either", "Enum", "Eq",
       "False", "FilePath", "Float", "Floating", "Fractional", "Functor", "GT",
@@ -241,7 +240,6 @@ CodeMirror.defineMode("haskell", function(cmCfg, modeCfg) {
       "toRational", "truncate", "uncurry", "undefined", "unlines", "until",
       "unwords", "unzip", "unzip3", "userError", "words", "writeFile", "zip",
       "zip3", "zipWith", "zipWith3");
-    */
       
     return wkw;
   })();
