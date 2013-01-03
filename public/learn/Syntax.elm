@@ -25,6 +25,7 @@ This document lists all possible Elm syntax.
 - [Lists](#lists)
 - [Conditionals](#conditionals)
 - [Algebraic Data Types](#algebraic-data-types)
+- [Records](#records)
 - [Functions](#functions)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
@@ -87,14 +88,25 @@ Here are two things that are equivalent:
     if conditional then trueBranch else falseBranch
     if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 
+Multi-way if-expressions make it easier
+to have a bunch of different branches.
+You can read the `|` as *where*.
+
+    if | key == 40 -> n+1
+       | key == 38 -> n-1
+       | otherwise -> n
+
+You can alse have conditional behavior based on the structure of algebraic
+data types.
+
     case exp of
-        Pattern1 -> exp1
-        Pattern2 -> exp2
-        _        -> exp3
+      Pattern1 -> exp1
+      Pattern2 -> exp2
+      _        -> exp3
 
     case xs of
-        []   -> Nothing
-        x:xs -> Just x
+      []   -> Nothing
+      x:xs -> Just x
 
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns for this to parse right.
@@ -110,6 +122,38 @@ This kind of case-expression is not indentation sensitive.
 
     data List = Nil | Cons Int List
 
+Not sure what this means? [Read this.](/learn/Pattern-Matching.elm)
+
+### Records
+
+For more explanation of Elm&rsquo;s record system, see [this overview][exp],
+the [initial announcement][v7], or [this academic paper][records].
+
+  [exp]: /learn/Records.elm "Records in Elm"
+  [v7]:  /blog/announce/version-0.7.elm "Elm version 0.7"
+  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
+
+    point = { x = 3, y = 4 }       -- create a record
+
+    point.x                        -- access field
+    map .x [point,{x=0,x=0}]       -- field access function
+
+    { point - x }                  -- remove field
+    { point | z = 12 }             -- add field
+    { point - x | z = point.x }    -- rename field
+    { point - x | x = 6 }          -- update field
+
+    { point | x <- 6 }             -- nicer way to update a field
+    { point | x <- point.x + 1
+            , y <- point.x + 1 }   -- batch update fields
+
+    dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
+    \\{x,y} -> (x,y)
+
+    lib = { id x = x }             -- polymorphic fields
+    (lib.id 42 == 42)
+    (lib.id [] == [])
+
 ### Functions
 
     f x = exp
@@ -117,14 +161,6 @@ This kind of case-expression is not indentation sensitive.
 You can pattern match in the declaration of any function.
 
     hypotenuse a b = sqrt (a^2 + b^2)
-
-You can also create guarded definitions for named functions.
-So `moveBy` is defined differently
-given different conditions. You can read the `|` as *where*.
-
-    moveBy key n | key == 40 = n+1
-                 | key == 38 = n-1
-                 | otherwise = n
 
 You can also create custom infix operators. They have the highest precedence
 and are left associative. You cannot override built-in operators.
@@ -141,16 +177,15 @@ need to appear before their use.
 This lets you reuse code, avoid repeating
 computations, and improve code readability.
 
-    let c = hypotenuse 3 4
-    in  c*c
+    let c = hypotenuse 3 4 in
+      c*c
 
     let c1 = hypotenuse 7 12
         c2 = hypotenuse 3 4
     in  hypotenuse c1 c2
 
 Let-expressions are also indentation sensitive, so each definition
-should align with the one above it. You can also use the `{;;}` separators to make things unaware of indentation, but it is generally
-not as pretty.
+should align with the one above it.
 
 ### Applying Functions
 
@@ -223,8 +258,9 @@ The rules are the same for `export` except you do not need an initial value.
 Elm currently does not support:
 
 - type annotations (high-priority to add)
-- setting the precedence or associativity of infix operators
+- setting the precedence or associativity of infix operators (also will be added)
 - operator sections such as `(1+)`
+- guarded definitions or guarded cases. Use the multi-way if for this.
 - `where` clauses
 - any sort of `do` or `proc` notation
 - a unary negation operator. Negative 3 is the same as `(0-3)`.

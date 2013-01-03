@@ -34,6 +34,8 @@ funcs =
   [ ("(.)", "(b -> c) -> (a -> b) -> (a -> c)", "Function composition: f . g == (\\x -> f (g x))")
   , ("($)", "(a -> b) -> a -> b", "Function application (f $ x == f x). This function is useful for avoiding parenthesis. Consider the following code to create a text element: (text (monospace (toText \"code\"))). This can also be written as (text . monospace $ toText \"code\").")
   , ("id", "a -> a", "Given a value, returns exactly the same value.")
+  , ("fst", "(a,b) -> a", "Given a 2-tuple, returns the first value.")
+  , ("snd", "(a,b) -> b", "Given a 2-tuple, returns the second value.")
   , ("flip", "(a -> b -> c) -> (b -> a -> c)", "Flips the order of the first two arguments to a function.")
   , ("curry", "((a,b) -> c) -> a -> b -> c", "Change how arguments are passed to a function. This splits paired arguments into two separate arguments.")
   , ("uncurry", "(a -> b -> c) -> (a,b) -> c", "Change how arguments are passed to a function. This combines two arguments into a sigle pair.")

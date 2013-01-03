@@ -9,13 +9,14 @@ words = [markdown|
 
 Elm's interactive editor allows you to learn Elm by seeing and modifying
 actual code. There are a couple categories of examples for designed to build
-certain skills:
+certain skills.
+
+You may also want to take a look at the [overview of Elm&rsquo;s syntax][syntax]
+and some [basic examples][3] of their usage.
 
 [Basic][1] &#8212; the basic building blocks of Elm
 
 [Intermediate][2] &#8212; building components with Elm
-
-[Syntax][3] &#8212; the [syntax of Elm][syntax] and some larger examples
 
 [Elm + JavaScript][4] &#8212; use existing JavaScript libraries, features, etc.
 

@@ -13,22 +13,31 @@ ramp up in difficulty, taking you from beginner to expert.
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
 
-* [What is the syntax of Elm?][syntax]
+* What is [the syntax of Elm][syntax]?
 
-* [How do I set up Elm on my machine?][install]
+* [What is pattern matching? What is an &ldquo;algebraic data type&rdquo;?][adt]
 
-* [How can I create a working website?][this]
+* What are [records? How do they work?][records]
 
-* [How can I create a larger interactive project with Elm?][pong]
+* Is it possible to [learn Elm by example][learn]?
 
-* [Escape from Callback Hell][efch]
+* How do I [set up Elm on my machine][install]?
+
+* How can I [create a working website][this]?
+
+* How can I [create a larger interactive project][pong]?
+
+* How do I [Escape from Callback Hell][efch]?
 
 * What new features came out in each version of the compiler?
   [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5], [0.6][6]
 
-* [What is the theory behind FRP in Elm?][thesis] (PDF)
+* What are the [semantics of FRP in Elm][thesis]? (PDF)
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
+  [adt]: learn/Pattern-Matching.elm
+  [records]: /learn/Records.elm "Records in Elm"
+  [learn]: /Examples.elm "Elm by Example"
   [frp]: /learn/What-is-FRP.elm "What is FRP?"
   [efch]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
