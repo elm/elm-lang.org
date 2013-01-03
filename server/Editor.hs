@@ -67,8 +67,11 @@ editor filePath code =
                 \  }\
                 \};\n\
                 \function updateOutput() {\
-                  \clearTimeout(delay);\
-                  \delay = setTimeout(function(){compile('output');}, 300);\
+                \  clearTimeout(delay);\
+                \  delay = setTimeout(compileOutput, 300);\
+                \};\n\
+                \function compileOutput() {\
+                \  compile('output');\
                 \};\n\
                 \function setTheme() {\n\
                 \  var input = document.getElementById('editor_theme');\n\
@@ -99,7 +102,7 @@ editor filePath code =
                       H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ mapM_ optionFor ["normal", "larger", "largest"]
                  H.div ! A.style "float: right; padding-right: 6px;" $ do
                    "Compile: "
-                   H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
+                   H.input ! A.type_ "button" ! A.onclick "compileOutput()" ! A.value "Side-By-Side" ! A.title "... or hit Ctrl+Enter"
                    H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
                    " Auto update: "
                    H.input ! A.type_ "checkbox" ! A.onchange "toggleAutoUpdate(this.checked)"
@@ -128,8 +131,9 @@ editorCss = preEscapedToMarkup $
 editorJS :: Html
 editorJS =
     "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\
-    \lineNumbers: false,\
-    \matchBrackets: true,\
-    \theme: 'cobalt',\
+      \lineNumbers: false,\
+      \matchBrackets: true,\
+      \theme: 'cobalt',\
+      \extraKeys: {'Ctrl-Enter': compileOutput},\
     \});\
     \editor.focus();"
