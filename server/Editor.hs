@@ -68,7 +68,7 @@ editor filePath code =
                 \};\n\
                 \function updateOutput() {\
                 \  clearTimeout(delay);\
-                \  delay = setTimeout(compileOutput, 300);\
+                \  delay = setTimeout(compileOutput, 500);\
                 \};\n\
                 \function compileOutput() {\
                 \  compile('output');\
@@ -97,7 +97,7 @@ editor filePath code =
                  H.div ! A.style "float:left;" $ do
                    let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
                    do "Theme: "
-                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor themes
+                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor $ themes ++ ["default"]
                       " Zoom: "
                       H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ mapM_ optionFor ["normal", "larger", "largest"]
                  H.div ! A.style "float: right; padding-right: 6px;" $ do
