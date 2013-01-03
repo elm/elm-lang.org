@@ -21,7 +21,7 @@ intro = [markdown|
 
 <style>p { text-align: justify }</style>
 
-# Elm 0.6 &mdash; Time, Dates, and Syntax
+# Elm 0.6 &ndash; Time, Dates, and Syntax
 
 This release makes Elm much prettier and much better for working with time.
 With these additions, I think its easier than ever to create complex

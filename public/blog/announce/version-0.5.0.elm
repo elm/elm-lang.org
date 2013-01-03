@@ -18,9 +18,9 @@ data Command = Incr | Decr | Idnt
 formsAutomaton =
   let fstep (cmd,pos,color,mouse) fs =
           let fs' = case cmd of
-                    { Incr -> fs ++ [draggable $ filled color (ngon 5 20 pos)]
-                    ; Decr -> if fs == [] then [] else tail fs
-                    ; Idnt -> fs }
+                      Incr -> fs ++ [draggable $ filled color (ngon 5 20 pos)]
+                      Decr -> if fs == [] then [] else tail fs
+                      Idnt -> fs
           in  unzip $ map (\f -> step f mouse) fs'
   in  init' [draggable $ filled cyan (ngon 5 20 (200,200)) ] fstep
 
@@ -33,7 +33,7 @@ allInput tly wid =
       color = lift3 rgb (rand 255) (rand 255) (rand 255)
       tlx = lift (\w -> (w - 400) `div` 2) wid
       relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
-      mouse = lift2 (,) Mouse.isDown relativePos }
+      mouse = lift2 (,) Mouse.isDown relativePos
   in  lift4 (,,,) commands pos color mouse
 
 controls = 
