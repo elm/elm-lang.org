@@ -140,10 +140,10 @@ halfHeight <span class="fu">=</span> gameHeight <span class="fu">/</span> <span 
 makeNegative n <span class="fu">=</span> <span class="kw">if</span> n <span class="fu">&gt;</span> <span class="dv">0</span> <span class="kw">then</span> <span class="dv">0</span><span class="fu">-</span>n <span class="kw">else</span> n
 within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <span class="fu">-</span> epsilon <span class="fu">&amp;&amp;</span> x <span class="fu">&lt;</span> n <span class="fu">+</span> epsilon</code></pre>
 <p>The <code>stepVelocity</code> function is used to reverse the velocity of the ball when it has collided with a lower or upper boundary. Notice that the collisions set the direction of the velocity rather than simply negating it!</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepVelocity velocity lowerCollision upperCollision
-    <span class="fu">|</span> lowerCollision <span class="fu">=</span> makePositive velocity
-    <span class="fu">|</span> upperCollision <span class="fu">=</span> makeNegative velocity
-    <span class="fu">|</span> <span class="fu">otherwise</span>      <span class="fu">=</span> velocity</code></pre>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepVelocity velocity lowerCollision upperCollision <span class="fu">=</span>
+ <span class="kw">if</span> <span class="fu">|</span> lowerCollision <span class="fu">-&gt;</span> makePositive velocity
+    <span class="fu">|</span> upperCollision <span class="fu">-&gt;</span> makeNegative velocity
+    <span class="fu">|</span> <span class="fu">otherwise</span>      <span class="fu">-&gt;</span> velocity</code></pre>
 <p>Now that we have a bunch of helper functions, we will actually step the ball forward. The <code>stepBall</code> function first figures out the new velocity of the ball. The velocity only changes when there is a collision with a paddle or a wall. More specifically, the x-velocity depends on paddle collisions, and the y-velocity depends on wall collisions. This new velocity is then used to calculate a new position.</p>
 <p>This function also determines whether a point has been scored and who receives the point. Thus, its output is a new Ball and points to be added to each player.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepBall delta (<span class="dt">Ball</span> (x,y) (vx,vy)) (<span class="dt">Paddle</span> y1) (<span class="dt">Paddle</span> y2) <span class="fu">=</span>

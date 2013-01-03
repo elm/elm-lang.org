@@ -354,13 +354,12 @@ requestTag tag =
               , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
 
 requestOneFrom photoList =
-  let { getPhotoID json =
-          case findArray "photo" (findObject "photos" json) of
-          { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
-      ; requestSizes id = if id == "" then "" else
-                              concat [ flickrRequest
-                                     , "&method=flickr.photos.getSizes&photo_id=", id ]
-      }
+  let getPhotoID json =
+        case findArray "photo" (findObject "photos" json) of
+        { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
+      requestSizes id = if id == "" then "" else
+                        concat [ flickrRequest
+                               , "&method=flickr.photos.getSizes&photo_id=", id ]
   in  get (requestSizes (getPhotoID (extract photoList)))
 
 sizesToPhoto sizeOptions =

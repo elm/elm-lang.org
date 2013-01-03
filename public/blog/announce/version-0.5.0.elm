@@ -25,15 +25,15 @@ formsAutomaton =
   in  init' [draggable $ filled cyan (ngon 5 20 (200,200)) ] fstep
 
 allInput tly wid =
-  let { commands = let step less more = if less then Decr else
-                                        if more then Incr else Idnt
-                   in  lift2 step pressLess pressMore
-      ; rand n = randomize 0 n commands
-      ; pos = lift2 (,) (rand 400) (rand 400)
-      ; color = lift3 rgb (rand 255) (rand 255) (rand 255)
-      ; tlx = lift (\w -> (w - 400) `div` 2) wid
-      ; relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
-      ; mouse = lift2 (,) Mouse.isDown relativePos }
+  let commands = let step less more = if less then Decr else
+                                      if more then Incr else Idnt
+                 in  lift2 step pressLess pressMore
+      rand n = randomize 0 n commands
+      pos = lift2 (,) (rand 400) (rand 400)
+      color = lift3 rgb (rand 255) (rand 255) (rand 255)
+      tlx = lift (\w -> (w - 400) `div` 2) wid
+      relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
+      mouse = lift2 (,) Mouse.isDown relativePos }
   in  lift4 (,,,) commands pos color mouse
 
 controls = 
@@ -168,16 +168,15 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
 |]
 
 page =
-  let { top = flow down
-               [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-               , width 600 blog ]
-      ; mid = widget (heightOf top) Win.width
-      ; bot = flow down [ width 600 outro
-                        , container 600 60 middle
-                          [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
-                        , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-                          toText "&copy; 2011-2012 Evan Czaplicki" ]
-      }
+  let top = flow down
+            [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
+            , width 600 blog ]
+      mid = widget (heightOf top) Win.width
+      bot = flow down [ width 600 outro
+                      , container 600 60 middle
+                        [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
+                      , container 600 60 middle . text . Text.color (rgb 216 221 225) $
+                        toText "&copy; 2011-2012 Evan Czaplicki" ]
   in  lift (\m -> flow down [ top, container 600 (heightOf m) middle m, bot ]) mid
 
 main = lift2 (\page w -> container w (heightOf page) midTop page) page Win.width

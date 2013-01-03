@@ -25,10 +25,11 @@ If you are unsure how to get started, take a look at some [examples][exs].
 scene (w,h) = container w h middle (box $ width 320 msg)
 
 box e =
-  let { w = widthOf e ; h = heightOf e } in
-  flow down [ topBar 5 (w+40)
-            , color mediumGrey . container (w+40) (h+11) midTop .
-              color lightGrey  . container (w+38) (h+10) midTop $ e
-            ]
+  let w = widthOf e
+      h = heightOf e
+  in  flow down [ topBar 5 (w+40)
+                , color mediumGrey . container (w+40) (h+11) midTop .
+                        color lightGrey  . container (w+38) (h+10) midTop $ e
+                ]
 
 main = lift scene Window.dimensions

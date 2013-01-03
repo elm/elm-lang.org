@@ -7,12 +7,11 @@ import Website.ColorScheme
 accents = [accent0,accent1,accent2,accent3,accent4]
 
 topBar k n =
-    let { n' = toFloat n
-        ; k' = toFloat k
-        ; segs = map (\i -> round (n' * toFloat i / k')) [1..k]
-        ; ws = zipWith (-) segs (0:segs)
-        ; accentCycle = concatMap (\_ -> accents) [ 0 .. k `div` 5 ]
-        }
+    let n' = toFloat n
+        k' = toFloat k
+        segs = map (\i -> round (n' * toFloat i / k')) [1..k]
+        ws = zipWith (-) segs (0:segs)
+        accentCycle = concatMap (\_ -> accents) [ 0 .. k `div` 5 ]
     in  flow right $ zipWith (\c w -> color c $ spacer w 5) accentCycle ws
 
 skeleton body outer =

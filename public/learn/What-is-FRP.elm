@@ -156,13 +156,13 @@ examples2 =
 
 box exs =
   let putInBox exs = 
-        let { eBox  = color white $ flow down exs
-            ; eBox' = flow right [ color accent2 $ spacer 2 (heightOf eBox)
-                                 , eBox
-                                 , color accent3 $ spacer 2 (heightOf eBox) ]
-        } in  flow down [ color accent1 $ spacer (widthOf eBox') 2
-                        , eBox'
-                        , color accent4 $ spacer (widthOf eBox') 2 ]
+        let eBox  = color white $ flow down exs
+            eBox' = flow right [ color accent2 $ spacer 2 (heightOf eBox)
+                               , eBox
+                               , color accent3 $ spacer 2 (heightOf eBox) ]
+        in  flow down [ color accent1 $ spacer (widthOf eBox') 2
+                      , eBox'
+                      , color accent4 $ spacer (widthOf eBox') 2 ]
   in  lift putInBox $ foldr (lift2 (:)) (constant []) exs
 
 
