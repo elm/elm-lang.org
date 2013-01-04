@@ -39,7 +39,8 @@ flexible and can be used in strictly more situations. This is a breaking
 change, so read that section to see the simple fix!
 
 This website has undergone some changes too. You can now compile with Ctrl-Enter
-and you can turn on automatic compilation which will recompile by itself. Big
+and you can turn on automatic compilation which will recompile by itself. Check
+out the [Try Elm](/Try.elm) page to see these features in action. Big
 thanks to [madscoaducom](https://github.com/madscoaducom) for adding this!
 
 ## Records
