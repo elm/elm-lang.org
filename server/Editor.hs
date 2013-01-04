@@ -11,34 +11,34 @@ import Utils
 
 -- | Display an editor and the compiled result side-by-side.
 ide :: FilePath -> String -> Html
-ide fileName code =
-    H.docTypeHtml $ do
-      H.head $ do
-        H.title . toHtml $ "Elm Editor: " ++ pageTitle fileName
-      preEscapedToMarkup $ 
-         concat [ "<frameset rows=\"*,160px\">\n"
-                , "<frameset cols=\"50%,50%\">\n"
-                , "  <frame name=\"input\" src=\"/code/" ++ fileName ++ "\" />\n"
-                , "  <frame name=\"output\" src=\"/compile?input="
-                , urlEncode code ++ "\" />\n</frameset>\n"
-                , "<frame src=\"/examples/Navigation.elm\" />\n"
-                , "</frameset>" ]
+ide fileName code = ideBuilder ("Elm Editor: " ++ pageTitle fileName)
+                               fileName
+                               ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
-emptyIDE =
+emptyIDE = ideBuilder "Try Elm" "" "/Try.elm"
+
+ideBuilder :: String -> String -> String -> Html
+ideBuilder title input output =
     H.docTypeHtml $ do
       H.head $ do
-        H.title $ toHtml ("Try Elm" :: String)
+        H.title . toHtml $ title
+        H.script ! A.type_ "text/javascript" $
+             "function toggleExamples(open) {\n\
+             \  document.getElementById('frameset1').rows = open ? '*,160px' : '*,0';\n\
+             \};"
       preEscapedToMarkup $ 
-         concat [ "<frameset cols=\"50%,50%\">\n"
-                , "  <frame name=\"input\" src=\"/code/\" />\n"
-                , "  <frame name=\"output\" src=\"/Try.elm\" />\n"
-                , "</frameset>" :: String ]
-
+         concat [ "<frameset id=\"frameset1\" rows=\"*,0\">\n"
+                , "  <frameset cols=\"50%,50%\">\n"
+                , "    <frame name=\"input\" src=\"/code/", input, "\" />\n"
+                , "    <frame name=\"output\" src=\"", output, "\" />\n"
+                , "  </frameset>\n"
+                , "  <frame src=\"/examples/Navigation.elm\" />\n"
+                , "</frameset>" ]
 
 -- | list of themes to use with CodeMirror
-themes = [ "cobalt", "night", "elegant" ]
+themes = [ "cobalt", "night", "elegant", "default" ]
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
@@ -60,15 +60,16 @@ editor filePath code =
                 \};\n\
                 \var delay;\
                 \function toggleAutoUpdate(enable) {\n\
-                \  if (enable) {\
+                \  document.getElementById('compile_button').disabled = enable;\n\
+                \  if (enable) {\n\
                 \    editor.on('change', updateOutput);\n\
-                \  } else {\
+                \  } else {\n\
                 \    editor.off('change', updateOutput);\n\
-                \  }\
+                \  }\n\
                 \};\n\
                 \function updateOutput() {\
                 \  clearTimeout(delay);\
-                \  delay = setTimeout(compileOutput, 500);\
+                \  delay = setTimeout(compileOutput, 1000);\
                 \};\n\
                 \function compileOutput() {\
                 \  compile('output');\
@@ -82,49 +83,64 @@ editor filePath code =
                 \  var editorDiv = document.getElementsByClassName('CodeMirror')[0];\n\
                 \  var classes = editorDiv.getAttribute('class').split(' ');\n\
                 \  var input = document.getElementById('editor_zoom');\n\
-                \  var zoom = 'zoom-' + input.options[input.selectedIndex].innerHTML;\n\
+                \  var zoom = 'zoom-' + input.options[input.selectedIndex].innerHTML.slice(0,-1);\n\
                 \  var newClasses = [];\n\
                 \  for (var i = 0; i < classes.length; i++)\n\
                 \    if (!(classes[i].match(/^zoom-/)))\n\
                 \      newClasses.push(classes[i]);\n\
                 \  newClasses.push(zoom);\n\
                 \  editorDiv.setAttribute('class', newClasses.join(' '));\n\
-                \};"                 
+                \};"
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
-               H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n' : code)
+               H.div ! A.style "position:absolute;top:0;left:0;right:0;bottom:36px;" $ do
+                 H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
                H.div ! A.id "options" $ do
-                 H.div ! A.style "float:left;" $ do
+                 H.div ! A.style "float:right; padding:6px;" $ do
+                   H.input ! A.class_ "valign" !
+                      A.id "compile_button" ! A.type_ "button" !
+                      A.onclick "compileOutput()" ! A.value "Compile" !
+                      A.title "... or hit Ctrl+Enter"
+                   H.input ! A.class_ "valign" !
+                      A.id "in_tab_button" ! A.type_ "button" !
+                      A.onclick "compile('_blank')" ! A.value "In Tab" !
+                      A.title "compile in a new tab"
+                   H.span  ! A.class_ "valign" $ " Auto-compile:"
+                   H.input ! A.class_ "valign" ! A.type_ "checkbox" !
+                      A.onchange "toggleAutoUpdate(this.checked)"
+                 H.div ! A.style "float:left; padding:6px;" $ do
                    let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
-                   do "Theme: "
-                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor $ themes ++ ["default"]
-                      " Zoom: "
-                      H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ mapM_ optionFor ["normal", "larger", "largest"]
-                 H.div ! A.style "float: right; padding-right: 6px;" $ do
-                   "Compile: "
-                   H.input ! A.type_ "button" ! A.onclick "compileOutput()" ! A.value "Side-By-Side" ! A.title "... or hit Ctrl+Enter"
-                   H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
-                   " Auto update: "
-                   H.input ! A.type_ "checkbox" ! A.onchange "toggleAutoUpdate(this.checked)"
+                   H.select ! A.class_ "valign" ! A.id "editor_theme" !
+                      A.onchange "setTheme()" $ mapM_ optionFor themes
+                   H.select ! A.class_ "valign" ! A.id "editor_zoom" !
+                      A.onchange "setZoom()" $ mapM_ optionFor ["100%", "150%", "200%"]
+                   H.span ! A.title "Show the basic examples" $ do
+                      H.span ! A.class_ "valign" $ " Examples:"
+                      H.input ! A.class_ "valign" ! A.type_ "checkbox" !
+                         A.onchange "window.top.toggleExamples(this.checked);"
+
         H.script ! A.type_ "text/javascript" $ editorJS
 
 -- | CSS needed to style the CodeMirror frame.
 editorCss :: Markup
 editorCss = preEscapedToMarkup $
     ("body { margin: 0; }\n\
-     \.CodeMirror { height: 100%; }\n\
+     \.CodeMirror { height: 100% }\n\
      \form { margin-bottom: 0; }\n\
-     \.zoom-normal { font-size: 100%; }\n\
-     \.zoom-larger { font-size: 150%; }\n\
-     \.zoom-largest { font-size: 200%; }\n\
+     \.zoom-100 { font-size: 100%; }\n\
+     \.zoom-150 { font-size: 150%; }\n\
+     \.zoom-200 { font-size: 200%; }\n\
+     \.valign { vertical-align: middle; }\n\
      \#options {\n\
-     \   background-color: rgb(216,221,225);\n\
-     \   padding: 4px;\n\
-     \   font-family: Arial;\n\
-     \   font-size: 14px;\n\
-     \   position: fixed;\n\
-     \   bottom: 0;\n\
-     \   width: 100%;\n\
+     \  background-color: rgb(216,221,225);\n\
+     \  font-family: Arial;\n\
+     \  font-size: 14px;\n\
+     \  overflow: hidden;\n\
+     \  position: absolute;\n\
+     \  left: 0;\n\
+     \  right: 0;\n\
+     \  bottom: 0;\n\
+     \  height: 36px;\n\
      \}" :: String)
 
 -- | JS needed to set up CodeMirror.

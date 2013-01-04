@@ -11,7 +11,7 @@ CodeMirror.defineMode("elm", function() {
   var digitRE = /[0-9]/;
   var hexitRE = /[0-9A-Fa-f]/;
   var octitRE = /[0-7]/;
-  var idRE = /[a-z_A-Z0-9']/;
+  var idRE = /[a-z_A-Z0-9']/; //'
   var symbolRE = /[-!#$%&*+.\/<=>?@\\^|~:\u03BB\u2192]/;
   var specialRE = /[(),;[\]`{}]/;
   var whiteCharRE = /[ \t\v\f]/; // newlines are handled in tokenizer
@@ -199,47 +199,29 @@ CodeMirror.defineMode("elm", function() {
       "module", "newtype", "of", "then", "type", "where", "_");
       
     setType("keyword")(
-      "\.\.", ":", "::", "=", "\\", "\"", "<-", "->", "@", "~", "=>", "\u2192", "\u03BB");
+      "\.\.", ":", "::", "=", "\\", "\"", "->", "\u2192", "\u03BB");
 
     setType("builtin")(
-      "!!", "$!", "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=", "=<<",
-      "==", ">", ">=", ">>", ">>=", "^", "^^", "||", "*", "**");
+      "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=",
+      "==", ">", ">=", "^", "||", "*");
+
+    setType("builtin")(
+      "Bool", "Char", "False", "Float", "GT", "Int", "Just", "LT",
+      "Maybe", "Nothing", "String", "True");
       
     setType("builtin")(
-      "Bool", "Bounded", "Char", "Double", "EQ", "Either", "Enum", "Eq",
-      "False", "FilePath", "Float", "Floating", "Fractional", "Functor", "GT",
-      "IO", "IOError", "Int", "Integer", "Integral", "Just", "LT", "Left",
-      "Maybe", "Monad", "Nothing", "Num", "Ord", "Ordering", "Rational", "Read",
-      "ReadS", "Real", "RealFloat", "RealFrac", "Right", "Show", "ShowS",
-      "String", "True");
-      
-    setType("builtin")(
-      "abs", "acos", "acosh", "all", "and", "any", "appendFile", "asTypeOf",
-      "asin", "asinh", "atan", "atan2", "atanh", "break", "catch", "ceiling",
-      "compare", "concat", "concatMap", "const", "cos", "cosh", "curry",
-      "cycle", "decodeFloat", "div", "divMod", "drop", "dropWhile", "either",
-      "elem", "encodeFloat", "enumFrom", "enumFromThen", "enumFromThenTo",
-      "enumFromTo", "error", "even", "exp", "exponent", "fail", "filter",
-      "flip", "floatDigits", "floatRadix", "floatRange", "floor", "fmap",
-      "foldl", "foldl1", "foldr", "foldr1", "fromEnum", "fromInteger",
-      "fromIntegral", "fromRational", "fst", "gcd", "getChar", "getContents",
-      "getLine", "head", "id", "init", "interact", "ioError", "isDenormalized",
-      "isIEEE", "isInfinite", "isNaN", "isNegativeZero", "iterate", "last",
-      "lcm", "length", "lex", "lines", "log", "logBase", "lookup", "map",
-      "mapM", "mapM_", "max", "maxBound", "maximum", "maybe", "min", "minBound",
-      "minimum", "mod", "negate", "not", "notElem", "null", "odd", "or",
-      "otherwise", "pi", "pred", "print", "product", "properFraction",
-      "putChar", "putStr", "putStrLn", "quot", "quotRem", "read", "readFile",
-      "readIO", "readList", "readLn", "readParen", "reads", "readsPrec",
-      "realToFrac", "recip", "rem", "repeat", "replicate", "return", "reverse",
-      "round", "scaleFloat", "scanl", "scanl1", "scanr", "scanr1", "seq",
-      "sequence", "sequence_", "show", "showChar", "showList", "showParen",
-      "showString", "shows", "showsPrec", "significand", "signum", "sin",
-      "sinh", "snd", "span", "splitAt", "sqrt", "subtract", "succ", "sum",
-      "tail", "take", "takeWhile", "tan", "tanh", "toEnum", "toInteger",
-      "toRational", "truncate", "uncurry", "undefined", "unlines", "until",
-      "unwords", "unzip", "unzip3", "userError", "words", "writeFile", "zip",
-      "zip3", "zipWith", "zipWith3");
+      "abs", "acos", "acosh", "all", "and", "any",
+      "asin", "asinh", "atan", "atan2", "atanh", "ceiling",
+      "compare", "concat", "concatMap", "cos", "cosh", "curry",
+      "div", "drop", "dropWhile", "either", "filter",
+      "flip", "floor", "foldl", "foldl1", "foldr", "foldr1", "fst",
+      "head", "id", "last", "length", "log", "logBase", "lookup", "map",
+      "max", "maximum", "maybe", "min", "minimum", "mod", "not", "or",
+      "otherwise", "pi", "product", "quot", "rem", "reverse",
+      "round", "scanl", "scanl1", "scanr", "scanr1",
+      "show", "sin", "sinh", "snd", "sqrt", "sum",
+      "tail", "take", "takeWhile", "tan", "tanh", "truncate", "uncurry",
+      "unzip", "unzip3", "zip", "zip3", "zipWith", "zipWith3");
       
     return wkw;
   })();
@@ -258,5 +240,3 @@ CodeMirror.defineMode("elm", function() {
   };
 
 });
-
-CodeMirror.defineMIME("text/x-elm", "elm");
