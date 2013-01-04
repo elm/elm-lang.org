@@ -26,7 +26,8 @@ position = let add (a,b) (c,d) = (a+c, b+d) in
 
 -- Display moving square and FPS on screen.
 screen pos actual =
-  flow down [ collage 400 400 [ outlined black (rect 40 40 pos) ]
+  flow down [ collage 400 400 [ outlined grey (rect 400 400 (200,200))
+                              , outlined black (rect 40 40 pos) ]
             , plainText "Move the square around with the arrow keys."
             , plainText $ "Actual frames per second: " ++ show actual
             , plainText $ "Desired frames per second: " ++ show desired

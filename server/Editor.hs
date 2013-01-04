@@ -146,10 +146,10 @@ editorCss = preEscapedToMarkup $
 -- | JS needed to set up CodeMirror.
 editorJS :: Html
 editorJS =
-    "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\
-      \lineNumbers: false,\
-      \matchBrackets: true,\
-      \theme: 'cobalt',\
-      \extraKeys: {'Ctrl-Enter': compileOutput},\
-    \});\
+    "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\n\
+    \ lineNumbers: false,\n\
+    \ matchBrackets: true,\n\
+    \ theme: 'cobalt',\n\
+    \ extraKeys: {'Ctrl-Enter': compileOutput},\n\
+    \});\n\
     \editor.focus();"

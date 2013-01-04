@@ -38,6 +38,10 @@ situation. The replace guarded definitions because they are just as
 flexible and can be used in strictly more situations. This is a breaking
 change, so read that section to see the simple fix!
 
+This website has undergone some changes too. You can now compile with Ctrl-Enter
+and you can turn on automatic compilation which will recompile by itself. Big
+thanks to [madscoaducom](https://github.com/madscoaducom) for adding this!
+
 ## Records
 
 Elm now supports records. Records are a labeled data structures
@@ -268,7 +272,7 @@ if-expressions. Yay!
 ## Wrap-up
 
 Thanks to Dobes for taking a look at the record system early on and finding
-a bunch of bugs! Thanks to John for pushing for a nicer way to `lift`!
+a bunch of bugs! Thanks to John for pushing for a nicer way to `lift`! 
 
 We also have been discussing a nice way to construct records. See
 [this discussion][github] if you would like to see what we have been

@@ -43,17 +43,17 @@ news = [markdown|
 
 #### News
 
+[Extensible Records in Elm 0.7][v7]
+
+Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
+
 [Escape from Callback Hell][escape]: AJAX without callbacks
 
 [Making Pong in Elm][pong]: a comprehensive walkthrough
 
-[Elm 0.6 Released][v6]
-
-Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
-
   [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [v6]: /blog/announce/version-0.6.elm "Elm 0.6 Released"
+  [v7]: /blog/announce/version-0.7.elm "Extensible Records"
   [video]: http://www.infoq.com/presentations/Elm "Making the Web Functional"
   [radar]: http://radar.oreilly.com/2012/12/emerging-languages-spotlight-elm.html "Emerging Languages Spotlight"
 
