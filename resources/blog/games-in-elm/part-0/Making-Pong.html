@@ -61,9 +61,9 @@ code > span.er { font-weight: bold; }
 <h1 id="programming-pong">Programming Pong</h1>
 <p>First we have the ever exciting module declaration. We are about to name our module <code>Pong</code>. Whoo!</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Pong</span> <span class="kw">where</span></code></pre>
-<p>Next we set our desired frames-per-second (FPS). We'll shoot for 50 FPS. The <code>fps</code> function produces a sequence of time deltas indicating how much time has passed since the previous frame.</p>
-<pre class="sourceCode literate haskell"><code class="sourceCode haskell">delta <span class="fu">=</span> lift inSeconds (fps <span class="dv">50</span>)</code></pre>
-<p>If someone's machine cannot handle 50 FPS, the updates will happen as quickly as possible within the limits of that machine.</p>
+<p>Next we set our desired frames-per-second (FPS). We'll shoot for 60 FPS. The <code>fps</code> function produces a sequence of time deltas indicating how much time has passed since the previous frame.</p>
+<pre class="sourceCode literate haskell"><code class="sourceCode haskell">delta <span class="fu">=</span> lift inSeconds (fps <span class="dv">60</span>)</code></pre>
+<p>If someone's machine cannot handle this frame rate, the updates will happen as quickly as possible within the limits of that machine.</p>
 <h1 id="section-1-models">Section 1: Models</h1>
 <p>Here we will define the data structures that will be used throughout the rest of the program. This is the foundation of our game, so changes here will likely cause changes everywhere else.</p>
 <p>These models are a rough specification for your game. They force you to ask: Which features do I want? What information do I need for those features? How do I represent that information? Once you have figured out the core information needed for your game, you have already done a lot of planning about how everything else will work.</p>
@@ -93,7 +93,7 @@ updateDirection2 <span class="fu">=</span> updateDirection <span class="dv">38</
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">keyInput <span class="fu">=</span> lift (<span class="fu">foldl</span> updateInput defaultKeyInput) Keyboard.Raw.keysDown</code></pre>
 <p>We now have a concise representation of the keyboard input that updates automatically as new key presses occur.</p>
 <h2 id="combining-all-inputs">Combining All Inputs</h2>
-<p>The inputs to this game include a timestep (which we extracted from JavaScript) and the keyboard input from the users.</p>
+<p>The inputs to this game include a timestep and the keyboard input from the users.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Input</span> <span class="fu">=</span> <span class="dt">Input</span> <span class="dt">Float</span> <span class="dt">KeyInput</span></code></pre>
 <p>Combine both kinds of inputs and filter out keyboard events. We only want the game to refresh on clock-ticks, not key presses too.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">input <span class="fu">=</span> sampleOn delta (lift2 <span class="dt">Input</span> delta keyInput)</code></pre>

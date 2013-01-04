@@ -38,7 +38,7 @@ emptyIDE =
 
 
 -- | list of themes to use with CodeMirror
-themes = [ "cobalt", "night", "default" ]
+themes = [ "cobalt", "night", "elegant" ]
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
@@ -47,16 +47,31 @@ editor filePath code =
     H.html $ do
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
-        H.link ! A.rel "stylesheet" ! A.href "/CodeMirror-2.13/lib/codemirror.css"
-        H.script ! A.src "/CodeMirror-2.13/lib/codemirror.js" $ mempty
-        H.script ! A.src "/CodeMirror-2.13/mode/haskell/haskell.js" $ mempty
-        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/CodeMirror-2.13/theme/" ++ theme ++ ".css" :: String))) themes
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.0/lib/codemirror.css"
+        H.script ! A.src "/codemirror-3.0/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.0/mode/elm/elm.js" $ mempty
+        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.0/theme/" ++ theme ++ ".css" :: String))) themes
         H.style ! A.type_ "text/css" $ editorCss
         H.script ! A.type_ "text/javascript" $
                 "function compile(formTarget) {\n\
                 \  var form = document.getElementById('inputForm');\n\
                 \  form.target = formTarget;\n\
                 \  form.submit();\n\
+                \};\n\
+                \var delay;\
+                \function toggleAutoUpdate(enable) {\n\
+                \  if (enable) {\
+                \    editor.on('change', updateOutput);\n\
+                \  } else {\
+                \    editor.off('change', updateOutput);\n\
+                \  }\
+                \};\n\
+                \function updateOutput() {\
+                \  clearTimeout(delay);\
+                \  delay = setTimeout(compileOutput, 500);\
+                \};\n\
+                \function compileOutput() {\
+                \  compile('output');\
                 \};\n\
                 \function setTheme() {\n\
                 \  var input = document.getElementById('editor_theme');\n\
@@ -82,20 +97,22 @@ editor filePath code =
                  H.div ! A.style "float:left;" $ do
                    let optionFor text = H.option ! A.value (toValue (text :: String)) $ toHtml text
                    do "Theme: "
-                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor themes
+                      H.select ! A.id "editor_theme" ! A.onchange "setTheme()" $ mapM_ optionFor $ themes ++ ["default"]
                       " Zoom: "
                       H.select ! A.id "editor_zoom" ! A.onchange "setZoom()" $ mapM_ optionFor ["normal", "larger", "largest"]
                  H.div ! A.style "float: right; padding-right: 6px;" $ do
                    "Compile: "
-                   H.input ! A.type_ "button" ! A.onclick "compile('output')" ! A.value "Side-By-Side"
+                   H.input ! A.type_ "button" ! A.onclick "compileOutput()" ! A.value "Side-By-Side" ! A.title "... or hit Ctrl+Enter"
                    H.input ! A.type_ "button" ! A.onclick "compile('_blank')" ! A.value "New Tab"
+                   " Auto update: "
+                   H.input ! A.type_ "checkbox" ! A.onchange "toggleAutoUpdate(this.checked)"
         H.script ! A.type_ "text/javascript" $ editorJS
 
 -- | CSS needed to style the CodeMirror frame.
 editorCss :: Markup
 editorCss = preEscapedToMarkup $
     ("body { margin: 0; }\n\
-     \.CodeMirror-scroll { height: 100%; }\n\
+     \.CodeMirror { height: 100%; }\n\
      \form { margin-bottom: 0; }\n\
      \.zoom-normal { font-size: 100%; }\n\
      \.zoom-larger { font-size: 150%; }\n\
@@ -114,14 +131,9 @@ editorCss = preEscapedToMarkup $
 editorJS :: Html
 editorJS =
     "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\
-    \lineNumbers: false,\
-    \matchBrackets: true,\
-    \theme: 'cobalt',\
-    \tabMode: 'shift',\
-    \onCursorActivity: function() {\
-    \editor.setLineClass(hlLine, null);\
-    \hlLine = editor.setLineClass(editor.getCursor().line, 'activeline');\
-    \}\
+      \lineNumbers: false,\
+      \matchBrackets: true,\
+      \theme: 'cobalt',\
+      \extraKeys: {'Ctrl-Enter': compileOutput},\
     \});\
-    \var hlLine = editor.setLineClass(0, 'activeline');\
     \editor.focus();"

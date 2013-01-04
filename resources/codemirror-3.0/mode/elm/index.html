@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CodeMirror: Elm mode</title>
+    <link rel="stylesheet" href="../../lib/codemirror.css">
+    <script src="../../lib/codemirror.js"></script>
+    <script src="../../lib/util/matchbrackets.js"></script>
+    <script src="elm.js"></script>
+    <link rel="stylesheet" href="../../theme/cobalt.css">
+    <style type="text/css">
+      .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+    </style>
+    <link rel="stylesheet" href="../../doc/docs.css">
+  </head>
+  <body>
+
+<form><textarea id="code" name="code">
+
+zipWith f xs ys =
+  case (xs, ys) of
+    { (a:as, b:bs) -> f a b : zipWith f as bs
+    ; ([], _) -> []
+    ; (_ ,[]) -> []
+    }
+</textarea></form>
+
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: false,
+        matchBrackets: true,
+        theme: "elegant"
+      });
+    </script>
+
+  </body>
+</html>

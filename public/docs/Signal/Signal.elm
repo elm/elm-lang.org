@@ -1,6 +1,18 @@
-
 import Website.Docs (createDocs2)
 
+ops =
+  [ ("(<~)", "(a -> b) -> Signal a -> Signal b", [markdown|
+An alias for `lift`. A prettier way to apply a
+function to the current value of a signal.|])
+  , ("(~)", "Signal (a -> b) -> Signal a -> Signal b", [markdown|
+Signal application. This takes two signals, holding a function and
+a value. It applies the current function to the current value.
+
+So the following expressions are equivalent:
+
+    scene <~ Mouse.x ~ Mouse.y
+    lift2 scene Mouse.x Mouse.y|])
+  ]
 
 lifts =
   [ ("constant", "a -> Signal a", [markdown|
@@ -94,10 +106,11 @@ moreLifts =
   ]
 
 categories = 
-  [ ("Combining Signals", lifts)
-  , ("Past-Dependent Signals", folds)
+  [ ("Combine", lifts)
+  , ("Pretty Combine", ops)
+  , ("Past-Dependence", folds)
   , ("Filters", filters)
-  , ("More Lifts", moreLifts)
+  , ("Do you even lift?", moreLifts)
   ]
 
 intro = [markdown|
