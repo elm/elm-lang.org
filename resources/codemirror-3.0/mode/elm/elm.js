@@ -11,7 +11,7 @@ CodeMirror.defineMode("elm", function() {
   var digitRE = /[0-9]/;
   var hexitRE = /[0-9A-Fa-f]/;
   var octitRE = /[0-7]/;
-  var idRE = /[a-z_A-Z0-9']/; //'
+  var idRE = /[a-z_A-Z0-9\']/;
   var symbolRE = /[-!#$%&*+.\/<=>?@\\^|~:\u03BB\u2192]/;
   var specialRE = /[(),;[\]`{}]/;
   var whiteCharRE = /[ \t\v\f]/; // newlines are handled in tokenizer
@@ -199,11 +199,11 @@ CodeMirror.defineMode("elm", function() {
       "module", "newtype", "of", "then", "type", "where", "_");
       
     setType("keyword")(
-      "\.\.", ":", "::", "=", "\\", "\"", "->", "\u2192", "\u03BB");
+      "\.\.", "|", ":", "::", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB");
 
     setType("builtin")(
       "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=",
-      "==", ">", ">=", "^", "||", "*");
+      "==", ">", ">=", "^", "||", "*", "<~", "~");
 
     setType("builtin")(
       "Bool", "Char", "False", "Float", "GT", "Int", "Just", "LT",
@@ -215,13 +215,25 @@ CodeMirror.defineMode("elm", function() {
       "compare", "concat", "concatMap", "cos", "cosh", "curry",
       "div", "drop", "dropWhile", "either", "filter",
       "flip", "floor", "foldl", "foldl1", "foldr", "foldr1", "fst",
-      "head", "id", "last", "length", "log", "logBase", "lookup", "map",
+      "head", "id", "last", "length", "lift", "lift2", "lift3", "lift4",
+      "lift5", "lift6", "lift7", "lift8", "log", "logBase", "lookup", "map",
       "max", "maximum", "maybe", "min", "minimum", "mod", "not", "or",
       "otherwise", "pi", "product", "quot", "rem", "reverse",
       "round", "scanl", "scanl1", "scanr", "scanr1",
       "show", "sin", "sinh", "snd", "sqrt", "sum",
       "tail", "take", "takeWhile", "tan", "tanh", "truncate", "uncurry",
-      "unzip", "unzip3", "zip", "zip3", "zipWith", "zipWith3");
+      "unzip", "unzip3", "zip", "zip3", "zipWith", "zipWith3",
+      "constant", "spacer", "container", "up", "down", "left", "right",
+      "inward", "outward", "flow", "layers", "collage", "image", "fittedImage",
+      "images", "video", "plainText", "text", "centeredText", "rightedText",
+      "justifiedText", "above", "below", "beside", "width", "height", "size",
+      "opacity", "color", "link", "widthOf", "heightOf", "sizeOf", "topLeft",
+      "midLeft", "bottomLeft", "midTop", "middle", "midBottom", "topRight",
+      "midRight", "bottomRight", "merge", "merges", "foldp", "count",
+      "countIf", "average", "foldp1", "foldp'", "keepIf", "dropIf", "keepWhen",
+      "dropWhen", "dropRepeats", "sampleOn", "red", "green", "blue", "cyan",
+      "yellow", "magenta", "black", "white", "grey", "gray", "rgb", "rgba",
+      "complement", "hsv", "hsva");
       
     return wkw;
   })();

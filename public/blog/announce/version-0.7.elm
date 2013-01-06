@@ -19,7 +19,7 @@ pre {
 }
 </style>
 
-# Elm 0.7 &ndash; Extensible Records & More
+# Extensible Records and more &ndash; Elm 0.7
 
 Major changes in this release include:
 
@@ -28,8 +28,8 @@ Major changes in this release include:
  - Guarded definitions have been replaced by multi-way-if expressions
  - Line and column numbers for all errors!
 
-I am very excited about these changes!
-Records are a very important addition, so they will be the major focus
+I am very excited about these changes! [Records](#records) are
+a very important addition, so they will be the major focus
 of this post. Nonetheless, the new syntax for `lift` is quite nice too,
 so be sure to take a look at that too!
 
@@ -40,7 +40,7 @@ change, so read that section to see the simple fix!
 
 This website has undergone some changes too. You can now compile with Ctrl-Enter
 and you can turn on automatic compilation which will recompile by itself. Check
-out the [Try Elm](/Try.elm) page to see these features in action. Big
+out the [Try Elm](/try) page to see these features in action. Big
 thanks to [madscoaducom](https://github.com/madscoaducom) for adding this!
 
 ## Records
