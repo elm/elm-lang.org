@@ -1,4 +1,3 @@
-
 import JavaScript
 import Window as Win
 import Automaton
@@ -61,7 +60,7 @@ Elm now has [dictionaries][Dict] and [sets][Set]!
   [Dict]: /docs/Data/Dict.elm "Dictionary library"
   [Set]: /docs/Data/Set.elm "Set library"
 
-The Dict and Set libraries could used from JavaScript. I can make this easier if people are interested. Let me know!
+The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
 ### Automatons
 
@@ -89,9 +88,9 @@ are interchangeable, so they are easy to switch in and out of programs.
 
 This library is based on the very clever ideas introduced by [Arrowized FRP][afrp].
 I have made an effort to make it easier to understand and use for people unfamiliar with
-&ldquo;Arrows&rdquo; and other concepts that are largely orthoganal to doing-things-in-real-life.
+&ldquo;Arrows&rdquo; and other concepts that are largely orthogonal to doing-things-in-real-life.
 I am hoping that the term [&ldquo;automaton&rdquo;][wiki] is somewhat familiar (or at least
-a better anology than &ldquo;arrow&rdquo;). Huge thangs to Joey Adams for suggesting this library
+a better anology than &ldquo;arrow&rdquo;). Huge thanks to Joey Adams for suggesting this library
 and working through the details with me!
 
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they
