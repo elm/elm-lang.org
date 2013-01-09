@@ -9,13 +9,11 @@ basics =
   [ ("maybe", "b -> (a -> b) -> Maybe a -> b", "Apply a function to the contents of a Maybe. Return default when given Nothing.")
   , ("isJust", "Maybe a -> Bool", "Check if constructed with Just.")
   , ("isNothing", "Maybe a -> Bool", "Check if constructed with Nothing.")
-  , ("fromMaybe", "a -> Maybe a -> a", "Extract the value of from a Maybe. Returns default when given Nothing.")
   ]
 
 lists =
-  [ ("consMaybe", "Maybe a -> [a] -> [a]", "If Just, adds the value to the front of the list. If Nothing, list is unchanged.")
-  , ("catMaybes", "[Maybe a] -> [a]", "Filters out Nothings and extracts the remaining values.")
-  , ("mapMaybe", "(a -> Maybe b) -> [a] -> [b]", "Maps function onto a list, discarding all Nothing results from the resulting list.")
+  [ ("cons", "Maybe a -> [a] -> [a]", "If Just, adds the value to the front of the list. If Nothing, list is unchanged.")
+  , ("justs", "[Maybe a] -> [a]", "Filters out Nothings and extracts the remaining values.")
   ]
 
 categories = [ ("Definition", def), ("Basic Utilities", basics), ("Maybe with Lists", lists) ]

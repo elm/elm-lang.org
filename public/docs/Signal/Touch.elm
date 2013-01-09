@@ -9,7 +9,15 @@ between different touches.
 |])
   ]
 
-categories = [ ("Touches", touches) ]
+gestures =
+  [ ("taps", "Signal [{ x :: Int, y :: Int }]", [markdown|
+The last position that was tapped. Default value is `{x=0,y=0}`. Updates
+whenever the user taps the screen.
+|])
+  ]
+
+categories = [ ("Touches", touches)
+             , ("Gestures", gestures) ]
 
 intro = [markdown|
 This is an early version of the touch library. It will likely grow
