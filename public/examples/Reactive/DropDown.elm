@@ -2,8 +2,7 @@
 component dropDown style =
   let msg = toText "Choose a style for the following text: " ++
             style (toText "Hello, World!")
-  in
-      text msg `above` dropDown
+  in text msg `above` dropDown
 
 -- choices :: [(String, Text -> Text)]
 
@@ -19,4 +18,4 @@ choices = [ ("underline", underline)
 
 (drop,choice) = Input.dropDown choices
 
-main = component drop <~ choice
+main = lift (component drop) choice

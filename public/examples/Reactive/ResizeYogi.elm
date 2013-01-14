@@ -3,6 +3,6 @@
 
 resizeableYogi edgeLen = image edgeLen edgeLen "yogi.jpg"
 
-edgeLen = (max 100 . uncurry max) <~ Mouse.position
+edgeLen = lift (max 100 . uncurry max) Mouse.position
 
-main = resizeableYogi <~ edgeLen
+main = lift resizeableYogi edgeLen

@@ -11,10 +11,6 @@ button str =
 target = lift2 (-) (countIf id rclkd) (countIf id lclkd)
 
 
-data Either a b = Left a | Right b
-
-mergeEither xs ys = merge (lift Left xs) (lift Right ys)
-
 step inp (target,angle) =
     case inp of
       Left t -> (t, angle)
@@ -31,7 +27,8 @@ follower angle =
                 if a < 30 then 10 + (30-a) / 3 else 10
       toDot t = filled (toClr t) $ circle (toRds t) (toPos t)
   in  layers [ collage 300 300 $ map (toDot . ((*) 30)) [0..11]
-             , container 300 300 middle . text . Text.height 2 . toText $ show (round angle `mod` 360) ++ "&deg;" ]
+             , container 300 300 middle . text . Text.height 2 . toText $
+               show (round angle `mod` 360) ++ "&deg;" ]
 
 
 scene (w,h) angle =
@@ -41,5 +38,5 @@ scene (w,h) angle =
                         , container 150 300 topRight rButton ]
            ]
 
-main = scene <~ Window.dimensions ~ (snd <~ foldp step (0,0) input)
+main = lift2 scene Window.dimensions (lift snd (foldp step (0,0) input))
 

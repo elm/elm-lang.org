@@ -1,3 +1,2 @@
 
-
-main = asText <~ Mouse.position
+main = lift asText Mouse.position

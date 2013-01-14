@@ -8,4 +8,4 @@ scene (x,y) (w,h) =
     , filled myGreen (ngon 5 30 (x,y))
     ]
 
-main = scene <~ Mouse.position ~ Window.dimensions
+main = lift2 scene Mouse.position Window.dimensions

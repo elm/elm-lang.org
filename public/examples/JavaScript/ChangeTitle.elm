@@ -18,7 +18,7 @@ import Input
 
 
 (field, title) = let (f,t) = textField "" in
-                 (f, castStringToJSString <~ t)
+                 (f, lift castStringToJSString t)
 
 foreign export jsevent "elm_title"
   title :: Signal JSString

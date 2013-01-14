@@ -6,7 +6,7 @@ import JSON
     
 detail =
   let toRequest s = get $ "http://zip.elevenbasetwo.com/v2/US/" ++ s in
-  extract <~ send (toRequest <~ zipCode)
+  lift extract (send (lift toRequest zipCode))
            
 extract response =
   case response of
@@ -17,4 +17,4 @@ extract response =
 display info =
   flow right [ zipPicker, plainText " is the zip code for ", info ]
   
-main = display <~ detail
+main = lift display detail

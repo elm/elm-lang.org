@@ -1,2 +1,2 @@
 
-main = asText <~ count Mouse.clicks
+main = lift asText (count Mouse.clicks)

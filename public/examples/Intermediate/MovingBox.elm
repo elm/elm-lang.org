@@ -33,6 +33,6 @@ screen pos actual =
             , plainText $ "Desired frames per second: " ++ show desired
             ]
 
-averageFPS = truncate . (/) second <~ average 40 timestep
+averageFPS = lift (truncate . (/) second) (average 40 timestep)
 
 main = lift2 screen position averageFPS

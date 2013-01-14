@@ -33,8 +33,8 @@ pressCount = foldp (\p c -> if p then c+1 else c) 0 press
 errors = lift4 getErrors first last email remail
 sendable = lift2 (&&) press (lift isEmpty errors)
 
-redirectTo =
-    castStringToJSString <~ keepWhen sendable "" (lift3 url first last email)
+redirectTo = lift castStringToJSString
+                  (keepWhen sendable "" (lift3 url first last email))
 
 foreign export jsevent "elm_redirect"
   redirectTo :: Signal JSString

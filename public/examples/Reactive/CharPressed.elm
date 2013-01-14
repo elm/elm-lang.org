@@ -8,4 +8,4 @@ latestKey = let step curr prev = maybe prev Char.fromCode curr in
 display char =
   plainText "The last key you pressed was: " `beside` asText char
 
-main = display <~ latestKey
+main = lift display latestKey

@@ -40,7 +40,7 @@ scene (w,h) img = flow down [ container w 60 middle tagInput
 -- Pass in the current dimensions and image. Both inputs are
 -- signals so they will update automatically.
 
-main = scene <~ Window.dimensions ~ images (getPhotos (dropRepeats tags))
+main = lift2 scene Window.dimensions (images (getPhotos (dropRepeats tags)))
 
 
 

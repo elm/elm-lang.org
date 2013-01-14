@@ -28,7 +28,7 @@ drawFig1 t =
                       , filled yellow $ circle 35 (125,150)
                       , toForm (125,150) (plainText "Sun") ]
 
-figure1 = drawFig1 <~ time
+figure1 = lift drawFig1 time
 
 
 drawFig2 t =
@@ -36,7 +36,7 @@ drawFig2 t =
   collage 300 300 [ filled red $ circle 15 pos
                   , filled green $ rect 300 50 (150,275) ]
 
-figure2 = drawFig2 <~ time
+figure2 = lift drawFig2 time
 
 
 ---- Put it together and show it ----

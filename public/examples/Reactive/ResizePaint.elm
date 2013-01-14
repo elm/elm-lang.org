@@ -4,7 +4,7 @@
 -- while maintaining its aspect ratio.
 
 resizeablePaint (w,h) = fittedImage w h "paint.jpg"
-main = resizeablePaint <~ Window.dimensions
+main = lift resizeablePaint Window.dimensions
 
 
 
