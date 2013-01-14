@@ -2,10 +2,12 @@
 import Website.Docs (createDocs2)
 
 touches =
-  [ ("touches", "Signal [{ x :: Int, y :: Int, id :: Int }]", [markdown|
+  [ ("touches", "Signal [{ x  :: Int, y  :: Int, id :: Int,\n                     x0 :: Int, y0 :: Int, t0 :: Time }]", [markdown|
 A list of touches. Each ongoing touch is represented by a set of `x`
 and `y` coordinates and an identifier `id` that allows you to distinguish
-between different touches.
+between different touches. Each touch also contains the coordinates and time
+of the initial contact (`x0`, `y0`, and `t0`) which helps compute more
+complicated gestures.
 |])
   ]
 
