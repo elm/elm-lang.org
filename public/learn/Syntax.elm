@@ -29,6 +29,7 @@ This document lists all possible Elm syntax.
 - [Functions](#functions)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
+- [Lifting with (<~) and (~)](#lifting)
 - [Modules](#modules)
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
@@ -231,6 +232,37 @@ You can also use anonymous functions:
     func = (\\a b -> toFloat a / toFloat b)
     xsMod7 = map (\\n -> n `mod` 7) [1..100]
 
+### Lifting
+
+The `lift` functions are used to apply a normal function like `sqrt` to a signal
+of values such as `Mouse.x`. So the expression `(lift sqrt Mouse.x)` evaluates
+to a signal in which the current value is equal to the square root of the current
+x-coordinate of the mouse.
+
+You can also use the functions `(<~)` and `(~)` to lift signals. The squigly
+arrow is exactly the same as the lift function, so the following expressions
+are the same:
+
+    lift sqrt Mouse.x
+    sqrt <~ Mouse.x
+
+You can think of it as saying &ldquo;send this signal through this
+function.&rdquo;
+
+The `(~)` operator allows you to apply a signal of functions to a signal of
+values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
+together many signals, just like `lift2`, `lift3`, etc. So the following
+expressions are equivalent:
+
+    lift2 (,) Mouse.x Mouse.y
+    (,) <~ Mouse.x ~ Mouse.y
+
+    lift2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
+    scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
+
+More info can be found [here](/blog/announce/version-0.7.elm#do-you-even-lift)
+and [here](/docs/Signal/Signal.elm).
+
 ### Modules
 
     module MyModule where
@@ -246,14 +278,27 @@ You can also use anonymous functions:
         (expr)
         signalName :: Signal jsType
 
-The `expr` can be any Elm expression. It is the initial value of the signal `signalName`.
-As events with name `eventName` occur, signal `signalName` will get updated.
-The type `jsType` must be a JavaScript type such as `JSNumber` or `JSString`.
+The `expr` can be any Elm expression. It is the initial value of the
+signal `signalName`. As events with name `eventName` occur, signal
+`signalName` will get updated. The type `jsType` must be a JavaScript
+type such as `JSNumber` or `JSString`.
 
     foreign export jsevent "eventName"
         signalName :: Signal jsType
 
 The rules are the same for `export` except you do not need an initial value.
+
+Elm has four built-in event handlers that take a `JSString` and automatically
+take some imperative action:
+
+* `"elm_title"` which sets the page title, ignoring empty strings.
+* `"elm_log"` which logs messages in the developer console.
+* `"elm_redirect"` which redirects to a different page, ignoring empty strings.
+* `"elm_viewport"` which is necessary if you want mobile browsers to accurately
+  report their dimensions, allowing you to design a &ldquo;mobile
+  optimized&rdquo; program that looks great on any device. The given string
+  sets the `content` field of a meta tag like this:<br/>
+  `<meta name="viewport" content="width=device-width, initial-scale=1"\>`
 
 ### Things *not* in Elm
 

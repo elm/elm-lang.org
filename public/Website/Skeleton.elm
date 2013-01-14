@@ -4,8 +4,8 @@ module Website.Skeleton where
 import Website.ColorScheme
 
 button (name, href, clr) =
-    let accent = color clr (spacer 100 2) in
-    let butn = container 100 58 middle $ text . Text.color black $ toText name in
+    let accent = color clr (spacer 80 2) in
+    let butn = container 80 58 middle $ text . Text.color black $ toText name in
     Graphics.link href $ accent `below` butn
 
 buttons = flow right . map button $
@@ -29,10 +29,10 @@ veiwSource = [markdown|
 heading outer inner =
   let header = container outer 60 middle $
                title (inner - widthOf buttons) `beside` buttons
-  in  layers [ flow down [ color lightGrey (spacer outer 58)
-                         , color mediumGrey (spacer outer 1) ]
-             , header
-             , width outer veiwSource ]
+  in  layers $ [ flow down [ color lightGrey (spacer outer 58)
+                           , color mediumGrey (spacer outer 1) ]
+               , header ] ++
+          (if outer < 800 then [] else [width outer veiwSource])
 
 skeleton bodyFunc outer =
   let inner = if outer < 820 then outer - 20 else 800 in

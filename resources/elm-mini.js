@@ -444,9 +444,9 @@ var Value = function(){
 	    }
 	    return "(" + name + ".fromList " + toString(list) + ")";
 	} else {
-	    var output = [];
-	    for (var i = v.length; --i; ) { output.push(toString(v[i])); }
-	    output = v[0] + ' ' + output.join(' ');
+	    var output = "";
+	    for (var i = v.length; --i; ) { output = ' ' + toString(v[i]) + output; }
+	    output = v[0] + output;
 	    return (v.length > 1) ? "(" + output + ")" : output;
 	}
     }
@@ -1000,11 +1000,6 @@ Elm.Maybe = function() {
 	    return xs;
 	};
     }
-    function fromMaybe(b) { return function(m) {
-	    if (m[0] === "Just") return m[1];
-	    return b;
-	};
-    }
     function mapCons(f) { return function(y) { return function(xs) {
 		var x = f(y);
 		if (x[0] === "Just") return ["Cons", x[1], xs];
@@ -1021,14 +1016,43 @@ Elm.Maybe = function() {
 
     return {Just : function(x) { return ["Just",x]; },
 	    Nothing : ["Nothing"],
-	    catMaybes : Elm.List.foldr(consMaybe)(["Nil"]),
+	    justs : Elm.List.foldr(consMaybe)(["Nil"]),
 	    isJust : function(m) { return m[0] === "Just"; },
 	    isNothing : function(m) { return m[0] === "Nothing"; },
-	    fromMaybe : fromMaybe,
-	    consMaybe : consMaybe,
-	    mapMaybe : function(f) { return Elm.List.foldr(mapCons(f))(["Nil"]); },
+	    cons : consMaybe,
 	    maybe : maybe
     };
+}();
+
+Elm.Either = function() {
+ function Left(a1) { return ['Left',a1]; }
+ function Right(a1){ return ['Right',a1]; }
+ function either(f){ return function(g){ return function(e){
+    switch(e[0]){
+     case 'Left':  return f(e[1]);
+     case 'Right': return g(e[1]);
+    }
+ };};}
+ function isLeft(e)  { return e[0] == 'Left';  }
+ function isRight(e) { return e[0] == 'Right'; }
+
+ function get(es) { return Elm.List.map(function(x){return x[1];})(es); }
+ function lefts(es) { return get(Elm.List.filter(isLeft)(es)); }
+ function rights(es) { return get(Elm.List.filter(isRight)(es)); }
+ function partition(es) {
+     var lrs = Elm.List.partition(isLeft)(es);
+     lrs[1] = get(lrs[1]);
+     lrs[2] = get(lrs[2]);
+     return lrs;
+ }
+ return {Left:Left,
+	 Right:Right,
+	 either:either,
+	 isLeft:isLeft,
+	 isRight:isRight,
+	 lefts:lefts,
+	 rights:rights,
+	 partition:partition};
 }();
 
 Elm.Char = function() {
@@ -2495,6 +2519,12 @@ Elm.Signal = function() {
       return Elm.List.foldl1(mrg)(ss);
   }
 
+  function mergeEither(s1) { return function(s2) {
+      function f(s) { return function(x) { return [s,x]; }; }
+      return new merge(new lift(f,[s1]), new lift(f,[s2]));
+    };
+  }
+
   function average(sampleSize) { return function(s) {
     var sample = new Array(sampleSize);
     var i = sampleSize;
@@ -2554,6 +2584,7 @@ Elm.Signal = function() {
     delay : delay,
     merge : function(s1) { return function(s2) { return new merge(s1,s2)}; },
     merges : merges,
+    mergeEither : mergeEither,
     average : average,
     count : function(sig) {
 	  var incr = function(_){return function(c){return c+1;};};
@@ -2591,7 +2622,8 @@ var Dispatcher = function() {
 	content.appendChild(Render.render(currentElement));
 	var w = document.getElementById('widthChecker').offsetWidth;
 	if (w !== window.innerWidth) {
-	    Dispatcher.notify(Elm.Window.dimensions.id, Value.Tuple(w, window.innerHeight));
+	    Dispatcher.notify(Elm.Window.dimensions.id,
+			      Value.Tuple(w, window.innerHeight));
 	}
 	program = Elm.Signal.lift(function(value) {
 		var content = document.getElementById('content');
@@ -2623,7 +2655,7 @@ var Dispatcher = function() {
     function filterDeadInputs() {
 	var temp = [];
 	for (var i = inputs.length; i--; ) {
-	    if (isAlive(inputs[i])) temp.push(inputs[i]);
+	    if (isAlive(inputs[i])) { temp.push(inputs[i]); }
 	}
 	inputs = temp;
     }
@@ -2788,8 +2820,6 @@ Elm.Input = function() {
 
 Elm.Keyboard = { Raw : function() {
   var keysDown = Elm.Signal.constant(["Nil"]);
-  keysDown.defaultNumberOfKids = 2;
-
   var charPressed = Elm.Signal.constant(["Nothing"]);
 
   function remove(x,xs) {
@@ -2833,29 +2863,47 @@ Elm.Keyboard = { Raw : function() {
 };
 
 (function() {
-  function dir(left,right,up,down) {
-      function f(ks) {
-	  var x = 0, y = 0;
-	  while (ks[0] == "Cons") {
-	      switch (ks[1]) {
-	      case left : --x; break;
-	      case right: ++x; break;
-	      case up   : ++y; break;
-	      case down : --y; break;
-	      }
-	      ks = ks[2];
-	  }
-	  return { _:[true], x:[x], y:[y] };
-      }
-      return Elm.Signal.lift(f)(Elm.Keyboard.Raw.keysDown);
+  function keySignal(f) {
+    var signal = Elm.Signal.lift(f)(Elm.Keyboard.Raw.keysDown);
+    Elm.Keyboard.Raw.keysDown.defaultNumberOfKids += 1;
+    signal.defaultNumberOfKids = 0;
+    return signal;
   }
-  var arrows = dir(37,39,38,40);
-  arrows.defaultNumberOfKids = 0;
-  var wasd = dir(65,68,87,83);
-  wasd.defaultNumberOfKids = 0;
 
-  Elm.Keyboard.arrows = arrows;
-  Elm.Keyboard.wasd   = wasd;
+  function dir(left,right,up,down) {
+    function f(ks) {
+      var x = 0, y = 0;
+      while (ks[0] == "Cons") {
+	switch (ks[1]) {
+	case left : --x; break;
+	case right: ++x; break;
+	case up   : ++y; break;
+	case down : --y; break;
+	}
+	ks = ks[2];
+      }
+      return { _:[true], x:[x], y:[y] };
+    }
+    return keySignal(f);
+  }
+
+  function is(key) {
+    function f(ks) {
+      while (ks[0] == "Cons") {
+	if (key == ks[1]) return true;
+	ks = ks[2];
+      }
+      return false;
+    }
+    return keySignal(f);
+  }
+
+  Elm.Keyboard.arrows = dir(37,39,38,40);
+  Elm.Keyboard.wasd   = dir(65,68,87,83);
+  Elm.Keyboard.shift  = is(16);
+  Elm.Keyboard.ctrl   = is(17);
+  Elm.Keyboard.space  = is(32);
+
 }());
 
 Elm.Mouse = function() {
@@ -2892,12 +2940,12 @@ Elm.Mouse = function() {
 	  var hasListener2 = Dispatcher.notify(clicks.id, Value.Tuple());
 	  Dispatcher.notify(isClicked.id, false);
 	  if (!hasListener1 && !hasListener2)
-		this.removeEventListener('click',arguments.callee,false);
+            this.removeEventListener('click',arguments.callee,false);
 	});
   Value.addListener(document, 'mousedown', function(e) {
 	  var hasListener = Dispatcher.notify(isDown.id, true);
 	  if (!hasListener)
-		this.removeEventListener('mousedown',arguments.callee,false);
+            this.removeEventListener('mousedown',arguments.callee,false);
 	});
   Value.addListener(document, 'mouseup', function(e) {
 	  var hasListener = Dispatcher.notify(isDown.id, false);
@@ -3071,6 +3119,18 @@ Value.addListener(document, 'elm_title', function(e) {document.title = e.value;}
 Value.addListener(document, 'elm_redirect', function(e) {
 	if (e.value.length > 0) { window.location = e.value; }
     });
+Value.addListener(document, 'elm_viewport', function(e) {
+	var node = document.getElementById('elm_viewport');
+	if (!node) {
+	    node = document.createElement('meta');
+	    node.id = 'elm_viewport';
+	    node.name = 'viewport';
+	    document.head.appendChild(node);
+	}
+	node.content = e.value;
+	Dispatcher.notify(Elm.Window.dimensions.id,
+			  Value.Tuple(window.innerWidth, window.innerHeight));
+    });
 
 Elm.Prelude = function() {
     var mod = function(x) { return function(y) {
@@ -3231,6 +3291,8 @@ Elm.Prelude = function() {
 	    foldp$ : Elm.Signal.foldp$,
 	    constant : Elm.Signal.constant,
 	    merge : Elm.Signal.merge,
+	    merges : Elm.Signal.merges,
+	    mergeEither : Elm.Signal.mergeEither,
 	    count : Elm.Signal.count,
 	    countIf : Elm.Signal.countIf,
 	    average : Elm.Signal.average,
@@ -3261,6 +3323,94 @@ Elm.Prelude = function() {
   
 }());
 
+Elm.Touch = function() {
+
+  function Dict() {
+    this.keys = [];
+    this.values = [];
+
+    this.insert = function(key,value) {
+      this.keys.push(key);
+      this.values.push(value);
+    };
+    this.lookup = function(key) {
+      var i = this.keys.indexOf(key)
+      return i >= 0 ? this.values[i] : {x:0,y:0,t:0};
+    };
+    this.remove = function(key) {
+      var i = this.keys.indexOf(key);
+      if (i < 0) return;
+      var t = this.values[i];
+      this.keys.splice(i,1);
+      this.values.splice(i,1);
+      return t;
+    };
+  }
+
+  var root = Elm.Signal.constant([]),
+      tapTime = 500,
+      hasTap = false,
+      tap = {_:[true],x:[0],y:[0]},
+      dict = new Dict();
+
+  function touch(t) {
+      var r = dict.lookup(t.identifier);
+      return {_ : [true], id: [t.identifier],
+	      x: [t.pageX], y: [t.pageY],
+	      x0: [r.x], y0: [r.y],
+	      t0: [r.t] };
+  }
+
+  function start(e) {
+    dict.insert(e.identifier,{x:e.pageX,y:e.pageY,t:Date.now()});
+  }
+  function end(e) {
+    var t = dict.remove(e.identifier);
+    if (Date.now() - t.t < tapTime) {
+	hasTap = true;
+	tap = {_:[true], x:[t.x], y:[t.y]};
+    }
+  }
+
+  function listen(name, f) {
+    function update(e) {
+      for (var i = e.changedTouches.length; i--; ) { f(e.changedTouches[i]); }
+      var ts = new Array(e.touches.length);
+      for (var i = e.touches.length; i--; ) { ts[i] = touch(e.touches[i]); }
+      var hasListener = Dispatcher.notify(root.id, ts);
+      if (!hasListener) return document.removeEventListener(name, update);
+      e.preventDefault();
+    }
+    Value.addListener(document, name, update);
+  }
+
+  listen("touchstart", start);
+  listen("touchmove", function(_){});
+  listen("touchend", end);
+  listen("touchcancel", end);
+  listen("touchleave", end);
+
+  function dependency(f) {
+      var sig = Elm.Signal.lift(f)(root);
+      root.defaultNumberOfKids += 1;
+      sig.defaultNumberOfKids = 0;
+      return sig;
+  }
+
+  var touches = dependency(function(ts) {
+	  return Elm.JavaScript.castJSArrayToList(ts);
+      });
+  var taps = function() {
+      var sig = dependency(function(_) { return tap; });
+      sig.defaultNumberOfKids = 1;
+      function pred(_) { var b = hasTap; hasTap = false; return b; }
+      var sig2 =  Elm.Signal.keepIf(pred)({_:[true],x:[0],y:[0]})(sig);
+      sig2.defaultNumberOfKids = 0;
+      return sig2;
+  }();
+
+  return { touches: touches, taps: taps };
+}();
 Elm.Dict=function(){
  var compare = Elm.Prelude.compare;
  var uncurry = Elm.Prelude.uncurry;
@@ -3869,7 +4019,7 @@ Elm.Automaton=function(){
    return function(){
    switch(Automaton$m0_14[0]){
     case "Automaton":
-    return lift(fst)(foldp_(function(a_17){
+    return lift(fst)(foldp$(function(a_17){
      return function(Tuple2$bAutomaton$m_18){
       return function(){
       switch(Tuple2$bAutomaton$m_18[0]){
@@ -4279,38 +4429,38 @@ Elm.Website.Skeleton=function(){
  for (Elm['i'] in Elm.Website.ColorScheme) {
   if (hiddenVars[Elm['i']]) continue;
   eval('var ' + Elm['i'] + ' = Elm.Website.ColorScheme[Elm.i];');}
- var buttons_1=flow(right)(map(button_0)(["Cons",["Tuple3",Value.str("About"),Value.str("/About.elm"),accent1],["Cons",["Tuple3",Value.str("Examples"),Value.str("/Examples.elm"),accent2],["Cons",["Tuple3",Value.str("Docs"),Value.str("/Documentation.elm"),accent3],["Cons",["Tuple3",Value.str("Download"),Value.str("/Download.elm"),accent4],["Nil"]]]]]));
- var veiwSource_3=text('<div style="height:0;width:0;">&nbsp;</div><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a><div style="height:0;width:0;">&nbsp;</div>');
- function button_0(Tuple3$namehrefclr_6){
+ function button_0(_0_6){
   return function(){
-  switch(Tuple3$namehrefclr_6[0]){
-   case "Tuple3":
+  switch(_0_6[0]){
+   case 'Tuple3':
    return function(){
-    var accent_10=color(Tuple3$namehrefclr_6[3])(spacer(100)(2));
+    var accent_10=color(_0_6[3])(spacer(80)(2));
     return function(){
-     var butn_11=container(100)(58)(middle)(function(x){
-      return text(Text.color(black)(x));}(toText(Tuple3$namehrefclr_6[1])));
-     return Graphics.link(Tuple3$namehrefclr_6[2])(below(accent_10)(butn_11));}();}();
+     var butn_11=container(80)(58)(middle)(function(x){
+      return text(Text.color(black)(x));}(toText(_0_6[1])));
+     return Graphics.link(_0_6[2])(below(accent_10)(butn_11));}();}();
   }
-  throw "Non-exhaustive pattern match in case";}();}
+  throw "Non-exhaustive pattern match in case expression (Line 7, Column 5)";}();}
  function title_2(w_12){
   return function(){
    var elm_13=function(x){
-    return text(Text.link(Value.str("/"))(Text.color(black)(Text.height(2)(bold(x)))));}(toText("Elm"));
+    return text(Text.link(Value.str('/'))(Text.color(black)(Text.height(2)(bold(x)))));}(toText('Elm'));
    return container(w_12)(60)(midLeft)(elm_13);}();}
  function heading_4(outer_14){
   return function(inner_15){
    return function(){
     var header_16=container(outer_14)(60)(middle)(beside(title_2((inner_15-widthOf(buttons_1))))(buttons_1));
-    return layers(["Cons",flow(down)(["Cons",color(lightGrey)(spacer(outer_14)(58)),["Cons",color(mediumGrey)(spacer(outer_14)(1)),["Nil"]]]),["Cons",header_16,["Cons",width(outer_14)(veiwSource_3),["Nil"]]]]);}();};}
+    return layers(['Cons',flow(down)(['Cons',color(lightGrey)(spacer(outer_14)(58)),['Cons',color(mediumGrey)(spacer(outer_14)(1)),['Nil']]]),['Cons',header_16,((compare(outer_14)(800)[0] === 'LT')?['Nil']:['Cons',width(outer_14)(veiwSource_3),['Nil']])]]);}();};}
  function skeleton_5(bodyFunc_17){
   return function(outer_18){
    return function(){
     var inner_19=((compare(outer_18)(820)[0] === 'LT')?(outer_18-20):800);
     return function(){
      var body_20=bodyFunc_17(inner_19);
-     return flow(down)(["Cons",heading_4(outer_18)(inner_19),["Cons",spacer(outer_18)(10),["Cons",container(outer_18)(heightOf(body_20))(middle)(body_20),["Cons",function(x){
-      return container(outer_18)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText("&copy; 2011-2013 ")),Text.link(Value.str("https://github.com/evancz"))(toText("Evan Czaplicki")))),["Nil"]]]]]);}();}();};}
+     return flow(down)(['Cons',heading_4(outer_18)(inner_19),['Cons',spacer(outer_18)(10),['Cons',container(outer_18)(heightOf(body_20))(middle)(body_20),['Cons',function(x){
+      return container(outer_18)(50)(midBottom)(text(x));}(Value.append(Text.color(rgb(145)(145)(145))(toText('&copy; 2011-2013 ')),Text.link(Value.str('https://github.com/evancz'))(toText('Evan Czaplicki')))),['Nil']]]]]);}();}();};}
+ var buttons_1=flow(right)(map(button_0)(['Cons',['Tuple3',Value.str('About'),Value.str('/About.elm'),accent1],['Cons',['Tuple3',Value.str('Examples'),Value.str('/Examples.elm'),accent2],['Cons',['Tuple3',Value.str('Docs'),Value.str('/Documentation.elm'),accent3],['Cons',['Tuple3',Value.str('Download'),Value.str('/Download.elm'),accent4],['Nil']]]]]));
+ var veiwSource_3=text('<div style="height:0;width:0;">&nbsp;</div><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a><div style="height:0;width:0;">&nbsp;</div>');
  return {$op : {},
  button:button_0,
  buttons:buttons_1,

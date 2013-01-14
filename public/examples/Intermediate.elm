@@ -7,6 +7,7 @@ addFolder folder = map (\(x,y) -> (x, y, folder))
 intermediate = addFolder "Intermediate/"
   [ ("Slide Show", "SlideShow")
   , ("Graphs", "Plot")
+  , ("Turtle", "Turtle")
   , ("Flickr API", "Flickr")
   , ("Light Box", "LightBox")
   , ("Stamps", "Stamps")

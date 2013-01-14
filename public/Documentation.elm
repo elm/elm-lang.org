@@ -3,7 +3,7 @@ import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
 import List
 
-standard = ("General Purpose",
+standard = ("General",
   [ ("List",  "docs/Data/List.elm")
   , ("Dict",  "docs/Data/Dict.elm")
   , ("Set",  "docs/Data/Set.elm")

@@ -21,13 +21,22 @@ About the language:
 * [Escape from Callback Hell][efch]
 * [Create a purely functional game][pong] and [a skeleton for making games][games]
 * [The semantics of FRP in Elm][thesis]
-* Release notes for versions:
-  [0.3][3], [0.3.5][35], [0.3.6][36], [0.4][4], [0.5][5], [0.6][6], [0.7][7]
 
 Getting set up:
 
 * [Setting up the Elm compiler and server][install]
 * [Creating a working website][this]
+
+Release notes:
+
+* [0.7][7] &ndash; 4 Jan 2013
+* [0.6][6] &ndash; 10 Dec 2012
+* [0.5][5] &ndash; 26 Oct 2012
+* [0.4][4] &ndash; 18 Sep 2012
+* [0.3.6][36]
+* [0.3.5][35]
+* [0.3][3] &ndash; 21 Jun 2012
+
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
   [adt]: learn/Pattern-Matching.elm
