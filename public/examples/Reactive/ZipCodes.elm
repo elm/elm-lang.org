@@ -1,4 +1,3 @@
-
 import Maybe
 import HTTP
 
@@ -15,7 +14,7 @@ toUrl s = if length s == 5 && all Char.isDigit s
 realInput = lift toUrl rawInput
 
 -- Send AJAX requests for any valid input!
-responses = sendGet (lift (maybe "" id) (keepIf isJust Nothing realInput))
+responses = sendGet (fromMaybe "" <~ realInput)
 
 -- Display a response.
 display response = 
