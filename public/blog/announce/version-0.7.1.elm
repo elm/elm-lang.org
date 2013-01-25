@@ -185,9 +185,9 @@ Names are now consistent with the new `Either` library. For example,
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
 
-    justs  :: [Maybe a] -> a
-    lefts  :: [Either a b] -> a
-    rights :: [Either a b] -> b
+    justs  :: [Maybe a] -> [a]
+    lefts  :: [Either a b] -> [a]
+    rights :: [Either a b] -> [b]
 
 Or if you are curious about what kind of value you have:
 
@@ -200,23 +200,30 @@ Or if you want to extract a value from a Maybe or Either, you can use:
     either :: (a -> c) -> (b -> c) -> Either a b -> c
 
 With both extraction functions, you provide two ways to extract a value.
-You can also use `maybe` to define some other simple functions
-for working with Maybes:
+
+Some functions have also been taken out of the `Maybe` library: `fromMaybe`
+and `mapMaybe`. I removed them because I thought they had silly names and
+could be defined easily with more general functions. They can be re-defined as follows:
 
     fromMaybe :: a -> Maybe a -> a
     fromMaybe default option = maybe default id option
+    fromMaybe' d = maybe d id
 
-    map :: (a -> b) -> Maybe a -> Maybe b
-    map f = maybe Nothing (Just . f)
+    mapMaybe :: (a -> Maybe b) -> [a] -> [b]
+    mapMaybe f xs = justs (map f xs)
+    mapMaybe' f = justs . map f
 
-So while this introduces some breaking changes, it is quite easy to define the
-functions from the old API. Sorry for any inconvenience!
+In general, it is probably just easier to not define the function and use `maybe` and
+`justs` in these situations. In any case, sorry for any inconvenience!
 
-## Miscellaneous
+## Thank you!
+
+Thank you to Dobes and Luke for brainstorming the Touch API with me, and extra
+thanks to Dobes for planting the thought in my mind.
 
 Thank you to Grzegorz and John for finding two weird bugs!
 
-Thanks to Grzegorz and Mads for working on cool projects! Again, I encourage you to
+Thanks to Grzegorz and Mads for working on cool projects! Again, I encourage you, the reader, to
 [set up Preselm](https://github.com/grzegorzbalcerek/Preselm#preselm) or
 [try out the inline docs](https://groups.google.com/forum/?fromgroups=#!topic/elm-discuss/_xmbeVfjYbI)!
 |]
