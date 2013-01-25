@@ -23,7 +23,7 @@ booleans =
   [ ("(==),(/=)", "a -> a -> Bool", "Compare any two values for structural equality and inequality. Functions cannot be compared.")
   , ("(<),(>),(<=),(>=}", "a -> a -> Bool", "Compare any two values of type {String,Char,Int,Float,Time}. These are also the only values that work as Dictionary keys or Set members.")
   , ("(&&)", "Bool -> Bool -> Bool", "The and operator. True if both inputs are True.")
-  , ("(&&)", "Bool -> Bool -> Bool", "The or operator. True if one or both inputs are True.")
+  , ("(||)", "Bool -> Bool -> Bool", "The or operator. True if one or both inputs are True.")
   , ("xor", "Bool -> Bool -> Bool", "The exclusive-or operator. True if exactly one input is True.")
   , ("not", "Bool -> Bool", "Negate a boolean value: (not True == False) and (not False == True)")
   , ("otherwise", "Bool", "Equal to true. Useful as the last case of a multi-way-if.")
