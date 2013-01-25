@@ -34,7 +34,7 @@ make Elm a better choice for mobile devices. This version:
 Touch is a brand new addition to Elm, and as far as I know, brand
 new to FRP. I am excited to see all the creative (and hopefully elegant)
 things will come from it. My favorite use so far is [a simple drawing app][draw]
-that takes only 5 lines!
+that takes only 5 lines! (obvious warning: requires a touch screen!)
 
 Before we get started, there is some non-compiler news:
 
