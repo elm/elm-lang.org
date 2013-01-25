@@ -4,8 +4,8 @@ module Website.Skeleton where
 import Website.ColorScheme
 
 button (name, href, clr) =
-    let accent = color clr (spacer 80 2) in
-    let butn = container 80 58 middle $ text . Text.color black $ toText name in
+    let accent = color clr (spacer 100 2) in
+    let butn = container 100 58 middle $ text . Text.color black $ toText name in
     Graphics.link href $ accent `below` butn
 
 buttons = flow right . map button $

@@ -4,14 +4,14 @@ import Website.Skeleton
 
 content = [markdown|
 
-### About Elm
+## About Elm
 
 The following articles provide an introduction to Elm and [FRP][frp].
 Each one focuses on a specific question, and aims to increase your
 general understanding. When read in sequence, they should slowly
 ramp up in difficulty, taking you from beginner to expert.
 
-About the language:
+#### About the language
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
 * [Syntax Reference][syntax]
@@ -22,20 +22,22 @@ About the language:
 * [Create a purely functional game][pong] and [a skeleton for making games][games]
 * [The semantics of FRP in Elm][thesis]
 
-Getting set up:
+#### Getting set up
 
 * [Setting up the Elm compiler and server][install]
 * [Creating a working website][this]
 
-Release notes:
+#### Release notes
 
-* [0.7][7] &ndash; 4 Jan 2013
-* [0.6][6] &ndash; 10 Dec 2012
-* [0.5][5] &ndash; 26 Oct 2012
-* [0.4][4] &ndash; 18 Sep 2012
-* [0.3.6][36]
-* [0.3.5][35]
-* [0.3][3] &ndash; 21 Jun 2012
+* [`0.7.1`][71] &ndash; `Feb '13` &ndash; Touch, Either, and better Keyboard
+* [`0.7.0`][7] &ndash; `Jan '13` &ndash; Extensible Records
+* [`0.6.0`][6] &ndash; `Dec '12` &ndash; Time, Dates, and whitespace sensitivity
+* [`0.5.0`][5] &ndash; `Oct '12` &ndash; Dictionaries, Sets, and Automata 
+* [`0.4.0`][4] &ndash; `Sep '12` &ndash; Markdown and better graphics
+* [`0.3.6`][36] &ndash; `Aug '12` &ndash; JSON support
+* [`0.3.5`][35] &ndash; `Jun '12` &ndash; JavaScript FFI
+* [`0.3.0`][3] &ndash; `Jun '12` &ndash; Modules
+* `0.1.0` &ndash; `Apr '12` &ndash; Initial Release
 
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
@@ -58,10 +60,9 @@ Release notes:
   [5]: /blog/announce/version-0.5.0.elm "Libraries"
   [6]: /blog/announce/version-0.6.elm "Time, Date, and Syntax"
   [7]: /blog/announce/version-0.7.elm "Extensible Records & More"
+  [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
 
-<br/>
-
-### How to Contribute
+#### How to Contribute
 
 Lots of details and ideas live [here](/Contribute.elm).
 
