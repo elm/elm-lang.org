@@ -14,7 +14,7 @@ toUrl s = if length s == 5 && all Char.isDigit s
 realInput = lift toUrl rawInput
 
 -- Send AJAX requests for any valid input!
-responses = sendGet (fromMaybe "" <~ realInput)
+responses = sendGet (Maybe.maybe "" id <~ realInput)
 
 -- Display a response.
 display response = 
