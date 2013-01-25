@@ -2521,7 +2521,7 @@ Elm.Signal = function() {
 
   function mergeEither(s1) { return function(s2) {
       function f(s) { return function(x) { return [s,x]; }; }
-      return new merge(new lift(f,[s1]), new lift(f,[s2]));
+      return new merge(new lift(f('Left'),[s1]), new lift(f('Right'),[s2]));
     };
   }
 
@@ -4407,23 +4407,23 @@ document.body.innerHTML = Elm.Text.monospace(msg);throw e;};}
 try{
 
 Elm.Website=Elm.Website || {};
-if (Elm.Website.Skeleton) throw "Module name collision, 'Website.Skeleton' is already defined."; 
+if (Elm.Website.Skeleton) throw new Error("Module name collision, 'Website.Skeleton' is already defined."); 
 Elm.Website.Skeleton=function(){
  var $op={};
  for(Elm['i'] in Elm){eval('var '+Elm['i']+'=Elm[Elm.i];');}
  try{
-  if (!(Elm.Prelude instanceof Object)) throw 'module not found';
+  if (!(Elm.Prelude instanceof Object)) throw new Error('module not found');
  } catch(e) {
-  throw ("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+  throw new Error("Module 'Prelude' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
  }
  var hiddenVars={};
  for (Elm['i'] in Elm.Prelude) {
   if (hiddenVars[Elm['i']]) continue;
   eval('var ' + Elm['i'] + ' = Elm.Prelude[Elm.i];');}
  try{
-  if (!(Elm.Website.ColorScheme instanceof Object)) throw 'module not found';
+  if (!(Elm.Website.ColorScheme instanceof Object)) throw new Error('module not found');
  } catch(e) {
-  throw ("Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
+  throw new Error("Module 'Website.ColorScheme' is missing. Compile with --make flag or load missing module in a separate JavaScript file.");
  }
  var hiddenVars={};
  for (Elm['i'] in Elm.Website.ColorScheme) {
@@ -4434,13 +4434,13 @@ Elm.Website.Skeleton=function(){
   switch(_0_6[0]){
    case 'Tuple3':
    return function(){
-    var accent_10=color(_0_6[3])(spacer(80)(2));
+    var accent_10=color(_0_6[3])(spacer(100)(2));
     return function(){
-     var butn_11=container(80)(58)(middle)(function(x){
+     var butn_11=container(100)(58)(middle)(function(x){
       return text(Text.color(black)(x));}(toText(_0_6[1])));
      return Graphics.link(_0_6[2])(below(accent_10)(butn_11));}();}();
   }
-  throw "Non-exhaustive pattern match in case expression (Line 7, Column 5)";}();}
+  throw new Error("Non-exhaustive pattern match in case expression (Line 7, Column 5)");}();}
  function title_2(w_12){
   return function(){
    var elm_13=function(x){
