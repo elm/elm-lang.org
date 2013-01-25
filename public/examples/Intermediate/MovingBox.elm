@@ -2,26 +2,13 @@
 desired = 50
 timestep = fps desired
 
-
--- Use time and keyboard input to determine the
--- position of the square.
-
-addKey k (x,y) =
-  if | k == 37   -> ( x-1 ,  y  )
-     | k == 38   -> (  x  , y-1 )
-     | k == 39   -> ( x+1 ,  y  )
-     | k == 40   -> (  x  , y+1 )
-     | otherwise -> (  x  ,  y  )
-
-velocity = lift (foldl addKey (0,0)) Keyboard.Raw.keysDown
-
 delta = let bothZero (x,y) = x == 0 && y == 0
-            scale s (x,y) = (x*s/10, y*s/10)
-        in  dropIf bothZero (0,0) $
-            sampleOn timestep (lift2 scale timestep velocity)
+            scale s {x,y} = (x*s/10, 0-y*s/10)
+            scaledDir = lift2 scale timestep Keyboard.arrows
+        in  dropIf bothZero (0,0) $ sampleOn timestep scaledDir
 
-position = let add (a,b) (c,d) = (a+c, b+d) in
-           foldp add (0,0) delta
+position = let add (a,b) (c,d) = (a+c, b+d)
+           in  foldp add (0,0) delta
 
 
 -- Display moving square and FPS on screen.
