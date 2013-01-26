@@ -46,7 +46,7 @@ Before we get started, there is some non-compiler news:
 * Mads is currently working on getting inline documentation working in the online editor.
   I think it is a big step towards making Elm really easy to learn for people from
   all backgrounds, and you can [try it out](https://groups.google.com/forum/?fromgroups=#!topic/elm-discuss/_xmbeVfjYbI)
-  fairly easily or [watch the demo](https://www.youtube.com/v/vfWDvIbt4YY?hd=1&rel=0).
+  fairly easily or [watch the demo](https://www.youtube.com/watch?v=vfWDvIbt4YY&hd=1).
   Your constructive feedback would be greatly appreciated!
 
 Okay, now let&rsquo;s dive into Elm 0.7.1!
