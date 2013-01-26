@@ -12,7 +12,7 @@ complicated gestures.
   ]
 
 gestures =
-  [ ("taps", "Signal [{ x :: Int, y :: Int }]", [markdown|
+  [ ("taps", "Signal { x :: Int, y :: Int }", [markdown|
 The last position that was tapped. Default value is `{x=0,y=0}`. Updates
 whenever the user taps the screen.
 |])
