@@ -10,7 +10,7 @@ intermediate = addFolder "Intermediate/"
   , ("Adventure", "Walk")
   , ("Flickr API", "Flickr")
   , ("Light Box", "LightBox")
-  , ("Fibonacci Tiles", "FibonacciTiles")
+  , ("Pong", "Pong")
   , ("Analog Clock", "Clock")
   , ("Diagrams", "Physics")
   , ("Keyboard & Animations", "MovingBox")
@@ -19,6 +19,7 @@ intermediate = addFolder "Intermediate/"
   , ("Graphs", "Plot")
   , ("Form Validation", "Form")
   , ("Pascal's Triangle", "PascalsTriangle")
+  , ("Fibonacci Tiles", "FibonacciTiles")
   , ("Web", "Web")
   ]
 
