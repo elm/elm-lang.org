@@ -11,7 +11,7 @@ keyInput = lift3 KeyInput Keyboard.space
                           (lift .y Keyboard.arrows)
 
 data Input = Input Time KeyInput
-delta = lift inSeconds (fps 30)
+delta = lift inSeconds (fps 50)
 input = sampleOn delta (lift2 Input delta keyInput)
 
 
