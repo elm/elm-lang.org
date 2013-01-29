@@ -106,10 +106,10 @@ with no set-up at all.
 examples = map (\(x,y) -> (x, y, "Intermediate/"))
   [ ("Analog Clock", "Clock")
   , ("Stamps", "Stamps")
-  , ("Slide Show", "SlideShow")
-  , ("Turtle", "Turtle")
   , ("Diagrams", "Physics")
-  , ("Quick Animations", "Slide")
+  , ("Turtle", "Turtle")
+  , ("Slide Show", "SlideShow")
+  , ("Walking", "Walk")
   ]
 
 content w =
