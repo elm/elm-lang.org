@@ -64,7 +64,7 @@ shapes =
   , ("oval", "Number -> Number -> (Number,Number) -> Shape", "Create an oval with a given width, height, and center position.")
   , ("circle", "Number -> (Number,Number) -> Shape", "Create a circle with a given radius and center position.")
   , ("ngon", "Number -> Number -> (Number,Number) -> Shape", "Create regular polygons with n sides. This function takes the number of sides, the radius (distance from the center to a vertex), and a center.")
-  , ("polygon", "[(Number,Number)] -> (Number,Number) -> Shape", "Create an arbitrary polygon from an list of vertexes and a center point. The vertexes should be listed relative to the origin (0,0). They are then translated to the given center.")
+  , ("polygon", "[(Number,Number)] -> (Number,Number) -> Shape", "Create an arbitrary polygon from an list of vertexes and translation offset. The vertexes should be listed relative to the origin (0,0). Each vertex will be translated by the position given as the second argument, allowing re-use of the same shape (given as the list of vertices) at different positions.  An edge is implicitly added between the last and first vertex.")
   , ("filled", "Color -> Shape -> Form", "Fill a shape with a given color.")
   , ("outlined", "Color -> Shape -> Form", "Outline a shape with a given color.")
   , ("customOutline", "[Number] -> Color -> Shape -> Form", "Outline a shape with a given pattern and color. The pattern is specified by the list of numbers. For instance, the pattern [8,4] creates long dashes (8 pixels long) followed by short spaces (4 pixels long).")
