@@ -1,3 +1,5 @@
+areaW = 407
+areaH = 301
 
 obj = { x = 200, y = 150, vx = 0, vy = 0, verb = "stand", dir = "south" }
 
@@ -19,8 +21,8 @@ runStep b obj =
   in  { obj | vx <- obj.vx * scale, vy <- obj.vy * scale }
 
 timeStep t obj = let {x,y,vx,vy} = obj
-                 in  { obj | x <- clamp 0 407 (x + t * vx) ,
-                             y <- clamp 0 301 (y + t * vy) }
+                 in  { obj | x <- clamp 0 areaW (x + t * vx) ,
+                             y <- clamp 0 areaH (y + t * vy) }
 
 step time arrows run =
   timeStep time . verbStep arrows . runStep run . velStep arrows
@@ -33,10 +35,10 @@ main  = lift2 render Window.dimensions (foldp ($) obj steps)
 
 render (w,h) {x,y,verb,dir} =
   container w h middle $ flow down
-    [ layers [ image 407 301 "/imgs/desert.png"
+    [ layers [ image areaW areaH "/imgs/desert.png"
              , let src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
                    pos = middleAt (absolute x) (absolute y)
-               in  container 407 301 pos (image 22 28 src)
+               in  container areaW areaH pos (image 22 28 src)
              ]
     , [markdown|Move with arrows, run with ctrl.|]
     ]

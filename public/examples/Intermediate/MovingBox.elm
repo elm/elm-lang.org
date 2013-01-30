@@ -1,3 +1,5 @@
+areaSize = 400
+squareSize = 40
 
 desired = 50
 timestep = fps desired
@@ -13,8 +15,9 @@ position = let add (a,b) (c,d) = (a+c, b+d)
 
 -- Display moving square and FPS on screen.
 screen pos actual =
-  flow down [ collage 400 400 [ outlined grey (rect 400 400 (200,200))
-                              , outlined black (rect 40 40 pos) ]
+  flow down [ collage areaSize areaSize
+                [ outlined grey (rect areaSize areaSize (areaSize/2,areaSize/2))
+                , outlined black (rect squareSize squareSize pos) ]
             , plainText "Move the square around with the arrow keys."
             , plainText $ "Actual frames per second: " ++ show actual
             , plainText $ "Desired frames per second: " ++ show desired
