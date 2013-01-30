@@ -43,17 +43,17 @@ news = [markdown|
 
 #### News
 
+[Extensible Records in Elm 0.7][v7]
+
+Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
+
 [Escape from Callback Hell][escape]: AJAX without callbacks
 
 [Making Pong in Elm][pong]: a comprehensive walkthrough
 
-[Elm 0.6 Released][v6]
-
-Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
-
   [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [v6]: /blog/announce/version-0.6.elm "Elm 0.6 Released"
+  [v7]: /blog/announce/version-0.7.elm "Extensible Records"
   [video]: http://www.infoq.com/presentations/Elm "Making the Web Functional"
   [radar]: http://radar.oreilly.com/2012/12/emerging-languages-spotlight-elm.html "Emerging Languages Spotlight"
 
@@ -105,11 +105,11 @@ with no set-up at all.
 
 examples = map (\(x,y) -> (x, y, "Intermediate/"))
   [ ("Analog Clock", "Clock")
-  , ("Slide Show", "SlideShow")
   , ("Stamps", "Stamps")
   , ("Diagrams", "Physics")
-  , ("Quick Animations", "Slide")
-  , ("Pascal's Triangle", "PascalsTriangle")
+  , ("Turtle", "Turtle")
+  , ("Slide Show", "SlideShow")
+  , ("Walking", "Walk")
   ]
 
 content w =
@@ -119,9 +119,8 @@ content w =
 
 infoq w =
   let lnk = "http://www.infoq.com/presentations/Elm"
-      vid = layers [ image 320 240 "/infoq.jpg"
-                   , Graphics.link lnk $ spacer 320 240 ]
-  in  width w infoqDesc `above` container w (heightOf vid) middle vid
+      vid = image (min w 320) (min (round (toFloat w * 4/5)) 240) "/infoq.jpg"
+  in  width w infoqDesc `above` Graphics.link lnk vid
 
 download w =
   let lnk = "https://github.com/evancz/Elm/blob/master/README.md#elm" in
@@ -133,7 +132,9 @@ download w =
                      , Graphics.link lnk $ spacer 200 60 ]
             ]
 
-info w =
+info w = if w < 500 then infoSmall w else infoBig w
+
+infoBig w =
   let wid = (w-60) `div` 2
   in  flow down
        [ width w intro
@@ -144,6 +145,19 @@ info w =
        , spacer 10 40
        , flow right [ width wid contact, spacer 60 10, download wid ]
        , spacer 10 40
+       ]
+
+infoSmall w =
+  let wid = min w 500
+  in  flow down . List.intersperse (spacer 10 10) $
+       [ width wid intro
+       , width wid features
+       , width wid news
+       , content wid
+       , infoq wid
+       , width wid contact
+       , download wid
+       , spacer 10 30
        ]
 
 main = lift (skeleton info) Window.width

@@ -3,12 +3,13 @@ import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
 import List
 
-standard = ("General Purpose",
+standard = ("General",
   [ ("List",  "docs/Data/List.elm")
   , ("Dict",  "docs/Data/Dict.elm")
   , ("Set",  "docs/Data/Set.elm")
   , ("Char", "docs/Data/Char.elm")
   , ("Maybe", "docs/Data/Maybe.elm")
+  , ("Either", "docs/Data/Either.elm")
   , ("Date", "docs/Date.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
@@ -23,7 +24,9 @@ input = ("Interaction",
   [ ("Signal" , "docs/Signal/Signal.elm")
   , ("Automaton", "docs/Automaton.elm")
   , ("Mouse"  , "docs/Signal/Mouse.elm")
+  , ("Keyboard","docs/Signal/Keyboard.elm")
   , ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
+  , ("Touch"  , "docs/Signal/Touch.elm")
   , ("Window" , "docs/Signal/Window.elm")
   , ("Input"  , "docs/Signal/Input.elm")
   , ("Time"   , "docs/Signal/Time.elm")
@@ -53,13 +56,21 @@ outro = [markdown|
 
 <br/>
 
-### More Info
+### Syntax, Semantics, and More
+
+There are more in depth introductions to many of the concepts in Elm in [the
+About section](/About.elm).
+
+[The Syntax of Elm][syntax] is a brief overview of all of Elm&rsquo;s syntax.
+
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
+
+My [thesis][4] discusses the semantics of FRP in
+Elm and how to make FRP efficient. It also provides a
+detailed history of FRP in the *Related Works* section.
 
 Look [here](/learn/What-is-FRP.elm) to answer the question
 &ldquo;What is Functional Reactive Programming?&rdquo;
-
-My [thesis][4] discusses the theory behind FRP in Elm and how to make FRP efficient. It also provides a
-detailed history of FRP in the *Related Works* section.
 
 [This blog][1] is the source of some discussion and
 announcements. It also has more detailed information on the [module system][2]

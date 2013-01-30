@@ -42,27 +42,32 @@ elements = addFolder "Elements/"
 
 functional = addFolder "Functional/"
   [ ("Recursion",
-        [ ("Factorial"  , "Factorial")
-        , ("List Length", "Length")
-        , ("Zip"        , "Zip")
-        , ("Quick Sort" , "QuickSort")
-        ])
+      [ ("Factorial"  , "Factorial")
+      , ("List Length", "Length")
+      , ("Zip"        , "Zip")
+      , ("Quick Sort" , "QuickSort")
+      ])
   , ("Functions",
-        [ ("Anonymous Functions", "Anonymous")
-        , ("Application"        , "Application")
-        , ("Composition"        , "Composition")
-        , ("Infix Operators"    , "Infix")
-        ])
+      [ ("Anonymous Functions", "Anonymous")
+      , ("Application"        , "Application")
+      , ("Composition"        , "Composition")
+      , ("Infix Operators"    , "Infix")
+      ])
   , ("Higher-Order",
-        [ ("Map"    , "Map")
-        , ("Fold"   , "Sum")
-        , ("Filter" , "Filter")
-        , ("ZipWith", "ZipWith")
-        ])
+      [ ("Map"    , "Map")
+      , ("Fold"   , "Sum")
+      , ("Filter" , "Filter")
+      , ("ZipWith", "ZipWith")
+      ])
   , ("Data Types",
-        [ ("Maybe", "Maybe")
-        , ("Boolean Expressions", "BooleanExpressions")
-        , ("Tree", "Tree")
+      [ ("Maybe", "Maybe")
+      , ("Boolean Expressions", "BooleanExpressions")
+      , ("Tree", "Tree")
+      ])
+  , ("Libraries",
+        [ ("Either", "Either")
+        , ("Dict", "Dict")
+        , ("Set", "Set")
         ])
   ]
 
@@ -72,17 +77,24 @@ reactive = addFolder "Reactive/"
                , ("Clicks"    , "CountClicks")
                , ("Position+Image", "ResizeYogi")
                , ("Position+Collage"    , "Transforms")
-               -- , ("Hover"     , "IsAbove")
                ])
-  ,("Keyboard",[ ("Keys Down"  , "KeysDown")
+  ,("Keyboard",[ ("Arrows"     , "Arrows")
+               , ("wasd"       , "Wasd")
+               , ("Keys Down"  , "KeysDown")
                , ("Key Presses", "CharPressed")
+               ])
+  , ("Touch",  [ ("Raw", "Touches")
+               , ("Touches", "Touch")
+               , ("Taps", "Taps")
+               , ("Draw", "Draw")
                ])
   , ("Window", [ ("Size", "ResizePaint")
                , ("Centering", "Centering")
                ])
-  , ("Time",   [ ("Before and After", "Between")
-               , ("Every"           , "Every")
-               , ("Clock"           , "Clock")
+  , ("Time",   [ ("FPS"     , "Fps")
+               , ("FPS when", "FpsWhen")
+               , ("Every"   , "Every")
+               , ("Clock"   , "Clock")
                ])
   , ("Input",  [ ("Text Fields", "TextField")
                , ("Passwords"  , "Password")
@@ -116,6 +128,9 @@ words = [markdown|
 
 Each example listed below focuses on a single function or concept.
 These examples demonstrate all of the basic building blocks of Elm.
+For more details on the syntax of Elm, take a look at [The Syntax of Elm][syntax].
+
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
 |]
 
@@ -124,4 +139,4 @@ content w =
 
 exampleSets w = flow down . map (width w) . intersperse (plainText " ") $ content w
 
-main = lift (skeleton exampleSets) Window.width
+main = skeleton exampleSets <~ Window.width

@@ -49,4 +49,4 @@ content w = intersperse (plainText "&nbsp;") $
 
 exampleSets w = flow down . map (width w) $ intro : content w
 
-main = lift (skeleton exampleSets) Window.width
+main = skeleton exampleSets <~ Window.width

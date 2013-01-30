@@ -9,7 +9,7 @@ import JavaScript
 isEmpty xs = case xs of { [] -> True ; _ -> False }
 
 getErrors first last email remail =
-  Maybe.mapMaybe (\(err,msg) -> if err then Just msg else Nothing)
+  Maybe.justs $ map (\(err,msg) -> if err then Just msg else Nothing)
   [ (isEmpty first  , "First name required.")
   , (isEmpty last   , "Last name required.")
   , (isEmpty email  , "Must enter your email address.")
@@ -33,8 +33,8 @@ pressCount = foldp (\p c -> if p then c+1 else c) 0 press
 errors = lift4 getErrors first last email remail
 sendable = lift2 (&&) press (lift isEmpty errors)
 
-redirectTo = lift castStringToJSString $
-             keepWhen sendable "" (lift3 url first last email)
+redirectTo = lift castStringToJSString
+                  (keepWhen sendable "" (lift3 url first last email))
 
 foreign export jsevent "elm_redirect"
   redirectTo :: Signal JSString

@@ -16,19 +16,20 @@ msg = [markdown|
 
 # Try Elm
 
-To the left is an online editor for writing and compiling [Elm](/) code.
-If you are unsure how to get started, take a look at some [examples][exs].
-
-  [exs]: /Examples.elm "Elm Examples"
+To the left is an online editor for writing and compiling
+<a href="/" target="_top">Elm</a> code. If you
+are unsure how to get started, take a look at some
+<a href="/Examples.elm" target="_top">examples</a>.
 |]
 
 scene (w,h) = container w h middle (box $ width 320 msg)
 
 box e =
-  let { w = widthOf e ; h = heightOf e } in
-  flow down [ topBar 5 (w+40)
-            , color mediumGrey . container (w+40) (h+11) midTop .
-              color lightGrey  . container (w+38) (h+10) midTop $ e
-            ]
+  let w = widthOf e
+      h = heightOf e
+  in  flow down [ topBar 5 (w+40)
+                , color mediumGrey . container (w+40) (h+11) midTop .
+                        color lightGrey  . container (w+38) (h+10) midTop $ e
+                ]
 
 main = lift scene Window.dimensions

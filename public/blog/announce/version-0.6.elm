@@ -20,7 +20,7 @@ intro = [markdown|
 
 <style>p { text-align: justify }</style>
 
-# Elm 0.6 &mdash; Time, Dates, and Syntax
+# Elm 0.6 &ndash; Time, Dates, and Syntax
 
 This release makes Elm much prettier and much better for working with time.
 With these additions, I think its easier than ever to create complex
@@ -159,7 +159,7 @@ very quickly. For instance, you could only send HTTP requests if the user input
 has been stable for half a second. Or you could only use mouse values if the
 mouse has been stable for 10 milliseconds.
 
-The Time libray also includes some helpers based on the `delay` function:
+The Time library also includes some helpers based on the `delay` function:
 
         since :: Time -> Signal a -> Signal Bool
         after :: Time -> Signal a -> Signal Bool

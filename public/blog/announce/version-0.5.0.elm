@@ -1,4 +1,3 @@
-
 import JavaScript
 import Window as Win
 import Automaton
@@ -18,22 +17,22 @@ data Command = Incr | Decr | Idnt
 formsAutomaton =
   let fstep (cmd,pos,color,mouse) fs =
           let fs' = case cmd of
-                    { Incr -> fs ++ [draggable $ filled color (ngon 5 20 pos)]
-                    ; Decr -> if fs == [] then [] else tail fs
-                    ; Idnt -> fs }
+                      Incr -> fs ++ [draggable $ filled color (ngon 5 20 pos)]
+                      Decr -> if fs == [] then [] else tail fs
+                      Idnt -> fs
           in  unzip $ map (\f -> step f mouse) fs'
   in  init' [draggable $ filled cyan (ngon 5 20 (200,200)) ] fstep
 
 allInput tly wid =
-  let { commands = let step less more = if less then Decr else
-                                        if more then Incr else Idnt
-                   in  lift2 step pressLess pressMore
-      ; rand n = randomize 0 n commands
-      ; pos = lift2 (,) (rand 400) (rand 400)
-      ; color = lift3 rgb (rand 255) (rand 255) (rand 255)
-      ; tlx = lift (\w -> (w - 400) `div` 2) wid
-      ; relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
-      ; mouse = lift2 (,) Mouse.isDown relativePos }
+  let commands = let step less more = if less then Decr else
+                                      if more then Incr else Idnt
+                 in  lift2 step pressLess pressMore
+      rand n = randomize 0 n commands
+      pos = lift2 (,) (rand 400) (rand 400)
+      color = lift3 rgb (rand 255) (rand 255) (rand 255)
+      tlx = lift (\w -> (w - 400) `div` 2) wid
+      relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
+      mouse = lift2 (,) Mouse.isDown relativePos
   in  lift4 (,,,) commands pos color mouse
 
 controls = 
@@ -61,7 +60,7 @@ Elm now has [dictionaries][Dict] and [sets][Set]!
   [Dict]: /docs/Data/Dict.elm "Dictionary library"
   [Set]: /docs/Data/Set.elm "Set library"
 
-The Dict and Set libraries could used from JavaScript. I can make this easier if people are interested. Let me know!
+The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
 ### Automatons
 
@@ -89,9 +88,9 @@ are interchangeable, so they are easy to switch in and out of programs.
 
 This library is based on the very clever ideas introduced by [Arrowized FRP][afrp].
 I have made an effort to make it easier to understand and use for people unfamiliar with
-&ldquo;Arrows&rdquo; and other concepts that are largely orthoganal to doing-things-in-real-life.
+&ldquo;Arrows&rdquo; and other concepts that are largely orthogonal to doing-things-in-real-life.
 I am hoping that the term [&ldquo;automaton&rdquo;][wiki] is somewhat familiar (or at least
-a better anology than &ldquo;arrow&rdquo;). Huge thangs to Joey Adams for suggesting this library
+a better anology than &ldquo;arrow&rdquo;). Huge thanks to Joey Adams for suggesting this library
 and working through the details with me!
 
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they
@@ -168,16 +167,15 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
 |]
 
 page =
-  let { top = flow down
-               [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-               , width 600 blog ]
-      ; mid = widget (heightOf top) Win.width
-      ; bot = flow down [ width 600 outro
-                        , container 600 60 middle
-                          [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
-                        , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-                          toText "&copy; 2011-2012 Evan Czaplicki" ]
-      }
+  let top = flow down
+            [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
+            , width 600 blog ]
+      mid = widget (heightOf top) Win.width
+      bot = flow down [ width 600 outro
+                      , container 600 60 middle
+                        [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
+                      , container 600 60 middle . text . Text.color (rgb 216 221 225) $
+                        toText "&copy; 2011-2012 Evan Czaplicki" ]
   in  lift (\m -> flow down [ top, container 600 (heightOf m) middle m, bot ]) mid
 
 main = lift2 (\page w -> container w (heightOf page) midTop page) page Win.width

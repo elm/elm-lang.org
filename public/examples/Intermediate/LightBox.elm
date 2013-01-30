@@ -8,11 +8,17 @@ c3 = rgb  244 244 244
 
 --  Clickable left and right arrows
 
-arrow theta = let { w = 30 ; h = 60 ; x = w * 2/7 ; y = h*3/11 } in
-  collage (round w) (round h)
-    [ filled c1 $ rect w h (w/2, h/2)
-    , rotate theta . filled c2 $ polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
-    ]
+arrow theta =
+    let w = 30
+        h = 60
+        x = w * 2/7
+        y = h*3/11
+    in  collage (round w) (round h)
+        [ filled c1 $ rect w h (w/2, h/2)
+        , rotate theta . filled c2 $
+                 polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
+        ]
+
 (leftArrow , leftClicked ) = Mouse.isClickedOn (arrow 0.5)
 (rightArrow, rightClicked) = Mouse.isClickedOn (arrow 0)
 

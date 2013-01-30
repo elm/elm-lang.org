@@ -20,8 +20,7 @@ import Input
 (butn , pressed) = button " Log "
 
 
-messages =
-  lift castStringToJSString $ keepWhen pressed "" message
+messages = lift castStringToJSString (keepWhen pressed "" message)
 
 foreign export jsevent "elm_log"
   messages :: Signal JSString

@@ -19,6 +19,16 @@ math =
   , ("e", "Float", "An approximation of e.")
   ]
 
+booleans =
+  [ ("(==),(/=)", "a -> a -> Bool", "Compare any two values for structural equality and inequality. Functions cannot be compared.")
+  , ("(<),(>),(<=),(>=}", "a -> a -> Bool", "Compare any two values of type {String,Char,Int,Float,Time}. These are also the only values that work as Dictionary keys or Set members.")
+  , ("(&&)", "Bool -> Bool -> Bool", "The and operator. True if both inputs are True.")
+  , ("(||)", "Bool -> Bool -> Bool", "The or operator. True if one or both inputs are True.")
+  , ("xor", "Bool -> Bool -> Bool", "The exclusive-or operator. True if exactly one input is True.")
+  , ("not", "Bool -> Bool", "Negate a boolean value: (not True == False) and (not False == True)")
+  , ("otherwise", "Bool", "Equal to true. Useful as the last case of a multi-way-if.")
+  ]
+
 convert =
   [ ("round", "Float -> Int", "Round a number to the nearest integer.")
   , ("truncate", "Float -> Int", "Truncate a decimal number, rounding towards zero.")
@@ -34,14 +44,16 @@ funcs =
   [ ("(.)", "(b -> c) -> (a -> b) -> (a -> c)", "Function composition: f . g == (\\x -> f (g x))")
   , ("($)", "(a -> b) -> a -> b", "Function application (f $ x == f x). This function is useful for avoiding parenthesis. Consider the following code to create a text element: (text (monospace (toText \"code\"))). This can also be written as (text . monospace $ toText \"code\").")
   , ("id", "a -> a", "Given a value, returns exactly the same value.")
+  , ("fst", "(a,b) -> a", "Given a 2-tuple, returns the first value.")
+  , ("snd", "(a,b) -> b", "Given a 2-tuple, returns the second value.")
   , ("flip", "(a -> b -> c) -> (b -> a -> c)", "Flips the order of the first two arguments to a function.")
   , ("curry", "((a,b) -> c) -> a -> b -> c", "Change how arguments are passed to a function. This splits paired arguments into two separate arguments.")
   , ("uncurry", "(a -> b -> c) -> (a,b) -> c", "Change how arguments are passed to a function. This combines two arguments into a sigle pair.")
-  , ("otherwise", "Bool", "Equal to true. Useful as the last case of a guarded definition.")
   ]
 
 categories = 
   [ ("Mathematics", math)
+  , ("Booleans", booleans)
   , ("Conversions", convert)
   , ("Function Helpers", funcs)
   ]

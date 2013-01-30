@@ -1,7 +1,7 @@
 
 (fld, txt) = Input.textField "Type here!"
 
-main = lift2 above (constant fld) (lift showLen txt)
+main = lift (above fld) (lift showLen txt)
 
 showLen n =
   text . monospace . toText $

@@ -18,11 +18,7 @@ basics =
   ]
 
 biggers =
-  [ ("Managed Frame Rate / Game Basics",
-        [ ("Source", "https://github.com/evancz/Elm/tree/master/Examples/elm-js/FrameRate/")
-        , ("Result", "/misc/FrameRate.html")
-        ])
-  , ("Open Street Map",
+  [ ("Open Street Map",
         [ ("Source", "https://github.com/evancz/Elm/tree/master/Examples/elm-js/Maps/")
         , ("Result", "/misc/Map.html")
         ])
@@ -73,4 +69,4 @@ content w =
 
 exampleSets w = flow down . intersperse (plainText "&nbsp;") $ content w
 
-main = lift (skeleton exampleSets) Window.width
+main = skeleton exampleSets <~ Window.width

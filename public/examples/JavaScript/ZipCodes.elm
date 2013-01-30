@@ -6,7 +6,7 @@ import JSON
     
 detail =
   let toRequest s = get $ "http://zip.elevenbasetwo.com/v2/US/" ++ s in
-  lift extract . send $ lift toRequest zipCode
+  lift extract (send (lift toRequest zipCode))
            
 extract response =
   case response of

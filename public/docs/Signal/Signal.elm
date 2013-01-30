@@ -29,6 +29,10 @@ update at the same time.|])
   , ("merges", "[Signal a] -> Signal a", [markdown|
 Merge many signals into one, biased towards the left-most signal if multiple
 signals update simultaneously.|])
+  , ("mergeEither", "Signal a -> Signal b -> Signal (Either a b)", [markdown|
+Merge two signals into one, but distinguishing the values by marking the first
+signal as `Left` and the second signal as `Right`. This allows you to easily
+fold over non-homogeneous inputs.|])
   ]
 
 folds =

@@ -1,4 +1,3 @@
-
 import Maybe
 import HTTP
 
@@ -15,7 +14,7 @@ toUrl s = if length s == 5 && all Char.isDigit s
 realInput = lift toUrl rawInput
 
 -- Send AJAX requests for any valid input!
-responses = sendGet . lift (fromMaybe "") $ keepIf isJust Nothing realInput
+responses = sendGet (Maybe.maybe "" id <~ realInput)
 
 -- Display a response.
 display response = 
@@ -27,7 +26,8 @@ display response =
 -- Give the user a message depending on whether their input is valid and
 -- the response from any AJAX requests.
 message =
-  let msg = plainText "Enter a valid zip code, such as 12345 or 90210." in
-  lift2 (\i r -> maybe msg (\_ -> display r) i) realInput responses
+  let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
+      output inp rsp = maybe msg (\_ -> display rsp) inp
+  in lift2 output realInput responses
 
 main = lift (above field) message

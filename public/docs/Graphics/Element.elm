@@ -51,7 +51,7 @@ positioningContent =
 
 forms =
   [ ("toForm", "(Number,Number) -> Element -> Form", "Turn any Element into a Form. The given position will be the center of the resulting form.")
-  , ("sprite", "String -> Number -> Number -> (Number,Number) -> Form", "Create a sprite.")
+  , ("sprite", "String -> Number -> Number -> (Number,Number) -> Form", "Draw an image from the given URL. The image will be scaled to the given size and its centerpoint translated to the given (x,y) position.")
   , ("move", "Number -> Number -> Form -> Form", "Translate a form by a given x and y offset.")
   , ("rotate", "Number -> Number -> Form -> Form", "Rotate a form by a given fraction of a full turn (not degrees or radians). For instance, (rotate 0.5) will rotate a form by a half turn.")
   , ("scale", "Number -> Form -> Form", "Scale a form by a given scale factor.")
@@ -64,7 +64,7 @@ shapes =
   , ("oval", "Number -> Number -> (Number,Number) -> Shape", "Create an oval with a given width, height, and center position.")
   , ("circle", "Number -> (Number,Number) -> Shape", "Create a circle with a given radius and center position.")
   , ("ngon", "Number -> Number -> (Number,Number) -> Shape", "Create regular polygons with n sides. This function takes the number of sides, the radius (distance from the center to a vertex), and a center.")
-  , ("polygon", "[(Number,Number)] -> (Number,Number) -> Shape", "Create an arbitrary polygon from an list of vertexes and a center point. The vertexes should be listed relative to the origin (0,0). They are then translated to the given center.")
+  , ("polygon", "[(Number,Number)] -> (Number,Number) -> Shape", "Create an arbitrary polygon from an list of vertexes and translation offset. The vertexes should be listed relative to the origin (0,0). Each vertex will be translated by the position given as the second argument, allowing re-use of the same shape (given as the list of vertices) at different positions.  An edge is implicitly added between the last and first vertex.")
   , ("filled", "Color -> Shape -> Form", "Fill a shape with a given color.")
   , ("outlined", "Color -> Shape -> Form", "Outline a shape with a given color.")
   , ("customOutline", "[Number] -> Color -> Shape -> Form", "Outline a shape with a given pattern and color. The pattern is specified by the list of numbers. For instance, the pattern [8,4] creates long dashes (8 pixels long) followed by short spaces (4 pixels long).")

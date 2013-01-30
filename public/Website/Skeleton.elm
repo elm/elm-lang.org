@@ -29,10 +29,10 @@ veiwSource = [markdown|
 heading outer inner =
   let header = container outer 60 middle $
                title (inner - widthOf buttons) `beside` buttons
-  in  layers [ flow down [ color lightGrey (spacer outer 58)
-                         , color mediumGrey (spacer outer 1) ]
-             , header
-             , width outer veiwSource ]
+  in  layers $ [ flow down [ color lightGrey (spacer outer 58)
+                           , color mediumGrey (spacer outer 1) ]
+               , header ] ++
+          (if outer < 800 then [] else [width outer veiwSource])
 
 skeleton bodyFunc outer =
   let inner = if outer < 820 then outer - 20 else 800 in
@@ -41,6 +41,6 @@ skeleton bodyFunc outer =
             , spacer outer 10
             , container outer (heightOf body) middle body
             , container outer 50 midBottom . text $
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2012 ") ++
+                Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
                     Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
             ]
