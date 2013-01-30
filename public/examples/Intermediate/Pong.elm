@@ -1,4 +1,3 @@
-
 -- See this document for more information on making Pong:
 -- http://elm-lang.org/blog/games-in-elm/part-0/Making-Pong.html
 
@@ -42,8 +41,12 @@ stepObj t obj = let {x,y,vx,vy} = obj in
 
 between lo hi n = n >= lo && n <= hi
 within ball paddle =
-  (between (paddle.x - paddleWidth/2 - ballSize/2) (paddle.x + paddleWidth/2 + ballSize/2) ball.x) &&
-  (between (paddle.y - paddleHeight/2 - ballSize/2) (paddle.y + paddleHeight/2 + ballSize/2) ball.y)
+  let left = paddle.x - paddleWidth/2
+      right = paddle.x + paddleWidth/2
+      top = paddle.y - paddleHeight/2
+      bottom = paddle.y + paddleHeight/2
+  in (between (left - ballSize/2) (right + ballSize/2) ball.x) &&
+     (between (top - ballSize/2) (bottom + ballSize/2) ball.y)
 
 stepV v lowerCollision upperCollision =
   if | lowerCollision -> abs v
@@ -66,10 +69,11 @@ stepGame (Input t (KeyInput space dirL dirR)) game =
   let {state,ball,playerL,playerR} = game
       scoreL = if ball.x > gameWidth then 1 else 0
       scoreR = if ball.x < 0         then 1 else 0
-  in  { game | state   <- if | space -> Play
-                             | (scoreL == 1) || (scoreR == 1) -> Pause
-                             | otherwise -> state
-             , ball    <- if state == Pause then ball else stepBall t ball playerL playerR
+  in  { game | state   <- if | space                    -> Play
+                             | scoreL > 0 || scoreR > 0 -> Pause
+                             | otherwise                -> state
+             , ball    <- if state == Pause then ball
+                                            else stepBall t ball playerL playerR
              , playerL <- stepPlayer t dirL scoreL playerL
              , playerR <- stepPlayer t dirR scoreR playerR }
 
@@ -87,17 +91,21 @@ positionOf obj = (obj.x, obj.y)
 drawBackground = filled backgroundColor (rect gameWidth gameHeight (halfWidth,halfHeight))
 drawBall ball = filled white (oval ballSize ballSize (positionOf ball))
 drawPlayer player = filled white (rect paddleWidth paddleHeight (positionOf player))
-drawScores scores = toForm (halfWidth, toFloat (heightOf scores) / 2 + 10) scores
-drawMessage state = toForm (halfWidth, gameHeight - 40) (if state == Play then spacer 1 1 else txt id msg)
+drawScores scoreL scoreR =
+  let scores = txt (Text.height 4) (show scoreL ++ "  " ++ show scoreR)
+  in toForm (halfWidth, toFloat (heightOf scores) / 2 + 10) scores
+drawMessage state =
+  let display = if state == Play then spacer 1 1 else txt id msg
+  in toForm (halfWidth, gameHeight - 40) display
+                           
 
 display (w,h) {state,ball,playerL,playerR} =
-  let scores = txt (Text.height 4) (show playerL.score ++ "  " ++ show playerR.score)
-  in container w h middle $ collage (round gameWidth) (round gameHeight)
+  container w h middle $ collage (round gameWidth) (round gameHeight)
        [ drawBackground
        , drawBall ball
        , drawPlayer playerL
        , drawPlayer playerR
-       , drawScores scores
+       , drawScores playerL.score playerR.score
        , drawMessage state
        ]
 
