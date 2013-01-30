@@ -1,4 +1,3 @@
-
 import Website.Docs (createDocs)
 
 
@@ -8,8 +7,8 @@ creation =
   ]
 
 textSize =
-  [ ("header", "Text -> Text", "Makes text big and noticable.")
-  , ("height", "Number -> Text -> Text", "Sets the height of text in \"ems\". 1em is the normal height of text. 2ems is twice that height.")
+  [ ("header", "Text -> Text", "Make text big and noticable.")
+  , ("height", "Number -> Text -> Text", "Set the height of text in \"ems\". 1em is the normal height of text. 2ems is twice that height.")
   ]
 
 styles =
