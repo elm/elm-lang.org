@@ -6,16 +6,21 @@ intro = [markdown|
 
 ### The Elm Programming Language
 
-**Elm is a [functional reactive programming][frp] language meant to replace HTML/CSS/JavaScript.**
-Elm is optimized for creating [web][flow] [GUIs][canvas], [supporting complex user input][frp],
-and [avoiding callbacks][escape].
+Elm is a [functional reactive programming][frp] (FRP) language
+that compiles to HTML, CSS, and JS. [FRP][frp] is a
+concise and elegant way to [create][e1] [highly][e2]
+[interactive][e3] [applications][e4] and [avoid callbacks][escape].
 
-  [flow]:    /edit/examples/Elements/FlowDown2.elm "Flow down example"
-  [canvas]:  /edit/examples/Reactive/Transforms.elm "Canvas Example"
+Elm&rsquo;s [online editor](/try) and [extensive examples](/Examples.elm) make
+it easy to learn and use.
+
+  [games]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [escape]:  /learn/Escape-from-Callback-Hell.elm
-  [why-elm]: http://www.testblogpleaseignore.com/2012/06/21/why-elm/ "Why Elm?"
   [frp]:     /learn/What-is-FRP.elm "functional reactive programming"
-  [http]:    /edit/examples/JavaScript/ZipCodes.elm "HTTP requests"
+  [e1]: /edit/examples/Intermediate/Clock.elm
+  [e2]: /edit/examples/Intermediate/Mario.elm
+  [e3]: /edit/examples/Intermediate/Pong.elm
+  [e4]: /edit/examples/Intermediate/Flickr.elm
 
 |]
 
@@ -77,10 +82,8 @@ exampleText = [markdown|
 
 #### Examples
 
-Read, use, and edit real Elm programs online. Think about how
-you would implement the same things with HTML, CSS, and JavaScript.
-Tons more examples can be found [here](/Examples.elm).
-
+Read, use, and edit real Elm programs [online](/Examples.elm). Think about
+how you might implement the following programs with HTML, CSS, and JavaScript:
 |]
 
 infoqDesc = [markdown|
