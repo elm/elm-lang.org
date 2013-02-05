@@ -2,7 +2,7 @@
 import Website.Docs (createDocs)
 
 basics =
-  [ ("(:)", "a -> [a] -> [a]", "Add an element to the front of a list (a : [b,c] = [a,b,c]).")
+  [ ("(::)", "a -> [a] -> [a]", "Add an element to the front of a list (a :: [b,c] = [a,b,c]).")
   , ("(++)", "[a] -> [a] -> [a]", "Appends two lists.")
   , ("head", "[a] -> a", "Extract the first element of a list. List must be non-empty.")
   , ("tail", "[a] -> [a]", "Extract the elements after the head of the list. List must be non-empty.")

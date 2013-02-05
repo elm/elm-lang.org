@@ -2,7 +2,7 @@
 import Website.Docs (createDocs2)
 
 touches =
-  [ ("touches", "Signal [{ x  :: Int, y  :: Int, id :: Int,\n                     x0 :: Int, y0 :: Int, t0 :: Time }]", [markdown|
+  [ ("touches", "Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Time }]", [markdown|
 A list of touches. Each ongoing touch is represented by a set of `x`
 and `y` coordinates and an identifier `id` that allows you to distinguish
 between different touches. Each touch also contains the coordinates and time
@@ -12,7 +12,7 @@ complicated gestures.
   ]
 
 gestures =
-  [ ("taps", "Signal { x :: Int, y :: Int }", [markdown|
+  [ ("taps", "Signal { x:Int, y:Int }", [markdown|
 The last position that was tapped. Default value is `{x=0,y=0}`. Updates
 whenever the user taps the screen.
 |])
