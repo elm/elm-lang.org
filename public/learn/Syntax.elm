@@ -75,8 +75,8 @@ A `Number` can be interpreted as an `Int` or a `Float` depending on how it is us
 Here are four things that are equivalent:
 
     [1,2,3,4]
-    1:[2,3,4]
-    1:2:3:4:[]
+    1 :: [2,3,4]
+    1 :: 2 :: 3 :: 4 :: []
     [1..4]
 
 Here are two things that are equivalent:
@@ -106,8 +106,8 @@ data types.
       _        -> exp3
 
     case xs of
-      []   -> Nothing
-      x:xs -> Just x
+      []    -> Nothing
+      x::xs -> Just x
 
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns for this to parse right.
@@ -155,7 +155,7 @@ the [initial announcement][v7], or [this academic paper][records].
     (lib.id 42 == 42)
     (lib.id [] == [])
 
-    data Located a = Located {line :: Int, column :: Int} a
+    data Located a = Located {line : Int, column : Int} a
 
 ### Functions
 
@@ -276,7 +276,7 @@ and [here](/docs/Signal/Signal.elm).
 
     foreign import jsevent "eventName"
         (expr)
-        signalName :: Signal jsType
+        signalName : Signal jsType
 
 The `expr` can be any Elm expression. It is the initial value of the
 signal `signalName`. As events with name `eventName` occur, signal
@@ -284,7 +284,7 @@ signal `signalName`. As events with name `eventName` occur, signal
 type such as `JSNumber` or `JSString`.
 
     foreign export jsevent "eventName"
-        signalName :: Signal jsType
+        signalName : Signal jsType
 
 The rules are the same for `export` except you do not need an initial value.
 

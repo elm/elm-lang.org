@@ -1,6 +1,6 @@
 
 
-ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
+ith i lst = case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
 
 images = [ "book.jpg", "shells.jpg", "stack.jpg", "car.jpg", "pipe.jpg" ]
 slideShow (w,h) index =

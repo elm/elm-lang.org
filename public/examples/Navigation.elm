@@ -110,14 +110,14 @@ example (name, loc) =
     let href = "javascript:top.location.href='/edit/examples/" ++ loc ++ "';" in
     text $ Text.height 0.8 (toText "   " ++ Text.link href (toText name))
 toLinks (title, links) =
-  flow down $ (text . bold $ toText title) : (map example links)
+  flow down $ (text . bold $ toText title) :: map example links
 
 subsection w info =
   flow right $ map (width (w `div` length info) . toLinks) info
 
 foreign import jsevent "location"
   (JavaScript.castStringToJSString "Elements")
-  locs :: Signal JSString
+  locs : Signal JSString
 
 location = lift JavaScript.castJSStringToString locs
 

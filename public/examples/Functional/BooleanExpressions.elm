@@ -7,10 +7,10 @@ Boolean expressions and defining an evaluation strategy. These
 tasks are the first steps towards writing an interpreter for a
 programming language. We will see the following functions:
 
-  Expr : an algebraic data type that represents
+  Expr - an algebraic data type that represents
     simple boolean expressions.
 
-  eval : recursively computes the value of a given
+  eval - recursively computes the value of a given
     boolean expression (Expr).
 
 Finally, we will see these functions in action with some examples.

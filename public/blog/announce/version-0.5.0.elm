@@ -7,7 +7,7 @@ import List
 
 title = constant (castStringToJSString "The Libraries You Need: Elm 0.5")
 foreign export jsevent "elm_title"
-  title :: Signal JSString
+  title : Signal JSString
 
 (butnMore,pressMore) = button "  +  "
 (butnLess,pressLess) = button "  -  "
@@ -39,7 +39,7 @@ controls =
   container 400 50 middle $
   flow right [ butnLess, plainText "  Number of Pentagons  ",  butnMore ]
 
-display fs = collage 400 400 (outlined black (rect 400 400 (200,200)) : fs)
+display fs = collage 400 400 (outlined black (rect 400 400 (200,200)) :: fs)
 
 widget y w = lift (\forms -> display forms `above` controls)
            $ run formsAutomaton (allInput y w)
@@ -127,9 +127,9 @@ now they do not have to!
     * `(,,) === (\\x y z -> (x,y,z))`
     * etc.
 - New functions for converting strings to numbers. Great for text input boxes:
-    * `readInt :: String -> Maybe Int`
-    * `readFloat :: String -> Maybe Float`
-- [`(complement :: Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
+    * `readInt : String -> Maybe Int`
+    * `readFloat : String -> Maybe Float`
+- [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
   [color]: /docs/Graphics/Color.elm "Color library"
 

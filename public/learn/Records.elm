@@ -4,7 +4,7 @@ import Website.ColorScheme
 
 title = constant (JavaScript.castStringToJSString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"
-  title :: Signal JSString
+  title : Signal JSString
 
 intro w = width w [markdown|
 
@@ -189,9 +189,9 @@ strings into numbers if possible. This is no problem:
 
     input = prettify rawInput
 
-We started with a record in which `(person.age :: String)`, providing little
+We started with a record in which `(person.age : String)`, providing little
 information about the validity of the input. The result is that
-`(person.age :: Maybe Int)`, fully capturing the type of input we are dealing
+`(person.age : Maybe Int)`, fully capturing the type of input we are dealing
 with and whether or not it is valid.
 
 The update functions allow you to write fairly elaborate update functions
@@ -261,7 +261,7 @@ poly w = evaluate w
   [ ("lib.id 42", "42")
   , ("lib.id 'b'", "'b'")
   , ("lib.flip (++) \"ab\" \"cd\"", "\"cdab\"")
-  , ("lib.flip (:) [] 3", "[3]")
+  , ("lib.flip (::) [] 3", "[3]")
   , ("group.op \"Hello\" group.zero", "\"Hello\"")
   , ("group.op [1,2] [3,4]", "[1,2,3,4]")
   ]
@@ -277,8 +277,8 @@ You can create [algebraic data types][adt] that contain records. For example,
 maybe you want to add locations to arbitrary values. Maybe some locations
 are exact and some are relative to their container:
 
-    data Located a = Absolute { x :: Int  , y :: Int   } a
-                   | Relative { x :: Float, y :: Float } a
+    data Located a = Absolute { x : Int  , y : Int   } a
+                   | Relative { x : Float, y : Float } a
 
     v1 = Absolute { x = 3, y = 4 } "This can be any value"
 
@@ -287,9 +287,9 @@ are exact and some are relative to their container:
 You can also have polymorphism within the record itself. Maybe you want to
 represent a [binary tree][tree] with records:
 
-    data Tree a = Empty | Node { value :: a
-                               , left  :: Tree a
-                               , right :: Tree a }
+    data Tree a = Empty | Node { value : a
+                               , left  : Tree a
+                               , right : Tree a }
 
 You cannot use records to pattern match in case-expressions though, so this
 approach may not be best if you need to match on tree structures more than

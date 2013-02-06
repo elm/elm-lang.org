@@ -29,7 +29,7 @@ url first last email =
 (remailBox, remail) = Input.textField "Re-enter Email"
 (butn     , press)  = Input.button "Submit"
 
-pressCount = foldp (\p c -> if p then c+1 else c) 0 press
+pressCount = countIf id press
 errors = lift4 getErrors first last email remail
 sendable = lift2 (&&) press (lift isEmpty errors)
 
@@ -37,7 +37,7 @@ redirectTo = lift castStringToJSString
                   (keepWhen sendable "" (lift3 url first last email))
 
 foreign export jsevent "elm_redirect"
-  redirectTo :: Signal JSString
+  redirectTo : Signal JSString
 
 
 -- Display

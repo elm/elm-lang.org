@@ -4,7 +4,7 @@ import Window as Win
 
 title = constant (JavaScript.castStringToJSString "Contribute to Elm")
 foreign export jsevent "elm_title"
-  title :: Signal JSString
+  title : Signal JSString
 
 blog w = width w [markdown|
 

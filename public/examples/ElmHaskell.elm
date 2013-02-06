@@ -23,11 +23,11 @@ toLinks (title, links) =
   text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
          intercalate (toText ", ") (map example links)
 
-insertSpace lst = case lst of { x:xs -> x : spacer 1 5 : xs ; [] -> [] }
+insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
   flow down . insertSpace . map (width w) $
-    (text . bold $ toText name) : map toLinks info
+    (text . bold $ toText name) :: map toLinks info
 
 intro = [markdown|
 
@@ -47,6 +47,6 @@ content w = intersperse (plainText "&nbsp;") $
   map (subsection w) [ ("Haskell Libraries", libraries), ("Working Examples", servers) ] ++
   [ plainText "The HAppStack example uses the general API, so it should be fairly similar to using the Elm API with Snap." ]
 
-exampleSets w = flow down . map (width w) $ intro : content w
+exampleSets w = flow down . map (width w) $ intro :: content w
 
 main = skeleton exampleSets <~ Window.width

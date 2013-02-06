@@ -1,5 +1,5 @@
 
-clickLocations = foldp (:) [] (sampleOn Mouse.clicks Mouse.position)
+clickLocations = foldp (::) [] (sampleOn Mouse.clicks Mouse.position)
 
 scene (w,h) locs =
   let clearBlue = rgba 0 85 170 (1/2) in

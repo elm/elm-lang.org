@@ -3,16 +3,17 @@ import Website.Skeleton (addSpaces, skeleton)
 import Website.Tiles (tile)
 import List
 
-standard = ("General",
-  [ ("List",  "docs/Data/List.elm")
-  , ("Dict",  "docs/Data/Dict.elm")
-  , ("Set",  "docs/Data/Set.elm")
-  , ("Char", "docs/Data/Char.elm")
-  , ("Maybe", "docs/Data/Maybe.elm")
-  , ("Either", "docs/Data/Either.elm")
+general = ("General",
+  [ ("Char", "docs/Data/Char.elm")
   , ("Date", "docs/Date.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
+containers = ("Containers",
+ [("List",  "docs/Data/List.elm"),
+  ("Dict",  "docs/Data/Dict.elm"),
+  ("Set",  "docs/Data/Set.elm"),
+  ("Maybe", "docs/Data/Maybe.elm"),
+  ("Either", "docs/Data/Either.elm")])
 
 graphics = ("Graphics",
   [ ("Graphics", "docs/Graphics/Element.elm")
@@ -20,19 +21,20 @@ graphics = ("Graphics",
   , ("Text",  "docs/Graphics/Text.elm")
   ])
 
-input = ("Interaction",
-  [ ("Signal" , "docs/Signal/Signal.elm")
-  , ("Automaton", "docs/Automaton.elm")
-  , ("Mouse"  , "docs/Signal/Mouse.elm")
-  , ("Keyboard","docs/Signal/Keyboard.elm")
-  , ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
-  , ("Touch"  , "docs/Signal/Touch.elm")
-  , ("Window" , "docs/Signal/Window.elm")
-  , ("Input"  , "docs/Signal/Input.elm")
-  , ("Time"   , "docs/Signal/Time.elm")
-  , ("HTTP"   , "docs/Signal/HTTP.elm")
-  , ("Random" , "docs/Signal/Random.elm")
-  ])
+signals = ("Interaction",
+  [("Signal" , "docs/Signal/Signal.elm"),
+   ("Automaton", "docs/Automaton.elm")])
+userInput = ("User Input",
+  [("Mouse"  , "docs/Signal/Mouse.elm"),
+   ("Keyboard","docs/Signal/Keyboard.elm"),
+   ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm"),
+   ("Touch"  , "docs/Signal/Touch.elm"),
+   ("Input"  , "docs/Signal/Input.elm")])
+systemInput = ("System Input",
+  [("Window" , "docs/Signal/Window.elm"),
+   ("Time"   , "docs/Signal/Time.elm"),
+   ("HTTP"   , "docs/Signal/HTTP.elm"),
+   ("Random" , "docs/Signal/Random.elm")])
 
 
 ffi = ("JavaScript",
@@ -87,16 +89,21 @@ and [JavaScript integration][3].
 
 linkify (name, src) = toText "    " ++ Text.link src (toText name)
 linkList (name, pairs) = 
-  flow down . map text $ bold (toText name) : map linkify pairs
+  flow down . List.intersperse (spacer 2 2) . map text $ bold (toText name) :: map linkify pairs
 
+makeCol w =
+    width w . flow down . List.intersperse (spacer 10 20) . map linkList
 threeCol w l m r =
-  let w' = w `div` 3 in
-  flow right [ width w' l, width w' m, width w' r ]
+    flow right $ map (makeCol (w `div` 3)) [l,m,r]
+
+col1 = [ general, containers ]
+col2 = [ signals, userInput, systemInput ]
+col3 = [ graphics, ffi ]
 
 categories w =
   flow down
   [ width w intro
-  , threeCol w (linkList standard) (linkList input) (flow down [ linkList graphics, spacer 10 40, linkList ffi ])
+  , threeCol w col1 col2 col3
   , width w outro
   ]
 

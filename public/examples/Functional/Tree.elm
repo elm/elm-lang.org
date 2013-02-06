@@ -53,21 +53,21 @@ Exercises:
 
 (1) Sum all of the elements of a tree.
 
-       sum :: Tree Number -> Number
+       sum : Tree Number -> Number
 
 (2) Flatten a tree into a list.
 
-       flatten :: Tree a -> [a]
+       flatten : Tree a -> [a]
 
 (3) Check to see if an element is in a given tree.
 
-       isElement :: a -> Tree a -> Bool 
+       isElement : a -> Tree a -> Bool 
 
 (4) Write a general fold function that acts on trees. The fold
     function does not need to guarantee a particular order of
     traversal.
 
-       fold :: (a -> b -> b) -> b -> Tree a -> b
+       fold : (a -> b -> b) -> b -> Tree a -> b
 
 (5) Use "fold" to do exercises 1-3 in one line each. The best
     readable versions I have come up have the following length

@@ -163,7 +163,7 @@ box exs =
         in  flow down [ color accent1 $ spacer (widthOf eBox') 2
                       , eBox'
                       , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ foldr (lift2 (:)) (constant []) exs
+  in  lift putInBox $ foldr (lift2 (::)) (constant []) exs
 
 
 
@@ -200,4 +200,4 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 titles = lift JavaScript.castStringToJSString (constant "What is FRP?")
 foreign export jsevent "elm_title"
-  titles :: Signal JSString
+  titles : Signal JSString

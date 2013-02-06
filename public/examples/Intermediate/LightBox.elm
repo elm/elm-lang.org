@@ -25,7 +25,7 @@ arrow theta =
 
 --  Helper functions
 
-ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
+ith i lst = case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
 safeIth i lst = ith (i `mod` length lst) lst
 
 countTrue = count . keepIf id True

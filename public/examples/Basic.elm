@@ -116,11 +116,11 @@ toLinks (title, links) =
              , text (intercalate (bold . Text.color accent4 $ toText "  &middot;  ") $ map example links)
              ]
 
-insertSpace lst = case lst of { x:xs -> x : spacer 1 5 : xs ; [] -> [] }
+insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
   flow down . insertSpace . intersperse (spacer 1 1) . map (width w) $
-    (text . bold $ toText name) : map toLinks info
+    (text . bold $ toText name) :: map toLinks info
 
 words = [markdown|
 
@@ -135,8 +135,10 @@ For more details on the syntax of Elm, take a look at [The Syntax of Elm][syntax
 |]
 
 content w =
-  words : map (subsection w) [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  in  words :: map (subsection w) exs
 
-exampleSets w = flow down . map (width w) . intersperse (plainText " ") $ content w
+exampleSets w =
+  flow down . map (width w) . intersperse (plainText " ") $ content w
 
 main = skeleton exampleSets <~ Window.width

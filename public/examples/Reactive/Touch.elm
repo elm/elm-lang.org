@@ -9,7 +9,7 @@ main = lift2 scene Window.dimensions Touch.touches
 -- Force mobile devices to accurately report their dimensions:
 
 foreign export jsevent "elm_viewport"
-  content :: Signal JSString
+  content : Signal JSString
 
 content = let c = "width=device-width, initial-scale=1"
           in  constant (JavaScript.castStringToJSString c)

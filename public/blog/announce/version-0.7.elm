@@ -4,7 +4,7 @@ import Website.ColorScheme
 
 title = constant (JavaScript.castStringToJSString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"
-  title :: Signal JSString
+  title : Signal JSString
 
 intro = [markdown|
 
@@ -187,13 +187,13 @@ a bit lighter visually.
 
 The `(<~)` operator is exactly equivalent to `lift`.
 
-    (<~) :: (a -> b) -> Signal a -> Signal b
+    (<~) : (a -> b) -> Signal a -> Signal b
 
     f <~ s = lift f s
 
 The `(~)` operator allows you to apply a signal of functions to a signal of values.
 
-    (~) :: Signal (a -> b) -> Signal a -> Signal b
+    (~) : Signal (a -> b) -> Signal a -> Signal b
 
     sf ~ s = lift2 (\\f x -> f x) sf s
 

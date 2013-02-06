@@ -12,13 +12,13 @@ inputs).
 For instance, log(n) is undefined for all n <= 0, so it is a
 partial function. The type of this partial function would be:
 
-     log :: Number -> Number
+     log : Number -> Number
 
 Which is not actually true! The "log" function can also produce
 errors or "null" values, but this does not appear in the type.
 Using "Maybe" fixes this issue, giving us a total function:
 
-    safeLog :: Number -> Maybe Number
+    safeLog : Number -> Maybe Number
 
 From the type, we know that "safeLog" may not produce a number,
 but it still always produces a value, even if it is "Nothing"!
@@ -29,7 +29,9 @@ but it still always produces a value, even if it is "Nothing"!
 data Maybe a = Just a | Nothing
 
 safeLog n = if n <= 0 then Nothing else Just (logBase 10 n)
-safeHead xs = case xs of { x:_ -> Just x ; [] -> Nothing }
+safeHead xs = case xs of
+                h::t -> Just h
+                []   -> Nothing
 
 
 

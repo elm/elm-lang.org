@@ -22,7 +22,7 @@ trees = [{ family = "Rosaceae", genus = "Crataegus" },
          { family = "Ulmaceae", genus = "Zelkova"   }]
 
 add key value dict = let vs = Dict.findWithDefault [] key dict
-                     in  Dict.insert key (value : vs) dict
+                     in  Dict.insert key (value :: vs) dict
 
 groupBy f g vs = foldl (\v d -> add (f v) (g v) d) Dict.empty vs
 
@@ -33,4 +33,4 @@ display (family,genera) =
 
 header = [markdown|## Trees: Genera in each Family|]
 
-main = flow down (header : map display (Dict.toList familyToGenera))
+main = flow down (header :: map display (Dict.toList familyToGenera))

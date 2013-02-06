@@ -13,7 +13,7 @@ fibSquare n =
 
 ----  Combine squares  ----
 
-ith i lst = case lst of { x:xs -> if i == 0 then x else ith (i-1) xs }
+ith i lst = case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
 
 dirs = [ beside, above, flip beside, below ]
 

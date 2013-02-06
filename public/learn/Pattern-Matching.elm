@@ -104,7 +104,7 @@ evaluated like this:
 
 In fact, this is exactly how lists work in Elm! It's just a little more
 concise, so `(Cons 1 (Cons 2 (Cons 3 Empty)))` becomes
-`(1 : (2 : (3 : [])))`. This can also be written as `(1 : 2 : 3 : [])` or
+`(1 :: (2 :: (3 :: [])))`. This can also be written as `(1 :: 2 :: 3 :: [])` or
 preferably as `[1,2,3]`. So the above example could be written as
 `(product [1,2,3])`.
 
@@ -174,4 +174,4 @@ main = lift (skeleton (what . min 600)) Window.width
 
 titles = lift JavaScript.castStringToJSString (constant "What is Pattern Matching?")
 foreign export jsevent "elm_title"
-  titles :: Signal JSString
+  titles : Signal JSString

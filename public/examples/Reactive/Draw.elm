@@ -3,7 +3,7 @@
 -- use the "In Tab" compile option.
 
 add t d = let vs = Dict.findWithDefault [] t.id d
-          in  Dict.insert t.id ((t.x,t.y):vs) d
+          in  Dict.insert t.id ((t.x,t.y) :: vs) d
 
 scene (w,h) = collage w h . map (solid red . line)
 

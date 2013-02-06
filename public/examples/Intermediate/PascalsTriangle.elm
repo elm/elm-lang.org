@@ -1,5 +1,5 @@
 
-step row = zipWith (+) (0 : row) (row ++ [0])
+step row = zipWith (+) (0 :: row) (row ++ [0])
 pascals depth = scanl (\_ -> step) [1] [1..depth-1]
 
 triangle w = let style = centeredText . monospace . toText . show in
