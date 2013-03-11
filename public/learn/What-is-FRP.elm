@@ -6,18 +6,13 @@ import Website.ColorScheme
 
 what1 = [markdown|
 
-Functional Reactive Programming (FRP) allows rich interaction in a
-functional setting. It answers the question, &ldquo;How can I handle
-user input and update a GUI in a functional way?&rdquo; FRP ends up
-making it much easier to create interactive GUIs and to work with complex sequences
-of synchronous and asynchronous events. Its ideas can be valuable in an imperative
-setting too [[1]][dfp] [[2]][rp].
+Functional Reactive Programming (FRP) answers the question, &ldquo;How can I make
+a GUI in a purely functional way?&rdquo; It provides control flow structures for
+*time* which makes it much easier to work with synchronous and [asynchronous events][cbh].
 
-  [dfp]: http://en.wikipedia.org/wiki/Dataflow_programming "Dataflow Programming"
-  [rp]: http://en.wikipedia.org/wiki/Reactive_programming "Reactive Programming"
+ [cbh]: /learn/Escape-from-Callback-Hell.elm
 
-FRP comes down to one simple idea: *some values change over time*.
-In FRP, these time-varying values are called *signals* and they update automatically.
+FRP is build around the idea of time-varying values, called *signals* in Elm.
 
 You can see some signals in action in the colorful box to the right.
 Take a second to play around with each of the examples. Try to make them change
@@ -60,9 +55,8 @@ making it possible to create interactive pages such as the one you are currently
 
 |]
 
-complex1 = [markdown|<br/>
+complex1 = [markdown|
 
-* * *
 ## Combining Signals
 
 FRP is also great for working with multiple signals. This means you can combine multiple event sources
@@ -163,7 +157,7 @@ box exs =
         in  flow down [ color accent1 $ spacer (widthOf eBox') 2
                       , eBox'
                       , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ foldr (lift2 (::)) (constant []) exs
+  in  lift putInBox $ foldr (lift2 (:)) (constant []) exs
 
 
 
@@ -200,4 +194,4 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 titles = lift JavaScript.castStringToJSString (constant "What is FRP?")
 foreign export jsevent "elm_title"
-  titles : Signal JSString
+  titles :: Signal JSString

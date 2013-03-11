@@ -46,16 +46,17 @@ features = [markdown|
 
 news = [markdown|
 
-#### News
+#### What&rsquo;s new? What&rsquo;s interesting?
+
+[Elm at the mloc.js conference][mloc]: the basics of FRP and how to build purely functional games
 
 [Extensible Records in Elm 0.7][v7]
 
-Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
-
-[Escape from Callback Hell][escape]: AJAX without callbacks
+Elm featured at [Emerging Languages conference][video] and on [O&rsquo;Reilly Radar][radar]
 
 [Making Pong in Elm][pong]: a comprehensive walkthrough
 
+  [mloc]: http://www.ustream.tv/recorded/29330499 "FRP basics / building a basic Mario game"
   [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [v7]: /blog/announce/version-0.7.elm "Extensible Records"
@@ -80,7 +81,7 @@ There are also tons of ways to [contribute to Elm](/Contribute.elm).
 
 exampleText = [markdown|
 
-#### Examples
+#### Interactive Examples
 
 Read, use, and edit real Elm programs [online](/Examples.elm). Think about
 how you might implement the following programs with HTML, CSS, and JavaScript:
@@ -88,7 +89,7 @@ how you might implement the following programs with HTML, CSS, and JavaScript:
 
 infoqDesc = [markdown|
 
-#### Making the Web Functional
+#### Watch an Overview
 
 [An introduction to Elm][vid]. Why you should care. How it works. How to make cool stuff.
 The live examples came out a bit grainy, so follow along [here][exs].
@@ -122,7 +123,7 @@ content w =
 
 infoq w =
   let lnk = "http://www.infoq.com/presentations/Elm"
-      vid = image (min w 320) (min (round (toFloat w * 4/5)) 240) "/infoq.jpg"
+      vid = fittedImage w 210 "/infoq.jpg"
   in  width w infoqDesc `above` Graphics.link lnk vid
 
 download w =
@@ -167,4 +168,4 @@ main = lift (skeleton info) Window.width
 
 title = constant (JavaScript.castStringToJSString "The Elm Programming Language")
 foreign export jsevent "elm_title"
-  title : Signal JSString
+  title :: Signal JSString
