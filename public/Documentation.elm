@@ -1,7 +1,8 @@
 
-import Website.Skeleton (addSpaces, skeleton)
-import Website.Tiles (tile)
-import List
+import Website.Skeleton
+import Window as Window
+import Graphics.Text (text)
+import Graphics.Text as Text
 
 general = ("General",
   [ ("Char", "docs/Data/Char.elm")
@@ -35,8 +36,6 @@ systemInput = ("System Input",
    ("Time"   , "docs/Signal/Time.elm"),
    ("HTTP"   , "docs/Signal/HTTP.elm"),
    ("Random" , "docs/Signal/Random.elm")])
-
-
 ffi = ("JavaScript",
   [ ("JavaScript", "docs/Foreign/JavaScript.elm") 
   , ("JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
@@ -87,12 +86,12 @@ and [JavaScript integration][3].
 
 |]
 
-linkify (name, src) = toText "    " ++ Text.link src (toText name)
+linkify (name, src) = Text.toText "    " ++ Text.link src (Text.toText name)
 linkList (name, pairs) = 
-  flow down . List.intersperse (spacer 2 2) . map text $ bold (toText name) :: map linkify pairs
+  flow down . intersperse (spacer 2 2) . map Text.text $
+  Text.bold (Text.toText name) :: map linkify pairs
 
-makeCol w =
-    width w . flow down . List.intersperse (spacer 10 20) . map linkList
+makeCol w = width w . flow down . intersperse (spacer 10 20) . map linkList
 threeCol w l m r =
     flow right $ map (makeCol (w `div` 3)) [l,m,r]
 
@@ -101,10 +100,8 @@ col2 = [ signals, userInput, systemInput ]
 col3 = [ graphics, ffi ]
 
 categories w =
-  flow down
-  [ width w intro
-  , threeCol w col1 col2 col3
-  , width w outro
-  ]
+  flow down [ width w intro,
+              threeCol w col1 col2 col3,
+              width w outro ]
 
 main = lift (skeleton categories) Window.width

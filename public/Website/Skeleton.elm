@@ -1,12 +1,14 @@
 
 module Website.Skeleton where
 
+import Graphics.Text (text)
+import Graphics.Text as Text
 import Website.ColorScheme
 
 button (name, href, clr) =
-    let accent = color clr (spacer 100 2) in
-    let butn = container 100 58 middle $ text . Text.color black $ toText name in
-    Graphics.link href $ accent `below` butn
+ let accent = color clr (spacer 100 2)
+     butn = container 100 58 middle . width 100 . Text.centered . Text.color black $ Text.toText name
+ in  link href $ butn `above` accent
 
 buttons = flow right . map button $
   [ ("About"   , "/About.elm"        , accent1)
@@ -15,8 +17,8 @@ buttons = flow right . map button $
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
-  let elm = text . Text.link "/" . Text.color black . Text.height 2 . bold $ toText "Elm" in
-  container w 60 midLeft elm
+ let elm = Text.text . Text.link "/" . Text.color black . Text.height 2 . Text.bold $ Text.toText "Elm"
+ in  container w 60 midLeft elm
 
 veiwSource = [markdown|
 <a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!='/edit')top.location.href='/edit'+(p=='/'?'/Elm.elm':p);">
@@ -40,7 +42,7 @@ skeleton bodyFunc outer =
   flow down [ heading outer inner
             , spacer outer 10
             , container outer (heightOf body) middle body
-            , container outer 50 midBottom . text $
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
-                    Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
+            , container outer 50 midBottom . Text.centered $
+                Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
+                    Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
             ]

@@ -1,7 +1,6 @@
 
 module Website.Docs (createDocs2,createDocs) where
 
-import List (intersperse,zipWith)
 import Website.ColorScheme
 
 accents = [accent0,accent1,accent2,accent3,accent4]
@@ -10,7 +9,7 @@ topBar k n =
     let n' = toFloat n
         k' = toFloat k
         segs = map (\i -> round (n' * toFloat i / k')) [1..k]
-        ws = zipWith (-) segs (0:segs)
+        ws = zipWith (-) segs (0::segs)
         accentCycle = concatMap (\_ -> accents) [ 0 .. k `div` 5 ]
     in  flow right $ zipWith (\c w -> color c $ spacer w 5) accentCycle ws
 
@@ -43,7 +42,7 @@ f2 w c = let c' = width w c
          in  container w (heightOf c') pos c'
 
 group f w (name, fs) =
-  flow down $ text (section (5/4) name) : spacer 1 20 : map (entry f w) fs
+  flow down $ text (section (5/4) name) :: spacer 1 20 :: map (entry f w) fs
 
 createDocs name cats =
   let f w = flow down $ [ text $ Text.link "/Documentation.elm" (toText "Back")
