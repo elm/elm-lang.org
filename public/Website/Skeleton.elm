@@ -29,7 +29,8 @@ veiwSource = [markdown|
 |]
 
 heading outer inner =
-  let header = container outer 60 middle $
+  let x = console.log outer
+      header = container outer 60 middle $
                title (inner - widthOf buttons) `beside` buttons
   in  layers $ [ flow down [ color lightGrey (spacer outer 58)
                            , color mediumGrey (spacer outer 1) ]

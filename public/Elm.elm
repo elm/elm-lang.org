@@ -2,6 +2,10 @@ import Website.Skeleton
 import Website.Tiles
 import Website.ColorScheme
 
+import Graphics.Text as Text
+import JavaScript as JavaScript
+import Window as Window
+
 intro = [markdown|
 
 ### The Elm Programming Language
@@ -124,7 +128,7 @@ content w =
 infoq w =
   let lnk = "http://www.infoq.com/presentations/Elm"
       vid = fittedImage w 210 "/infoq.jpg"
-  in  width w infoqDesc `above` Graphics.link lnk vid
+  in  width w infoqDesc `above` link lnk vid
 
 download w =
   let lnk = "https://github.com/evancz/Elm/blob/master/README.md#elm" in
@@ -133,7 +137,7 @@ download w =
               layers [ color mediumGrey . container 200 60 middle .
                        color lightGrey  . container 198 58 middle .
                        text . Text.height 1.5 $ toText "Download"
-                     , Graphics.link lnk $ spacer 200 60 ]
+                     , link lnk $ spacer 200 60 ]
             ]
 
 info w = if w < 500 then infoSmall w else infoBig w
@@ -166,6 +170,6 @@ infoSmall w =
 
 main = lift (skeleton info) Window.width
 
-title = constant (JavaScript.castStringToJSString "The Elm Programming Language")
+title = constant (JavaScript.fromString "The Elm Programming Language")
 foreign export jsevent "elm_title"
   title : Signal JSString

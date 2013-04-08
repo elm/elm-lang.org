@@ -1,4 +1,5 @@
 import Website.Skeleton
+import Window as Window
 
 install = [markdown|
 

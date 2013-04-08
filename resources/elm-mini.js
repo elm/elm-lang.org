@@ -129,105 +129,109 @@ Elm.Native.Utils = function(elm) {
   };
 };
 Elm.Native.Show = function(elm) {
-  'use strict';
+    'use strict';
 
-  elm.Native = elm.Native || {};
-  if (elm.Native.Show) return elm.Native.Show;
+    elm.Native = elm.Native || {};
+    if (elm.Native.Show) return elm.Native.Show;
 
-  var NList = Elm.Native.List(elm);
-  var List = Elm.List(elm);
-  var Maybe = Elm.Maybe(elm);
-  var JS = Elm.JavaScript(elm);
-  var Dict = Elm.Dict(elm);
-  var Json = Elm.Json(elm);
+    var NList = Elm.Native.List(elm);
+    var List = Elm.List(elm);
+    var Maybe = Elm.Maybe(elm);
+    var JS = Elm.JavaScript(elm);
+    var Dict = Elm.Dict(elm);
+    var Json = Elm.Json(elm);
 
-  elm.node.addEventListener('log', function(e) { console.log(e.value); });
-  elm.node.addEventListener('title', function(e) {document.title = e.value;});
-  elm.node.addEventListener('redirect', function(e) {
-	  if (e.value.length > 0) { window.location = e.value; }
-      });
-  elm.node.addEventListener('viewport', function(e) {
-	  var node = document.getElementById('elm_viewport');
-	  if (!node) {
-	      node = document.createElement('meta');
-	      node.id = 'elm_viewport';
-	      node.name = 'viewport';
-	      document.head.appendChild(node);
-	  }
-	  node.content = e.value;
-	  Dispatcher.notify(elm.Window.dimensions.id,
-			    Tuple2(elm.node.clientWidth, elm.node.clientHeight));
-      });
+    elm.node.addEventListener('log', function(e) { console.log(e.value); });
+    elm.node.addEventListener('title', function(e) {document.title = e.value;});
+    elm.node.addEventListener('redirect', function(e) {
+            if (e.value.length > 0) { window.location = e.value; }
+        });
+    elm.node.addEventListener('viewport', function(e) {
+            var node = document.getElementById('elm_viewport');
+            if (!node) {
+                node = document.createElement('meta');
+                node.id = 'elm_viewport';
+                node.name = 'viewport';
+                document.head.appendChild(node);
+            }
+            node.content = e.value;
+            Dispatcher.notify(elm.Window.dimensions.id,
+                              Tuple2(elm.node.clientWidth, elm.node.clientHeight));
+        });
 
-  var toString = function(v) {
-    if (typeof v === "function") {
-	return "<function>";
-    } else if (typeof v === "boolean") {
-	return v ? "True" : "False";
-    } else if (typeof v === "number") {
-	return v+"";
-    } else if (typeof v === "string" && v.length < 2) {
-	return "'"+v+"'";
-    } else if (typeof v === "object" && ('_' in v)) {
-	var output = [];
-	for (var k in v._) {
-	  console.log(k,v._[k]);
-          for (var i = v._[k].length; i--; ) {
-            output.push(k + " = " + toString(v._[k][i]));
-	  }
-	}
-	for (var k in v) {
-          if (k === '_') continue;
-	  output.push(k + " = " + toString(v[k]));
-	}
-	if (output.length === 0) return "{}";
-	return "{ " + output.join(", ") + " }";
-    } else if ('ctor' in v) {
-	if (v.ctor.substring(0,5) === "Tuple") {
-	    var output = [];
-	    for (var k in v) {
-		if (k === 'ctor') continue;
-		output.push(toString(v[k]));
-	    }
-	    return "(" + output.join(",") + ")";
-	} else if (v.ctor === "Cons") {
-	    var isStr = typeof v._0 === "string",
-	        start = isStr ? '"' : "[",
-	        end   = isStr ? '"' : "]",
-	        sep   = isStr ?  "" : ",",
-	        f     = !isStr ? toString : function(x){
-		return x === '\n' ? '\\n' : x;
-	    };
-	    var output = start + f(v._0);
-	    v = v._1;
-	    while (v.ctor === "Cons") {
-		output += sep + f(v._0);
-		v = v._1;
-	    }
-	    return output + end;
-	} else if (v.ctor === "Nil") {
-	    return "[]";
-	} else if (v.ctor === "RBNode" || v.ctor === "RBEmpty") {
-	    var cons = F3(function(k,v,acc){return NList.Cons(Tuple2(k,v),acc)});
-	    var list = A3(Dict.foldr, cons, NList.Nil, v);
-	    var name = "Dict";
-	    if (list.ctor === "Cons" && list._0._1.ctor === "Tuple0") {
-		name = "Set";
-		list = A2(List.map, function(x){return x._0}, list);
-	    }
-	    return "(" + name + ".fromList " + toString(list) + ")";
-	} else {
-	    var output = "";
-	    for (var i = v.length; --i; ) { output = ' ' + toString(v[i]) + output; }
-	    output = v.ctor + output;
-	    return (v.length > 1) ? "(" + output + ")" : output;
-	}
-    }
-    return v+"";
-  };
-  function show(v) { return NList.fromArray(toString(v)); }
+    var toString = function(v) {
+        if (typeof v === "function") {
+            return "<function>";
+        } else if (typeof v === "boolean") {
+            return v ? "True" : "False";
+        } else if (typeof v === "number") {
+            return v+"";
+        } else if (typeof v === "string" && v.length < 2) {
+            return "'"+v+"'";
+        } else if (typeof v === "object" && '_' in v) {
+            var output = [];
+            for (var k in v._) {
+                console.log(k,v._[k]);
+                for (var i = v._[k].length; i--; ) {
+                    output.push(k + " = " + toString(v._[k][i]));
+                }
+            }
+            for (var k in v) {
+                if (k === '_') continue;
+                output.push(k + " = " + toString(v[k]));
+            }
+            if (output.length === 0) return "{}";
+            return "{ " + output.join(", ") + " }";
+        } else if (typeof v === "object" && 'ctor' in v) {
+            if (v.ctor.substring(0,5) === "Tuple") {
+                var output = [];
+                for (var k in v) {
+                    if (k === 'ctor') continue;
+                    output.push(toString(v[k]));
+                }
+                return "(" + output.join(",") + ")";
+            } else if (v.ctor === "Cons") {
+                var isStr = typeof v._0 === "string",
+                start = isStr ? '"' : "[",
+                end   = isStr ? '"' : "]",
+                sep   = isStr ?  "" : ",",
+                f     = !isStr ? toString : function(x){
+                    return x === '\n' ? '\\n' : x;
+                };
+                var output = start + f(v._0);
+                v = v._1;
+                while (v.ctor === "Cons") {
+                    output += sep + f(v._0);
+                    v = v._1;
+                }
+                return output + end;
+            } else if (v.ctor === "Nil") {
+                return "[]";
+            } else if (v.ctor === "RBNode" || v.ctor === "RBEmpty") {
+                var cons = F3(function(k,v,acc){return NList.Cons(Tuple2(k,v),acc)});
+                var list = A3(Dict.foldr, cons, NList.Nil, v);
+                var name = "Dict";
+                if (list.ctor === "Cons" && list._0._1.ctor === "Tuple0") {
+                    name = "Set";
+                    list = A2(List.map, function(x){return x._0}, list);
+                }
+                return name + ".fromList " + toString(list);
+            } else {
+                var output = "";
+                for (var i in v) {
+                    if (i === 'ctor') continue;
+                    var str = toString(v[i]);
+                    var parenless = str[0] === '{' || str.indexOf(' ') < 0;
+                    output += ' ' + (parenless ? str : '(' + str + ')');
+                }
+                return v.ctor + output;
+            }
+        }
+        return v+"";
+    };
+    function show(v) { return NList.fromArray(toString(v)); }
 
-  return elm.Native.Show = { show:show };
+    return elm.Native.Show = { show:show };
 };
 Elm.Native.Prelude = function(elm) {
   'use strict';
@@ -1045,10 +1049,12 @@ Elm.Native.Window = function(elm) {
   height.defaultNumberOfKids = 0;
 
   function resize(e) {
-    console.log('use the base node (should happen after resize)');
-    var hasListener = elm.notify(dimensions.id, Tuple2(elm.node.clientWidth,
-						       elm.node.clientHeight));
-    if (!hasListener) window.removeEventListener('resize', resize);
+      var w = elm.node.clientWidth;
+      var h = document.body === elm.node ? window.innerHeight : elm.node.clientHeight;
+      console.log('cmp', dimensions.value._0, w, dimensions.value._1, h);
+      if (dimensions.value._0 === w && dimensions.value._1 === h) return;
+      var hasListener = elm.notify(dimensions.id, Tuple2(w,h));
+      if (!hasListener) window.removeEventListener('resize', resize);
   }
   window.addEventListener('resize', resize);
 
@@ -2432,8 +2438,7 @@ Elm.Mouse = function(elm){
 Elm.Maybe = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.List(elm); var List = _;
- var foldr = _.foldr;
+ var List = Elm.List(elm);
  var e, case0, maybe_2, isJust_3, isNothing_4, cons_5, justs_6;
  Just_0 = function(a1){
   return {ctor:"Just", _0:a1};};
@@ -2447,7 +2452,7 @@ Elm.Maybe = function(elm){
   return true;});
  isNothing_4 = function(x){
   return not(isJust_3(x));};
- justs_6 = A2(foldr, cons_5, _L.Nil);
+ justs_6 = A2(List.foldr, cons_5, _L.Nil);
  elm.Native = elm.Native||{};
  var _ = elm.Native.Maybe||{};
  _.$op = {};
@@ -2968,11 +2973,11 @@ Elm.Graphics.Input = function(elm){
  id_0 = function(x_8){
   return x_8;};
  button_1 = function(txt_9){
-  return (pool_10 = N.buttons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A2((pool_10).button, {ctor:"Tuple0"}, txt_9), _1:(pool_10).events});};
+  return (pool_10 = N.buttons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A2(pool_10.button, {ctor:"Tuple0"}, txt_9), _1:pool_10.events});};
  customButton_2 = F3(function(up_11, hover_12, down_13){
-  return (pool_14 = N.customButtons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A4((pool_14).button, {ctor:"Tuple0"}, up_11, hover_12, down_13), _1:(pool_14).events});});
+  return (pool_14 = N.customButtons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A4(pool_14.button, {ctor:"Tuple0"}, up_11, hover_12, down_13), _1:pool_14.events});});
  checkBox_3 = function(b_15){
-  return (cbs_16 = N.checkBoxes(b_15), {ctor:"Tuple2", _0:A2(lift, (cbs_16).box(id_0), (cbs_16).events), _1:(cbs_16).events});};
+  return (cbs_16 = N.checkBoxes(b_15), {ctor:"Tuple2", _0:A2(lift, cbs_16.box(id_0), cbs_16.events), _1:cbs_16.events});};
  TextState_4 = F3(function(input_17, start_18, end_19){
   return {
     _:{
@@ -2981,11 +2986,11 @@ Elm.Graphics.Input = function(elm){
     input:input_17,
     start:start_18};});
  text_5 = F2(function(placeHolder_20, textState_21){
-  return (tfs_22 = N.textFields(textState_21), {ctor:"Tuple2", _0:A2(lift, A2((tfs_22).field, id_0, placeHolder_20), (tfs_22).events), _1:(tfs_22).events});});
+  return (tfs_22 = N.textFields(textState_21), {ctor:"Tuple2", _0:A2(lift, A2(tfs_22.field, id_0, placeHolder_20), tfs_22.events), _1:tfs_22.events});});
  password_6 = F2(function(placeHolder_23, textState_24){
-  return (tfs_25 = N.passwords(textState_24), {ctor:"Tuple2", _0:A2(lift, A2((tfs_25).field, id_0, placeHolder_23), (tfs_25).events), _1:(tfs_25).events});});
+  return (tfs_25 = N.passwords(textState_24), {ctor:"Tuple2", _0:A2(lift, A2(tfs_25.field, id_0, placeHolder_23), tfs_25.events), _1:tfs_25.events});});
  email_7 = F2(function(placeHolder_26, textState_27){
-  return (tfs_28 = N.emails(textState_27), {ctor:"Tuple2", _0:A2(lift, A2((tfs_28).field, id_0, placeHolder_26), (tfs_28).events), _1:(tfs_28).events});});
+  return (tfs_28 = N.emails(textState_27), {ctor:"Tuple2", _0:A2(lift, A2(tfs_28.field, id_0, placeHolder_26), tfs_28.events), _1:tfs_28.events});});
  elm.Native = elm.Native||{};
  elm.Native.Graphics = elm.Native.Graphics||{};
  var _ = elm.Native.Graphics.Input||{};
@@ -3593,18 +3598,8 @@ Elm.init = function(module, baseNode) {
 
   // ensure that baseNode exists and is properly formatted.
   if (typeof baseNode === 'undefined') {
-      var newElement = ElmRuntime.use(ElmRuntime.Render.Utils).newElement;
-      baseNode = newElement('div');
-      document.body.appendChild(baseNode);
-      baseNode.style.width  = window.innerWidth + 'px';
-      baseNode.style.height = window.innerHeight + 'px';
-      window.addEventListener('resize', function() {
-	      console.log('resize the base node');
-	      baseNode.style.width  = window.innerWidth + 'px';
-	      baseNode.style.height = window.innerHeight + 'px';
-	  }, true);
-
-      var style = newElement('style');
+      baseNode = document.body;
+      var style = document.createElement('style');
       style.type = 'text/css';
       style.innerHTML = "html,head,body { padding:0; margin:0; }" +
 	  "body { font-family: calibri, helvetica, arial, sans-serif; }";
@@ -3643,22 +3638,29 @@ Elm.init = function(module, baseNode) {
   visualModel = signalGraph.value;
   inputs = ElmRuntime.filterDeadInputs(inputs);
   
-  // Add the visualModel to the DOM
-  baseNode.appendChild(Render.render(visualModel));
-  
-  if ('Window' in elm) {
-      var w = baseNode.clientWidth;
-      if (w !== elm.Window.dimensions.value._0) {
-	  notify(elm.Window.dimensions.id,
-		 Elm.Native.Utils(elm).Tuple2(w, baseNode.clientHeight));
+  var tuple2 = Elm.Native.Utils(elm).Tuple2;
+  function adjustWindow() {
+      if ('Window' in elm) {
+          var w = baseNode.clientWidth;
+          if (w !== elm.Window.dimensions.value._0) {
+              notify(elm.Window.dimensions.id,
+                     tuple2(w, document.body === baseNode ?
+                            window.innerHeight : baseNode.clientHeight));
+          }
       }
   }
+  
+  // Add the visualModel to the DOM
+  var renderNode = Render.render(visualModel)
+  baseNode.appendChild(renderNode);
+  adjustWindow();
   
   // set up updates so that the DOM is adjusted as necessary.
   var update = Render.update;
   function domUpdate(value) {
-      update(baseNode.firstChild, visualModel, value);
+      update(renderNode, visualModel, value);
       visualModel = value;
+      adjustWindow();
       return value;
   }
   
@@ -3742,11 +3744,11 @@ function setProps(props, e) {
 }
 
 function image(props, img) {
-  switch (img._0.ctor) {
-  case 'Plain':   return plainImage(img._3);
-  case 'Fitted':  return fittedImage(props.width, props.height, img._3);
-  case 'Cropped': return croppedImage(img,props.width,props.height,img._3);
-  }
+    switch (img._0.ctor) {
+    case 'Plain':   return plainImage(img._3);
+    case 'Fitted':  return fittedImage(props.width, props.height, img._3);
+    case 'Cropped': return croppedImage(img,props.width,props.height,img._3);
+    }
 }
 
 function plainImage(src) {
@@ -3837,21 +3839,21 @@ function toPos(pos) {
 }
 
 function setPos(pos,w,h,e) {
-  e.style.position = 'absolute';
-  e.style.margin = 'auto';
-  var transform = '';
-  switch(pos.horizontal.ctor) {
-  case 'P': e.style.right = toPos(pos.x); break;
-  case 'Z': transform = 'translateX(' + ((-w/2)|0) + 'px) ';
-  case 'N': e.style.left = toPos(pos.x); break;
-  }
-  switch(pos.vertical.ctor) {
-  case 'N': e.style.bottom = toPos(pos.y); break;
-  case 'Z': transform += 'translateY(' + ((-h/2)|0) + 'px)';
-  case 'P': e.style.top = toPos(pos.y); break;
-  }
-  if (transform !== '') addTransform(e.style, transform);
-  return e;
+    e.style.position = 'absolute';
+    e.style.margin = 'auto';
+    var transform = '';
+    switch(pos.horizontal.ctor) {
+    case 'P': e.style.right = toPos(pos.x); break;
+    case 'Z': transform = 'translateX(' + ((-w/2)|0) + 'px) ';
+    case 'N': e.style.left = toPos(pos.x); break;
+    }
+    switch(pos.vertical.ctor) {
+    case 'N': e.style.bottom = toPos(pos.y); break;
+    case 'Z': transform += 'translateY(' + ((-h/2)|0) + 'px)';
+    case 'P': e.style.top = toPos(pos.y); break;
+    }
+    if (transform !== '') addTransform(e.style, transform);
+    return e;
 }
 
 function container(pos,elem) {
@@ -3885,7 +3887,7 @@ function makeElement(e) {
 
 function update(node, curr, next) {
     if (node.tagName === 'A') { node = node.firstChild; }
-    if (curr.props.id === next.props.id) return false;
+    if (curr.props.id === next.props.id) return updateProps(node, curr, next);
     if (curr.element.ctor !== next.element.ctor) {
 	node.parentNode.replaceChild(render(next),node);
 	return true;
@@ -3893,7 +3895,9 @@ function update(node, curr, next) {
     var nextE = next.element, currE = curr.element;
     switch(nextE.ctor) {
     case "Spacer": break;
-    case "RawHtml": if (nextE._0 !== currE._0) node.innerHTML = nextE._0; break;
+    case "RawHtml":
+        if (nextE._0 !== currE._0) node.innerHTML = nextE._0;
+        break;
     case "Image":
 	if (nextE._0.ctor === 'Plain') {
 	    if (nextE._3 !== currE._3) node.src = nextE._3;
@@ -3905,6 +3909,8 @@ function update(node, curr, next) {
 	}
 	break;
     case "Flow":
+        var arr = fromList(nextE._1);
+        for (var i = arr.length; i--; ) { arr[i] = arr[i].element.ctor; }
 	if (nextE._0.ctor !== currE._0.ctor) {
 	    node.parentNode.replaceChild(render(next),node);
 	    return true;
@@ -3949,6 +3955,10 @@ function update(node, curr, next) {
 	    return node.parentNode.replaceChild(render(next), node);
 	}
     }
+    updateProps(node, curr, next);
+}
+
+function updateProps(node, curr, next) {
     var props = next.props, currP = curr.props, e = node;
     if (props.width !== currP.width)   e.style.width  = (props.width |0) + 'px';
     if (props.height !== currP.height) e.style.height = (props.height|0) + 'px';
@@ -3957,7 +3967,9 @@ function update(node, curr, next) {
     }
     var nextColor = (props.color.ctor === 'Just' ?
 		     extract(props.color._0) : 'transparent');
-    if (e.style.backgroundColor !== nextColor) e.style.backgroundColor = nextColor;
+    if (e.style.backgroundColor !== nextColor) {
+        e.style.backgroundColor = nextColor;
+    }
     if (props.tag !== currP.tag) { e.id = props.tag; }
     if (props.href !== currP.href) {
 	if (currP.href === '') {
@@ -4323,7 +4335,7 @@ Elm.Website.Skeleton = function(elm){
  var text = _.text;
  var Text = Elm.Graphics.Text(elm);
  var _ = Elm.Website.ColorScheme(elm); var Website = Website||{};Website.ColorScheme = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
- var e, case0, button_0, accent_10, butn_11, buttons_1, title_2, elm_13, veiwSource_3, heading_4, header_16, skeleton_5, inner_19, body_20;
+ var e, case0, button_0, accent_10, butn_11, buttons_1, title_2, elm_13, veiwSource_3, heading_4, x_16, header_17, skeleton_5, inner_20, body_21;
  button_0 = function(_11000_6){
   return (e=_11000_6.ctor==='Tuple3'?(accent_10 = A2(color, _11000_6._2, A2(spacer, 100, 2)), butn_11 = function(x){
    return A4(container, 100, 58, middle, A2(width, 100, Text.centered(A2(Text.color, black, x))));}(Text.toText(_11000_6._0)), A2(link, _11000_6._1, A2(above, butn_11, accent_10))):null,e!==null?e:_E.Case('Line 9, Column 2'));};
@@ -4331,10 +4343,10 @@ Elm.Website.Skeleton = function(elm){
   return (elm_13 = function(x){
    return Text.text(A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, Text.bold(x)))));}(Text.toText(_str('Elm'))), A4(container, w_12, 60, midLeft, elm_13));};
  heading_4 = F2(function(outer_14, inner_15){
-  return (header_16 = A4(container, outer_14, 60, middle, A2(beside, title_2((inner_15-widthOf(buttons_1))), buttons_1)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_14, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_14, 1)),_L.Nil))),_L.Cons(header_16,((_N.compare(outer_14,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_14, veiwSource_3),_L.Nil))))));});
- skeleton_5 = F2(function(bodyFunc_17, outer_18){
-  return (inner_19 = ((_N.compare(outer_18,820).ctor==='LT')?(outer_18-20):800), (body_20 = bodyFunc_17(inner_19), A2(flow, down, _L.Cons(A2(heading_4, outer_18, inner_19),_L.Cons(A2(spacer, outer_18, 10),_L.Cons(A4(container, outer_18, heightOf(body_20), middle, body_20),_L.Cons(function(x){
-   return A4(container, outer_18, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil)))))));});
+  return (x_16 = (console).log(outer_14), header_17 = A4(container, outer_14, 60, middle, A2(beside, title_2((inner_15-widthOf(buttons_1))), buttons_1)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_14, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_14, 1)),_L.Nil))),_L.Cons(header_17,((_N.compare(outer_14,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_14, veiwSource_3),_L.Nil))))));});
+ skeleton_5 = F2(function(bodyFunc_18, outer_19){
+  return (inner_20 = ((_N.compare(outer_19,820).ctor==='LT')?(outer_19-20):800), (body_21 = bodyFunc_18(inner_20), A2(flow, down, _L.Cons(A2(heading_4, outer_19, inner_20),_L.Cons(A2(spacer, outer_19, 10),_L.Cons(A4(container, outer_19, heightOf(body_21), middle, body_21),_L.Cons(function(x){
+   return A4(container, outer_19, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil)))))));});
  buttons_1 = A2(flow, right, A2(map, button_0, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
  veiwSource_3 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
  elm.Native = elm.Native||{};

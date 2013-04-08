@@ -1,4 +1,5 @@
 import Website.Skeleton
+import Window as Window
 
 ---- Text of the page: all written in Markdown ----
 
