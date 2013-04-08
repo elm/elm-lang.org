@@ -22,9 +22,11 @@ elmToHtml name src =
          ("a:link {text-decoration: none; color: rgb(15,102,230);}\
           \a:visited {text-decoration: none}\
           \a:active {text-decoration: none}\
-          \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
+          \a:hover {text-decoration: underline;\
+          \color: rgb(234,21,122);}" :: String)
       H.body $ do
-        H.script ! A.type_ "text/javascript" ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
-        H.script ! A.type_ "text/javascript" $ preEscapedToMarkup (Elm.compile src)
-        H.script ! A.type_ "text/javascript" $ preEscapedToMarkup ("Elm.init(Elm." ++ Elm.moduleName src ++ ")")
+        let js = H.script ! A.type_ "text/javascript"
+        js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
+        js $ preEscapedToMarkup (Elm.compile src)
+        js $ preEscapedToMarkup ("Elm.init(Elm." ++ Elm.moduleName src ++ ")")
         googleAnalytics
