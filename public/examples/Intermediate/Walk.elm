@@ -1,4 +1,7 @@
 
+import Keyboard
+import Window
+
 -- MODEL
 areaW = 407
 areaH = 301

@@ -1,6 +1,7 @@
 
 import Website.Skeleton
 import Website.Tiles
+import Window as Window
 
 addFolder folder = map (\(x,y) -> (x, y, folder))
 

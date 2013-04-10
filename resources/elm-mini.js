@@ -114,7 +114,8 @@ Elm.Native.Utils = function(elm) {
 
   return elm.Native.Utils = {
       eq:eq,
-      compare:compare,
+      cmp:compare,
+      compare:F2(compare),
       Tuple0:Tuple0,
       Tuple2:Tuple2,
       copy: copy,
@@ -140,6 +141,7 @@ Elm.Native.Show = function(elm) {
     var JS = Elm.JavaScript(elm);
     var Dict = Elm.Dict(elm);
     var Json = Elm.Json(elm);
+    var Tuple2 = Elm.Native.Utils(elm).Tuple2;
 
     elm.node.addEventListener('log', function(e) { console.log(e.value); });
     elm.node.addEventListener('title', function(e) {document.title = e.value;});
@@ -323,7 +325,7 @@ Elm.Native.Prelude = function(elm) {
       min:F2(min),
       max:F2(max),
       clamp:F3(clamp),
-
+      compare:Utils.compare,
 
       xor:F2(xor),
       not:not,
@@ -363,7 +365,8 @@ Elm.Native.Prelude = function(elm) {
 
   elm.Native = elm.Native || {};
   if (elm.Native.List) return elm.Native.List;
-  if ('values' in Elm.Native.List) return elm.Native.List = Elm.Native.List.values
+  if ('values' in Elm.Native.List)
+      return elm.Native.List = Elm.Native.List.values;
 
   var Utils = Elm.Native.Utils(elm);
 
@@ -598,6 +601,7 @@ Elm.Native.Prelude = function(elm) {
   }
 
   function join(sep, xss) {
+    if (typeof sep === 'string') return toArray(xss).join(sep);
     if (xss.ctor === 'Nil') return Nil;
     var s = toArray(sep);
     var out = toArray(xss._0);
@@ -1208,6 +1212,7 @@ Elm.Native.Time = function(elm) {
 
   var Signal = Elm.Signal(elm);
   var Maybe = Elm.Maybe(elm);
+  var Utils = Elm.Native.Utils(elm);
 
   function fpsWhen(desiredFPS, isOn) {
     var msPerFrame = 1000 / desiredFPS;
@@ -1241,8 +1246,8 @@ Elm.Native.Time = function(elm) {
   }
 
   function since(t, s) {
-    function cmp(a,b) { return !Value.eq(a,b) }
-    var dcount = Signal.count(Signal.delay(t)(s));
+    function cmp(a,b) { return !Utils.eq(a,b) }
+    var dcount = Signal.count(A2(Signal.delay, t, s));
     return A3( Signal.lift2, F2(cmp), Signal.count(s), dcount );
   }
   function after(t) {
@@ -1466,8 +1471,8 @@ Elm.Native.Signal = function(elm) {
 
   function merge(s1,s2) { return new Merge(s1,s2) }
   function merges(ss) { return A2(foldl1, F2(merge), ss) }
-  function mergeEither(s1,s2) {return new Merge(A2(lift, Either.Left , s1),
-						A2(lift, Either.Right, s2))}
+  function mergeEither(s1,s2) { return new Merge(lift(Either.Left, s1),
+                                                 lift(Either.Right, s2)) }
 
   function average(sampleSize, s) {
     var sample = new Array(sampleSize);
@@ -1497,7 +1502,7 @@ Elm.Native.Signal = function(elm) {
     lift7 : F8(lift7),
     lift8 : F9(lift8),
     foldp : F3(foldp),
-    delay : delay,
+    delay : F2(delay),
     merge : F2(merge),
     merges : merges,
     mergeEither : F2(mergeEither),
@@ -1856,6 +1861,10 @@ Elm.Native.Graphics.Text = function(elm) {
       return position('left')(monospace(toText(show(v))));
   }
 
+  function plainText(v) {
+      return position('left')(toText(v));
+  }
+
   return elm.Native.Graphics.Text = {
       toText: toText,
 
@@ -1875,6 +1884,7 @@ Elm.Native.Graphics.Text = function(elm) {
       centered : position('center'),
       righted : position('right'),
       text : position('left'),
+      plainText : plainText,
 
       asText : asText
   };
@@ -2353,10 +2363,10 @@ Elm.Set = function(elm){
   return A2(Dict.singleton, k_13, {ctor:"Tuple0"});};
  insert_2 = function(k_14){
   return A2(Dict.insert, k_14, {ctor:"Tuple0"});};
- fromList_9 = function(xs_15){
-  return A3(List.foldl, function(k_16){
-   return function(t_17){
-    return A3(Dict.insert, k_16, {ctor:"Tuple0"}, t_17);};}, empty_0, xs_15);};
+ diff_7 = F2(function(s1_15, s2_16){
+  return A3(foldl_10, remove_3, s1_15, s2_16);});
+ fromList_9 = function(xs_17){
+  return A3(List.foldl, insert_2, empty_0, xs_17);};
  foldl_10 = F3(function(f_18, b_19, s_20){
   return A3(Dict.foldl, function(k_21){
    return function(__22){
@@ -2374,7 +2384,6 @@ Elm.Set = function(elm){
  member_4 = Dict.member;
  union_5 = Dict.union;
  intersect_6 = Dict.intersect;
- diff_7 = Dict.diff;
  toList_8 = Dict.keys;
  elm.Native = elm.Native||{};
  var _ = elm.Native.Set||{};
@@ -2408,21 +2417,27 @@ Elm.Prelude = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
  var N = Elm.Native.Prelude(elm);
- var e, case0, radians_0, degrees_1, turns_2, otherwise_3;
- radians_0 = function(t_4){
-  return t_4;};
- degrees_1 = function(d_5){
-  return ((d_5*Math.PI)/180);};
- turns_2 = function(r_6){
-  return ((2*Math.PI)*r_6);};
- otherwise_3 = true;
+ var e, case0, radians_0, degrees_1, turns_2, otherwise_6;
+ LT_3 = {ctor:"LT"};
+ EQ_4 = {ctor:"EQ"};
+ GT_5 = {ctor:"GT"};
+ radians_0 = function(t_7){
+  return t_7;};
+ degrees_1 = function(d_8){
+  return ((d_8*Math.PI)/180);};
+ turns_2 = function(r_9){
+  return ((2*Math.PI)*r_9);};
+ otherwise_6 = true;
  elm.Native = elm.Native||{};
  var _ = elm.Native.Prelude||{};
  _.$op = {};
  _.radians = radians_0;
  _.degrees = degrees_1;
  _.turns = turns_2;
- _.otherwise = otherwise_3
+ _.LT = LT_3;
+ _.EQ = EQ_4;
+ _.GT = GT_5;
+ _.otherwise = otherwise_6
  return elm.Prelude = _;
  };
 Elm.Mouse = function(elm){
@@ -2471,16 +2486,16 @@ Elm.List = function(elm){
  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
  var min = _.min, max = _.max;
  var L = Elm.Native.List(elm);
- var e, case0, concatMap_0, sum_1, product_2, maximum_3, minimum_4, partition_5, _89000_17, bs_18, cs_19, unzip_6, _103000_28, xs_29, ys_30, intersperse_7;
+ var e, case0, concatMap_0, sum_1, product_2, maximum_3, minimum_4, partition_5, _91000_17, bs_18, cs_19, unzip_6, _105000_28, xs_29, ys_30, intersperse_7;
  concatMap_0 = function(f_8){
   return function(x){
    return L.concat(A2(L.map, f_8, x));};};
  partition_5 = F2(function(pred_13, lst_14){
-  return (e=lst_14.ctor==='Cons'?(_89000_17 = A2(partition_5, pred_13, lst_14._1), bs_18 = (e=_89000_17.ctor==='Tuple2'?_89000_17._0:null,e!==null?e:_E.Case('Line 89, Column 30')), cs_19 = (e=_89000_17.ctor==='Tuple2'?_89000_17._1:null,e!==null?e:_E.Case('Line 89, Column 30')), (pred_13(lst_14._0)?{ctor:"Tuple2", _0:_L.Cons(lst_14._0,bs_18), _1:cs_19}:{ctor:"Tuple2", _0:bs_18, _1:_L.Cons(lst_14._0,cs_19)})):lst_14.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 87, Column 5'));});
+  return (e=lst_14.ctor==='Cons'?(_91000_17 = A2(partition_5, pred_13, lst_14._1), bs_18 = (e=_91000_17.ctor==='Tuple2'?_91000_17._0:null,e!==null?e:_E.Case('Line 91, Column 30')), cs_19 = (e=_91000_17.ctor==='Tuple2'?_91000_17._1:null,e!==null?e:_E.Case('Line 91, Column 30')), (pred_13(lst_14._0)?{ctor:"Tuple2", _0:_L.Cons(lst_14._0,bs_18), _1:cs_19}:{ctor:"Tuple2", _0:bs_18, _1:_L.Cons(lst_14._0,cs_19)})):lst_14.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 89, Column 5'));});
  unzip_6 = function(pairs_24){
-  return (e=pairs_24.ctor==='Cons'?(e=pairs_24._0.ctor==='Tuple2'?(_103000_28 = unzip_6(pairs_24._1), xs_29 = (e=_103000_28.ctor==='Tuple2'?_103000_28._0:null,e!==null?e:_E.Case('Line 103, Column 33')), ys_30 = (e=_103000_28.ctor==='Tuple2'?_103000_28._1:null,e!==null?e:_E.Case('Line 103, Column 33')), {ctor:"Tuple2", _0:_L.Cons(pairs_24._0._0,xs_29), _1:_L.Cons(pairs_24._0._1,ys_30)}):null,e!==null?e:null):pairs_24.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 101, Column 3'));};
+  return (e=pairs_24.ctor==='Cons'?(e=pairs_24._0.ctor==='Tuple2'?(_105000_28 = unzip_6(pairs_24._1), xs_29 = (e=_105000_28.ctor==='Tuple2'?_105000_28._0:null,e!==null?e:_E.Case('Line 105, Column 33')), ys_30 = (e=_105000_28.ctor==='Tuple2'?_105000_28._1:null,e!==null?e:_E.Case('Line 105, Column 33')), {ctor:"Tuple2", _0:_L.Cons(pairs_24._0._0,xs_29), _1:_L.Cons(pairs_24._0._1,ys_30)}):null,e!==null?e:null):pairs_24.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 103, Column 3'));};
  intersperse_7 = F2(function(sep_35, xs_36){
-  return (e=xs_36.ctor==='Cons'?(e=xs_36._1.ctor==='Cons'?_L.Cons(xs_36._0,_L.Cons(sep_35,A2(intersperse_7, sep_35, _L.Cons(xs_36._1._0,xs_36._1._1)))):xs_36._1.ctor==='Nil'?_L.Cons(xs_36._0,_L.Nil):null,e!==null?e:null):xs_36.ctor==='Nil'?_L.Nil:null,e!==null?e:_E.Case('Line 116, Column 3'));});
+  return (e=xs_36.ctor==='Cons'?(e=xs_36._1.ctor==='Cons'?_L.Cons(xs_36._0,_L.Cons(sep_35,A2(intersperse_7, sep_35, _L.Cons(xs_36._1._0,xs_36._1._1)))):xs_36._1.ctor==='Nil'?_L.Cons(xs_36._0,_L.Nil):null,e!==null?e:null):xs_36.ctor==='Nil'?_L.Nil:null,e!==null?e:_E.Case('Line 120, Column 3'));});
  sum_1 = A2(L.foldl, function(x_9){
   return function(y_10){
    return (x_9+y_10);};}, 0);
@@ -2562,7 +2577,7 @@ Elm.Json = function(elm){
   return (e=v_34.ctor==='Object'?v_34._0:null,e!==null?e:Dict.empty);};
  find_15 = F2(function(get_36, base_37){
   return (f_38 = F2(function(key_39, dict_40){
-   return (case10 = A2(Dict.lookup, key_39, dict_40), (e=case10.ctor==='Just'?get_36(case10._0):case10.ctor==='Nothing'?base_37:null,e!==null?e:_E.Case('Line 68, Column 11')));}), f_38);});
+   return (case10 = A2(Dict.lookup, key_39, dict_40), (e=case10.ctor==='Just'?get_36(case10._0):case10.ctor==='Nothing'?base_37:null,e!==null?e:_E.Case('Line 74, Column 11')));}), f_38);});
  findString_16 = A2(find_15, string_10, _str(''));
  findNumber_17 = A2(find_15, number_11, 0);
  findBoolean_18 = A2(find_15, boolean_12, false);
@@ -2682,55 +2697,57 @@ Elm.Dict = function(elm){
  var Maybe = Elm.Maybe(elm);
  var Error = Elm.Native.Error(elm);
  var List = Elm.List(elm);
- var e, case0, empty_4, min_5, lookup_6, findWithDefault_7, member_8, rotateLeft_9, rotateRight_10, rotateLeftIfNeeded_11, rotateRightIfNeeded_12, otherColor_13, color_flip_14, color_flipIfNeeded_15, fixUp_16, ensureBlackRoot_17, insert_18, ins_107, h_114, singleton_19, isRed_20, isRedLeft_21, isRedLeftLeft_22, isRedRight_23, isRedRightLeft_24, moveRedLeft_25, t$_123, moveRedRight_26, t$_130, moveRedLeftIfNeeded_27, moveRedRightIfNeeded_28, deleteMin_29, del_134, remove_30, eq_and_noRightNode_143, eq_144, delLT_145, delEQ_146, _323000_163, k$_164, v$_165, delGT_147, del_148, u_178, t$_179, map_31, foldl_32, foldr_33, union_34, intersect_35, combine_205, diff_36, keys_37, values_38, toList_39, fromList_40;
+ var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+ var compare = _.compare;
+ var e, case0, empty_4, min_5, lookup_6, findWithDefault_7, member_8, rotateLeft_9, rotateRight_10, rotateLeftIfNeeded_11, rotateRightIfNeeded_12, otherColor_13, color_flip_14, color_flipIfNeeded_15, fixUp_16, ensureBlackRoot_17, insert_18, ins_107, h_114, singleton_19, isRed_20, isRedLeft_21, isRedLeftLeft_22, isRedRight_23, isRedRightLeft_24, moveRedLeft_25, t$_123, moveRedRight_26, t$_130, moveRedLeftIfNeeded_27, moveRedRightIfNeeded_28, deleteMin_29, del_134, remove_30, eq_and_noRightNode_143, eq_144, delLT_145, delEQ_146, _325000_163, k$_164, v$_165, delGT_147, del_148, u_178, t$_179, map_31, foldl_32, foldr_33, union_34, intersect_35, combine_205, diff_36, keys_37, values_38, toList_39, fromList_40;
  Red_0 = {ctor:"Red"};
  Black_1 = {ctor:"Black"};
- Node_2 = F5(function(a1, a2, a3, a4, a5){
-  return {ctor:"Node", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
- Empty_3 = {ctor:"Empty"};
+ RBNode_2 = F5(function(a1, a2, a3, a4, a5){
+  return {ctor:"RBNode", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
+ RBEmpty_3 = {ctor:"RBEmpty"};
  min_5 = function(t_41){
-  return (e=t_41.ctor==='Empty'?Error.raise(_str('(min Empty) is not defined')):t_41.ctor==='Node'?(e=t_41._3.ctor==='Empty'?{ctor:"Tuple2", _0:t_41._1, _1:t_41._2}:null,e!==null?e:min_5(t_41._3)):null,e!==null?e:_E.Case('Line 104, Column 3'));};
+  return (e=t_41.ctor==='RBEmpty'?Error.raise(_str('(min Empty) is not defined')):t_41.ctor==='RBNode'?(e=t_41._3.ctor==='RBEmpty'?{ctor:"Tuple2", _0:t_41._1, _1:t_41._2}:null,e!==null?e:min_5(t_41._3)):null,e!==null?e:_E.Case('Line 104, Column 3'));};
  lookup_6 = F2(function(k_45, t_46){
-  return (e=t_46.ctor==='Empty'?Nothing:t_46.ctor==='Node'?(case12 = A2(compare, k_45, t_46._1), (e=case12.ctor==='EQ'?Just(t_46._2):case12.ctor==='GT'?A2(lookup_6, k_45, t_46._4):case12.ctor==='LT'?A2(lookup_6, k_45, t_46._3):null,e!==null?e:_E.Case('Line 124, Column 5'))):null,e!==null?e:_E.Case('Line 121, Column 2'));});
+  return (e=t_46.ctor==='RBEmpty'?Nothing:t_46.ctor==='RBNode'?(case12 = A2(compare, k_45, t_46._1), (e=case12.ctor==='EQ'?Just(t_46._2):case12.ctor==='GT'?A2(lookup_6, k_45, t_46._4):case12.ctor==='LT'?A2(lookup_6, k_45, t_46._3):null,e!==null?e:_E.Case('Line 124, Column 5'))):null,e!==null?e:_E.Case('Line 121, Column 2'));});
  findWithDefault_7 = F3(function(base_51, k_52, t_53){
-  return (e=t_53.ctor==='Empty'?base_51:t_53.ctor==='Node'?(case19 = A2(compare, k_52, t_53._1), (e=case19.ctor==='EQ'?t_53._2:case19.ctor==='GT'?A3(findWithDefault_7, base_51, k_52, t_53._4):case19.ctor==='LT'?A3(findWithDefault_7, base_51, k_52, t_53._3):null,e!==null?e:_E.Case('Line 135, Column 5'))):null,e!==null?e:_E.Case('Line 132, Column 2'));});
+  return (e=t_53.ctor==='RBEmpty'?base_51:t_53.ctor==='RBNode'?(case19 = A2(compare, k_52, t_53._1), (e=case19.ctor==='EQ'?t_53._2:case19.ctor==='GT'?A3(findWithDefault_7, base_51, k_52, t_53._4):case19.ctor==='LT'?A3(findWithDefault_7, base_51, k_52, t_53._3):null,e!==null?e:_E.Case('Line 136, Column 5'))):null,e!==null?e:_E.Case('Line 133, Column 2'));});
  member_8 = F2(function(k_58, t_59){
   return Maybe.isJust(A2(lookup_6, k_58, t_59));});
  rotateLeft_9 = function(t_60){
-  return (e=t_60.ctor==='Node'?(e=t_60._4.ctor==='Node'?A5(Node_2, t_60._0, t_60._4._1, t_60._4._2, A5(Node_2, Red_0, t_60._1, t_60._2, t_60._3, t_60._4._3), t_60._4._4):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateLeft of a node without enough children')));};
+  return (e=t_60.ctor==='RBNode'?(e=t_60._4.ctor==='RBNode'?A5(RBNode_2, t_60._0, t_60._4._1, t_60._4._2, A5(RBNode_2, Red_0, t_60._1, t_60._2, t_60._3, t_60._4._3), t_60._4._4):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateLeft of a node without enough children')));};
  rotateRight_10 = function(t_70){
-  return (e=t_70.ctor==='Node'?(e=t_70._3.ctor==='Node'?A5(Node_2, t_70._0, t_70._3._1, t_70._3._2, t_70._3._3, A5(Node_2, Red_0, t_70._1, t_70._2, t_70._3._4, t_70._4)):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateRight of a node without enough children')));};
+  return (e=t_70.ctor==='RBNode'?(e=t_70._3.ctor==='RBNode'?A5(RBNode_2, t_70._0, t_70._3._1, t_70._3._2, t_70._3._3, A5(RBNode_2, Red_0, t_70._1, t_70._2, t_70._3._4, t_70._4)):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateRight of a node without enough children')));};
  rotateLeftIfNeeded_11 = function(t_80){
-  return (e=t_80.ctor==='Node'?(e=t_80._4.ctor==='Node'?(e=t_80._4._0.ctor==='Red'?rotateLeft_9(t_80):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_80);};
+  return (e=t_80.ctor==='RBNode'?(e=t_80._4.ctor==='RBNode'?(e=t_80._4._0.ctor==='Red'?rotateLeft_9(t_80):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_80);};
  rotateRightIfNeeded_12 = function(t_81){
-  return (e=t_81.ctor==='Node'?(e=t_81._3.ctor==='Node'?(e=t_81._3._0.ctor==='Red'?(e=t_81._3._3.ctor==='Node'?(e=t_81._3._3._0.ctor==='Red'?rotateRight_10(t_81):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_81);};
+  return (e=t_81.ctor==='RBNode'?(e=t_81._3.ctor==='RBNode'?(e=t_81._3._0.ctor==='Red'?(e=t_81._3._3.ctor==='RBNode'?(e=t_81._3._3._0.ctor==='Red'?rotateRight_10(t_81):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_81);};
  otherColor_13 = function(c_82){
-  return (e=c_82.ctor==='Black'?Red_0:c_82.ctor==='Red'?Black_1:null,e!==null?e:_E.Case('Line 184, Column 16'));};
+  return (e=c_82.ctor==='Black'?Red_0:c_82.ctor==='Red'?Black_1:null,e!==null?e:_E.Case('Line 185, Column 16'));};
  color_flip_14 = function(t_83){
-  return (e=t_83.ctor==='Node'?(e=t_83._3.ctor==='Node'?(e=t_83._4.ctor==='Node'?A5(Node_2, otherColor_13(t_83._0), t_83._1, t_83._2, A5(Node_2, otherColor_13(t_83._3._0), t_83._3._1, t_83._3._2, t_83._3._3, t_83._3._4), A5(Node_2, otherColor_13(t_83._4._0), t_83._4._1, t_83._4._2, t_83._4._3, t_83._4._4)):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('color_flip called on a Empty or Node with a Empty child')));};
+  return (e=t_83.ctor==='RBNode'?(e=t_83._3.ctor==='RBNode'?(e=t_83._4.ctor==='RBNode'?A5(RBNode_2, otherColor_13(t_83._0), t_83._1, t_83._2, A5(RBNode_2, otherColor_13(t_83._3._0), t_83._3._1, t_83._3._2, t_83._3._3, t_83._3._4), A5(RBNode_2, otherColor_13(t_83._4._0), t_83._4._1, t_83._4._2, t_83._4._3, t_83._4._4)):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('color_flip called on a Empty or Node with a Empty child')));};
  color_flipIfNeeded_15 = function(t_97){
-  return (e=t_97.ctor==='Node'?(e=t_97._3.ctor==='Node'?(e=t_97._3._0.ctor==='Red'?(e=t_97._4.ctor==='Node'?(e=t_97._4._0.ctor==='Red'?color_flip_14(t_97):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_97);};
+  return (e=t_97.ctor==='RBNode'?(e=t_97._3.ctor==='RBNode'?(e=t_97._3._0.ctor==='Red'?(e=t_97._4.ctor==='RBNode'?(e=t_97._4._0.ctor==='Red'?color_flip_14(t_97):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_97);};
  fixUp_16 = function(t_98){
   return color_flipIfNeeded_15(rotateRightIfNeeded_12(rotateLeftIfNeeded_11(t_98)));};
  ensureBlackRoot_17 = function(t_99){
-  return (e=t_99.ctor==='Node'?(e=t_99._0.ctor==='Red'?A5(Node_2, Black_1, t_99._1, t_99._2, t_99._3, t_99._4):null,e!==null?e:null):null,e!==null?e:t_99);};
+  return (e=t_99.ctor==='RBNode'?(e=t_99._0.ctor==='Red'?A5(RBNode_2, Black_1, t_99._1, t_99._2, t_99._3, t_99._4):null,e!==null?e:null):null,e!==null?e:t_99);};
  insert_18 = F3(function(k_104, v_105, t_106){
   return (ins_107 = function(t_108){
-   return (e=t_108.ctor==='Empty'?A5(Node_2, Red_0, k_104, v_105, Empty_3, Empty_3):t_108.ctor==='Node'?(h_114 = (case114 = A2(compare, k_104, t_108._1), (e=case114.ctor==='EQ'?A5(Node_2, t_108._0, t_108._1, v_105, t_108._3, t_108._4):case114.ctor==='GT'?A5(Node_2, t_108._0, t_108._1, t_108._2, t_108._3, ins_107(t_108._4)):case114.ctor==='LT'?A5(Node_2, t_108._0, t_108._1, t_108._2, ins_107(t_108._3), t_108._4):null,e!==null?e:_E.Case('Line 217, Column 19'))), fixUp_16(h_114)):null,e!==null?e:_E.Case('Line 214, Column 7'));}, ensureBlackRoot_17(ins_107(t_106)));});
+   return (e=t_108.ctor==='RBEmpty'?A5(RBNode_2, Red_0, k_104, v_105, RBEmpty_3, RBEmpty_3):t_108.ctor==='RBNode'?(h_114 = (case114 = A2(compare, k_104, t_108._1), (e=case114.ctor==='EQ'?A5(RBNode_2, t_108._0, t_108._1, v_105, t_108._3, t_108._4):case114.ctor==='GT'?A5(RBNode_2, t_108._0, t_108._1, t_108._2, t_108._3, ins_107(t_108._4)):case114.ctor==='LT'?A5(RBNode_2, t_108._0, t_108._1, t_108._2, ins_107(t_108._3), t_108._4):null,e!==null?e:_E.Case('Line 218, Column 19'))), fixUp_16(h_114)):null,e!==null?e:_E.Case('Line 215, Column 7'));}, ensureBlackRoot_17(ins_107(t_106)));});
  singleton_19 = F2(function(k_115, v_116){
-  return A3(insert_18, k_115, v_116, Empty_3);});
+  return A3(insert_18, k_115, v_116, RBEmpty_3);});
  isRed_20 = function(t_117){
-  return (e=t_117.ctor==='Node'?(e=t_117._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:false);};
+  return (e=t_117.ctor==='RBNode'?(e=t_117._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:false);};
  isRedLeft_21 = function(t_118){
-  return (e=t_118.ctor==='Node'?(e=t_118._3.ctor==='Node'?(e=t_118._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
+  return (e=t_118.ctor==='RBNode'?(e=t_118._3.ctor==='RBNode'?(e=t_118._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
  isRedLeftLeft_22 = function(t_119){
-  return (e=t_119.ctor==='Node'?(e=t_119._3.ctor==='Node'?(e=t_119._3._3.ctor==='Node'?(e=t_119._3._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
+  return (e=t_119.ctor==='RBNode'?(e=t_119._3.ctor==='RBNode'?(e=t_119._3._3.ctor==='RBNode'?(e=t_119._3._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
  isRedRight_23 = function(t_120){
-  return (e=t_120.ctor==='Node'?(e=t_120._4.ctor==='Node'?(e=t_120._4._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
+  return (e=t_120.ctor==='RBNode'?(e=t_120._4.ctor==='RBNode'?(e=t_120._4._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
  isRedRightLeft_24 = function(t_121){
-  return (e=t_121.ctor==='Node'?(e=t_121._4.ctor==='Node'?(e=t_121._4._3.ctor==='Node'?(e=t_121._4._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
+  return (e=t_121.ctor==='RBNode'?(e=t_121._4.ctor==='RBNode'?(e=t_121._4._3.ctor==='RBNode'?(e=t_121._4._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
  moveRedLeft_25 = function(t_122){
-  return (t$_123 = color_flip_14(t_122), (e=t$_123.ctor==='Node'?(e=t$_123._4.ctor==='Node'?(e=t$_123._4._3.ctor==='Node'?(e=t$_123._4._3._0.ctor==='Red'?color_flip_14(rotateLeft_9(A5(Node_2, t$_123._0, t$_123._1, t$_123._2, t$_123._3, rotateRight_10(t$_123._4)))):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t$_123):null,e!==null?e:t$_123));};
+  return (t$_123 = color_flip_14(t_122), (e=t$_123.ctor==='RBNode'?(e=t$_123._4.ctor==='RBNode'?(e=t$_123._4._3.ctor==='RBNode'?(e=t$_123._4._3._0.ctor==='Red'?color_flip_14(rotateLeft_9(A5(RBNode_2, t$_123._0, t$_123._1, t$_123._2, t$_123._3, rotateRight_10(t$_123._4)))):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t$_123):null,e!==null?e:t$_123));};
  moveRedRight_26 = function(t_129){
   return (t$_130 = color_flip_14(t_129), (isRedLeftLeft_22(t$_130)?color_flip_14(rotateRight_10(t$_130)):t$_130));};
  moveRedLeftIfNeeded_27 = function(t_131){
@@ -2739,21 +2756,21 @@ Elm.Dict = function(elm){
   return ((not(isRedRight_23(t_132))&&not(isRedRightLeft_24(t_132)))?moveRedRight_26(t_132):t_132);};
  deleteMin_29 = function(t_133){
   return (del_134 = function(t_135){
-   return (e=t_135.ctor==='Node'?(e=t_135._3.ctor==='Empty'?Empty_3:null,e!==null?e:null):null,e!==null?e:(case198 = moveRedLeftIfNeeded_27(t_135), (e=case198.ctor==='Empty'?Empty_3:case198.ctor==='Node'?fixUp_16(A5(Node_2, case198._0, case198._1, case198._2, del_134(case198._3), case198._4)):null,e!==null?e:_E.Case('Line 295, Column 12'))));}, ensureBlackRoot_17(del_134(t_133)));};
+   return (e=t_135.ctor==='RBNode'?(e=t_135._3.ctor==='RBEmpty'?RBEmpty_3:null,e!==null?e:null):null,e!==null?e:(case198 = moveRedLeftIfNeeded_27(t_135), (e=case198.ctor==='RBEmpty'?RBEmpty_3:case198.ctor==='RBNode'?fixUp_16(A5(RBNode_2, case198._0, case198._1, case198._2, del_134(case198._3), case198._4)):null,e!==null?e:_E.Case('Line 296, Column 12'))));}, ensureBlackRoot_17(del_134(t_133)));};
  remove_30 = F2(function(k_141, t_142){
   return (eq_and_noRightNode_143 = function(t_149){
-   return (e=t_149.ctor==='Node'?(e=t_149._4.ctor==='Empty'?_N.eq(k_141,t_149._1):null,e!==null?e:null):null,e!==null?e:false);}, eq_144 = function(t_151){
-   return (e=t_151.ctor==='Node'?_N.eq(k_141,t_151._1):null,e!==null?e:false);}, delLT_145 = function(t_153){
-   return (case216 = moveRedLeftIfNeeded_27(t_153), (e=case216.ctor==='Empty'?Error.raise(_str('delLT on Empty')):case216.ctor==='Node'?fixUp_16(A5(Node_2, case216._0, case216._1, case216._2, del_148(case216._3), case216._4)):null,e!==null?e:_E.Case('Line 319, Column 17')));}, delEQ_146 = function(t_159){
-   return (e=t_159.ctor==='Empty'?Error.raise(_str('delEQ called on a Empty')):t_159.ctor==='Node'?(_323000_163 = min_5(t_159._4), k$_164 = (e=_323000_163.ctor==='Tuple2'?_323000_163._0:null,e!==null?e:_E.Case('Line 323, Column 51')), v$_165 = (e=_323000_163.ctor==='Tuple2'?_323000_163._1:null,e!==null?e:_E.Case('Line 323, Column 51')), fixUp_16(A5(Node_2, t_159._0, k$_164, v$_165, t_159._3, deleteMin_29(t_159._4)))):null,e!==null?e:_E.Case('Line 322, Column 17'));}, delGT_147 = function(t_170){
-   return (e=t_170.ctor==='Empty'?Error.raise(_str('delGT called on a Empty')):t_170.ctor==='Node'?fixUp_16(A5(Node_2, t_170._0, t_170._1, t_170._2, t_170._3, del_148(t_170._4))):null,e!==null?e:_E.Case('Line 326, Column 17'));}, del_148 = function(t_176){
-   return (e=t_176.ctor==='Empty'?Empty_3:t_176.ctor==='Node'?((_N.compare(k_141,t_176._1).ctor==='LT')?delLT_145(t_176):(u_178 = (isRedLeft_21(t_176)?rotateRight_10(t_176):t_176), (eq_and_noRightNode_143(u_178)?Empty_3:(t$_179 = moveRedRightIfNeeded_28(t_176), (eq_144(t$_179)?delEQ_146(t$_179):delGT_147(t$_179)))))):null,e!==null?e:_E.Case('Line 329, Column 15'));}, (A2(member_8, k_141, t_142)?ensureBlackRoot_17(del_148(t_142)):t_142));});
+   return (e=t_149.ctor==='RBNode'?(e=t_149._4.ctor==='RBEmpty'?_N.eq(k_141,t_149._1):null,e!==null?e:null):null,e!==null?e:false);}, eq_144 = function(t_151){
+   return (e=t_151.ctor==='RBNode'?_N.eq(k_141,t_151._1):null,e!==null?e:false);}, delLT_145 = function(t_153){
+   return (case216 = moveRedLeftIfNeeded_27(t_153), (e=case216.ctor==='RBEmpty'?Error.raise(_str('delLT on Empty')):case216.ctor==='RBNode'?fixUp_16(A5(RBNode_2, case216._0, case216._1, case216._2, del_148(case216._3), case216._4)):null,e!==null?e:_E.Case('Line 321, Column 17')));}, delEQ_146 = function(t_159){
+   return (e=t_159.ctor==='RBEmpty'?Error.raise(_str('delEQ called on a Empty')):t_159.ctor==='RBNode'?(_325000_163 = min_5(t_159._4), k$_164 = (e=_325000_163.ctor==='Tuple2'?_325000_163._0:null,e!==null?e:_E.Case('Line 325, Column 53')), v$_165 = (e=_325000_163.ctor==='Tuple2'?_325000_163._1:null,e!==null?e:_E.Case('Line 325, Column 53')), fixUp_16(A5(RBNode_2, t_159._0, k$_164, v$_165, t_159._3, deleteMin_29(t_159._4)))):null,e!==null?e:_E.Case('Line 324, Column 17'));}, delGT_147 = function(t_170){
+   return (e=t_170.ctor==='RBEmpty'?Error.raise(_str('delGT called on a Empty')):t_170.ctor==='RBNode'?fixUp_16(A5(RBNode_2, t_170._0, t_170._1, t_170._2, t_170._3, del_148(t_170._4))):null,e!==null?e:_E.Case('Line 328, Column 17'));}, del_148 = function(t_176){
+   return (e=t_176.ctor==='RBEmpty'?RBEmpty_3:t_176.ctor==='RBNode'?((_N.cmp(k_141,t_176._1).ctor==='LT')?delLT_145(t_176):(u_178 = (isRedLeft_21(t_176)?rotateRight_10(t_176):t_176), (eq_and_noRightNode_143(u_178)?RBEmpty_3:(t$_179 = moveRedRightIfNeeded_28(t_176), (eq_144(t$_179)?delEQ_146(t$_179):delGT_147(t$_179)))))):null,e!==null?e:_E.Case('Line 331, Column 15'));}, (A2(member_8, k_141, t_142)?ensureBlackRoot_17(del_148(t_142)):t_142));});
  map_31 = F2(function(f_180, t_181){
-  return (e=t_181.ctor==='Empty'?Empty_3:t_181.ctor==='Node'?A5(Node_2, t_181._0, t_181._1, f_180(t_181._2), A2(map_31, f_180, t_181._3), A2(map_31, f_180, t_181._4)):null,e!==null?e:_E.Case('Line 349, Column 3'));});
+  return (e=t_181.ctor==='RBEmpty'?RBEmpty_3:t_181.ctor==='RBNode'?A5(RBNode_2, t_181._0, t_181._1, f_180(t_181._2), A2(map_31, f_180, t_181._3), A2(map_31, f_180, t_181._4)):null,e!==null?e:_E.Case('Line 351, Column 3'));});
  foldl_32 = F3(function(f_187, acc_188, t_189){
-  return (e=t_189.ctor==='Empty'?acc_188:t_189.ctor==='Node'?A3(foldl_32, f_187, A3(f_187, t_189._1, t_189._2, A3(foldl_32, f_187, acc_188, t_189._3)), t_189._4):null,e!==null?e:_E.Case('Line 356, Column 3'));});
+  return (e=t_189.ctor==='RBEmpty'?acc_188:t_189.ctor==='RBNode'?A3(foldl_32, f_187, A3(f_187, t_189._1, t_189._2, A3(foldl_32, f_187, acc_188, t_189._3)), t_189._4):null,e!==null?e:_E.Case('Line 359, Column 3'));});
  foldr_33 = F3(function(f_194, acc_195, t_196){
-  return (e=t_196.ctor==='Empty'?acc_195:t_196.ctor==='Node'?A3(foldr_33, f_194, A3(f_194, t_196._1, t_196._2, A3(foldr_33, f_194, acc_195, t_196._4)), t_196._3):null,e!==null?e:_E.Case('Line 363, Column 3'));});
+  return (e=t_196.ctor==='RBEmpty'?acc_195:t_196.ctor==='RBNode'?A3(foldr_33, f_194, A3(f_194, t_196._1, t_196._2, A3(foldr_33, f_194, acc_195, t_196._4)), t_196._3):null,e!==null?e:_E.Case('Line 367, Column 3'));});
  union_34 = F2(function(t1_201, t2_202){
   return A3(foldl_32, insert_18, t2_202, t1_201);});
  intersect_35 = F2(function(t1_203, t2_204){
@@ -2780,8 +2797,10 @@ Elm.Dict = function(elm){
     return function(acc_225){
      return _L.Cons({ctor:"Tuple2", _0:k_223, _1:v_224},acc_225);};};}, _L.Nil, t_222);};
  fromList_40 = function(assocs_226){
-  return A3(List.foldl, uncurry(insert_18), empty_4, assocs_226);};
- empty_4 = Empty_3;
+  return A3(List.foldl, function(_0_227){
+   return (e=_0_227.ctor==='Tuple2'?function(d_230){
+    return A3(insert_18, _0_227._0, _0_227._1, d_230);}:null,e!==null?e:_E.Case('Line 403, Column 43'));}, empty_4, assocs_226);};
+ empty_4 = RBEmpty_3;
  elm.Native = elm.Native||{};
  var _ = elm.Native.Dict||{};
  _.$op = {};
@@ -3101,46 +3120,46 @@ Elm.Graphics.Element = function(elm){
     element:element_78,
     props:props_77};});
  widthOf_2 = function(e_79){
-  return ((e_79).props).width;};
+  return e_79.props.width;};
  heightOf_3 = function(e_80){
-  return ((e_80).props).height;};
+  return e_80.props.height;};
  sizeOf_4 = function(e_81){
-  return {ctor:"Tuple2", _0:((e_81).props).width, _1:((e_81).props).height};};
+  return {ctor:"Tuple2", _0:e_81.props.width, _1:e_81.props.height};};
  width_5 = F2(function(nw_82, e_83){
-  return (p_84 = (e_83).props, props_85 = (case0 = (e_83).element, (e=case0.ctor==='Image'?_N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84):case0.ctor==='RawHtml'?_N.replace([['height',A2(htmlHeight, nw_82, case0._0)]], p_84):null,e!==null?e:p_84)), {
+  return (p_84 = e_83.props, props_85 = (case0 = e_83.element, (e=case0.ctor==='Image'?_N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84):case0.ctor==='RawHtml'?_N.replace([['height',A2(htmlHeight, nw_82, case0._0)]], p_84):null,e!==null?e:p_84)), {
     _:{
     },
-    element:(e_83).element,
+    element:e_83.element,
     props:_N.replace([['width',nw_82]], props_85)});});
  height_6 = F2(function(nh_89, e_90){
-  return (p_91 = (e_90).props, props_92 = (case6 = (e_90).element, (e=case6.ctor==='Image'?_N.replace([['width',((case6._1/case6._2)*nh_89)]], p_91):null,e!==null?e:p_91)), {
+  return (p_91 = e_90.props, props_92 = (case6 = e_90.element, (e=case6.ctor==='Image'?_N.replace([['width',((case6._1/case6._2)*nh_89)]], p_91):null,e!==null?e:p_91)), {
     _:{
     },
-    element:(e_90).element,
+    element:e_90.element,
     props:_N.replace([['height',nh_89]], p_91)});});
  opacity_7 = F2(function(o_95, e_96){
-  return (p_97 = (e_96).props, {
+  return (p_97 = e_96.props, {
     _:{
     },
-    element:(e_96).element,
+    element:e_96.element,
     props:_N.replace([['opacity',o_95]], p_97)});});
  color_8 = F2(function(c_98, e_99){
-  return (p_100 = (e_99).props, {
+  return (p_100 = e_99.props, {
     _:{
     },
-    element:(e_99).element,
+    element:e_99.element,
     props:_N.replace([['color',Just(c_98)]], p_100)});});
  tag_9 = F2(function(name_101, e_102){
-  return (p_103 = (e_102).props, {
+  return (p_103 = e_102.props, {
     _:{
     },
-    element:(e_102).element,
+    element:e_102.element,
     props:_N.replace([['tag',JS.fromString(name_101)]], p_103)});});
  link_10 = F2(function(href_104, e_105){
-  return (p_106 = (e_105).props, {
+  return (p_106 = e_105.props, {
     _:{
     },
-    element:(e_105).element,
+    element:e_105.element,
     props:_N.replace([['href',JS.fromString(href_104)]], p_106)});});
  newElement_12 = F3(function(w_107, h_108, e_109){
   return {
@@ -3168,7 +3187,7 @@ Elm.Graphics.Element = function(elm){
   return A3(newElement_12, w_128, h_129, Spacer_16);});
  flow_39 = F2(function(dir_130, es_131){
   return (ws_132 = A2(List.map, widthOf_2, es_131), hs_133 = A2(List.map, heightOf_3, es_131), newFlow_134 = F2(function(w_135, h_136){
-   return A3(newElement_12, w_135, h_136, A2(Flow_15, dir_130, es_131));}), (_N.eq(es_131,_L.Nil)?A2(spacer_32, 0, 0):(e=dir_130.ctor==='DDown'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):dir_130.ctor==='DIn'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DLeft'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DOut'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DRight'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DUp'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):null,e!==null?e:_E.Case('Line 90, Column 3'))));});
+   return A3(newElement_12, w_135, h_136, A2(Flow_15, dir_130, es_131));}), (_N.eq(es_131,_L.Nil)?A2(spacer_32, 0, 0):(e=dir_130.ctor==='DDown'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):dir_130.ctor==='DIn'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DLeft'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DOut'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DRight'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DUp'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):null,e!==null?e:_E.Case('Line 115, Column 3'))));});
  above_40 = F2(function(hi_137, lo_138){
   return A3(newElement_12, A2(max, widthOf_2(hi_137), widthOf_2(lo_138)), (heightOf_3(hi_137)+heightOf_3(lo_138)), A2(Flow_15, DDown_34, _L.Cons(hi_137,_L.Cons(lo_138,_L.Nil))));});
  below_41 = F2(function(lo_139, hi_140){
@@ -3336,7 +3355,7 @@ Elm.Graphics = Elm.Graphics||{};
 Elm.Graphics.Color = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var e, case0, rgba_1, rgb_2, red_3, lime_4, blue_5, yellow_6, cyan_7, magenta_8, black_9, white_10, gray_11, grey_12, maroon_13, navy_14, green_15, teal_16, purple_17, forestGreen_18, violet_19, linear_22, radial_23;
+ var e, case0, rgba_1, rgb_2, red_3, lime_4, blue_5, yellow_6, cyan_7, magenta_8, black_9, white_10, gray_11, grey_12, maroon_13, navy_14, green_15, teal_16, purple_17, violet_18, forestGreen_19, linear_22, radial_23;
  Color_0 = F4(function(a1, a2, a3, a4){
   return {ctor:"Color", _0:a1, _1:a2, _2:a3, _3:a4};});
  Linear_20 = F3(function(a1, a2, a3){
@@ -3361,8 +3380,8 @@ Elm.Graphics.Color = function(elm){
  green_15 = A4(Color_0, 0, 128, 0, 1);
  teal_16 = A4(Color_0, 0, 128, 128, 1);
  purple_17 = A4(Color_0, 128, 0, 128, 1);
- forestGreen_18 = A4(Color_0, 34, 139, 34, 1);
- violet_19 = A4(Color_0, 238, 130, 238, 1);
+ violet_18 = A4(Color_0, 238, 130, 238, 1);
+ forestGreen_19 = A4(Color_0, 34, 139, 34, 1);
  linear_22 = Linear_20;
  radial_23 = Radial_21;
  elm.Native = elm.Native||{};
@@ -3386,8 +3405,8 @@ Elm.Graphics.Color = function(elm){
  _.green = green_15;
  _.teal = teal_16;
  _.purple = purple_17;
- _.forestGreen = forestGreen_18;
- _.violet = violet_19;
+ _.violet = violet_18;
+ _.forestGreen = forestGreen_19;
  _.linear = linear_22;
  _.radial = radial_23
  elm.Graphics = elm.Graphics||{};
@@ -3482,15 +3501,15 @@ Elm.Graphics.Collage = function(elm){
  groupTransform_30 = F2(function(matrix_70, fs_71){
   return form_20(A2(FGroup_19, matrix_70, fs_71));});
  rotate_31 = F2(function(t_72, f_73){
-  return _N.replace([['theta',((f_73).theta+t_72)]], f_73);});
+  return _N.replace([['theta',(f_73.theta+t_72)]], f_73);});
  scale_32 = F2(function(s_74, f_75){
-  return _N.replace([['scale',((f_75).scale*s_74)]], f_75);});
+  return _N.replace([['scale',(f_75.scale*s_74)]], f_75);});
  move_33 = F3(function(x_76, y_77, f_78){
-  return _N.replace([['x',((f_78).x+x_76)],['y',((f_78).y+y_77)]], f_78);});
+  return _N.replace([['x',(f_78.x+x_76)],['y',(f_78.y+y_77)]], f_78);});
  moveX_34 = F2(function(x_79, f_80){
-  return _N.replace([['x',((f_80).x+x_79)]], f_80);});
+  return _N.replace([['x',(f_80.x+x_79)]], f_80);});
  moveY_35 = F2(function(y_81, f_82){
-  return _N.replace([['y',((f_82).y+y_81)]], f_82);});
+  return _N.replace([['y',(f_82.y+y_81)]], f_82);});
  defaultLine_11 = {
    _:{
    },
@@ -4186,7 +4205,7 @@ Elm.Website = Elm.Website||{};
 Elm.Website.ColorScheme = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1, height:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Prelude(elm); var Prelude = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Signal(elm); var Signal = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
@@ -4222,7 +4241,7 @@ Elm.Website = Elm.Website||{};
 Elm.Website.Docs = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1, height:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Prelude(elm); var Prelude = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Signal(elm); var Signal = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
@@ -4251,7 +4270,7 @@ Elm.Website.Docs = function(elm){
   return function(x){
    return bold(A2(Text.height, s_28, toText(x)));};};
  entry_5 = F3(function(f_29, w_30, _37000_31){
-  return (e=_37000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.compare(length(_37000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_37000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(function(x){
+  return (e=_37000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_37000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_37000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(function(x){
    return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_37000_31._0)),tipe_36)),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _37000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 31, Column 3'));});
  f1_6 = F2(function(w_37, c_38){
   return A2(flow, down, _L.Cons(A2(spacer, 1, 10),_L.Cons(A2(width, w_37, plainText(c_38)),_L.Cons(A2(spacer, 1, 20),_L.Nil))));});
@@ -4281,7 +4300,7 @@ Elm.Website = Elm.Website||{};
 Elm.Website.Tiles = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1, height:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Prelude(elm); var Prelude = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Signal(elm); var Signal = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
@@ -4296,7 +4315,7 @@ Elm.Website.Tiles = function(elm){
   return (e=_4000_7.ctor==='Tuple3'?{ctor:"Tuple3", _0:_4000_7._0, _1:_L.append(_4000_7._2,_L.append(_4000_7._1,_str('.elm'))), _2:_L.append(_str('/screenshot/'),_L.append(_4000_7._1,_str('.jpg')))}:null,e!==null?e:_E.Case('Line 4, Column 19'));};
  toTile_2 = function(info_11){
   return (_9000_12 = format_0(info_11), name_13 = (e=_9000_12.ctor==='Tuple3'?_9000_12._0:null,e!==null?e:_E.Case('Line 9, Column 25')), ex_14 = (e=_9000_12.ctor==='Tuple3'?_9000_12._1:null,e!==null?e:_E.Case('Line 9, Column 25')), pic_15 = (e=_9000_12.ctor==='Tuple3'?_9000_12._2:null,e!==null?e:_E.Case('Line 9, Column 25')), x_16 = tileSize_1, A2(link, _L.append(_str('/edit/examples/'),ex_14), A2(flow, down, _L.Cons(A4(container, x_16, x_16, middle, A3(image, (x_16-10), (x_16-10), pic_15)),_L.Cons(function(x){
-   return A2(width, x_16, centeredText(x));}(toText(name_13)),_L.Nil)))));};
+   return A2(width, x_16, centered(x));}(toText(name_13)),_L.Nil)))));};
  groups_3 = F2(function(n_26, lst_27){
   return (e=lst_27.ctor==='Cons'?_L.Cons(A2(take, n_26, lst_27),A2(groups_3, n_26, A2(drop, n_26, lst_27))):lst_27.ctor==='Nil'?_L.Nil:null,e!==null?e:_E.Case('Line 17, Column 3'));});
  tile_4 = F2(function(w_30, tiles_31){
@@ -4343,10 +4362,10 @@ Elm.Website.Skeleton = function(elm){
   return (elm_13 = function(x){
    return Text.text(A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, Text.bold(x)))));}(Text.toText(_str('Elm'))), A4(container, w_12, 60, midLeft, elm_13));};
  heading_4 = F2(function(outer_14, inner_15){
-  return (x_16 = (console).log(outer_14), header_17 = A4(container, outer_14, 60, middle, A2(beside, title_2((inner_15-widthOf(buttons_1))), buttons_1)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_14, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_14, 1)),_L.Nil))),_L.Cons(header_17,((_N.compare(outer_14,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_14, veiwSource_3),_L.Nil))))));});
+  return (x_16 = console.log(outer_14), header_17 = A4(container, outer_14, 60, middle, A2(beside, title_2((inner_15-widthOf(buttons_1))), buttons_1)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_14, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_14, 1)),_L.Nil))),_L.Cons(header_17,((_N.cmp(outer_14,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_14, veiwSource_3),_L.Nil))))));});
  skeleton_5 = F2(function(bodyFunc_18, outer_19){
-  return (inner_20 = ((_N.compare(outer_19,820).ctor==='LT')?(outer_19-20):800), (body_21 = bodyFunc_18(inner_20), A2(flow, down, _L.Cons(A2(heading_4, outer_19, inner_20),_L.Cons(A2(spacer, outer_19, 10),_L.Cons(A4(container, outer_19, heightOf(body_21), middle, body_21),_L.Cons(function(x){
-   return A4(container, outer_19, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil)))))));});
+  return (inner_20 = ((_N.cmp(outer_19,840).ctor==='LT')?(outer_19-40):800), body_21 = bodyFunc_18(inner_20), A2(flow, down, _L.Cons(A2(heading_4, outer_19, inner_20),_L.Cons(A2(spacer, outer_19, 10),_L.Cons(A4(container, outer_19, heightOf(body_21), middle, body_21),_L.Cons(function(x){
+   return A4(container, outer_19, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil))))));});
  buttons_1 = A2(flow, right, A2(map, button_0, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
  veiwSource_3 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
  elm.Native = elm.Native||{};

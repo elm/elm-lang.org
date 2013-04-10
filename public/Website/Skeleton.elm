@@ -38,12 +38,13 @@ heading outer inner =
           (if outer < 800 then [] else [width outer veiwSource])
 
 skeleton bodyFunc outer =
-  let inner = if outer < 820 then outer - 20 else 800 in
-  let body = bodyFunc inner in
-  flow down [ heading outer inner
-            , spacer outer 10
-            , container outer (heightOf body) middle body
-            , container outer 50 midBottom . Text.centered $
-                Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
-                    Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
-            ]
+  let inner = if outer < 840 then outer - 40 else 800
+      body = bodyFunc inner
+  in flow down
+       [ heading outer inner
+       , spacer outer 10
+       , container outer (heightOf body) middle body
+       , container outer 50 midBottom . Text.centered $
+         Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
+             Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
+       ]

@@ -10,7 +10,7 @@ toTile info =
       x = tileSize
   in  link ("/edit/examples/" ++ ex) $ flow down
        [ container x x middle $ image (x-10) (x-10) pic
-       , width x . centeredText $ toText name
+       , width x . centered $ toText name
        ]
 
 groups n lst =

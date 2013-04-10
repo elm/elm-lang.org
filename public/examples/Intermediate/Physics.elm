@@ -18,23 +18,24 @@ Now you know how to gravity with elasticity! Good work physics friend!
 
 ---- Figures ----
 
-time = timeOf (fps 40)
+time = fst <~ timestamp (fps 40)
 
 drawFig1 t =
-  let pos = ( 150 + 120 * cos (inSeconds t)
-            , 150 +  80 * sin (inSeconds t) )
-  in  collage 300 300 [ filled cyan $ circle 20 pos
-                      , toForm pos (plainText "Earth")
-                      , filled yellow $ circle 35 (125,150)
-                      , toForm (125,150) (plainText "Sun") ]
+  let x = 120 * cos (inSeconds t)
+      y =  80 * sin (inSeconds t)
+  in  collage 300 300 [ move x y . filled cyan $ circle 20
+                      --, toForm (plainText "Earth")
+                      , move 25 0 . filled yellow $ circle 35
+                      --, toForm (125,150) (plainText "Sun")
+                      ]
 
 figure1 = lift drawFig1 time
 
 
 drawFig2 t =
-  let pos = (150, 250 - abs (200 * sin (inSeconds t))) in
-  collage 300 300 [ filled red $ circle 15 pos
-                  , filled green $ rect 300 50 (150,275) ]
+  let y = abs (200 * sin (inSeconds t)) - 100
+  in  collage 300 300 [ move 0 y . filled red $ circle 15
+                      , move 0 (0-125) . filled green $ rect 300 50 ]
 
 figure2 = lift drawFig2 time
 

@@ -1,12 +1,13 @@
 
-import List (intercalate,intersperse)
 import Website.Skeleton
 import Website.ColorScheme
+import Window as Window
+import Graphics.Text as Text
 
 addFolder folder lst =
-  let add (x,y) = (x, folder ++ y ++ ".elm") in
-  let f (n,xs) = (n, map add xs) in
-  map f lst
+  let add (x,y) = (x, folder ++ y ++ ".elm")
+      f (n,xs) = (n, map add xs)
+  in  map f lst
 
 elements = addFolder "Elements/"
   [ ("Primitives",
@@ -103,7 +104,7 @@ reactive = addFolder "Reactive/"
                , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("HTTP",   [ ("Zip Codes", "ZipCodes") ])
+  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
                , ("Keep If", "KeepIf")
                , ("Drop Repeats", "DropRepeats")
@@ -112,9 +113,11 @@ reactive = addFolder "Reactive/"
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
-  flow right [ width 130 (plainText $ "   " ++ title)
-             , text (intercalate (bold . Text.color accent4 $ toText "  &middot;  ") $ map example links)
-             ]
+  flow right
+   [ width 130 (plainText $ "   " ++ title)
+   , text . join (bold . Text.color accent4 $ toText "  &middot;  ") $
+     map example links
+   ]
 
 insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
