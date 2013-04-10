@@ -1,14 +1,19 @@
 
 module Website.Skeleton where
 
-import Graphics.Text (text)
-import Graphics.Text as Text
+import JavaScript as JS
 import Website.ColorScheme
+import Graphics.Input as Input
+import Graphics.Text as Text
+
+navigation = Input.customButtons ""
 
 button (name, href, clr) =
- let accent = color clr (spacer 100 2)
-     butn = container 100 58 middle . width 100 . Text.centered . Text.color black $ Text.toText name
- in  link href $ butn `above` accent
+ let btn alpha =
+       flow down [ color (rgba 200 200 200 alpha) . container 100 58 middle .
+                   width 100 . centered $ toText name
+                 , color clr (spacer 100 2) ]
+ in  navigation.button href (btn 0) (btn 0.1) (btn 0.2)
 
 buttons = flow right . map button $
   [ ("About"   , "/About.elm"        , accent1)
@@ -17,8 +22,8 @@ buttons = flow right . map button $
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
- let elm = Text.text . Text.link "/" . Text.color black . Text.height 2 . Text.bold $ Text.toText "Elm"
- in  container w 60 midLeft elm
+ let ttl = Text.link "/" . Text.color black . Text.height 2 . bold $ toText "Elm"
+ in  container w 60 midLeft (text ttl)
 
 veiwSource = [markdown|
 <a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!='/edit')top.location.href='/edit'+(p=='/'?'/Elm.elm':p);">
@@ -48,3 +53,9 @@ skeleton bodyFunc outer =
          Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
              Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
        ]
+
+f x = let y = console.log (JS.fromString x) in JS.fromString x
+
+redirect = f <~ navigation.events
+foreign export jsevent "elm_redirect"
+  redirect : Signal JSString

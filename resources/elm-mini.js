@@ -1472,7 +1472,7 @@ Elm.Native.Signal = function(elm) {
   function merge(s1,s2) { return new Merge(s1,s2) }
   function merges(ss) { return A2(foldl1, F2(merge), ss) }
   function mergeEither(s1,s2) { return new Merge(lift(Either.Left, s1),
-                                                 lift(Either.Right, s2)) }
+                                                 lift(Either.Right,s2)) }
 
   function average(sampleSize, s) {
     var sample = new Array(sampleSize);
@@ -3641,6 +3641,12 @@ Elm.init = function(module, baseNode) {
       document.addEventListener(name + '_' + elm.id, handler);
   }
 
+  recv('elm_log', function(e) {console.log(e.value)});
+  recv('elm_title', function(e) {document.title = e.value});
+  recv('elm_redirect', function(e) {
+	if (e.value.length > 0) { window.location = e.value; }
+      });
+
   // If graphics are not enabled, escape early, skip over setting up DOM stuff.
   if (baseNode === null) return { send : send, recv : recv };
 
@@ -4341,6 +4347,7 @@ Elm.Website = Elm.Website||{};
 Elm.Website.Skeleton = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
+ var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _; var hiding={link:1, color:1, height:1}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Prelude(elm); var Prelude = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Signal(elm); var Signal = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
@@ -4350,34 +4357,43 @@ Elm.Website.Skeleton = function(elm){
  var _ = Elm.Graphics.Color(elm); var Graphics = Graphics||{};Graphics.Color = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Graphics.Collage(elm); var Graphics = Graphics||{};Graphics.Collage = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Graphics.Geometry(elm); var Graphics = Graphics||{};Graphics.Geometry = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
- var _ = Elm.Graphics.Text(elm); var Graphics = Graphics||{};Graphics.Text = _;
- var text = _.text;
- var Text = Elm.Graphics.Text(elm);
+ var JS = Elm.JavaScript(elm);
  var _ = Elm.Website.ColorScheme(elm); var Website = Website||{};Website.ColorScheme = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
- var e, case0, button_0, accent_10, butn_11, buttons_1, title_2, elm_13, veiwSource_3, heading_4, x_16, header_17, skeleton_5, inner_20, body_21;
- button_0 = function(_11000_6){
-  return (e=_11000_6.ctor==='Tuple3'?(accent_10 = A2(color, _11000_6._2, A2(spacer, 100, 2)), butn_11 = function(x){
-   return A4(container, 100, 58, middle, A2(width, 100, Text.centered(A2(Text.color, black, x))));}(Text.toText(_11000_6._0)), A2(link, _11000_6._1, A2(above, butn_11, accent_10))):null,e!==null?e:_E.Case('Line 9, Column 2'));};
- title_2 = function(w_12){
-  return (elm_13 = function(x){
-   return Text.text(A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, Text.bold(x)))));}(Text.toText(_str('Elm'))), A4(container, w_12, 60, midLeft, elm_13));};
- heading_4 = F2(function(outer_14, inner_15){
-  return (x_16 = console.log(outer_14), header_17 = A4(container, outer_14, 60, middle, A2(beside, title_2((inner_15-widthOf(buttons_1))), buttons_1)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_14, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_14, 1)),_L.Nil))),_L.Cons(header_17,((_N.cmp(outer_14,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_14, veiwSource_3),_L.Nil))))));});
- skeleton_5 = F2(function(bodyFunc_18, outer_19){
-  return (inner_20 = ((_N.cmp(outer_19,840).ctor==='LT')?(outer_19-40):800), body_21 = bodyFunc_18(inner_20), A2(flow, down, _L.Cons(A2(heading_4, outer_19, inner_20),_L.Cons(A2(spacer, outer_19, 10),_L.Cons(A4(container, outer_19, heightOf(body_21), middle, body_21),_L.Cons(function(x){
-   return A4(container, outer_19, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil))))));});
- buttons_1 = A2(flow, right, A2(map, button_0, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
- veiwSource_3 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
+ var Input = Elm.Graphics.Input(elm);
+ var Text = Elm.Graphics.Text(elm);
+ var e, case0, navigation_0, button_1, btn_13, buttons_2, title_3, ttl_16, veiwSource_4, heading_5, x_19, header_20, skeleton_6, inner_23, body_24, f_7, y_26, redirect_8;
+ button_1 = function(_16000_9){
+  return (e=_16000_9.ctor==='Tuple3'?(btn_13 = function(alpha_14){
+   return A2(flow, down, _L.Cons(function(x){
+    return A2(color, A4(rgba, 200, 200, 200, alpha_14), A4(container, 100, 58, middle, A2(width, 100, centered(x))));}(toText(_16000_9._0)),_L.Cons(A2(color, _16000_9._2, A2(spacer, 100, 2)),_L.Nil)));}, A4(navigation_0.button, _16000_9._1, btn_13(0), btn_13(0.1), btn_13(0.2))):null,e!==null?e:_E.Case('Line 12, Column 2'));};
+ title_3 = function(w_15){
+  return (ttl_16 = function(x){
+   return A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, bold(x))));}(toText(_str('Elm'))), A4(container, w_15, 60, midLeft, text(ttl_16)));};
+ heading_5 = F2(function(outer_17, inner_18){
+  return (x_19 = console.log(outer_17), header_20 = A4(container, outer_17, 60, middle, A2(beside, title_3((inner_18-widthOf(buttons_2))), buttons_2)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_17, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_17, 1)),_L.Nil))),_L.Cons(header_20,((_N.cmp(outer_17,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_17, veiwSource_4),_L.Nil))))));});
+ skeleton_6 = F2(function(bodyFunc_21, outer_22){
+  return (inner_23 = ((_N.cmp(outer_22,840).ctor==='LT')?(outer_22-40):800), body_24 = bodyFunc_21(inner_23), A2(flow, down, _L.Cons(A2(heading_5, outer_22, inner_23),_L.Cons(A2(spacer, outer_22, 10),_L.Cons(A4(container, outer_22, heightOf(body_24), middle, body_24),_L.Cons(function(x){
+   return A4(container, outer_22, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil))))));});
+ f_7 = function(x_25){
+  return (y_26 = console.log(JS.fromString(x_25)), JS.fromString(x_25));};
+ navigation_0 = Input.customButtons(_str(''));
+ buttons_2 = A2(flow, right, A2(map, button_1, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
+ veiwSource_4 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
+ redirect_8 = A2(lift,f_7,navigation_0.events);
+ lift(function(v) { var e = document.createEvent('Event');e.initEvent('elm_redirect_' + elm.id, true, true);e.value = v;document.dispatchEvent(e); return v; })(redirect_8);
  elm.Native = elm.Native||{};
  elm.Native.Website = elm.Native.Website||{};
  var _ = elm.Native.Website.Skeleton||{};
  _.$op = {};
- _.button = button_0;
- _.buttons = buttons_1;
- _.title = title_2;
- _.veiwSource = veiwSource_3;
- _.heading = heading_4;
- _.skeleton = skeleton_5
+ _.navigation = navigation_0;
+ _.button = button_1;
+ _.buttons = buttons_2;
+ _.title = title_3;
+ _.veiwSource = veiwSource_4;
+ _.heading = heading_5;
+ _.skeleton = skeleton_6;
+ _.f = f_7;
+ _.redirect = redirect_8
  elm.Website = elm.Website||{};
  return elm.Website.Skeleton = _;
  };
