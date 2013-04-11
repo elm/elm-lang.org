@@ -1,8 +1,10 @@
 
-import JavaScript
+import Website.Skeleton
+import Graphics.Text as Text
+import JavaScript as JS
 import Window as Win
 
-title = constant (castStringToJSString "Elm 0.4: Graphics Upgrade")
+title = constant (JS.fromString "Elm 0.4: Graphics Upgrade")
 foreign export jsevent "elm_title"
   title : Signal JSString
 
@@ -246,12 +248,7 @@ my experience), but it is your call!
 
 |]
 
-page = flow down
-  [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-  , width 600 blog
-  , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-      toText "&copy; 2011-2012 Evan Czaplicki"
-  ]
+page w = width w blog
 
-main = lift (\w -> container w (heightOf page) midTop page) Win.width
+main = lift (skeleton page) Win.width
 

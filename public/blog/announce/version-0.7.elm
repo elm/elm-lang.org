@@ -1,8 +1,10 @@
 
 import Website.Skeleton
 import Website.ColorScheme
+import Window as Window
+import JavaScript as JS
 
-title = constant (JavaScript.castStringToJSString "Elm 0.7 - Extensible Records")
+title = constant (JS.fromString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"
   title : Signal JSString
 

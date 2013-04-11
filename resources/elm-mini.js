@@ -4258,6 +4258,8 @@ Elm.Website.Docs = function(elm){
  var _ = Elm.Graphics.Collage(elm); var Graphics = Graphics||{};Graphics.Collage = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Graphics.Geometry(elm); var Graphics = Graphics||{};Graphics.Geometry = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var _ = Elm.Website.ColorScheme(elm); var Website = Website||{};Website.ColorScheme = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var Window = Elm.Window(elm);
+ var Text = Elm.Graphics.Text(elm);
  var e, case0, accents_0, topBar_1, n$_13, k$_14, segs_15, ws_16, accentCycle_17, skeleton_2, content_26, addSpaces_3, section_4, entry_5, colons_35, tipe_36, f1_6, f2_7, c$_41, pos_42, group_8, createDocs_9, f_50, createDocs2_10, f_55;
  topBar_1 = F2(function(k_11, n_12){
   return (n$_13 = toFloat(n_12), k$_14 = toFloat(k_11), segs_15 = A2(map, function(i_18){
@@ -4275,23 +4277,23 @@ Elm.Website.Docs = function(elm){
  section_4 = function(s_28){
   return function(x){
    return bold(A2(Text.height, s_28, toText(x)));};};
- entry_5 = F3(function(f_29, w_30, _37000_31){
-  return (e=_37000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_37000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_37000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(function(x){
-   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_37000_31._0)),tipe_36)),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _37000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 31, Column 3'));});
+ entry_5 = F3(function(f_29, w_30, _39000_31){
+  return (e=_39000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_39000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_39000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(function(x){
+   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_39000_31._0)),tipe_36)),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _39000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 33, Column 3'));});
  f1_6 = F2(function(w_37, c_38){
   return A2(flow, down, _L.Cons(A2(spacer, 1, 10),_L.Cons(A2(width, w_37, plainText(c_38)),_L.Cons(A2(spacer, 1, 20),_L.Nil))));});
  f2_7 = F2(function(w_39, c_40){
   return (c$_41 = A2(width, w_39, c_40), pos_42 = A2(topLeftAt, absolute(0), absolute(-5)), A4(container, w_39, heightOf(c$_41), pos_42, c$_41));});
- group_8 = F3(function(f_43, w_44, _45000_45){
-  return (e=_45000_45.ctor==='Tuple2'?A2(flow, down, _L.Cons(text(A2(section_4, (5/4), _45000_45._0)),_L.Cons(A2(spacer, 1, 20),A2(map, A2(entry_5, f_43, w_44), _45000_45._1)))):null,e!==null?e:_E.Case('Line 45, Column 3'));});
+ group_8 = F3(function(f_43, w_44, _47000_45){
+  return (e=_47000_45.ctor==='Tuple2'?A2(flow, down, _L.Cons(text(A2(section_4, (5/4), _47000_45._0)),_L.Cons(A2(spacer, 1, 20),A2(map, A2(entry_5, f_43, w_44), _47000_45._1)))):null,e!==null?e:_E.Case('Line 47, Column 3'));});
  createDocs_9 = F2(function(name_48, cats_49){
   return (f_50 = function(w_51){
    return A2(flow, down, _L.Cons(text(A2(Text.link, _str('/Documentation.elm'), toText(_str('Back')))),_L.Cons(function(x){
-    return A2(width, w_51, centeredText(x));}(A2(section_4, 2, name_48)),_L.Cons(A2(spacer, 1, 30),A2(addSpaces_3, 50, A2(map, A2(group_8, f1_6, w_51), cats_49))))));}, A2(lift, skeleton_2(f_50), Window.width));});
+    return A2(width, w_51, centered(x));}(A2(section_4, 2, name_48)),_L.Cons(A2(spacer, 1, 30),A2(addSpaces_3, 50, A2(map, A2(group_8, f1_6, w_51), cats_49))))));}, A2(lift, skeleton_2(f_50), Window.width));});
  createDocs2_10 = F3(function(name_52, overview_53, cats_54){
   return (f_55 = function(w_56){
    return A2(flow, down, _L.Cons(text(A2(Text.link, _str('/Documentation.elm'), toText(_str('Back')))),_L.Cons(function(x){
-    return A2(width, w_56, centeredText(x));}(A2(section_4, 2, name_52)),_L.Cons(A2(width, w_56, overview_53),_L.Cons(A2(spacer, 1, 30),A2(addSpaces_3, 50, A2(map, A2(group_8, f2_7, w_56), cats_54)))))));}, A2(lift, skeleton_2(f_55), Window.width));});
+    return A2(width, w_56, centered(x));}(A2(section_4, 2, name_52)),_L.Cons(A2(width, w_56, overview_53),_L.Cons(A2(spacer, 1, 30),A2(addSpaces_3, 50, A2(map, A2(group_8, f2_7, w_56), cats_54)))))));}, A2(lift, skeleton_2(f_55), Window.width));});
  accents_0 = _L.Cons(accent0,_L.Cons(accent1,_L.Cons(accent2,_L.Cons(accent3,_L.Cons(accent4,_L.Nil)))));
  elm.Native = elm.Native||{};
  elm.Native.Website = elm.Native.Website||{};

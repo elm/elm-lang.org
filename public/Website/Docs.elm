@@ -2,6 +2,8 @@
 module Website.Docs (createDocs2,createDocs) where
 
 import Website.ColorScheme
+import Window as Window
+import Graphics.Text as Text
 
 accents = [accent0,accent1,accent2,accent3,accent4]
 
@@ -46,14 +48,14 @@ group f w (name, fs) =
 
 createDocs name cats =
   let f w = flow down $ [ text $ Text.link "/Documentation.elm" (toText "Back")
-                        , width w . centeredText $ section 2 name
+                        , width w . centered $ section 2 name
                         , spacer 1 30
                         ] ++ (addSpaces 50 $ map (group f1 w) cats)
   in  lift (skeleton f) Window.width
 
 createDocs2 name overview cats =
   let f w = flow down $ [ text $ Text.link "/Documentation.elm" (toText "Back")
-                        , width w . centeredText $ section 2 name
+                        , width w . centered $ section 2 name
                         , width w overview
                         , spacer 1 30
                         ] ++ (addSpaces 50 $ map (group f2 w) cats)

@@ -1,7 +1,10 @@
 import Website.Skeleton
 import Website.ColorScheme
+import Window as Window
+import JavaScript as JS
+import Graphics.Text as Text
 
-title = constant (JavaScript.castStringToJSString "Upgrade Time: Elm 0.6")
+title = constant (JS.fromString "Upgrade Time: Elm 0.6")
 foreign export jsevent "elm_title"
   title : Signal JSString
 
@@ -372,7 +375,7 @@ spiral time =
       f n = ( n/2 * cos (n/3)
             , n/2 * sin (n/3) )
       spiral = line $ map f [ 3 .. 100 ]
-      clr = hsv ((inSeconds time * 30) `mod` 360) 1 1
+      clr = hsv (round (inSeconds time * 30) `mod` 360) 1 1
   in  collage 100 100 [ move 50 50 . rotate a $ solid clr spiral ]
 
 times1 = foldp (+) 0 $ 30 `fpsWhen` Mouse.isDown

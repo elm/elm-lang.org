@@ -12,6 +12,11 @@ Each one focuses on a specific question, and aims to increase your
 general understanding. When read in sequence, they should slowly
 ramp up in difficulty, taking you from beginner to expert.
 
+If you want a general overview, skip to the videos. If you are interested
+in particular features, the release notes can be very helpful. They each
+explain the once-new features of Elm in depth, covering nearly all parts
+of the language.
+
 #### About the language
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
@@ -27,6 +32,11 @@ ramp up in difficulty, taking you from beginner to expert.
 
 * [Setting up the Elm compiler and server][install]
 * [Creating a working website][this]
+
+#### Videos
+
+* [What is Elm? Why do I care?][infoq]
+* [What is FRP? How do I make games?][mlocjs]
 
 #### Release notes
 
@@ -53,6 +63,8 @@ ramp up in difficulty, taking you from beginner to expert.
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
   [games]: https://github.com/evancz/Elm/blob/master/Examples/elm-js/GameSkeleton/GameSkeleton.elm#L1 "Game Skeleton"
+  [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+  [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
 
   [3]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"

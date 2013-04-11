@@ -1,14 +1,12 @@
-import JavaScript
+import Graphics.Text as Text
+import JavaScript as JS
 import Window as Win
-import Automaton
-import Input
-import Random
-import List
 
-title = constant (castStringToJSString "The Libraries You Need: Elm 0.5")
+title = constant (JS.fromString "The Libraries You Need: Elm 0.5")
 foreign export jsevent "elm_title"
   title : Signal JSString
 
+{-
 (butnMore,pressMore) = button "  +  "
 (butnLess,pressLess) = button "  -  "
 
@@ -43,7 +41,7 @@ display fs = collage 400 400 (outlined black (rect 400 400 (200,200)) :: fs)
 
 widget y w = lift (\forms -> display forms `above` controls)
            $ run formsAutomaton (allInput y w)
-
+-}
 blog = [markdown|
 
 # The Libraries You Need: Elm 0.5
@@ -167,16 +165,14 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
 |]
 
 page =
-  let top = flow down
-            [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-            , width 600 blog ]
-      mid = widget (heightOf top) Win.width
-      bot = flow down [ width 600 outro
-                      , container 600 60 middle
-                        [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
-                      , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-                        toText "&copy; 2011-2012 Evan Czaplicki" ]
-  in  lift (\m -> flow down [ top, container 600 (heightOf m) middle m, bot ]) mid
+    flow down
+      [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
+      , width 600 blog
+      , width 600 outro
+      , container 600 60 middle
+        [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
+      , container 600 60 middle . text . Text.color (rgb 216 221 225) $
+        toText "&copy; 2011-2012 Evan Czaplicki" ]
 
-main = lift2 (\page w -> container w (heightOf page) midTop page) page Win.width
+main = lift (\w -> container w (heightOf page) midTop page) Win.width
 
