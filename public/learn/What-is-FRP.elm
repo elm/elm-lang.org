@@ -1,6 +1,10 @@
 import Website.Skeleton
 import Website.ColorScheme
 
+import JavaScript as JS
+import Mouse as Mouse
+import Window as Window
+
 
 ---- Text of the page: all written in Markdown ----
 
@@ -130,23 +134,23 @@ example w1 w2 code =
 clickCount = count Mouse.clicks
 
 examples1 =
-  let title = text . bold . toText in
-  let example' = example 250 110 in
-    [ constant (entry 250 110 (title "Source Code") (title "Value"))
-    , example' "Mouse.position" Mouse.position
-    , example' "Window.dimensions" Window.dimensions
-    , example' "clks = count Mouse.clicks" clickCount
-    , example' "lift (\\n -> n^2) clks" (lift (\n -> n^2) clickCount)
-    ]
+  let title = text . bold . toText
+      example' = example 250 110
+  in [ constant (entry 250 110 (title "Source Code") (title "Value"))
+     , example' "Mouse.position" Mouse.position
+     , example' "Window.dimensions" Window.dimensions
+     , example' "clks = count Mouse.clicks" clickCount
+     , example' "lift (\\n -> n^2) clks" (lift (\n -> n^2) clickCount)
+     ]
 
 examples2 =
-  let title = text . bold . toText in
-  let example' = example 420 200 in
-    [ constant (entry 420 200 (title "Source Code") (title "Value"))
-    , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
-    , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
-    , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
-    ]
+  let title = text . bold . toText
+      example' = example 420 200
+  in [ constant (entry 420 200 (title "Source Code") (title "Value"))
+     , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
+     , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
+     , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
+     ]
 
 box exs =
   let putInBox exs = 
@@ -157,7 +161,7 @@ box exs =
         in  flow down [ color accent1 $ spacer (widthOf eBox') 2
                       , eBox'
                       , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ foldr (lift2 (:)) (constant []) exs
+  in  lift putInBox $ combineexs
 
 
 
@@ -192,6 +196,6 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JavaScript.castStringToJSString (constant "What is FRP?")
+titles = constant (JS.fromString "What is FRP?")
 foreign export jsevent "elm_title"
-  titles :: Signal JSString
+  titles : Signal JSString

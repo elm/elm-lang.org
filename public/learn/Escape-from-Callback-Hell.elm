@@ -1,6 +1,9 @@
 import Website.Skeleton
-import HTTP
-import JSON
+
+import JavaScript as JS
+import Window as Window
+--import HTTP
+--import JSON
 
 intro = [markdown|
 
@@ -325,7 +328,7 @@ of HTTP requests we make. The result looks like this:
 
 
 |]
-
+{-
 (tagInput',tags') = Input.textField "Flickr Search"
 
 getPhotos tags =
@@ -370,7 +373,7 @@ sizesToPhoto sizeOptions =
   in  case extract sizeOptions of
         Just sizes -> getImg (findArray "size" (findObject "sizes" sizes))
         Nothing -> "/grey.jpg"
-
+-}
 
 outro = [markdown|
 
@@ -423,12 +426,14 @@ if you do not have any experience reading academic papers. You can also email
 
 |]
 
-(inputField, tags) = Input.textField "Tag"
+
+--(inputField, tags) = Input.textField "Tag"
 
 code = text . monospace . toText
 box w e = container w 30 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
+{-
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
 dropTil s = case s of { h::t -> if h == '[' then t else dropTil t ; _ -> s }
 format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
@@ -437,19 +442,19 @@ showResponse r =
           Success r -> "Success \"... " ++ format r ++ " ...\""
           Waiting -> "Waiting"
           Failure n _ -> "Failure " ++ show n ++ " \"...\"")
-
+-}
 content w tags response search =
   let sideBySide big small = flow right [ width w big, spacer 30 100, small ]
       codePair l r = pairing w (code l) (asText r)
       asyncElm = flow down . map (width w) $
                  [ asyncElm1
-                 , pairing w inputField (asText tags)
+                 --, pairing w inputField (asText tags)
                  , asyncElm2
-                 , codePair "lift length tags" (length tags)
-                 , codePair "lift reverse tags" (reverse tags)
-                 , codePair "lift requestTag tags" (requestTagSimple tags)
+                 --, codePair "lift length tags" (length tags)
+                 --, codePair "lift reverse tags" (reverse tags)
+                 --, codePair "lift requestTag tags" (requestTagSimple tags)
                  , asyncElm3
-                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 --, pairing w (code "send (lift requestTag tags)") (showResponse response)
                  , asyncElm4 ]
   in flow down
       [ width w intro
@@ -472,10 +477,10 @@ requestTag' tag =
   if tag == "" then "" else
   concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
   
-everything = lift3 blog tags (HTTP.sendGet (lift requestTag' tags)) flickrSearch
+everything = lift3 blog (constant "" {-tags-}) (constant "" {-HTTP.sendGet (lift requestTag' tags)-}) (constant $ spacer 200 200 {-flickrSearch-})
 
 main = lift2 skeleton everything Window.width
 
-titles = constant (JavaScript.castStringToJSString "Escape from Callback Hell")
+titles = constant (JS.fromString "Escape from Callback Hell")
 foreign export jsevent "elm_title"
   titles : Signal JSString
