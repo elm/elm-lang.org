@@ -1,6 +1,7 @@
 
 import Website.Skeleton
 import Website.ColorScheme
+import Window as Window
 
 intro = [markdown|
 
@@ -155,7 +156,7 @@ the [initial announcement][v7], or [this academic paper][records].
     (lib.id 42 == 42)
     (lib.id [] == [])
 
-    data Located a = Located {line : Int, column : Int} a
+    type Location = { line:Int, column:Int }
 
 ### Functions
 
