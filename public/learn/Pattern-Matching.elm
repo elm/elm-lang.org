@@ -1,6 +1,7 @@
 import Website.Skeleton
 import Website.ColorScheme
-
+import Window as Window
+import JavaScript as JS
 
 ---- Text of the page: all written in Markdown ----
 
@@ -149,11 +150,15 @@ deals with [Boolean algebra][algebra]:
 
  [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
-    data Boolean = Tru
-                 | Fls
-                 | Not Boolean
-                 | Or  Boolean Boolean
-                 | And Boolean Boolean
+    data Boolean
+        = Tru
+        | Fls
+        | Not Boolean
+        | Or  Boolean Boolean
+        | And Boolean Boolean
+
+    tru = Or Tru Fls
+    fls = And Tru (Not Tru)
 
 Once we have modeled the possible values we can define functions like `eval`
 which reduces any `Boolean` to `True` or `False`. See [this example][bool] for more
@@ -172,6 +177,6 @@ main = lift (skeleton (what . min 600)) Window.width
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JavaScript.castStringToJSString (constant "What is Pattern Matching?")
+titles = constant (JS.fromString "What is Pattern Matching?")
 foreign export jsevent "elm_title"
   titles : Signal JSString

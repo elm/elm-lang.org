@@ -1,8 +1,11 @@
 
 import Website.Skeleton
 import Website.ColorScheme
+import Window as Window
+import JavaScript as JS
+import Graphics.Text as Text
 
-title = constant (JavaScript.castStringToJSString "Elm 0.7 - Extensible Records")
+title = constant (JS.fromString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"
   title : Signal JSString
 
@@ -394,8 +397,8 @@ same field in a single file. So you would not even be able to use `spaceship`
 and `asteroid` in the same file! Here is a minimal program that is rejected
 by GHC 7.4:
 
-    data Spaceship = Spaceship { x :: Int }
-    data Asteroid  = Asteroid  { x :: Int }
+    data Spaceship = Spaceship { x:Int }
+    data Asteroid  = Asteroid  { x:Int }
 
 You could separate out the position, angle, and velocity and write a `step`
 function for just that data. So now you can share the logic of `step`, but you
@@ -427,19 +430,19 @@ evaluate wid pairs =
 content w = 
   flow down
     [ intro w
-    , access w
+--    , access w
     , width w postAccess
-    , matches w
+--    , matches w
     , width w postMatches
-    , updating w
+--    , updating w
     , postUpdating w
-    , rest w
+--    , rest w
     , postRest w
-    , rename w
+--    , rename w
     , postRename w
-    , replace w
+--    , replace w
     , postReplace w
-    , poly w
+--    , poly w
     , postPoly w
     ]
 
