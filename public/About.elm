@@ -24,6 +24,7 @@ of the language.
 * [Learn by example][learn]
 * [Pattern matching and algebraic data types][adt]
 * [Extensible records][records]
+* [Getting started with Types][types]
 * [Escape from Callback Hell][efch]
 * [Create a purely functional game][pong] and [a skeleton for making games][games]
 * [The semantics of FRP in Elm][thesis]
@@ -51,20 +52,21 @@ of the language.
 * `0.1.0` &ndash; `Apr '12` &ndash; Initial Release
 
 
-  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
   [adt]: learn/Pattern-Matching.elm
-  [records]: /learn/Records.elm "Records in Elm"
-  [learn]: /Examples.elm "Elm by Example"
-  [frp]: /learn/What-is-FRP.elm "What is FRP?"
   [efch]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
   [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
-  [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
-  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
-  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+  [frp]: /learn/What-is-FRP.elm "What is FRP?"
   [games]: https://github.com/evancz/Elm/blob/master/Examples/elm-js/GameSkeleton/GameSkeleton.elm#L1 "Game Skeleton"
-  [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+  [learn]: /Examples.elm "Elm by Example"
   [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
+  [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
+  [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
+  [records]: /learn/Records.elm "Records in Elm"
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
+  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
+  [types]: /learn/Getting-started-with-Types.elm "Getting started with Types"
 
   [3]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
