@@ -101,15 +101,16 @@ Elm.Native.Utils = function(elm) {
   function htmlHeight(width, html) {
     var t = document.createElement('div');
     t.innerHTML = html;
-    t.style.width  = width + "px";
+    if (width > 0) { t.style.width = width + "px"; }
     t.style.visibility = "hidden";
     t.style.styleFloat = "left";
     t.style.cssFloat   = "left";
     
-    document.body.appendChild(t);
-    var h = t.clientHeight
-    document.body.removeChild(t);
-    return h;
+    elm.node.appendChild(t);
+    var w = t.clientWidth;
+    var h = t.clientHeight;
+    elm.node.removeChild(t);
+    return Tuple2(w,h);
   }
 
   return elm.Native.Utils = {
@@ -1852,8 +1853,8 @@ Elm.Native.Graphics.Text = function(elm) {
 	     _0: '<div style="padding:0;margin:0;text-align:' +
                    pos + '">' + text + '</div>'
             };
-    var w = elm.node.clientWidth;
-    return A3(Element.newElement, w, A2(htmlHeight, w, text), e);
+    var p = A2(htmlHeight, 0, text);
+    return A3(Element.newElement, p._0, p._1, e);
    }
   }
 
@@ -3074,7 +3075,7 @@ Elm.Graphics.Element = function(elm){
  var Color = Elm.Graphics.Color(elm);
  var _ = Elm.Maybe(elm); var Maybe = _;
  var Just = _.Just, Nothing = _.Nothing;
- var e, case0, Properties_0, Element_1, widthOf_2, heightOf_3, sizeOf_4, width_5, p_84, props_85, height_6, p_91, props_92, opacity_7, p_97, color_8, p_100, tag_9, p_103, link_10, p_106, emptyStr_11, newElement_12, image_22, fittedImage_23, croppedImage_24, Position_30, container_31, spacer_32, flow_39, ws_132, hs_133, newFlow_134, above_40, below_41, beside_42, layers_43, ws_144, hs_145, absolute_44, relative_45, middle_46, topLeft_47, topRight_48, bottomLeft_49, bottomRight_50, midLeft_51, midRight_52, midTop_53, midBottom_54, middleAt_55, topLeftAt_56, topRightAt_57, bottomLeftAt_58, bottomRightAt_59, midLeftAt_60, midRightAt_61, midTopAt_62, midBottomAt_63, up_64, down_65, left_66, right_67, inward_68, outward_69;
+ var e, case0, Properties_0, Element_1, widthOf_2, heightOf_3, sizeOf_4, width_5, p_84, props_85, _46000_89, w_90, h_91, height_6, p_98, props_99, opacity_7, p_104, color_8, p_107, tag_9, p_110, link_10, p_113, emptyStr_11, newElement_12, image_22, fittedImage_23, croppedImage_24, Position_30, container_31, spacer_32, flow_39, ws_139, hs_140, newFlow_141, above_40, below_41, beside_42, layers_43, ws_151, hs_152, absolute_44, relative_45, middle_46, topLeft_47, topRight_48, bottomLeft_49, bottomRight_50, midLeft_51, midRight_52, midTop_53, midBottom_54, middleAt_55, topLeftAt_56, topRightAt_57, bottomLeftAt_58, bottomRightAt_59, midLeftAt_60, midRightAt_61, midTopAt_62, midBottomAt_63, up_64, down_65, left_66, right_67, inward_68, outward_69;
  Image_13 = F4(function(a1, a2, a3, a4){
   return {ctor:"Image", _0:a1, _1:a2, _2:a3, _3:a4};});
  Container_14 = F2(function(a1, a2){
@@ -3126,148 +3127,148 @@ Elm.Graphics.Element = function(elm){
  sizeOf_4 = function(e_81){
   return {ctor:"Tuple2", _0:e_81.props.width, _1:e_81.props.height};};
  width_5 = F2(function(nw_82, e_83){
-  return (p_84 = e_83.props, props_85 = (case0 = e_83.element, (e=case0.ctor==='Image'?_N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84):case0.ctor==='RawHtml'?_N.replace([['height',A2(htmlHeight, nw_82, case0._0)]], p_84):null,e!==null?e:p_84)), {
+  return (p_84 = e_83.props, props_85 = (case0 = e_83.element, (e=case0.ctor==='Image'?_N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84):case0.ctor==='RawHtml'?_N.replace([['height',(_46000_89 = A2(htmlHeight, nw_82, case0._0), w_90 = (e=_46000_89.ctor==='Tuple2'?_46000_89._0:null,e!==null?e:_E.Case('Line 46, Column 71')), h_91 = (e=_46000_89.ctor==='Tuple2'?_46000_89._1:null,e!==null?e:_E.Case('Line 46, Column 71')), h_91)]], p_84):null,e!==null?e:p_84)), {
     _:{
     },
     element:e_83.element,
     props:_N.replace([['width',nw_82]], props_85)});});
- height_6 = F2(function(nh_89, e_90){
-  return (p_91 = e_90.props, props_92 = (case6 = e_90.element, (e=case6.ctor==='Image'?_N.replace([['width',((case6._1/case6._2)*nh_89)]], p_91):null,e!==null?e:p_91)), {
+ height_6 = F2(function(nh_96, e_97){
+  return (p_98 = e_97.props, props_99 = (case12 = e_97.element, (e=case12.ctor==='Image'?_N.replace([['width',((case12._1/case12._2)*nh_96)]], p_98):null,e!==null?e:p_98)), {
     _:{
     },
-    element:e_90.element,
-    props:_N.replace([['height',nh_89]], p_91)});});
- opacity_7 = F2(function(o_95, e_96){
-  return (p_97 = e_96.props, {
+    element:e_97.element,
+    props:_N.replace([['height',nh_96]], p_98)});});
+ opacity_7 = F2(function(o_102, e_103){
+  return (p_104 = e_103.props, {
     _:{
     },
-    element:e_96.element,
-    props:_N.replace([['opacity',o_95]], p_97)});});
- color_8 = F2(function(c_98, e_99){
-  return (p_100 = e_99.props, {
+    element:e_103.element,
+    props:_N.replace([['opacity',o_102]], p_104)});});
+ color_8 = F2(function(c_105, e_106){
+  return (p_107 = e_106.props, {
     _:{
     },
-    element:e_99.element,
-    props:_N.replace([['color',Just(c_98)]], p_100)});});
- tag_9 = F2(function(name_101, e_102){
-  return (p_103 = e_102.props, {
+    element:e_106.element,
+    props:_N.replace([['color',Just(c_105)]], p_107)});});
+ tag_9 = F2(function(name_108, e_109){
+  return (p_110 = e_109.props, {
     _:{
     },
-    element:e_102.element,
-    props:_N.replace([['tag',JS.fromString(name_101)]], p_103)});});
- link_10 = F2(function(href_104, e_105){
-  return (p_106 = e_105.props, {
+    element:e_109.element,
+    props:_N.replace([['tag',JS.fromString(name_108)]], p_110)});});
+ link_10 = F2(function(href_111, e_112){
+  return (p_113 = e_112.props, {
     _:{
     },
-    element:e_105.element,
-    props:_N.replace([['href',JS.fromString(href_104)]], p_106)});});
- newElement_12 = F3(function(w_107, h_108, e_109){
+    element:e_112.element,
+    props:_N.replace([['href',JS.fromString(href_111)]], p_113)});});
+ newElement_12 = F3(function(w_114, h_115, e_116){
   return {
     _:{
     },
-    element:e_109,
-    props:A7(Properties_0, guid({ctor:"Tuple0"}), w_107, h_108, 1, Nothing, emptyStr_11, emptyStr_11)};});
- image_22 = F3(function(w_110, h_111, src_112){
-  return A3(newElement_12, w_110, h_111, A4(Image_13, Plain_19, w_110, h_111, JS.fromString(src_112)));});
- fittedImage_23 = F3(function(w_113, h_114, src_115){
-  return A3(newElement_12, w_113, h_114, A4(Image_13, Fitted_20, w_113, h_114, JS.fromString(src_115)));});
- croppedImage_24 = F4(function(w_116, h_117, pos_118, src_119){
-  return A3(newElement_12, w_116, h_117, A4(Image_13, Cropped_21(pos_118), w_116, h_117, JS.fromString(src_119)));});
- Position_30 = F4(function(horizontal_120, vertical_121, x_122, y_123){
+    element:e_116,
+    props:A7(Properties_0, guid({ctor:"Tuple0"}), w_114, h_115, 1, Nothing, emptyStr_11, emptyStr_11)};});
+ image_22 = F3(function(w_117, h_118, src_119){
+  return A3(newElement_12, w_117, h_118, A4(Image_13, Plain_19, w_117, h_118, JS.fromString(src_119)));});
+ fittedImage_23 = F3(function(w_120, h_121, src_122){
+  return A3(newElement_12, w_120, h_121, A4(Image_13, Fitted_20, w_120, h_121, JS.fromString(src_122)));});
+ croppedImage_24 = F4(function(w_123, h_124, pos_125, src_126){
+  return A3(newElement_12, w_123, h_124, A4(Image_13, Cropped_21(pos_125), w_123, h_124, JS.fromString(src_126)));});
+ Position_30 = F4(function(horizontal_127, vertical_128, x_129, y_130){
   return {
     _:{
     },
-    horizontal:horizontal_120,
-    vertical:vertical_121,
-    x:x_122,
-    y:y_123};});
- container_31 = F4(function(w_124, h_125, pos_126, e_127){
-  return A3(newElement_12, w_124, h_125, A2(Container_14, pos_126, e_127));});
- spacer_32 = F2(function(w_128, h_129){
-  return A3(newElement_12, w_128, h_129, Spacer_16);});
- flow_39 = F2(function(dir_130, es_131){
-  return (ws_132 = A2(List.map, widthOf_2, es_131), hs_133 = A2(List.map, heightOf_3, es_131), newFlow_134 = F2(function(w_135, h_136){
-   return A3(newElement_12, w_135, h_136, A2(Flow_15, dir_130, es_131));}), (_N.eq(es_131,_L.Nil)?A2(spacer_32, 0, 0):(e=dir_130.ctor==='DDown'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):dir_130.ctor==='DIn'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DLeft'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DOut'?A2(newFlow_134, List.maximum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DRight'?A2(newFlow_134, List.sum(ws_132), List.maximum(hs_133)):dir_130.ctor==='DUp'?A2(newFlow_134, List.maximum(ws_132), List.sum(hs_133)):null,e!==null?e:_E.Case('Line 115, Column 3'))));});
- above_40 = F2(function(hi_137, lo_138){
-  return A3(newElement_12, A2(max, widthOf_2(hi_137), widthOf_2(lo_138)), (heightOf_3(hi_137)+heightOf_3(lo_138)), A2(Flow_15, DDown_34, _L.Cons(hi_137,_L.Cons(lo_138,_L.Nil))));});
- below_41 = F2(function(lo_139, hi_140){
-  return A3(newElement_12, A2(max, widthOf_2(hi_140), widthOf_2(lo_139)), (heightOf_3(hi_140)+heightOf_3(lo_139)), A2(Flow_15, DDown_34, _L.Cons(hi_140,_L.Cons(lo_139,_L.Nil))));});
- beside_42 = F2(function(lft_141, rht_142){
-  return A3(newElement_12, (widthOf_2(lft_141)+widthOf_2(rht_142)), A2(max, heightOf_3(lft_141), heightOf_3(rht_142)), A2(Flow_15, right_67, _L.Cons(lft_141,_L.Cons(rht_142,_L.Nil))));});
- layers_43 = function(es_143){
-  return (ws_144 = A2(List.map, widthOf_2, es_143), hs_145 = A2(List.map, heightOf_3, es_143), A3(newElement_12, List.maximum(ws_144), List.maximum(hs_145), A2(Flow_15, DOut_38, es_143)));};
- middleAt_55 = F2(function(x_146, y_147){
+    horizontal:horizontal_127,
+    vertical:vertical_128,
+    x:x_129,
+    y:y_130};});
+ container_31 = F4(function(w_131, h_132, pos_133, e_134){
+  return A3(newElement_12, w_131, h_132, A2(Container_14, pos_133, e_134));});
+ spacer_32 = F2(function(w_135, h_136){
+  return A3(newElement_12, w_135, h_136, Spacer_16);});
+ flow_39 = F2(function(dir_137, es_138){
+  return (ws_139 = A2(List.map, widthOf_2, es_138), hs_140 = A2(List.map, heightOf_3, es_138), newFlow_141 = F2(function(w_142, h_143){
+   return A3(newElement_12, w_142, h_143, A2(Flow_15, dir_137, es_138));}), (_N.eq(es_138,_L.Nil)?A2(spacer_32, 0, 0):(e=dir_137.ctor==='DDown'?A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140)):dir_137.ctor==='DIn'?A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DLeft'?A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DOut'?A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DRight'?A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DUp'?A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140)):null,e!==null?e:_E.Case('Line 115, Column 3'))));});
+ above_40 = F2(function(hi_144, lo_145){
+  return A3(newElement_12, A2(max, widthOf_2(hi_144), widthOf_2(lo_145)), (heightOf_3(hi_144)+heightOf_3(lo_145)), A2(Flow_15, DDown_34, _L.Cons(hi_144,_L.Cons(lo_145,_L.Nil))));});
+ below_41 = F2(function(lo_146, hi_147){
+  return A3(newElement_12, A2(max, widthOf_2(hi_147), widthOf_2(lo_146)), (heightOf_3(hi_147)+heightOf_3(lo_146)), A2(Flow_15, DDown_34, _L.Cons(hi_147,_L.Cons(lo_146,_L.Nil))));});
+ beside_42 = F2(function(lft_148, rht_149){
+  return A3(newElement_12, (widthOf_2(lft_148)+widthOf_2(rht_149)), A2(max, heightOf_3(lft_148), heightOf_3(rht_149)), A2(Flow_15, right_67, _L.Cons(lft_148,_L.Cons(rht_149,_L.Nil))));});
+ layers_43 = function(es_150){
+  return (ws_151 = A2(List.map, widthOf_2, es_150), hs_152 = A2(List.map, heightOf_3, es_150), A3(newElement_12, List.maximum(ws_151), List.maximum(hs_152), A2(Flow_15, DOut_38, es_150)));};
+ middleAt_55 = F2(function(x_153, y_154){
   return {
     _:{
     },
     horizontal:Z_26,
     vertical:Z_26,
-    x:x_146,
-    y:y_147};});
- topLeftAt_56 = F2(function(x_148, y_149){
+    x:x_153,
+    y:y_154};});
+ topLeftAt_56 = F2(function(x_155, y_156){
   return {
     _:{
     },
     horizontal:N_27,
     vertical:P_25,
-    x:x_148,
-    y:y_149};});
- topRightAt_57 = F2(function(x_150, y_151){
+    x:x_155,
+    y:y_156};});
+ topRightAt_57 = F2(function(x_157, y_158){
   return {
     _:{
     },
     horizontal:P_25,
     vertical:P_25,
-    x:x_150,
-    y:y_151};});
- bottomLeftAt_58 = F2(function(x_152, y_153){
+    x:x_157,
+    y:y_158};});
+ bottomLeftAt_58 = F2(function(x_159, y_160){
   return {
     _:{
     },
     horizontal:N_27,
     vertical:N_27,
-    x:x_152,
-    y:y_153};});
- bottomRightAt_59 = F2(function(x_154, y_155){
+    x:x_159,
+    y:y_160};});
+ bottomRightAt_59 = F2(function(x_161, y_162){
   return {
     _:{
     },
     horizontal:P_25,
     vertical:N_27,
-    x:x_154,
-    y:y_155};});
- midLeftAt_60 = F2(function(x_156, y_157){
+    x:x_161,
+    y:y_162};});
+ midLeftAt_60 = F2(function(x_163, y_164){
   return {
     _:{
     },
     horizontal:N_27,
     vertical:Z_26,
-    x:x_156,
-    y:y_157};});
- midRightAt_61 = F2(function(x_158, y_159){
+    x:x_163,
+    y:y_164};});
+ midRightAt_61 = F2(function(x_165, y_166){
   return {
     _:{
     },
     horizontal:P_25,
     vertical:Z_26,
-    x:x_158,
-    y:y_159};});
- midTopAt_62 = F2(function(x_160, y_161){
+    x:x_165,
+    y:y_166};});
+ midTopAt_62 = F2(function(x_167, y_168){
   return {
     _:{
     },
     horizontal:Z_26,
     vertical:P_25,
-    x:x_160,
-    y:y_161};});
- midBottomAt_63 = F2(function(x_162, y_163){
+    x:x_167,
+    y:y_168};});
+ midBottomAt_63 = F2(function(x_169, y_170){
   return {
     _:{
     },
     horizontal:Z_26,
     vertical:N_27,
-    x:x_162,
-    y:y_163};});
+    x:x_169,
+    y:y_170};});
  emptyStr_11 = JS.fromString(_str(''));
  absolute_44 = Absolute_28;
  relative_45 = Relative_29;

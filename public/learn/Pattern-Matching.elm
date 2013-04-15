@@ -15,6 +15,24 @@ pre {
  padding: 4px 10px;
  border-left: solid 2px rgb(96,181,204);
 }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
 </style>
 
 ## What is &ldquo;Pattern Matching&rdquo;?
@@ -29,7 +47,9 @@ type:
  [re]: http://en.wikipedia.org/wiki/Regular_expression#Formal_language_theory "Regular Expressions"
  [adt]: http://en.wikipedia.org/wiki/Algebraic_data_type "Algebraic Data Type"
 
-    data Color = Blue | Red
+```haskell
+data Color = Blue | Red
+```
 
 So we have defined the type "Color" and it has two possible values: "Blue"
 and "Red". These values are called type constructors because the allow you
@@ -40,9 +60,11 @@ like `(+)` and `(||)` are no use, so we introduce **pattern matching**,
 using patterns in the structure of a `Color` to break it apart. This happens with
 case-expressions.
 
-    toString color = case color of
-                       Blue -> "Blue"
-                       Red  -> "Red"
+```haskell
+toString color = case color of
+                   Blue -> "Blue"
+                   Red  -> "Red"
+```
 
 The case-expression is saying, &ldquo;look at the structure of `color`. If it
 is `Blue`, do this. If it is `Red`, do that.&rdquo;
@@ -55,7 +77,9 @@ The following algebraic data type represents a list. The front of a list
 can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into an ADT:
 
-    data List a = Empty | Cons a (List a)
+```haskell
+data List a = Empty | Cons a (List a)
+```
 
 So this creates a type called `List`. A list can either be empty or it can
 have one element (called the *head* of the list) and &ldquo;the rest of the
@@ -79,9 +103,11 @@ So when we pattern match we can define what we want to do in each case.
 Say we want to compute the product of all of the numbers in a list. The
 following function defines the logic for each possible scenario.
 
-    product xs = case xs of
-                   Cons head tail -> head * product tail
-                   Empty -> 1
+```haskell
+product xs = case xs of
+               Cons head tail -> head * product tail
+               Empty -> 1
+```
 
 This use of pattern matching is more complicated than with a `Color` because
 we are using variables *in* the pattern. In the case of a `Cons` value, the
@@ -94,14 +120,17 @@ with the product of the tail of the list. If list `xs` is empty, the product
 is one. So an expression like `(product (Cons 1 (Cons 2 (Cons 3 Empty))))` is
 evaluated like this:
 
-    product (Cons 1 (Cons 2 (Cons 3 Empty)))
-    1 * product (Cons 2 (Cons 3 Empty))
-    1 * (2 * product (Cons 3 Empty))
-    1 * (2 * (3 * product Empty))
-    1 * (2 * (3 * 1))
-    1 * (2 * 3)
-    1 * 6
-    6
+
+```haskell
+product (Cons 1 (Cons 2 (Cons 3 Empty)))
+1 * product (Cons 2 (Cons 3 Empty))
+1 * (2 * product (Cons 3 Empty))
+1 * (2 * (3 * product Empty))
+1 * (2 * (3 * 1))
+1 * (2 * 3)
+1 * 6
+6
+```
 
 In fact, this is exactly how lists work in Elm! It's just a little more
 concise, so `(Cons 1 (Cons 2 (Cons 3 Empty)))` becomes
@@ -114,7 +143,9 @@ lists over a given range. This is called *list interpolation*, and it
 can be surprisingly useful. For instance, it allows us to write an
 extremely concise factorial function:
 
-    factorial n = product [1..n]
+```haskell
+factorial n = product [1..n]
+```
 
 Great! Let's try some more difficult stuff.
 
@@ -124,7 +155,9 @@ We can create all sorts of data structures, like [binary trees][binary].
 
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
-    data Tree a = Empty | Node a (Tree a) (Tree a)
+```haskell
+data Tree a = Empty | Node a (Tree a) (Tree a)
+```
 
 A tree is either empty or it is a node with a value and two children.
 This is actually a generalization of lists. You could represent lists
@@ -137,7 +170,9 @@ at the end of the example, consider yourself a capable user of ADTs.
 We can also model interactions. For instance, when we get an HTTP response
 we know it will be one of three things:
 
-    data Response a = Success a | Waiting | Failure Int String
+```haskell
+data Response a = Success a | Waiting | Failure Int String
+```
 
 We are always in one of these states, and with pattern matching it is
 easy to define what should happen in each case. This data type is actually
@@ -150,19 +185,21 @@ deals with [Boolean algebra][algebra]:
 
  [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
-    data Boolean
-        = Tru
-        | Fls
-        | Not Boolean
-        | Or  Boolean Boolean
-        | And Boolean Boolean
+```haskell
+data Boolean
+    = Tru
+    | Fls
+    | Not Boolean
+    | Or  Boolean Boolean
+    | And Boolean Boolean
 
-    tru = Or Tru Fls
-    fls = And Tru (Not Tru)
+tru = Or Tru Fls
+fls = And Tru (Not Tru)
+```
 
 Once we have modeled the possible values we can define functions like `eval`
-which reduces any `Boolean` to `True` or `False`. See [this example][bool] for more
-about representing boolean expressions.
+which reduces any `Boolean` to `True` or `False`. See [this example][bool] for
+more about representing boolean expressions.
 
  [bool]: /edit/examples/Functional/BooleanExpressions.elm
 
