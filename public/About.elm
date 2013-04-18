@@ -41,14 +41,15 @@ of the language.
 
 #### Release notes
 
+* [`0.8.0`][8]  &ndash; `Apr '13` &ndash; 
 * [`0.7.1`][71] &ndash; `Feb '13` &ndash; Touch, Either, and better Keyboard
-* [`0.7.0`][7] &ndash; `Jan '13` &ndash; Extensible Records
-* [`0.6.0`][6] &ndash; `Dec '12` &ndash; Time, Dates, and whitespace sensitivity
-* [`0.5.0`][5] &ndash; `Oct '12` &ndash; Dictionaries, Sets, and Automata 
-* [`0.4.0`][4] &ndash; `Sep '12` &ndash; Markdown and better graphics
+* [`0.7.0`][7]  &ndash; `Jan '13` &ndash; Extensible Records
+* [`0.6.0`][6]  &ndash; `Dec '12` &ndash; Time, Dates, and whitespace sensitivity
+* [`0.5.0`][5]  &ndash; `Oct '12` &ndash; Dictionaries, Sets, and Automata 
+* [`0.4.0`][4]  &ndash; `Sep '12` &ndash; Markdown and better graphics
 * [`0.3.6`][36] &ndash; `Aug '12` &ndash; JSON support
 * [`0.3.5`][35] &ndash; `Jun '12` &ndash; JavaScript FFI
-* [`0.3.0`][3] &ndash; `Jun '12` &ndash; Modules
+* [`0.3.0`][3]  &ndash; `Jun '12` &ndash; Modules
 * `0.1.0` &ndash; `Apr '12` &ndash; Initial Release
 
 
@@ -68,14 +69,15 @@ of the language.
   [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
   [types]: /learn/Getting-started-with-Types.elm "Getting started with Types"
 
-  [3]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
+  [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
   [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/ "JSON"
-  [4]: /blog/announce/version-0.4.0.elm "Graphics Upgrade"
-  [5]: /blog/announce/version-0.5.0.elm "Libraries"
-  [6]: /blog/announce/version-0.6.elm "Time, Date, and Syntax"
-  [7]: /blog/announce/version-0.7.elm "Extensible Records & More"
+  [4]:  /blog/announce/version-0.4.0.elm "Graphics Upgrade"
+  [5]:  /blog/announce/version-0.5.0.elm "Libraries"
+  [6]:  /blog/announce/version-0.6.elm "Time, Date, and Syntax"
+  [7]:  /blog/announce/version-0.7.elm "Extensible Records & More"
   [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
+  [8]:  /blog/announce/version-0.8.elm
 
 #### How to Contribute
 
