@@ -126,9 +126,7 @@ tryElm w =
   flow down [ spacer 10 20
             , link "/try" (fittedImage w (w `div` 2) "editor.jpg") ]
 
-info w = if w < 500 then infoSmall w else infoBig w
-
-infoBig w =
+info w =
   let sw = if w >= 800 then 300 else 200
       box txt pics = flow right [ width (w-(30+sw)) txt, spacer 30 10, pics sw ]
   in  flow down $ [ width w intro, spacer w 10 ] ++

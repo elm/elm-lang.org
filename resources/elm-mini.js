@@ -3595,6 +3595,24 @@ ElmRuntime.filterDeadInputs = function(inputs) {
     return temp;
 };
 
+// define the draw function
+var vendors = ['ms', 'moz', 'webkit', 'o'];
+for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
+    window.requestAnimationFrame = window[vendors[i]+'RequestAnimationFrame'];
+    window.cancelAnimationFrame  = window[vendors[i]+'CancelAnimationFrame'] 
+                                || window[vendors[i]+'CancelRequestAnimationFrame'];
+}
+
+if (window.requestAnimationFrame && window.cancelAnimationFrame) {
+    var previous = 0;
+    ElmRuntime.draw = function(callback) {
+        window.cancelAnimationFrame(previous);
+        previous = window.requestAnimationFrame(callback);
+    };
+} else {
+    ElmRuntime.draw = function(callback) { callback(); };
+}
+
 }());
 
 Elm.init = function(module, baseNode) {
@@ -3684,9 +3702,11 @@ Elm.init = function(module, baseNode) {
   // set up updates so that the DOM is adjusted as necessary.
   var update = Render.update;
   function domUpdate(value) {
-      update(renderNode, visualModel, value);
-      visualModel = value;
-      adjustWindow();
+      ElmRuntime.draw(function(_) {
+              update(renderNode, visualModel, value);
+              visualModel = value;
+              adjustWindow();
+          });
       return value;
   }
   
@@ -4202,7 +4222,14 @@ function render(model) {
 }
 
 function update(node, oldModel, newModel) {
-    node.parentNode.replaceChild(render(newModel), node);
+    if (!node.getContext) {
+        return node.parentNode.replaceChild(render(newModel), node);
+    }
+    var ctx = node.getContext('2d');
+    var w = newModel.w, h = newModel.h;
+    ctx.clearRect(-w/2, -h/2, w, h);
+    function redo() { renderForms( this, ctx, newModel.forms ); }
+    renderForms( redo, ctx, newModel.forms );
 }
 
 return { render:render, update:update };
