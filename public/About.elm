@@ -20,14 +20,18 @@ of the language.
 #### About the language
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
-* [Syntax Reference][syntax]
-* [Learn by example][learn]
 * [Pattern matching and algebraic data types][adt]
 * [Extensible records][records]
 * [Getting started with Types][types]
 * [Escape from Callback Hell][efch]
+* [JavaScript Integration][js]
 * [Create a purely functional game][pong] and [a skeleton for making games][games]
 * [The semantics of FRP in Elm][thesis]
+
+#### Quick Start
+
+* [Syntax Reference][syntax]
+* [Learn by example][learn]
 
 #### Getting set up
 
@@ -61,6 +65,7 @@ of the language.
   [learn]: /Examples.elm "Elm by Example"
   [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
   [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
+  [js]: /learn/JavaScript-Integration.elm
   [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
   [records]: /learn/Records.elm "Records in Elm"

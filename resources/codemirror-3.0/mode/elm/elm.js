@@ -203,7 +203,7 @@ CodeMirror.defineMode("elm", function() {
 
     setType("builtin")(
       "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=",
-      "==", ">", ">=", "^", "||", "*", "<~", "~");
+      "==", ">", ">=", "^", "||", "*", "<~", "~", "|>", "<|", "<<", ">>");
 
     setType("builtin")(
       "Bool", "Char", "False", "Float", "GT", "Int", "Just", "LT",
