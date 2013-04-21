@@ -278,19 +278,28 @@ The `map` function can be specialized for each case. When `map` is used
 with `not`, it is specialized to have the type:
 
 ```haskell
-map : (Bool -> Bool) -> [Bool] -> [Bool]
+-- map : (Bool -> Bool) -> [Bool] -> [Bool]
+
+nots : [Bool] -> [Bool]
+nots bs = map not bs
 ```
 
 And when it is used with `length` it is specialized to have the type:
 
 ```haskell
-map : ([a] -> Int) -> [[a]] -> [Int]
+-- map : ([a] -> Int) -> [[a]] -> [Int]
+
+lengths : [[a]] -> [Int]
+lengths xs = map length xs
 ```
 
 This gets specialized again when we give it a list of strings resulting in
 
 ```haskell
-map : (String -> Int) -> [String] -> [Int]
+-- map : (String -> Int) -> [String] -> [Int]
+
+stringLengths : [Int]
+stringLengths = map length ["tree","france"]
 ```
 
 These are some of the &ldquo;many forms&rdquo; of the `map` function. The type

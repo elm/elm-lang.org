@@ -8,7 +8,6 @@ import JavaScript as JS
 what w = width w [markdown|
 
 <style type="text/css">
-h3 { padding-top: 1em; }
 pre {
  background-color: rgb(245,245,245);
  margin: 0 30px;
@@ -70,6 +69,34 @@ The case-expression is saying, &ldquo;look at the structure of `color`. If it
 is `Blue`, do this. If it is `Red`, do that.&rdquo;
 So `(toString Blue)` evaluates to `"Blue"` and `(toString Red)`
 evaluates to `"Red"`.
+
+Algebraic data types (ADTs) are much more flexible than that though! When we
+start using the `Color` ADT we just defined, we will quickly find it a bit
+constraining. What is exclusively blue and red? Besides underwater volcanos,
+not much. I mean, that *is* pretty rad, but it probably will not come up too often.
+
+Let&rsquo;s try to make a better ADT for representing colors. Maybe we want to define
+colors as transparent or an arbitrary RGB color.
+
+```haskell
+data BetterColor = Transparent | RGB Int Int Int
+```
+
+Each case actually holds additional data. The first case just represents transparency.
+The second case `RGB` holds three integer values representing the red, blue,
+and green that make up a color.
+
+We can now define any color we want!
+
+```haskell
+orange = RGB 255 127 0
+purple = RGB 128 0 128
+```
+
+Okay, now that we can put additional information in our ADTs, let&rsquo;s try to
+make something more practical.
+
+### Practical Examples
 
 Now let's try a more complicated example. If you have ever implemented a
 linked list in C or Java you will appreciate how easy this is in Elm.

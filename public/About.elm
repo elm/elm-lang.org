@@ -20,12 +20,12 @@ of the language.
 #### About the language
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
-* [Pattern matching and algebraic data types][adt]
-* [Extensible records][records]
 * [Getting started with Types][types]
-* [Escape from Callback Hell][efch]
+* [Pattern matching and ADTs][adt]
+* [Extensible records][records]
 * [JavaScript Integration][js]
 * [Create a purely functional game][pong] and [a skeleton for making games][games]
+* [Escape from Callback Hell][efch]
 * [The semantics of FRP in Elm][thesis]
 
 #### Quick Start
