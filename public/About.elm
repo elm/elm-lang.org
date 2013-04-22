@@ -3,7 +3,7 @@ import Window as Window
 
 ---- Text of the page: all written in Markdown ----
 
-content = [markdown|
+intro = [markdown|
 
 ## About Elm
 
@@ -12,10 +12,10 @@ Each one focuses on a specific question, and aims to increase your
 general understanding. When read in sequence, they should slowly
 ramp up in difficulty, taking you from beginner to expert.
 
-If you want a general overview, skip to the videos. If you are interested
-in particular features, the release notes can be very helpful. They each
-explain the once-new features of Elm in depth, covering nearly all parts
-of the language.
+ [frp]: /learn/What-is-FRP.elm "What is FRP?"
+|]
+
+leftCol = [markdown|
 
 #### About the language
 
@@ -24,55 +24,65 @@ of the language.
 * [Pattern matching and ADTs][adt]
 * [Extensible records][records]
 * [JavaScript Integration][js]
-* [Create a purely functional game][pong] and [a skeleton for making games][games]
+* [Create a purely functional game][pong]
 * [Escape from Callback Hell][efch]
 * [The semantics of FRP in Elm][thesis]
+
+ [adt]: learn/Pattern-Matching.elm
+ [efch]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
+ [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
+ [frp]: /learn/What-is-FRP.elm "What is FRP?"
+ [js]: /learn/JavaScript-Integration.elm
+ [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
+ [records]: /learn/Records.elm "Records in Elm"
+ [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+ [types]: /learn/Getting-started-with-Types.elm "Getting started with Types"
+
+|]
+
+rightCol = [markdown|
 
 #### Quick Start
 
 * [Syntax Reference][syntax]
 * [Learn by example][learn]
 
+  [learn]: /Examples.elm "Elm by Example"
+  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
+
 #### Getting set up
 
 * [Setting up the Elm compiler and server][install]
 * [Creating a working website][this]
+* [A skeleton for making games][games]
 
-#### Videos
+ [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
+ [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
+ [games]: https://github.com/evancz/Elm/blob/master/Examples/elm-js/GameSkeleton/GameSkeleton.elm#L1 "Game Skeleton"
 
-* [What is Elm? Why do I care?][infoq]
-* [What is FRP? How do I make games?][mlocjs]
+|]
+
+midtro = [markdown|
+If you want a general overview of Elm, check out the conference videos.
+If you are interested in particular features, the release notes can be
+very helpful. They each explain the once-new features of Elm in depth,
+covering nearly all parts of the language.
+|]
+
+releaseNotes = [markdown|
 
 #### Release notes
 
-* [`0.8.0`][8]  &ndash; `Apr '13` &ndash; 
-* [`0.7.1`][71] &ndash; `Feb '13` &ndash; Touch, Either, and better Keyboard
-* [`0.7.0`][7]  &ndash; `Jan '13` &ndash; Extensible Records
-* [`0.6.0`][6]  &ndash; `Dec '12` &ndash; Time, Dates, and whitespace sensitivity
-* [`0.5.0`][5]  &ndash; `Oct '12` &ndash; Dictionaries, Sets, and Automata 
-* [`0.4.0`][4]  &ndash; `Sep '12` &ndash; Markdown and better graphics
-* [`0.3.6`][36] &ndash; `Aug '12` &ndash; JSON support
-* [`0.3.5`][35] &ndash; `Jun '12` &ndash; JavaScript FFI
-* [`0.3.0`][3]  &ndash; `Jun '12` &ndash; Modules
-* `0.1.0` &ndash; `Apr '12` &ndash; Initial Release
-
-
-  [adt]: learn/Pattern-Matching.elm
-  [efch]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
-  [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
-  [frp]: /learn/What-is-FRP.elm "What is FRP?"
-  [games]: https://github.com/evancz/Elm/blob/master/Examples/elm-js/GameSkeleton/GameSkeleton.elm#L1 "Game Skeleton"
-  [learn]: /Examples.elm "Elm by Example"
-  [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
-  [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
-  [js]: /learn/JavaScript-Integration.elm
-  [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
-  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-  [records]: /learn/Records.elm "Records in Elm"
-  [syntax]: /learn/Syntax.elm "The Syntax of Elm"
-  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
-  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
-  [types]: /learn/Getting-started-with-Types.elm "Getting started with Types"
+* [`0.8.0`][8]  &ndash; 
+* [`0.7.1`][71] &ndash; Touch, Either, and better Keyboard
+* [`0.7.0`][7]  &ndash; Extensible Records
+* [`0.6.0`][6]  &ndash; Time, Dates, and whitespace sensitivity
+* [`0.5.0`][5]  &ndash; Dictionaries, Sets, and Automata 
+* [`0.4.0`][4]  &ndash; Markdown and better graphics
+* [`0.3.6`][36] &ndash; JSON support
+* [`0.3.5`][35] &ndash; JavaScript FFI
+* [`0.3.0`][3]  &ndash; Modules
+* `0.1.0` &ndash; Initial Release
 
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
@@ -83,11 +93,26 @@ of the language.
   [7]:  /blog/announce/version-0.7.elm "Extensible Records & More"
   [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
   [8]:  /blog/announce/version-0.8.elm
-
-#### How to Contribute
-
-Lots of details and ideas live [here](/Contribute.elm).
-
 |]
 
-main = lift (skeleton (\w -> width w content)) Window.width
+videos = [markdown|
+
+#### Videos
+
+* [What is Elm? Why do I care?][infoq]
+* [What is FRP? How do I make games?][mlocjs]
+
+ [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
+ [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+|]
+
+content w =
+  let hwidth = if w < 800 then w `div` 2 - 20 else 380 in
+  flow down
+    [ width w intro
+    , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
+    , width w midtro
+    , flow right [ width hwidth releaseNotes, spacer 40 10, width hwidth videos ]
+    ]
+
+main = lift (skeleton content) Window.width
