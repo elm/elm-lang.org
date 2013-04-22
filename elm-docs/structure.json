@@ -1,0 +1,92 @@
+[ { "module" : "List"
+  , "description" : ""
+  , "sections" :
+       [ { "name" : "Basics"
+         , "values" : ["::","++","head","tail","last","length"] }
+       , { "name" : "List Transformations"
+         , "values" : ["map","reverse","split","join"] }
+       , { "name" : "Folds (Reducing Lists)"
+         , "values" : ["foldr","foldl","foldr1","foldl1","scanl","scanl1"] }
+       , { "name" : "Special Folds"
+         , "values" : ["concat","concatMap","and","or","all","any"
+                      ,"sum","product","maximum","minimum"] }
+       ]
+  }
+, { "module" : "Char"
+  , "description" : ""
+  , "sections" :
+       [ { "name" : "Classification"
+         , "values" : [ "isUpper", "isLower"
+                      , "isDigit", "isOctDigit", "isHexDigit" ] }
+       , { "name" : "Conversion"
+         , "values" : [ "toUpper", "toLower", "toLocaleUpper", "toLocaleLower"
+                      , "toCode", "fromCode" ] }
+       ]
+  }
+, { "module" : "Date"
+  , "description" : "Library for working with dates.\nIt is still a work in progress, so email the mailing\nlist if you are having issues with internationalization\nor locale formatting or something."
+  , "sections" :
+       [ { "name":"Days and Months", "values":[] }
+       , { "name":"Conversions"
+         , "values":["read","toTime","year","month","day","dayOfWeek"
+                    ,"hour","minute","second"] }
+       ]
+  }
+, { "module" : "Maybe"
+  , "description" : ""
+  , "sections" :
+       [ { "name":"Basics"    , "values":["maybe","isJust","isNothing"] }
+       , { "name":"With Lists", "values":["justs","cons"] }
+       ]
+  }
+, { "module" : "Either"
+  , "description" : ""
+  , "sections" :
+       [ { "name":"Basics"    , "values":["either","isLeft","isRight"] }
+       , { "name":"With Lists", "values":["lefts","rights","partition"] }
+       ]
+  }
+, { "module" : "Dict"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Build"  , "values":["empty","singleton","insert","remove"] }
+     , {"name":"Query"  , "values":["member","lookup","findWithDefault"] }
+     , {"name":"Combine", "values":["union","intersect","diff"] }
+     , {"name":"Lists"  , "values":["keys","values","toList","fromList"] }
+     , {"name":"Morph"  , "values":["map","foldl","foldr"] }
+     ]
+  }
+, { "module" : "Set"
+  , "description" : ""
+  , "sections" :
+       [ { "name":"Build"  , "values":["empty","singleton","insert","remove"] }
+       , { "name":"Query"  , "values":["member"] }
+       , { "name":"Combine", "values":["union","intersect","diff"] }
+       , { "name":"Lists"  , "values":["toList","fromList"] }
+       , { "name":"Morph"  , "values":["map","foldl","foldr"] }
+       ]
+  }
+, { "module" : "Signal"
+  , "description" : "The library for general signal manipulation.\nSome useful functions for working with time and combining\nsignals and time can be found in the\n[`Time`](/docs/Time.elm) library.\n\nNote: There are lift functions up to `lift8`."
+  , "sections" :
+     [ { "name":"Combine"
+       , "values":["constant","lift","lift2","lift3","merge","merges","combine"] }
+     , { "name":"Pretty Combine" , "values":["<~","~"] }
+     , { "name":"Past-Dependence", "values":["foldp","count","countIf"] }
+     , { "name":"Filters"
+       , "values":["keepIf","dropIf","keepWhen"
+                  ,"dropWhen","dropRepeats","sampleOn"] }
+     , { "name":"Do you even lift?"
+       , "values":["lift4","lift5","lift6","lift7","lift8"] }
+     ]
+  }
+, { "module" : "Automaton"
+  , "description" : "This library is a way to package up dynamic behavior.\nIt makes it easier to dynamically create dynamic components.\nSee the [original release](/blog/announce/version-0.5.0.elm)\nnotes on this library to get a feel for how it can be used."
+  , "sections" :
+     [ { "name":"Create"  , "values":["pure","init","init'"] }
+     , { "name":"Evaluate", "values":["run","step"] }
+     , { "name":"Combine" , "values":[">>>","<<<","combine"] }
+     , { "name":"Common Automatons", "values":["count","average"] }
+     ]
+  }
+]

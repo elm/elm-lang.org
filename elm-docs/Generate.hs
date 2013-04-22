@@ -1,0 +1,70 @@
+
+module Main where
+
+import qualified Data.Map as Map
+import Data.Map ((!))
+import Data.List (intercalate,(\\))
+import Control.Applicative
+import Text.JSON
+import qualified Language.Elm as Elm
+import RenameTypes as Rename
+import System.FilePath
+
+main = do
+  libs <- fmap parse (readFile =<< Elm.docs)
+  structure <- readFile "structure.json"
+  mapM writeDocs (parseStructure libs structure)
+
+writeDocs (name, code) = putStrLn code >> writeFile fileName code
+  where
+    fileName = ".." </> "public" </> "docs" </> joinPath (split name) <.> "elm"
+    split [] = []
+    split xs = hd : split tl
+        where (hd,tl) = span (/='.') xs
+
+parseStructure libs s =
+    map (toElm libs) . extract $ decodeStrict s
+
+toElm libraries structure = (name, code)
+  where
+    code = concat [ "\nimport Website.Docs (createDocs2)\n\n"
+                  , "sections =", listify 1 sections, "\n\n"
+                  , "description = [markdown|", desc, "|]\n\n"
+                  , "main = createDocs2 \"", name, "\" description sections\n" ]
+    name = extract (get "module" structure)
+    desc = extract (get "description" structure)
+    sections = map toSection (ss ++ [("Other Useful Functions", leftovers)])
+        where gets obj = (,) <$> get "name" obj <*> valFromObj "values" obj
+              ss = extract (mapM gets =<< valFromObj "sections" structure)
+              leftovers = Map.keys facts \\ concatMap snd ss
+                      
+    facts = libraries ! name
+    listify indent xs = spc ++ "[ " ++ intercalate (spc ++ ", ") xs ++ spc ++ "]"
+        where spc = '\n' : replicate indent ' '
+    toSection (name,values) = 
+        "(\"" ++ name ++ "\"," ++ listify 4 (map toEntry values) ++ ")"
+    toEntry value =
+        let (tipe, desc) = facts ! value
+            tipe' = Rename.rename tipe
+        in "(\"" ++ value ++ "\", \"" ++ tipe' ++ "\", [markdown|" ++ desc ++ "|])"
+
+extract :: Result a -> a
+extract result = case result of { Error err -> error err; Ok libs -> libs }
+
+parse docs = extract $ do
+               obj <- decodeStrict docs
+               modules <- valFromObj "modules" obj
+               Map.fromList `fmap` mapM getValues modules
+
+get :: String -> JSObject JSValue -> Result String
+get = valFromObj
+
+getValue obj = (,) <$> get "name" obj <*> pair
+    where pair = (,) <$> get "type" obj <*> get "desc" obj
+
+--getValues :: JSObject JSValue -> Result (String, Map.Map String String)
+getValues obj = do
+  name <- get "name" obj
+  vs   <- valFromObj "values" obj
+  vals <- mapM getValue vs
+  return (name, Map.fromList vals)

@@ -20,6 +20,7 @@ graphics = ("Graphics",
   [ ("Graphics", "docs/Graphics/Element.elm")
   , ("Color"  , "docs/Graphics/Color.elm")
   , ("Text",  "docs/Graphics/Text.elm")
+  , ("Input"  , "docs/Signal/Input.elm")
   ])
 
 signals = ("Interaction",
@@ -28,18 +29,16 @@ signals = ("Interaction",
 userInput = ("User Input",
   [("Mouse"  , "docs/Signal/Mouse.elm"),
    ("Keyboard","docs/Signal/Keyboard.elm"),
-   ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm"),
-   ("Touch"  , "docs/Signal/Touch.elm"),
-   ("Input"  , "docs/Signal/Input.elm")])
+   ("Touch"  , "docs/Signal/Touch.elm")])
 systemInput = ("System Input",
   [("Window" , "docs/Signal/Window.elm"),
    ("Time"   , "docs/Signal/Time.elm"),
-   ("HTTP"   , "docs/Signal/HTTP.elm"),
+   ("Http"   , "docs/Signal/HTTP.elm"),
    ("Random" , "docs/Signal/Random.elm")])
 ffi = ("JavaScript",
   [ ("JavaScript", "docs/Foreign/JavaScript.elm") 
-  , ("JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
-  , ("JSON", "docs/Foreign/JavaScript/JSON.elm") 
+  , ("Json", "docs/Foreign/JavaScript/JSON.elm") 
+  , ("Json.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
   ])
 
 intro = [markdown|
