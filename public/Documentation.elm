@@ -5,16 +5,16 @@ import Graphics.Text (text)
 import Graphics.Text as Text
 
 general = ("General",
-  [ ("Char", "docs/Data/Char.elm")
+  [ ("Char", "docs/Char.elm")
   , ("Date", "docs/Date.elm")
   , ("Prelude", "docs/Prelude.elm")
   ])
 containers = ("Containers",
- [("List",  "docs/Data/List.elm"),
-  ("Dict",  "docs/Data/Dict.elm"),
-  ("Set",  "docs/Data/Set.elm"),
-  ("Maybe", "docs/Data/Maybe.elm"),
-  ("Either", "docs/Data/Either.elm")])
+ [("List",  "docs/List.elm"),
+  ("Dict",  "docs/Dict.elm"),
+  ("Set",  "docs/Set.elm"),
+  ("Maybe", "docs/Maybe.elm"),
+  ("Either", "docs/Either.elm")])
 
 graphics = ("Graphics",
   [ ("Graphics", "docs/Graphics/Element.elm")
@@ -24,21 +24,22 @@ graphics = ("Graphics",
   ])
 
 signals = ("Interaction",
-  [("Signal" , "docs/Signal/Signal.elm"),
+  [("Signal" , "docs/Signal.elm"),
    ("Automaton", "docs/Automaton.elm")])
 userInput = ("User Input",
-  [("Mouse"  , "docs/Signal/Mouse.elm"),
-   ("Keyboard","docs/Signal/Keyboard.elm"),
-   ("Touch"  , "docs/Signal/Touch.elm")])
+  [("Mouse"  , "docs/Mouse.elm"),
+   ("Keyboard","docs/Keyboard.elm"),
+   ("Touch"  , "docs/Touch.elm")])
 systemInput = ("System Input",
-  [("Window" , "docs/Signal/Window.elm"),
-   ("Time"   , "docs/Signal/Time.elm"),
-   ("Http"   , "docs/Signal/HTTP.elm"),
-   ("Random" , "docs/Signal/Random.elm")])
+  [("Window" , "docs/Window.elm"),
+   ("Time"   , "docs/Time.elm"),
+   ("Random" , "docs/Random.elm"),
+   ("Http"   , "docs/Http.elm"),
+   ("WebSocket", "docs/WebSocket.elm")])
 ffi = ("JavaScript",
-  [ ("JavaScript", "docs/Foreign/JavaScript.elm") 
-  , ("Json", "docs/Foreign/JavaScript/JSON.elm") 
-  , ("Json.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
+  [ ("JavaScript", "docs/JavaScript.elm") 
+  , ("Json", "docs/Json.elm") 
+  , ("Json.Experimental", "docs/Json/Experimental.elm") 
   ])
 
 intro = [markdown|

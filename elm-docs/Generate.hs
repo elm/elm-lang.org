@@ -1,6 +1,7 @@
 
 module Main where
 
+import Data.Char (isSymbol)
 import qualified Data.Map as Map
 import Data.Map ((!))
 import Data.List (intercalate,(\\))
@@ -33,20 +34,24 @@ toElm libraries structure = (name, code)
                   , "main = createDocs2 \"", name, "\" description sections\n" ]
     name = extract (get "module" structure)
     desc = extract (get "description" structure)
-    sections = map toSection (ss ++ [("Other Useful Functions", leftovers)])
+    sections = map toSection (ss ++ rest)
         where gets obj = (,) <$> get "name" obj <*> valFromObj "values" obj
               ss = extract (mapM gets =<< valFromObj "sections" structure)
               leftovers = Map.keys facts \\ concatMap snd ss
-                      
+              rest = if null leftovers then [] else
+                         [("Other Useful Functions", leftovers)]
+
     facts = libraries ! name
     listify indent xs = spc ++ "[ " ++ intercalate (spc ++ ", ") xs ++ spc ++ "]"
         where spc = '\n' : replicate indent ' '
     toSection (name,values) = 
         "(\"" ++ name ++ "\"," ++ listify 4 (map toEntry values) ++ ")"
+    isOp c = isSymbol c || elem c "+-/*=.$<>:&|^?%#@~!"
     toEntry value =
-        let (tipe, desc) = facts ! value
-            tipe' = Rename.rename tipe
-        in "(\"" ++ value ++ "\", \"" ++ tipe' ++ "\", [markdown|" ++ desc ++ "|])"
+        "(\"" ++ value' ++ "\", \"" ++ tipe' ++ "\", [markdown|" ++ desc ++ "|])"
+        where (tipe, desc) = facts ! value
+              tipe' = Rename.rename tipe
+              value' = if all isOp value then "(" ++ value ++ ")" else value
 
 extract :: Result a -> a
 extract result = case result of { Error err -> error err; Ok libs -> libs }

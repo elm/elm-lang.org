@@ -70,7 +70,7 @@
   , "description" : "The library for general signal manipulation.\nSome useful functions for working with time and combining\nsignals and time can be found in the\n[`Time`](/docs/Time.elm) library.\n\nNote: There are lift functions up to `lift8`."
   , "sections" :
      [ { "name":"Combine"
-       , "values":["constant","lift","lift2","lift3","merge","merges","combine"] }
+       , "values":["constant","lift","lift2","lift3","merge","merges","combine"]}
      , { "name":"Pretty Combine" , "values":["<~","~"] }
      , { "name":"Past-Dependence", "values":["foldp","count","countIf"] }
      , { "name":"Filters"
@@ -87,6 +87,57 @@
      , { "name":"Evaluate", "values":["run","step"] }
      , { "name":"Combine" , "values":[">>>","<<<","combine"] }
      , { "name":"Common Automatons", "values":["count","average"] }
+     ]
+  }
+, { "module" : "Mouse"
+  , "description" : ""
+  , "sections" :
+     [ { "name":"Position", "values":["position","x","y"] }
+     , { "name":"Button Status", "values":["isDown","isClicked","clicks"] }
+     ]
+  }
+, { "module" : "Window"
+  , "description" : ""
+  , "sections" : [{"name":"Dimensions", "values":["dimensions","width","height"]}]
+  }
+, { "module" : "Keyboard"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Directions", "values":["arrows","wasd","directions"]}
+     , {"name":"Key Presses", "values":["isDown","shift","enter","space","ctrl"]}
+     , {"name":"General Signals", "values":["keysDown","lastPressed"]}
+     ]
+  }
+, { "module" : "Http"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Sending Requests", "values":["send","sendGet"]}
+     , {"name":"Creating Requests", "values":["get","post","request"]}
+     , {"name":"Responses", "values":[]}
+     ]
+  }
+, { "module" : "Time"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Tickers", "values":["fps","fpsWhen","every","since"]}
+     , {"name":"Units", "values":["ms","second","minute","hour",
+                                  "inMss","inSeconds","inMinutes","inHours"]}
+     ]
+  }
+, { "module" : "JavaScript"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"JavaScript to Elm",
+        "values":["toString","toInt","toFloat","toBool","toList"]}
+     , {"name":"JavaScript from Elm",
+        "values":["fromString","fromInt","fromFloat","fromBool","fromList"]}
+     ]
+  }
+, { "module" : "Json"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Write Json","values":["toString","toPrettyString","toJSString"]}
+     , {"name":"Read Json", "values":["fromString","fromJSString"]}
      ]
   }
 ]
