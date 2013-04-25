@@ -96,6 +96,13 @@
      , { "name":"Button Status", "values":["isDown","isClicked","clicks"] }
      ]
   }
+, { "module" : "Touch"
+  , "description" : "This is an early version of the touch library.\nIt will likely grow to include gestures that\nwould be useful for both games and web-pages."
+  , "sections" :
+     [ { "name":"Touches", "values":["touches"] }
+     , { "name":"Gestures", "values":["taps"] }
+     ]
+  }
 , { "module" : "Window"
   , "description" : ""
   , "sections" : [{"name":"Dimensions", "values":["dimensions","width","height"]}]
@@ -115,6 +122,10 @@
      , {"name":"Creating Requests", "values":["get","post","request"]}
      , {"name":"Responses", "values":[]}
      ]
+  }
+, { "module" : "WebSocket"
+  , "description" : "A library for low latency HTTP communication.\nSee the Http library for standard requests like GET, POST, etc."
+  , "sections" : [ {"name":"Open Connections", "values":["open"]} ]
   }
 , { "module" : "Time"
   , "description" : ""
@@ -139,5 +150,9 @@
      [ {"name":"Write Json","values":["toString","toPrettyString","toJSString"]}
      , {"name":"Read Json", "values":["fromString","fromJSString"]}
      ]
+  }
+, { "module" : "Random"
+  , "description" : ""
+  , "sections" : [ {"name":"Random Numbers","values":["range","float"]} ]
   }
 ]
