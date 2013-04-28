@@ -10,17 +10,24 @@ import Text.JSON
 import qualified Language.Elm as Elm
 import RenameTypes as Rename
 import System.FilePath
+import System.Directory
 
 main = do
   libs <- fmap parse (readFile =<< Elm.docs)
   structure <- readFile "structure.json"
   mapM writeDocs (parseStructure libs structure)
 
-writeDocs (name, code) = putStrLn code >> writeFile fileName code
+writeDocs (name, code) = do putStrLn name
+                            createDirectoryIfMissing True dir
+                            writeFile fileName code
   where
-    fileName = ".." </> "public" </> "docs" </> joinPath (split name) <.> "elm"
+    fileName =  dir </> last fileParts <.> "elm"
+
+    dir = ".." </> "public" </> "docs" </> joinPath (init fileParts)
+    fileParts = split name
+
     split [] = []
-    split xs = hd : split tl
+    split xs = hd : split (dropWhile (=='.') tl)
         where (hd,tl) = span (/='.') xs
 
 parseStructure libs s =

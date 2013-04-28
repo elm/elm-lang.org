@@ -144,6 +144,11 @@
         "values":["fromString","fromInt","fromFloat","fromBool","fromList"]}
      ]
   }
+, { "module" : "JavaScript.Experimental"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Records to Objects", "values":["toRecord","fromRecord"]} ]
+  }
 , { "module" : "Json"
   , "description" : ""
   , "sections" :
@@ -154,5 +159,27 @@
 , { "module" : "Random"
   , "description" : ""
   , "sections" : [ {"name":"Random Numbers","values":["range","float"]} ]
+  }
+, { "module" : "Matrix2D"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Basic Matrices","values":["identity","matrix"]}
+     , {"name":"Transforms","values":["rotate","move","scale","scaleX","scaleY",
+                                      "reflectX","reflectY","transform"]}
+     ]
+  }
+, { "module" : "Text"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Creating Elements",
+        "values":["plainText","asText","text","centered","justified","righted"]}
+     , {"name":"Text Formatting",
+        "values":["bold","italic","underline","overline","strikeThrough",
+                  "color","monospace","typeface","link","header","height"]} ]
+  }
+, { "module" : "Color"
+  , "description" : ""
+  , "sections" :
+     [ {"name":"Building Colors", "values":["rgb","rgba","hsv","hsva"]} ]
   }
 ]
