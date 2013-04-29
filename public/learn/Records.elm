@@ -3,7 +3,7 @@ import Website.Skeleton
 import Website.ColorScheme
 import Window as Window
 import JavaScript as JS
-import Graphics.Text as Text
+import Text as Text
 
 title = constant (JS.fromString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"

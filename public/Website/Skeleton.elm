@@ -4,7 +4,7 @@ module Website.Skeleton where
 import JavaScript as JS
 import Website.ColorScheme
 import Graphics.Input as Input
-import Graphics.Text as Text
+import Text as Text
 
 navigation = Input.customButtons ""
 

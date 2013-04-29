@@ -1,6 +1,6 @@
 
 import Website.Skeleton
-import Graphics.Text as Text
+import Text as Text
 import JavaScript as JS
 import Window as Win
 

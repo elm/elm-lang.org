@@ -2,7 +2,7 @@ import Website.Skeleton
 import Website.ColorScheme
 import Window as Window
 import JavaScript as JS
-import Graphics.Text as Text
+import Text as Text
 
 title = constant (JS.fromString "Upgrade Time: Elm 0.6")
 foreign export jsevent "elm_title"
@@ -41,7 +41,7 @@ There is also some cool news at the end!
 
   [date]: /docs/Date.elm "Date library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV Colors"
-  [color]: /docs/Graphics/Color.elm "Color library"
+  [color]: /docs/Color.elm "Color library"
 
 These changes allowed a big rewrite of the [Pong in Elm][pong]
 [source code][code], making things generally much nicer. I also wrote a
@@ -208,7 +208,7 @@ For more information on using HSV colors see the
 [Color library documentation][lib] and the [Wikipedia page on HSV colors][hsv].
 
   [rgb]: http://en.wikipedia.org/wiki/RGB_color_model "RGB colors"
-  [lib]: /docs/Graphics/Color.elm "Color Library"
+  [lib]: /docs/Color.elm "Color Library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV colors"
 
 ## Even more Signals

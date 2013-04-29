@@ -1,4 +1,4 @@
-import Graphics.Text as Text
+import Text as Text
 import JavaScript as JS
 import Window as Win
 
@@ -129,7 +129,7 @@ now they do not have to!
     * `readFloat : String -> Maybe Float`
 - [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: /docs/Graphics/Color.elm "Color library"
+  [color]: /docs/Color.elm "Color library"
 
 ### Fewer Library Prefixes
 

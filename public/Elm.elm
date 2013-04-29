@@ -2,7 +2,7 @@ import Website.Skeleton
 import Website.Tiles
 import Website.ColorScheme
 
-import Graphics.Text as Text
+import Text as Text
 import JavaScript as JavaScript
 import Window as Window
 

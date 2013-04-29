@@ -3,7 +3,7 @@ module Website.Docs (createDocs2,createDocs) where
 
 import Website.ColorScheme
 import Window as Window
-import Graphics.Text as Text
+import Text as Text
 
 accents = [accent0,accent1,accent2,accent3,accent4]
 
