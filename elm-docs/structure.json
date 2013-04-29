@@ -180,6 +180,32 @@
 , { "module" : "Color"
   , "description" : ""
   , "sections" :
-     [ {"name":"Building Colors", "values":["rgb","rgba","hsv","hsva"]} ]
+     [ {"name":"Colors",
+        "values":["rgb","rgba","hsv","hsva","complement"]}
+     , {"name":"Gradients","values":["linear","radial"]}
+     , {"name":"Built-ins",
+        "values":["red","lime","blue","yellow","cyan","magenta",
+                  "black","white","grey","gray","maroon","navy","green",
+                  "teal","purple","violet","forestGreen"]}
+     ]
+  }
+, { "module" : "Graphics.Element"
+  , "description" : "The basic building blocks of graphics.\nEach `Element` has a known width and height,\nmaking them easy to combine and position."
+  , "sections" :
+     [{"name":"Creating Images","values":["image","fittedImage","croppedImage"]}
+     ,{"name":"Styling Elements",
+       "values":["width","height","color","opacity","link","tag"]}
+     ,{"name":"Inspecting Elements","values":["widthOf","heightOf","sizeOf"]}
+     ,{"name":"Combining Elements",
+       "values":["above","below","beside","layers","flow",
+                 "up","down","left","right","inward","outward"]}
+     ,{"name":"Positioning Elements",
+       "values":["spacer","container",
+                 "middle","midTop","midBottom","midLeft","midRight",
+                 "topLeft","topRight","bottomLeft","bottomRight",
+                 "middleAt","midTopAt","midBottomAt","midLeftAt","midRightAt",
+                 "topLeftAt","topRightAt","bottomLeftAt","bottomRightAt",
+                 "absolute","relative"]}
+     ]
   }
 ]

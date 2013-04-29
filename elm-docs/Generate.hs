@@ -48,7 +48,10 @@ toElm libraries structure = (name, code)
               rest = if null leftovers then [] else
                          [("Other Useful Functions", leftovers)]
 
-    facts = libraries ! name
+    find err = let msg = "Lookup Error: " ++ err ++ "was not found"
+               in  Map.findWithDefault (error msg)
+
+    facts = find ("module " ++ name) name libraries
     listify indent xs = spc ++ "[ " ++ intercalate (spc ++ ", ") xs ++ spc ++ "]"
         where spc = '\n' : replicate indent ' '
     toSection (name,values) = 
@@ -56,7 +59,7 @@ toElm libraries structure = (name, code)
     isOp c = isSymbol c || elem c "+-/*=.$<>:&|^?%#@~!"
     toEntry value =
         "(\"" ++ value' ++ "\", \"" ++ tipe' ++ "\", [markdown|" ++ desc ++ "|])"
-        where (tipe, desc) = facts ! value
+        where (tipe, desc) = find (name ++ "." ++ value) value facts
               tipe' = Rename.rename tipe
               value' = if all isOp value then "(" ++ value ++ ")" else value
 
