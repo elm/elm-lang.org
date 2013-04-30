@@ -197,13 +197,27 @@ can send:
   &ldquo;features&rdquo;. This gives Elm the freedom to drastically
   change its internals if a good reason arises (such as the major performance
   improvements that came with version 0.8).
-* **Cannot be functions.** This is to make it impossible to sneak impure
-  functions into Elm, and to allow Elm to use more efficient calling
-  conventions internally.
+* **Cannot be functions.** Elm only permits
+  [pure functions](http://en.wikipedia.org/wiki/Pure_function) which makes code
+  easier to understand in general and is particularly important for concurrency.
+  This restriction on function imports makes it
+  impossible to sneak impure functions into Elm. It also allows Elm to easily
+  use more efficient calling conventions internally.
 
 The standard term for this kind of thing is a Foreign Function Interface (FFI),
 but it is probably more precise to say that it is a Foreign Event
 Interface since you cannot actually share functions with this API.
+
+## Converting between Elm and JavaScript values
+
+Elm provides the [`JavaScript`](/docs/JavaScript.elm) and [`Json`](/docs/Json.elm)
+libraries to convert between Elm and JS values. You will need to use this library to
+work with JS values in Elm or to send values to JS.
+
+This layer of abstraction decouples
+Elm from any of the particulars of its implementation. Long term, this
+will permit the compiler and runtime system to become faster and more clever without
+any changes to Elm itself.
 
 ## Example: Setting Cookies
 
@@ -229,11 +243,11 @@ So we start with some code that exports values to JS. In JavaScript,
 we receive these values with `recv` and actually set the cookie:
 
 ```javascript
-elm.recv('set-brush-color-cookie', function(event) {
-        createCookie('brush-color', event.value, 5);
+elm.recv( 'set-brush-color-cookie', function(event) {
+        createCookie( 'brush-color', event.value, 5 );
     });
 
-function createCookie(name,value,days) {
+function createCookie( name, value, days ) {
     var date = new Date();
     date.setTime(date.getTime()+(days*24*60*60*1000));
     var expires = "; expires="+date.toGMTString();
