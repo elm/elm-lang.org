@@ -31,6 +31,8 @@ This document lists all possible Elm syntax.
 - [Applying Functions](#applying-functions)
 - [Lifting with (<~) and (~)](#lifting)
 - [Modules](#modules)
+- [Type Annotations](#type-annotations)
+- [Type Aliases](#type-aliases)
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
 
@@ -271,6 +273,34 @@ and [here](/docs/Signal/Signal.elm).
     import List (intercalate, intersperse)
     import List hiding (map,foldl,foldr)
     import List as L
+
+### Type Annotations
+
+```haskell
+answer : Int
+answer = 42
+
+factorial : Int -> Int
+factorial n = product [1..n]
+
+addName : String -> a -> { a | name:String }
+addName name record = { record | name = name }
+```
+
+### Type Aliases
+
+```haskell
+type Name = String
+type Age = Int
+
+info : (Name,Age)
+info = ("Steve", 28)
+
+type Point = { x:Float, y:Float }
+
+origin : Point
+origin = { x=0, y=0 }
+```
 
 ### JavaScript FFI
 
