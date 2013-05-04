@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 import Website.ColorScheme
 
@@ -304,8 +303,14 @@ take some imperative action:
 
 Elm currently does not support:
 
-- type annotations (high-priority to add)
+- type annotations (coming in version 0.8)
 - setting the precedence or associativity of infix operators (also will be added)
+- arbitrary ordering of definitions for non-function values:
+  ```
+  x = y  -- bad!
+  y = 4
+  ```
+  Order does not matter for functions though, so you can still write mutually dependent functions and ADTs.
 - operator sections such as `(1+)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
 - `where` clauses
