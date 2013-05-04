@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 import Website.ColorScheme
 import Window as Window
@@ -32,6 +31,8 @@ This document lists all possible Elm syntax.
 - [Applying Functions](#applying-functions)
 - [Lifting with (<~) and (~)](#lifting)
 - [Modules](#modules)
+- [Type Annotations](#type-annotations)
+- [Type Aliases](#type-aliases)
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
 
@@ -273,6 +274,34 @@ and [here](/docs/Signal/Signal.elm).
     import List hiding (map,foldl,foldr)
     import List as L
 
+### Type Annotations
+
+```haskell
+answer : Int
+answer = 42
+
+factorial : Int -> Int
+factorial n = product [1..n]
+
+addName : String -> a -> { a | name:String }
+addName name record = { record | name = name }
+```
+
+### Type Aliases
+
+```haskell
+type Name = String
+type Age = Int
+
+info : (Name,Age)
+info = ("Steve", 28)
+
+type Point = { x:Float, y:Float }
+
+origin : Point
+origin = { x=0, y=0 }
+```
+
 ### JavaScript FFI
 
     foreign import jsevent "eventName"
@@ -305,10 +334,10 @@ take some imperative action:
 
 Elm currently does not support:
 
-- type annotations (high-priority to add)
 - setting the precedence or associativity of infix operators (also will be added)
 - operator sections such as `(1+)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
+- arbitrary ordering for non-function definitions (i.e. `x = y` must come after `y = 3` for now)
 - `where` clauses
 - any sort of `do` or `proc` notation
 - a unary negation operator. Negative 3 is the same as `(0-3)`.
