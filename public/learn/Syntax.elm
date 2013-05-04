@@ -1,4 +1,3 @@
-
 import Website.Skeleton
 import Website.ColorScheme
 import Window as Window
@@ -305,10 +304,10 @@ take some imperative action:
 
 Elm currently does not support:
 
-- type annotations (high-priority to add)
 - setting the precedence or associativity of infix operators (also will be added)
 - operator sections such as `(1+)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
+- arbitrary ordering for non-function definitions (i.e. `x = y` must come after `y = 3` for now)
 - `where` clauses
 - any sort of `do` or `proc` notation
 - a unary negation operator. Negative 3 is the same as `(0-3)`.
