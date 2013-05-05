@@ -48,7 +48,7 @@ toElm libraries structure = (name, code)
               rest = if null leftovers then [] else
                          [("Other Useful Functions", leftovers)]
 
-    find err = let msg = "Lookup Error: " ++ err ++ "was not found"
+    find err = let msg = "Lookup Error: " ++ err ++ " was not found"
                in  Map.findWithDefault (error msg)
 
     facts = find ("module " ++ name) name libraries
