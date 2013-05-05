@@ -2285,6 +2285,17 @@ Elm.WebSocket = function(elm){
  _.$op = {}
  return elm.WebSocket = _;
  };
+Elm.Vector2D = function(elm){
+ var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+ var $op = {};
+ var V = Elm.Native.Vector2D(elm);
+ var _ = Elm.Matrix2D(elm); var Matrix2D = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var e, case0;
+ elm.Native = elm.Native||{};
+ var _ = elm.Native.Vector2D||{};
+ _.$op = {}
+ return elm.Vector2D = _;
+ };
 Elm.Touch = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
@@ -2540,8 +2551,8 @@ Elm.Keyboard = function(elm){
  var $op = {};
  var N = Elm.Native.Keyboard(elm);
  var e, case0, arrows_0, wasd_1, shift_2, ctrl_3, space_4, enter_5;
- arrows_0 = A4(N.directions, 37, 39, 38, 40);
- wasd_1 = A4(N.directions, 65, 68, 87, 83);
+ arrows_0 = A4(N.directions, 38, 40, 37, 39);
+ wasd_1 = A4(N.directions, 87, 83, 65, 68);
  shift_2 = N.isDown(16);
  ctrl_3 = N.isDown(17);
  space_4 = N.isDown(32);
@@ -3051,13 +3062,13 @@ Elm.Graphics.Input = function(elm){
   return (pool_14 = N.customButtons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A4(pool_14.button, {ctor:"Tuple0"}, up_11, hover_12, down_13), _1:pool_14.events});});
  checkBox_3 = function(b_15){
   return (cbs_16 = N.checkBoxes(b_15), {ctor:"Tuple2", _0:A2(lift, cbs_16.box(id_0), cbs_16.events), _1:cbs_16.events});};
- TextState_4 = F3(function(input_17, start_18, end_19){
+ TextState_4 = F3(function(text_17, start_18, end_19){
   return {
     _:{
     },
     end:end_19,
-    input:input_17,
-    start:start_18};});
+    start:start_18,
+    text:text_17};});
  text_5 = F2(function(placeHolder_20, textState_21){
   return (tfs_22 = N.textFields(textState_21), {ctor:"Tuple2", _0:A2(lift, A2(tfs_22.field, id_0, placeHolder_20), tfs_22.events), _1:tfs_22.events});});
  password_6 = F2(function(placeHolder_23, textState_24){
