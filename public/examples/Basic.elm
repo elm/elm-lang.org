@@ -14,7 +14,7 @@ elements = addFolder "Elements/"
         [ ("Text"  , "HelloWorld")
         , ("Images", "Image")
         , ("Fitted Images", "FittedImage")
-        , ("Videos", "Video")
+        , ("Cropped Images", "CroppedImage")
         , ("Markdown", "Markdown")
         ])
   , ("Formatting",

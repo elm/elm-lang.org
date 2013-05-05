@@ -4393,7 +4393,7 @@ Elm.Website.Skeleton = function(elm){
  button_1 = function(_16000_9){
   return (e=_16000_9.ctor==='Tuple3'?(btn_13 = function(alpha_14){
    return A2(flow, down, _L.Cons(function(x){
-    return A2(color, A4(rgba, 200, 200, 200, alpha_14), A4(container, 100, 58, middle, A2(width, 100, centered(A2(Text.color, black, x)))));}(toText(_16000_9._0)),_L.Cons(A2(color, _16000_9._2, A2(spacer, 100, 2)),_L.Nil)));}, A2(link, _16000_9._1, A4(navigation_0.button, _16000_9._1, btn_13(0), btn_13(0.2), btn_13(0.4)))):null,e!==null?e:_E.Case('Line 12, Column 2'));};
+    return A2(color, A4(rgba, 200, 200, 200, alpha_14), A4(container, 100, 58, middle, A2(width, 100, centered(A2(Text.color, black, x)))));}(toText(_16000_9._0)),_L.Cons(A2(color, _16000_9._2, A2(spacer, 100, 2)),_L.Nil)));}, A2(link, _16000_9._1, A4(navigation_0.button, _16000_9._1, btn_13(0), btn_13(0.1), btn_13(0.2)))):null,e!==null?e:_E.Case('Line 12, Column 2'));};
  title_3 = function(w_15){
   return (ttl_16 = function(x){
    return A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, bold(x))));}(toText(_str('Elm'))), A4(container, w_15, 60, midLeft, text(ttl_16)));};

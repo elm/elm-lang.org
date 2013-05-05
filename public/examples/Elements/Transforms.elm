@@ -1,9 +1,11 @@
 
-hexagon = ngon 6 40 (100,100)
+hexagon = ngon 6 40
+
+bordered clr = outlined (solid clr)
 
 main = collage 300 300
-         [ filled blue hexagon
-         , rotate 0.25 $ outlined red   hexagon
-         , scale 2     $ outlined green hexagon
-         , move 100 0  $ outlined black hexagon
+         [ hexagon |> bordered red
+         , hexagon |> bordered blue   |> rotate (degrees 30)
+         , hexagon |> bordered green  |> scale 2
+         , hexagon |> bordered purple |> move 100 0
          ]

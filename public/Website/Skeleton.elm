@@ -13,7 +13,7 @@ button (name, href, clr) =
        flow down [ color (rgba 200 200 200 alpha) . container 100 58 middle .
                    width 100 . centered . Text.color black $ toText name
                  , color clr (spacer 100 2) ]
- in  link href (navigation.button href (btn 0) (btn 0.2) (btn 0.4))
+ in  link href (navigation.button href (btn 0) (btn 0.1) (btn 0.2))
 
 buttons = flow right . map button $
   [ ("About"   , "/About.elm"        , accent1)

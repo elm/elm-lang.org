@@ -26,5 +26,5 @@
  
 --------------------------------------------------------------------------}
 
-main = color grey $
-       container 500 500 middle (plainText "Try this with html.")
+main =
+  color grey <| container 300 300 middle <| plainText "Try this with html."
