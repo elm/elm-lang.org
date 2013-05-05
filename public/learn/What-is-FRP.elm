@@ -161,7 +161,7 @@ box exs =
         in  flow down [ color accent1 $ spacer (widthOf eBox') 2
                       , eBox'
                       , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ combineexs
+  in  lift putInBox $ combine exs
 
 
 

@@ -7,7 +7,33 @@ import Window as Window
 
 intro = [markdown|
 
-<style type="text/css">p { text-align:justify; }</style>
+<style type="text/css">
+p { text-align:justify; }
+pre {
+ background-color: rgb(245,245,245);
+ margin: 0 30px;
+ padding: 4px 10px;
+ border-left: solid 2px rgb(96,181,204);
+}
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
 
 <h1><div style="text-align:center">Escape from Callback Hell
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
@@ -183,13 +209,15 @@ and asynchronously with FRP.
 First let's do this with synchronous HTTP requests. We will rely on a couple of
 functions specified to the right. Here is our code:
 
-        function getPhoto(tag) {
-            var photoList  = syncGet(requestTag(tag));
-            var photoSizes = syncGet(requestOneFrom(photoList));
-            return sizesToPhoto(photoSizes);
-        }
+```javascript
+function getPhoto(tag) {
+    var photoList  = syncGet(requestTag(tag));
+    var photoSizes = syncGet(requestOneFrom(photoList));
+    return sizesToPhoto(photoSizes);
+}
 
-        drawOnScreen(getPhoto('tokyo'));
+drawOnScreen(getPhoto('tokyo'));
+```
 
 It's pretty clear what is going on here. The `syncGet` function takes a request and blocks
 until it receives a response. The logic of the program is simple and linear. If you wanted
@@ -208,15 +236,17 @@ acceptable user experience.
 The current solution is to instead make asynchronous HTTP requests (AJAX requests) that use
 callbacks that give finer-grained control over time-dependencies.
 
-        function getPhoto(tag, handlerCallback) {
-            asyncGet(requestTag(tag), function(photoList) {
-                asyncGet(requestOneFrom(photoList), function(photoSizes) {
-                    handlerCallback(sizesToPhoto(photoSizes));
-                });
-            });
-        }
+```javascript
+function getPhoto(tag, handlerCallback) {
+    asyncGet(requestTag(tag), function(photoList) {
+        asyncGet(requestOneFrom(photoList), function(photoSizes) {
+            handlerCallback(sizesToPhoto(photoSizes));
+        });
+    });
+}
     
-        getPhoto('tokyo', drawOnScreen);
+getPhoto('tokyo', drawOnScreen);
+```
 
 The `asyncGet` function takes a request and a callback to run once a response is received.
 We can now say, &ldquo;These computations must happen one after another, but other things
@@ -248,7 +278,9 @@ all interactive time-varying content. For example, the value of a text input fie
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
-        (inputField, tags) = Input.textField "Tag"
+```haskell
+(inputField, tags) = Input.textField "Tag"
+```
 
 This creates two values. The first is a visual element called `inputField` that users can type into.
 This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
@@ -286,10 +318,12 @@ framework of signals. The response is just another signal, exactly the same as `
 We can turn its values into requests and send them too. In fact, that's exactly what we
 are going to do. Here is the full Elm code for making many requests to the Flickr API:
 
-        getPhotos tags =
-            let photoList  = send (lift requestTag tags)
-                photoSizes = send (lift requestOneFrom photoList)
-            in  lift sizesToPhoto photoSizes
+```haskell
+getPhotos tags =
+    let photoList  = send (lift requestTag tags)
+        photoSizes = send (lift requestOneFrom photoList)
+    in  lift sizesToPhoto photoSizes
+```
 
 We have effectively set up a processing pipeline of how to handle user input:
 we take in a tag, turn it into a request, send it, turn the response into a
@@ -313,10 +347,12 @@ from start to finish.
 
 In fact, here is an abbreviated version that fits in this blog post:
 
-        scene img = flow down [ container 300  60 middle inputField
-                              , fittedImage 300 300 img ]
+```haskell
+scene img = flow down [ container 300  60 middle inputField
+                      , fittedImage 300 300 img ]
 
-        main = lift scene (getPhotos (dropRepeats tags))
+main = lift scene (getPhotos (dropRepeats tags))
+```
 
 In `scene` we stack two elements vertically so that they flow downward.
 The first one is a 300 by 60 container with our `inputField` text field right in
