@@ -333,9 +333,6 @@ you got lost at any point, it usually takes a while for your brain to really
 figure out what is going on here, especially with functions and polymorphism.
 The best way to improve is to program more and to see more examples of types
 and type errors.
-
-If you are interested in learning why types are extremely helpful in larger
-programs, keep reading [here].
 |]
 
 content w = width (min 600 w) intro
