@@ -1,7 +1,11 @@
-
 -- Try this out on an iOS or Android device. For best results
 -- use the "In Tab" compile option.
 
-scene (w,h) {x,y} = collage w h [ outlined red (circle 40 (x,y)) ]
+import Touch
+import Window
+
+scene (w,h) {x,y} =
+    let positioned = move (x - toFloat w/2) (toFloat h/2 - y) 
+    in  collage w h [ positioned (filled teal (circle 40)) ]
 
 main = lift2 scene Window.dimensions Touch.taps

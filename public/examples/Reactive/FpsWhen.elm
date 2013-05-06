@@ -5,4 +5,6 @@
 -- runs when the signal it is given is true. So this will
 -- only update when the mouse is down.
 
+import Mouse
+
 main = lift asText (foldp (+) 0 (30 `fpsWhen` Mouse.isDown))

@@ -1,11 +1,13 @@
 
-myBlue  = rgb    0  85 170
-myGreen = rgba  28 267  85 0.5
+import Mouse
+import Window
 
 scene (x,y) (w,h) =
   collage w h
-    [ rotate (toFloat (x+y) / 1000) (filled myBlue (ngon 4 100 (200,200)))
-    , filled myGreen (ngon 5 30 (x,y))
+    [ ngon 4 100 |> filled (rgb 0 85 170)
+                 |> rotate (degrees x),
+      ngon 5 30  |> filled (rgba 28 267 85 0.5)
+                 |> move (x - toFloat w / 2) (toFloat h / 2 - y)
     ]
 
 main = lift2 scene Mouse.position Window.dimensions

@@ -1,4 +1,6 @@
 
+import Mouse
+
 -- Mouse.isDown is true whenever the left mouse button
 -- is pressed down and false otherwise.
 

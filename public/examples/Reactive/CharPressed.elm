@@ -1,11 +1,11 @@
+-- Click on the righthand screen and start pressing keys!
 
--- Focus on the display screen (i.e. click the right half of this window)
--- and start pressing keys!
+import Char
+import Keyboard
 
-latestKey = let step curr prev = maybe prev Char.fromCode curr in
-            foldp step '_' Keyboard.Raw.charPressed 
+display code =
+    plainText "The last key you pressed was: "
+    `beside`
+    asText (Char.fromCode code)
 
-display char =
-  plainText "The last key you pressed was: " `beside` asText char
-
-main = lift display latestKey
+main = lift display Keyboard.lastKey
