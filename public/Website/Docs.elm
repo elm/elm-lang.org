@@ -34,7 +34,7 @@ entry f w (name, typ, desc) =
   let tipe = if length typ > 0 then colons ++ toText typ else toText "" in
   flow down
     [ color mediumGrey $ spacer w 1
-    , width w . color lightGrey . text . monospace $ bold (toText name) ++ tipe
+    , tag name $ width w . color lightGrey . text . monospace $ bold (toText name) ++ tipe
     , flow right [ spacer 50 10, f (w-50) desc ]
     ]
 
