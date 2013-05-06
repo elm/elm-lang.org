@@ -1476,9 +1476,10 @@ Elm.Native.Touch = function(elm) {
   listen("touchcancel", end);
   listen("touchleave", end);
 
+  var mouseID = -1;
   function move(e) {
       for (var i = root.value.length; i--; ) {
-          if (root.value[i].id === 0) {
+          if (root.value[i].id === mouseID) {
               root.value[i].x = e.pageX;
               root.value[i].y = e.pageY;
               elm.notify(root.id, root.value);
@@ -1488,18 +1489,19 @@ Elm.Native.Touch = function(elm) {
   }
   node.addEventListener("mousedown", function(e) {
           node.addEventListener("mousemove", move);
-          e.identifier = 0;
+          e.identifier = mouseID;
           root.value.push(touch(e));
           start(e);
           elm.notify(root.id, root.value);
       });
   node.addEventListener("mouseup", function(e) {
           node.removeEventListener("mousemove", move);
-          e.identifier = 0;
+          e.identifier = mouseID;
           end(e);
           for (var i = root.value.length; i--; ) {
-              if (root.value[i].id === 0) {
+              if (root.value[i].id === mouseID) {
                   root.value.splice(i, 1);
+                  --mouseID;
                   break;
               }
           }
@@ -1507,6 +1509,10 @@ Elm.Native.Touch = function(elm) {
       });
   node.addEventListener("blur", function() {
           node.removeEventListener("mousemove", move);
+          if (root.values.length > 0) {
+              elm.notify(root.id, []);
+              --mouseID;
+          }
           dict.clear();
       });
 
@@ -4434,26 +4440,24 @@ Elm.Website.Skeleton = function(elm){
  var _ = Elm.Website.ColorScheme(elm); var Website = Website||{};Website.ColorScheme = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var Input = Elm.Graphics.Input(elm);
  var Text = Elm.Text(elm);
- var e, case0, navigation_0, button_1, btn_13, buttons_2, title_3, ttl_16, veiwSource_4, heading_5, header_19, skeleton_6, inner_22, body_23, f_7, y_25, redirect_8;
- button_1 = function(_16000_9){
-  return (e=_16000_9.ctor==='Tuple3'?(btn_13 = function(alpha_14){
+ var e, case0, navigation_0, button_1, btn_12, buttons_2, title_3, ttl_15, veiwSource_4, heading_5, header_18, skeleton_6, inner_21, body_22, redirect_7;
+ button_1 = function(_16000_8){
+  return (e=_16000_8.ctor==='Tuple3'?(btn_12 = function(alpha_13){
    return A2(flow, down, _L.Cons(function(x){
-    return A2(color, A4(rgba, 200, 200, 200, alpha_14), A4(container, 100, 58, middle, A2(width, 100, centered(A2(Text.color, black, x)))));}(toText(_16000_9._0)),_L.Cons(A2(color, _16000_9._2, A2(spacer, 100, 2)),_L.Nil)));}, A2(link, _16000_9._1, A4(navigation_0.button, _16000_9._1, btn_13(0), btn_13(0.1), btn_13(0.2)))):null,e!==null?e:_E.Case('Line 12, Column 2'));};
- title_3 = function(w_15){
-  return (ttl_16 = function(x){
-   return A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, bold(x))));}(toText(_str('Elm'))), A4(container, w_15, 60, midLeft, text(ttl_16)));};
- heading_5 = F2(function(outer_17, inner_18){
-  return (header_19 = A4(container, outer_17, 60, middle, A2(beside, title_3((inner_18-widthOf(buttons_2))), buttons_2)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_17, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_17, 1)),_L.Nil))),_L.Cons(header_19,((_N.cmp(outer_17,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_17, veiwSource_4),_L.Nil))))));});
- skeleton_6 = F2(function(bodyFunc_20, outer_21){
-  return (inner_22 = ((_N.cmp(outer_21,840).ctor==='LT')?(outer_21-40):800), body_23 = bodyFunc_20(inner_22), A2(flow, down, _L.Cons(A2(heading_5, outer_21, inner_22),_L.Cons(A2(spacer, outer_21, 10),_L.Cons(A4(container, outer_21, heightOf(body_23), middle, body_23),_L.Cons(function(x){
-   return A4(container, outer_21, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil))))));});
- f_7 = function(x_24){
-  return (y_25 = console.log(JS.fromString(x_24)), JS.fromString(x_24));};
+    return A2(color, A4(rgba, 200, 200, 200, alpha_13), A4(container, 100, 58, middle, A2(width, 100, centered(A2(Text.color, black, x)))));}(toText(_16000_8._0)),_L.Cons(A2(color, _16000_8._2, A2(spacer, 100, 2)),_L.Nil)));}, A2(link, _16000_8._1, A4(navigation_0.button, _16000_8._1, btn_12(0), btn_12(0.1), btn_12(0.2)))):null,e!==null?e:_E.Case('Line 12, Column 2'));};
+ title_3 = function(w_14){
+  return (ttl_15 = function(x){
+   return A2(Text.link, _str('/'), A2(Text.color, black, A2(Text.height, 2, bold(x))));}(toText(_str('Elm'))), A4(container, w_14, 60, midLeft, text(ttl_15)));};
+ heading_5 = F2(function(outer_16, inner_17){
+  return (header_18 = A4(container, outer_16, 60, middle, A2(beside, title_3((inner_17-widthOf(buttons_2))), buttons_2)), layers(_L.Cons(A2(flow, down, _L.Cons(A2(color, lightGrey, A2(spacer, outer_16, 58)),_L.Cons(A2(color, mediumGrey, A2(spacer, outer_16, 1)),_L.Nil))),_L.Cons(header_18,((_N.cmp(outer_16,800).ctor==='LT')?_L.Nil:_L.Cons(A2(width, outer_16, veiwSource_4),_L.Nil))))));});
+ skeleton_6 = F2(function(bodyFunc_19, outer_20){
+  return (inner_21 = ((_N.cmp(outer_20,840).ctor==='LT')?(outer_20-40):800), body_22 = bodyFunc_19(inner_21), A2(flow, down, _L.Cons(A2(heading_5, outer_20, inner_21),_L.Cons(A2(spacer, outer_20, 10),_L.Cons(A4(container, outer_20, heightOf(body_22), middle, body_22),_L.Cons(function(x){
+   return A4(container, outer_20, 50, midBottom, Text.centered(x));}(_L.append(A2(Text.color, A3(rgb, 145, 145, 145), Text.toText(_str('&copy; 2011-2013 '))),A2(Text.link, _str('https://github.com/evancz'), Text.toText(_str('Evan Czaplicki'))))),_L.Nil))))));});
  navigation_0 = Input.customButtons(_str(''));
  buttons_2 = A2(flow, right, A2(map, button_1, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
  veiwSource_4 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
- redirect_8 = A2(lift,f_7,navigation_0.events);
- lift(function(v) { var e = document.createEvent('Event');e.initEvent('elm_redirect_' + elm.id, true, true);e.value = v;document.dispatchEvent(e); return v; })(redirect_8);
+ redirect_7 = A2(lift,JS.fromString,navigation_0.events);
+ lift(function(v) { var e = document.createEvent('Event');e.initEvent('elm_redirect_' + elm.id, true, true);e.value = v;document.dispatchEvent(e); return v; })(redirect_7);
  elm.Native = elm.Native||{};
  elm.Native.Website = elm.Native.Website||{};
  var _ = elm.Native.Website.Skeleton||{};
@@ -4465,8 +4469,7 @@ Elm.Website.Skeleton = function(elm){
  _.veiwSource = veiwSource_4;
  _.heading = heading_5;
  _.skeleton = skeleton_6;
- _.f = f_7;
- _.redirect = redirect_8
+ _.redirect = redirect_7
  elm.Website = elm.Website||{};
  return elm.Website.Skeleton = _;
  };

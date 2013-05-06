@@ -53,8 +53,6 @@ skeleton bodyFunc outer =
              Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
        ]
 
-f x = let y = console.log (JS.fromString x) in JS.fromString x
-
-redirect = f <~ navigation.events
+redirect = JS.fromString <~ navigation.events
 foreign export jsevent "elm_redirect"
   redirect : Signal JSString
