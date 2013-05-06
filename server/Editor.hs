@@ -24,10 +24,6 @@ ideBuilder title input output =
     H.docTypeHtml $ do
       H.head $ do
         H.title . toHtml $ title
-        H.script ! A.type_ "text/javascript" $
-             "function toggleExamples(open) {\n\
-             \  document.getElementById('frameset1').rows = open ? '*,160px' : '*,0';\n\
-             \};"
       preEscapedToMarkup $ 
          concat [ "<frameset id=\"frameset1\" rows=\"*,0\">\n"
                 , "  <frameset cols=\"50%,50%\">\n"
@@ -49,16 +45,19 @@ editor filePath code =
     H.html $ do
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
-        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.0/lib/codemirror.css"
-        H.script ! A.src "/codemirror-3.0/lib/codemirror.js" $ mempty
-        H.script ! A.src "/codemirror-3.0/mode/elm/elm.js" $ mempty
-        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.0/theme/" ++ theme ++ ".css" :: String))) themes
-        H.style ! A.type_ "text/css" $ editorCss
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
+        H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
+        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
+        H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
         H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
            H.div ! A.id "editor_box" ! A.style "position:absolute;top:0;left:0;right:0;bottom:36px;" $ do
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
+           H.div ! A.id "doc_desc" $ ""
+           H.div ! A.id "doc_type" $ ""
            H.div ! A.class_ "opts" ! A.id "options" $ do
              H.div ! A.style "float:right; padding:6px;" $ do
                H.input ! A.class_ "valign" !
@@ -70,16 +69,19 @@ editor filePath code =
                   A.onclick "compile('_blank')" ! A.value "In Tab" !
                   A.title "compile in a new tab"
                H.span  ! A.class_ "valign" $ " Auto-compile:"
-               H.input ! A.class_ "valign" ! A.type_ "checkbox" !
-                  A.onchange "toggleAutoUpdate(this.checked)"
-             H.div ! A.style "float:left; padding:10px;" $ do
+               H.input ! A.class_ "valign" ! A.id "autocompile_checkbox" ! A.type_ "checkbox" !
+                  A.onchange "toggleAutoCompile(this.checked)"
+             H.div ! A.style "float:left; padding:6px;" $ do
+               H.input ! A.class_ "valign" ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc" !
+                  A.id "help_button" ! A.type_ "button" ! A.style "margin: 0 10px 0 0;" !
+                  A.onclick "toggleDocView();" ! A.value "?"
                H.span ! A.title "Show the basic examples" $ do
                   H.span ! A.class_ "valign" $ "Examples:"
-                  H.input ! A.class_ "valign" ! A.type_ "checkbox" !
-                     A.onchange "window.top.toggleExamples(this.checked);"
+                  H.input ! A.class_ "valign" ! A.id "examples_checkbox" ! A.type_ "checkbox" !
+                     A.onchange "toggleExamples(this.checked);"
                H.span ! A.style "padding-left: 16px;" ! A.class_ "valign" $
                     "Options:"
-               H.input ! A.class_ "valign" ! A.type_ "checkbox" !
+               H.input ! A.class_ "valign" ! A.id "options_checkbox" ! A.type_ "checkbox" !
                   A.onchange "toggleOptions(this.checked);"
            H.div ! A.class_ "opts" ! A.id "editor_options" $ do
              let optionFor text =
@@ -94,49 +96,8 @@ editor filePath code =
                H.input ! A.class_ "valign" ! A.id "editor_lines" !
                  A.type_ "checkbox" !
                  A.onchange "toggleLines(this.checked);"
-        H.script ! A.type_ "text/javascript" $ editorJS
-
--- | CSS needed to style the CodeMirror frame.
-editorCss :: Markup
-editorCss = preEscapedToMarkup $
-    ("body { margin: 0; }\n\
-     \.CodeMirror { height: 100% }\n\
-     \form { margin-bottom: 0; }\n\
-     \.zoom-80 { font-size: 80%; }\n\
-     \.zoom-100 { font-size: 100%; }\n\
-     \.zoom-150 { font-size: 150%; }\n\
-     \.zoom-200 { font-size: 200%; }\n\
-     \.valign { vertical-align: middle; }\n\
-     \.opts {\n\
-     \  background-color: rgb(216,221,225);\n\
-     \  font-family: Arial;\n\
-     \  font-size: 14px;\n\
-     \  overflow: hidden;\n\
-     \  position: absolute;\n\
-     \}\n\
-     \#editor_options {\n\
-     \  bottom: 28px;\n\
-     \  left: 0;\n\
-     \  right: 0;\n\
-     \  padding: 4px;\n\
-     \  visibility: hidden;\n\
-     \}\n\
-     \#options {\n\
-     \  left: 0;\n\
-     \  right: 0;\n\
-     \  bottom: 0;\n\
-     \  height: 36px;\n\
-     \}" :: String)
-
--- | JS needed to set up CodeMirror.
-editorJS :: Html
-editorJS =
-    "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\n\
-    \ lineNumbers: initLines(),\n\
-    \ matchBrackets: true,\n\
-    \ theme: initTheme(),\n\
-    \ tabMode: 'shift',\n\
-    \ extraKeys: {'Ctrl-Enter': compileOutput},\n\
-    \});\n\
-    \editor.focus();\n\
-    \initZoom();"
+               H.span ! A.style "padding-left: 16px;" ! A.class_ "valign" $
+                    "Show type:"
+               H.input ! A.class_ "valign" ! A.id "show_type_checkbox" ! A.type_ "checkbox" !
+                  A.onchange "toggleShowType(this.checked);"
+        H.script ! A.type_ "text/javascript" $ "initEditor();"

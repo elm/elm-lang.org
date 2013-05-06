@@ -187,7 +187,7 @@ Elm.Native.Text = function(elm) {
 
   function addTag(tag) { return function(text) {
       return '<' + tag + ' style="padding:0;margin:0">' + text + '</' + tag + '>';
-    }
+    };
   }
   
   function addStyle(style, value, text) {
@@ -4377,8 +4377,8 @@ Elm.Website.Docs = function(elm){
   return function(x){
    return bold(A2(Text.height, s_28, toText(x)));};};
  entry_5 = F3(function(f_29, w_30, _39000_31){
-  return (e=_39000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_39000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_39000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(function(x){
-   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_39000_31._0)),tipe_36)),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _39000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 33, Column 3'));});
+  return (e=_39000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_39000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_39000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(A2(tag, _39000_31._0, function(x){
+   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_39000_31._0)),tipe_36))),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _39000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 33, Column 3'));});
  f1_6 = F2(function(w_37, c_38){
   return A2(flow, down, _L.Cons(A2(spacer, 1, 10),_L.Cons(A2(width, w_37, plainText(c_38)),_L.Cons(A2(spacer, 1, 20),_L.Nil))));});
  f2_7 = F2(function(w_39, c_40){
