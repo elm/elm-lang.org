@@ -1,13 +1,9 @@
 
-(fld, txt) = Input.textField "Type here!"
+import Graphics.Input as Input
 
-main = lift (above fld) (lift showLen txt)
+display field state =
+  field `above` asText state
 
-showLen n =
-  text . monospace . toText $
-  "The string has " ++ show (length n) ++ " characters."
+main = let (field, state) = Input.field "Type here!"
+       in  lift2 display field state
 
-
--- Note: textField will someday use its string argument as greyed out
--- ghost text that is only visible when the textField is empty. Right
--- now the string is just ignored.

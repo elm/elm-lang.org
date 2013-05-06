@@ -1,4 +1,3 @@
-
 {--  Dict  -------------------------------------------------
 
 A data structure that allows key-value pairs to be stored,
@@ -12,25 +11,31 @@ More info at:
 
 -----------------------------------------------------------}
 
-trees = [{ family = "Rosaceae", genus = "Crataegus" },
-         { family = "Theaceae", genus = "Gordonia"  },
-         { family = "Ulmaceae", genus = "Ulmus"     },
-         { family = "Rosaceae", genus = "Pyrus"     },
-         { family = "Rosaceae", genus = "Malus"     },
-         { family = "Theaceae", genus = "Stewartia" },
-         { family = "Rosaceae", genus = "Prunus"    },
-         { family = "Ulmaceae", genus = "Zelkova"   }]
+import Dict
 
-add key value dict = let vs = Dict.findWithDefault [] key dict
-                     in  Dict.insert key (value :: vs) dict
+trees = [{ family="Rosaceae", genus="Crataegus" },
+         { family="Theaceae", genus="Gordonia"  },
+         { family="Ulmaceae", genus="Ulmus"     },
+         { family="Rosaceae", genus="Pyrus"     },
+         { family="Rosaceae", genus="Malus"     },
+         { family="Theaceae", genus="Stewartia" },
+         { family="Rosaceae", genus="Prunus"    },
+         { family="Ulmaceae", genus="Zelkova"   }]
 
-groupBy f g vs = foldl (\v d -> add (f v) (g v) d) Dict.empty vs
+add k v dict =
+    let vs = Dict.findWithDefault [] k dict
+    in  Dict.insert k (v::vs) dict
 
-familyToGenera = groupBy .family .genus trees
+groupBy f g vs =
+    List.foldl (\v d -> add (f v) (g v) d) Dict.empty vs
+
+familyToGenera =
+    groupBy .family .genus trees
 
 display (family,genera) =
-  width 100 (plainText family) `beside` asText genera
+    width 100 (plainText family) `beside` asText genera
 
 header = [markdown|## Trees: Genera in each Family|]
 
-main = flow down (header :: map display (Dict.toList familyToGenera))
+main = flow down
+       (header :: List.map display (Dict.toList familyToGenera))

@@ -1,7 +1,8 @@
 
-component field txt =
-  field `above` (text . monospace . toText $ "Your password is: " ++ txt)
+import Graphics.Input as Input
 
-(field, txt) = Input.password "Password"
+display field state =
+  field `above` (plainText <| "Your password is: " ++ state.string)
 
-main = lift (component field) txt
+main = let (field, state) = Input.password "Password"
+       in  lift2 display field state

@@ -36,12 +36,11 @@ safeHead xs = case xs of
 
 
 
-main = flow down [ display "safeLog" safeLog 100
-                 , display "safeLog" safeLog (0-1)
-                 , display "safeHead" safeHead [2,3,5,7,11]
-                 , display "safeHead" safeHead []
-                 ]
+main = flow down [ display "safeLog" safeLog 100,
+                   display "safeLog" safeLog (0-1),
+                   display "safeHead" safeHead [2,3,5,7,11],
+                   display "safeHead" safeHead [] ]
 
 display name f v =
-  text . monospace . toText $
+  text . monospace . toText <|
   show (f v) ++ " &lArr; " ++ name ++ " " ++ show v

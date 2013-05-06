@@ -20,4 +20,4 @@ incr n = n + 1
 
 incrThenSquare = square . incr
 
-main = asText $ incrThenSquare 3
+main = asText <| incrThenSquare 3

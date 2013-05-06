@@ -44,8 +44,8 @@ main = flow down [ display "depth" depth t1
                  ]
 
 display name f v =
-  text . monospace . toText $
-  concat [ show (f v), " &lArr; ", name, " ", show v ]
+  text . monospace . toText <|
+  concat [ name, " (", show v, ") &rArr;\n    ", show (f v), "\n " ]
 
 {-----------------------------------------------------------------
 

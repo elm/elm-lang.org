@@ -1,4 +1,3 @@
-
 {--  Set  --------------------------------------------------
 
 A container that contains no duplicates. A set can hold
@@ -9,16 +8,17 @@ More info at:
 
 -----------------------------------------------------------}
 
-a = Set.fromList [1..5]
-b = Set.fromList ([4..7] ++ [5..9])
+import Set
+
+xs = Set.fromList [1..5]
+ys = Set.fromList ([4..7] ++ [5..9])
 
 main =
-  flow down . map asText $
-    [ a
-    , b
-    , Set.insert 42 a
-    , Set.union a b
-    , Set.intersect a b
-    , Set.diff a b
-    , Set.diff b a
-    ]
+  flow down . List.map asText <|
+    [ xs,
+      ys,
+      Set.insert 42 xs,
+      Set.union xs ys,
+      Set.intersect xs ys,
+      Set.diff xs ys,
+      Set.diff ys xs ]
