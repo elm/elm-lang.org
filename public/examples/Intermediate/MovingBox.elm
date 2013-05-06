@@ -1,3 +1,5 @@
+import Keyboard
+
 areaSize = 400
 squareSize = 40
 
@@ -14,10 +16,14 @@ position = let add (a,b) (c,d) = (a+c, b+d)
 
 
 -- Display moving square and FPS on screen.
-screen pos actual =
+screen (x,y) actual =
   flow down [ collage areaSize areaSize
-                [ outlined grey (rect areaSize areaSize (areaSize/2,areaSize/2))
-                , outlined black (rect squareSize squareSize pos) ]
+                [ rect areaSize areaSize
+                    |> outlined (solid grey)
+                    |> move (areaSize/2) (areaSize/2)
+                , rect squareSize squareSize
+                    |> outlined (solid black)
+                    |> move x y ]
             , plainText "Move the square around with the arrow keys."
             , plainText $ "Actual frames per second: " ++ show actual
             , plainText $ "Desired frames per second: " ++ show desired

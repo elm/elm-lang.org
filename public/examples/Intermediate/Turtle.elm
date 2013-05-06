@@ -4,29 +4,27 @@
 
 
 -- MODEL
-turtle = { x=0, y=0, a=0, v=0, surfaced=False }
+turtle = { x=0, y=0, a=0, v=0 }
 
 
 -- UPDATE
-surface spc trtl = { trtl | surfaced <- spc }
-keys d trtl = { trtl | v <- d.y
-                     , a <- trtl.a + 0.02 * d.x }
-swim t trtl = let {x,y,a,v} = trtl in
-              { trtl | x <- x + t * v * cos a
-                     , y <- y + t * v * sin a }
+keys d trtl =
+    { trtl | v <- d.y, a <- trtl.a + 0.02 * d.x }
+swim t trtl =
+    let {x,y,a,v} = trtl in
+    { trtl | x <- x + t * v * cos a,
+             y <- y + t * v * sin a }
 
-step (space,arrows,time) =
-  swim time . keys arrows . surface space
+step (space,arrows,time) = swim time . keys arrows
 
 
 -- DISPLAY
 display (w,h) obj =
-  let trans = rotate (obj.a / (2*pi)) . move obj.x obj.y
-      order = if obj.surfaced then reverse else id
-  in layers $ order
-       [ collage w h [ trans . toForm (100,100) $
-                       image 96 96 "turtle.gif" ]
-       , opacity 0.7 $ fittedImage w h "water.gif" ]
+  let turtle  = image 96 96 "turtle.gif" |> toForm
+                                         |> rotate (radians obj.a)
+                                         |> move obj.x obj.y
+  in layers [ collage w h [turtle],
+              opacity 0.7 <| fittedImage w h "water.gif" ]
 
 
 -- TURTLE
