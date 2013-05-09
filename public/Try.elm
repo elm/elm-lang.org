@@ -1,5 +1,6 @@
 
 import Website.ColorScheme
+import Window as Window
 
 accents = [accent0,accent1,accent2,accent3,accent4]
 
