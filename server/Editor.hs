@@ -25,12 +25,9 @@ ideBuilder title input output =
       H.head $ do
         H.title . toHtml $ title
       preEscapedToMarkup $ 
-         concat [ "<frameset id=\"frameset1\" rows=\"*,0\">\n"
-                , "  <frameset cols=\"50%,50%\">\n"
-                , "    <frame name=\"input\" src=\"/code/", input, "\" />\n"
-                , "    <frame name=\"output\" src=\"", output, "\" />\n"
-                , "  </frameset>\n"
-                , "  <frame src=\"/examples/Navigation.elm\" />\n"
+         concat [ "<frameset cols=\"50%,50%\">\n"
+                , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
+                , "  <frame name=\"output\" src=\"", output, "\" />\n"
                 , "</frameset>" ]
 
 -- | list of themes to use with CodeMirror
@@ -75,12 +72,7 @@ editor filePath code =
                H.input ! A.class_ "valign" ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc" !
                   A.id "help_button" ! A.type_ "button" ! A.style "margin: 0 10px 0 0;" !
                   A.onclick "toggleDocView();" ! A.value "?"
-               H.span ! A.title "Show the basic examples" $ do
-                  H.span ! A.class_ "valign" $ "Examples:"
-                  H.input ! A.class_ "valign" ! A.id "examples_checkbox" ! A.type_ "checkbox" !
-                     A.onchange "toggleExamples(this.checked);"
-               H.span ! A.style "padding-left: 16px;" ! A.class_ "valign" $
-                    "Options:"
+               H.span ! A.class_ "valign" $ "Options:"
                H.input ! A.class_ "valign" ! A.id "options_checkbox" ! A.type_ "checkbox" !
                   A.onchange "toggleOptions(this.checked);"
            H.div ! A.class_ "opts" ! A.id "editor_options" $ do
