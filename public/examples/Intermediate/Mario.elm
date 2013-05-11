@@ -25,10 +25,11 @@ render (w,h) mario =
                 | otherwise     -> "stand"
       src  = "/imgs/mario/" ++ verb ++ "/" ++ mario.dir ++ ".gif"
   in collage w h
-       [ filled (rgb 174 238 238) $ rect w h (half w, half h)
-       , filled (rgb 74 163 41) $ rect w 50 (half w,h-25)
-       , move mario.x ((toFloat h-63)-mario.y) $ toForm (image 35 35 src) ]
-
+       [ rect w h  |> filled (rgb 174 238 238)
+       , rect w 50 |> filled (rgb 74 163 41)
+                   |> move 0 (24 - half h)
+       , toForm (image 35 35 src) |> move mario.x (mario.y + 63 - half h)
+       ]
 
 -- MARIO
 input = let delta = lift (\t -> t/20) (fps 25)
