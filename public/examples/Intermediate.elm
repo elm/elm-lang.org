@@ -23,6 +23,7 @@ intermediate = addFolder "Intermediate/"
   , ("Pascal's Triangle", "PascalsTriangle")
   , ("Fibonacci Tiles", "FibonacciTiles")
   , ("Web", "Web")
+  , ("Circles", "Circles")
   ]
 
 intro =  [markdown|

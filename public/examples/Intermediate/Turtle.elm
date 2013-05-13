@@ -1,36 +1,48 @@
-
 -- Move the Turtle around with the arrow keys. Use the
 -- space bar to make the turtle come above water for air.
 
+import Keyboard
+import Window
 
 -- MODEL
-turtle = { x=0, y=0, a=0, v=0 }
+type Turtle = { x:Float, y:Float, angle:Float, velocity:Float }
+
+turtle : Turtle
+turtle = { x=0, y=0, angle=0, velocity=0 }
 
 
 -- UPDATE
-keys d trtl =
-    { trtl | v <- d.y, a <- trtl.a + 0.02 * d.x }
-swim t trtl =
-    let {x,y,a,v} = trtl in
-    { trtl | x <- x + t * v * cos a,
-             y <- y + t * v * sin a }
+type Arrows = { x:Float, y:Float }
 
-step (space,arrows,time) = swim time . keys arrows
+keysStep : Arrows -> Turtle -> Turtle
+keysStep arrows turtle =
+    { turtle | velocity <- 40 * arrows.y,
+               angle <- turtle.angle - arrows.x / 20 }
+
+swimStep : Time -> Turtle -> Turtle
+swimStep delta turtle =
+    let {x,y,angle,velocity} = turtle in
+    { turtle | x <- x + delta * velocity * cos angle ,
+               y <- y + delta * velocity * sin angle }
+
+step : (Bool,Arrows,Time) -> Turtle -> Turtle
+step (space,arrows,delta) turtle =
+  keysStep arrows <| swimStep delta turtle
 
 
 -- DISPLAY
-display (w,h) obj =
-  let turtle  = image 96 96 "turtle.gif" |> toForm
-                                         |> rotate (radians obj.a)
-                                         |> move obj.x obj.y
-  in layers [ collage w h [turtle],
+display : (Int,Int) -> Turtle -> Element
+display (w,h) turtle =
+  let turtlePic = image 96 96 "turtle.gif" |> toForm
+                                           |> rotate turtle.angle
+                                           |> move turtle.x turtle.y
+  in layers [ collage w h [turtlePic],
               opacity 0.7 <| fittedImage w h "water.gif" ]
 
 
 -- TURTLE
-delta = lift (flip (/) 25) (fps 30)
-input = sampleOn delta $
-        lift3 (,,) Keyboard.space Keyboard.arrows delta
+delta = inSeconds <~ fps 30
+input = sampleOn delta <| lift3 (,,) Keyboard.space Keyboard.arrows delta
 
 main  = lift2 display Window.dimensions (foldp step turtle input)
 
