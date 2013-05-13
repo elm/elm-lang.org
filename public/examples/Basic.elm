@@ -35,6 +35,8 @@ elements = addFolder "Elements/"
                 , ("Sprites"   , "Sprite")
                 , ("Elements"  , "ToForm")
                 , ("Colors"    , "Color")
+                , ("Linear Gradient", "LinearGradient")
+                , ("Radial Gradient", "RadialGradient")
                 , ("Textures"  , "Texture")
                 , ("Transforms", "Transforms")
                 ])
