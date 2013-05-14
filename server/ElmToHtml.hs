@@ -28,5 +28,5 @@ elmToHtml name src =
         let js = H.script ! A.type_ "text/javascript"
         js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
         js $ preEscapedToMarkup (Elm.compile src)
-        js $ preEscapedToMarkup ("Elm.init(Elm." ++ Elm.moduleName src ++ ")")
+        js $ preEscapedToMarkup ("Elm.fullscreen(Elm." ++ Elm.moduleName src ++ ")")
         googleAnalytics

@@ -113,6 +113,23 @@ Elm.Native.Utils = function(elm) {
     return Tuple2(w,h);
   }
 
+  function adjustOffset() {
+      var node = elm.node;
+      var offsetX = offsetY = 0;
+      if (node.offsetParent) {
+          do {
+              offsetX += node.offsetLeft;
+              offsetY += node.offsetTop;
+          } while (node = node.offsetParent);
+      }
+      node.offsetX = offsetX;
+      node.offsetY = offsetY;
+  }
+
+  if (elm.display === ElmRuntime.Display.COMPONENT) {
+      elm.node.addEventListener('mouseover', adjustOffset);
+  }
+
   return elm.Native.Utils = {
       eq:eq,
       cmp:compare,
@@ -278,24 +295,6 @@ Elm.Native.Show = function(elm) {
     var Dict = Elm.Dict(elm);
     var Json = Elm.Json(elm);
     var Tuple2 = Elm.Native.Utils(elm).Tuple2;
-
-    elm.node.addEventListener('log', function(e) { console.log(e.value); });
-    elm.node.addEventListener('title', function(e) {document.title = e.value;});
-    elm.node.addEventListener('redirect', function(e) {
-            if (e.value.length > 0) { window.location = e.value; }
-        });
-    elm.node.addEventListener('viewport', function(e) {
-            var node = document.getElementById('elm_viewport');
-            if (!node) {
-                node = document.createElement('meta');
-                node.id = 'elm_viewport';
-                node.name = 'viewport';
-                document.head.appendChild(node);
-            }
-            node.content = e.value;
-            Dispatcher.notify(elm.Window.dimensions.id,
-                              Tuple2(elm.node.clientWidth, elm.node.clientHeight));
-        });
 
     var toString = function(v) {
         if (typeof v === "function") {
@@ -1322,7 +1321,10 @@ Elm.Native.Window = function(elm) {
 
   function getWidth() { return elm.node.clientWidth; }
   function getHeight() {
-      return document.body === elm.node ? window.innerHeight : elm.node.clientHeight;
+      if (elm.display === ElmRuntime.Display.FULLSCREEN) {
+          return window.innerHeight;
+      }
+      return elm.node.clientHeight;
   }
 
   var dimensions = Signal.constant(Tuple2(getWidth(), getHeight()));
@@ -1336,19 +1338,20 @@ Elm.Native.Window = function(elm) {
   var height = A2(Signal.lift, function(p){return p._1}, dimensions);
   height.defaultNumberOfKids = 0;
 
-  function resize(e) {
+  function resizeIfNeeded() {
       var w = getWidth();
       var h = getHeight();
       if (dimensions.value._0 === w && dimensions.value._1 === h) return;
       var hasListener = elm.notify(dimensions.id, Tuple2(w,h));
-      if (!hasListener) window.removeEventListener('resize', resize);
+      if (!hasListener) window.removeEventListener('resize', resizeIfNeeded);
   }
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', resizeIfNeeded);
 
   return elm.Native.Window = {
       dimensions:dimensions,
       width:width,
-      height:height
+      height:height,
+      resizeIfNeeded:resizeIfNeeded
   };
 
 };
@@ -1399,6 +1402,7 @@ Elm.Native.Touch = function(elm) {
 
   var Signal = Elm.Signal(elm);
   var JS = Elm.JavaScript(elm);
+  var _ = Elm.Native.Utils(elm);
 
   function Dict() {
     this.keys = [];
@@ -1436,24 +1440,27 @@ Elm.Native.Touch = function(elm) {
       var r = dict.lookup(t.identifier);
       return {_ : {},
 	      id: t.identifier,
-	      x : t.pageX,
-	      y : t.pageY,
+	      x : t.pageX - elm.node.offsetX,
+	      y : t.pageY - elm.node.offsetY,
 	      x0: r.x,
 	      y0: r.y,
 	      t0: r.t
 	      };
   }
 
-  var node = elm.node === document.body ? document : elm.node;
+  var node = elm.display === ElmRuntime.Display.FULLSCREEN ? document : elm.node;
 
   function start(e) {
-    dict.insert(e.identifier,{x:e.pageX,y:e.pageY,t:Date.now()});
+    dict.insert(e.identifier,
+                {x: e.pageX - elm.node.offsetX,
+                 y: e.pageY - elm.node.offsetY,
+                 t: Date.now()});
   }
   function end(e) {
     var t = dict.remove(e.identifier);
     if (Date.now() - t.t < tapTime) {
-	hasTap = true;
-	tap = {_:{}, x:t.x, y:t.y};
+        hasTap = true;
+        tap = {_:{}, x:t.x, y:t.y};
     }
   }
 
@@ -1479,8 +1486,8 @@ Elm.Native.Touch = function(elm) {
   function move(e) {
       for (var i = root.value.length; i--; ) {
           if (root.value[i].id === mouseID) {
-              root.value[i].x = e.pageX;
-              root.value[i].y = e.pageY;
+              root.value[i].x = e.pageX - elm.node.offsetX;
+              root.value[i].y = e.pageY - elm.node.offsetY;
               elm.notify(root.id, root.value);
               break;
           }
@@ -1896,7 +1903,7 @@ Elm.Native.Mouse = function(elm) {
   var isDown    = Signal.constant(false);
   var isClicked = Signal.constant(false);
   var clicks = Signal.constant(Utils.Tuple0);
-  
+
   function getXY(e) {
     var posx = 0;
     var posy = 0;
@@ -1910,10 +1917,10 @@ Elm.Native.Mouse = function(elm) {
 	posy = e.clientY + document.body.scrollTop +
 	  document.documentElement.scrollTop;
     }
-    return Utils.Tuple2(posx, posy);
+    return Utils.Tuple2(posx-elm.node.offsetX, posy-elm.node.offsetY);
   }
 
-  var node = elm.node.tagName === "BODY" ? document : elm.node;
+  var node = elm.display === ElmRuntime.Display.FULLSCREEN ? document : elm.node;
 
   function click(e) {
     var hasListener1 = elm.notify(isClicked.id, true);
@@ -1967,27 +1974,27 @@ Elm.Native.Keyboard = function(elm) {
       if (NList.member(e.keyCode)(keysDown.value)) return;
       var list = NList.Cons(e.keyCode, keysDown.value);
       var hasListener = elm.notify(keysDown.id, list);
-      if (!hasListener) elm.node.removeEventListener('keydown', down);
+      if (!hasListener) document.removeEventListener('keydown', down);
   }
   function up(e) {
       function notEq(kc) { return kc !== e.keyCode; }
       var codes = NList.filter(notEq)(keysDown.value);
       var hasListener = elm.notify(keysDown.id, codes);
-      if (!hasListener) elm.node.removeEventListener('keyup', up);
+      if (!hasListener) document.removeEventListener('keyup', up);
   }
   function blur(e) {
       var hasListener = elm.notify(keysDown.id, NList.Nil);
-      if (!hasListener) elm.node.removeEventListener('blur', blur);
+      if (!hasListener) document.removeEventListener('blur', blur);
   }
   function press(e) {
       var hasListener = elm.notify(lastKey.id, e.charCode || e.keyCode);
-      if (!hasListener) elm.node.removeEventListener('keypress', press);
+      if (!hasListener) document.removeEventListener('keypress', press);
   }
 
-  elm.node.addEventListener('keydown' , down );
-  elm.node.addEventListener('keyup'   , up   );
-  elm.node.addEventListener('blur'    , blur );
-  elm.node.addEventListener('keypress', press);
+  document.addEventListener('keydown' , down );
+  document.addEventListener('keyup'   , up   );
+  document.addEventListener('blur'    , blur );
+  document.addEventListener('keypress', press);
 
   function keySignal(f) {
     var signal = A2( Signal.lift, f, keysDown );
@@ -3627,6 +3634,8 @@ Elm.Graphics.Collage = function(elm){
 (function() {
 'use strict';
 
+ElmRuntime.Display = { FULLSCREEN: 0, COMPONENT: 1, NONE: 2 };
+
 ElmRuntime.counter = 0;
 ElmRuntime.guid = function() { return ElmRuntime.counter++; }
 
@@ -3675,9 +3684,30 @@ if (window.requestAnimationFrame && window.cancelAnimationFrame) {
 
 }());
 
-Elm.init = function(module, baseNode) {
-  'use strict';
+(function() {
+'use strict';
 
+Elm.fullscreen = function(module) {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = "html,head,body { padding:0; margin:0; }" +
+        "body { font-family: calibri, helvetica, arial, sans-serif; }";
+    document.head.appendChild(style);
+    return init(ElmRuntime.Display.FULLSCREEN, document.body, module);
+};
+
+Elm.node = function(width, height, module) {
+    var container = document.createElement('div');
+    container.style.width = width + 'px';
+    container.style.height = height + 'px';
+    return init(ElmRuntime.Display.COMPONENT, container, module);
+};
+
+Elm.worker = function(module) {
+    return init(ElmRuntime.Display.NONE, {}, module);
+};
+
+function init(display, container, module) {
   // defining state needed for an instance of the Elm RTS
   var signalGraph = null;
   var inputs = [];
@@ -3694,19 +3724,17 @@ Elm.init = function(module, baseNode) {
     return hasListener;
   }
 
-  // ensure that baseNode exists and is properly formatted.
-  if (typeof baseNode === 'undefined') {
-      baseNode = document.body;
-      var style = document.createElement('style');
-      style.type = 'text/css';
-      style.innerHTML = "html,head,body { padding:0; margin:0; }" +
-	  "body { font-family: calibri, helvetica, arial, sans-serif; }";
-      document.head.appendChild(style);
-  }
+  container.offsetX = 0;
+  container.offsetY = 0;
 
   // create the actuall RTS. Any impure modules will attach themselves to this
   // object. This permits many Elm programs to be embedded per document.
-  var elm = {notify: notify, node: baseNode, id: ElmRuntime.guid(), inputs: inputs};
+  var elm = { notify:notify,
+              node:container,
+              display:display,
+              id:ElmRuntime.guid(),
+              inputs:inputs
+  };
 
   // Set up methods to communicate with Elm program from JS.
   function send(name, value) {
@@ -3720,15 +3748,16 @@ Elm.init = function(module, baseNode) {
       document.addEventListener(name + '_' + elm.id, handler);
   }
 
-  recv('elm_log', function(e) {console.log(e.value)});
-  recv('elm_title', function(e) {document.title = e.value});
-  recv('elm_redirect', function(e) {
+  recv('log', function(e) {console.log(e.value)});
+  recv('title', function(e) {document.title = e.value});
+  recv('redirect', function(e) {
 	if (e.value.length > 0) { window.location = e.value; }
       });
 
   // If graphics are not enabled, escape early, skip over setting up DOM stuff.
-  if (baseNode === null) return { send : send, recv : recv };
-
+  if (display === ElmRuntime.Display.NONE) {
+      return { send : send, recv : recv };
+  }
 
   var Render = ElmRuntime.use(ElmRuntime.Render.Element);
 
@@ -3742,22 +3771,10 @@ Elm.init = function(module, baseNode) {
   visualModel = signalGraph.value;
   inputs = ElmRuntime.filterDeadInputs(inputs);
   
-  var tuple2 = Elm.Native.Utils(elm).Tuple2;
-  function adjustWindow() {
-      if ('Window' in elm) {
-          var w = baseNode.clientWidth;
-          if (w !== elm.Window.dimensions.value._0) {
-              notify(elm.Window.dimensions.id,
-                     tuple2(w, document.body === baseNode ?
-                            window.innerHeight : baseNode.clientHeight));
-          }
-      }
-  }
-  
-  // Add the visualModel to the DOM
+   // Add the visualModel to the DOM
   var renderNode = Render.render(visualModel)
-  baseNode.appendChild(renderNode);
-  adjustWindow();
+  container.appendChild(renderNode);
+  elm.Native.Window.resizeIfNeeded();
   
   // set up updates so that the DOM is adjusted as necessary.
   var update = Render.update;
@@ -3765,16 +3782,17 @@ Elm.init = function(module, baseNode) {
       ElmRuntime.draw(function(_) {
               update(renderNode, visualModel, value);
               visualModel = value;
-              adjustWindow();
+              elm.Native.Window.resizeIfNeeded();
           });
       return value;
   }
   
   signalGraph = A2(Signal.lift, domUpdate, signalGraph);
     
-  return { send : send, recv : recv };
+  return { send : send, recv : recv, node : container };
 };
 
+}());
 ElmRuntime.Render.Utils = function() {
 'use strict';
 
@@ -4332,6 +4350,8 @@ function updateTracker(w,h,div) {
             if (node.getContext) {
                 node.width = w;
                 node.height = h;
+                node.style.width = w + 'px';
+                node.style.height = h + 'px';
                 return transform(transforms, node.getContext('2d'));
             }
             div.removeChild(node);
