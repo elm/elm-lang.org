@@ -23,10 +23,10 @@ time = fst <~ timestamp (fps 40)
 drawFig1 t =
   let x = 120 * cos (inSeconds t)
       y =  80 * sin (inSeconds t)
-  in  collage 300 300 [ move x y . filled cyan $ circle 20
-                      --, toForm (plainText "Earth")
-                      , move 25 0 . filled yellow $ circle 35
-                      --, toForm (125,150) (plainText "Sun")
+  in  collage 300 300 [ move x y . filled cyan <| circle 20
+                      , move x y . toForm <| plainText "Earth"
+                      , move 25 0 . filled yellow <| circle 35
+                      , move 25 0 . toForm <| plainText "Sun"
                       ]
 
 figure1 = lift drawFig1 time
