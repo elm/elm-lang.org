@@ -15,8 +15,8 @@ Elm.Native.Utils = function(elm) {
       return c === Object.keys(y).length;
     }
     if (typeof x === 'function') {
-	throw new Error('Equality error: general function equality is ' +
-			'undecidable, and therefore, unsupported');
+      throw new Error('Equality error: general function equality is ' +
+      'undecidable, and therefore, unsupported');
     }
     return x === y;
   }
@@ -24,18 +24,20 @@ Elm.Native.Utils = function(elm) {
   var EQ = 0, LT = 1, GT = 2, ord = ['EQ','LT','GT'];
   function compare(x,y) { return { ctor: ord[cmp(x,y)] } }
   function cmp(x,y) {
+    var ord;
     if (typeof x !== 'object') return x === y ? EQ : x < y ? LT : GT;
 
     if (x.ctor === "Cons" || x.ctor === "Nil") {
-	while (true) {
-	    if (x.ctor === "Nil" && y.ctor === "Nil") return EQ;
-	    if (x.ctor !== y.ctor) return {ctor: x.ctor==='Nil'?LT:GT};
-	    var ord = cmp(x._0, y._0);
-	    if (ord !== EQ) return ord;
-	    x = x._1;
-	    y = y._1;
-	}
+      while (true) {
+          if (x.ctor === "Nil" && y.ctor === "Nil") return EQ;
+          if (x.ctor !== y.ctor) return x.ctor === 'Nil' ? LT : GT;
+          ord = cmp(x._0, y._0);
+          if (ord !== EQ) return ord;
+          x = x._1;
+          y = y._1;
+      }
     }
+
     if (x.ctor.slice(0,5) === 'Tuple') {
       var n = x.ctor.slice(5) - 0;
       var err = 'cannot compare tuples with more than 6 elements.';
@@ -50,8 +52,8 @@ Elm.Native.Utils = function(elm) {
       return EQ;
     }
     throw new Error('Comparison error: comparison is only defined on ints, ' +
-		    'floats, times, chars, strings, lists of comparable values, ' +
-		    'and tuples of comparable values.')
+        'floats, times, chars, strings, lists of comparable values, ' +
+        'and tuples of comparable values.')
   }
 
 
@@ -70,11 +72,11 @@ Elm.Native.Utils = function(elm) {
   function remove(x,r) {
     var o = copy(r);
     if (x in o._) {
-	o[x] = o._[x][0];
-	o._[x] = o._[x].slice(1);
-	if (o._[x].length === 0) { delete o._[x]; }
+      o[x] = o._[x][0];
+      o._[x] = o._[x].slice(1);
+      if (o._[x].length === 0) { delete o._[x]; }
     } else {
-	delete o[x];
+      delete o[x];
     }
     return o;
   }
@@ -82,8 +84,8 @@ Elm.Native.Utils = function(elm) {
   function replace(kvs,r) {
     var o = copy(r);
     for (var i = kvs.length; i--; ) {
-	var kvsi = kvs[i];
-	o[kvsi[0]] = kvsi[1];
+      var kvsi = kvs[i];
+      o[kvsi[0]] = kvsi[1];
     }
     return o;
   }
@@ -105,7 +107,7 @@ Elm.Native.Utils = function(elm) {
     t.style.visibility = "hidden";
     t.style.styleFloat = "left";
     t.style.cssFloat   = "left";
-    
+
     elm.node.appendChild(t);
     var w = t.clientWidth;
     var h = t.clientHeight;
@@ -147,6 +149,7 @@ Elm.Native.Utils = function(elm) {
       toFloat: function(x){return x}
   };
 };
+
 Elm.Native.Text = function(elm) {
   'use strict';
 
@@ -380,6 +383,7 @@ Elm.Native.Show = function(elm) {
 
     return elm.Native.Show = { show:show };
 };
+
 Elm.Native.Prelude = function(elm) {
   'use strict';
   if (elm.Native.Prelude) return elm.Native.Prelude;
@@ -389,62 +393,63 @@ Elm.Native.Prelude = function(elm) {
   var Utils = Elm.Native.Utils(elm);
   var Char = Elm.Char(elm);
 
-  function div(a,b) { return (a/b)|0 }
-  function rem(a,b) { return a % b }
+  function div(a,b) { return (a/b)|0; }
+  function rem(a,b) { return a % b; }
   function mod(a,b) {
     var r = a % b;
     var m = a === 0 ? 0 : (b > 0 ? (a >= 0 ? r : r+b) : -mod(-a,-b));
+
     return m === b ? 0 : m;
   }
-  function abs(x) { return x < 0 ? -x : x }
-  function logBase(base,n) { return Math.log(n) / Math.log(base) }
-  function min(a,b) { return a < b ? a : b }
-  function max(a,b) { return a > b ? a : b }
-  function clamp(lo,hi,n) { return n < lo ? lo : n > hi ? hi : n }
-  function xor(a,b) { return a !== b }
-  function not(b) { return !b }
+  function abs(x) { return x < 0 ? -x : x; }
+  function logBase(base,n) { return Math.log(n) / Math.log(base); }
+  function min(a,b) { return a < b ? a : b; }
+  function max(a,b) { return a > b ? a : b; }
+  function clamp(lo,hi,n) { return n < lo ? lo : n > hi ? hi : n; }
+  function xor(a,b) { return a !== b; }
+  function not(b) { return !b; }
 
-  function truncate(n) { return n|0 }
+  function truncate(n) { return n|0; }
 
-  function id(n) { return n }
-  function flip(f,a,b) { return A2(f,b,a) }
-  function curry(f,a,b) { return f(Utils.Tuple2(a,b)) }
-  function uncurry(f,v) { return A2(f,v._0,v._1) }
-  function fst(t) { return t._0 }
-  function snd(t) { return t._1 }
+  function id(n) { return n; }
+  function flip(f,a,b) { return A2(f,b,a); }
+  function curry(f,a,b) { return f(Utils.Tuple2(a,b)); }
+  function uncurry(f,v) { return A2(f,v._0,v._1); }
+  function fst(t) { return t._0; }
+  function snd(t) { return t._1; }
 
   function readInt(str) {
     var s = JS.fromString(str);
     var len = s.length;
-    if (len === 0) { return Maybe.Nothing }
+    if (len === 0) { return Maybe.Nothing; }
     var start = 0;
     if (s[0] == '-') {
-	if (len === 1) { return Maybe.Nothing }
-	start = 1;
+      if (len === 1) { return Maybe.Nothing; }
+      start = 1;
     }
     for (var i = start; i < len; ++i) {
-	if (!Char.isDigit(s[i])) { return Maybe.Nothing }
+      if (!Char.isDigit(s[i])) { return Maybe.Nothing; }
     }
-    return Maybe.Just(parseInt(s));
+    return Maybe.Just(parseInt(s, 10));
   }
-  
+
   function readFloat(str) {
     var s = JS.fromString(str);
     var len = s.length;
     if (len === 0) { return Maybe.Nothing; }
     var start = 0;
     if (s[0] == '-') {
-	if (len === 1) { return Maybe.Nothing; }
-	start = 1;
+      if (len === 1) { return Maybe.Nothing; }
+      start = 1;
     }
     var dotCount = 0;
     for (var i = start; i < len; ++i) {
-	if (Char.isDigit(s[i])) { continue; }
-	if (s[i] === '.') {
-	    dotCount += 1;
-	    if (dotCount <= 1) { continue; }
-	}
-	return Maybe.Nothing;
+      if (Char.isDigit(s[i])) { continue; }
+      if (s[i] === '.') {
+        dotCount += 1;
+        if (dotCount <= 1) { continue; }
+      }
+      return Maybe.Nothing;
     }
     return Maybe.Just(parseFloat(s));
   }
@@ -494,8 +499,8 @@ Elm.Native.Prelude = function(elm) {
   };
 
   function add(Module) {
-      var M = Module(elm);
-      for (var k in M) { prelude[k] = M[k] }
+    var M = Module(elm);
+    for (var k in M) { prelude[k] = M[k]; }
   }
   add(Elm.Native.Show);
   add(Elm.Signal);
@@ -506,13 +511,14 @@ Elm.Native.Prelude = function(elm) {
 
   return elm.Native.Prelude = prelude;
 };
+
 Elm.Native.Matrix2D = function(elm) {
  "use strict";
 
  elm.Native = elm.Native || {};
  if (elm.Native.Matrix2D) return elm.Native.Matrix2D;
 
- try { Float32Array; } catch(e) { Float32Array = Array; }
+ if (typeof Float32Array === 'undefined'){ Float32Array = Array; }
  var A = Float32Array;
 
  // layout of matrix in an array is
@@ -533,12 +539,12 @@ Elm.Native.Matrix2D = function(elm) {
      var s = Math.sin(t);
      var m11 = m[0], m12 = m[1], m21 = m[3], m22 = m[4];
      return new A([m11*c + m12*s, -m11*s + m12*c, m[2],
-		   m21*c + m22*s, -m21*s + m22*c, m[5]]);
+                   m21*c + m22*s, -m21*s + m22*c, m[5]]);
  }
  function move(x,y,m) {
      var m11 = m[0], m12 = m[1], m21 = m[3], m22 = m[4];
      return new A([m11, m12, m11*x + m12*y + m[2],
-		   m21, m22, m21*x + m22*y + m[5]]);
+                   m21, m22, m21*x + m22*y + m[5]]);
  }
  function scale(s,m) { return new A([m[0]*s, m[1]*s, m[2], m[3]*s, m[4]*s, m[5]]); }
  function scaleX(x,m) { return new A([m[0]*x, m[1], m[2], m[3]*x, m[4], m[5]]); }
@@ -549,11 +555,11 @@ Elm.Native.Matrix2D = function(elm) {
  function transform(m11, m21, m12, m22, mdx, mdy, n) {
      var n11 = n[0], n12 = n[1], n21 = n[3], n22 = n[4], ndx = n[2], ndy = n[5];
      return new A([m11*n11 + m12*n21,
-		   m11*n12 + m12*n22,
-		   m11*ndx + m12*ndy + mdx,
-		   m21*n11 + m22*n21,
-		   m21*n12 + m22*n22,
-		   m21*ndx + m22*ndy + mdy]);
+                   m11*n12 + m12*n22,
+                   m11*ndx + m12*ndy + mdx,
+                   m21*n11 + m22*n21,
+                   m21*n12 + m22*n22,
+                   m21*ndx + m22*ndy + mdy]);
  }
 
  function multiply(m, n) {
@@ -575,7 +581,8 @@ Elm.Native.Matrix2D = function(elm) {
      reflectY:reflectY
  };
 
-};Elm.Native.List = function(elm) {
+};
+Elm.Native.List = function(elm) {
   "use strict";
 
   elm.Native = elm.Native || {};
@@ -1332,10 +1339,10 @@ Elm.Native.Window = function(elm) {
 
   // Do not move width and height into Elm. By setting the default number of kids,
   // the resize listener can be detached.
-  var width  = A2(Signal.lift, function(p){return p._0}, dimensions);
+  var width  = A2(Signal.lift, function(p){return p._0;}, dimensions);
   width.defaultNumberOfKids = 0;
 
-  var height = A2(Signal.lift, function(p){return p._1}, dimensions);
+  var height = A2(Signal.lift, function(p){return p._1;}, dimensions);
   height.defaultNumberOfKids = 0;
 
   function resizeIfNeeded() {
@@ -1556,9 +1563,9 @@ Elm.Native.Time = function(elm) {
     var ticker = Signal.constant(diff);
     function tick(zero) { return function() {
         curr = Date.now();
-	diff = zero ? 0 : curr - prev;
-	prev = curr;
-	elm.notify(ticker.id, diff);
+        diff = zero ? 0 : curr - prev;
+        prev = curr;
+        elm.notify(ticker.id, diff);
       };
     }
     var timeoutID = 0;
@@ -1566,14 +1573,14 @@ Elm.Native.Time = function(elm) {
       if (isOn) {
         timeoutID = setTimeout(tick(!wasOn && isOn), msPerFrame);
       } else if (wasOn) {
-	clearTimeout(timeoutID);	    
+        clearTimeout(timeoutID);
       }
       wasOn = isOn;
       return t;
     }
     return A3( Signal.lift2, F2(f), isOn, ticker );
   }
- 
+
   function everyWhen(t, isOn) {
     var clock = Signal.constant(Date.now());
     function tellTime() { elm.notify(clock.id, Date.now()); }
@@ -1582,7 +1589,7 @@ Elm.Native.Time = function(elm) {
   }
 
   function since(t, s) {
-    function cmp(a,b) { return !Utils.eq(a,b) }
+    function cmp(a,b) { return !Utils.eq(a,b); }
     var dcount = Signal.count(A2(Signal.delay, t, s));
     return A3( Signal.lift2, F2(cmp), Signal.count(s), dcount );
   }
@@ -1615,12 +1622,13 @@ Elm.Native.Time = function(elm) {
   };
 
 };
+
 Elm.Native.Signal = function(elm) {
   'use strict';
 
   elm.Native = elm.Native || {};
   if (elm.Native.Signal) return elm.Native.Signal;
-  
+
   var Utils  = Elm.Native.Utils(elm);
   var Either = Elm.Either(elm);
   var foldl1 = Elm.List(elm).foldl1;
@@ -1660,45 +1668,45 @@ Elm.Native.Signal = function(elm) {
       ++count;
       if (changed) { isChanged = true; }
       if (count == n) {
-	  if (isChanged) { this.value = update() }
-	  send(this, timestep, isChanged);
-	  isChanged = false;
-	  count = 0;
+        if (isChanged) { this.value = update(); }
+        send(this, timestep, isChanged);
+        isChanged = false;
+        count = 0;
       }
     };
     for (var i = n; i--; ) { args[i].kids.push(this); }
   }
 
   function lift(func, a) {
-    function update() { return func(a.value) }
+    function update() { return func(a.value); }
     return new LiftN(update, [a]);
   }
   function lift2(func, a, b) {
-    function update() { return A2( func, a.value, b.value ) }
+    function update() { return A2( func, a.value, b.value ); }
     return new LiftN(update, [a,b]);
   }
   function lift3(func, a, b, c) {
-    function update() { return A3( func, a.value, b.value, c.value ) }
+    function update() { return A3( func, a.value, b.value, c.value ); }
     return new LiftN(update, [a,b,c]);
   }
   function lift4(func, a, b, c, d) {
-    function update() { return A4( func, a.value, b.value, c.value, d.value ) }
+    function update() { return A4( func, a.value, b.value, c.value, d.value ); }
     return new LiftN(update, [a,b,c,d]);
   }
   function lift5(func, a, b, c, d, e) {
-    function update() { return A5( func, a.value, b.value, c.value, d.value, e.value ) }
+    function update() { return A5( func, a.value, b.value, c.value, d.value, e.value ); }
     return new LiftN(update, [a,b,c,d,e]);
   }
   function lift6(func, a, b, c, d, e, f) {
-    function update() { return A6( func, a.value, b.value, c.value, d.value, e.value, f.value ) }
+    function update() { return A6( func, a.value, b.value, c.value, d.value, e.value, f.value ); }
     return new LiftN(update, [a,b,c,d,e,f]);
   }
   function lift7(func, a, b, c, d, e, f, g) {
-    function update() { return A7( func, a.value, b.value, c.value, d.value, e.value, f.value, g.value ) }
+    function update() { return A7( func, a.value, b.value, c.value, d.value, e.value, f.value, g.value ); }
     return new LiftN(update, [a,b,c,d,e,f,g]);
   }
   function lift8(func, a, b, c, d, e, f, g, h) {
-    function update() { return A8( func, a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value ) }
+    function update() { return A8( func, a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value ); }
     return new LiftN(update, [a,b,c,d,e,f,g,h]);
   }
 
@@ -1711,38 +1719,38 @@ Elm.Native.Signal = function(elm) {
     return new LiftN(update, [input]);
   }
 
-  function dropIf(pred,base,input) {
+  function DropIf(pred,base,input) {
     this.id = Utils.guid();
     this.value = pred(input.value) ? base : input.value;
     this.kids = [];
     this.recv = function(timestep, changed, parentID) {
-	var chng = changed && !pred(input.value);
-	if (chng) { this.value = input.value; }
-	send(this, timestep, chng);
+      var chng = changed && !pred(input.value);
+      if (chng) { this.value = input.value; }
+      send(this, timestep, chng);
     };
     input.kids.push(this);
   }
 
-  function dropRepeats(input) {
+  function DropRepeats(input) {
     this.id = Utils.guid();
     this.value = input.value;
     this.kids = [];
     this.recv = function(timestep, changed, parentID) {
-	var chng = changed && !Utils.eq(this.value,input.value);
-	if (chng) { this.value = input.value; }
-	send(this, timestep, chng);
+      var chng = changed && !Utils.eq(this.value,input.value);
+      if (chng) { this.value = input.value; }
+      send(this, timestep, chng);
     };
     input.kids.push(this);
   }
-  
+
   function dropWhen(s1,b,s2) {
-    var pairs = lift2( F2(function(x,y){return {x:x,y:y}}), s1, s2 );
-    var dropped = new dropIf(function(p){return p.x},{x:true,y:b},pairs);
-    return lift(function(p){return p.y}, dropped)
+    var pairs = lift2( F2(function(x,y){return {x:x,y:y};}), s1, s2 );
+    var dropped = new DropIf(function(p){return p.x;},{x:true,y:b},pairs);
+    return lift(function(p){return p.y;}, dropped);
   }
 
   function timestamp(a) {
-    function update() { return Utils.Tuple2(Date.now(), a.value) }
+    function update() { return Utils.Tuple2(Date.now(), a.value); }
     return new LiftN(update, [a]);
   }
 
@@ -1750,69 +1758,69 @@ Elm.Native.Signal = function(elm) {
     this.id = Utils.guid();
     this.value = s2.value;
     this.kids = [];
-    
+
     var count = 0;
     var isChanged = false;
-    
+
     this.recv = function(timestep, changed, parentID) {
-	if (parentID === s1.id) isChanged = changed;
-	++count;
-	if (count == 2) {
-	    if (isChanged) { this.value = s2.value; }
-	    send(this, timestep, isChanged);
-	    count = 0;
-	    isChanged = false;
-	}
+      if (parentID === s1.id) isChanged = changed;
+      ++count;
+      if (count == 2) {
+        if (isChanged) { this.value = s2.value; }
+        send(this, timestep, isChanged);
+        count = 0;
+        isChanged = false;
+      }
     };
     s1.kids.push(this);
     s2.kids.push(this);
   }
 
-  function sampleOn(s1,s2) { return new SampleOn(s1,s2) }
+  function sampleOn(s1,s2) { return new SampleOn(s1,s2); }
 
   function delay(t,s) {
       var delayed = new Input(s.value);
       var firstEvent = true;
       function update(v) {
-	  if (firstEvent) { firstEvent = false; return; }
-	  setTimeout(function() { elm.notify(delayed.id, v) }, t);
+        if (firstEvent) { firstEvent = false; return; }
+        setTimeout(function() { elm.notify(delayed.id, v); }, t);
       }
-      function first(a,b) { return a }
+      function first(a,b) { return a; }
       return new SampleOn(delayed, lift2(F2(first), delayed, lift(update,s)));
   }
-  
+
   function Merge(s1,s2) {
       this.id = Utils.guid();
       this.value = s1.value;
       this.kids = [];
-    
+
       var next = null;
       var count = 0;
       var isChanged = false;
-      
+
       this.recv = function(timestep, changed, parentID) {
-	  ++count;
-	  if (changed) {
-	      isChanged = true;
-	      if (parentID == s2.id && next === null) { next = s2.value; }
-	      if (parentID == s1.id) { next = s1.value; }
-	  }
-	  
-	  if (count == 2) {
-	      if (isChanged) { this.value = next; next = null; }
-	      send(this, timestep, isChanged);
-	      isChanged = false;
-	      count = 0;
-	  }
+        ++count;
+        if (changed) {
+            isChanged = true;
+            if (parentID == s2.id && next === null) { next = s2.value; }
+            if (parentID == s1.id) { next = s1.value; }
+        }
+
+        if (count == 2) {
+            if (isChanged) { this.value = next; next = null; }
+            send(this, timestep, isChanged);
+            isChanged = false;
+            count = 0;
+        }
       };
       s1.kids.push(this);
       s2.kids.push(this);
   }
 
-  function merge(s1,s2) { return new Merge(s1,s2) }
-  function merges(ss) { return A2(foldl1, F2(merge), ss) }
+  function merge(s1,s2) { return new Merge(s1,s2); }
+  function merges(ss) { return A2(foldl1, F2(merge), ss); }
   function mergeEither(s1,s2) { return new Merge(lift(Either.Left, s1),
-                                                 lift(Either.Right,s2)) }
+                                                 lift(Either.Right,s2)); }
 
   function average(sampleSize, s) {
     var sample = new Array(sampleSize);
@@ -1822,13 +1830,13 @@ Elm.Native.Signal = function(elm) {
     var full = false;
     var total = 0;
     function f(n) {
-	total += n - sample[i];
-	sample[i] = n;
-	var avg = total / Math.max(1, full ? sampleSize : i);
-	if (++i == sampleSize) { full = true; i = 0; }
-	return avg;
+      total += n - sample[i];
+      sample[i] = n;
+      var avg = total / Math.max(1, full ? sampleSize : i);
+      if (++i == sampleSize) { full = true; i = 0; }
+      return avg;
     }
-    return lift(f,s);pp
+    return lift(f,s);
   }
 
   return elm.Native.Signal = {
@@ -1847,20 +1855,22 @@ Elm.Native.Signal = function(elm) {
     merges : merges,
     mergeEither : F2(mergeEither),
     average : F2(average),
-    count : function(s) { return foldp(F2(function(_,c) { return c+1 }), 0, s) },
+    count : function(s) { return foldp(F2(function(_,c) { return c+1; }), 0, s); },
     countIf : F2(function(pred,s) {
-	    return foldp(F2(function(x,c){return pred(x) ? c+1 : c}), 0, s)}),
+      return foldp(F2(function(x,c){
+        return pred(x) ? c+1 : c; }), 0, s)}),
     keepIf : F3(function(pred,base,sig) {
-	    return new dropIf(function(x) {return !pred(x)},base,sig) }),
-    dropIf : F3(function(pred,base,sig) { return new dropIf(pred,base,sig) }),
+      return new DropIf(function(x) {return !pred(x);},base,sig); }),
+    dropIf : F3(function(pred,base,sig) { return new DropIf(pred,base,sig); }),
     keepWhen : F3(function(s1,b,s2) {
-	    return dropWhen(lift(function(b){return !b;},s1), b, s2) }),
+      return dropWhen(lift(function(b){return !b;},s1), b, s2); }),
     dropWhen : F3(dropWhen),
-    dropRepeats : function(s) { return new dropRepeats(s);},
+    dropRepeats : function(s) { return new DropRepeats(s);},
     sampleOn : F2(sampleOn),
     timestamp : timestamp
   };
 };
+
 Elm.Native.Random = function(elm) {
   'use strict';
   elm.Native = elm.Native || {};
@@ -1873,14 +1883,15 @@ Elm.Native.Random = function(elm) {
     return A2( Signal.lift, f, signal );
   }
 
-  function float(signal) {
-    function f(x) { return Math.random() }
+  function flt(signal) {
+    function f(x) { return Math.random(); }
     return A2( Signal.lift, f, signal );
   }
 
-  return elm.Native.Random = { range: F3(range), float: float };
+  return elm.Native.Random = { range: F3(range), float: flt };
 
 };
+
 Elm.Native.Mouse = function(elm) {
   'use strict';
   elm.Native = elm.Native || {};
@@ -2007,13 +2018,13 @@ Elm.Native.Keyboard = function(elm) {
     function f(ks) {
       var x = 0, y = 0;
       while (ks.ctor == "Cons") {
-	switch (ks._0) {
-	case left : --x; break;
-	case right: ++x; break;
-	case up   : ++y; break;
-	case down : --y; break;
-	}
-	ks = ks._1;
+        switch (ks._0) {
+          case left : --x; break;
+          case right: ++x; break;
+          case up   : ++y; break;
+          case down : --y; break;
+        }
+        ks = ks._1;
       }
       return { _:{}, x:x, y:y };
     }
@@ -2075,16 +2086,16 @@ Elm.Native.Http = function(elm) {
     request.onreadystatechange = function(e) {
       if (request.readyState === 4) {
         response.value = (request.status === 200 ?
-	 { ctor:'Success', _0:JS.toString(request.responseText) } :
-	 { ctor:'Failure', _0:request.status, _1:JS.toString(request.statusText) });
-	setTimeout(function() { updateQueue(queue,responses); }, 0);
+        { ctor:'Success', _0:JS.toString(request.responseText) } :
+        { ctor:'Failure', _0:request.status, _1:JS.toString(request.statusText) });
+        setTimeout(function() { updateQueue(queue,responses); }, 0);
       }
     };
     request.open(JS.fromString(req.verb), JS.fromString(req.url), true);
     List.map(setHeader)(req.headers);
     request.send(JS.fromString(req.body));
   }
- 
+
   function send(requests) {
     var responses = Signal.constant(elm.Http.Waiting);
     var sender = A2( Signal.lift, registerReq([],responses), requests );
@@ -2154,7 +2165,7 @@ Elm.Native.Graphics.Input = function(elm) {
 	 btn.elmUp    = Render.render(model.up);
 	 btn.elmHover = Render.render(model.hover);
 	 btn.elmDown  = Render.render(model.down);
-	 
+
 	 function replace(node) {
            if (node !== btn.firstChild) btn.replaceChild(node, btn.firstChild);
 	 }
@@ -2316,6 +2327,7 @@ Elm.Native.Graphics.Input = function(elm) {
  };
 
 };
+
 Elm.Native.Graphics.Collage = function(elm) {
  "use strict";
 
@@ -3647,11 +3659,11 @@ ElmRuntime.use = function(M) {
 function isAlive(input) {
     if (!('defaultNumberOfKids' in input)) return true;
     var len = input.kids.length;
-    if (len == 0) return false;
+    if (len === 0) return false;
     if (len > input.defaultNumberOfKids) return true;
     var alive = false;
     for (var i = len; i--; ) {
-	alive = alive || isAlive(input.kids[i]);
+        alive = alive || isAlive(input.kids[i]);
     }
     return alive;
 }
@@ -3659,7 +3671,7 @@ function isAlive(input) {
 ElmRuntime.filterDeadInputs = function(inputs) {
     var temp = [];
     for (var i = inputs.length; i--; ) {
-	if (isAlive(inputs[i])) temp.push(inputs[i]);
+        if (isAlive(inputs[i])) temp.push(inputs[i]);
     }
     return temp;
 };
@@ -3668,8 +3680,8 @@ ElmRuntime.filterDeadInputs = function(inputs) {
 var vendors = ['ms', 'moz', 'webkit', 'o'];
 for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
     window.requestAnimationFrame = window[vendors[i]+'RequestAnimationFrame'];
-    window.cancelAnimationFrame  = window[vendors[i]+'CancelAnimationFrame'] 
-                                || window[vendors[i]+'CancelRequestAnimationFrame'];
+    window.cancelAnimationFrame  = window[vendors[i]+'CancelAnimationFrame'] ||
+                                   window[vendors[i]+'CancelRequestAnimationFrame'];
 }
 
 if (window.requestAnimationFrame && window.cancelAnimationFrame) {
@@ -3696,10 +3708,15 @@ Elm.fullscreen = function(module) {
     return init(ElmRuntime.Display.FULLSCREEN, document.body, module);
 };
 
-Elm.node = function(width, height, module) {
-    var container = document.createElement('div');
-    container.style.width = width + 'px';
-    container.style.height = height + 'px';
+Elm.byId = function(id, module) {
+    var container = document.getElementById(id);
+    var tag = container.tagName;
+    if (tag !== 'DIV') {
+        throw new Error('Elm.byId must be given a div, not a ' + tag + '.');
+    }
+    while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+    }
     return init(ElmRuntime.Display.COMPONENT, container, module);
 };
 
@@ -3712,7 +3729,7 @@ function init(display, container, module) {
   var signalGraph = null;
   var inputs = [];
   var visualModel = null;
-  
+
   function notify(id, v) {
     var timestep = Date.now();
     var hasListener = false;
@@ -3727,7 +3744,7 @@ function init(display, container, module) {
   container.offsetX = 0;
   container.offsetY = 0;
 
-  // create the actuall RTS. Any impure modules will attach themselves to this
+  // create the actual RTS. Any impure modules will attach themselves to this
   // object. This permits many Elm programs to be embedded per document.
   var elm = { notify:notify,
               node:container,
@@ -3738,7 +3755,7 @@ function init(display, container, module) {
 
   // Set up methods to communicate with Elm program from JS.
   function send(name, value) {
-      if (typeof value === 'undefined') return function(v) { return send(name,v) };
+      if (typeof value === 'undefined') return function(v) { return send(name,v); };
       var e = document.createEvent('Event');
       e.initEvent(name + '_' + elm.id, true, true);
       e.value = value;
@@ -3751,8 +3768,8 @@ function init(display, container, module) {
   recv('log', function(e) {console.log(e.value)});
   recv('title', function(e) {document.title = e.value});
   recv('redirect', function(e) {
-	if (e.value.length > 0) { window.location = e.value; }
-      });
+    if (e.value.length > 0) { window.location = e.value; }
+  });
 
   // If graphics are not enabled, escape early, skip over setting up DOM stuff.
   if (display === ElmRuntime.Display.NONE) {
@@ -3763,7 +3780,7 @@ function init(display, container, module) {
 
   // evaluate the given module and extract its 'main' value.
   signalGraph = module(elm).main;
-  
+
   // make sure the signal graph is actually a signal, extract the visual model,
   // and filter out any unused inputs.
   var Signal = Elm.Signal(elm);
@@ -3786,7 +3803,7 @@ function init(display, container, module) {
           });
       return value;
   }
-  
+
   signalGraph = A2(Signal.lift, domUpdate, signalGraph);
     
   return { send : send, recv : recv, node : container };
@@ -4127,8 +4144,8 @@ function trace(ctx, path) {
     ctx.moveTo(points[i]._0, points[i]._1);
     while (i--) { ctx.lineTo(points[i]._0, points[i]._1); }
     if (path.closed) {
-	i = points.length - 1;
-	ctx.lineTo(points[i]._0, points[i]._1);
+        i = points.length - 1;
+        ctx.lineTo(points[i]._0, points[i]._1);
     }
 }
 
@@ -4149,26 +4166,26 @@ function customLineHelp(ctx, style, path) {
     var draw = true, segmentLength = pattern[0];
     ctx.moveTo(x0,y0);
     while (i--) {
-	x1 = points[i]._0; y1 = points[i]._1;
-	dx = x1 - x0; dy = y1 - y0;
-	remaining = Math.sqrt(dx * dx + dy * dy);
-	while (segmentLength <= remaining) {
-	    x0 += dx * segmentLength / remaining;
-	    y0 += dy * segmentLength / remaining;
-	    ctx[draw ? 'lineTo' : 'moveTo'](x0, y0);
-	    // update starting position
-	    dx = x1 - x0; dy = y1 - y0;
-	    remaining = Math.sqrt(dx * dx + dy * dy);
-	    // update pattern
-	    draw = !draw;
-	    pindex = (pindex + 1) % plen;
-	    segmentLength = pattern[pindex];
-	}
-	if (remaining > 0) {
-	    ctx[draw ? 'lineTo' : 'moveTo'](x1, y1);
-	    segmentLength -= remaining;
-	}
-	x0 = x1; y0 = y1;
+        x1 = points[i]._0; y1 = points[i]._1;
+        dx = x1 - x0; dy = y1 - y0;
+        remaining = Math.sqrt(dx * dx + dy * dy);
+        while (segmentLength <= remaining) {
+            x0 += dx * segmentLength / remaining;
+            y0 += dy * segmentLength / remaining;
+            ctx[draw ? 'lineTo' : 'moveTo'](x0, y0);
+            // update starting position
+            dx = x1 - x0; dy = y1 - y0;
+            remaining = Math.sqrt(dx * dx + dy * dy);
+            // update pattern
+            draw = !draw;
+            pindex = (pindex + 1) % plen;
+            segmentLength = pattern[pindex];
+        }
+        if (remaining > 0) {
+            ctx[draw ? 'lineTo' : 'moveTo'](x1, y1);
+            segmentLength -= remaining;
+        }
+        x0 = x1; y0 = y1;
     }
 }
 
@@ -4223,8 +4240,19 @@ function drawImage(redo, ctx, form) {
     var img = new Image();
     img.onload = redo;
     img.src = fromString(form._3);
-    var w = form._0, h = form._1, pos = form._2;
-    ctx.drawImage(img, pos._0, pos._1, w, h, -w/2, -h/2, w, h);
+    var w = form._0,
+        h = form._1,
+        pos = form._2,
+        srcX = pos._0,
+        srcY = pos._1,
+        srcW = w,
+        srcH = h,
+        destX = -w/2,
+        destY = -h/2,
+        destW = w,
+        destH = h;
+
+    ctx.drawImage(img, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
 }
 
 function renderForm(redo, ctx, form) {
@@ -4431,6 +4459,7 @@ function update(div, _, model) {
 return { render:render, update:update };
 
 };
+
 Elm.Website = Elm.Website||{};
 Elm.Website.ColorScheme = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
