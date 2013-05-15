@@ -117,15 +117,15 @@ Elm.Native.Utils = function(elm) {
 
   function adjustOffset() {
       var node = elm.node;
-      var offsetX = offsetY = 0;
+      var offsetX = 0, offsetY = 0;
       if (node.offsetParent) {
           do {
               offsetX += node.offsetLeft;
               offsetY += node.offsetTop;
           } while (node = node.offsetParent);
       }
-      node.offsetX = offsetX;
-      node.offsetY = offsetY;
+      elm.node.offsetX = offsetX;
+      elm.node.offsetY = offsetY;
   }
 
   if (elm.display === ElmRuntime.Display.COMPONENT) {
