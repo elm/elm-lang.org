@@ -7,13 +7,13 @@ install = [markdown|
 
 What you are getting:
 
-1. A **self-contained server** that serves Elm files, images, videos, HTML, JavaScript,
+1. A **compiler** that turns Elm code into HTML, CSS, and JavaScript. You can
+   then serve those files however you see fit.
+
+2. A **self-contained server** that serves Elm files, images, videos, HTML, JavaScript,
    and anything else you can think of with no set up.
    No need to mess around with Apache or PHP or Ruby or whatever else.
    The server just works, so you can focus on things that matter.
-
-2. A **compiler** that turns Elm code into HTML, CSS, and JavaScript. You can
-   then serve those files however you see fit.
 
 See these [install instructions][1] to get Elm running on your machine.
 If you run into problems, you should email the [mailing list][2]

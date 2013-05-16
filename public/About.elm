@@ -17,7 +17,7 @@ ramp up in difficulty, taking you from beginner to expert.
 
 leftCol = [markdown|
 
-#### About the language
+#### Overview of features
 
 * [What is &ldquo;Functional Reactive Programming&rdquo;?][frp]
 * [Getting started with Types][types]
@@ -73,7 +73,7 @@ releaseNotes = [markdown|
 
 #### Release notes
 
-* [`0.8.0`][8]  &ndash; 
+* [`0.8.0`][8]  &ndash; JS integration, type annotations/aliases
 * [`0.7.1`][71] &ndash; Touch, Either, and better Keyboard
 * [`0.7.0`][7]  &ndash; Extensible Records
 * [`0.6.0`][6]  &ndash; Time, Dates, and whitespace sensitivity

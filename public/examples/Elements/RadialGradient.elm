@@ -21,7 +21,7 @@ grad4 = radial (0,0) 10 (7,0-5) 30
 
 main =
   collage 300 300 [
-    circle 100 |> gradient grad1 |> move (0-55) (0-55),
-    circle 100 |> gradient grad2 |> move 40 85,
-    circle 100 |> gradient grad3 |> move 50 (0-10),
-    circle 100 |> gradient grad4 |> move (0-10) 50 ]
+    circle 100 |> gradient grad1 |> move (0-55,0-55),
+    circle 100 |> gradient grad2 |> move (40,85),
+    circle 100 |> gradient grad3 |> move (50,0-10),
+    circle 100 |> gradient grad4 |> move (0-10,50) ]

@@ -54,5 +54,5 @@ skeleton bodyFunc outer =
        ]
 
 redirect = JS.fromString <~ navigation.events
-foreign export jsevent "elm_redirect"
+foreign export jsevent "redirect"
   redirect : Signal JSString
