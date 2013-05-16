@@ -83,7 +83,7 @@
 , { "module" : "Automaton"
   , "description" : "This library is a way to package up dynamic behavior.\nIt makes it easier to dynamically create dynamic components.\nSee the [original release](/blog/announce/version-0.5.0.elm)\nnotes on this library to get a feel for how it can be used."
   , "sections" :
-     [ { "name":"Create"  , "values":["pure","init","init'"] }
+     [ { "name":"Create"  , "values":["pure","state","hiddenState"] }
      , { "name":"Evaluate", "values":["run","step"] }
      , { "name":"Combine" , "values":[">>>","<<<","combine"] }
      , { "name":"Common Automatons", "values":["count","average"] }
@@ -124,19 +124,20 @@
      ]
   }
 , { "module" : "WebSocket"
-  , "description" : "A library for low latency HTTP communication.\nSee the Http library for standard requests like GET, POST, etc."
+  , "description" : "An experimental library for low latency HTTP communication.\nThis API is likely to change if a better approach is found.\nSee the [Http library](/docs/Http.elm) for standard requests like GET, POST, etc."
   , "sections" : [ {"name":"Open Connections", "values":["open"]} ]
   }
 , { "module" : "Time"
   , "description" : ""
   , "sections" :
-     [ {"name":"Tickers", "values":["fps","fpsWhen","every","since"]}
+     [ {"name":"Tickers", "values":["fps","fpsWhen","every"]}
+     , {"name":"Timing", "values":["timestamp","delay","since"]}
      , {"name":"Units", "values":["ms","second","minute","hour",
                                   "inMss","inSeconds","inMinutes","inHours"]}
      ]
   }
 , { "module" : "JavaScript"
-  , "description" : ""
+  , "description" : "This library just does basic conversions between Elm and JS values. The key value is that this allows the internal data structures of Elm to change and improve with no impact on JS integration."
   , "sections" :
      [ {"name":"JavaScript to Elm",
         "values":["toString","toInt","toFloat","toBool","toList"]}
@@ -157,7 +158,7 @@
      ]
   }
 , { "module" : "Random"
-  , "description" : ""
+  , "description" : "Since the core of Elm is pure, randomness must be handled via signals."
   , "sections" : [ {"name":"Random Numbers","values":["range","float"]} ]
   }
 , { "module" : "Matrix2D"
@@ -166,12 +167,14 @@
      [ {"name":"Basic Matrices","values":["identity","matrix"]}
      , {"name":"Transforms","values":["rotate","move","scale","scaleX","scaleY",
                                       "reflectX","reflectY","transform"]}
+     , {"name":"Multiplication","values":["multiply"]}
      ]
   }
 , { "module" : "Text"
   , "description" : ""
   , "sections" :
-     [ {"name":"Creating Elements",
+     [ {"name":"Creating Text","values":["toText"]}
+     , {"name":"Creating Elements",
         "values":["plainText","asText","text","centered","justified","righted"]}
      , {"name":"Text Formatting",
         "values":["bold","italic","underline","overline","strikeThrough",
@@ -206,6 +209,37 @@
                  "middleAt","midTopAt","midBottomAt","midLeftAt","midRightAt",
                  "topLeftAt","topRightAt","bottomLeftAt","bottomRightAt",
                  "absolute","relative"]}
+     ]
+  }
+, { "module" : "Graphics.Input"
+  , "description" : ""
+  , "sections" : []
+  }
+, { "module" : "Graphics.Collage"
+  , "description" : ""
+  , "sections" : []
+  }
+, { "module" : "Prelude"
+  , "description" : ""
+  , "sections" :
+     [{"name":"Angle Conversions",
+       "values":["radians","degrees","turns"]}
+     ,{"name":"Trigonometry",
+       "values":["pi","cos","sin","tan","acos","asin","atan","atan2"]}
+     ,{"name":"Comparisons",
+       "values":["==","/=","<",">","<=",">=","compare","max","min","clamp"]}
+     ,{"name":"Booleans",
+       "values":["&&","||","xor","not","otherwise"]}
+     ,{"name":"Number Conversions",
+       "values":["round","floor","ceiling","truncate","toFloat","readInt","readFloat"]}
+     ,{"name":"Mathematics",
+       "values":["+","-","*","/","div","rem","mod","^","abs","sqrt","logBase","e"]}
+     ,{"name":"Higher-order helpers",
+       "values":["id","|>","<|",".","flip","curry","uncurry"]}
+     ,{"name":"Tuples",
+       "values":["fst","snd"]}
+     ,{"name":"Polar Coordinates",
+       "values":["toPolar","fromPolar"]}
      ]
   }
 ]
