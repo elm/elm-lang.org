@@ -47,7 +47,7 @@ This document lists all possible Elm syntax.
 - [Functions](#functions)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
-- [Lifting with (<~) and (~)](#lifting)
+- [Lifting with `(<~)` and `(~)`](#lifting)
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
@@ -394,21 +394,16 @@ The rules are the same for `export` except you do not need an initial value.
 Elm has four built-in event handlers that take a `JSString` and automatically
 take some imperative action:
 
-* `"elm_title"` which sets the page title, ignoring empty strings.
-* `"elm_log"` which logs messages in the developer console.
-* `"elm_redirect"` which redirects to a different page, ignoring empty strings.
-* `"elm_viewport"` which is necessary if you want mobile browsers to accurately
-  report their dimensions, allowing you to design a &ldquo;mobile
-  optimized&rdquo; program that looks great on any device. The given string
-  sets the `content` field of a meta tag like this:<br/>
-  `<meta name="viewport" content="width=device-width, initial-scale=1"\>`
+* `"title"` which sets the page title, ignoring empty strings.
+* `"log"` which logs messages in the developer console.
+* `"redirect"` which redirects to a different page, ignoring empty strings.
 
 ### Things *not* in Elm
 
 Elm currently does not support:
 
 - setting the precedence or associativity of infix operators (also will be added)
-- operator sections such as `(1+)`
+- operator sections such as `(+1)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
 - arbitrary ordering for non-function definitions (i.e. `x = y` must come after `y = 3` for now)
 - `where` clauses

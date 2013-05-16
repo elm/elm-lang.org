@@ -45,10 +45,17 @@ We will cover [basic types](#what-is-a-type), [types for data
 structures](#types-for-data-structures), and [types for
 functions](#types-for-functions).
 
-If you start feeling lost, do not fear! It can take a while for types
-to really sink into your brain, and the more you program and use them,
-the more natural and easy they will feel. Do not get discouraged! Learning
-how types work is as an investment in writing provably correct programs!
+**To people new to types:** If you start feeling lost, do not fear!
+It can take a while for types to really sink into your brain, and the
+more you use them, the more natural they will become.
+
+**To people with an imperative background:**
+Types in Elm are not like types in C and Java. Elm has full type-inference,
+meaning that all the types can be figured out and checked by the compiler
+without *any* type annotations, making it much less onerous.
+
+So give it a chance and do not get discouraged! Learning how types work is as an investment.
+The reward is being able to write programs that &ldquo;just work&rdquo;.
 
 Let&rsquo;s get started!
 
@@ -281,7 +288,7 @@ with `not`, it is specialized to have the type:
 -- map : (Bool -> Bool) -> [Bool] -> [Bool]
 
 nots : [Bool] -> [Bool]
-nots bs = map not bs
+nots bools = map not bools
 ```
 
 And when it is used with `length` it is specialized to have the type:

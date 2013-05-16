@@ -1,7 +1,9 @@
 import Website.Skeleton
+import Website.ColorScheme
 
 import JavaScript as JS
 import Window as Window
+import Graphics.Input as Input
 --import HTTP
 --import JSON
 
@@ -38,6 +40,10 @@ code > span.er { font-weight: bold; }
 <h1><div style="text-align:center">Escape from Callback Hell
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
 </h1>
+
+<span style="color:rgb(234,21,122)">
+*This post is temporarily out of order. Sorry for the inconvenience! It should be back up soon.*
+</span>
 
 |]
 
@@ -125,8 +131,6 @@ In short:
 [goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
 </div>
 
-<br/>
-
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
   [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
   [frp]: /learn/What-is-FRP.elm "FRP"
@@ -150,9 +154,14 @@ this more concrete. The following example will explain the current state
 of affairs and fully explain how to create readable, responsive code that is
 entirely free of callbacks.
 
+<span style="color:rgb(234,21,122)">
+*The rest of this post should be back soon!*
+</span>
+
+
 |]
 
-
+{--
 funcs = spacer 170 300 `above` width 170 [markdown|
 
 <div style="color:#666;font-size:0.6em;text-align:left">
@@ -279,12 +288,12 @@ all interactive time-varying content. For example, the value of a text input fie
   [frp]: /learn/What-is-FRP.elm "FRP"
 
 ```haskell
-(inputField, tags) = Input.textField "Tag"
+(tagField, tags) = Input.field "Tag"
 ```
 
-This creates two values. The first is a visual element called `inputField` that users can type into.
-This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
-as the user types into `inputField`. Here are the `inputField` and the `tags` signal in action. Try typing
+We created two values. The first is a signal of visual elements called `tagField`. This is a normal
+text box. The second is a signal called `tags`. The value of `tags` changes automatically
+as the user types and highlights in the input field. Here they are in action. Try typing
 into the input box to see `tags` update automatically.
 
 |]
@@ -365,7 +374,7 @@ of HTTP requests we make. The result looks like this:
 
 |]
 {-
-(tagInput',tags') = Input.textField "Flickr Search"
+(tagInput',tags') = Input.field "Flickr Search"
 
 getPhotos tags =
   let photoList  = send (lift requestTag tags)
@@ -384,8 +393,8 @@ flickrRequest =
 
 extract response =
   case response of
-  { Success str -> JSON.fromString str
-  ; _ -> empty }
+    Success str -> JSON.fromString str
+    _ -> empty
 
 requestTag tag =
   if tag == "" then get "" else
@@ -463,13 +472,12 @@ if you do not have any experience reading academic papers. You can also email
 |]
 
 
---(inputField, tags) = Input.textField "Tag"
+(inputField, tags) = Input.field "Tag"
 
-code = text . monospace . toText
+code w = width w . centered . monospace . toText
 box w e = container w 30 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
-{-
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
 dropTil s = case s of { h::t -> if h == '[' then t else dropTil t ; _ -> s }
 format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
@@ -478,45 +486,61 @@ showResponse r =
           Success r -> "Success \"... " ++ format r ++ " ...\""
           Waiting -> "Waiting"
           Failure n _ -> "Failure " ++ show n ++ " \"...\"")
--}
-content w tags response search =
+--}
+
+{--
+content w inputField tags response search =
   let sideBySide big small = flow right [ width w big, spacer 30 100, small ]
       codePair l r = pairing w (code l) (asText r)
-      asyncElm = flow down . map (width w) $
+      asyncElm = flow down . map (width w) <|
                  [ asyncElm1
-                 --, pairing w inputField (asText tags)
+                 , container w (heightOf inputField + 4) middle inputField
+                 , spacer w 10
+                 , container w 20 middle (asText tags)
                  , asyncElm2
-                 --, codePair "lift length tags" (length tags)
-                 --, codePair "lift reverse tags" (reverse tags)
+                 , code w ("tagString = lift .string tags")
+                 , code w ("lift length tagString == " ++ show (length tags.string))
+                 , code w ("lift reverse tagString == " ++ show (reverse tags.string))
                  --, codePair "lift requestTag tags" (requestTagSimple tags)
                  , asyncElm3
                  --, pairing w (code "send (lift requestTag tags)") (showResponse response)
                  , asyncElm4 ]
+--}
+content wid =
+  let w = wid - 200
   in flow down
       [ width w intro
-      , sideBySide midtro1 quote1
-      , sideBySide midtro2 quote2
-      , sideBySide midtro3 funcs
+--      , sideBySide midtro1 quote1
+--      , sideBySide midtro2 quote2
+{--      , sideBySide midtro3 funcs
       , asyncElm
       , container w (heightOf search) middle search
-      , width w outro ]
-
+      , width w outro
+--}
+      ]
+{--
 defaultContent = content 600
 
-blog tags response search w' = 
+blog inputField tags response search w' = 
     let w = w' - 200
-        c = if w' == 800 then defaultContent tags response search
-                         else content w tags response search
+        c = if w' == 800 then defaultContent inputField tags response search
+                         else content w inputField tags response search
     in  container w' (heightOf c) middle c
 
 requestTag' tag =
   if tag == "" then "" else
   concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
   
-everything = lift3 blog (constant "" {-tags-}) (constant "" {-HTTP.sendGet (lift requestTag' tags)-}) (constant $ spacer 200 200 {-flickrSearch-})
+everything = blog <~ inputField
+                   ~ tags
+                   ~ (constant "" {-HTTP.sendGet (lift requestTag' tags)-})
+                   ~ (constant $ spacer 200 200 {-flickrSearch-})
 
 main = lift2 skeleton everything Window.width
+--}
+
+main = skeleton content <~ Window.width
 
 titles = constant (JS.fromString "Escape from Callback Hell")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   titles : Signal JSString

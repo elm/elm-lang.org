@@ -93,13 +93,13 @@ orange = RGB 255 127 0
 purple = RGB 128 0 128
 ```
 
-Okay, now that we can put additional information in our ADTs, let&rsquo;s try to
-make something more practical.
+Okay, now that we know how to put additional data in our ADTs,
+let&rsquo;s try to make something more practical.
 
 ### Practical Examples
 
-Now let's try a more complicated example. If you have ever implemented a
-linked list in C or Java you will appreciate how easy this is in Elm.
+If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list)
+in C or Java you will appreciate how easy this is in Elm.
 The following algebraic data type represents a list. The front of a list
 can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into an ADT:
@@ -242,5 +242,5 @@ main = lift (skeleton (what . min 600)) Window.width
 ---- Setting the title of the page to be prettier ----
 
 titles = constant (JS.fromString "What is Pattern Matching?")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   titles : Signal JSString

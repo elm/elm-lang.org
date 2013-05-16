@@ -197,5 +197,5 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 ---- Setting the title of the page to be prettier ----
 
 titles = constant (JS.fromString "What is FRP?")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   titles : Signal JSString

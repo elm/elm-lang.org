@@ -5,7 +5,7 @@ import Window as Window
 import JavaScript as JS
 
 title = constant (JS.fromString "JavaScript Integration")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   title : Signal JSString
 
 main = lift (skeleton intro) Window.width
@@ -44,24 +44,39 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Elm + JS*</div></div>
 </h1>
 
-Elm&rsquo;s JavaScript integration bridges the gap between the two languages
-without sacrificing the key benefits of Elm. You do not have to give up strong
-static typing or the module system to get some of the benefits of JS. We will
-go through:
+Elm can be embedded directly in HTML or JS. This means Elm
+integrates with your existing workflow, whether you make web apps
+or work with server-side JS. Using Elm is not an all-or-nothing choice.
 
-* Initialize Elm: full-page, in a DOM node, without graphics
-* Communicate with Elm
+This lowers the barrier if you want to experiment with Elm and makes
+it easier to convince your boss that it is okay to use
+Elm in an existing project.
+
+This post will cover:
+
+* Creating Elm programs that are fullscreen, in a `<div>`, or just a worker
+* Communicating between Elm and JS
 
 It should be possible to call Elm functions directly from JS at some point, but
 that API is not ready yet.
 
-## Elm modules in JavaScript
+## Embedding Elm in HTML
 
-Modules are the basic unit of compilation in Elm, and
-any module can be initialized from JavaScript. You can
-have modules take over the whole window, squeeze themselves into a `<div>`,
-or even turn the renderer off altogether and just run computations. Let&rsquo;s
-look at these three possibilities in action!
+The following video walk-through is a basic example
+of embedding Elm in HTML. The code is available to download
+and play around with [here](https://gist.github.com/evancz/5581910).
+
+<div style="position:relative; height:350px;">
+<iframe width="600" height="350"
+        src="http://www.youtube.com/embed/xt07tLqa_m8?rel=0"
+             style="position:absolute; margin-left:-300px; left:50%;"
+        frameborder="0" allowfullscreen></iframe>
+</div>
+
+Okay, so now that we have seen what is possible, let&rsquo;s see the
+APIs in detail.
+
+## Elm modules in JavaScript
 
 We will start with a Hello World module which simply displays the
 text &ldquo;Hello, World!&rdquo;:
@@ -72,39 +87,27 @@ module HelloWorld where
 main = plainText "Hello, World!"
 ```
 
-Elm modules are attached to the global `Elm` object in JavaScript.
-We can initialize each module with the `Elm.init` function.
-In our case we could say:
+Elm modules are attached to the global `Elm` object in JavaScript,
+so to refer to this module we say `Elm.HelloWorld`.
+We can initialize this module in three different ways:
 
 ```javascript
-var fullScreenElm = Elm.init(Elm.HelloWorld);
+// Take over the <body>
+var elm1 = Elm.fullscreen(Elm.HelloWorld);
+
+// Take over <div id="hello-elm"></div>
+var elm2 = Elm.byId('hello-elm', Elm.HelloWorld);
+
+// Start an Elm worker with no graphics
+var elm3 = Elm.worker(Elm.HelloWorld);
 ```
 
-This takes over the whole `<body>`, making it full screen. That is all you
-need to do to start a normal Elm program, and in most cases the compiler will set
-this up for you.
+When you use `Elm.byId`, `Window.dimensions` and `Mouse.position` will be
+relative to the `<div>`, not the entire page.
 
-You can also embed an Elm module in a particular `<div>`. This means
-you can easily bring a small Elm component into an existing JavaScript
-project.
-
-```javascript
-var node = document.createElement('div');
-var embeddedElm = Elm.init(Elm.HelloWorld, node);
-```
-
-In this case, `Window.dimensions` and `Mouse.position` are given relative to the
-actual Elm `<div>`, not the entire page.
-
-Finally, you can start an Elm module without any graphics at all. The primary
-usage of this would be in a purely JS environment such as node.js.
-
-```javascript
-var computeElm = Elm.init(Elm.HelloWorld, null);
-```
-
-Next we will see how to communicate between Elm and JS. This makes it possible
-to use Elm and JS together, using each for what they do best.
+Notice that we created three objects: `elm1`, `elm2`, and `elm3`. These objects
+give access to the `send` and `recv` functions which let you communicate with
+Elm. The next section explains these functions in more detail.
 
 ## Communication between Elm and JS
 
@@ -116,7 +119,7 @@ We would like to send events from JS through `WorkHorse` for processing.
 First we initialize our module without any of the rendering tools:
 
 ```javascript
-var workhorse = Elm.init(Elm.WorkHorse, null);
+var workhorse = Elm.worker(Elm.WorkHorse);
 ```
 
 The `workhorse` object has two methods, `send` and `recv`, which do exactly as
@@ -210,14 +213,15 @@ Interface since you cannot actually share functions with this API.
 
 ## Converting between Elm and JavaScript values
 
-Elm provides the [`JavaScript`](/docs/JavaScript.elm) and [`Json`](/docs/Json.elm)
-libraries to convert between Elm and JS values. You will need to use this library to
+Elm provides the [`JavaScript`](/docs/JavaScript.elm) and
+[`Json`](/docs/Json.elm) libraries to convert between Elm and
+JS values. You will need to use this library to
 work with JS values in Elm or to send values to JS.
 
 This layer of abstraction decouples
 Elm from any of the particulars of its implementation. Long term, this
-will permit the compiler and runtime system to become faster and more clever without
-any changes to Elm itself.
+will permit the compiler and runtime system to become faster and more
+clever without any changes to Elm itself.
 
 ## Example: Setting Cookies
 
