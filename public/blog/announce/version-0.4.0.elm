@@ -5,7 +5,7 @@ import JavaScript as JS
 import Window as Win
 
 title = constant (JS.fromString "Elm 0.4: Graphics Upgrade")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   title : Signal JSString
 
 blog = [markdown|

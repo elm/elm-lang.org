@@ -1,3 +1,4 @@
+import Graphics.Input as Input
 import Website.Skeleton
 import Website.ColorScheme
 import Window as Window
@@ -5,21 +6,12 @@ import JavaScript as JS
 import Text as Text
 
 title = constant (JS.fromString "Upgrade Time: Elm 0.6")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   title : Signal JSString
 
+main = lift (skeleton intro) Window.width
 
-sideBySide wid e1 e2 =
-  let w = wid `div` 2
-      h = max (heightOf e1) (heightOf e2)
-      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rarr;"
-  in  layers [ container wid h middle arrow
-             , flow right [ container w h middle e1
-                          , container w h middle e2
-                          ]
-             ]
-
-intro = [markdown|
+intro w = width (min 600 w) [markdown|
 
 <style>p { text-align: justify }</style>
 
@@ -52,6 +44,12 @@ larger examples ([sliding circle][slide], [color wheel][wheel]).
   [code]: https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong "Source for Pong"
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"
+
+**The rest of this post is out of order for now. Sorry for the inconvenience!**
+
+|]
+
+{--
 
 ## Syntax
 
@@ -235,7 +233,7 @@ The Date library provides a basic way to work with locale specific dates. I am n
 The coolest function here is probably `Date.read` which attempts to read an arbitrary string as a date:
 |]
 
-(dateInput, dateString) = Input.textField "Date"
+(dateInput, dateString) = Input.textfield "Date"
 
 maybeDate w str =
   let msg = Graphics.height 50 (case Date.read str of
@@ -376,7 +374,7 @@ spiral time =
             , n/2 * sin (n/3) )
       spiral = line $ map f [ 3 .. 100 ]
       clr = hsv (round (inSeconds time * 30) `mod` 360) 1 1
-  in  collage 100 100 [ move 50 50 . rotate a $ solid clr spiral ]
+  in  collage 100 100 [ move (50,50) . rotate a <| traced (solid clr) spiral ]
 
 times1 = foldp (+) 0 $ 30 `fpsWhen` Mouse.isDown
 
@@ -393,5 +391,16 @@ speed = lift clickSpeed . foldp min 5000 . diffs $ timeOf Mouse.clicks
 
 times3 = foldp (+) 0 (30 `fpsWhen` (second `since` Mouse.clicks))
 
+sideBySide wid e1 e2 =
+  let w = wid `div` 2
+      h = max (heightOf e1) (heightOf e2)
+      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rarr;"
+  in  layers [ container wid h middle arrow
+             , flow right [ container w h middle e1
+                          , container w h middle e2
+                          ]
+             ]
+
 main = lift2 skeleton (lift4 scene speed times1 times3 dateString) Window.width
 
+--}
