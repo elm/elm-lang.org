@@ -4,17 +4,24 @@ import Website.ColorScheme
 import Window as Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.8")
-foreign export jsevent "elm_title"
+title = constant (JS.fromString "Elm 0.8 - Improve Everything")
+foreign export jsevent "title"
   title : Signal JSString
 
-main = lift (skeleton intro) Window.width
+main = lift (skeleton everything) Window.width
 
-intro w = width w [markdown|
+everything wid =
+    let w = min 600 wid
+    in  flow down [ width w intro,
+                    container w 50 middle dots,
+                    spacer w 10, width w midtro,
+                    container w 50 middle crosses,
+                    spacer w 10, width w postCross ]
+
+intro = [markdown|
 
 <style type="text/css">
 p { text-align: justify }
-h2,h3,h4 { padding-top: 0.5em; }
 pre {
  background-color: rgb(245,245,245);
  margin: 0 30px;
@@ -41,16 +48,303 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.8
-<div style="font-size:0.5em;font-weight:normal">*Improving everything*</div></div>
+<h1><div style="text-align:center">Elm 0.8 &ndash; Improve Everything
+<div style="font-size:0.5em;font-weight:normal">*Too many improvements to fit in a pithy title*</div></div>
 </h1>
 
-A new release.
+The most important improvements and additions are:
 
-* Type annotations and type aliases
-* More efficient function calls and ADT representation
-* Improve the `collage` API
-* Allow dynamic creation of GUI inputs
-* Better JS integration
+* [Embedding Elm in HTML and JS](#embedding-elm-in-html-and-js)
+* [Input widgets can be created dynamically and updated programmatically](#dynamic-inputs)
+* [Better 2D graphics API](#better-2d-graphics)
+* [Type annotations and type aliases](#type-annotations-and-type-aliases)
+* [Performance and infrastructure improvements](#faster-currying-and-data-structures)
+* [Inline documentation in the online editor](#inline-documentation) (thanks to Mads)
+
+So this release finally answers the questions &ldquo;How do I dynamically create
+buttons?&rdquo; and &ldquo;How do I embed Elm in HTML and JS?&rdquo; I think
+this is a big step towards writing traditional web apps in the Functional
+Reactive style. In the case of dynamic creation of buttons, it actually
+required an approach that appears to be new to FRP.
+
+There are a some breaking changes along the way, so I will be sure to bring them
+up!
+
+## Embedding Elm in HTML and JS
+
+Elm can now be embedded directly in HTML or JS. This means Elm will
+integrate with your existing workflow, whether you make web apps
+or work with server-side JS. Using Elm is not an all-or-nothing choice anymore.
+
+This lowers the barrier if you want to experiment with Elm and makes it
+easier to convince your boss that it is okay to use Elm in an existing project.
+
+The description of [how to embed Elm code](learn/JavaScript-Integration.elm)
+explains all of the details of the API.
+
+The following video is a short demo of how to embed Elm in a `<div>`. 
+
+<div style="position:relative; height:350px;">
+<iframe width="600" height="350"
+        src="http://www.youtube.com/embed/xt07tLqa_m8?rel=0"
+             style="position:absolute; margin-left:-300px; left:50%;"
+        frameborder="0" allowfullscreen></iframe>
+</div>
+
+So it is no longer an all-or-nothing choice. You can use Elm where it
+makes sense and HTML everywhere else.
+
+## Dynamic Inputs
+
+The new [`Graphics.Input` library](/docs/Graphics/Input.elm) introduces
+text boxes, buttons, and checkboxes that can be created dynamically and
+updated programmatically.
+
+[This walkthrough](/) will explain how these new features work in detail.
+
+This is brand new to Elm and was made possible by an idea from
+[@gozala](https://twitter.com/gozala). As this API took shape,
+it was very encouraging that it ended up confirming the principles
+of [bidirectional data flow](http://apfelmus.nfshost.com/blog/2012/03/29-frp-three-principles-bidirectional-gui.html)
+as described by apfelmus.
+
+## Better 2D Graphics
+
+The `collage` API has been streamlined and now permits grouping
+and 2D matrix transforms. It also uses a proper [cartesian coordinate
+system](http://en.wikipedia.org/wiki/Cartesian_coordinate_system).
+
+#### Cartesian Coordinates
+
+First we should discuss how things used to work in Elm. The Old Way.
+
+<img src="/imgs/coords/flipped.jpg"
+     style="border: 1px solid rgb(216,221,225); margin-left: 30px; float:right; width:126px; height:120px;">
+
+The JavaScript `<canvas>` uses a coordinate system that is upside down.
+Increasing the y-coordinate moves an object *lower* on
+the screen. Elm did this too up until now.
+
+With the inverted y-axis, it is easy to find yourself randomly adding
+minus signs to try to
+get your code to work in this coordinate system, especially when you
+are trying to work with rotations and [polar
+coordinates](http://en.wikipedia.org/wiki/Polar_coordinate_system).
+
+<img src="/imgs/coords/cartesian.jpg"
+     style="border: 1px solid rgb(216,221,225); margin-left:30px; float:right; width:126px; height:91px;">
+
+Elm now uses the cartesian plane for rendering. The origin is in the middle
+of the `collage` and the y-axis points up.
+
+This means your mental model maps directly onto the graphics API.
+
+#### Forms at the origin
+
+Now when you create a form, it is positioned at the origin. You no longer
+need to provide a position. Here is a taste of the new API:
+
+```haskell
+circle : Float -> Shape
+toForm : Element -> Form
+```
+You can see the full API in the
+[`Graphics.Collage` library](/docs/Graphics/Collage.elm). For now we will
+look at some smaller examples and uses.
+
+The following example creates four colorful dots. It shows a basic
+case in which having the position default to the origin is quite convenient.
+It uses the standard accent colors for the Elm website:
+|]
+
+dot colr = collage 50 50 [ filled colr (circle 15) ]
+
+dots = flow right (map dot [accent1,accent2,accent3,accent4])
+
+midtro = [markdown|
+
+```haskell
+dot colr = collage 50 50 [ filled colr (circle 15) ]
+
+dots = flow right (map dot [accent1,accent2,accent3,accent4])
+```
+That seems okay, but this is a breaking change that will effect all
+`collage` code. Are we really any better off than before?
+Starting from the origin really comes in handy when it is
+paired with grouping.
+
+#### Grouping and matrix transforms
+
+Version 0.8 introduces two grouping functions which let you flatten a list
+of forms into a single form. This makes things much more composable:
+
+```haskell
+group : [Form] -> Form
+groupTransform : Matrix2D -> [Form] -> Form
+```
+These functions let you create small self-contained components.
+You can position things without thinking about where the form might
+be positioned later on.
+
+This next example creates four colorful, rotated crosses.
+It uses `group` to flattens a visual component into a single `Form`,
+making them easy to move and rotate.
+|]
+
+twoRects colr =
+    group (map (filled colr) [ rect 8 30, rect 30 8 ])
+
+cross (angle, colr) =
+    collage 50 50 [ rotate (degrees angle) (twoRects colr) ]
+
+crosses =
+    flow right (map cross [ ( 0, accent1) ,
+                            (10, accent2) ,
+                            (20, accent3) ,
+                            (30, accent4) ])
+
+postCross = [markdown|
+
+```haskell
+-- Create two rectangles that cross at the origin. We use
+-- the group function to flatten them into a signle Form.
+twoRects : Color -> Form
+twoRects colr =
+    group (map (filled colr) [ rect 8 30, rect 30 8 ])
+
+-- We now create the cross by giving our rectangles a color
+-- and then rotating them by the given angle in degrees.
+cross : (Float,Color) -> Element
+cross (angle, colr) =
+    collage 50 50 [ rotate (degrees angle) (twoRects colr) ]
+
+-- Now we put together four crosses, each with a
+-- different angle and color.
+crosses : Element
+crosses =
+    flow right (map cross [ ( 0, accent1) ,
+                            (10, accent2) ,
+                            (20, accent3) ,
+                            (30, accent4) ])
+```
+
+This example also shows that rotations are based on the
+[unit circle](http://en.wikipedia.org/wiki/Unit_circle).
+Angles start on the positive x-axis and go counterclockwise,
+just like with `sin`, `cos`, etc.
+
+This example also shows the `degrees` function, which is part of
+a family of functions:
+
+```haskell
+degrees 90 == radians (pi/2) == turns 0.25
+```
+
+These functions convert angles into whatever system Elm uses for angles.
+That system happens to be radians, but now you do not *need*
+to remember that.
+
+The `groupTransform` function works just like `group` except that
+it applies a matrix transformation to the flattened `Form`. 
+This allows you to build up a traditional
+[scene graph](http://en.wikipedia.org/wiki/Scene_graph)
+and do fancier transformations like reflections and skews with
+the new [`Matrix2D` library](/docs/Matrix2D.elm).
+
+
+## Type Annotations and Type Aliases
+
+If you are new to types, I recommend reading
+[Getting started with Types](/learn/Getting-started-with-Types.elm)
+which explains how types work in Elm.
+
+You can now add type information to your programs if you want. It is
+not required, but it is recommended.
+
+```haskell
+reverse : [a] -> [a]
+reverse = foldl (::) []
+```
+Notice that the meanings of `(:)` and `(::)` have swapped. `(:)` is &ldquo;has
+type&rdquo; and `(::)` is cons. This is how it is in SML, OCaml, Coq, and Agda.
+Given the relative frequency of type annotations, it makes sense to give types
+a lighter syntax.
+
+You can also add type aliases. This lets you give nice consise names
+for larger types. This is most useful for records:
+
+```haskell
+type Point = { x:Float, y:Float }
+
+add : Point -> Point -> Point
+add a b = { x = a.x + b.x, y = a.y + b.y }
+```
+You can also have type variables in your aliases which opens the door for
+lots of cool stuff.
+
+```haskell
+type Positioned a = { a | x:Float, y:Float }
+type Movable a = { a | velocity:Float, angle:Float }
+
+ball : Positioned (Movable {})
+ball = { x=0, y=0, velocity=42, angle=0 }
+```
+For those of you who really know your types, I should note that higher-kinded
+polymorphism is not possible right now. That would permit an explicit form
+of type-classes, but that is for another day.
+
+## Faster currying and data structures
+
+The main idea is that currying is quite a bit faster, and all ADTs have a
+faster representation. This should not change how you write code. Your code
+is just faster now!
+
+Function calls in JS can be somewhat expensive, so when you have curried
+functions, you end up paying for a lot of function calls even though you may
+know most or all of the arguments. So for `(clamp 0 100 n)` the basic
+implementation would make three function calls, but we already know all
+three arguments so it would be faster just to make one function call for
+all three. This release introduces this optimization.
+
+If you want to read more about a bunch of different currying optimizations, see
+[Making a fast Curry](http://community.haskell.org/~simonmar/papers/evalapplyjfp06.pdf)
+which describes how currying works in Haskell.
+
+## Inline Documentation
+
+The online editor now shows type information and documentation when your cursor
+moves over a function. This means you do not need to flip between the editor and
+documentation. It also makes it way easier for beginners to get oriented in
+a program.
+
+It is simple to disable this feature if you want, but I find it is usually
+quite handy.
+
+This feature was conceived, designed and implemented by Mads. 
+I think this is one of the coolest things in the editor!
+
+## Thank you!
+
+Thank you to Mads for his really nice improvement to the editor. Having
+the documentation for every function makes it way easier for a beginner
+to navigate the examples.
+
+Thank you to John for devising a clever representation for modules that
+ended up making it easy to embed Elm modules in HTML and JS.
+
+Thank you to [@gozala](https://twitter.com/gozala) for providing the
+key insight that makes the new `Graphics.Input` library work.
+
+Thank you to Luite and Hamish for showing me the
+[Making a fast Curry](http://community.haskell.org/~simonmar/papers/evalapplyjfp06.pdf)
+paper and getting me thinking about JS performance. For more info about making
+all of Haskell work in browsers, see [their talk on ghcjs](http://www.ustream.tv/recorded/29327620)
+from the mloc.js conference.
+
+Thank you to Colin for working on supporting Retina displays and
+fixing a bunch of bugs.
+
+I have never had so many people to thank for a release, so please let me know
+if I have forgotten anyone!
 
 |]
