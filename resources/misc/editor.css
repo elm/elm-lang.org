@@ -41,10 +41,9 @@ form { margin-bottom: 0; }
   height: 24px;
   position: absolute;
   border: 1px solid rgb(150,150,150);
-  border-top: 1px solid rgb(0,0,0);
   border-left: 0px;
   border-right: 0px;
-  background: #fefefe;
+  background: rgb(216,221,225);
   visibility: hidden;
 }
 
@@ -63,10 +62,6 @@ form { margin-bottom: 0; }
   margin: 0;
   margin-bottom: 4px;
   padding: 2px 4px;
-  border: 2px solid rgb(96,181,204);
-  border-top: 1px solid rgb(0,0,0);
-  border-left: 0px;
-  border-right: 0px;
 }
 
 #doc_desc {
@@ -76,12 +71,11 @@ form { margin-bottom: 0; }
   right: 0;
   position: absolute;
   border: 1px solid rgb(150,150,150);
-  border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   z-index: 5;
   visibility: hidden;
-  background: #fefefe;
+  background: rgb(216,221,225);
 }
 
 .doc {

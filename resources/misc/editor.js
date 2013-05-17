@@ -275,6 +275,7 @@ var delay;
 function toggleAutoCompile(enable) {
   document.getElementById('compile_button').disabled = enable;
   if (enable) {
+    updateOutput();
     editor.on('change', updateOutput);
   } else {
     editor.off('change', updateOutput);
