@@ -4,6 +4,7 @@ module Website.Docs (createDocs2,createDocs) where
 import Website.ColorScheme
 import Window as Window
 import Text as Text
+import Char as Char
 
 accents = [accent0,accent1,accent2,accent3,accent4]
 
@@ -30,11 +31,14 @@ addSpaces px = intersperse (spacer 1 px)
 section s = bold . Text.height s . toText
 
 entry f w (name, typ, desc) =
-  let colons = Text.color accent1 $ toText " : " in
-  let tipe = if length typ > 0 then colons ++ toText typ else toText "" in
+  let colons = Text.color accent1 $ toText " : "
+      tipe = if Char.isUpper (head name)
+             then bold (toText typ)
+             else bold (toText name) ++ colons ++ toText typ
+  in
   flow down
-    [ color mediumGrey $ spacer w 1
-    , tag name $ width w . color lightGrey . text . monospace $ bold (toText name) ++ tipe
+    [ color mediumGrey <| spacer w 1
+    , tag name $ width w . color lightGrey . text . monospace <| tipe
     , flow right [ spacer 50 10, f (w-50) desc ]
     ]
 

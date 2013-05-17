@@ -2,14 +2,19 @@
   , "description" : ""
   , "sections" :
        [ { "name" : "Basics"
-         , "values" : ["::","++","head","tail","last","length"] }
-       , { "name" : "List Transformations"
-         , "values" : ["map","reverse","split","join"] }
-       , { "name" : "Folds (Reducing Lists)"
+         , "values" : ["::","++","length","reverse","map"] }
+       , { "name" : "Sub-lists"
+         , "values" : ["head","tail","last","filter","take","drop"] }
+       , { "name" : "Putting Lists Together"
+         , "values" : ["concat","concatMap","join","intersperse",
+                       "zip","zipWith"] }
+       , { "name" : "Taking Lists Apart"
+         , "values" : ["split","partition","unzip"] }
+       , { "name" : "Folds"
          , "values" : ["foldr","foldl","foldr1","foldl1","scanl","scanl1"] }
        , { "name" : "Special Folds"
-         , "values" : ["concat","concatMap","and","or","all","any"
-                      ,"sum","product","maximum","minimum"] }
+         , "values" : ["sum","product","maximum","minimum",
+                       "all","any","and","or"] }
        ]
   }
 , { "module" : "Char"
@@ -28,8 +33,9 @@
   , "sections" :
        [ { "name":"Days and Months", "values":[] }
        , { "name":"Conversions"
-         , "values":["read","toTime","year","month","day","dayOfWeek"
-                    ,"hour","minute","second"] }
+         , "values":["read","toTime"] }
+       , { "name":"Extracting Information"
+         , "values":["year","month","day","dayOfWeek","hour","minute","second"] }
        ]
   }
 , { "module" : "Maybe"
@@ -93,13 +99,13 @@
   , "description" : ""
   , "sections" :
      [ { "name":"Position", "values":["position","x","y"] }
-     , { "name":"Button Status", "values":["isDown","isClicked","clicks"] }
+     , { "name":"Button Status", "values":["isDown","clicks","isClicked"] }
      ]
   }
 , { "module" : "Touch"
   , "description" : "This is an early version of the touch library.\nIt will likely grow to include gestures that\nwould be useful for both games and web-pages."
   , "sections" :
-     [ { "name":"Touches", "values":["touches"] }
+     [ { "name":"Touches", "values":["Touch","touches"] }
      , { "name":"Gestures", "values":["taps"] }
      ]
   }
@@ -110,9 +116,11 @@
 , { "module" : "Keyboard"
   , "description" : ""
   , "sections" :
-     [ {"name":"Directions", "values":["arrows","wasd","directions"]}
-     , {"name":"Key Presses", "values":["isDown","shift","enter","space","ctrl"]}
-     , {"name":"General Signals", "values":["keysDown","lastPressed"]}
+     [ {"name":"Representing Keys", "values":["KeyCode"]}
+     , {"name":"Directions", "values":["arrows","wasd"]}
+     , {"name":"Key Presses", "values":["shift","enter","space","ctrl","isDown"]}
+     , {"name":"More General Signals",
+        "values":["keysDown","lastPressed","directions"]}
      ]
   }
 , { "module" : "Http"
@@ -120,7 +128,7 @@
   , "sections" :
      [ {"name":"Sending Requests", "values":["send","sendGet"]}
      , {"name":"Creating Requests", "values":["get","post","request"]}
-     , {"name":"Responses", "values":[]}
+     , {"name":"Responses", "values":["Response"]}
      ]
   }
 , { "module" : "WebSocket"
@@ -130,10 +138,11 @@
 , { "module" : "Time"
   , "description" : ""
   , "sections" :
-     [ {"name":"Tickers", "values":["fps","fpsWhen","every"]}
+     [ {"name":"Units",
+        "values":["Time","millisecond","second","minute","hour",
+                  "inMilliseconds","inSeconds","inMinutes","inHours"]}
+     , {"name":"Tickers", "values":["fps","fpsWhen","every"]}
      , {"name":"Timing", "values":["timestamp","delay","since"]}
-     , {"name":"Units", "values":["ms","second","minute","hour",
-                                  "inMss","inSeconds","inMinutes","inHours"]}
      ]
   }
 , { "module" : "JavaScript"
@@ -143,12 +152,16 @@
         "values":["toString","toInt","toFloat","toBool","toList"]}
      , {"name":"JavaScript from Elm",
         "values":["fromString","fromInt","fromFloat","fromBool","fromList"]}
+     , {"name":"DOM nodes and Elements",
+        "values":["toElement","fromElement"]}
      ]
   }
 , { "module" : "JavaScript.Experimental"
-  , "description" : ""
+  , "description" : "A pair of very experimental functions for converting between Elm records and JavaScript objects. It currently uses a best effort conversion that can cause runtime errors. This API should change and improve as we find its key failings."
   , "sections" :
-     [ {"name":"Records to Objects", "values":["toRecord","fromRecord"]} ]
+     [ {"name":"Converting between Elm Records and JS Objects",
+        "values":["toRecord","fromRecord"]}
+     ]
   }
 , { "module" : "Json"
   , "description" : ""
@@ -162,11 +175,9 @@
   , "sections" : [ {"name":"Random Numbers","values":["range","float"]} ]
   }
 , { "module" : "Matrix2D"
-  , "description" : ""
+  , "description" : "This library is made for doing 2D matrix transforms."
   , "sections" :
-     [ {"name":"Basic Matrices","values":["identity","matrix"]}
-     , {"name":"Transforms","values":["rotate","move","scale","scaleX","scaleY",
-                                      "reflectX","reflectY","transform"]}
+     [ {"name":"Basic Matrices","values":["identity","matrix","rotation"]}
      , {"name":"Multiplication","values":["multiply"]}
      ]
   }
@@ -217,29 +228,50 @@
   }
 , { "module" : "Graphics.Collage"
   , "description" : ""
-  , "sections" : []
+  , "sections" :
+    [{"name":"Unstructured Graphics",
+      "values":["collage"]}
+    ,{"name":"Creating Forms",
+      "values":["toForm","sprite","filled","textured",
+                "gradient","outlined","traced"]}
+    ,{"name":"Transforming Forms",
+      "values":["move","moveX","moveY","scale","rotate"]}
+    ,{"name":"Grouping Forms",
+      "values":["group","groupTransform"]}
+    ,{"name":"Shapes",
+      "values":["rect","oval","square","circle","ngon","polygon"]}
+    ,{"name":"Paths",
+      "values":["segment","path"]}
+    ,{"name":"Line Styles",
+      "values":["solid","dashed","dotted",
+                "LineStyle","LineCap","LineJoin","defaultLine"]}
+    ]
   }
 , { "module" : "Prelude"
   , "description" : ""
   , "sections" :
-     [{"name":"Angle Conversions",
-       "values":["radians","degrees","turns"]}
-     ,{"name":"Trigonometry",
-       "values":["pi","cos","sin","tan","acos","asin","atan","atan2"]}
+     [{"name":"To Strings",
+       "values":["show"]}
+     ,{"name":"Equality",
+       "values":["==","/="]}
      ,{"name":"Comparisons",
-       "values":["==","/=","<",">","<=",">=","compare","max","min","clamp"]}
+       "values":["Order","compare","<",">","<=",">="]}
      ,{"name":"Booleans",
        "values":["&&","||","xor","not","otherwise"]}
+     ,{"name":"Mathematics",
+       "values":["+","-","*","/","div","rem","mod","^","abs","sqrt","logBase","e","max","min","clamp"]}
+     ,{"name":"Trigonometry",
+       "values":["pi","cos","sin","tan","acos","asin","atan","atan2"]}
      ,{"name":"Number Conversions",
        "values":["round","floor","ceiling","truncate","toFloat","readInt","readFloat"]}
-     ,{"name":"Mathematics",
-       "values":["+","-","*","/","div","rem","mod","^","abs","sqrt","logBase","e"]}
-     ,{"name":"Higher-order helpers",
-       "values":["id","|>","<|",".","flip","curry","uncurry"]}
-     ,{"name":"Tuples",
-       "values":["fst","snd"]}
+     ,{"name":"Angle Conversions",
+       "values":["radians","degrees","turns"]}
      ,{"name":"Polar Coordinates",
        "values":["toPolar","fromPolar"]}
+     ,{"name":"Tuples",
+       "values":["fst","snd"]}
+     ,{"name":"Higher-order helpers",
+       "values":["id","|>","<|",".","flip","curry","uncurry"]}
      ]
   }
 ]

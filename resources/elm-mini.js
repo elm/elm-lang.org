@@ -541,7 +541,9 @@ Elm.Native.Matrix2D = function(elm) {
      return new A([m11*c + m12*s, -m11*s + m12*c, m[2],
                    m21*c + m22*s, -m21*s + m22*c, m[5]]);
  }
- function move(x,y,m) {
+ function move(xy,m) {
+     var x = xy._0;
+     var y = xy._1;
      var m11 = m[0], m12 = m[1], m21 = m[3], m22 = m[4];
      return new A([m11, m12, m11*x + m12*y + m[2],
                    m21, m22, m21*x + m22*y + m[5]]);
@@ -573,7 +575,7 @@ Elm.Native.Matrix2D = function(elm) {
 
      transform:F7(transform),
      rotate:F2(rotate),
-     move:F3(move),
+     move:F2(move),
      scale:F2(scale),
      scaleX:F2(scaleX),
      scaleY:F2(scaleY),
@@ -1593,18 +1595,6 @@ Elm.Native.Time = function(elm) {
     var dcount = Signal.count(A2(Signal.delay, t, s));
     return A3( Signal.lift2, F2(cmp), Signal.count(s), dcount );
   }
-  function after(t) {
-      t *= 1000;
-      var thread = Signal.constant(false);
-      setTimeout(function() { elm.notify(thread.id, true); }, t);
-      return thread;
-  }
-  function before(t) {
-      t *= 1000;
-      var thread = Signal.constant(true);
-      setTimeout(function() { elm.notify(thread.id, false); }, t);
-      return thread;
-  }
   function read(s) {
       var t = Date.parse(s);
       return isNaN(t) ? Maybe.Nothing : Maybe.Just(t);
@@ -1614,9 +1604,8 @@ Elm.Native.Time = function(elm) {
       fps : function(t) { return fpsWhen(t, Signal.constant(true)); },
       every : function(t) { return everyWhen(t, Signal.constant(true)) },
       delay : Signal.delay,
+      timestamp : Signal.timestamp,
       since : F2(since),
-      after  : after,
-      before : before,
       toDate : function(t) { return new window.Date(t); },
       read   : read
   };
@@ -1630,9 +1619,7 @@ Elm.Native.Signal = function(elm) {
   if (elm.Native.Signal) return elm.Native.Signal;
 
   var Utils  = Elm.Native.Utils(elm);
-  var Either = Elm.Either(elm);
   var foldl1 = Elm.List(elm).foldl1;
-
 
   function send(node, timestep, changed) {
     var kids = node.kids;
@@ -1819,25 +1806,6 @@ Elm.Native.Signal = function(elm) {
 
   function merge(s1,s2) { return new Merge(s1,s2); }
   function merges(ss) { return A2(foldl1, F2(merge), ss); }
-  function mergeEither(s1,s2) { return new Merge(lift(Either.Left, s1),
-                                                 lift(Either.Right,s2)); }
-
-  function average(sampleSize, s) {
-    var sample = new Array(sampleSize);
-    var i = sampleSize;
-    while (i--) { sample[i] = 0; }
-    i = 0;
-    var full = false;
-    var total = 0;
-    function f(n) {
-      total += n - sample[i];
-      sample[i] = n;
-      var avg = total / Math.max(1, full ? sampleSize : i);
-      if (++i == sampleSize) { full = true; i = 0; }
-      return avg;
-    }
-    return lift(f,s);
-  }
 
   return elm.Native.Signal = {
     constant : function(v) { return new Input(v); },
@@ -1853,8 +1821,6 @@ Elm.Native.Signal = function(elm) {
     delay : F2(delay),
     merge : F2(merge),
     merges : merges,
-    mergeEither : F2(mergeEither),
-    average : F2(average),
     count : function(s) { return foldp(F2(function(_,c) { return c+1; }), 0, s); },
     countIf : F2(function(pred,s) {
       return foldp(F2(function(x,c){
@@ -2037,7 +2003,7 @@ Elm.Native.Keyboard = function(elm) {
       isDown:is,
       directions:F4(dir),
       keysDown:keysDown,
-      lastKey:lastKey
+      lastPressed:lastKey
   };
 
 };
@@ -2370,17 +2336,6 @@ Elm.WebSocket = function(elm){
  _.$op = {}
  return elm.WebSocket = _;
  };
-Elm.Vector2D = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var V = Elm.Native.Vector2D(elm);
- var _ = Elm.Matrix2D(elm); var Matrix2D = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Vector2D||{};
- _.$op = {}
- return elm.Vector2D = _;
- };
 Elm.Touch = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
@@ -2509,27 +2464,33 @@ Elm.Prelude = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
  var N = Elm.Native.Prelude(elm);
- var e, case0, radians_0, degrees_1, turns_2, otherwise_6;
- LT_3 = {ctor:"LT"};
- EQ_4 = {ctor:"EQ"};
- GT_5 = {ctor:"GT"};
- radians_0 = function(t_7){
-  return t_7;};
- degrees_1 = function(d_8){
-  return ((d_8*Math.PI)/180);};
- turns_2 = function(r_9){
-  return ((2*Math.PI)*r_9);};
- otherwise_6 = true;
+ var e, case0, radians_0, degrees_1, turns_2, fromPolar_3, toPolar_4, otherwise_8;
+ LT_5 = {ctor:"LT"};
+ EQ_6 = {ctor:"EQ"};
+ GT_7 = {ctor:"GT"};
+ radians_0 = function(t_9){
+  return t_9;};
+ degrees_1 = function(d_10){
+  return ((d_10*Math.PI)/180);};
+ turns_2 = function(r_11){
+  return ((2*Math.PI)*r_11);};
+ fromPolar_3 = function(_22000_12){
+  return (e=_22000_12.ctor==='Tuple2'?{ctor:"Tuple2", _0:(_22000_12._0*N.cos(_22000_12._1)), _1:(_22000_12._0*N.sin(_22000_12._1))}:null,e!==null?e:_E.Case('Line 22, Column 20'));};
+ toPolar_4 = function(_27000_15){
+  return (e=_27000_15.ctor==='Tuple2'?{ctor:"Tuple2", _0:N.sqrt((Math.pow(_27000_15._0,2)+Math.pow(_27000_15._1,2))), _1:A2(N.atan2, _27000_15._1, _27000_15._0)}:null,e!==null?e:_E.Case('Line 27, Column 18'));};
+ otherwise_8 = true;
  elm.Native = elm.Native||{};
  var _ = elm.Native.Prelude||{};
  _.$op = {};
  _.radians = radians_0;
  _.degrees = degrees_1;
  _.turns = turns_2;
- _.LT = LT_3;
- _.EQ = EQ_4;
- _.GT = GT_5;
- _.otherwise = otherwise_6
+ _.fromPolar = fromPolar_3;
+ _.toPolar = toPolar_4;
+ _.LT = LT_5;
+ _.EQ = EQ_6;
+ _.GT = GT_7;
+ _.otherwise = otherwise_8
  return elm.Prelude = _;
  };
 Elm.Mouse = function(elm){
@@ -3055,7 +3016,7 @@ Elm.Char = function(elm){
 Elm.Automaton = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var e, case0, run_1, step_16, step_2, _23000_26, f$_27, b_28, _24000_29, g$_30, c_31, combine_3, _34000_44, autos$_45, bs_46, pure_4, init_5, s$_56, init$_6, _51000_60, s$_61, out_62, count_7, empty_8, enqueue_9, dequeue_10, average_11, step_79, stepFull_80, sum$_93;
+ var e, case0, run_1, step_16, step_2, _23000_26, f$_27, b_28, _24000_29, g$_30, c_31, combine_3, _34000_44, autos$_45, bs_46, pure_4, state_5, s$_56, hiddenState_6, _57000_60, s$_61, out_62, count_7, empty_8, enqueue_9, dequeue_10, average_11, step_79, stepFull_80, sum$_93;
  Step_0 = function(a1){
   return {ctor:"Step", _0:a1};};
  run_1 = F3(function(_14000_12, base_13, inputs_14){
@@ -3076,21 +3037,21 @@ Elm.Automaton = function(elm){
  pure_4 = function(f_51){
   return Step_0(function(x_52){
    return {ctor:"Tuple2", _0:pure_4(f_51), _1:f_51(x_52)};});};
- init_5 = F2(function(s_53, f_54){
+ state_5 = F2(function(s_53, f_54){
   return Step_0(function(x_55){
-   return (s$_56 = A2(f_54, x_55, s_53), {ctor:"Tuple2", _0:A2(init_5, s$_56, f_54), _1:s$_56});});});
- init$_6 = F2(function(s_57, f_58){
+   return (s$_56 = A2(f_54, x_55, s_53), {ctor:"Tuple2", _0:A2(state_5, s$_56, f_54), _1:s$_56});});});
+ hiddenState_6 = F2(function(s_57, f_58){
   return Step_0(function(x_59){
-   return (_51000_60 = A2(f_58, x_59, s_57), s$_61 = (e=_51000_60.ctor==='Tuple2'?_51000_60._0:null,e!==null?e:_E.Case('Line 51, Column 40')), out_62 = (e=_51000_60.ctor==='Tuple2'?_51000_60._1:null,e!==null?e:_E.Case('Line 51, Column 40')), {ctor:"Tuple2", _0:A2(init$_6, s$_61, f_58), _1:out_62});});});
- enqueue_9 = F2(function(x_69, _60000_70){
-  return (e=_60000_70.ctor==='Tuple2'?{ctor:"Tuple2", _0:_L.Cons(x_69,_60000_70._0), _1:_60000_70._1}:null,e!==null?e:_E.Case('Line 60, Column 22'));});
+   return (_57000_60 = A2(f_58, x_59, s_57), s$_61 = (e=_57000_60.ctor==='Tuple2'?_57000_60._0:null,e!==null?e:_E.Case('Line 57, Column 46')), out_62 = (e=_57000_60.ctor==='Tuple2'?_57000_60._1:null,e!==null?e:_E.Case('Line 57, Column 46')), {ctor:"Tuple2", _0:A2(hiddenState_6, s$_61, f_58), _1:out_62});});});
+ enqueue_9 = F2(function(x_69, _66000_70){
+  return (e=_66000_70.ctor==='Tuple2'?{ctor:"Tuple2", _0:_L.Cons(x_69,_66000_70._0), _1:_66000_70._1}:null,e!==null?e:_E.Case('Line 66, Column 22'));});
  dequeue_10 = function(q_73){
-  return (e=q_73.ctor==='Tuple2'?(e=q_73._0.ctor==='Nil'?(e=q_73._1.ctor==='Nil'?Nothing:null,e!==null?e:null):null,e!==null?e:(e=q_73._1.ctor==='Cons'?Just({ctor:"Tuple2", _0:q_73._1._0, _1:{ctor:"Tuple2", _0:q_73._0, _1:q_73._1._1}}):q_73._1.ctor==='Nil'?enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_73._0)}):null,e!==null?e:null)):null,e!==null?e:_E.Case('Line 61, Column 13'));};
+  return (e=q_73.ctor==='Tuple2'?(e=q_73._0.ctor==='Nil'?(e=q_73._1.ctor==='Nil'?Nothing:null,e!==null?e:null):null,e!==null?e:(e=q_73._1.ctor==='Cons'?Just({ctor:"Tuple2", _0:q_73._1._0, _1:{ctor:"Tuple2", _0:q_73._0, _1:q_73._1._1}}):q_73._1.ctor==='Nil'?enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_73._0)}):null,e!==null?e:null)):null,e!==null?e:_E.Case('Line 67, Column 13'));};
  average_11 = function(k_78){
-  return (step_79 = F2(function(n_81, _71000_82){
-   return (e=_71000_82.ctor==='Tuple3'?(_N.eq(_71000_82._1,k_78)?A2(stepFull_80, n_81, {ctor:"Tuple3", _0:_71000_82._0, _1:_71000_82._1, _2:_71000_82._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_81, _71000_82._0), _1:(1+_71000_82._1), _2:(_71000_82._2+n_81)}, _1:((_71000_82._2+n_81)/(1+_71000_82._1))}):null,e!==null?e:_E.Case('Line 70, Column 11'));}), stepFull_80 = F2(function(n_86, _77000_87){
-   return (e=_77000_87.ctor==='Tuple3'?(case48 = dequeue_10(_77000_87._0), (e=case48.ctor==='Just'?(e=case48._0.ctor==='Tuple2'?(sum$_93 = ((_77000_87._2+n_86)-case48._0._0), {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_86, case48._0._1), _1:_77000_87._1, _2:sum$_93}, _1:(sum$_93/_77000_87._1)}):null,e!==null?e:null):case48.ctor==='Nothing'?{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_77000_87._0, _1:_77000_87._1, _2:_77000_87._2}, _1:0}:null,e!==null?e:_E.Case('Line 73, Column 11'))):null,e!==null?e:_E.Case('Line 73, Column 11'));}), A2(init$_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_79));};
- count_7 = A2(init_5, 0, function(__67){
+  return (step_79 = F2(function(n_81, _77000_82){
+   return (e=_77000_82.ctor==='Tuple3'?(_N.eq(_77000_82._1,k_78)?A2(stepFull_80, n_81, {ctor:"Tuple3", _0:_77000_82._0, _1:_77000_82._1, _2:_77000_82._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_81, _77000_82._0), _1:(1+_77000_82._1), _2:(_77000_82._2+n_81)}, _1:((_77000_82._2+n_81)/(1+_77000_82._1))}):null,e!==null?e:_E.Case('Line 76, Column 11'));}), stepFull_80 = F2(function(n_86, _83000_87){
+   return (e=_83000_87.ctor==='Tuple3'?(case48 = dequeue_10(_83000_87._0), (e=case48.ctor==='Just'?(e=case48._0.ctor==='Tuple2'?(sum$_93 = ((_83000_87._2+n_86)-case48._0._0), {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_86, case48._0._1), _1:_83000_87._1, _2:sum$_93}, _1:(sum$_93/_83000_87._1)}):null,e!==null?e:null):case48.ctor==='Nothing'?{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_83000_87._0, _1:_83000_87._1, _2:_83000_87._2}, _1:0}:null,e!==null?e:_E.Case('Line 79, Column 11'))):null,e!==null?e:_E.Case('Line 79, Column 11'));}), A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_79));};
+ count_7 = A2(state_5, 0, function(__67){
   return function(c_68){
    return (1+c_68);};});
  empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
@@ -3102,8 +3063,8 @@ Elm.Automaton = function(elm){
  _.step = step_2;
  _.combine = combine_3;
  _.pure = pure_4;
- _.init = init_5;
- _.init$ = init$_6;
+ _.state = state_5;
+ _.hiddenState = hiddenState_6;
  _.count = count_7;
  _.empty = empty_8;
  _.enqueue = enqueue_9;
@@ -3479,7 +3440,7 @@ Elm.Graphics.Collage = function(elm){
  var N = Elm.Native.Graphics.Collage(elm);
  var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var Color = Elm.Color(elm);
- var e, case0, Form_0, LineStyle_10, defaultLine_11, solid_12, dashed_13, dotted_14, form_20, fill_21, filled_22, textured_23, gradient_24, outlined_25, traced_26, sprite_27, toForm_28, group_29, groupTransform_30, rotate_31, scale_32, move_33, moveX_34, moveY_35, path_36, segment_37, polygon_38, rect_39, oval_40, n_98, t_99, hw_100, hh_101, f_102, circle_41, ngon_42, m_107, t_108, f_109;
+ var e, case0, Form_0, LineStyle_10, defaultLine_11, solid_12, dashed_13, dotted_14, form_20, fill_21, filled_22, textured_23, gradient_24, outlined_25, traced_26, sprite_27, toForm_28, group_29, groupTransform_30, rotate_31, scale_32, move_33, moveX_34, moveY_35, path_36, segment_37, polygon_38, rect_39, oval_40, n_99, t_100, hw_101, hh_102, f_103, circle_41, ngon_42, m_108, t_109, f_110;
  Solid_1 = function(a1){
   return {ctor:"Solid", _0:a1};};
  Texture_2 = function(a1){
@@ -3561,28 +3522,28 @@ Elm.Graphics.Collage = function(elm){
   return _N.replace([['theta',(f_80.theta+t_79)]], f_80);});
  scale_32 = F2(function(s_81, f_82){
   return _N.replace([['scale',(f_82.scale*s_81)]], f_82);});
- move_33 = F3(function(x_83, y_84, f_85){
-  return _N.replace([['x',(f_85.x+x_83)],['y',(f_85.y+y_84)]], f_85);});
- moveX_34 = F2(function(x_86, f_87){
-  return _N.replace([['x',(f_87.x+x_86)]], f_87);});
- moveY_35 = F2(function(y_88, f_89){
-  return _N.replace([['y',(f_89.y+y_88)]], f_89);});
- path_36 = function(ps_90){
-  return ps_90;};
- segment_37 = F2(function(p1_91, p2_92){
-  return _L.Cons(p1_91,_L.Cons(p2_92,_L.Nil));});
- polygon_38 = function(points_93){
-  return points_93;};
- rect_39 = F2(function(w_94, h_95){
-  return _L.Cons({ctor:"Tuple2", _0:(0-(w_94/2)), _1:(0-(h_95/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_94/2)), _1:(h_95/2)},_L.Cons({ctor:"Tuple2", _0:(w_94/2), _1:(h_95/2)},_L.Cons({ctor:"Tuple2", _0:(w_94/2), _1:(0-(h_95/2))},_L.Nil))));});
- oval_40 = F2(function(w_96, h_97){
-  return (n_98 = 50, t_99 = ((2*Math.PI)/n_98), hw_100 = (w_96/2), hh_101 = (h_97/2), f_102 = function(i_103){
-   return {ctor:"Tuple2", _0:(hw_100*Math.cos((t_99*i_103))), _1:(hh_101*Math.sin((t_99*i_103)))};}, A2(map, f_102, _L.range(0,(n_98-1))));});
- circle_41 = function(r_104){
-  return A2(oval_40, (2*r_104), (2*r_104));};
- ngon_42 = F2(function(n_105, r_106){
-  return (m_107 = toFloat(n_105), t_108 = ((2*Math.PI)/m_107), f_109 = function(i_110){
-   return {ctor:"Tuple2", _0:(r_106*Math.cos((t_108*i_110))), _1:(r_106*Math.sin((t_108*i_110)))};}, A2(map, f_109, _L.range(0,(n_105-1))));});
+ move_33 = F2(function(_107000_83, f_84){
+  return (e=_107000_83.ctor==='Tuple2'?_N.replace([['x',(f_84.x+_107000_83._0)],['y',(f_84.y+_107000_83._1)]], f_84):null,e!==null?e:_E.Case('Line 107, Column 20'));});
+ moveX_34 = F2(function(x_87, f_88){
+  return _N.replace([['x',(f_88.x+x_87)]], f_88);});
+ moveY_35 = F2(function(y_89, f_90){
+  return _N.replace([['y',(f_90.y+y_89)]], f_90);});
+ path_36 = function(ps_91){
+  return ps_91;};
+ segment_37 = F2(function(p1_92, p2_93){
+  return _L.Cons(p1_92,_L.Cons(p2_93,_L.Nil));});
+ polygon_38 = function(points_94){
+  return points_94;};
+ rect_39 = F2(function(w_95, h_96){
+  return _L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(0-(h_96/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(0-(h_96/2))},_L.Nil))));});
+ oval_40 = F2(function(w_97, h_98){
+  return (n_99 = 50, t_100 = ((2*Math.PI)/n_99), hw_101 = (w_97/2), hh_102 = (h_98/2), f_103 = function(i_104){
+   return {ctor:"Tuple2", _0:(hw_101*Math.cos((t_100*i_104))), _1:(hh_102*Math.sin((t_100*i_104)))};}, A2(map, f_103, _L.range(0,(n_99-1))));});
+ circle_41 = function(r_105){
+  return A2(oval_40, (2*r_105), (2*r_105));};
+ ngon_42 = F2(function(n_106, r_107){
+  return (m_108 = toFloat(n_106), t_109 = ((2*Math.PI)/m_108), f_110 = function(i_111){
+   return {ctor:"Tuple2", _0:(r_107*Math.cos((t_109*i_111))), _1:(r_107*Math.sin((t_109*i_111)))};}, A2(map, f_110, _L.range(0,(n_106-1))));});
  defaultLine_11 = {
    _:{
    },
@@ -4278,6 +4239,16 @@ function renderForm(redo, ctx, form) {
     ctx.restore();
 }
 
+function formToMatrix(form) {
+   var scale = form.scale;
+   var matrix = A6( Matrix.matrix, scale, 0, 0, scale, scale * form.x, scale * form.y );
+
+   var theta = form.theta
+   if (theta !== 0) matrix = A2( Matrix.rotate, theta, matrix );
+
+   return matrix;
+}
+
 function makeTransform(w, h, form, matrices) {
     var props = form.form._0.props;
     var m = A6( Matrix.matrix, 1, 0, 0, 1,
@@ -4285,14 +4256,11 @@ function makeTransform(w, h, form, matrices) {
                 (h - props.height)/2 );
     var len = matrices.length;
     for (var i = 0; i < len; ++i) { m = A2( Matrix.multiply, m, matrices[i] ); }
+    m = A2( Matrix.multiply, m, formToMatrix(form) );
 
-    var x = form.x, y = form.y, theta = form.theta, scale = form.scale;
-    if (x !== 0 || y !== 0) m = A3( Matrix.move, x, y, m );
-    if (theta !== 0) m = A2( Matrix.rotate, theta, m );
-    m = A2( Matrix.scaleY, -scale, m );
-    if (scale !== 1) m = A2( Matrix.scale, scale, m);
-    return 'matrix(' + m[0] + ',' + m[3] + ',' + m[1] + ',' +
-                       m[4] + ',' + m[2] + ',' + m[5] + ')';
+    return 'matrix(' +   m[0]  + ',' +   m[3]  + ',' +
+                       (-m[1]) + ',' + (-m[4]) + ',' +
+                         m[2]  + ',' +   m[5]  + ')';
 }
 
 function stepperHelp(list) {
@@ -4328,14 +4296,10 @@ function stepper(forms) {
         var f = out.form;
         if (f.ctor === 'FGroup') {
             ps.unshift(stepperHelp(f._1));
-            var m = f._0;
-            matrices.push(m);
-            var x = out.x, y = out.y, theta = out.theta, scale = out.scale;
-            if (x !== 0 || y !== 0) ctx.translate(x, y);
-            if (theta !== 0) ctx.rotate(theta);
-            if (scale !== 1) ctx.scale(scale, scale);
+            var m = A2( Matrix.multiply, f._0, formToMatrix(out));
             ctx.save();
             ctx.transform(m[0], m[3], m[1], m[4], m[2], m[5]);
+            matrices.push(m);
         }
         return out;
     }
@@ -4511,6 +4475,7 @@ Elm.Website.Docs = function(elm){
  var _ = Elm.Website.ColorScheme(elm); var Website = Website||{};Website.ColorScheme = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
  var Window = Elm.Window(elm);
  var Text = Elm.Text(elm);
+ var Char = Elm.Char(elm);
  var e, case0, accents_0, topBar_1, n$_13, k$_14, segs_15, ws_16, accentCycle_17, skeleton_2, content_26, addSpaces_3, section_4, entry_5, colons_35, tipe_36, f1_6, f2_7, c$_41, pos_42, group_8, createDocs_9, f_50, createDocs2_10, f_55;
  topBar_1 = F2(function(k_11, n_12){
   return (n$_13 = toFloat(n_12), k$_14 = toFloat(k_11), segs_15 = A2(map, function(i_18){
@@ -4528,15 +4493,15 @@ Elm.Website.Docs = function(elm){
  section_4 = function(s_28){
   return function(x){
    return bold(A2(Text.height, s_28, toText(x)));};};
- entry_5 = F3(function(f_29, w_30, _39000_31){
-  return (e=_39000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), (tipe_36 = ((_N.cmp(length(_39000_31._1),0).ctor==='GT')?_L.append(colons_35,toText(_39000_31._1)):toText(_str(''))), A2(flow, down, _L.Cons(A2(color, mediumGrey, A2(spacer, w_30, 1)),_L.Cons(A2(tag, _39000_31._0, function(x){
-   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(_L.append(bold(toText(_39000_31._0)),tipe_36))),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _39000_31._2),_L.Nil))),_L.Nil)))))):null,e!==null?e:_E.Case('Line 33, Column 3'));});
+ entry_5 = F3(function(f_29, w_30, _43000_31){
+  return (e=_43000_31.ctor==='Tuple3'?(colons_35 = A2(Text.color, accent1, toText(_str(' : '))), tipe_36 = (Char.isUpper(head(_43000_31._0))?bold(toText(_43000_31._1)):_L.append(bold(toText(_43000_31._0)),_L.append(colons_35,toText(_43000_31._1)))), A2(flow, down, _L.Cons(color(mediumGrey)(A2(spacer, w_30, 1)),_L.Cons(A2(tag, _43000_31._0, function(x){
+   return A2(width, w_30, A2(color, lightGrey, text(monospace(x))));}(tipe_36)),_L.Cons(A2(flow, right, _L.Cons(A2(spacer, 50, 10),_L.Cons(A2(f_29, (w_30-50), _43000_31._2),_L.Nil))),_L.Nil))))):null,e!==null?e:_E.Case('Line 34, Column 3'));});
  f1_6 = F2(function(w_37, c_38){
   return A2(flow, down, _L.Cons(A2(spacer, 1, 10),_L.Cons(A2(width, w_37, plainText(c_38)),_L.Cons(A2(spacer, 1, 20),_L.Nil))));});
  f2_7 = F2(function(w_39, c_40){
   return (c$_41 = A2(width, w_39, c_40), pos_42 = A2(topLeftAt, absolute(0), absolute(-5)), A4(container, w_39, heightOf(c$_41), pos_42, c$_41));});
- group_8 = F3(function(f_43, w_44, _47000_45){
-  return (e=_47000_45.ctor==='Tuple2'?A2(flow, down, _L.Cons(text(A2(section_4, (5/4), _47000_45._0)),_L.Cons(A2(spacer, 1, 20),A2(map, A2(entry_5, f_43, w_44), _47000_45._1)))):null,e!==null?e:_E.Case('Line 47, Column 3'));});
+ group_8 = F3(function(f_43, w_44, _51000_45){
+  return (e=_51000_45.ctor==='Tuple2'?A2(flow, down, _L.Cons(text(A2(section_4, (5/4), _51000_45._0)),_L.Cons(A2(spacer, 1, 20),A2(map, A2(entry_5, f_43, w_44), _51000_45._1)))):null,e!==null?e:_E.Case('Line 51, Column 3'));});
  createDocs_9 = F2(function(name_48, cats_49){
   return (f_50 = function(w_51){
    return A2(flow, down, _L.Cons(text(A2(Text.link, _str('/Documentation.elm'), toText(_str('Back')))),_L.Cons(function(x){
@@ -4629,7 +4594,7 @@ Elm.Website.Skeleton = function(elm){
  buttons_2 = A2(flow, right, A2(map, button_1, _L.Cons({ctor:"Tuple3", _0:_str('About'), _1:_str('/About.elm'), _2:accent1},_L.Cons({ctor:"Tuple3", _0:_str('Examples'), _1:_str('/Examples.elm'), _2:accent2},_L.Cons({ctor:"Tuple3", _0:_str('Docs'), _1:_str('/Documentation.elm'), _2:accent3},_L.Cons({ctor:"Tuple3", _0:_str('Download'), _1:_str('/Download.elm'), _2:accent4},_L.Nil))))));
  veiwSource_4 = text('<div style="height:0;width:0;">&nbsp;</div><p><a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!=\'/edit\')top.location.href=\'/edit\'+(p==\'/\'?\'/Elm.elm\':p);"> <img style="position: absolute; top: 0; right: 0; border: 0;"\n     src="/ribbon.gif"\n     alt="View Page Source"> </a></p><div style="height:0;width:0;">&nbsp;</div>');
  redirect_7 = A2(lift,JS.fromString,navigation_0.events);
- lift(function(v) { var e = document.createEvent('Event');e.initEvent('elm_redirect_' + elm.id, true, true);e.value = v;document.dispatchEvent(e); return v; })(redirect_7);
+ lift(function(v) { var e = document.createEvent('Event');e.initEvent('redirect_' + elm.id, true, true);e.value = v;document.dispatchEvent(e); return v; })(redirect_7);
  elm.Native = elm.Native||{};
  elm.Native.Website = elm.Native.Website||{};
  var _ = elm.Native.Website.Skeleton||{};
