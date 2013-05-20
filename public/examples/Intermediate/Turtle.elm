@@ -35,7 +35,7 @@ display : (Int,Int) -> Turtle -> Element
 display (w,h) turtle =
   let turtlePic = image 96 96 "turtle.gif" |> toForm
                                            |> rotate turtle.angle
-                                           |> move turtle.x turtle.y
+                                           |> move (turtle.x,turtle.y)
   in layers [ collage w h [turtlePic],
               opacity 0.7 <| fittedImage w h "water.gif" ]
 

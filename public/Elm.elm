@@ -1,5 +1,5 @@
-import Website.Skeleton
-import Website.Tiles
+import Website.Skeleton (skeleton)
+import Website.Tiles (miniTiles)
 import Website.ColorScheme
 
 import Text as Text

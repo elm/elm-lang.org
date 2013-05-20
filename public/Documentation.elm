@@ -1,7 +1,6 @@
 
-import Website.Skeleton
-import Window as Window
-import Text as Text
+import Website.Skeleton (skeleton)
+import Window
 
 general = ("General",
   [ ("Char", "Char.elm")

@@ -1,8 +1,8 @@
 
 import Graphics.Input as Input
 
-display field state =
-  field `above` (plainText <| "Your password is: " ++ state.string)
+main = let (field, password) = Input.password "Password"
+       in  lift2 display field password
 
-main = let (field, state) = Input.password "Password"
-       in  lift2 display field state
+display field password =
+  field `above` plainText ("Your password is: " ++ password)

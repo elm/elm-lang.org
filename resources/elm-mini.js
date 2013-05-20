@@ -460,7 +460,7 @@ Elm.Native.Prelude = function(elm) {
   var prelude = {
       div:F2(div),
       rem:F2(rem),
-      mod:F2(mod),
+      mod:mod,
 
       pi:Math.PI,
       e:Math.e,
@@ -574,7 +574,14 @@ Elm.Native.Matrix2D = function(elm) {
  }
  */
  function multiply(m, n) {
-     return transform(m[0], m[3], m[1], m[4], m[2], m[5], n);
+     var m11 = m[0], m12 = m[1], m21 = m[3], m22 = m[4], mdx = m[2], mdy = m[5];
+     var n11 = n[0], n12 = n[1], n21 = n[3], n22 = n[4], ndx = n[2], ndy = n[5];
+     return new A([m11*n11 + m12*n21,
+                   m11*n12 + m12*n22,
+                   m11*ndx + m12*ndy + mdx,
+                   m21*n11 + m22*n21,
+                   m21*n12 + m22*n22,
+                   m21*ndx + m22*ndy + mdy]);
  }
 
  return elm.Native.Matrix2D = {
@@ -1570,8 +1577,8 @@ Elm.Native.Touch = function(elm) {
   node.addEventListener("mousedown", function(e) {
           node.addEventListener("mousemove", move);
           e.identifier = mouseID;
-          root.value.push(touch(e));
           start(e);
+          root.value.push(touch(e));
           elm.notify(root.id, root.value);
       });
   node.addEventListener("mouseup", function(e) {
@@ -2810,7 +2817,7 @@ Elm.Http = function(elm){
 Elm.Either = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.List(elm); var List = _;
  var e, case0, either_2, isLeft_3, isRight_4, lefts_5, rights_6, partition_7, consLeft_8, consRight_9, consEither_10;
  Left_0 = function(a1){
   return {ctor:"Left", _0:a1};};
@@ -3238,7 +3245,7 @@ Elm.Graphics.Element = function(elm){
  var guid = _.guid, max = _.max, htmlHeight = _.htmlHeight;
  var JS = Elm.JavaScript(elm);
  var List = Elm.List(elm);
- var _ = Elm.Color(elm); var Color = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.Color(elm); var Color = _;
  var _ = Elm.Maybe(elm); var Maybe = _;
  var Just = _.Just, Nothing = _.Nothing;
  var e, case0, Properties_0, Element_1, widthOf_2, heightOf_3, sizeOf_4, width_5, p_84, props_85, _50000_89, w_90, h_91, height_6, p_98, props_99, opacity_7, p_104, color_8, p_107, tag_9, p_110, link_10, p_113, emptyStr_11, newElement_12, image_22, fittedImage_23, croppedImage_24, Position_30, container_31, spacer_32, flow_39, ws_139, hs_140, newFlow_141, above_40, below_41, beside_42, layers_43, ws_151, hs_152, absolute_44, relative_45, middle_46, topLeft_47, topRight_48, bottomLeft_49, bottomRight_50, midLeft_51, midRight_52, midTop_53, midBottom_54, middleAt_55, topLeftAt_56, topRightAt_57, bottomLeftAt_58, bottomRightAt_59, midLeftAt_60, midRightAt_61, midTopAt_62, midBottomAt_63, up_64, down_65, left_66, right_67, inward_68, outward_69;
@@ -3522,26 +3529,27 @@ Elm.Graphics = Elm.Graphics||{};
 Elm.Graphics.Collage = function(elm){
  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
  var $op = {};
- var _ = Elm.List(elm); var List = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.List(elm); var List = _;
  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
  var toFloat = _.toFloat;
- var _ = Elm.Either(elm); var Either = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
+ var _ = Elm.Either(elm); var Either = _;
  var Matrix = Elm.Native.Matrix2D(elm);
  var N = Elm.Native.Graphics.Collage(elm);
- var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _; var hiding={}; for(var k in _){if(k in hiding)continue;eval('var '+k+'=_["'+k+'"]')}
- var Color = Elm.Color(elm);
- var e, case0, Form_0, LineStyle_10, defaultLine_11, solid_12, dashed_13, dotted_14, form_20, fill_21, filled_22, textured_23, gradient_24, outlined_25, traced_26, sprite_27, toForm_28, group_29, groupTransform_30, rotate_31, scale_32, move_33, moveX_34, moveY_35, path_36, segment_37, polygon_38, rect_39, oval_40, n_99, t_100, hw_101, hh_102, f_103, circle_41, ngon_42, m_108, t_109, f_110;
+ var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _;
+ var _ = Elm.Color(elm); var Color = _;
+ var e, case0, Form_0, LineStyle_10, defaultLine_11, solid_12, dashed_13, dotted_14, form_20, fill_21, filled_22, textured_23, gradient_24, outlined_25, traced_26, sprite_27, toForm_28, group_29, groupTransform_30, rotate_31, scale_32, move_33, moveX_34, moveY_35, path_36, segment_37, polygon_38, rect_39, square_40, oval_41, n_100, t_101, hw_102, hh_103, f_104, circle_42, ngon_43, m_109, t_110, f_111;
  Solid_1 = function(a1){
   return {ctor:"Solid", _0:a1};};
  Texture_2 = function(a1){
   return {ctor:"Texture", _0:a1};};
  Gradient_3 = function(a1){
   return {ctor:"Gradient", _0:a1};};
- Butt_4 = {ctor:"Butt"};
+ Flat_4 = {ctor:"Flat"};
  Round_5 = {ctor:"Round"};
- Square_6 = {ctor:"Square"};
+ Padded_6 = {ctor:"Padded"};
  Smooth_7 = {ctor:"Smooth"};
- Sharp_8 = {ctor:"Sharp"};
+ Sharp_8 = function(a1){
+  return {ctor:"Sharp", _0:a1};};
  Clipped_9 = {ctor:"Clipped"};
  FPath_15 = F2(function(a1, a2){
   return {ctor:"FPath", _0:a1, _1:a2};});
@@ -3553,26 +3561,25 @@ Elm.Graphics.Collage = function(elm){
   return {ctor:"FElement", _0:a1};};
  FGroup_19 = F2(function(a1, a2){
   return {ctor:"FGroup", _0:a1, _1:a2};});
- Form_0 = F5(function(theta_43, scale_44, x_45, y_46, form_47){
+ Form_0 = F5(function(theta_44, scale_45, x_46, y_47, form_48){
   return {
     _:{
     },
-    form:form_47,
-    scale:scale_44,
-    theta:theta_43,
-    x:x_45,
-    y:y_46};});
- LineStyle_10 = F7(function(color_48, width_49, cap_50, join_51, miterLimit_52, dashing_53, dashOffset_54){
+    form:form_48,
+    scale:scale_45,
+    theta:theta_44,
+    x:x_46,
+    y:y_47};});
+ LineStyle_10 = F6(function(color_49, width_50, cap_51, join_52, dashing_53, dashOffset_54){
   return {
     _:{
     },
-    cap:cap_50,
-    color:color_48,
+    cap:cap_51,
+    color:color_49,
     dashOffset:dashOffset_54,
     dashing:dashing_53,
-    join:join_51,
-    miterLimit:miterLimit_52,
-    width:width_49};});
+    join:join_52,
+    width:width_50};});
  solid_12 = function(clr_55){
   return _N.replace([['color',clr_55]], defaultLine_11);};
  dashed_13 = function(clr_56){
@@ -3589,7 +3596,7 @@ Elm.Graphics.Collage = function(elm){
     x:0,
     y:0};};
  fill_21 = F2(function(style_59, shape_60){
-  return form_20(A2(FShape_16, Right(style_59), shape_60));});
+  return form_20(A2(FShape_16, Either.Right(style_59), shape_60));});
  filled_22 = F2(function(color_61, shape_62){
   return A2(fill_21, Solid_1(color_61), shape_62);});
  textured_23 = F2(function(src_63, shape_64){
@@ -3597,7 +3604,7 @@ Elm.Graphics.Collage = function(elm){
  gradient_24 = F2(function(grad_65, shape_66){
   return A2(fill_21, Gradient_3(grad_65), shape_66);});
  outlined_25 = F2(function(style_67, shape_68){
-  return form_20(A2(FShape_16, Left(style_67), shape_68));});
+  return form_20(A2(FShape_16, Either.Left(style_67), shape_68));});
  traced_26 = F2(function(style_69, path_70){
   return form_20(A2(FPath_15, style_69, path_70));});
  sprite_27 = F4(function(w_71, h_72, pos_73, src_74){
@@ -3612,8 +3619,8 @@ Elm.Graphics.Collage = function(elm){
   return _N.replace([['theta',(f_80.theta+t_79)]], f_80);});
  scale_32 = F2(function(s_81, f_82){
   return _N.replace([['scale',(f_82.scale*s_81)]], f_82);});
- move_33 = F2(function(_107000_83, f_84){
-  return (e=_107000_83.ctor==='Tuple2'?_N.replace([['x',(f_84.x+_107000_83._0)],['y',(f_84.y+_107000_83._1)]], f_84):null,e!==null?e:_E.Case('Line 107, Column 20'));});
+ move_33 = F2(function(_138000_83, f_84){
+  return (e=_138000_83.ctor==='Tuple2'?_N.replace([['x',(f_84.x+_138000_83._0)],['y',(f_84.y+_138000_83._1)]], f_84):null,e!==null?e:_E.Case('Line 138, Column 20'));});
  moveX_34 = F2(function(x_87, f_88){
   return _N.replace([['x',(f_88.x+x_87)]], f_88);});
  moveY_35 = F2(function(y_89, f_90){
@@ -3626,23 +3633,24 @@ Elm.Graphics.Collage = function(elm){
   return points_94;};
  rect_39 = F2(function(w_95, h_96){
   return _L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(0-(h_96/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(0-(h_96/2))},_L.Nil))));});
- oval_40 = F2(function(w_97, h_98){
-  return (n_99 = 50, t_100 = ((2*Math.PI)/n_99), hw_101 = (w_97/2), hh_102 = (h_98/2), f_103 = function(i_104){
-   return {ctor:"Tuple2", _0:(hw_101*Math.cos((t_100*i_104))), _1:(hh_102*Math.sin((t_100*i_104)))};}, A2(map, f_103, _L.range(0,(n_99-1))));});
- circle_41 = function(r_105){
-  return A2(oval_40, (2*r_105), (2*r_105));};
- ngon_42 = F2(function(n_106, r_107){
-  return (m_108 = toFloat(n_106), t_109 = ((2*Math.PI)/m_108), f_110 = function(i_111){
-   return {ctor:"Tuple2", _0:(r_107*Math.cos((t_109*i_111))), _1:(r_107*Math.sin((t_109*i_111)))};}, A2(map, f_110, _L.range(0,(n_106-1))));});
+ square_40 = function(n_97){
+  return A2(rect_39, w, h);};
+ oval_41 = F2(function(w_98, h_99){
+  return (n_100 = 50, t_101 = ((2*Math.PI)/n_100), hw_102 = (w_98/2), hh_103 = (h_99/2), f_104 = function(i_105){
+   return {ctor:"Tuple2", _0:(hw_102*Math.cos((t_101*i_105))), _1:(hh_103*Math.sin((t_101*i_105)))};}, A2(List.map, f_104, _L.range(0,(n_100-1))));});
+ circle_42 = function(r_106){
+  return A2(oval_41, (2*r_106), (2*r_106));};
+ ngon_43 = F2(function(n_107, r_108){
+  return (m_109 = toFloat(n_107), t_110 = ((2*Math.PI)/m_109), f_111 = function(i_112){
+   return {ctor:"Tuple2", _0:(r_108*Math.cos((t_110*i_112))), _1:(r_108*Math.sin((t_110*i_112)))};}, A2(List.map, f_111, _L.range(0,(n_107-1))));});
  defaultLine_11 = {
    _:{
    },
-   cap:Butt_4,
+   cap:Flat_4,
    color:Color.black,
    dashOffset:0,
    dashing:_L.Nil,
-   join:Sharp_8,
-   miterLimit:10,
+   join:Sharp_8(10),
    width:1};
  elm.Native = elm.Native||{};
  elm.Native.Graphics = elm.Native.Graphics||{};
@@ -3652,9 +3660,9 @@ Elm.Graphics.Collage = function(elm){
  _.Solid = Solid_1;
  _.Texture = Texture_2;
  _.Gradient = Gradient_3;
- _.Butt = Butt_4;
+ _.Flat = Flat_4;
  _.Round = Round_5;
- _.Square = Square_6;
+ _.Padded = Padded_6;
  _.Smooth = Smooth_7;
  _.Sharp = Sharp_8;
  _.Clipped = Clipped_9;
@@ -3688,9 +3696,10 @@ Elm.Graphics.Collage = function(elm){
  _.segment = segment_37;
  _.polygon = polygon_38;
  _.rect = rect_39;
- _.oval = oval_40;
- _.circle = circle_41;
- _.ngon = ngon_42
+ _.square = square_40;
+ _.oval = oval_41;
+ _.circle = circle_42;
+ _.ngon = ngon_43
  elm.Graphics = elm.Graphics||{};
  return elm.Graphics.Collage = _;
  };
@@ -3756,7 +3765,9 @@ Elm.fullscreen = function(module) {
     style.innerHTML = "html,head,body { padding:0; margin:0; }" +
         "body { font-family: calibri, helvetica, arial, sans-serif; }";
     document.head.appendChild(style);
-    return init(ElmRuntime.Display.FULLSCREEN, document.body, module);
+    var container = document.createElement('div');
+    document.body.appendChild(container);
+    return init(ElmRuntime.Display.FULLSCREEN, container, module);
 };
 
 Elm.byId = function(id, module) {
@@ -3840,15 +3851,14 @@ function init(display, container, module) {
   inputs = ElmRuntime.filterDeadInputs(inputs);
   
    // Add the visualModel to the DOM
-  var renderNode = Render.render(visualModel)
-  container.appendChild(renderNode);
+  container.appendChild(Render.render(visualModel));
   if (elm.Native.Window) elm.Native.Window.resizeIfNeeded();
   
   // set up updates so that the DOM is adjusted as necessary.
   var update = Render.update;
   function domUpdate(value) {
       ElmRuntime.draw(function(_) {
-              update(renderNode, visualModel, value);
+              update(container.firstChild, visualModel, value);
               visualModel = value;
               if (elm.Native.Window) elm.Native.Window.resizeIfNeeded();
           });
@@ -4265,11 +4275,11 @@ function gradient(ctx, grad) {
   var stops = [];
   if (grad.ctor === 'Linear') {
     var p0 = grad._0, p1 = grad._1;
-    g = ctx.createLinearGradient(p0._0, p0._1, p1._0, p1._1);
+    g = ctx.createLinearGradient(p0._0, -p0._1, p1._0, -p1._1);
     stops = fromList(grad._2);
   } else {
     var p0 = grad._0, p2 = grad._2;
-    g = ctx.createRadialGradient(p0._0, p0._1, grad._1, p2._0, p2._1, grad._3);
+    g = ctx.createRadialGradient(p0._0, -p0._1, grad._1, p2._0, -p2._1, grad._3);
     stops = fromList(grad._4);
   }
   var len = stops.length;
@@ -4337,7 +4347,7 @@ function formToMatrix(form) {
 
    var theta = form.theta
    if (theta !== 0)
-       matrix = A2( Matrix.multiply, Matrix.rotation(theta), matrix );
+       matrix = A2( Matrix.multiply, matrix, Matrix.rotation(theta) );
 
    return matrix;
 }

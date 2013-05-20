@@ -1,5 +1,5 @@
 
-main = asText (quicksort [3,9,1,8,5,4,7])
+main = asText (quicksort [5,3,8,1,9,4,7])
 
 quicksort lst =
   case lst of

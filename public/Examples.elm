@@ -1,7 +1,6 @@
 
-import Website.Skeleton
-import Website.Tiles
-import Window as W
+import Website.Skeleton (skeleton)
+import Window
 
 words = [markdown|
 
@@ -47,4 +46,4 @@ too! He has also created some cool [smaller examples][3] too.
 
 content w = width w words
 
-main = lift (skeleton content) W.width
+main = lift (skeleton content) Window.width

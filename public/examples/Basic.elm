@@ -1,6 +1,6 @@
 
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import Website.ColorScheme (accent4)
 import Window as Window
 import Text as Text
 
@@ -30,16 +30,17 @@ elements = addFolder "Elements/"
         , ("Positioning", "Position")
         , ("Spacers"    , "Spacer")
         ])
-  , ("Collage", [ ("Lines"     , "Lines")
-                , ("Shapes"    , "Shapes")
-                , ("Sprites"   , "Sprite")
-                , ("Elements"  , "ToForm")
-                , ("Colors"    , "Color")
-                , ("Linear Gradient", "LinearGradient")
-                , ("Radial Gradient", "RadialGradient")
-                , ("Textures"  , "Texture")
-                , ("Transforms", "Transforms")
-                ])
+  , ("2D Shapes", [ ("Lines"     , "Lines")
+                  , ("Shapes"    , "Shapes")
+                  , ("Sprites"   , "Sprite")
+                  , ("Elements"  , "ToForm")
+                  , ("Transforms", "Transforms")
+                  ])
+  , ("2D Fills", [ ("Colors"    , "Color")
+                 , ("Linear Gradient", "LinearGradient")
+                 , ("Radial Gradient", "RadialGradient")
+                 , ("Textures"  , "Texture")
+                 ])
   ]
 
 
@@ -102,11 +103,11 @@ reactive = addFolder "Reactive/"
   , ("Input",  [ ("Text Fields", "TextField")
                , ("Passwords"  , "Password")
                , ("Check Boxes", "CheckBox")
-               , ("String Drop Down", "StringDropDown")
-               , ("Drop Down", "DropDown")
+--               , ("String Drop Down", "StringDropDown")
+--               , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
+--  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
                , ("Keep If", "KeepIf")
                , ("Drop Repeats", "DropRepeats")

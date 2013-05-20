@@ -8,4 +8,4 @@ display code =
     `beside`
     asText (Char.fromCode code)
 
-main = lift display Keyboard.lastKey
+main = lift display Keyboard.lastPressed

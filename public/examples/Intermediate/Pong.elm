@@ -79,7 +79,7 @@ textGreen = rgb 160 200 160
 txt f = text . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 make obj shape = shape |> filled white
-                       |> move obj.x obj.y
+                       |> move (obj.x,obj.y)
 
 display (w,h) {state,ball,playerL,playerR} =
   let scores = txt (Text.height 4) (show playerL.score ++ "  " ++ show playerR.score)
@@ -88,9 +88,9 @@ display (w,h) {state,ball,playerL,playerR} =
        , oval 15 15 |> make ball
        , rect 10 40 |> make playerL
        , rect 10 40 |> make playerR
-       , toForm scores |> move 0 (gameHeight/2 - 40)
+       , toForm scores |> move (0, gameHeight/2 - 40)
        , toForm (if state == Play then spacer 1 1 else txt id msg)
-           |> move 0 (40 - gameHeight/2)
+           |> move (0, 40 - gameHeight/2)
        ]
 
 main = lift2 display Window.dimensions gameState

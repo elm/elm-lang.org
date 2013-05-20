@@ -2,7 +2,7 @@
 outline = path [ (50,50), (50,0-50), (0-50,0-50), (0-50,50), (50,50) ]
 
 main = collage 200 420
-         [ outline |> traced (dashed blue)  |> move 0 (0-110)
+         [ outline |> traced (dashed blue)  |> move (0, 0-110)
          , outline |> traced (dotted green)
-         , outline |> traced (solid  red)   |> move 0 110
+         , outline |> traced (solid  red)   |> move (0, 110)
          ]

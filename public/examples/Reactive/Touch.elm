@@ -6,7 +6,7 @@ import Window
 
 makeCircle w h {x,y} =
     circle 60 |> filled green
-              |> move (x-w/2) (h/2-y)
+              |> move (x-w/2, h/2-y)
 
 scene (w,h) = collage w h . map (makeCircle (toFloat w) (toFloat h))
 main = lift2 scene Window.dimensions Touch.touches

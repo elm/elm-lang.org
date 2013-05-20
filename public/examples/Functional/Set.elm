@@ -14,11 +14,10 @@ xs = Set.fromList [1..5]
 ys = Set.fromList ([4..7] ++ [5..9])
 
 main =
-  flow down . List.map asText <|
-    [ xs,
-      ys,
-      Set.insert 42 xs,
-      Set.union xs ys,
-      Set.intersect xs ys,
-      Set.diff xs ys,
-      Set.diff ys xs ]
+  flow down <| map asText [ xs,
+                            ys,
+                            Set.insert 42 xs,
+                            Set.union xs ys,
+                            Set.intersect xs ys,
+                            Set.diff xs ys,
+                            Set.diff ys xs ]

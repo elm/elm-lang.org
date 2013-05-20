@@ -27,7 +27,7 @@ add k v dict =
     in  Dict.insert k (v::vs) dict
 
 groupBy f g vs =
-    List.foldl (\v d -> add (f v) (g v) d) Dict.empty vs
+    foldl (\v d -> add (f v) (g v) d) Dict.empty vs
 
 familyToGenera =
     groupBy .family .genus trees
@@ -38,4 +38,4 @@ display (family,genera) =
 header = [markdown|## Trees: Genera in each Family|]
 
 main = flow down
-       (header :: List.map display (Dict.toList familyToGenera))
+       (header :: map display (Dict.toList familyToGenera))

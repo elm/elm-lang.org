@@ -1,7 +1,7 @@
 
 makePoint radius angle =
-    circle 5 |> filled (hsv (round radius) 1 1)
-             |> move (radius * cos angle) (radius * sin angle)
+    circle 5 |> filled (hsv (degrees radius) 1 1)
+             |> move (radius * cos angle, radius * sin angle)
 
 makeLevel level =
   let n = 6 * level

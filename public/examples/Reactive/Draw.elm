@@ -12,8 +12,13 @@ add1 t d = let vs = Dict.findWithDefault [] t.id d
 addN : [Touch] -> Dict Int [(Int,Int)] -> Dict Int [(Int,Int)]
 addN ts dict = List.foldl add1 dict ts
 
-scene : (Int,Int) -> [(Int,Int)] -> Element
-scene (w,h) = collage w h . List.map (traced (solid green) . path)
+thickLine : LineStyle
+thickLine = { defaultLine | color <- rgba 123 123 123 0.3, width <- 8 }
+
+scene : (Int,Int) -> [[(Int,Int)]] -> Element
+scene (w,h) paths =
+    let pathForms = group (map (traced thickLine . path) paths)
+    in  collage w h [ move (0 - w `div` 2, h `div` 2) pathForms ]
 
 main = lift2 scene Window.dimensions
                    (Dict.values <~ foldp addN Dict.empty Touch.touches)
