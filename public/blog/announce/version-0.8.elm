@@ -61,6 +61,7 @@ a ton of new features. The most important improvements and additions are:
 * [Better 2D graphics API](#better-2d-graphics)
 * [Performance and infrastructure improvements](#faster-currying-and-data-structures)
 * [Inline documentation in the online editor](#inline-documentation) (thanks to Mads!)
+* [Module tweaks, records to objects, WebSocket library, and new operators](#miscellaneous-experimental)
 
 So this release finally answers the questions &ldquo;How do I dynamically create
 buttons?&rdquo; and &ldquo;How do I embed Elm in HTML and JS?&rdquo; I think
@@ -80,7 +81,7 @@ or work with server-side JS. Using Elm is not an all-or-nothing choice anymore.
 This lowers the barrier if you want to experiment with Elm and makes it
 easier to convince your boss that it is okay to use Elm in an existing project.
 
-The description of [how to embed Elm code](learn/JavaScript-Integration.elm)
+The description of [how to embed Elm code](/learn/JavaScript-Integration.elm)
 explains all of the details of the API.
 
 The following video is a short demo of how to embed Elm in a `<div>`. 
@@ -95,16 +96,60 @@ The following video is a short demo of how to embed Elm in a `<div>`.
 So it is no longer an all-or-nothing choice. You can use Elm where it
 makes sense and HTML everywhere else.
 
+## Type Annotations and Type Aliases
+
+If you are new to types, I recommend reading
+[Getting started with Types](/learn/Getting-started-with-Types.elm)
+which explains how types work in Elm.
+
+You can now add type information to your programs if you want. It is
+not required, but it is recommended.
+
+```haskell
+reverse : [a] -> [a]
+reverse = foldl (::) []
+```
+Notice that the meanings of `(:)` and `(::)` have swapped. `(:)` is &ldquo;has
+type&rdquo; and `(::)` is cons. This is how it is in SML, OCaml, Coq, and Agda.
+Given the relative frequency of type annotations, it makes sense to give types
+a lighter syntax.
+
+You can also add type aliases. This lets you give nice consise names
+for larger types. This is most useful for records:
+
+```haskell
+type Point = { x:Float, y:Float }
+
+add : Point -> Point -> Point
+add a b = { x = a.x + b.x, y = a.y + b.y }
+```
+You can also have type variables in your aliases which opens the door for
+lots of cool stuff.
+
+```haskell
+type Positioned a = { a | x:Float, y:Float }
+type Movable a = { a | velocity:Float, angle:Float }
+
+ball : Positioned (Movable {})
+ball = { x=0, y=0, velocity=42, angle=0 }
+```
+For those of you who really know your types, I should note that higher-kinded
+polymorphism is not possible right now. That would permit an explicit form
+of type-classes, but that is for another day.
+
+
 ## Dynamic Inputs
 
 The new [`Graphics.Input` library](/docs/Graphics/Input.elm) introduces
 text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
-[This walkthrough](/) will explain how these new features work in detail.
+I am working on writing a walkthrough to explain how these new features work
+in detail. For the now the best showcase is [this TodoFRP demo](https://www.youtube.com/watch?v=BvR5fxlo7Xw). The plan is to release this code and an overview of
+how it works as soon as possible!
 
-This is brand new to Elm and was made possible by an idea from
-[@gozala](https://twitter.com/gozala). As this API took shape,
+These capabilities is brand new to Elm and was made possible by an idea
+from [@gozala](https://twitter.com/gozala). As this API took shape,
 it was very encouraging that it ended up confirming the principles
 of [bidirectional data flow](http://apfelmus.nfshost.com/blog/2012/03/29-frp-three-principles-bidirectional-gui.html)
 as described by apfelmus.
@@ -143,7 +188,7 @@ This means your mental model maps directly onto the graphics API.
 #### Forms at the origin
 
 Now when you create a form, it is positioned at the origin. You no longer
-need to provide a position. Here is a taste of the new API:
+need to provide a position. Here are a few functions from the new API:
 
 ```haskell
 circle : Float -> Shape
@@ -184,8 +229,8 @@ group : [Form] -> Form
 groupTransform : Matrix2D -> [Form] -> Form
 ```
 These functions let you create small self-contained components.
-You can position things without thinking about where the form might
-be positioned later on.
+You can position forms without thinking about how they will be used
+later on.
 
 This next example creates four colorful, rotated crosses.
 It uses `group` to flattens a visual component into a single `Form`,
@@ -253,51 +298,10 @@ and do fancier transformations like reflections and skews with
 the new [`Matrix2D` library](/docs/Matrix2D.elm).
 
 
-## Type Annotations and Type Aliases
-
-If you are new to types, I recommend reading
-[Getting started with Types](/learn/Getting-started-with-Types.elm)
-which explains how types work in Elm.
-
-You can now add type information to your programs if you want. It is
-not required, but it is recommended.
-
-```haskell
-reverse : [a] -> [a]
-reverse = foldl (::) []
-```
-Notice that the meanings of `(:)` and `(::)` have swapped. `(:)` is &ldquo;has
-type&rdquo; and `(::)` is cons. This is how it is in SML, OCaml, Coq, and Agda.
-Given the relative frequency of type annotations, it makes sense to give types
-a lighter syntax.
-
-You can also add type aliases. This lets you give nice consise names
-for larger types. This is most useful for records:
-
-```haskell
-type Point = { x:Float, y:Float }
-
-add : Point -> Point -> Point
-add a b = { x = a.x + b.x, y = a.y + b.y }
-```
-You can also have type variables in your aliases which opens the door for
-lots of cool stuff.
-
-```haskell
-type Positioned a = { a | x:Float, y:Float }
-type Movable a = { a | velocity:Float, angle:Float }
-
-ball : Positioned (Movable {})
-ball = { x=0, y=0, velocity=42, angle=0 }
-```
-For those of you who really know your types, I should note that higher-kinded
-polymorphism is not possible right now. That would permit an explicit form
-of type-classes, but that is for another day.
-
 ## Faster currying and data structures
 
-The main idea is that currying is quite a bit faster, and all ADTs have a
-faster representation. This should not change how you write code. Your code
+Currying is now quite a bit faster and all ADTs have a much faster
+representation. This should not change how you write code. Your code
 is just faster now!
 
 Function calls in JS can be somewhat expensive, so when you have curried
@@ -315,17 +319,92 @@ which describes how currying works in Haskell.
 
 [The online editor](/edit/examples/Intermediate/Circles.elm) now shows type
 information and documentation when your cursor moves over a function. This
-even works for hard to Google operators like `(<~)` built-in syntax like `if`
+even works for hard-to-Google operators like `(<~)` and built-in syntax
+like `if`.
 This makes it way easier for beginners to get oriented in a program.
 
-You can use `ctrl-k` and `ctrl-shift-k` to see the type information or documentation,
-so you no longer need to flip between the editor and docs.
+You can use `ctrl-k` to peek at the type and description of a value in the
+editor. With `ctrl-shift-k`, you can jump directly to the docs for that function.
 
 It is simple to disable this feature if you want, but I find it is usually
 quite handy.
 
 This feature was conceived, designed, and implemented by Mads. 
-I think this is one of the coolest things in the editor!
+I think this is one of the coolest things in the editor, and it is
+another step towards getting extremely fast feedback for Elm development.
+
+## Miscellaneous / Experimental
+
+There is a bunch of small changes and additions that aim to make Elm better
+long-term. Many of these are experimental or setting the groundwork for bigger
+features in future releases.
+
+#### Importing Modules
+
+There are some minor changes here. This is how module imports work now:
+
+```haskell
+-- Import the Dict module. You can only access its values
+-- with field access: Dict.empty, Dict.insert, etc.
+import Dict
+
+-- Import Dict and load its values into local scope.
+-- You can just use empty, insert, etc. without any prefix.
+import open Dict   
+
+-- Import Dict and load certain values into local scope.
+-- This lets you say empty and Dict.empty.
+import Dict (empty, insert)
+
+-- Import Graphics.Input under the name Input
+import Graphics.Input as Input
+```
+
+First-class modules are in the pipeline for Elm, and
+the `open` keyword is a very early step in this direction.
+For more info on first-class modules, check out the module system
+of OCaml or Agda.
+
+This release also fixes a bug in detecting cyclic module dependencies.
+
+#### Objects and WebSockets
+
+You can convert between JS objects and Elm records with the
+[`JavaScript.Experimental` library](/docs/JavaScript/Experimental.elm).
+As the name suggests, the approach used by this library is experimental!
+Please let me know what you think of it on the [mailing
+list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
+
+You can also work with websockets via the
+[`WebSocket` library](/docs/WebSocket.elm). This API may change to accomadate
+more usage scenarios. Please let me know how you want to use it!
+
+#### Application Operators
+
+Elm now has operators for forward application `(|>)` and
+backward application `(<|)`. These work much like the old `($)` operator
+and are mainly useful for saving yourself from writing too many parentheses.
+
+```haskell
+-- (sqrt 4) == (sqrt <| 4) == (4 |> sqrt) == 2
+
+-- The (<|) operator works just like ($).
+formA = scale 2 . rotate (degrees 30) . filled blue <| ngon 3 40
+
+-- The (|>) operator can be quite nice when creating forms.
+formB = ngon 3 40 |> filled blue
+                  |> rotate (degrees 30)
+                  |> scale 2
+```
+
+The `($)` operator is being deprecated, so try to get rid of it in your code.
+It will probably get taken out for good in the next release.
+
+#### Pattern Matching
+
+You can now do record pattern matching in case expressions. We have talked about
+how to make record pattern matching more flexible in general, so that will
+come out at some point in the future.
 
 ## Thank you!
 
@@ -345,10 +424,10 @@ paper and getting me thinking about JS performance. For more info about making
 all of Haskell work in browsers, see [their talk on ghcjs](http://www.ustream.tv/recorded/29327620)
 from the mloc.js conference.
 
-Thank you to Colin for working on supporting Retina displays and
-fixing a bunch of bugs.
+Thank you to everyone on [the mailing list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
+who helped me test and think through all of these new ideas!
 
-I have never had so many people to thank for a release, so please let me know
+I have never had so many people to thank for a release, so please forgive me
 if I have forgotten anyone!
 
 |]

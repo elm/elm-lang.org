@@ -14,4 +14,6 @@ Overview:
 ----------------------------------------------------------------}
 
 
-main = asText <| filter (\n -> n `mod` 2 == 0) [1..10]
+main = asText <| filter isEven [1..10]
+
+isEven n = n `mod` 2 == 0

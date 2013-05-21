@@ -10,11 +10,8 @@ import Window
 
 what1 = [markdown|
 
-Functional Reactive Programming (FRP) answers the question, &ldquo;How can I make
-a GUI in a purely functional way?&rdquo; It provides control flow structures for
-*time* which makes it much easier to work with synchronous and [asynchronous events][cbh].
-
- [cbh]: /learn/Escape-from-Callback-Hell.elm
+Functional Reactive Programming (FRP) is a high-level way to work with
+interactions. It provides control flow structures for *time*.
 
 FRP is build around the idea of time-varying values, called *signals* in Elm.
 
@@ -26,12 +23,12 @@ The first example is the position of the mouse. In Elm, the mouse position
 is represented by a signal named `Mouse.position`. When the mouse moves, the value of
 `Mouse.position` changes automatically [[3]][mouse].
 
-  [mouse]: http://elm-lang.org/edit/examples/Reactive/Position.elm "mouse"
+  [mouse]: /edit/examples/Reactive/Position.elm "mouse"
 
 The `Window.dimensions` signal works exactly the same way, automatically changing
 whenever the window is resized [[4]][dimensions].
 
-  [dimensions]: http://elm-lang.org/edit/examples/Reactive/ResizePaint.elm "dimensions"
+  [dimensions]: /edit/examples/Reactive/ResizePaint.elm "dimensions"
 
 The third example uses the `count` function which counts the number of times a
 signal is updated. In this case we are counting mouse clicks.
@@ -45,17 +42,12 @@ to &ldquo;lift&rdquo; a normal function onto a signal. Once lifted, a function i
 automatically whenever the signal updates. So if the function produces static graphics,
 [lifting it onto a signal produces an animation][example]!
 
-  [example]: http://elm-lang.org/edit/examples/Reactive/Clock.elm "animation"
+  [example]: /edit/examples/Reactive/Clock.elm "animation"
 
 These examples are just the basics of FRP. There are tons of other
 [interactive examples](/examples/Basic.elm) that allow you to play around
 with FRP in [Elm](/). More information on how to use signals can be found
-[here](/docs/Signal/Signal.elm).
-
-FRP becomes truly powerful when paired with a good [graphics library](/docs/Graphics/Element.elm),
-making it possible to create interactive pages such as the one you are currently looking at
-([interactive source](/edit/learn/What-is-FRP.elm)) or design purely functional games
-([Creating purely functional Pong](http://elm-lang.org/blog/games-in-elm/part-0/Making-Pong.html))
+[here](/docs/Signal.elm).
 
 |]
 
@@ -92,11 +84,9 @@ Again, this stuff becomes even cooler when you mix it with a good graphics libra
 
 |]
 
-why = [markdown|<br/>
+why = [markdown|
 
-* * *
-
-## &ldquo;Why is FRP a good idea?&rdquo;
+## Why is FRP a good idea?
 
 Functional reactive programming (FRP) is a *declarative* approach to GUI design. The
 term *declarative* makes a distinction between the &ldquo;what&rdquo; and the
@@ -170,7 +160,7 @@ box exs =
 whatIsFRP exs w =
   let hw = w `div` 2 - 15 in
   flow down
-    [ [markdown|## What is &ldquo;Functional Reactive Programming&rdquo;? |]
+    [ [markdown|## What is Functional Reactive Programming? |]
     , flow right [ width hw what1
                  , spacer 30 10
                  , flow down [ spacer hw 20

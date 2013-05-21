@@ -13,7 +13,7 @@ More info at:
 
 -----------------------------------------------------------}
 
-import Either
+import open Either
 
 names = [ Left "Alice", Right 43, Left "Bob", Right 29, Right 7 ]
 

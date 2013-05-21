@@ -337,9 +337,9 @@ and [here](/docs/Signal/Signal.elm).
 module MyModule where
 
 import List
-import List (intercalate, intersperse)
-import List hiding (map,foldl,foldr)
+import open List
 import List as L
+import List (map,foldl,foldr)
 ```
 
 ### Type Annotations

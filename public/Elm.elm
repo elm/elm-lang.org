@@ -29,9 +29,6 @@ exampleText = [markdown|
 
 #### Learn by Example
 
-Elm&rsquo;s [online editor](/try) and [extensive examples](/Examples.elm) make
-it easy to learn and use.
-
 Start with the [basics](/examples/Basic.elm). Work up to
 [intermediate examples](/examples/Intermediate.elm) and
 [games](/blog/games-in-elm/part-0/Making-Pong.html).
@@ -79,18 +76,10 @@ navigation between basic examples.
 
 contact = [markdown|
 
-#### Community and News
+#### Community
 
 Elm's [mailing list][7] is the place to go for questions, announcements,
 and discussion. Or check out the IRC channel ([`#elm` on freenode][irc]).
-Some notable events:
-
-* [Extensible Records in Elm 0.7][v7]
-* Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
-* [Escape from Callback Hell][escape]: AJAX without callbacks
-* [Making Pong in Elm][pong]: a comprehensive walkthrough
-
-<br/>
 
  [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"

@@ -1,5 +1,10 @@
 body { margin: 0; }
 
+a:link {text-decoration: none; color: rgb(15,102,230);}
+a:visited {text-decoration: none}
+a:active {text-decoration: none}
+a:hover {text-decoration: underline;color: rgb(234,21,122);}
+
 .CodeMirror { height: 100% }
 
 form { margin-bottom: 0; }

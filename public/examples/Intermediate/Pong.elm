@@ -8,7 +8,7 @@ import Window
 
 type Input = { space:Bool, dirL:Int, dirR:Int, delta:Time }
 
-delta = inSeconds <~ fps 40
+delta = inSeconds <~ fps 35
 
 input = sampleOn delta (Input <~ Keyboard.space
                                ~ lift .y Keyboard.wasd

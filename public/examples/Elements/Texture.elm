@@ -1,2 +1,2 @@
 
-main = collage 300 300 [ ngon 5 75 |> textured "stripes.jpg" ]
+main = collage 300 300 [ textured "stripes.jpg" (ngon 5 75) ]

@@ -1,12 +1,15 @@
 
+import JavaScript as JS
+
 main = asText (quicksort [5,3,8,1,9,4,7])
 
-quicksort lst =
-  case lst of
-    []    -> []
-    x::xs -> let lower  = quicksort (filter ((>=)x) xs)
-                 higher = quicksort (filter ((<) x) xs)
-             in  lower ++ [x] ++ higher
+quicksort list =
+  case list of
+    [] -> []
+    pivot::rest ->
+        let lower  = filter (\n -> n <= pivot) rest
+            higher = filter (\n -> n >  pivot) rest
+        in  quicksort lower ++ [pivot] ++ quicksort higher
 
 
 {---------------------
@@ -20,7 +23,6 @@ QuickSort works as follows:
  - Gather all of the elements less than the pivot (the first
    filter). We know that these must come before our pivot element
    in the sorted list.
-   Note: ((>=)x) === (\y -> (>=) x y) === (\y -> x >= y)
 
  - Gather all of the elements greater than the pivot in the second
    filter. We know that these must come after our pivot element

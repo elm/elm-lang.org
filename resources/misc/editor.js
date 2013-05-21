@@ -28,11 +28,23 @@ function hideTypeView() {
   setEditorBottom();
 }
 
+function formatType(tipe) {
+    return tipe.replace(/\(Number a\)/g, 'number')
+               .replace(/Number a/g, 'number')
+               .replace(/\(Appendable a\)/g, 'appendable')
+               .replace(/Appendable a/g, 'appendable')
+               .replace(/\(Comparable [ak]\)/g, 'comparable')
+               .replace(/Comparable [ak]/g, 'comparable');
+}
+
 function parseDoc(mods) {
   var markdown = new Showdown.converter();
   var ds = mods.modules.map(function (m) {
     var fs = m.values.map(function (f) {
-      return {name: f.name, type: f.type, module: m.name, desc: markdown.makeHtml(f.desc)};
+      return {name: f.name,
+              type: formatType(f.type),
+              module: m.name,
+              desc: markdown.makeHtml(f.desc)};
     });
     return fs;
   });

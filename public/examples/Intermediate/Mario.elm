@@ -28,7 +28,7 @@ render (w,h) mario =
        [ rect w h  |> filled (rgb 174 238 238)
        , rect w 50 |> filled (rgb 74 163 41)
                    |> move (0, 24 - half h)
-       , toForm (image 35 35 src) |> move (mario.x, mario.y + 63 - half h)
+       , toForm (image 35 35 src) |> move (mario.x, mario.y + 62 - half h)
        ]
 
 -- MARIO

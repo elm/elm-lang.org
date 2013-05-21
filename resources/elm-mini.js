@@ -884,7 +884,6 @@ Elm.Native.List = function(elm) {
           if (!Utils.eq(array[i+j], sep[j])) { match = false;  break; }
         }
         if (match) {
-          console.log(i);
           matches.push(i);
           i += seplen - 1;
         }
@@ -899,15 +898,12 @@ Elm.Native.List = function(elm) {
     var out = Nil;
     var index = alen - 1;
     for (var i = matches.length; i--; ) {
-      console.log('starts at', index);
       var temp = Nil;
       var stop = matches[i] + seplen - 1;
       for ( ; index > stop; --index ) {
         temp = Cons(array[index], temp);
       }
-      console.log(toArray(temp));
       out = Cons(temp,out);
-      console.log('ends at', index);
       index -= seplen;
     }
     return out;
@@ -1013,22 +1009,11 @@ Elm.Native.Json = function(elm) {
     }
   }
 
-  function recordFromJSString(str) {
-    try {
-	return Maybe.Just(JS.toRecord(JSON.parse(str)));
-    } catch (e) {
-	return Maybe.Nothing;
-    }
-  }
-  function recordToPrettyJSString(sep, rec) {
-    return JSON.stringify(JS.fromRecord(rec), null, JS.fromString(sep));
-  }
-
   return elm.Native.Json = {
-      toPrettyJSString : F2(toPrettyJSString),
+      toJSString : F2(toPrettyJSString),
       fromJSString : fromJSString,
-      recordToPrettyJSString : F2(recordToPrettyJSString),
-      recordFromJSString : recordFromJSString
+      toJSObject : fromValue,
+      fromJSObject : toValue
   };
 
 };
@@ -1472,7 +1457,7 @@ Elm.Native.WebSocket = function(elm) {
     return A3(Signal.lift2, F2(take1), incoming, A2(Signal.lift, send, outgoing));
   }
 
-  return elm.Native.WebSocket = { open: F2(open) };
+  return elm.Native.WebSocket = { connect: F2(open) };
 };
 
 Elm.Native.Touch = function(elm) {
@@ -2398,1311 +2383,1870 @@ Elm.Native.Graphics.Collage = function(elm) {
 
 };
 Elm.Window = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var W = Elm.Native.Window(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Window||{};
- _.$op = {}
- return elm.Window = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var W = Elm.Native.Window(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Window||{};
+  _.$op = {}
+  return elm.Window = _;
+  };
 Elm.WebSocket = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var WS = Elm.Native.WebSocket(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.WebSocket||{};
- _.$op = {}
- return elm.WebSocket = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var WS = Elm.Native.WebSocket(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.WebSocket||{};
+  _.$op = {}
+  return elm.WebSocket = _;
+  };
 Elm.Touch = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var T = Elm.Native.Touch(elm);
- var e, case0, Touch_0;
- Touch_0 = F6(function(x_1, y_2, id_3, x0_4, y0_5, t0_6){
-  return {
-    _:{
-    },
-    id:id_3,
-    t0:t0_6,
-    x:x_1,
-    x0:x0_4,
-    y:y_2,
-    y0:y0_5};});
- elm.Native = elm.Native||{};
- var _ = elm.Native.Touch||{};
- _.$op = {};
- _.Touch = Touch_0
- return elm.Touch = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Touch(elm);
+  var Touch_0 = F6(function(x_1, y_2, id_3, x0_4, y0_5, t0_6){
+    return {
+      _:{
+      },
+      id:id_3,
+      t0:t0_6,
+      x:x_1,
+      x0:x0_4,
+      y:y_2,
+      y0:y0_5};});
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Touch||{};
+  _.$op = {};
+  _.Touch = Touch_0
+  return elm.Touch = _;
+  };
 Elm.Time = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var T = Elm.Native.Time(elm);
- var e, case0, millisecond_0, second_1, minute_2, hour_3, inMilliseconds_4, inSeconds_5, inMinutes_6, inHours_7;
- inMilliseconds_4 = function(t_8){
-  return t_8;};
- inSeconds_5 = function(t_9){
-  return (t_9/second_1);};
- inMinutes_6 = function(t_10){
-  return (t_10/minute_2);};
- inHours_7 = function(t_11){
-  return (t_11/hour_3);};
- millisecond_0 = 1;
- second_1 = (1000*millisecond_0);
- minute_2 = (60*second_1);
- hour_3 = (60*minute_2);
- elm.Native = elm.Native||{};
- var _ = elm.Native.Time||{};
- _.$op = {};
- _.millisecond = millisecond_0;
- _.second = second_1;
- _.minute = minute_2;
- _.hour = hour_3;
- _.inMilliseconds = inMilliseconds_4;
- _.inSeconds = inSeconds_5;
- _.inMinutes = inMinutes_6;
- _.inHours = inHours_7
- return elm.Time = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Time(elm);
+  var inMilliseconds_4 = function(t_8){
+    return t_8;};
+  var inSeconds_5 = function(t_9){
+    return (t_9/second_1);};
+  var inMinutes_6 = function(t_10){
+    return (t_10/minute_2);};
+  var inHours_7 = function(t_11){
+    return (t_11/hour_3);};
+  var millisecond_0 = 1;
+  var second_1 = (1000*millisecond_0);
+  var minute_2 = (60*second_1);
+  var hour_3 = (60*minute_2);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Time||{};
+  _.$op = {};
+  _.millisecond = millisecond_0;
+  _.second = second_1;
+  _.minute = minute_2;
+  _.hour = hour_3;
+  _.inMilliseconds = inMilliseconds_4;
+  _.inSeconds = inSeconds_5;
+  _.inMinutes = inMinutes_6;
+  _.inHours = inHours_7
+  return elm.Time = _;
+  };
 Elm.Text = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var T = Elm.Native.Text(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Text||{};
- _.$op = {}
- return elm.Text = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Text(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Text||{};
+  _.$op = {}
+  return elm.Text = _;
+  };
 Elm.Signal = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var S = Elm.Native.Signal(elm);
- var L = Elm.List(elm);
- var e, case0, combine_0;
- combine_0 = A2(L.foldr, S.lift2(function(x_1){
-  return function(y_2){
-   return _L.Cons(x_1,y_2);};}), S.constant(_L.Nil));
- elm.Native = elm.Native||{};
- var _ = elm.Native.Signal||{};
- _.$op = {};
- _.combine = combine_0
- return elm.Signal = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var S = Elm.Native.Signal(elm);
+  var L = Elm.List(elm);
+  var combine_0 = A2(L.foldr, S.lift2(function(x_1){
+    return function(y_2){
+      return _L.Cons(x_1,y_2);};}), S.constant(_L.Nil));
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Signal||{};
+  _.$op = {};
+  _.combine = combine_0
+  return elm.Signal = _;
+  };
 Elm.Set = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var Dict = Elm.Dict(elm);
- var List = Elm.List(elm);
- var e, case0, empty_0, singleton_1, insert_2, remove_3, member_4, union_5, intersect_6, diff_7, toList_8, fromList_9, foldl_10, foldr_11, map_12;
- singleton_1 = function(k_13){
-  return A2(Dict.singleton, k_13, {ctor:"Tuple0"});};
- insert_2 = function(k_14){
-  return A2(Dict.insert, k_14, {ctor:"Tuple0"});};
- fromList_9 = function(xs_15){
-  return A3(List.foldl, insert_2, empty_0, xs_15);};
- foldl_10 = F3(function(f_16, b_17, s_18){
-  return A3(Dict.foldl, function(k_19){
-   return function(__20){
-    return function(b_21){
-     return A2(f_16, k_19, b_21);};};}, b_17, s_18);});
- foldr_11 = F3(function(f_22, b_23, s_24){
-  return A3(Dict.foldr, function(k_25){
-   return function(__26){
-    return function(b_27){
-     return A2(f_22, k_25, b_27);};};}, b_23, s_24);});
- map_12 = F2(function(f_28, s_29){
-  return fromList_9(A2(List.map, f_28, toList_8(s_29)));});
- empty_0 = Dict.empty;
- remove_3 = Dict.remove;
- member_4 = Dict.member;
- union_5 = Dict.union;
- intersect_6 = Dict.intersect;
- diff_7 = Dict.diff;
- toList_8 = Dict.keys;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Set||{};
- _.$op = {};
- _.empty = empty_0;
- _.singleton = singleton_1;
- _.insert = insert_2;
- _.remove = remove_3;
- _.member = member_4;
- _.union = union_5;
- _.intersect = intersect_6;
- _.diff = diff_7;
- _.toList = toList_8;
- _.fromList = fromList_9;
- _.foldl = foldl_10;
- _.foldr = foldr_11;
- _.map = map_12
- return elm.Set = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Dict = Elm.Dict(elm);
+  var List = Elm.List(elm);
+  var singleton_1 = function(k_13){
+    return A2(Dict.singleton, k_13, {ctor:"Tuple0"});};
+  var insert_2 = function(k_14){
+    return A2(Dict.insert, k_14, {ctor:"Tuple0"});};
+  var fromList_9 = function(xs_15){
+    return A3(List.foldl, insert_2, empty_0, xs_15);};
+  var foldl_10 = F3(function(f_16, b_17, s_18){
+    return A3(Dict.foldl, function(k_19){
+      return function(__20){
+        return function(b_21){
+          return A2(f_16, k_19, b_21);};};}, b_17, s_18);});
+  var foldr_11 = F3(function(f_22, b_23, s_24){
+    return A3(Dict.foldr, function(k_25){
+      return function(__26){
+        return function(b_27){
+          return A2(f_22, k_25, b_27);};};}, b_23, s_24);});
+  var map_12 = F2(function(f_28, s_29){
+    return fromList_9(A2(List.map, f_28, toList_8(s_29)));});
+  var empty_0 = Dict.empty;
+  var remove_3 = Dict.remove;
+  var member_4 = Dict.member;
+  var union_5 = Dict.union;
+  var intersect_6 = Dict.intersect;
+  var diff_7 = Dict.diff;
+  var toList_8 = Dict.keys;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Set||{};
+  _.$op = {};
+  _.empty = empty_0;
+  _.singleton = singleton_1;
+  _.insert = insert_2;
+  _.remove = remove_3;
+  _.member = member_4;
+  _.union = union_5;
+  _.intersect = intersect_6;
+  _.diff = diff_7;
+  _.toList = toList_8;
+  _.fromList = fromList_9;
+  _.foldl = foldl_10;
+  _.foldr = foldr_11;
+  _.map = map_12
+  return elm.Set = _;
+  };
 Elm.Random = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var R = Elm.Native.Random(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Random||{};
- _.$op = {}
- return elm.Random = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var R = Elm.Native.Random(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Random||{};
+  _.$op = {}
+  return elm.Random = _;
+  };
 Elm.Prelude = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var N = Elm.Native.Prelude(elm);
- var e, case0, radians_0, degrees_1, turns_2, fromPolar_3, toPolar_4, otherwise_8;
- LT_5 = {ctor:"LT"};
- EQ_6 = {ctor:"EQ"};
- GT_7 = {ctor:"GT"};
- radians_0 = function(t_9){
-  return t_9;};
- degrees_1 = function(d_10){
-  return ((d_10*Math.PI)/180);};
- turns_2 = function(r_11){
-  return ((2*Math.PI)*r_11);};
- fromPolar_3 = function(_22000_12){
-  return (e=_22000_12.ctor==='Tuple2'?{ctor:"Tuple2", _0:(_22000_12._0*N.cos(_22000_12._1)), _1:(_22000_12._0*N.sin(_22000_12._1))}:null,e!==null?e:_E.Case('Line 22, Column 20'));};
- toPolar_4 = function(_27000_15){
-  return (e=_27000_15.ctor==='Tuple2'?{ctor:"Tuple2", _0:N.sqrt((Math.pow(_27000_15._0,2)+Math.pow(_27000_15._1,2))), _1:A2(N.atan2, _27000_15._1, _27000_15._0)}:null,e!==null?e:_E.Case('Line 27, Column 18'));};
- otherwise_8 = true;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Prelude||{};
- _.$op = {};
- _.radians = radians_0;
- _.degrees = degrees_1;
- _.turns = turns_2;
- _.fromPolar = fromPolar_3;
- _.toPolar = toPolar_4;
- _.LT = LT_5;
- _.EQ = EQ_6;
- _.GT = GT_7;
- _.otherwise = otherwise_8
- return elm.Prelude = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Prelude(elm);
+  var LT_5 = {ctor:"LT"};
+  var EQ_6 = {ctor:"EQ"};
+  var GT_7 = {ctor:"GT"};
+  var radians_0 = function(t_9){
+    return t_9;};
+  var degrees_1 = function(d_10){
+    return ((d_10*Math.PI)/180);};
+  var turns_2 = function(r_11){
+    return ((2*Math.PI)*r_11);};
+  var fromPolar_3 = function(_22000_12){
+    return function(){ 
+    switch (_22000_12.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:(_22000_12._0*N.cos(_22000_12._1)), _1:(_22000_12._0*N.sin(_22000_12._1))};
+    }_E.Case('Line 22, Column 20') }();};
+  var toPolar_4 = function(_27000_15){
+    return function(){ 
+    switch (_27000_15.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:N.sqrt((Math.pow(_27000_15._0,2)+Math.pow(_27000_15._1,2))), _1:A2(N.atan2, _27000_15._1, _27000_15._0)};
+    }_E.Case('Line 27, Column 18') }();};
+  var otherwise_8 = true;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Prelude||{};
+  _.$op = {};
+  _.radians = radians_0;
+  _.degrees = degrees_1;
+  _.turns = turns_2;
+  _.fromPolar = fromPolar_3;
+  _.toPolar = toPolar_4;
+  _.LT = LT_5;
+  _.EQ = EQ_6;
+  _.GT = GT_7;
+  _.otherwise = otherwise_8
+  return elm.Prelude = _;
+  };
 Elm.Mouse = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var M = Elm.Native.Mouse(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Mouse||{};
- _.$op = {}
- return elm.Mouse = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var M = Elm.Native.Mouse(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Mouse||{};
+  _.$op = {}
+  return elm.Mouse = _;
+  };
 Elm.Maybe = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var List = Elm.List(elm);
- var e, case0, maybe_2, isJust_3, isNothing_4, cons_5, justs_6;
- Just_0 = function(a1){
-  return {ctor:"Just", _0:a1};};
- Nothing_1 = {ctor:"Nothing"};
- maybe_2 = F3(function(b_7, f_8, m_9){
-  return (e=m_9.ctor==='Just'?f_8(m_9._0):m_9.ctor==='Nothing'?b_7:null,e!==null?e:_E.Case('Line 13, Column 15'));});
- cons_5 = F2(function(mx_12, xs_13){
-  return A3(maybe_2, xs_13, function(x_14){
-   return _L.Cons(x_14,xs_13);}, mx_12);});
- isJust_3 = A2(maybe_2, false, function(__11){
-  return true;});
- isNothing_4 = function(x){
-  return not(isJust_3(x));};
- justs_6 = A2(List.foldr, cons_5, _L.Nil);
- elm.Native = elm.Native||{};
- var _ = elm.Native.Maybe||{};
- _.$op = {};
- _.Just = Just_0;
- _.Nothing = Nothing_1;
- _.maybe = maybe_2;
- _.isJust = isJust_3;
- _.isNothing = isNothing_4;
- _.cons = cons_5;
- _.justs = justs_6
- return elm.Maybe = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var List = Elm.List(elm);
+  var Just_0 = function(a1){
+    return {ctor:"Just", _0:a1};};
+  var Nothing_1 = {ctor:"Nothing"};
+  var maybe_2 = F3(function(b_7, f_8, m_9){
+    return function(){ 
+    switch (m_9.ctor) {
+      case 'Just':
+        return f_8(m_9._0);
+      case 'Nothing':
+        return b_7;
+    }_E.Case('Line 13, Column 15') }();});
+  var cons_5 = F2(function(mx_12, xs_13){
+    return A3(maybe_2, xs_13, function(x_14){
+      return _L.Cons(x_14,xs_13);}, mx_12);});
+  var isJust_3 = A2(maybe_2, false, function(__11){
+    return true;});
+  var isNothing_4 = function(x){
+    return not(isJust_3(x));};
+  var justs_6 = A2(List.foldr, cons_5, _L.Nil);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Maybe||{};
+  _.$op = {};
+  _.Just = Just_0;
+  _.Nothing = Nothing_1;
+  _.maybe = maybe_2;
+  _.isJust = isJust_3;
+  _.isNothing = isNothing_4;
+  _.cons = cons_5;
+  _.justs = justs_6
+  return elm.Maybe = _;
+  };
 Elm.Matrix2D = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var M = Elm.Native.Matrix2D(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Matrix2D||{};
- _.$op = {}
- return elm.Matrix2D = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var M = Elm.Native.Matrix2D(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Matrix2D||{};
+  _.$op = {}
+  return elm.Matrix2D = _;
+  };
 Elm.List = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
- var min = _.min, max = _.max;
- var L = Elm.Native.List(elm);
- var e, case0, concatMap_0, sum_1, product_2, maximum_3, minimum_4, partition_5, _106000_17, bs_18, cs_19, unzip_6, _127000_28, xs_29, ys_30, intersperse_7;
- concatMap_0 = function(f_8){
-  return function(x){
-   return L.concat(A2(L.map, f_8, x));};};
- partition_5 = F2(function(pred_13, lst_14){
-  return (e=lst_14.ctor==='Cons'?(_106000_17 = A2(partition_5, pred_13, lst_14._1), bs_18 = (e=_106000_17.ctor==='Tuple2'?_106000_17._0:null,e!==null?e:_E.Case('Line 106, Column 30')), cs_19 = (e=_106000_17.ctor==='Tuple2'?_106000_17._1:null,e!==null?e:_E.Case('Line 106, Column 30')), (pred_13(lst_14._0)?{ctor:"Tuple2", _0:_L.Cons(lst_14._0,bs_18), _1:cs_19}:{ctor:"Tuple2", _0:bs_18, _1:_L.Cons(lst_14._0,cs_19)})):lst_14.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 104, Column 5'));});
- unzip_6 = function(pairs_24){
-  return (e=pairs_24.ctor==='Cons'?(e=pairs_24._0.ctor==='Tuple2'?(_127000_28 = unzip_6(pairs_24._1), xs_29 = (e=_127000_28.ctor==='Tuple2'?_127000_28._0:null,e!==null?e:_E.Case('Line 127, Column 33')), ys_30 = (e=_127000_28.ctor==='Tuple2'?_127000_28._1:null,e!==null?e:_E.Case('Line 127, Column 33')), {ctor:"Tuple2", _0:_L.Cons(pairs_24._0._0,xs_29), _1:_L.Cons(pairs_24._0._1,ys_30)}):null,e!==null?e:null):pairs_24.ctor==='Nil'?{ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}:null,e!==null?e:_E.Case('Line 125, Column 3'));};
- intersperse_7 = F2(function(sep_35, xs_36){
-  return (e=xs_36.ctor==='Cons'?(e=xs_36._1.ctor==='Cons'?_L.Cons(xs_36._0,_L.Cons(sep_35,A2(intersperse_7, sep_35, _L.Cons(xs_36._1._0,xs_36._1._1)))):xs_36._1.ctor==='Nil'?_L.Cons(xs_36._0,_L.Nil):null,e!==null?e:null):xs_36.ctor==='Nil'?_L.Nil:null,e!==null?e:_E.Case('Line 145, Column 3'));});
- sum_1 = A2(L.foldl, function(x_9){
-  return function(y_10){
-   return (x_9+y_10);};}, 0);
- product_2 = A2(L.foldl, function(x_11){
-  return function(y_12){
-   return (x_11*y_12);};}, 1);
- maximum_3 = L.foldl1(max);
- minimum_4 = L.foldl1(min);
- elm.Native = elm.Native||{};
- var _ = elm.Native.List||{};
- _.$op = {};
- _.concatMap = concatMap_0;
- _.sum = sum_1;
- _.product = product_2;
- _.maximum = maximum_3;
- _.minimum = minimum_4;
- _.partition = partition_5;
- _.unzip = unzip_6;
- _.intersperse = intersperse_7
- return elm.List = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var min = _.min, max = _.max;
+  var L = Elm.Native.List(elm);
+  var concatMap_0 = function(f_8){
+    return function(x){
+      return L.concat(A2(L.map, f_8, x));};};
+  var partition_5 = F2(function(pred_13, lst_14){
+    return function(){ 
+    switch (lst_14.ctor) {
+      case 'Cons':
+        return function(){
+          var _106000_17 = A2(partition_5, pred_13, lst_14._1);
+          var bs_18 = function(){ 
+          switch (_106000_17.ctor) {
+            case 'Tuple2':
+              return _106000_17._0;
+          }_E.Case('Line 106, Column 30') }();
+          var cs_19 = function(){ 
+          switch (_106000_17.ctor) {
+            case 'Tuple2':
+              return _106000_17._1;
+          }_E.Case('Line 106, Column 30') }();
+          return (pred_13(lst_14._0)?{ctor:"Tuple2", _0:_L.Cons(lst_14._0,bs_18), _1:cs_19}:{ctor:"Tuple2", _0:bs_18, _1:_L.Cons(lst_14._0,cs_19)});}();
+      case 'Nil':
+        return {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+    }_E.Case('Line 104, Column 5') }();});
+  var unzip_6 = function(pairs_24){
+    return function(){ 
+    switch (pairs_24.ctor) {
+      case 'Cons':
+        switch (pairs_24._0.ctor) {
+          case 'Tuple2':
+            return function(){
+              var _127000_28 = unzip_6(pairs_24._1);
+              var xs_29 = function(){ 
+              switch (_127000_28.ctor) {
+                case 'Tuple2':
+                  return _127000_28._0;
+              }_E.Case('Line 127, Column 33') }();
+              var ys_30 = function(){ 
+              switch (_127000_28.ctor) {
+                case 'Tuple2':
+                  return _127000_28._1;
+              }_E.Case('Line 127, Column 33') }();
+              return {ctor:"Tuple2", _0:_L.Cons(pairs_24._0._0,xs_29), _1:_L.Cons(pairs_24._0._1,ys_30)};}();
+        }break;
+      case 'Nil':
+        return {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+    }_E.Case('Line 125, Column 3') }();};
+  var intersperse_7 = F2(function(sep_35, xs_36){
+    return function(){ 
+    switch (xs_36.ctor) {
+      case 'Cons':
+        switch (xs_36._1.ctor) {
+          case 'Cons':
+            return _L.Cons(xs_36._0,_L.Cons(sep_35,A2(intersperse_7, sep_35, _L.Cons(xs_36._1._0,xs_36._1._1))));
+          case 'Nil':
+            return _L.Cons(xs_36._0,_L.Nil);
+        }break;
+      case 'Nil':
+        return _L.Nil;
+    }_E.Case('Line 145, Column 3') }();});
+  var sum_1 = A2(L.foldl, function(x_9){
+    return function(y_10){
+      return (x_9+y_10);};}, 0);
+  var product_2 = A2(L.foldl, function(x_11){
+    return function(y_12){
+      return (x_11*y_12);};}, 1);
+  var maximum_3 = L.foldl1(max);
+  var minimum_4 = L.foldl1(min);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.List||{};
+  _.$op = {};
+  _.concatMap = concatMap_0;
+  _.sum = sum_1;
+  _.product = product_2;
+  _.maximum = maximum_3;
+  _.minimum = minimum_4;
+  _.partition = partition_5;
+  _.unzip = unzip_6;
+  _.intersperse = intersperse_7
+  return elm.List = _;
+  };
 Elm.Keyboard = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var N = Elm.Native.Keyboard(elm);
- var e, case0, arrows_0, wasd_1, shift_2, ctrl_3, space_4, enter_5;
- arrows_0 = A4(N.directions, 38, 40, 37, 39);
- wasd_1 = A4(N.directions, 87, 83, 65, 68);
- shift_2 = N.isDown(16);
- ctrl_3 = N.isDown(17);
- space_4 = N.isDown(32);
- enter_5 = N.isDown(13);
- elm.Native = elm.Native||{};
- var _ = elm.Native.Keyboard||{};
- _.$op = {};
- _.arrows = arrows_0;
- _.wasd = wasd_1;
- _.shift = shift_2;
- _.ctrl = ctrl_3;
- _.space = space_4;
- _.enter = enter_5
- return elm.Keyboard = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Keyboard(elm);
+  var arrows_0 = A4(N.directions, 38, 40, 37, 39);
+  var wasd_1 = A4(N.directions, 87, 83, 65, 68);
+  var shift_2 = N.isDown(16);
+  var ctrl_3 = N.isDown(17);
+  var space_4 = N.isDown(32);
+  var enter_5 = N.isDown(13);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Keyboard||{};
+  _.$op = {};
+  _.arrows = arrows_0;
+  _.wasd = wasd_1;
+  _.shift = shift_2;
+  _.ctrl = ctrl_3;
+  _.space = space_4;
+  _.enter = enter_5
+  return elm.Keyboard = _;
+  };
 Elm.Json = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var Dict = Elm.Dict(elm);
- var JS = Elm.JavaScript(elm);
- var Native = Elm.Native.Json(elm);
- var e, case0, toString_6, toPrettyString_7, toJSString_8, fromString_9, string_10, number_11, boolean_12, array_13, object_14, find_15, f_38, findString_16, findNumber_17, findBoolean_18, findArray_19, findObject_20;
- String_0 = function(a1){
-  return {ctor:"String", _0:a1};};
- Number_1 = function(a1){
-  return {ctor:"Number", _0:a1};};
- Boolean_2 = function(a1){
-  return {ctor:"Boolean", _0:a1};};
- Null_3 = {ctor:"Null"};
- Array_4 = function(a1){
-  return {ctor:"Array", _0:a1};};
- Object_5 = function(a1){
-  return {ctor:"Object", _0:a1};};
- toString_6 = function(v_21){
-  return JS.toString(A2(Native.toPrettyJSString, _str(''), v_21));};
- toPrettyString_7 = F2(function(sep_22, v_23){
-  return JS.toString(A2(Native.toPrettyJSString, sep_22, v_23));});
- toJSString_8 = function(v_24){
-  return A2(Native.toPrettyJSString, _str(''), v_24);};
- fromString_9 = function(s_25){
-  return Native.fromJSString(JS.fromString(s_25));};
- string_10 = function(v_26){
-  return (e=v_26.ctor==='String'?v_26._0:null,e!==null?e:_str(''));};
- number_11 = function(v_28){
-  return (e=v_28.ctor==='Number'?v_28._0:null,e!==null?e:0);};
- boolean_12 = function(v_30){
-  return (e=v_30.ctor==='Boolean'?v_30._0:null,e!==null?e:false);};
- array_13 = function(v_32){
-  return (e=v_32.ctor==='Array'?v_32._0:null,e!==null?e:_L.Nil);};
- object_14 = function(v_34){
-  return (e=v_34.ctor==='Object'?v_34._0:null,e!==null?e:Dict.empty);};
- find_15 = F2(function(get_36, base_37){
-  return (f_38 = F2(function(key_39, dict_40){
-   return (case10 = A2(Dict.lookup, key_39, dict_40), (e=case10.ctor==='Just'?get_36(case10._0):case10.ctor==='Nothing'?base_37:null,e!==null?e:_E.Case('Line 74, Column 11')));}), f_38);});
- findString_16 = A2(find_15, string_10, _str(''));
- findNumber_17 = A2(find_15, number_11, 0);
- findBoolean_18 = A2(find_15, boolean_12, false);
- findArray_19 = A2(find_15, array_13, _L.Nil);
- findObject_20 = A2(find_15, object_14, Dict.empty);
- elm.Native = elm.Native||{};
- var _ = elm.Native.Json||{};
- _.$op = {};
- _.String = String_0;
- _.Number = Number_1;
- _.Boolean = Boolean_2;
- _.Null = Null_3;
- _.Array = Array_4;
- _.Object = Object_5;
- _.toString = toString_6;
- _.toPrettyString = toPrettyString_7;
- _.toJSString = toJSString_8;
- _.fromString = fromString_9;
- _.string = string_10;
- _.number = number_11;
- _.boolean = boolean_12;
- _.array = array_13;
- _.object = object_14;
- _.find = find_15;
- _.findString = findString_16;
- _.findNumber = findNumber_17;
- _.findBoolean = findBoolean_18;
- _.findArray = findArray_19;
- _.findObject = findObject_20
- return elm.Json = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Dict = Elm.Dict(elm);
+  var JS = Elm.JavaScript(elm);
+  var Native = Elm.Native.Json(elm);
+  var String_0 = function(a1){
+    return {ctor:"String", _0:a1};};
+  var Number_1 = function(a1){
+    return {ctor:"Number", _0:a1};};
+  var Boolean_2 = function(a1){
+    return {ctor:"Boolean", _0:a1};};
+  var Null_3 = {ctor:"Null"};
+  var Array_4 = function(a1){
+    return {ctor:"Array", _0:a1};};
+  var Object_5 = function(a1){
+    return {ctor:"Object", _0:a1};};
+  var toString_6 = F2(function(sep_8, v_9){
+    return JS.toString(A2(Native.toJSString, sep_8, v_9));});
+  var fromString_7 = function(s_10){
+    return Native.fromJSString(JS.fromString(s_10));};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Json||{};
+  _.$op = {};
+  _.String = String_0;
+  _.Number = Number_1;
+  _.Boolean = Boolean_2;
+  _.Null = Null_3;
+  _.Array = Array_4;
+  _.Object = Object_5;
+  _.toString = toString_6;
+  _.fromString = fromString_7
+  return elm.Json = _;
+  };
 Elm.JavaScript = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.JavaScript||{};
- _.$op = {}
- return elm.JavaScript = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.JavaScript||{};
+  _.$op = {}
+  return elm.JavaScript = _;
+  };
 Elm.Http = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.Native.Http(elm); var Native = Native||{};Native.Http = _;
- var send = _.send;
- var _ = Elm.Signal(elm); var Signal = _;
- var lift = _.lift;
- var e, case0, Request_3, request_4, get_5, post_6, sendGet_7;
- Success_0 = function(a1){
-  return {ctor:"Success", _0:a1};};
- Waiting_1 = {ctor:"Waiting"};
- Failure_2 = F2(function(a1, a2){
-  return {ctor:"Failure", _0:a1, _1:a2};});
- Request_3 = F4(function(verb_8, url_9, body_10, headers_11){
-  return {
-    _:{
-    },
-    body:body_10,
-    headers:headers_11,
-    url:url_9,
-    verb:verb_8};});
- get_5 = function(url_12){
-  return A4(Request_3, _str('GET'), url_12, _str(''), _L.Nil);};
- post_6 = F2(function(url_13, body_14){
-  return A4(Request_3, _str('POST'), url_13, body_14, _L.Nil);});
- sendGet_7 = function(reqs_15){
-  return send(A2(lift, get_5, reqs_15));};
- request_4 = Request_3;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Http||{};
- _.$op = {};
- _.Success = Success_0;
- _.Waiting = Waiting_1;
- _.Failure = Failure_2;
- _.Request = Request_3;
- _.request = request_4;
- _.get = get_5;
- _.post = post_6;
- _.sendGet = sendGet_7
- return elm.Http = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Http(elm); var Native = Native||{};Native.Http = _;
+  var send = _.send;
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift;
+  var Success_0 = function(a1){
+    return {ctor:"Success", _0:a1};};
+  var Waiting_1 = {ctor:"Waiting"};
+  var Failure_2 = F2(function(a1, a2){
+    return {ctor:"Failure", _0:a1, _1:a2};});
+  var Request_3 = F4(function(verb_8, url_9, body_10, headers_11){
+    return {
+      _:{
+      },
+      body:body_10,
+      headers:headers_11,
+      url:url_9,
+      verb:verb_8};});
+  var get_5 = function(url_12){
+    return A4(Request_3, _str('GET'), url_12, _str(''), _L.Nil);};
+  var post_6 = F2(function(url_13, body_14){
+    return A4(Request_3, _str('POST'), url_13, body_14, _L.Nil);});
+  var sendGet_7 = function(reqs_15){
+    return send(A2(lift, get_5, reqs_15));};
+  var request_4 = Request_3;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Http||{};
+  _.$op = {};
+  _.Success = Success_0;
+  _.Waiting = Waiting_1;
+  _.Failure = Failure_2;
+  _.Request = Request_3;
+  _.request = request_4;
+  _.get = get_5;
+  _.post = post_6;
+  _.sendGet = sendGet_7
+  return elm.Http = _;
+  };
 Elm.Either = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.List(elm); var List = _;
- var e, case0, either_2, isLeft_3, isRight_4, lefts_5, rights_6, partition_7, consLeft_8, consRight_9, consEither_10;
- Left_0 = function(a1){
-  return {ctor:"Left", _0:a1};};
- Right_1 = function(a1){
-  return {ctor:"Right", _0:a1};};
- either_2 = F3(function(f_11, g_12, e_13){
-  return (e=e_13.ctor==='Left'?f_11(e_13._0):e_13.ctor==='Right'?g_12(e_13._0):null,e!==null?e:_E.Case('Line 15, Column 16'));});
- isLeft_3 = function(e_16){
-  return (e=e_16.ctor==='Left'?true:null,e!==null?e:false);};
- isRight_4 = function(e_17){
-  return (e=e_17.ctor==='Right'?true:null,e!==null?e:false);};
- lefts_5 = function(es_18){
-  return A3(List.foldr, consLeft_8, _L.Nil, es_18);};
- rights_6 = function(es_19){
-  return A3(List.foldr, consRight_9, _L.Nil, es_19);};
- partition_7 = function(es_20){
-  return A3(List.foldr, consEither_10, {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}, es_20);};
- consLeft_8 = F2(function(e_21, vs_22){
-  return (e=e_21.ctor==='Left'?_L.Cons(e_21._0,vs_22):e_21.ctor==='Right'?vs_22:null,e!==null?e:_E.Case('Line 39, Column 5'));});
- consRight_9 = F2(function(e_24, vs_25){
-  return (e=e_24.ctor==='Left'?vs_25:e_24.ctor==='Right'?_L.Cons(e_24._0,vs_25):null,e!==null?e:_E.Case('Line 44, Column 5'));});
- consEither_10 = F2(function(e_27, _51000_28){
-  return (e=_51000_28.ctor==='Tuple2'?(e=e_27.ctor==='Left'?{ctor:"Tuple2", _0:_L.Cons(e_27._0,_51000_28._0), _1:_51000_28._1}:e_27.ctor==='Right'?{ctor:"Tuple2", _0:_51000_28._0, _1:_L.Cons(e_27._0,_51000_28._1)}:null,e!==null?e:_E.Case('Line 49, Column 5')):null,e!==null?e:_E.Case('Line 49, Column 5'));});
- elm.Native = elm.Native||{};
- var _ = elm.Native.Either||{};
- _.$op = {};
- _.Left = Left_0;
- _.Right = Right_1;
- _.either = either_2;
- _.isLeft = isLeft_3;
- _.isRight = isRight_4;
- _.lefts = lefts_5;
- _.rights = rights_6;
- _.partition = partition_7;
- _.consLeft = consLeft_8;
- _.consRight = consRight_9;
- _.consEither = consEither_10
- return elm.Either = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.List(elm); var List = _;
+  var Left_0 = function(a1){
+    return {ctor:"Left", _0:a1};};
+  var Right_1 = function(a1){
+    return {ctor:"Right", _0:a1};};
+  var either_2 = F3(function(f_11, g_12, e_13){
+    return function(){ 
+    switch (e_13.ctor) {
+      case 'Left':
+        return f_11(e_13._0);
+      case 'Right':
+        return g_12(e_13._0);
+    }_E.Case('Line 15, Column 16') }();});
+  var isLeft_3 = function(e_16){
+    return function(){ 
+    switch (e_16.ctor) {
+      case 'Left':
+        return true;
+    }
+    return false; }();};
+  var isRight_4 = function(e_17){
+    return function(){ 
+    switch (e_17.ctor) {
+      case 'Right':
+        return true;
+    }
+    return false; }();};
+  var lefts_5 = function(es_18){
+    return A3(List.foldr, consLeft_8, _L.Nil, es_18);};
+  var rights_6 = function(es_19){
+    return A3(List.foldr, consRight_9, _L.Nil, es_19);};
+  var partition_7 = function(es_20){
+    return A3(List.foldr, consEither_10, {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}, es_20);};
+  var consLeft_8 = F2(function(e_21, vs_22){
+    return function(){ 
+    switch (e_21.ctor) {
+      case 'Left':
+        return _L.Cons(e_21._0,vs_22);
+      case 'Right':
+        return vs_22;
+    }_E.Case('Line 39, Column 5') }();});
+  var consRight_9 = F2(function(e_24, vs_25){
+    return function(){ 
+    switch (e_24.ctor) {
+      case 'Left':
+        return vs_25;
+      case 'Right':
+        return _L.Cons(e_24._0,vs_25);
+    }_E.Case('Line 44, Column 5') }();});
+  var consEither_10 = F2(function(e_27, _51000_28){
+    return function(){ 
+    switch (_51000_28.ctor) {
+      case 'Tuple2':
+        return function(){ 
+        switch (e_27.ctor) {
+          case 'Left':
+            return {ctor:"Tuple2", _0:_L.Cons(e_27._0,_51000_28._0), _1:_51000_28._1};
+          case 'Right':
+            return {ctor:"Tuple2", _0:_51000_28._0, _1:_L.Cons(e_27._0,_51000_28._1)};
+        }_E.Case('Line 49, Column 5') }();
+    }_E.Case('Line 49, Column 5') }();});
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Either||{};
+  _.$op = {};
+  _.Left = Left_0;
+  _.Right = Right_1;
+  _.either = either_2;
+  _.isLeft = isLeft_3;
+  _.isRight = isRight_4;
+  _.lefts = lefts_5;
+  _.rights = rights_6;
+  _.partition = partition_7;
+  _.consLeft = consLeft_8;
+  _.consRight = consRight_9;
+  _.consEither = consEither_10
+  return elm.Either = _;
+  };
 Elm.Dict = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var Maybe = Elm.Maybe(elm);
- var Error = Elm.Native.Error(elm);
- var List = Elm.List(elm);
- var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
- var compare = _.compare;
- var e, case0, empty_4, min_5, lookup_6, findWithDefault_7, member_8, rotateLeft_9, rotateRight_10, rotateLeftIfNeeded_11, rotateRightIfNeeded_12, otherColor_13, color_flip_14, color_flipIfNeeded_15, fixUp_16, ensureBlackRoot_17, insert_18, ins_107, h_114, singleton_19, isRed_20, isRedLeft_21, isRedLeftLeft_22, isRedRight_23, isRedRightLeft_24, moveRedLeft_25, t$_123, moveRedRight_26, t$_130, moveRedLeftIfNeeded_27, moveRedRightIfNeeded_28, deleteMin_29, del_134, remove_30, eq_and_noRightNode_143, eq_144, delLT_145, delEQ_146, _325000_163, k$_164, v$_165, delGT_147, del_148, u_178, t$_179, map_31, foldl_32, foldr_33, union_34, intersect_35, combine_205, diff_36, keys_37, values_38, toList_39, fromList_40;
- Red_0 = {ctor:"Red"};
- Black_1 = {ctor:"Black"};
- RBNode_2 = F5(function(a1, a2, a3, a4, a5){
-  return {ctor:"RBNode", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
- RBEmpty_3 = {ctor:"RBEmpty"};
- min_5 = function(t_41){
-  return (e=t_41.ctor==='RBEmpty'?Error.raise(_str('(min Empty) is not defined')):t_41.ctor==='RBNode'?(e=t_41._3.ctor==='RBEmpty'?{ctor:"Tuple2", _0:t_41._1, _1:t_41._2}:null,e!==null?e:min_5(t_41._3)):null,e!==null?e:_E.Case('Line 104, Column 3'));};
- lookup_6 = F2(function(k_45, t_46){
-  return (e=t_46.ctor==='RBEmpty'?Maybe.Nothing:t_46.ctor==='RBNode'?(case12 = A2(compare, k_45, t_46._1), (e=case12.ctor==='EQ'?Maybe.Just(t_46._2):case12.ctor==='GT'?A2(lookup_6, k_45, t_46._4):case12.ctor==='LT'?A2(lookup_6, k_45, t_46._3):null,e!==null?e:_E.Case('Line 124, Column 5'))):null,e!==null?e:_E.Case('Line 121, Column 2'));});
- findWithDefault_7 = F3(function(base_51, k_52, t_53){
-  return (e=t_53.ctor==='RBEmpty'?base_51:t_53.ctor==='RBNode'?(case19 = A2(compare, k_52, t_53._1), (e=case19.ctor==='EQ'?t_53._2:case19.ctor==='GT'?A3(findWithDefault_7, base_51, k_52, t_53._4):case19.ctor==='LT'?A3(findWithDefault_7, base_51, k_52, t_53._3):null,e!==null?e:_E.Case('Line 136, Column 5'))):null,e!==null?e:_E.Case('Line 133, Column 2'));});
- member_8 = F2(function(k_58, t_59){
-  return Maybe.isJust(A2(lookup_6, k_58, t_59));});
- rotateLeft_9 = function(t_60){
-  return (e=t_60.ctor==='RBNode'?(e=t_60._4.ctor==='RBNode'?A5(RBNode_2, t_60._0, t_60._4._1, t_60._4._2, A5(RBNode_2, Red_0, t_60._1, t_60._2, t_60._3, t_60._4._3), t_60._4._4):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateLeft of a node without enough children')));};
- rotateRight_10 = function(t_70){
-  return (e=t_70.ctor==='RBNode'?(e=t_70._3.ctor==='RBNode'?A5(RBNode_2, t_70._0, t_70._3._1, t_70._3._2, t_70._3._3, A5(RBNode_2, Red_0, t_70._1, t_70._2, t_70._3._4, t_70._4)):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('rotateRight of a node without enough children')));};
- rotateLeftIfNeeded_11 = function(t_80){
-  return (e=t_80.ctor==='RBNode'?(e=t_80._4.ctor==='RBNode'?(e=t_80._4._0.ctor==='Red'?rotateLeft_9(t_80):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_80);};
- rotateRightIfNeeded_12 = function(t_81){
-  return (e=t_81.ctor==='RBNode'?(e=t_81._3.ctor==='RBNode'?(e=t_81._3._0.ctor==='Red'?(e=t_81._3._3.ctor==='RBNode'?(e=t_81._3._3._0.ctor==='Red'?rotateRight_10(t_81):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_81);};
- otherColor_13 = function(c_82){
-  return (e=c_82.ctor==='Black'?Red_0:c_82.ctor==='Red'?Black_1:null,e!==null?e:_E.Case('Line 185, Column 16'));};
- color_flip_14 = function(t_83){
-  return (e=t_83.ctor==='RBNode'?(e=t_83._3.ctor==='RBNode'?(e=t_83._4.ctor==='RBNode'?A5(RBNode_2, otherColor_13(t_83._0), t_83._1, t_83._2, A5(RBNode_2, otherColor_13(t_83._3._0), t_83._3._1, t_83._3._2, t_83._3._3, t_83._3._4), A5(RBNode_2, otherColor_13(t_83._4._0), t_83._4._1, t_83._4._2, t_83._4._3, t_83._4._4)):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:Error.raise(_str('color_flip called on a Empty or Node with a Empty child')));};
- color_flipIfNeeded_15 = function(t_97){
-  return (e=t_97.ctor==='RBNode'?(e=t_97._3.ctor==='RBNode'?(e=t_97._3._0.ctor==='Red'?(e=t_97._4.ctor==='RBNode'?(e=t_97._4._0.ctor==='Red'?color_flip_14(t_97):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t_97);};
- fixUp_16 = function(t_98){
-  return color_flipIfNeeded_15(rotateRightIfNeeded_12(rotateLeftIfNeeded_11(t_98)));};
- ensureBlackRoot_17 = function(t_99){
-  return (e=t_99.ctor==='RBNode'?(e=t_99._0.ctor==='Red'?A5(RBNode_2, Black_1, t_99._1, t_99._2, t_99._3, t_99._4):null,e!==null?e:null):null,e!==null?e:t_99);};
- insert_18 = F3(function(k_104, v_105, t_106){
-  return (ins_107 = function(t_108){
-   return (e=t_108.ctor==='RBEmpty'?A5(RBNode_2, Red_0, k_104, v_105, RBEmpty_3, RBEmpty_3):t_108.ctor==='RBNode'?(h_114 = (case114 = A2(compare, k_104, t_108._1), (e=case114.ctor==='EQ'?A5(RBNode_2, t_108._0, t_108._1, v_105, t_108._3, t_108._4):case114.ctor==='GT'?A5(RBNode_2, t_108._0, t_108._1, t_108._2, t_108._3, ins_107(t_108._4)):case114.ctor==='LT'?A5(RBNode_2, t_108._0, t_108._1, t_108._2, ins_107(t_108._3), t_108._4):null,e!==null?e:_E.Case('Line 218, Column 19'))), fixUp_16(h_114)):null,e!==null?e:_E.Case('Line 215, Column 7'));}, ensureBlackRoot_17(ins_107(t_106)));});
- singleton_19 = F2(function(k_115, v_116){
-  return A3(insert_18, k_115, v_116, RBEmpty_3);});
- isRed_20 = function(t_117){
-  return (e=t_117.ctor==='RBNode'?(e=t_117._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:false);};
- isRedLeft_21 = function(t_118){
-  return (e=t_118.ctor==='RBNode'?(e=t_118._3.ctor==='RBNode'?(e=t_118._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
- isRedLeftLeft_22 = function(t_119){
-  return (e=t_119.ctor==='RBNode'?(e=t_119._3.ctor==='RBNode'?(e=t_119._3._3.ctor==='RBNode'?(e=t_119._3._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
- isRedRight_23 = function(t_120){
-  return (e=t_120.ctor==='RBNode'?(e=t_120._4.ctor==='RBNode'?(e=t_120._4._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
- isRedRightLeft_24 = function(t_121){
-  return (e=t_121.ctor==='RBNode'?(e=t_121._4.ctor==='RBNode'?(e=t_121._4._3.ctor==='RBNode'?(e=t_121._4._3._0.ctor==='Red'?true:null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:false);};
- moveRedLeft_25 = function(t_122){
-  return (t$_123 = color_flip_14(t_122), (e=t$_123.ctor==='RBNode'?(e=t$_123._4.ctor==='RBNode'?(e=t$_123._4._3.ctor==='RBNode'?(e=t$_123._4._3._0.ctor==='Red'?color_flip_14(rotateLeft_9(A5(RBNode_2, t$_123._0, t$_123._1, t$_123._2, t$_123._3, rotateRight_10(t$_123._4)))):null,e!==null?e:null):null,e!==null?e:null):null,e!==null?e:t$_123):null,e!==null?e:t$_123));};
- moveRedRight_26 = function(t_129){
-  return (t$_130 = color_flip_14(t_129), (isRedLeftLeft_22(t$_130)?color_flip_14(rotateRight_10(t$_130)):t$_130));};
- moveRedLeftIfNeeded_27 = function(t_131){
-  return ((isRedLeft_21(t_131)||isRedLeftLeft_22(t_131))?t_131:moveRedLeft_25(t_131));};
- moveRedRightIfNeeded_28 = function(t_132){
-  return ((isRedRight_23(t_132)||isRedRightLeft_24(t_132))?t_132:moveRedRight_26(t_132));};
- deleteMin_29 = function(t_133){
-  return (del_134 = function(t_135){
-   return (e=t_135.ctor==='RBNode'?(e=t_135._3.ctor==='RBEmpty'?RBEmpty_3:null,e!==null?e:null):null,e!==null?e:(case198 = moveRedLeftIfNeeded_27(t_135), (e=case198.ctor==='RBEmpty'?RBEmpty_3:case198.ctor==='RBNode'?fixUp_16(A5(RBNode_2, case198._0, case198._1, case198._2, del_134(case198._3), case198._4)):null,e!==null?e:_E.Case('Line 296, Column 12'))));}, ensureBlackRoot_17(del_134(t_133)));};
- remove_30 = F2(function(k_141, t_142){
-  return (eq_and_noRightNode_143 = function(t_149){
-   return (e=t_149.ctor==='RBNode'?(e=t_149._4.ctor==='RBEmpty'?_N.eq(k_141,t_149._1):null,e!==null?e:null):null,e!==null?e:false);}, eq_144 = function(t_151){
-   return (e=t_151.ctor==='RBNode'?_N.eq(k_141,t_151._1):null,e!==null?e:false);}, delLT_145 = function(t_153){
-   return (case216 = moveRedLeftIfNeeded_27(t_153), (e=case216.ctor==='RBEmpty'?Error.raise(_str('delLT on Empty')):case216.ctor==='RBNode'?fixUp_16(A5(RBNode_2, case216._0, case216._1, case216._2, del_148(case216._3), case216._4)):null,e!==null?e:_E.Case('Line 321, Column 17')));}, delEQ_146 = function(t_159){
-   return (e=t_159.ctor==='RBEmpty'?Error.raise(_str('delEQ called on a Empty')):t_159.ctor==='RBNode'?(_325000_163 = min_5(t_159._4), k$_164 = (e=_325000_163.ctor==='Tuple2'?_325000_163._0:null,e!==null?e:_E.Case('Line 325, Column 53')), v$_165 = (e=_325000_163.ctor==='Tuple2'?_325000_163._1:null,e!==null?e:_E.Case('Line 325, Column 53')), fixUp_16(A5(RBNode_2, t_159._0, k$_164, v$_165, t_159._3, deleteMin_29(t_159._4)))):null,e!==null?e:_E.Case('Line 324, Column 17'));}, delGT_147 = function(t_170){
-   return (e=t_170.ctor==='RBEmpty'?Error.raise(_str('delGT called on a Empty')):t_170.ctor==='RBNode'?fixUp_16(A5(RBNode_2, t_170._0, t_170._1, t_170._2, t_170._3, del_148(t_170._4))):null,e!==null?e:_E.Case('Line 328, Column 17'));}, del_148 = function(t_176){
-   return (e=t_176.ctor==='RBEmpty'?RBEmpty_3:t_176.ctor==='RBNode'?((_N.cmp(k_141,t_176._1).ctor==='LT')?delLT_145(t_176):(u_178 = (isRedLeft_21(t_176)?rotateRight_10(t_176):t_176), (eq_and_noRightNode_143(u_178)?RBEmpty_3:(t$_179 = moveRedRightIfNeeded_28(t_176), (eq_144(t$_179)?delEQ_146(t$_179):delGT_147(t$_179)))))):null,e!==null?e:_E.Case('Line 331, Column 15'));}, (A2(member_8, k_141, t_142)?ensureBlackRoot_17(del_148(t_142)):t_142));});
- map_31 = F2(function(f_180, t_181){
-  return (e=t_181.ctor==='RBEmpty'?RBEmpty_3:t_181.ctor==='RBNode'?A5(RBNode_2, t_181._0, t_181._1, f_180(t_181._2), A2(map_31, f_180, t_181._3), A2(map_31, f_180, t_181._4)):null,e!==null?e:_E.Case('Line 351, Column 3'));});
- foldl_32 = F3(function(f_187, acc_188, t_189){
-  return (e=t_189.ctor==='RBEmpty'?acc_188:t_189.ctor==='RBNode'?A3(foldl_32, f_187, A3(f_187, t_189._1, t_189._2, A3(foldl_32, f_187, acc_188, t_189._3)), t_189._4):null,e!==null?e:_E.Case('Line 359, Column 3'));});
- foldr_33 = F3(function(f_194, acc_195, t_196){
-  return (e=t_196.ctor==='RBEmpty'?acc_195:t_196.ctor==='RBNode'?A3(foldr_33, f_194, A3(f_194, t_196._1, t_196._2, A3(foldr_33, f_194, acc_195, t_196._4)), t_196._3):null,e!==null?e:_E.Case('Line 367, Column 3'));});
- union_34 = F2(function(t1_201, t2_202){
-  return A3(foldl_32, insert_18, t2_202, t1_201);});
- intersect_35 = F2(function(t1_203, t2_204){
-  return (combine_205 = F3(function(k_206, v_207, t_208){
-   return (A2(member_8, k_206, t2_204)?A3(insert_18, k_206, v_207, t_208):t_208);}), A3(foldl_32, combine_205, empty_4, t1_203));});
- diff_36 = F2(function(t1_209, t2_210){
-  return A3(foldl_32, function(k_211){
-   return function(v_212){
-    return function(t_213){
-     return A2(remove_30, k_211, t_213);};};}, t1_209, t2_210);});
- keys_37 = function(t_214){
-  return A3(foldr_33, function(k_215){
-   return function(v_216){
-    return function(acc_217){
-     return _L.Cons(k_215,acc_217);};};}, _L.Nil, t_214);};
- values_38 = function(t_218){
-  return A3(foldr_33, function(k_219){
-   return function(v_220){
-    return function(acc_221){
-     return _L.Cons(v_220,acc_221);};};}, _L.Nil, t_218);};
- toList_39 = function(t_222){
-  return A3(foldr_33, function(k_223){
-   return function(v_224){
-    return function(acc_225){
-     return _L.Cons({ctor:"Tuple2", _0:k_223, _1:v_224},acc_225);};};}, _L.Nil, t_222);};
- fromList_40 = function(assocs_226){
-  return A3(List.foldl, function(_0_227){
-   return (e=_0_227.ctor==='Tuple2'?function(d_230){
-    return A3(insert_18, _0_227._0, _0_227._1, d_230);}:null,e!==null?e:_E.Case('Line 402, Column 43'));}, empty_4, assocs_226);};
- empty_4 = RBEmpty_3;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Dict||{};
- _.$op = {};
- _.empty = empty_4;
- _.lookup = lookup_6;
- _.findWithDefault = findWithDefault_7;
- _.member = member_8;
- _.insert = insert_18;
- _.singleton = singleton_19;
- _.remove = remove_30;
- _.map = map_31;
- _.foldl = foldl_32;
- _.foldr = foldr_33;
- _.union = union_34;
- _.intersect = intersect_35;
- _.diff = diff_36;
- _.keys = keys_37;
- _.values = values_38;
- _.toList = toList_39;
- _.fromList = fromList_40
- return elm.Dict = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Maybe = Elm.Maybe(elm);
+  var Error = Elm.Native.Error(elm);
+  var List = Elm.List(elm);
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var compare = _.compare;
+  var Red_0 = {ctor:"Red"};
+  var Black_1 = {ctor:"Black"};
+  var RBNode_2 = F5(function(a1, a2, a3, a4, a5){
+    return {ctor:"RBNode", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
+  var RBEmpty_3 = {ctor:"RBEmpty"};
+  var min_5 = function(t_41){
+    return function(){ 
+    switch (t_41.ctor) {
+      case 'RBEmpty':
+        return Error.raise(_str('(min Empty) is not defined'));
+      case 'RBNode':
+        switch (t_41._3.ctor) {
+          case 'RBEmpty':
+            return {ctor:"Tuple2", _0:t_41._1, _1:t_41._2};
+        }
+        return min_5(t_41._3);
+    }_E.Case('Line 104, Column 3') }();};
+  var lookup_6 = F2(function(k_45, t_46){
+    return function(){ 
+    switch (t_46.ctor) {
+      case 'RBEmpty':
+        return Maybe.Nothing;
+      case 'RBNode':
+        return function(){ 
+        var case12 = A2(compare, k_45, t_46._1);
+        switch (case12.ctor) {
+          case 'EQ':
+            return Maybe.Just(t_46._2);
+          case 'GT':
+            return A2(lookup_6, k_45, t_46._4);
+          case 'LT':
+            return A2(lookup_6, k_45, t_46._3);
+        }_E.Case('Line 124, Column 5') }();
+    }_E.Case('Line 121, Column 2') }();});
+  var findWithDefault_7 = F3(function(base_51, k_52, t_53){
+    return function(){ 
+    switch (t_53.ctor) {
+      case 'RBEmpty':
+        return base_51;
+      case 'RBNode':
+        return function(){ 
+        var case19 = A2(compare, k_52, t_53._1);
+        switch (case19.ctor) {
+          case 'EQ':
+            return t_53._2;
+          case 'GT':
+            return A3(findWithDefault_7, base_51, k_52, t_53._4);
+          case 'LT':
+            return A3(findWithDefault_7, base_51, k_52, t_53._3);
+        }_E.Case('Line 136, Column 5') }();
+    }_E.Case('Line 133, Column 2') }();});
+  var member_8 = F2(function(k_58, t_59){
+    return Maybe.isJust(A2(lookup_6, k_58, t_59));});
+  var rotateLeft_9 = function(t_60){
+    return function(){ 
+    switch (t_60.ctor) {
+      case 'RBNode':
+        switch (t_60._4.ctor) {
+          case 'RBNode':
+            return A5(RBNode_2, t_60._0, t_60._4._1, t_60._4._2, A5(RBNode_2, Red_0, t_60._1, t_60._2, t_60._3, t_60._4._3), t_60._4._4);
+        }break;
+    }
+    return Error.raise(_str('rotateLeft of a node without enough children')); }();};
+  var rotateRight_10 = function(t_70){
+    return function(){ 
+    switch (t_70.ctor) {
+      case 'RBNode':
+        switch (t_70._3.ctor) {
+          case 'RBNode':
+            return A5(RBNode_2, t_70._0, t_70._3._1, t_70._3._2, t_70._3._3, A5(RBNode_2, Red_0, t_70._1, t_70._2, t_70._3._4, t_70._4));
+        }break;
+    }
+    return Error.raise(_str('rotateRight of a node without enough children')); }();};
+  var rotateLeftIfNeeded_11 = function(t_80){
+    return function(){ 
+    switch (t_80.ctor) {
+      case 'RBNode':
+        switch (t_80._4.ctor) {
+          case 'RBNode':
+            switch (t_80._4._0.ctor) {
+              case 'Red':
+                return rotateLeft_9(t_80);
+            }break;
+        }break;
+    }
+    return t_80; }();};
+  var rotateRightIfNeeded_12 = function(t_81){
+    return function(){ 
+    switch (t_81.ctor) {
+      case 'RBNode':
+        switch (t_81._3.ctor) {
+          case 'RBNode':
+            switch (t_81._3._0.ctor) {
+              case 'Red':
+                switch (t_81._3._3.ctor) {
+                  case 'RBNode':
+                    switch (t_81._3._3._0.ctor) {
+                      case 'Red':
+                        return rotateRight_10(t_81);
+                    }break;
+                }break;
+            }break;
+        }break;
+    }
+    return t_81; }();};
+  var otherColor_13 = function(c_82){
+    return function(){ 
+    switch (c_82.ctor) {
+      case 'Black':
+        return Red_0;
+      case 'Red':
+        return Black_1;
+    }_E.Case('Line 185, Column 16') }();};
+  var color_flip_14 = function(t_83){
+    return function(){ 
+    switch (t_83.ctor) {
+      case 'RBNode':
+        switch (t_83._3.ctor) {
+          case 'RBNode':
+            switch (t_83._4.ctor) {
+              case 'RBNode':
+                return A5(RBNode_2, otherColor_13(t_83._0), t_83._1, t_83._2, A5(RBNode_2, otherColor_13(t_83._3._0), t_83._3._1, t_83._3._2, t_83._3._3, t_83._3._4), A5(RBNode_2, otherColor_13(t_83._4._0), t_83._4._1, t_83._4._2, t_83._4._3, t_83._4._4));
+            }break;
+        }break;
+    }
+    return Error.raise(_str('color_flip called on a Empty or Node with a Empty child')); }();};
+  var color_flipIfNeeded_15 = function(t_97){
+    return function(){ 
+    switch (t_97.ctor) {
+      case 'RBNode':
+        switch (t_97._3.ctor) {
+          case 'RBNode':
+            switch (t_97._3._0.ctor) {
+              case 'Red':
+                switch (t_97._4.ctor) {
+                  case 'RBNode':
+                    switch (t_97._4._0.ctor) {
+                      case 'Red':
+                        return color_flip_14(t_97);
+                    }break;
+                }break;
+            }break;
+        }break;
+    }
+    return t_97; }();};
+  var fixUp_16 = function(t_98){
+    return color_flipIfNeeded_15(rotateRightIfNeeded_12(rotateLeftIfNeeded_11(t_98)));};
+  var ensureBlackRoot_17 = function(t_99){
+    return function(){ 
+    switch (t_99.ctor) {
+      case 'RBNode':
+        switch (t_99._0.ctor) {
+          case 'Red':
+            return A5(RBNode_2, Black_1, t_99._1, t_99._2, t_99._3, t_99._4);
+        }break;
+    }
+    return t_99; }();};
+  var insert_18 = F3(function(k_104, v_105, t_106){
+    return function(){
+      var ins_107 = function(t_108){
+        return function(){ 
+        switch (t_108.ctor) {
+          case 'RBEmpty':
+            return A5(RBNode_2, Red_0, k_104, v_105, RBEmpty_3, RBEmpty_3);
+          case 'RBNode':
+            return function(){
+              var h_114 = function(){ 
+              var case114 = A2(compare, k_104, t_108._1);
+              switch (case114.ctor) {
+                case 'EQ':
+                  return A5(RBNode_2, t_108._0, t_108._1, v_105, t_108._3, t_108._4);
+                case 'GT':
+                  return A5(RBNode_2, t_108._0, t_108._1, t_108._2, t_108._3, ins_107(t_108._4));
+                case 'LT':
+                  return A5(RBNode_2, t_108._0, t_108._1, t_108._2, ins_107(t_108._3), t_108._4);
+              }_E.Case('Line 218, Column 19') }();
+              return fixUp_16(h_114);}();
+        }_E.Case('Line 215, Column 7') }();};
+      return ensureBlackRoot_17(ins_107(t_106));}();});
+  var singleton_19 = F2(function(k_115, v_116){
+    return A3(insert_18, k_115, v_116, RBEmpty_3);});
+  var isRed_20 = function(t_117){
+    return function(){ 
+    switch (t_117.ctor) {
+      case 'RBNode':
+        switch (t_117._0.ctor) {
+          case 'Red':
+            return true;
+        }break;
+    }
+    return false; }();};
+  var isRedLeft_21 = function(t_118){
+    return function(){ 
+    switch (t_118.ctor) {
+      case 'RBNode':
+        switch (t_118._3.ctor) {
+          case 'RBNode':
+            switch (t_118._3._0.ctor) {
+              case 'Red':
+                return true;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedLeftLeft_22 = function(t_119){
+    return function(){ 
+    switch (t_119.ctor) {
+      case 'RBNode':
+        switch (t_119._3.ctor) {
+          case 'RBNode':
+            switch (t_119._3._3.ctor) {
+              case 'RBNode':
+                switch (t_119._3._3._0.ctor) {
+                  case 'Red':
+                    return true;
+                }break;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedRight_23 = function(t_120){
+    return function(){ 
+    switch (t_120.ctor) {
+      case 'RBNode':
+        switch (t_120._4.ctor) {
+          case 'RBNode':
+            switch (t_120._4._0.ctor) {
+              case 'Red':
+                return true;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedRightLeft_24 = function(t_121){
+    return function(){ 
+    switch (t_121.ctor) {
+      case 'RBNode':
+        switch (t_121._4.ctor) {
+          case 'RBNode':
+            switch (t_121._4._3.ctor) {
+              case 'RBNode':
+                switch (t_121._4._3._0.ctor) {
+                  case 'Red':
+                    return true;
+                }break;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var moveRedLeft_25 = function(t_122){
+    return function(){
+      var t$_123 = color_flip_14(t_122);
+      return function(){ 
+      switch (t$_123.ctor) {
+        case 'RBNode':
+          return function(){ 
+          switch (t$_123._4.ctor) {
+            case 'RBNode':
+              switch (t$_123._4._3.ctor) {
+                case 'RBNode':
+                  switch (t$_123._4._3._0.ctor) {
+                    case 'Red':
+                      return color_flip_14(rotateLeft_9(A5(RBNode_2, t$_123._0, t$_123._1, t$_123._2, t$_123._3, rotateRight_10(t$_123._4))));
+                  }break;
+              }break;
+          }
+          return t$_123; }();
+      }
+      return t$_123; }();}();};
+  var moveRedRight_26 = function(t_129){
+    return function(){
+      var t$_130 = color_flip_14(t_129);
+      return (isRedLeftLeft_22(t$_130)?color_flip_14(rotateRight_10(t$_130)):t$_130);}();};
+  var moveRedLeftIfNeeded_27 = function(t_131){
+    return ((isRedLeft_21(t_131)||isRedLeftLeft_22(t_131))?t_131:moveRedLeft_25(t_131));};
+  var moveRedRightIfNeeded_28 = function(t_132){
+    return ((isRedRight_23(t_132)||isRedRightLeft_24(t_132))?t_132:moveRedRight_26(t_132));};
+  var deleteMin_29 = function(t_133){
+    return function(){
+      var del_134 = function(t_135){
+        return function(){ 
+        switch (t_135.ctor) {
+          case 'RBNode':
+            switch (t_135._3.ctor) {
+              case 'RBEmpty':
+                return RBEmpty_3;
+            }break;
+        }
+        return function(){ 
+        var case198 = moveRedLeftIfNeeded_27(t_135);
+        switch (case198.ctor) {
+          case 'RBEmpty':
+            return RBEmpty_3;
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, case198._0, case198._1, case198._2, del_134(case198._3), case198._4));
+        }_E.Case('Line 296, Column 12') }(); }();};
+      return ensureBlackRoot_17(del_134(t_133));}();};
+  var remove_30 = F2(function(k_141, t_142){
+    return function(){
+      var eq_and_noRightNode_143 = function(t_149){
+        return function(){ 
+        switch (t_149.ctor) {
+          case 'RBNode':
+            switch (t_149._4.ctor) {
+              case 'RBEmpty':
+                return _N.eq(k_141,t_149._1);
+            }break;
+        }
+        return false; }();};
+      var eq_144 = function(t_151){
+        return function(){ 
+        switch (t_151.ctor) {
+          case 'RBNode':
+            return _N.eq(k_141,t_151._1);
+        }
+        return false; }();};
+      var delLT_145 = function(t_153){
+        return function(){ 
+        var case216 = moveRedLeftIfNeeded_27(t_153);
+        switch (case216.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delLT on Empty'));
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, case216._0, case216._1, case216._2, del_148(case216._3), case216._4));
+        }_E.Case('Line 321, Column 17') }();};
+      var delEQ_146 = function(t_159){
+        return function(){ 
+        switch (t_159.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delEQ called on a Empty'));
+          case 'RBNode':
+            return function(){
+              var _325000_163 = min_5(t_159._4);
+              var k$_164 = function(){ 
+              switch (_325000_163.ctor) {
+                case 'Tuple2':
+                  return _325000_163._0;
+              }_E.Case('Line 325, Column 53') }();
+              var v$_165 = function(){ 
+              switch (_325000_163.ctor) {
+                case 'Tuple2':
+                  return _325000_163._1;
+              }_E.Case('Line 325, Column 53') }();
+              return fixUp_16(A5(RBNode_2, t_159._0, k$_164, v$_165, t_159._3, deleteMin_29(t_159._4)));}();
+        }_E.Case('Line 324, Column 17') }();};
+      var delGT_147 = function(t_170){
+        return function(){ 
+        switch (t_170.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delGT called on a Empty'));
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, t_170._0, t_170._1, t_170._2, t_170._3, del_148(t_170._4)));
+        }_E.Case('Line 328, Column 17') }();};
+      var del_148 = function(t_176){
+        return function(){ 
+        switch (t_176.ctor) {
+          case 'RBEmpty':
+            return RBEmpty_3;
+          case 'RBNode':
+            return ((_N.cmp(k_141,t_176._1).ctor==='LT')?delLT_145(t_176):function(){
+              var u_178 = (isRedLeft_21(t_176)?rotateRight_10(t_176):t_176);
+              return (eq_and_noRightNode_143(u_178)?RBEmpty_3:function(){
+                var t$_179 = moveRedRightIfNeeded_28(t_176);
+                return (eq_144(t$_179)?delEQ_146(t$_179):delGT_147(t$_179));}());}());
+        }_E.Case('Line 331, Column 15') }();};
+      return (A2(member_8, k_141, t_142)?ensureBlackRoot_17(del_148(t_142)):t_142);}();});
+  var map_31 = F2(function(f_180, t_181){
+    return function(){ 
+    switch (t_181.ctor) {
+      case 'RBEmpty':
+        return RBEmpty_3;
+      case 'RBNode':
+        return A5(RBNode_2, t_181._0, t_181._1, f_180(t_181._2), A2(map_31, f_180, t_181._3), A2(map_31, f_180, t_181._4));
+    }_E.Case('Line 351, Column 3') }();});
+  var foldl_32 = F3(function(f_187, acc_188, t_189){
+    return function(){ 
+    switch (t_189.ctor) {
+      case 'RBEmpty':
+        return acc_188;
+      case 'RBNode':
+        return A3(foldl_32, f_187, A3(f_187, t_189._1, t_189._2, A3(foldl_32, f_187, acc_188, t_189._3)), t_189._4);
+    }_E.Case('Line 359, Column 3') }();});
+  var foldr_33 = F3(function(f_194, acc_195, t_196){
+    return function(){ 
+    switch (t_196.ctor) {
+      case 'RBEmpty':
+        return acc_195;
+      case 'RBNode':
+        return A3(foldr_33, f_194, A3(f_194, t_196._1, t_196._2, A3(foldr_33, f_194, acc_195, t_196._4)), t_196._3);
+    }_E.Case('Line 367, Column 3') }();});
+  var union_34 = F2(function(t1_201, t2_202){
+    return A3(foldl_32, insert_18, t2_202, t1_201);});
+  var intersect_35 = F2(function(t1_203, t2_204){
+    return function(){
+      var combine_205 = F3(function(k_206, v_207, t_208){
+        return (A2(member_8, k_206, t2_204)?A3(insert_18, k_206, v_207, t_208):t_208);});
+      return A3(foldl_32, combine_205, empty_4, t1_203);}();});
+  var diff_36 = F2(function(t1_209, t2_210){
+    return A3(foldl_32, function(k_211){
+      return function(v_212){
+        return function(t_213){
+          return A2(remove_30, k_211, t_213);};};}, t1_209, t2_210);});
+  var keys_37 = function(t_214){
+    return A3(foldr_33, function(k_215){
+      return function(v_216){
+        return function(acc_217){
+          return _L.Cons(k_215,acc_217);};};}, _L.Nil, t_214);};
+  var values_38 = function(t_218){
+    return A3(foldr_33, function(k_219){
+      return function(v_220){
+        return function(acc_221){
+          return _L.Cons(v_220,acc_221);};};}, _L.Nil, t_218);};
+  var toList_39 = function(t_222){
+    return A3(foldr_33, function(k_223){
+      return function(v_224){
+        return function(acc_225){
+          return _L.Cons({ctor:"Tuple2", _0:k_223, _1:v_224},acc_225);};};}, _L.Nil, t_222);};
+  var fromList_40 = function(assocs_226){
+    return A3(List.foldl, function(_0_227){
+      return function(){ 
+      switch (_0_227.ctor) {
+        case 'Tuple2':
+          return function(d_230){
+            return A3(insert_18, _0_227._0, _0_227._1, d_230);};
+      }_E.Case('Line 402, Column 43') }();}, empty_4, assocs_226);};
+  var empty_4 = RBEmpty_3;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Dict||{};
+  _.$op = {};
+  _.empty = empty_4;
+  _.lookup = lookup_6;
+  _.findWithDefault = findWithDefault_7;
+  _.member = member_8;
+  _.insert = insert_18;
+  _.singleton = singleton_19;
+  _.remove = remove_30;
+  _.map = map_31;
+  _.foldl = foldl_32;
+  _.foldr = foldr_33;
+  _.union = union_34;
+  _.intersect = intersect_35;
+  _.diff = diff_36;
+  _.keys = keys_37;
+  _.values = values_38;
+  _.toList = toList_39;
+  _.fromList = fromList_40
+  return elm.Dict = _;
+  };
 Elm.Date = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var e, case0;
- Mon_0 = {ctor:"Mon"};
- Tue_1 = {ctor:"Tue"};
- Wed_2 = {ctor:"Wed"};
- Thu_3 = {ctor:"Thu"};
- Fri_4 = {ctor:"Fri"};
- Sat_5 = {ctor:"Sat"};
- Sun_6 = {ctor:"Sun"};
- Jan_7 = {ctor:"Jan"};
- Feb_8 = {ctor:"Feb"};
- Mar_9 = {ctor:"Mar"};
- Apr_10 = {ctor:"Apr"};
- May_11 = {ctor:"May"};
- Jun_12 = {ctor:"Jun"};
- Jul_13 = {ctor:"Jul"};
- Aug_14 = {ctor:"Aug"};
- Sep_15 = {ctor:"Sep"};
- Oct_16 = {ctor:"Oct"};
- Nov_17 = {ctor:"Nov"};
- Dec_18 = {ctor:"Dec"};
- elm.Native = elm.Native||{};
- var _ = elm.Native.Date||{};
- _.$op = {};
- _.Mon = Mon_0;
- _.Tue = Tue_1;
- _.Wed = Wed_2;
- _.Thu = Thu_3;
- _.Fri = Fri_4;
- _.Sat = Sat_5;
- _.Sun = Sun_6;
- _.Jan = Jan_7;
- _.Feb = Feb_8;
- _.Mar = Mar_9;
- _.Apr = Apr_10;
- _.May = May_11;
- _.Jun = Jun_12;
- _.Jul = Jul_13;
- _.Aug = Aug_14;
- _.Sep = Sep_15;
- _.Oct = Oct_16;
- _.Nov = Nov_17;
- _.Dec = Dec_18
- return elm.Date = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Mon_0 = {ctor:"Mon"};
+  var Tue_1 = {ctor:"Tue"};
+  var Wed_2 = {ctor:"Wed"};
+  var Thu_3 = {ctor:"Thu"};
+  var Fri_4 = {ctor:"Fri"};
+  var Sat_5 = {ctor:"Sat"};
+  var Sun_6 = {ctor:"Sun"};
+  var Jan_7 = {ctor:"Jan"};
+  var Feb_8 = {ctor:"Feb"};
+  var Mar_9 = {ctor:"Mar"};
+  var Apr_10 = {ctor:"Apr"};
+  var May_11 = {ctor:"May"};
+  var Jun_12 = {ctor:"Jun"};
+  var Jul_13 = {ctor:"Jul"};
+  var Aug_14 = {ctor:"Aug"};
+  var Sep_15 = {ctor:"Sep"};
+  var Oct_16 = {ctor:"Oct"};
+  var Nov_17 = {ctor:"Nov"};
+  var Dec_18 = {ctor:"Dec"};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Date||{};
+  _.$op = {};
+  _.Mon = Mon_0;
+  _.Tue = Tue_1;
+  _.Wed = Wed_2;
+  _.Thu = Thu_3;
+  _.Fri = Fri_4;
+  _.Sat = Sat_5;
+  _.Sun = Sun_6;
+  _.Jan = Jan_7;
+  _.Feb = Feb_8;
+  _.Mar = Mar_9;
+  _.Apr = Apr_10;
+  _.May = May_11;
+  _.Jun = Jun_12;
+  _.Jul = Jul_13;
+  _.Aug = Aug_14;
+  _.Sep = Sep_15;
+  _.Oct = Oct_16;
+  _.Nov = Nov_17;
+  _.Dec = Dec_18
+  return elm.Date = _;
+  };
 Elm.Color = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var e, case0, rgba_1, rgb_2, red_3, lime_4, blue_5, yellow_6, cyan_7, magenta_8, black_9, white_10, gray_11, grey_12, maroon_13, navy_14, green_15, teal_16, purple_17, violet_18, forestGreen_19, linear_22, radial_23;
- Color_0 = F4(function(a1, a2, a3, a4){
-  return {ctor:"Color", _0:a1, _1:a2, _2:a3, _3:a4};});
- Linear_20 = F3(function(a1, a2, a3){
-  return {ctor:"Linear", _0:a1, _1:a2, _2:a3};});
- Radial_21 = F5(function(a1, a2, a3, a4, a5){
-  return {ctor:"Radial", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
- rgb_2 = F3(function(r_24, g_25, b_26){
-  return A4(Color_0, r_24, g_25, b_26, 1);});
- rgba_1 = Color_0;
- red_3 = A4(Color_0, 255, 0, 0, 1);
- lime_4 = A4(Color_0, 0, 255, 0, 1);
- blue_5 = A4(Color_0, 0, 0, 255, 1);
- yellow_6 = A4(Color_0, 255, 255, 0, 1);
- cyan_7 = A4(Color_0, 0, 255, 255, 1);
- magenta_8 = A4(Color_0, 255, 0, 255, 1);
- black_9 = A4(Color_0, 0, 0, 0, 1);
- white_10 = A4(Color_0, 255, 255, 255, 1);
- gray_11 = A4(Color_0, 128, 128, 128, 1);
- grey_12 = A4(Color_0, 128, 128, 128, 1);
- maroon_13 = A4(Color_0, 128, 0, 0, 1);
- navy_14 = A4(Color_0, 0, 0, 128, 1);
- green_15 = A4(Color_0, 0, 128, 0, 1);
- teal_16 = A4(Color_0, 0, 128, 128, 1);
- purple_17 = A4(Color_0, 128, 0, 128, 1);
- violet_18 = A4(Color_0, 238, 130, 238, 1);
- forestGreen_19 = A4(Color_0, 34, 139, 34, 1);
- linear_22 = Linear_20;
- radial_23 = Radial_21;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Color||{};
- _.$op = {};
- _.Color = Color_0;
- _.rgba = rgba_1;
- _.rgb = rgb_2;
- _.red = red_3;
- _.lime = lime_4;
- _.blue = blue_5;
- _.yellow = yellow_6;
- _.cyan = cyan_7;
- _.magenta = magenta_8;
- _.black = black_9;
- _.white = white_10;
- _.gray = gray_11;
- _.grey = grey_12;
- _.maroon = maroon_13;
- _.navy = navy_14;
- _.green = green_15;
- _.teal = teal_16;
- _.purple = purple_17;
- _.violet = violet_18;
- _.forestGreen = forestGreen_19;
- _.Linear = Linear_20;
- _.Radial = Radial_21;
- _.linear = linear_22;
- _.radial = radial_23
- return elm.Color = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Color_0 = F4(function(a1, a2, a3, a4){
+    return {ctor:"Color", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var Linear_20 = F3(function(a1, a2, a3){
+    return {ctor:"Linear", _0:a1, _1:a2, _2:a3};});
+  var Radial_21 = F5(function(a1, a2, a3, a4, a5){
+    return {ctor:"Radial", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
+  var rgb_2 = F3(function(r_24, g_25, b_26){
+    return A4(Color_0, r_24, g_25, b_26, 1);});
+  var rgba_1 = Color_0;
+  var red_3 = A4(Color_0, 255, 0, 0, 1);
+  var lime_4 = A4(Color_0, 0, 255, 0, 1);
+  var blue_5 = A4(Color_0, 0, 0, 255, 1);
+  var yellow_6 = A4(Color_0, 255, 255, 0, 1);
+  var cyan_7 = A4(Color_0, 0, 255, 255, 1);
+  var magenta_8 = A4(Color_0, 255, 0, 255, 1);
+  var black_9 = A4(Color_0, 0, 0, 0, 1);
+  var white_10 = A4(Color_0, 255, 255, 255, 1);
+  var gray_11 = A4(Color_0, 128, 128, 128, 1);
+  var grey_12 = A4(Color_0, 128, 128, 128, 1);
+  var maroon_13 = A4(Color_0, 128, 0, 0, 1);
+  var navy_14 = A4(Color_0, 0, 0, 128, 1);
+  var green_15 = A4(Color_0, 0, 128, 0, 1);
+  var teal_16 = A4(Color_0, 0, 128, 128, 1);
+  var purple_17 = A4(Color_0, 128, 0, 128, 1);
+  var violet_18 = A4(Color_0, 238, 130, 238, 1);
+  var forestGreen_19 = A4(Color_0, 34, 139, 34, 1);
+  var linear_22 = Linear_20;
+  var radial_23 = Radial_21;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Color||{};
+  _.$op = {};
+  _.Color = Color_0;
+  _.rgba = rgba_1;
+  _.rgb = rgb_2;
+  _.red = red_3;
+  _.lime = lime_4;
+  _.blue = blue_5;
+  _.yellow = yellow_6;
+  _.cyan = cyan_7;
+  _.magenta = magenta_8;
+  _.black = black_9;
+  _.white = white_10;
+  _.gray = gray_11;
+  _.grey = grey_12;
+  _.maroon = maroon_13;
+  _.navy = navy_14;
+  _.green = green_15;
+  _.teal = teal_16;
+  _.purple = purple_17;
+  _.violet = violet_18;
+  _.forestGreen = forestGreen_19;
+  _.Linear = Linear_20;
+  _.Radial = Radial_21;
+  _.linear = linear_22;
+  _.radial = radial_23
+  return elm.Color = _;
+  };
 Elm.Char = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var N = Elm.Native.Char(elm);
- var e, case0;
- elm.Native = elm.Native||{};
- var _ = elm.Native.Char||{};
- _.$op = {}
- return elm.Char = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Char(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Char||{};
+  _.$op = {}
+  return elm.Char = _;
+  };
 Elm.Automaton = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var e, case0, run_1, step_16, step_2, _23000_26, f$_27, b_28, _24000_29, g$_30, c_31, combine_3, _34000_44, autos$_45, bs_46, pure_4, state_5, s$_56, hiddenState_6, _58000_60, s$_61, out_62, count_7, empty_8, enqueue_9, dequeue_10, average_11, step_79, stepFull_80, sum$_93;
- Step_0 = function(a1){
-  return {ctor:"Step", _0:a1};};
- run_1 = F3(function(_14000_12, base_13, inputs_14){
-  return (e=_14000_12.ctor==='Step'?(step_16 = F2(function(a_17, _13000_18){
-   return (e=_13000_18.ctor==='Tuple2'?(e=_13000_18._0.ctor==='Step'?_13000_18._0._0(a_17):null,e!==null?e:null):null,e!==null?e:_E.Case('Line 13, Column 28'));}), A2(lift, snd, A3(foldp, step_16, base_13, inputs_14))):null,e!==null?e:_E.Case('Line 13, Column 3'));});
- step_2 = F2(function(a_20, _18000_21){
-  return (e=_18000_21.ctor==='Step'?_18000_21._0(a_20):null,e!==null?e:_E.Case('Line 18, Column 19'));});
- 
- $op['>>>'] = F2(function(f_23, g_24){
-  return Step_0(function(a_25){
-   return (_23000_26 = A2(step_2, a_25, f_23), f$_27 = (e=_23000_26.ctor==='Tuple2'?_23000_26._0:null,e!==null?e:_E.Case('Line 23, Column 29')), b_28 = (e=_23000_26.ctor==='Tuple2'?_23000_26._1:null,e!==null?e:_E.Case('Line 23, Column 29')), _24000_29 = A2(step_2, b_28, g_24), g$_30 = (e=_24000_29.ctor==='Tuple2'?_24000_29._0:null,e!==null?e:_E.Case('Line 24, Column 29')), c_31 = (e=_24000_29.ctor==='Tuple2'?_24000_29._1:null,e!==null?e:_E.Case('Line 24, Column 29')), {ctor:"Tuple2", _0:$op['>>>'](f$_27)(g$_30), _1:c_31});});});;
- 
- $op['<<<'] = F2(function(g_40, f_41){
-  return $op['>>>'](f_41)(g_40);});;
- combine_3 = function(autos_42){
-  return Step_0(function(a_43){
-   return (_34000_44 = unzip(A2(map, step_2(a_43), autos_42)), autos$_45 = (e=_34000_44.ctor==='Tuple2'?_34000_44._0:null,e!==null?e:_E.Case('Line 34, Column 34')), bs_46 = (e=_34000_44.ctor==='Tuple2'?_34000_44._1:null,e!==null?e:_E.Case('Line 34, Column 34')), {ctor:"Tuple2", _0:combine_3(autos$_45), _1:bs_46});});};
- pure_4 = function(f_51){
-  return Step_0(function(x_52){
-   return {ctor:"Tuple2", _0:pure_4(f_51), _1:f_51(x_52)};});};
- state_5 = F2(function(s_53, f_54){
-  return Step_0(function(x_55){
-   return (s$_56 = A2(f_54, x_55, s_53), {ctor:"Tuple2", _0:A2(state_5, s$_56, f_54), _1:s$_56});});});
- hiddenState_6 = F2(function(s_57, f_58){
-  return Step_0(function(x_59){
-   return (_58000_60 = A2(f_58, x_59, s_57), s$_61 = (e=_58000_60.ctor==='Tuple2'?_58000_60._0:null,e!==null?e:_E.Case('Line 58, Column 46')), out_62 = (e=_58000_60.ctor==='Tuple2'?_58000_60._1:null,e!==null?e:_E.Case('Line 58, Column 46')), {ctor:"Tuple2", _0:A2(hiddenState_6, s$_61, f_58), _1:out_62});});});
- enqueue_9 = F2(function(x_69, _67000_70){
-  return (e=_67000_70.ctor==='Tuple2'?{ctor:"Tuple2", _0:_L.Cons(x_69,_67000_70._0), _1:_67000_70._1}:null,e!==null?e:_E.Case('Line 67, Column 22'));});
- dequeue_10 = function(q_73){
-  return (e=q_73.ctor==='Tuple2'?(e=q_73._0.ctor==='Nil'?(e=q_73._1.ctor==='Nil'?Nothing:null,e!==null?e:null):null,e!==null?e:(e=q_73._1.ctor==='Cons'?Just({ctor:"Tuple2", _0:q_73._1._0, _1:{ctor:"Tuple2", _0:q_73._0, _1:q_73._1._1}}):q_73._1.ctor==='Nil'?enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_73._0)}):null,e!==null?e:null)):null,e!==null?e:_E.Case('Line 68, Column 13'));};
- average_11 = function(k_78){
-  return (step_79 = F2(function(n_81, _78000_82){
-   return (e=_78000_82.ctor==='Tuple3'?(_N.eq(_78000_82._1,k_78)?A2(stepFull_80, n_81, {ctor:"Tuple3", _0:_78000_82._0, _1:_78000_82._1, _2:_78000_82._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_81, _78000_82._0), _1:(1+_78000_82._1), _2:(_78000_82._2+n_81)}, _1:((_78000_82._2+n_81)/(1+_78000_82._1))}):null,e!==null?e:_E.Case('Line 77, Column 11'));}), stepFull_80 = F2(function(n_86, _84000_87){
-   return (e=_84000_87.ctor==='Tuple3'?(case48 = dequeue_10(_84000_87._0), (e=case48.ctor==='Just'?(e=case48._0.ctor==='Tuple2'?(sum$_93 = ((_84000_87._2+n_86)-case48._0._0), {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_86, case48._0._1), _1:_84000_87._1, _2:sum$_93}, _1:(sum$_93/_84000_87._1)}):null,e!==null?e:null):case48.ctor==='Nothing'?{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_84000_87._0, _1:_84000_87._1, _2:_84000_87._2}, _1:0}:null,e!==null?e:_E.Case('Line 80, Column 11'))):null,e!==null?e:_E.Case('Line 80, Column 11'));}), A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_79));};
- count_7 = A2(state_5, 0, function(__67){
-  return function(c_68){
-   return (1+c_68);};});
- empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
- elm.Native = elm.Native||{};
- var _ = elm.Native.Automaton||{};
- _.$op = {'>>>' : $op['>>>'], '<<<' : $op['<<<']};
- _.Step = Step_0;
- _.run = run_1;
- _.step = step_2;
- _.combine = combine_3;
- _.pure = pure_4;
- _.state = state_5;
- _.hiddenState = hiddenState_6;
- _.count = count_7;
- _.empty = empty_8;
- _.enqueue = enqueue_9;
- _.dequeue = dequeue_10;
- _.average = average_11
- return elm.Automaton = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Step_0 = function(a1){
+    return {ctor:"Step", _0:a1};};
+  var run_1 = F3(function(_14000_12, base_13, inputs_14){
+    return function(){ 
+    switch (_14000_12.ctor) {
+      case 'Step':
+        return function(){
+          var step_16 = F2(function(a_17, _13000_18){
+            return function(){ 
+            switch (_13000_18.ctor) {
+              case 'Tuple2':
+                switch (_13000_18._0.ctor) {
+                  case 'Step':
+                    return _13000_18._0._0(a_17);
+                }break;
+            }_E.Case('Line 13, Column 28') }();});
+          return A2(lift, snd, A3(foldp, step_16, base_13, inputs_14));}();
+    }_E.Case('Line 13, Column 3') }();});
+  var step_2 = F2(function(a_20, _18000_21){
+    return function(){ 
+    switch (_18000_21.ctor) {
+      case 'Step':
+        return _18000_21._0(a_20);
+    }_E.Case('Line 18, Column 19') }();});
+  $op['>>>'] = F2(function(f_23, g_24){
+    return Step_0(function(a_25){
+      return function(){
+        var _23000_26 = A2(step_2, a_25, f_23);
+        var f$_27 = function(){ 
+        switch (_23000_26.ctor) {
+          case 'Tuple2':
+            return _23000_26._0;
+        }_E.Case('Line 23, Column 29') }();
+        var b_28 = function(){ 
+        switch (_23000_26.ctor) {
+          case 'Tuple2':
+            return _23000_26._1;
+        }_E.Case('Line 23, Column 29') }();
+        var _24000_29 = A2(step_2, b_28, g_24);
+        var g$_30 = function(){ 
+        switch (_24000_29.ctor) {
+          case 'Tuple2':
+            return _24000_29._0;
+        }_E.Case('Line 24, Column 29') }();
+        var c_31 = function(){ 
+        switch (_24000_29.ctor) {
+          case 'Tuple2':
+            return _24000_29._1;
+        }_E.Case('Line 24, Column 29') }();
+        return {ctor:"Tuple2", _0:$op['>>>'](f$_27)(g$_30), _1:c_31};}();});});
+  $op['<<<'] = F2(function(g_40, f_41){
+    return $op['>>>'](f_41)(g_40);});
+  var combine_3 = function(autos_42){
+    return Step_0(function(a_43){
+      return function(){
+        var _34000_44 = unzip(A2(map, step_2(a_43), autos_42));
+        var autos$_45 = function(){ 
+        switch (_34000_44.ctor) {
+          case 'Tuple2':
+            return _34000_44._0;
+        }_E.Case('Line 34, Column 34') }();
+        var bs_46 = function(){ 
+        switch (_34000_44.ctor) {
+          case 'Tuple2':
+            return _34000_44._1;
+        }_E.Case('Line 34, Column 34') }();
+        return {ctor:"Tuple2", _0:combine_3(autos$_45), _1:bs_46};}();});};
+  var pure_4 = function(f_51){
+    return Step_0(function(x_52){
+      return {ctor:"Tuple2", _0:pure_4(f_51), _1:f_51(x_52)};});};
+  var state_5 = F2(function(s_53, f_54){
+    return Step_0(function(x_55){
+      return function(){
+        var s$_56 = A2(f_54, x_55, s_53);
+        return {ctor:"Tuple2", _0:A2(state_5, s$_56, f_54), _1:s$_56};}();});});
+  var hiddenState_6 = F2(function(s_57, f_58){
+    return Step_0(function(x_59){
+      return function(){
+        var _58000_60 = A2(f_58, x_59, s_57);
+        var s$_61 = function(){ 
+        switch (_58000_60.ctor) {
+          case 'Tuple2':
+            return _58000_60._0;
+        }_E.Case('Line 58, Column 46') }();
+        var out_62 = function(){ 
+        switch (_58000_60.ctor) {
+          case 'Tuple2':
+            return _58000_60._1;
+        }_E.Case('Line 58, Column 46') }();
+        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_61, f_58), _1:out_62};}();});});
+  var enqueue_9 = F2(function(x_69, _67000_70){
+    return function(){ 
+    switch (_67000_70.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:_L.Cons(x_69,_67000_70._0), _1:_67000_70._1};
+    }_E.Case('Line 67, Column 22') }();});
+  var dequeue_10 = function(q_73){
+    return function(){ 
+    switch (q_73.ctor) {
+      case 'Tuple2':
+        switch (q_73._0.ctor) {
+          case 'Nil':
+            switch (q_73._1.ctor) {
+              case 'Nil':
+                return Nothing;
+            }break;
+        }
+        switch (q_73._1.ctor) {
+          case 'Cons':
+            return Just({ctor:"Tuple2", _0:q_73._1._0, _1:{ctor:"Tuple2", _0:q_73._0, _1:q_73._1._1}});
+          case 'Nil':
+            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_73._0)});
+        }break;
+    }_E.Case('Line 68, Column 13') }();};
+  var average_11 = function(k_78){
+    return function(){
+      var step_79 = F2(function(n_81, _78000_82){
+        return function(){ 
+        switch (_78000_82.ctor) {
+          case 'Tuple3':
+            return (_N.eq(_78000_82._1,k_78)?A2(stepFull_80, n_81, {ctor:"Tuple3", _0:_78000_82._0, _1:_78000_82._1, _2:_78000_82._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_81, _78000_82._0), _1:(1+_78000_82._1), _2:(_78000_82._2+n_81)}, _1:((_78000_82._2+n_81)/(1+_78000_82._1))});
+        }_E.Case('Line 77, Column 11') }();});
+      var stepFull_80 = F2(function(n_86, _84000_87){
+        return function(){ 
+        switch (_84000_87.ctor) {
+          case 'Tuple3':
+            return function(){ 
+            var case48 = dequeue_10(_84000_87._0);
+            switch (case48.ctor) {
+              case 'Just':
+                switch (case48._0.ctor) {
+                  case 'Tuple2':
+                    return function(){
+                      var sum$_93 = ((_84000_87._2+n_86)-case48._0._0);
+                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_86, case48._0._1), _1:_84000_87._1, _2:sum$_93}, _1:(sum$_93/_84000_87._1)};}();
+                }break;
+              case 'Nothing':
+                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_84000_87._0, _1:_84000_87._1, _2:_84000_87._2}, _1:0};
+            }_E.Case('Line 80, Column 11') }();
+        }_E.Case('Line 80, Column 11') }();});
+      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_79);}();};
+  var count_7 = A2(state_5, 0, function(__67){
+    return function(c_68){
+      return (1+c_68);};});
+  var empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Automaton||{};
+  _.$op = {'>>>' : $op['>>>'], '<<<' : $op['<<<']};
+  _.Step = Step_0;
+  _.run = run_1;
+  _.step = step_2;
+  _.combine = combine_3;
+  _.pure = pure_4;
+  _.state = state_5;
+  _.hiddenState = hiddenState_6;
+  _.count = count_7;
+  _.empty = empty_8;
+  _.enqueue = enqueue_9;
+  _.dequeue = dequeue_10;
+  _.average = average_11
+  return elm.Automaton = _;
+  };
 Elm.JavaScript = Elm.JavaScript||{};
 Elm.JavaScript.Experimental = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var JS = Elm.JavaScript(elm);
- var e, case0, toRecord_0, fromRecord_1;
- toRecord_0 = JS.toRecord;
- fromRecord_1 = JS.fromRecord;
- elm.Native = elm.Native||{};
- elm.Native.JavaScript = elm.Native.JavaScript||{};
- var _ = elm.Native.JavaScript.Experimental||{};
- _.$op = {};
- _.toRecord = toRecord_0;
- _.fromRecord = fromRecord_1
- elm.JavaScript = elm.JavaScript||{};
- return elm.JavaScript.Experimental = _;
- };
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var JS = Elm.JavaScript(elm);
+  var toRecord_0 = JS.toRecord;
+  var fromRecord_1 = JS.fromRecord;
+  elm.Native = elm.Native||{};
+  elm.Native.JavaScript = elm.Native.JavaScript||{};
+  var _ = elm.Native.JavaScript.Experimental||{};
+  _.$op = {};
+  _.toRecord = toRecord_0;
+  _.fromRecord = fromRecord_1
+  elm.JavaScript = elm.JavaScript||{};
+  return elm.JavaScript.Experimental = _;
+  };
 Elm.Graphics = Elm.Graphics||{};
 Elm.Graphics.Input = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.Signal(elm); var Signal = _;
- var lift = _.lift;
- var N = Elm.Native.Graphics.Input(elm);
- var e, case0, id_0, button_1, pool_11, customButton_2, pool_15, checkbox_3, cbs_17, FieldState_4, emptyFieldState_5, field_6, tfs_22, password_7, tfs_25, email_8, tfs_28;
- id_0 = function(x_9){
-  return x_9;};
- button_1 = function(txt_10){
-  return (pool_11 = N.buttons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A2(pool_11.button, {ctor:"Tuple0"}, txt_10), _1:pool_11.events});};
- customButton_2 = F3(function(up_12, hover_13, down_14){
-  return (pool_15 = N.customButtons({ctor:"Tuple0"}), {ctor:"Tuple2", _0:A4(pool_15.button, {ctor:"Tuple0"}, up_12, hover_13, down_14), _1:pool_15.events});});
- checkbox_3 = function(b_16){
-  return (cbs_17 = N.checkboxes(b_16), {ctor:"Tuple2", _0:A2(lift, cbs_17.box(id_0), cbs_17.events), _1:cbs_17.events});};
- FieldState_4 = F3(function(string_18, selectionStart_19, selectionEnd_20){
-  return {
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift;
+  var N = Elm.Native.Graphics.Input(elm);
+  var id_0 = function(x_9){
+    return x_9;};
+  var button_1 = function(txt_10){
+    return function(){
+      var pool_11 = N.buttons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A2(pool_11.button, {ctor:"Tuple0"}, txt_10), _1:pool_11.events};}();};
+  var customButton_2 = F3(function(up_12, hover_13, down_14){
+    return function(){
+      var pool_15 = N.customButtons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A4(pool_15.button, {ctor:"Tuple0"}, up_12, hover_13, down_14), _1:pool_15.events};}();});
+  var checkbox_3 = function(b_16){
+    return function(){
+      var cbs_17 = N.checkboxes(b_16);
+      return {ctor:"Tuple2", _0:A2(lift, cbs_17.box(id_0), cbs_17.events), _1:cbs_17.events};}();};
+  var FieldState_4 = F3(function(string_18, selectionStart_19, selectionEnd_20){
+    return {
+      _:{
+      },
+      selectionEnd:selectionEnd_20,
+      selectionStart:selectionStart_19,
+      string:string_18};});
+  var field_6 = function(placeHolder_21){
+    return function(){
+      var tfs_22 = N.fields(emptyFieldState_5);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_22.field, id_0, placeHolder_21), tfs_22.events), _1:A2(lift, function(__23){
+        return __23.string;}, tfs_22.events)};}();};
+  var password_7 = function(placeHolder_24){
+    return function(){
+      var tfs_25 = N.passwords(emptyFieldState_5);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_25.field, id_0, placeHolder_24), tfs_25.events), _1:A2(lift, function(__26){
+        return __26.string;}, tfs_25.events)};}();};
+  var email_8 = function(placeHolder_27){
+    return function(){
+      var tfs_28 = N.emails(emptyFieldState_5);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_28.field, id_0, placeHolder_27), tfs_28.events), _1:A2(lift, function(__29){
+        return __29.string;}, tfs_28.events)};}();};
+  var emptyFieldState_5 = {
     _:{
     },
-    selectionEnd:selectionEnd_20,
-    selectionStart:selectionStart_19,
-    string:string_18};});
- field_6 = function(placeHolder_21){
-  return (tfs_22 = N.fields(emptyFieldState_5), {ctor:"Tuple2", _0:A2(lift, A2(tfs_22.field, id_0, placeHolder_21), tfs_22.events), _1:A2(lift, function(__23){
-   return __23.string;}, tfs_22.events)});};
- password_7 = function(placeHolder_24){
-  return (tfs_25 = N.passwords(emptyFieldState_5), {ctor:"Tuple2", _0:A2(lift, A2(tfs_25.field, id_0, placeHolder_24), tfs_25.events), _1:A2(lift, function(__26){
-   return __26.string;}, tfs_25.events)});};
- email_8 = function(placeHolder_27){
-  return (tfs_28 = N.emails(emptyFieldState_5), {ctor:"Tuple2", _0:A2(lift, A2(tfs_28.field, id_0, placeHolder_27), tfs_28.events), _1:A2(lift, function(__29){
-   return __29.string;}, tfs_28.events)});};
- emptyFieldState_5 = {
-   _:{
-   },
-   selectionEnd:0,
-   selectionStart:0,
-   string:_str('')};
- elm.Native = elm.Native||{};
- elm.Native.Graphics = elm.Native.Graphics||{};
- var _ = elm.Native.Graphics.Input||{};
- _.$op = {};
- _.id = id_0;
- _.button = button_1;
- _.customButton = customButton_2;
- _.checkbox = checkbox_3;
- _.FieldState = FieldState_4;
- _.emptyFieldState = emptyFieldState_5;
- _.field = field_6;
- _.password = password_7;
- _.email = email_8
- elm.Graphics = elm.Graphics||{};
- return elm.Graphics.Input = _;
- };
+    selectionEnd:0,
+    selectionStart:0,
+    string:_str('')};
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Input||{};
+  _.$op = {};
+  _.id = id_0;
+  _.button = button_1;
+  _.customButton = customButton_2;
+  _.checkbox = checkbox_3;
+  _.FieldState = FieldState_4;
+  _.emptyFieldState = emptyFieldState_5;
+  _.field = field_6;
+  _.password = password_7;
+  _.email = email_8
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Input = _;
+  };
 Elm.Graphics = Elm.Graphics||{};
 Elm.Graphics.Element = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
- var guid = _.guid, max = _.max, htmlHeight = _.htmlHeight;
- var JS = Elm.JavaScript(elm);
- var List = Elm.List(elm);
- var _ = Elm.Color(elm); var Color = _;
- var _ = Elm.Maybe(elm); var Maybe = _;
- var Just = _.Just, Nothing = _.Nothing;
- var e, case0, Properties_0, Element_1, widthOf_2, heightOf_3, sizeOf_4, width_5, p_84, props_85, _50000_89, w_90, h_91, height_6, p_98, props_99, opacity_7, p_104, color_8, p_107, tag_9, p_110, link_10, p_113, emptyStr_11, newElement_12, image_22, fittedImage_23, croppedImage_24, Position_30, container_31, spacer_32, flow_39, ws_139, hs_140, newFlow_141, above_40, below_41, beside_42, layers_43, ws_151, hs_152, absolute_44, relative_45, middle_46, topLeft_47, topRight_48, bottomLeft_49, bottomRight_50, midLeft_51, midRight_52, midTop_53, midBottom_54, middleAt_55, topLeftAt_56, topRightAt_57, bottomLeftAt_58, bottomRightAt_59, midLeftAt_60, midRightAt_61, midTopAt_62, midBottomAt_63, up_64, down_65, left_66, right_67, inward_68, outward_69;
- Image_13 = F4(function(a1, a2, a3, a4){
-  return {ctor:"Image", _0:a1, _1:a2, _2:a3, _3:a4};});
- Container_14 = F2(function(a1, a2){
-  return {ctor:"Container", _0:a1, _1:a2};});
- Flow_15 = F2(function(a1, a2){
-  return {ctor:"Flow", _0:a1, _1:a2};});
- Spacer_16 = {ctor:"Spacer"};
- RawHtml_17 = function(a1){
-  return {ctor:"RawHtml", _0:a1};};
- Custom_18 = {ctor:"Custom"};
- Plain_19 = {ctor:"Plain"};
- Fitted_20 = {ctor:"Fitted"};
- Cropped_21 = function(a1){
-  return {ctor:"Cropped", _0:a1};};
- P_25 = {ctor:"P"};
- Z_26 = {ctor:"Z"};
- N_27 = {ctor:"N"};
- Absolute_28 = function(a1){
-  return {ctor:"Absolute", _0:a1};};
- Relative_29 = function(a1){
-  return {ctor:"Relative", _0:a1};};
- DUp_33 = {ctor:"DUp"};
- DDown_34 = {ctor:"DDown"};
- DLeft_35 = {ctor:"DLeft"};
- DRight_36 = {ctor:"DRight"};
- DIn_37 = {ctor:"DIn"};
- DOut_38 = {ctor:"DOut"};
- Properties_0 = F7(function(id_70, width_71, height_72, opacity_73, color_74, href_75, tag_76){
-  return {
-    _:{
-    },
-    color:color_74,
-    height:height_72,
-    href:href_75,
-    id:id_70,
-    opacity:opacity_73,
-    tag:tag_76,
-    width:width_71};});
- Element_1 = F2(function(props_77, element_78){
-  return {
-    _:{
-    },
-    element:element_78,
-    props:props_77};});
- widthOf_2 = function(e_79){
-  return e_79.props.width;};
- heightOf_3 = function(e_80){
-  return e_80.props.height;};
- sizeOf_4 = function(e_81){
-  return {ctor:"Tuple2", _0:e_81.props.width, _1:e_81.props.height};};
- width_5 = F2(function(nw_82, e_83){
-  return (p_84 = e_83.props, props_85 = (case0 = e_83.element, (e=case0.ctor==='Image'?_N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84):case0.ctor==='RawHtml'?_N.replace([['height',(_50000_89 = A2(htmlHeight, nw_82, case0._0), w_90 = (e=_50000_89.ctor==='Tuple2'?_50000_89._0:null,e!==null?e:_E.Case('Line 50, Column 71')), h_91 = (e=_50000_89.ctor==='Tuple2'?_50000_89._1:null,e!==null?e:_E.Case('Line 50, Column 71')), h_91)]], p_84):null,e!==null?e:p_84)), {
-    _:{
-    },
-    element:e_83.element,
-    props:_N.replace([['width',nw_82]], props_85)});});
- height_6 = F2(function(nh_96, e_97){
-  return (p_98 = e_97.props, props_99 = (case12 = e_97.element, (e=case12.ctor==='Image'?_N.replace([['width',((case12._1/case12._2)*nh_96)]], p_98):null,e!==null?e:p_98)), {
-    _:{
-    },
-    element:e_97.element,
-    props:_N.replace([['height',nh_96]], p_98)});});
- opacity_7 = F2(function(o_102, e_103){
-  return (p_104 = e_103.props, {
-    _:{
-    },
-    element:e_103.element,
-    props:_N.replace([['opacity',o_102]], p_104)});});
- color_8 = F2(function(c_105, e_106){
-  return (p_107 = e_106.props, {
-    _:{
-    },
-    element:e_106.element,
-    props:_N.replace([['color',Just(c_105)]], p_107)});});
- tag_9 = F2(function(name_108, e_109){
-  return (p_110 = e_109.props, {
-    _:{
-    },
-    element:e_109.element,
-    props:_N.replace([['tag',JS.fromString(name_108)]], p_110)});});
- link_10 = F2(function(href_111, e_112){
-  return (p_113 = e_112.props, {
-    _:{
-    },
-    element:e_112.element,
-    props:_N.replace([['href',JS.fromString(href_111)]], p_113)});});
- newElement_12 = F3(function(w_114, h_115, e_116){
-  return {
-    _:{
-    },
-    element:e_116,
-    props:A7(Properties_0, guid({ctor:"Tuple0"}), w_114, h_115, 1, Nothing, emptyStr_11, emptyStr_11)};});
- image_22 = F3(function(w_117, h_118, src_119){
-  return A3(newElement_12, w_117, h_118, A4(Image_13, Plain_19, w_117, h_118, JS.fromString(src_119)));});
- fittedImage_23 = F3(function(w_120, h_121, src_122){
-  return A3(newElement_12, w_120, h_121, A4(Image_13, Fitted_20, w_120, h_121, JS.fromString(src_122)));});
- croppedImage_24 = F4(function(w_123, h_124, pos_125, src_126){
-  return A3(newElement_12, w_123, h_124, A4(Image_13, Cropped_21(pos_125), w_123, h_124, JS.fromString(src_126)));});
- Position_30 = F4(function(horizontal_127, vertical_128, x_129, y_130){
-  return {
-    _:{
-    },
-    horizontal:horizontal_127,
-    vertical:vertical_128,
-    x:x_129,
-    y:y_130};});
- container_31 = F4(function(w_131, h_132, pos_133, e_134){
-  return A3(newElement_12, w_131, h_132, A2(Container_14, pos_133, e_134));});
- spacer_32 = F2(function(w_135, h_136){
-  return A3(newElement_12, w_135, h_136, Spacer_16);});
- flow_39 = F2(function(dir_137, es_138){
-  return (ws_139 = A2(List.map, widthOf_2, es_138), hs_140 = A2(List.map, heightOf_3, es_138), newFlow_141 = F2(function(w_142, h_143){
-   return A3(newElement_12, w_142, h_143, A2(Flow_15, dir_137, es_138));}), (_N.eq(es_138,_L.Nil)?A2(spacer_32, 0, 0):(e=dir_137.ctor==='DDown'?A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140)):dir_137.ctor==='DIn'?A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DLeft'?A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DOut'?A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DRight'?A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140)):dir_137.ctor==='DUp'?A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140)):null,e!==null?e:_E.Case('Line 152, Column 3'))));});
- above_40 = F2(function(hi_144, lo_145){
-  return A3(newElement_12, A2(max, widthOf_2(hi_144), widthOf_2(lo_145)), (heightOf_3(hi_144)+heightOf_3(lo_145)), A2(Flow_15, DDown_34, _L.Cons(hi_144,_L.Cons(lo_145,_L.Nil))));});
- below_41 = F2(function(lo_146, hi_147){
-  return A3(newElement_12, A2(max, widthOf_2(hi_147), widthOf_2(lo_146)), (heightOf_3(hi_147)+heightOf_3(lo_146)), A2(Flow_15, DDown_34, _L.Cons(hi_147,_L.Cons(lo_146,_L.Nil))));});
- beside_42 = F2(function(lft_148, rht_149){
-  return A3(newElement_12, (widthOf_2(lft_148)+widthOf_2(rht_149)), A2(max, heightOf_3(lft_148), heightOf_3(rht_149)), A2(Flow_15, right_67, _L.Cons(lft_148,_L.Cons(rht_149,_L.Nil))));});
- layers_43 = function(es_150){
-  return (ws_151 = A2(List.map, widthOf_2, es_150), hs_152 = A2(List.map, heightOf_3, es_150), A3(newElement_12, List.maximum(ws_151), List.maximum(hs_152), A2(Flow_15, DOut_38, es_150)));};
- middleAt_55 = F2(function(x_153, y_154){
-  return {
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var guid = _.guid, max = _.max, htmlHeight = _.htmlHeight;
+  var JS = Elm.JavaScript(elm);
+  var List = Elm.List(elm);
+  var _ = Elm.Color(elm); var Color = _;
+  var _ = Elm.Maybe(elm); var Maybe = _;
+  var Just = _.Just, Nothing = _.Nothing;
+  var Image_13 = F4(function(a1, a2, a3, a4){
+    return {ctor:"Image", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var Container_14 = F2(function(a1, a2){
+    return {ctor:"Container", _0:a1, _1:a2};});
+  var Flow_15 = F2(function(a1, a2){
+    return {ctor:"Flow", _0:a1, _1:a2};});
+  var Spacer_16 = {ctor:"Spacer"};
+  var RawHtml_17 = function(a1){
+    return {ctor:"RawHtml", _0:a1};};
+  var Custom_18 = {ctor:"Custom"};
+  var Plain_19 = {ctor:"Plain"};
+  var Fitted_20 = {ctor:"Fitted"};
+  var Cropped_21 = function(a1){
+    return {ctor:"Cropped", _0:a1};};
+  var P_25 = {ctor:"P"};
+  var Z_26 = {ctor:"Z"};
+  var N_27 = {ctor:"N"};
+  var Absolute_28 = function(a1){
+    return {ctor:"Absolute", _0:a1};};
+  var Relative_29 = function(a1){
+    return {ctor:"Relative", _0:a1};};
+  var DUp_33 = {ctor:"DUp"};
+  var DDown_34 = {ctor:"DDown"};
+  var DLeft_35 = {ctor:"DLeft"};
+  var DRight_36 = {ctor:"DRight"};
+  var DIn_37 = {ctor:"DIn"};
+  var DOut_38 = {ctor:"DOut"};
+  var Properties_0 = F7(function(id_70, width_71, height_72, opacity_73, color_74, href_75, tag_76){
+    return {
+      _:{
+      },
+      color:color_74,
+      height:height_72,
+      href:href_75,
+      id:id_70,
+      opacity:opacity_73,
+      tag:tag_76,
+      width:width_71};});
+  var Element_1 = F2(function(props_77, element_78){
+    return {
+      _:{
+      },
+      element:element_78,
+      props:props_77};});
+  var widthOf_2 = function(e_79){
+    return e_79.props.width;};
+  var heightOf_3 = function(e_80){
+    return e_80.props.height;};
+  var sizeOf_4 = function(e_81){
+    return {ctor:"Tuple2", _0:e_81.props.width, _1:e_81.props.height};};
+  var width_5 = F2(function(nw_82, e_83){
+    return function(){
+      var p_84 = e_83.props;
+      var props_85 = function(){ 
+      var case0 = e_83.element;
+      switch (case0.ctor) {
+        case 'Image':
+          return _N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84);
+        case 'RawHtml':
+          return _N.replace([['height',function(){
+            var _50000_89 = A2(htmlHeight, nw_82, case0._0);
+            var w_90 = function(){ 
+            switch (_50000_89.ctor) {
+              case 'Tuple2':
+                return _50000_89._0;
+            }_E.Case('Line 50, Column 71') }();
+            var h_91 = function(){ 
+            switch (_50000_89.ctor) {
+              case 'Tuple2':
+                return _50000_89._1;
+            }_E.Case('Line 50, Column 71') }();
+            return h_91;}()]], p_84);
+      }
+      return p_84; }();
+      return {
+        _:{
+        },
+        element:e_83.element,
+        props:_N.replace([['width',nw_82]], props_85)};}();});
+  var height_6 = F2(function(nh_96, e_97){
+    return function(){
+      var p_98 = e_97.props;
+      var props_99 = function(){ 
+      var case12 = e_97.element;
+      switch (case12.ctor) {
+        case 'Image':
+          return _N.replace([['width',((case12._1/case12._2)*nh_96)]], p_98);
+      }
+      return p_98; }();
+      return {
+        _:{
+        },
+        element:e_97.element,
+        props:_N.replace([['height',nh_96]], p_98)};}();});
+  var opacity_7 = F2(function(o_102, e_103){
+    return function(){
+      var p_104 = e_103.props;
+      return {
+        _:{
+        },
+        element:e_103.element,
+        props:_N.replace([['opacity',o_102]], p_104)};}();});
+  var color_8 = F2(function(c_105, e_106){
+    return function(){
+      var p_107 = e_106.props;
+      return {
+        _:{
+        },
+        element:e_106.element,
+        props:_N.replace([['color',Just(c_105)]], p_107)};}();});
+  var tag_9 = F2(function(name_108, e_109){
+    return function(){
+      var p_110 = e_109.props;
+      return {
+        _:{
+        },
+        element:e_109.element,
+        props:_N.replace([['tag',JS.fromString(name_108)]], p_110)};}();});
+  var link_10 = F2(function(href_111, e_112){
+    return function(){
+      var p_113 = e_112.props;
+      return {
+        _:{
+        },
+        element:e_112.element,
+        props:_N.replace([['href',JS.fromString(href_111)]], p_113)};}();});
+  var newElement_12 = F3(function(w_114, h_115, e_116){
+    return {
+      _:{
+      },
+      element:e_116,
+      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_114, h_115, 1, Nothing, emptyStr_11, emptyStr_11)};});
+  var image_22 = F3(function(w_117, h_118, src_119){
+    return A3(newElement_12, w_117, h_118, A4(Image_13, Plain_19, w_117, h_118, JS.fromString(src_119)));});
+  var fittedImage_23 = F3(function(w_120, h_121, src_122){
+    return A3(newElement_12, w_120, h_121, A4(Image_13, Fitted_20, w_120, h_121, JS.fromString(src_122)));});
+  var croppedImage_24 = F4(function(w_123, h_124, pos_125, src_126){
+    return A3(newElement_12, w_123, h_124, A4(Image_13, Cropped_21(pos_125), w_123, h_124, JS.fromString(src_126)));});
+  var Position_30 = F4(function(horizontal_127, vertical_128, x_129, y_130){
+    return {
+      _:{
+      },
+      horizontal:horizontal_127,
+      vertical:vertical_128,
+      x:x_129,
+      y:y_130};});
+  var container_31 = F4(function(w_131, h_132, pos_133, e_134){
+    return A3(newElement_12, w_131, h_132, A2(Container_14, pos_133, e_134));});
+  var spacer_32 = F2(function(w_135, h_136){
+    return A3(newElement_12, w_135, h_136, Spacer_16);});
+  var flow_39 = F2(function(dir_137, es_138){
+    return function(){
+      var ws_139 = A2(List.map, widthOf_2, es_138);
+      var hs_140 = A2(List.map, heightOf_3, es_138);
+      var newFlow_141 = F2(function(w_142, h_143){
+        return A3(newElement_12, w_142, h_143, A2(Flow_15, dir_137, es_138));});
+      return (_N.eq(es_138,_L.Nil)?A2(spacer_32, 0, 0):function(){ 
+      switch (dir_137.ctor) {
+        case 'DDown':
+          return A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140));
+        case 'DIn':
+          return A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140));
+        case 'DLeft':
+          return A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140));
+        case 'DOut':
+          return A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140));
+        case 'DRight':
+          return A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140));
+        case 'DUp':
+          return A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140));
+      }_E.Case('Line 152, Column 3') }());}();});
+  var above_40 = F2(function(hi_144, lo_145){
+    return A3(newElement_12, A2(max, widthOf_2(hi_144), widthOf_2(lo_145)), (heightOf_3(hi_144)+heightOf_3(lo_145)), A2(Flow_15, DDown_34, _L.Cons(hi_144,_L.Cons(lo_145,_L.Nil))));});
+  var below_41 = F2(function(lo_146, hi_147){
+    return A3(newElement_12, A2(max, widthOf_2(hi_147), widthOf_2(lo_146)), (heightOf_3(hi_147)+heightOf_3(lo_146)), A2(Flow_15, DDown_34, _L.Cons(hi_147,_L.Cons(lo_146,_L.Nil))));});
+  var beside_42 = F2(function(lft_148, rht_149){
+    return A3(newElement_12, (widthOf_2(lft_148)+widthOf_2(rht_149)), A2(max, heightOf_3(lft_148), heightOf_3(rht_149)), A2(Flow_15, right_67, _L.Cons(lft_148,_L.Cons(rht_149,_L.Nil))));});
+  var layers_43 = function(es_150){
+    return function(){
+      var ws_151 = A2(List.map, widthOf_2, es_150);
+      var hs_152 = A2(List.map, heightOf_3, es_150);
+      return A3(newElement_12, List.maximum(ws_151), List.maximum(hs_152), A2(Flow_15, DOut_38, es_150));}();};
+  var middleAt_55 = F2(function(x_153, y_154){
+    return {
+      _:{
+      },
+      horizontal:Z_26,
+      vertical:Z_26,
+      x:x_153,
+      y:y_154};});
+  var topLeftAt_56 = F2(function(x_155, y_156){
+    return {
+      _:{
+      },
+      horizontal:N_27,
+      vertical:P_25,
+      x:x_155,
+      y:y_156};});
+  var topRightAt_57 = F2(function(x_157, y_158){
+    return {
+      _:{
+      },
+      horizontal:P_25,
+      vertical:P_25,
+      x:x_157,
+      y:y_158};});
+  var bottomLeftAt_58 = F2(function(x_159, y_160){
+    return {
+      _:{
+      },
+      horizontal:N_27,
+      vertical:N_27,
+      x:x_159,
+      y:y_160};});
+  var bottomRightAt_59 = F2(function(x_161, y_162){
+    return {
+      _:{
+      },
+      horizontal:P_25,
+      vertical:N_27,
+      x:x_161,
+      y:y_162};});
+  var midLeftAt_60 = F2(function(x_163, y_164){
+    return {
+      _:{
+      },
+      horizontal:N_27,
+      vertical:Z_26,
+      x:x_163,
+      y:y_164};});
+  var midRightAt_61 = F2(function(x_165, y_166){
+    return {
+      _:{
+      },
+      horizontal:P_25,
+      vertical:Z_26,
+      x:x_165,
+      y:y_166};});
+  var midTopAt_62 = F2(function(x_167, y_168){
+    return {
+      _:{
+      },
+      horizontal:Z_26,
+      vertical:P_25,
+      x:x_167,
+      y:y_168};});
+  var midBottomAt_63 = F2(function(x_169, y_170){
+    return {
+      _:{
+      },
+      horizontal:Z_26,
+      vertical:N_27,
+      x:x_169,
+      y:y_170};});
+  var emptyStr_11 = JS.fromString(_str(''));
+  var absolute_44 = Absolute_28;
+  var relative_45 = Relative_29;
+  var middle_46 = {
     _:{
     },
     horizontal:Z_26,
     vertical:Z_26,
-    x:x_153,
-    y:y_154};});
- topLeftAt_56 = F2(function(x_155, y_156){
-  return {
+    x:Relative_29(0.5),
+    y:Relative_29(0.5)};
+  var topLeft_47 = {
     _:{
     },
     horizontal:N_27,
     vertical:P_25,
-    x:x_155,
-    y:y_156};});
- topRightAt_57 = F2(function(x_157, y_158){
-  return {
-    _:{
-    },
-    horizontal:P_25,
-    vertical:P_25,
-    x:x_157,
-    y:y_158};});
- bottomLeftAt_58 = F2(function(x_159, y_160){
-  return {
-    _:{
-    },
-    horizontal:N_27,
-    vertical:N_27,
-    x:x_159,
-    y:y_160};});
- bottomRightAt_59 = F2(function(x_161, y_162){
-  return {
-    _:{
-    },
-    horizontal:P_25,
-    vertical:N_27,
-    x:x_161,
-    y:y_162};});
- midLeftAt_60 = F2(function(x_163, y_164){
-  return {
-    _:{
-    },
-    horizontal:N_27,
-    vertical:Z_26,
-    x:x_163,
-    y:y_164};});
- midRightAt_61 = F2(function(x_165, y_166){
-  return {
-    _:{
-    },
-    horizontal:P_25,
-    vertical:Z_26,
-    x:x_165,
-    y:y_166};});
- midTopAt_62 = F2(function(x_167, y_168){
-  return {
-    _:{
-    },
-    horizontal:Z_26,
-    vertical:P_25,
-    x:x_167,
-    y:y_168};});
- midBottomAt_63 = F2(function(x_169, y_170){
-  return {
-    _:{
-    },
-    horizontal:Z_26,
-    vertical:N_27,
-    x:x_169,
-    y:y_170};});
- emptyStr_11 = JS.fromString(_str(''));
- absolute_44 = Absolute_28;
- relative_45 = Relative_29;
- middle_46 = {
-   _:{
-   },
-   horizontal:Z_26,
-   vertical:Z_26,
-   x:Relative_29(0.5),
-   y:Relative_29(0.5)};
- topLeft_47 = {
-   _:{
-   },
-   horizontal:N_27,
-   vertical:P_25,
-   x:Absolute_28(0),
-   y:Absolute_28(0)};
- topRight_48 = _N.replace([['horizontal',P_25]], topLeft_47);
- bottomLeft_49 = _N.replace([['vertical',N_27]], topLeft_47);
- bottomRight_50 = _N.replace([['horizontal',P_25]], bottomLeft_49);
- midLeft_51 = _N.replace([['horizontal',N_27],['x',Absolute_28(0)]], middle_46);
- midRight_52 = _N.replace([['horizontal',P_25]], midLeft_51);
- midTop_53 = _N.replace([['vertical',P_25],['y',Absolute_28(0)]], middle_46);
- midBottom_54 = _N.replace([['vertical',N_27]], midTop_53);
- up_64 = DUp_33;
- down_65 = DDown_34;
- left_66 = DLeft_35;
- right_67 = DRight_36;
- inward_68 = DIn_37;
- outward_69 = DOut_38;
- elm.Native = elm.Native||{};
- elm.Native.Graphics = elm.Native.Graphics||{};
- var _ = elm.Native.Graphics.Element||{};
- _.$op = {};
- _.widthOf = widthOf_2;
- _.heightOf = heightOf_3;
- _.sizeOf = sizeOf_4;
- _.width = width_5;
- _.height = height_6;
- _.opacity = opacity_7;
- _.color = color_8;
- _.tag = tag_9;
- _.link = link_10;
- _.newElement = newElement_12;
- _.image = image_22;
- _.fittedImage = fittedImage_23;
- _.croppedImage = croppedImage_24;
- _.container = container_31;
- _.spacer = spacer_32;
- _.flow = flow_39;
- _.above = above_40;
- _.below = below_41;
- _.beside = beside_42;
- _.layers = layers_43;
- _.absolute = absolute_44;
- _.relative = relative_45;
- _.middle = middle_46;
- _.topLeft = topLeft_47;
- _.topRight = topRight_48;
- _.bottomLeft = bottomLeft_49;
- _.bottomRight = bottomRight_50;
- _.midLeft = midLeft_51;
- _.midRight = midRight_52;
- _.midTop = midTop_53;
- _.midBottom = midBottom_54;
- _.middleAt = middleAt_55;
- _.topLeftAt = topLeftAt_56;
- _.topRightAt = topRightAt_57;
- _.bottomLeftAt = bottomLeftAt_58;
- _.bottomRightAt = bottomRightAt_59;
- _.midLeftAt = midLeftAt_60;
- _.midRightAt = midRightAt_61;
- _.midTopAt = midTopAt_62;
- _.midBottomAt = midBottomAt_63;
- _.up = up_64;
- _.down = down_65;
- _.left = left_66;
- _.right = right_67;
- _.inward = inward_68;
- _.outward = outward_69
- elm.Graphics = elm.Graphics||{};
- return elm.Graphics.Element = _;
- };
+    x:Absolute_28(0),
+    y:Absolute_28(0)};
+  var topRight_48 = _N.replace([['horizontal',P_25]], topLeft_47);
+  var bottomLeft_49 = _N.replace([['vertical',N_27]], topLeft_47);
+  var bottomRight_50 = _N.replace([['horizontal',P_25]], bottomLeft_49);
+  var midLeft_51 = _N.replace([['horizontal',N_27],['x',Absolute_28(0)]], middle_46);
+  var midRight_52 = _N.replace([['horizontal',P_25]], midLeft_51);
+  var midTop_53 = _N.replace([['vertical',P_25],['y',Absolute_28(0)]], middle_46);
+  var midBottom_54 = _N.replace([['vertical',N_27]], midTop_53);
+  var up_64 = DUp_33;
+  var down_65 = DDown_34;
+  var left_66 = DLeft_35;
+  var right_67 = DRight_36;
+  var inward_68 = DIn_37;
+  var outward_69 = DOut_38;
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Element||{};
+  _.$op = {};
+  _.widthOf = widthOf_2;
+  _.heightOf = heightOf_3;
+  _.sizeOf = sizeOf_4;
+  _.width = width_5;
+  _.height = height_6;
+  _.opacity = opacity_7;
+  _.color = color_8;
+  _.tag = tag_9;
+  _.link = link_10;
+  _.newElement = newElement_12;
+  _.image = image_22;
+  _.fittedImage = fittedImage_23;
+  _.croppedImage = croppedImage_24;
+  _.container = container_31;
+  _.spacer = spacer_32;
+  _.flow = flow_39;
+  _.above = above_40;
+  _.below = below_41;
+  _.beside = beside_42;
+  _.layers = layers_43;
+  _.absolute = absolute_44;
+  _.relative = relative_45;
+  _.middle = middle_46;
+  _.topLeft = topLeft_47;
+  _.topRight = topRight_48;
+  _.bottomLeft = bottomLeft_49;
+  _.bottomRight = bottomRight_50;
+  _.midLeft = midLeft_51;
+  _.midRight = midRight_52;
+  _.midTop = midTop_53;
+  _.midBottom = midBottom_54;
+  _.middleAt = middleAt_55;
+  _.topLeftAt = topLeftAt_56;
+  _.topRightAt = topRightAt_57;
+  _.bottomLeftAt = bottomLeftAt_58;
+  _.bottomRightAt = bottomRightAt_59;
+  _.midLeftAt = midLeftAt_60;
+  _.midRightAt = midRightAt_61;
+  _.midTopAt = midTopAt_62;
+  _.midBottomAt = midBottomAt_63;
+  _.up = up_64;
+  _.down = down_65;
+  _.left = left_66;
+  _.right = right_67;
+  _.inward = inward_68;
+  _.outward = outward_69
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Element = _;
+  };
 Elm.Graphics = Elm.Graphics||{};
 Elm.Graphics.Collage = function(elm){
- var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
- var $op = {};
- var _ = Elm.List(elm); var List = _;
- var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
- var toFloat = _.toFloat;
- var _ = Elm.Either(elm); var Either = _;
- var Matrix = Elm.Native.Matrix2D(elm);
- var N = Elm.Native.Graphics.Collage(elm);
- var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _;
- var _ = Elm.Color(elm); var Color = _;
- var e, case0, Form_0, LineStyle_10, defaultLine_11, solid_12, dashed_13, dotted_14, form_20, fill_21, filled_22, textured_23, gradient_24, outlined_25, traced_26, sprite_27, toForm_28, group_29, groupTransform_30, rotate_31, scale_32, move_33, moveX_34, moveY_35, path_36, segment_37, polygon_38, rect_39, square_40, oval_41, n_100, t_101, hw_102, hh_103, f_104, circle_42, ngon_43, m_109, t_110, f_111;
- Solid_1 = function(a1){
-  return {ctor:"Solid", _0:a1};};
- Texture_2 = function(a1){
-  return {ctor:"Texture", _0:a1};};
- Gradient_3 = function(a1){
-  return {ctor:"Gradient", _0:a1};};
- Flat_4 = {ctor:"Flat"};
- Round_5 = {ctor:"Round"};
- Padded_6 = {ctor:"Padded"};
- Smooth_7 = {ctor:"Smooth"};
- Sharp_8 = function(a1){
-  return {ctor:"Sharp", _0:a1};};
- Clipped_9 = {ctor:"Clipped"};
- FPath_15 = F2(function(a1, a2){
-  return {ctor:"FPath", _0:a1, _1:a2};});
- FShape_16 = F2(function(a1, a2){
-  return {ctor:"FShape", _0:a1, _1:a2};});
- FImage_17 = F4(function(a1, a2, a3, a4){
-  return {ctor:"FImage", _0:a1, _1:a2, _2:a3, _3:a4};});
- FElement_18 = function(a1){
-  return {ctor:"FElement", _0:a1};};
- FGroup_19 = F2(function(a1, a2){
-  return {ctor:"FGroup", _0:a1, _1:a2};});
- Form_0 = F5(function(theta_44, scale_45, x_46, y_47, form_48){
-  return {
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.List(elm); var List = _;
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var toFloat = _.toFloat;
+  var _ = Elm.Either(elm); var Either = _;
+  var Matrix = Elm.Native.Matrix2D(elm);
+  var N = Elm.Native.Graphics.Collage(elm);
+  var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _;
+  var _ = Elm.Color(elm); var Color = _;
+  var Solid_1 = function(a1){
+    return {ctor:"Solid", _0:a1};};
+  var Texture_2 = function(a1){
+    return {ctor:"Texture", _0:a1};};
+  var Gradient_3 = function(a1){
+    return {ctor:"Gradient", _0:a1};};
+  var Flat_4 = {ctor:"Flat"};
+  var Round_5 = {ctor:"Round"};
+  var Padded_6 = {ctor:"Padded"};
+  var Smooth_7 = {ctor:"Smooth"};
+  var Sharp_8 = function(a1){
+    return {ctor:"Sharp", _0:a1};};
+  var Clipped_9 = {ctor:"Clipped"};
+  var FPath_15 = F2(function(a1, a2){
+    return {ctor:"FPath", _0:a1, _1:a2};});
+  var FShape_16 = F2(function(a1, a2){
+    return {ctor:"FShape", _0:a1, _1:a2};});
+  var FImage_17 = F4(function(a1, a2, a3, a4){
+    return {ctor:"FImage", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var FElement_18 = function(a1){
+    return {ctor:"FElement", _0:a1};};
+  var FGroup_19 = F2(function(a1, a2){
+    return {ctor:"FGroup", _0:a1, _1:a2};});
+  var Form_0 = F5(function(theta_44, scale_45, x_46, y_47, form_48){
+    return {
+      _:{
+      },
+      form:form_48,
+      scale:scale_45,
+      theta:theta_44,
+      x:x_46,
+      y:y_47};});
+  var LineStyle_10 = F6(function(color_49, width_50, cap_51, join_52, dashing_53, dashOffset_54){
+    return {
+      _:{
+      },
+      cap:cap_51,
+      color:color_49,
+      dashOffset:dashOffset_54,
+      dashing:dashing_53,
+      join:join_52,
+      width:width_50};});
+  var solid_12 = function(clr_55){
+    return _N.replace([['color',clr_55]], defaultLine_11);};
+  var dashed_13 = function(clr_56){
+    return _N.replace([['color',clr_56],['dashing',_L.Cons(8,_L.Cons(4,_L.Nil))]], defaultLine_11);};
+  var dotted_14 = function(clr_57){
+    return _N.replace([['color',clr_57],['dashing',_L.Cons(3,_L.Cons(3,_L.Nil))]], defaultLine_11);};
+  var form_20 = function(f_58){
+    return {
+      _:{
+      },
+      form:f_58,
+      scale:1,
+      theta:0,
+      x:0,
+      y:0};};
+  var fill_21 = F2(function(style_59, shape_60){
+    return form_20(A2(FShape_16, Either.Right(style_59), shape_60));});
+  var filled_22 = F2(function(color_61, shape_62){
+    return A2(fill_21, Solid_1(color_61), shape_62);});
+  var textured_23 = F2(function(src_63, shape_64){
+    return A2(fill_21, Texture_2(src_63), shape_64);});
+  var gradient_24 = F2(function(grad_65, shape_66){
+    return A2(fill_21, Gradient_3(grad_65), shape_66);});
+  var outlined_25 = F2(function(style_67, shape_68){
+    return form_20(A2(FShape_16, Either.Left(style_67), shape_68));});
+  var traced_26 = F2(function(style_69, path_70){
+    return form_20(A2(FPath_15, style_69, path_70));});
+  var sprite_27 = F4(function(w_71, h_72, pos_73, src_74){
+    return form_20(A4(FImage_17, w_71, h_72, pos_73, src_74));});
+  var toForm_28 = function(e_75){
+    return form_20(FElement_18(e_75));};
+  var group_29 = function(fs_76){
+    return form_20(A2(FGroup_19, Matrix.identity, fs_76));};
+  var groupTransform_30 = F2(function(matrix_77, fs_78){
+    return form_20(A2(FGroup_19, matrix_77, fs_78));});
+  var rotate_31 = F2(function(t_79, f_80){
+    return _N.replace([['theta',(f_80.theta+t_79)]], f_80);});
+  var scale_32 = F2(function(s_81, f_82){
+    return _N.replace([['scale',(f_82.scale*s_81)]], f_82);});
+  var move_33 = F2(function(_138000_83, f_84){
+    return function(){ 
+    switch (_138000_83.ctor) {
+      case 'Tuple2':
+        return _N.replace([['x',(f_84.x+_138000_83._0)],['y',(f_84.y+_138000_83._1)]], f_84);
+    }_E.Case('Line 138, Column 20') }();});
+  var moveX_34 = F2(function(x_87, f_88){
+    return _N.replace([['x',(f_88.x+x_87)]], f_88);});
+  var moveY_35 = F2(function(y_89, f_90){
+    return _N.replace([['y',(f_90.y+y_89)]], f_90);});
+  var path_36 = function(ps_91){
+    return ps_91;};
+  var segment_37 = F2(function(p1_92, p2_93){
+    return _L.Cons(p1_92,_L.Cons(p2_93,_L.Nil));});
+  var polygon_38 = function(points_94){
+    return points_94;};
+  var rect_39 = F2(function(w_95, h_96){
+    return _L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(0-(h_96/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(0-(h_96/2))},_L.Nil))));});
+  var square_40 = function(n_97){
+    return A2(rect_39, w, h);};
+  var oval_41 = F2(function(w_98, h_99){
+    return function(){
+      var n_100 = 50;
+      var t_101 = ((2*Math.PI)/n_100);
+      var hw_102 = (w_98/2);
+      var hh_103 = (h_99/2);
+      var f_104 = function(i_105){
+        return {ctor:"Tuple2", _0:(hw_102*Math.cos((t_101*i_105))), _1:(hh_103*Math.sin((t_101*i_105)))};};
+      return A2(List.map, f_104, _L.range(0,(n_100-1)));}();});
+  var circle_42 = function(r_106){
+    return A2(oval_41, (2*r_106), (2*r_106));};
+  var ngon_43 = F2(function(n_107, r_108){
+    return function(){
+      var m_109 = toFloat(n_107);
+      var t_110 = ((2*Math.PI)/m_109);
+      var f_111 = function(i_112){
+        return {ctor:"Tuple2", _0:(r_108*Math.cos((t_110*i_112))), _1:(r_108*Math.sin((t_110*i_112)))};};
+      return A2(List.map, f_111, _L.range(0,(n_107-1)));}();});
+  var defaultLine_11 = {
     _:{
     },
-    form:form_48,
-    scale:scale_45,
-    theta:theta_44,
-    x:x_46,
-    y:y_47};});
- LineStyle_10 = F6(function(color_49, width_50, cap_51, join_52, dashing_53, dashOffset_54){
-  return {
-    _:{
-    },
-    cap:cap_51,
-    color:color_49,
-    dashOffset:dashOffset_54,
-    dashing:dashing_53,
-    join:join_52,
-    width:width_50};});
- solid_12 = function(clr_55){
-  return _N.replace([['color',clr_55]], defaultLine_11);};
- dashed_13 = function(clr_56){
-  return _N.replace([['color',clr_56],['dashing',_L.Cons(8,_L.Cons(4,_L.Nil))]], defaultLine_11);};
- dotted_14 = function(clr_57){
-  return _N.replace([['color',clr_57],['dashing',_L.Cons(3,_L.Cons(3,_L.Nil))]], defaultLine_11);};
- form_20 = function(f_58){
-  return {
-    _:{
-    },
-    form:f_58,
-    scale:1,
-    theta:0,
-    x:0,
-    y:0};};
- fill_21 = F2(function(style_59, shape_60){
-  return form_20(A2(FShape_16, Either.Right(style_59), shape_60));});
- filled_22 = F2(function(color_61, shape_62){
-  return A2(fill_21, Solid_1(color_61), shape_62);});
- textured_23 = F2(function(src_63, shape_64){
-  return A2(fill_21, Texture_2(src_63), shape_64);});
- gradient_24 = F2(function(grad_65, shape_66){
-  return A2(fill_21, Gradient_3(grad_65), shape_66);});
- outlined_25 = F2(function(style_67, shape_68){
-  return form_20(A2(FShape_16, Either.Left(style_67), shape_68));});
- traced_26 = F2(function(style_69, path_70){
-  return form_20(A2(FPath_15, style_69, path_70));});
- sprite_27 = F4(function(w_71, h_72, pos_73, src_74){
-  return form_20(A4(FImage_17, w_71, h_72, pos_73, src_74));});
- toForm_28 = function(e_75){
-  return form_20(FElement_18(e_75));};
- group_29 = function(fs_76){
-  return form_20(A2(FGroup_19, Matrix.identity, fs_76));};
- groupTransform_30 = F2(function(matrix_77, fs_78){
-  return form_20(A2(FGroup_19, matrix_77, fs_78));});
- rotate_31 = F2(function(t_79, f_80){
-  return _N.replace([['theta',(f_80.theta+t_79)]], f_80);});
- scale_32 = F2(function(s_81, f_82){
-  return _N.replace([['scale',(f_82.scale*s_81)]], f_82);});
- move_33 = F2(function(_138000_83, f_84){
-  return (e=_138000_83.ctor==='Tuple2'?_N.replace([['x',(f_84.x+_138000_83._0)],['y',(f_84.y+_138000_83._1)]], f_84):null,e!==null?e:_E.Case('Line 138, Column 20'));});
- moveX_34 = F2(function(x_87, f_88){
-  return _N.replace([['x',(f_88.x+x_87)]], f_88);});
- moveY_35 = F2(function(y_89, f_90){
-  return _N.replace([['y',(f_90.y+y_89)]], f_90);});
- path_36 = function(ps_91){
-  return ps_91;};
- segment_37 = F2(function(p1_92, p2_93){
-  return _L.Cons(p1_92,_L.Cons(p2_93,_L.Nil));});
- polygon_38 = function(points_94){
-  return points_94;};
- rect_39 = F2(function(w_95, h_96){
-  return _L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(0-(h_96/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(0-(h_96/2))},_L.Nil))));});
- square_40 = function(n_97){
-  return A2(rect_39, w, h);};
- oval_41 = F2(function(w_98, h_99){
-  return (n_100 = 50, t_101 = ((2*Math.PI)/n_100), hw_102 = (w_98/2), hh_103 = (h_99/2), f_104 = function(i_105){
-   return {ctor:"Tuple2", _0:(hw_102*Math.cos((t_101*i_105))), _1:(hh_103*Math.sin((t_101*i_105)))};}, A2(List.map, f_104, _L.range(0,(n_100-1))));});
- circle_42 = function(r_106){
-  return A2(oval_41, (2*r_106), (2*r_106));};
- ngon_43 = F2(function(n_107, r_108){
-  return (m_109 = toFloat(n_107), t_110 = ((2*Math.PI)/m_109), f_111 = function(i_112){
-   return {ctor:"Tuple2", _0:(r_108*Math.cos((t_110*i_112))), _1:(r_108*Math.sin((t_110*i_112)))};}, A2(List.map, f_111, _L.range(0,(n_107-1))));});
- defaultLine_11 = {
-   _:{
-   },
-   cap:Flat_4,
-   color:Color.black,
-   dashOffset:0,
-   dashing:_L.Nil,
-   join:Sharp_8(10),
-   width:1};
- elm.Native = elm.Native||{};
- elm.Native.Graphics = elm.Native.Graphics||{};
- var _ = elm.Native.Graphics.Collage||{};
- _.$op = {};
- _.Form = Form_0;
- _.Solid = Solid_1;
- _.Texture = Texture_2;
- _.Gradient = Gradient_3;
- _.Flat = Flat_4;
- _.Round = Round_5;
- _.Padded = Padded_6;
- _.Smooth = Smooth_7;
- _.Sharp = Sharp_8;
- _.Clipped = Clipped_9;
- _.LineStyle = LineStyle_10;
- _.defaultLine = defaultLine_11;
- _.solid = solid_12;
- _.dashed = dashed_13;
- _.dotted = dotted_14;
- _.FPath = FPath_15;
- _.FShape = FShape_16;
- _.FImage = FImage_17;
- _.FElement = FElement_18;
- _.FGroup = FGroup_19;
- _.form = form_20;
- _.fill = fill_21;
- _.filled = filled_22;
- _.textured = textured_23;
- _.gradient = gradient_24;
- _.outlined = outlined_25;
- _.traced = traced_26;
- _.sprite = sprite_27;
- _.toForm = toForm_28;
- _.group = group_29;
- _.groupTransform = groupTransform_30;
- _.rotate = rotate_31;
- _.scale = scale_32;
- _.move = move_33;
- _.moveX = moveX_34;
- _.moveY = moveY_35;
- _.path = path_36;
- _.segment = segment_37;
- _.polygon = polygon_38;
- _.rect = rect_39;
- _.square = square_40;
- _.oval = oval_41;
- _.circle = circle_42;
- _.ngon = ngon_43
- elm.Graphics = elm.Graphics||{};
- return elm.Graphics.Collage = _;
- };
+    cap:Flat_4,
+    color:Color.black,
+    dashOffset:0,
+    dashing:_L.Nil,
+    join:Sharp_8(10),
+    width:1};
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Collage||{};
+  _.$op = {};
+  _.Form = Form_0;
+  _.Solid = Solid_1;
+  _.Texture = Texture_2;
+  _.Gradient = Gradient_3;
+  _.Flat = Flat_4;
+  _.Round = Round_5;
+  _.Padded = Padded_6;
+  _.Smooth = Smooth_7;
+  _.Sharp = Sharp_8;
+  _.Clipped = Clipped_9;
+  _.LineStyle = LineStyle_10;
+  _.defaultLine = defaultLine_11;
+  _.solid = solid_12;
+  _.dashed = dashed_13;
+  _.dotted = dotted_14;
+  _.FPath = FPath_15;
+  _.FShape = FShape_16;
+  _.FImage = FImage_17;
+  _.FElement = FElement_18;
+  _.FGroup = FGroup_19;
+  _.form = form_20;
+  _.fill = fill_21;
+  _.filled = filled_22;
+  _.textured = textured_23;
+  _.gradient = gradient_24;
+  _.outlined = outlined_25;
+  _.traced = traced_26;
+  _.sprite = sprite_27;
+  _.toForm = toForm_28;
+  _.group = group_29;
+  _.groupTransform = groupTransform_30;
+  _.rotate = rotate_31;
+  _.scale = scale_32;
+  _.move = move_33;
+  _.moveX = moveX_34;
+  _.moveY = moveY_35;
+  _.path = path_36;
+  _.segment = segment_37;
+  _.polygon = polygon_38;
+  _.rect = rect_39;
+  _.square = square_40;
+  _.oval = oval_41;
+  _.circle = circle_42;
+  _.ngon = ngon_43
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Collage = _;
+  };
 (function() {
 'use strict';
 
@@ -3835,6 +4379,7 @@ function init(display, container, module) {
 
   // If graphics are not enabled, escape early, skip over setting up DOM stuff.
   if (display === ElmRuntime.Display.NONE) {
+      module(elm);
       return { send : send, recv : recv };
   }
 
@@ -4481,6 +5026,7 @@ function updateTracker(w,h,div) {
         var node = container.firstChild;
         if (node) {
             Render.update(node, node.oldElement, elem);
+            node = container.firstChild;
         } else {
             node = Render.render(elem);
             container.appendChild(node);
