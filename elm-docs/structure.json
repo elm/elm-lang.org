@@ -35,20 +35,20 @@
        , { "name":"Conversions"
          , "values":["read","toTime"] }
        , { "name":"Extracting Information"
-         , "values":["year","month","day","dayOfWeek","hour","minute","second"] }
+         , "values":["year","month","Month","day","dayOfWeek","Day","hour","minute","second"] }
        ]
   }
 , { "module" : "Maybe"
   , "description" : "The `Maybe` library is a safe way to represent the return values of [partial functions](http://en.wikipedia.org/wiki/Partial_function) such as `Json.fromString`."
   , "sections" :
-       [ { "name":"Basics"    , "values":["maybe","isJust","isNothing"] }
+       [ { "name":"Basics"    , "values":["Maybe","maybe","isJust","isNothing"] }
        , { "name":"With Lists", "values":["justs","cons"] }
        ]
   }
 , { "module" : "Either"
   , "description" : "This library can be useful for representing errors. The result of a computation can be `Right`, and if there is an error, you can put the error message in `Left`."
   , "sections" :
-       [ { "name":"Basics"    , "values":["either","isLeft","isRight"] }
+       [ { "name":"Basics"    , "values":["Either","either","isLeft","isRight"] }
        , { "name":"With Lists", "values":["lefts","rights","partition"] }
        ]
   }

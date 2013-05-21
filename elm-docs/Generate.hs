@@ -45,8 +45,8 @@ toElm libraries structure = (name, code)
         where gets obj = (,) <$> get "name" obj <*> valFromObj "values" obj
               ss = extract (mapM gets =<< valFromObj "sections" structure)
               leftovers = Map.keys facts \\ concatMap snd ss
-              rest = if null leftovers then [] else
-                         [("Other Useful Functions", leftovers)]
+              rest = if null leftovers then [] else []
+                     --[("Other Useful Functions", leftovers)]
 
     find err = let msg = "Lookup Error: " ++ err ++ " was not found"
                in  Map.findWithDefault (error msg)
