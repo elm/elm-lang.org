@@ -1,6 +1,10 @@
-import Website.Skeleton
-import Website.Tiles
+import Website.Skeleton (skeleton)
+import Website.Tiles (miniTiles)
 import Website.ColorScheme
+
+import Text as Text
+import JavaScript as JavaScript
+import Window as Window
 
 intro = [markdown|
 
@@ -24,9 +28,6 @@ concise and elegant way to [create][e1] [highly][e2]
 exampleText = [markdown|
 
 #### Learn by Example
-
-Elm&rsquo;s [online editor](/try) and [extensive examples](/Examples.elm) make
-it easy to learn and use.
 
 Start with the [basics](/examples/Basic.elm). Work up to
 [intermediate examples](/examples/Intermediate.elm) and
@@ -75,18 +76,10 @@ navigation between basic examples.
 
 contact = [markdown|
 
-#### Community and News
+#### Community
 
 Elm's [mailing list][7] is the place to go for questions, announcements,
 and discussion. Or check out the IRC channel ([`#elm` on freenode][irc]).
-Some notable events:
-
-* [Extensible Records in Elm 0.7][v7]
-* Elm featured on [InfoQ][video] and [O&rsquo;Reilly Radar][radar]
-* [Escape from Callback Hell][escape]: AJAX without callbacks
-* [Making Pong in Elm][pong]: a comprehensive walkthrough
-
-<br/>
 
  [escape]: /learn/Escape-from-Callback-Hell.elm "Escape from Callback Hell"
  [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
@@ -116,19 +109,17 @@ content w =
 infoq w =
   let lnk = "http://www.infoq.com/presentations/Elm"
       vid = fittedImage w 200 "/infoq.jpg"
-  in  spacer 10 20 `above` layers [ vid, Graphics.link lnk (spacer w 200 )]
+  in  spacer 10 20 `above` layers [ vid, link lnk (spacer w 200 )]
 
 tryElm w =
   flow down [ spacer 10 20
-            , Graphics.link "/try" (fittedImage w (w `div` 2) "editor.jpg") ]
+            , link "/try" (fittedImage w (w `div` 2) "editor.jpg") ]
 
-info w = if w < 500 then infoSmall w else infoBig w
-
-infoBig w =
+info w =
   let sw = if w >= 800 then 300 else 200
       box txt pics = flow right [ width (w-(30+sw)) txt, spacer 30 10, pics sw ]
   in  flow down $ [ width w intro, spacer w 10 ] ++
-      List.intersperse (spacer w 40)
+      intersperse (spacer w 40)
        [ box exampleText content,
          box resources infoq,
          box tryOnline tryElm,
@@ -136,6 +127,6 @@ infoBig w =
 
 main = lift (skeleton info) Window.width
 
-title = constant (JavaScript.castStringToJSString "The Elm Programming Language")
-foreign export jsevent "elm_title"
-  title :: Signal JSString
+title = constant (JavaScript.fromString "The Elm Programming Language")
+foreign export jsevent "title"
+  title : Signal JSString

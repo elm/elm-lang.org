@@ -10,6 +10,7 @@ import Text.Blaze.Html (Html)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
 
+import qualified Language.Elm as Elm (docs)
 import ElmToHtml
 import Editor
 import Utils
@@ -17,17 +18,18 @@ import Utils
 -- | Set up the server.
 main :: IO ()
 main = simpleHTTP nullConf $ do
+         docsPath <- liftIO $ Elm.docs
          compressedResponseFilter
          msum [ nullDir >> compileFile "Elm.elm"
               , serveDirectory DisableBrowsing [] "resources"
               , dir "try" (ok $ toResponse $ emptyIDE)
               , dir "compile" $ compilePart
+              , dir "jsondocs" $ serveFile (asContentType "text/json") docsPath
               , dir "edit" . uriRest $ withFile ide
               , dir "code" . uriRest $ withFile editor
               , dir "login" sayHi
               , uriRest compileFile
               ]
-
 
 -- | Compile an Elm program that has been POST'd to the server.
 compilePart :: ServerPart Response

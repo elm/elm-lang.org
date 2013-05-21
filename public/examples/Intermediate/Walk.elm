@@ -1,8 +1,15 @@
+
+import Keyboard
+import Window
+
+-- MODEL
 areaW = 407
 areaH = 301
 
-obj = { x = 200, y = 150, vx = 0, vy = 0, verb = "stand", dir = "south" }
+obj = { x=200, y=150, vx=0, vy=0, verb="stand", dir="south" }
 
+
+-- UPDATE
 velStep d obj =
   let f n = if d.x == 0 || d.y == 0 then n else n / sqrt 2
   in  { obj | vx <- f d.x, vy <- f (0-d.y) }
@@ -28,12 +35,15 @@ step time arrows run =
   timeStep time . verbStep arrows . runStep run . velStep arrows
 
 
+-- LINK
 delta = lift (flip (/) 20) (fps 25)
 steps = sampleOn delta (lift3 step delta Keyboard.arrows Keyboard.ctrl)
 
-main  = lift2 render Window.dimensions (foldp ($) obj steps)
+main  = lift2 display Window.dimensions (foldp ($) obj steps)
 
-render (w,h) {x,y,verb,dir} =
+
+-- DISPLAY
+display (w,h) {x,y,verb,dir} =
   container w h middle $ flow down
     [ layers [ image areaW areaH "/imgs/desert.png"
              , let src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"

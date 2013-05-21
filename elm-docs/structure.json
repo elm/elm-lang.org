@@ -1,0 +1,284 @@
+[ { "module" : "List"
+  , "description" : "A library for manipulating lists of values. Every value in a list must have the same type."
+  , "sections" :
+       [ { "name" : "Basics"
+         , "values" : ["::","++","length","reverse","map"] }
+       , { "name" : "Sub-lists"
+         , "values" : ["head","tail","last","filter","take","drop"] }
+       , { "name" : "Putting Lists Together"
+         , "values" : ["concat","concatMap","join","intersperse",
+                       "zip","zipWith"] }
+       , { "name" : "Taking Lists Apart"
+         , "values" : ["split","partition","unzip"] }
+       , { "name" : "Folds"
+         , "values" : ["foldr","foldl","foldr1","foldl1","scanl","scanl1"] }
+       , { "name" : "Special Folds"
+         , "values" : ["sum","product","maximum","minimum",
+                       "all","any","and","or"] }
+       ]
+  }
+, { "module" : "Char"
+  , "description" : "Convenience functions for working with characters."
+  , "sections" :
+       [ { "name" : "Classification"
+         , "values" : [ "isUpper", "isLower"
+                      , "isDigit", "isOctDigit", "isHexDigit" ] }
+       , { "name" : "Conversion"
+         , "values" : [ "toUpper", "toLower", "toLocaleUpper", "toLocaleLower"
+                      , "toCode", "fromCode" ] }
+       ]
+  }
+, { "module" : "Date"
+  , "description" : "Library for working with dates.\nIt is still a work in progress, so email the mailing\nlist if you are having issues with internationalization\nor locale formatting or something."
+  , "sections" :
+       [ { "name":"Days and Months", "values":[] }
+       , { "name":"Conversions"
+         , "values":["read","toTime"] }
+       , { "name":"Extracting Information"
+         , "values":["year","month","Month","day","dayOfWeek","Day","hour","minute","second"] }
+       ]
+  }
+, { "module" : "Maybe"
+  , "description" : "The `Maybe` library is a safe way to represent the return values of [partial functions](http://en.wikipedia.org/wiki/Partial_function) such as `Json.fromString`."
+  , "sections" :
+       [ { "name":"Basics"    , "values":["Maybe","maybe","isJust","isNothing"] }
+       , { "name":"With Lists", "values":["justs","cons"] }
+       ]
+  }
+, { "module" : "Either"
+  , "description" : "This library can be useful for representing errors. The result of a computation can be `Right`, and if there is an error, you can put the error message in `Left`."
+  , "sections" :
+       [ { "name":"Basics"    , "values":["Either","either","isLeft","isRight"] }
+       , { "name":"With Lists", "values":["lefts","rights","partition"] }
+       ]
+  }
+, { "module" : "Dict"
+  , "description" : "A dictionary mapping unique keys to values. The keys can be any comparable type. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists of comparable types."
+  , "sections" :
+     [ {"name":"Build"  , "values":["empty","singleton","insert","remove"] }
+     , {"name":"Query"  , "values":["member","lookup","findWithDefault"] }
+     , {"name":"Combine", "values":["union","intersect","diff"] }
+     , {"name":"Lists"  , "values":["keys","values","toList","fromList"] }
+     , {"name":"Morph"  , "values":["map","foldl","foldr"] }
+     ]
+  }
+, { "module" : "Set"
+  , "description" : "A set of unique values. The values can be any comparable type. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists of comparable types."
+  , "sections" :
+       [ { "name":"Build"  , "values":["empty","singleton","insert","remove"] }
+       , { "name":"Query"  , "values":["member"] }
+       , { "name":"Combine", "values":["union","intersect","diff"] }
+       , { "name":"Lists"  , "values":["toList","fromList"] }
+       , { "name":"Morph"  , "values":["map","foldl","foldr"] }
+       ]
+  }
+, { "module" : "Signal"
+  , "description" : "The library for general signal manipulation.\nSome useful functions for working with time and combining\nsignals and time can be found in the\n[`Time`](/docs/Time.elm) library.\n\nNote: There are lift functions up to `lift8`."
+  , "sections" :
+     [ { "name":"Combine"
+       , "values":["constant","lift","lift2","lift3","merge","merges","combine"]}
+     , { "name":"Pretty Combine" , "values":["<~","~"] }
+     , { "name":"Past-Dependence", "values":["foldp","count","countIf"] }
+     , { "name":"Filters"
+       , "values":["keepIf","dropIf","keepWhen"
+                  ,"dropWhen","dropRepeats","sampleOn"] }
+     , { "name":"Do you even lift?"
+       , "values":["lift4","lift5","lift6","lift7","lift8"] }
+     ]
+  }
+, { "module" : "Automaton"
+  , "description" : "This library is a way to package up dynamic behavior.\nIt makes it easier to dynamically create dynamic components.\nSee the [original release](/blog/announce/version-0.5.0.elm)\nnotes on this library to get a feel for how it can be used."
+  , "sections" :
+     [ { "name":"Create"  , "values":["pure","state","hiddenState"] }
+     , { "name":"Evaluate", "values":["run","step"] }
+     , { "name":"Combine" , "values":[">>>","<<<","combine"] }
+     , { "name":"Common Automatons", "values":["count","average"] }
+     ]
+  }
+, { "module" : "Mouse"
+  , "description" : "Library for working with mouse input."
+  , "sections" :
+     [ { "name":"Position", "values":["position","x","y"] }
+     , { "name":"Button Status", "values":["isDown","clicks","isClicked"] }
+     ]
+  }
+, { "module" : "Touch"
+  , "description" : "This is an early version of the touch library.\nIt will likely grow to include gestures that\nwould be useful for both games and web-pages."
+  , "sections" :
+     [ { "name":"Touches", "values":["Touch","touches"] }
+     , { "name":"Gestures", "values":["taps"] }
+     ]
+  }
+, { "module" : "Window"
+  , "description" : "Provides information about the container that your Elm program lives in. When you embed Elm in a `<div>` it gives the dimensions of the container, not the whole window."
+  , "sections" : [{"name":"Dimensions", "values":["dimensions","width","height"]}]
+  }
+, { "module" : "Keyboard"
+  , "description" : "Library for handling keyboard input."
+  , "sections" :
+     [ {"name":"Representing Keys", "values":["KeyCode"]}
+     , {"name":"Directions", "values":["arrows","wasd"]}
+     , {"name":"Key Presses", "values":["shift","enter","space","ctrl","isDown"]}
+     , {"name":"More General Signals",
+        "values":["keysDown","lastPressed","directions"]}
+     ]
+  }
+, { "module" : "Http"
+  , "description" : "Library for making asynchronous HTTP requests."
+  , "sections" :
+     [ {"name":"Sending Requests", "values":["send","sendGet"]}
+     , {"name":"Creating Requests", "values":["get","post","request"]}
+     , {"name":"Responses", "values":["Response"]}
+     ]
+  }
+, { "module" : "WebSocket"
+  , "description" : "An experimental library for low latency HTTP communication.\nThis API is likely to change if a better approach is found.\nSee the [Http library](/docs/Http.elm) for standard requests like GET, POST, etc."
+  , "sections" : [ {"name":"Open Connections", "values":["connect"]} ]
+  }
+, { "module" : "Time"
+  , "description" : "Library for manipulating time. You can create time dependent signals with this library."
+  , "sections" :
+     [ {"name":"Units",
+        "values":["Time","millisecond","second","minute","hour",
+                  "inMilliseconds","inSeconds","inMinutes","inHours"]}
+     , {"name":"Tickers", "values":["fps","fpsWhen","every"]}
+     , {"name":"Timing", "values":["timestamp","delay","since"]}
+     ]
+  }
+, { "module" : "JavaScript"
+  , "description" : "This library just does basic conversions between Elm and JS values. The key value is that this allows the internal data structures of Elm to change and improve with no impact on JS integration."
+  , "sections" :
+     [ {"name":"JavaScript to Elm",
+        "values":["toString","toInt","toFloat","toBool","toList"]}
+     , {"name":"JavaScript from Elm",
+        "values":["fromString","fromInt","fromFloat","fromBool","fromList"]}
+     , {"name":"DOM nodes and Elements",
+        "values":["toElement","fromElement"]}
+     ]
+  }
+, { "module" : "JavaScript.Experimental"
+  , "description" : "A pair of very experimental functions for converting between Elm records and JavaScript objects. It currently uses a best effort conversion that can cause runtime errors. This API should change and improve as we find its key failings."
+  , "sections" :
+     [ {"name":"Converting between Elm Records and JS Objects",
+        "values":["toRecord","fromRecord"]}
+     ]
+  }
+, { "module" : "Json"
+  , "description" : "A rough library for working with arbitrary JSON values. If you have problems with the API please report them to the [mailing list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)!"
+  , "sections" :
+     [ {"name":"Json Values","values":["JsonValue"]}
+     , {"name":"Strings and Json", "values":["fromString","toString"]}
+     , {"name":"JS Objects and Json","values":["fromJSObject","toJSObject"]}
+     , {"name":"JS Strings and Json","values":["fromJSString","toJSString"]}
+     ]
+  }
+, { "module" : "Random"
+  , "description" : "Since the core of Elm is pure, randomness must be handled via signals."
+  , "sections" : [ {"name":"Random Numbers","values":["range","float"]} ]
+  }
+, { "module" : "Matrix2D"
+  , "description" : "This library is made for doing 2D matrix transforms."
+  , "sections" :
+     [ {"name":"Basic Matrices","values":["identity","matrix","rotation"]}
+     , {"name":"Multiplication","values":["multiply"]}
+     ]
+  }
+, { "module" : "Text"
+  , "description" : "Library for styled text."
+  , "sections" :
+     [ {"name":"Creating Text","values":["toText"]}
+     , {"name":"Creating Elements",
+        "values":["plainText","asText","text","centered","justified","righted"]}
+     , {"name":"Text Formatting",
+        "values":["bold","italic","underline","overline","strikeThrough",
+                  "color","monospace","typeface","link","header","height"]} ]
+  }
+, { "module" : "Color"
+  , "description" : "Work with colors. Allows you to [RGB](http://en.wikipedia.org/wiki/RGB_color_model) and [HSV colors](http://en.wikipedia.org/wiki/HSL_and_HSV)."
+  , "sections" :
+     [ {"name":"Colors",
+        "values":["rgb","rgba","hsv","hsva","complement"]}
+     , {"name":"Gradients","values":["linear","radial"]}
+     , {"name":"Built-ins",
+        "values":["red","lime","blue","yellow","cyan","magenta",
+                  "black","white","grey","gray","maroon","navy","green",
+                  "teal","purple","violet","forestGreen"]}
+     ]
+  }
+, { "module" : "Graphics.Element"
+  , "description" : "Basic building blocks that snap together to build complex widgets and layouts.\nEach `Element` has a known width and height,\nmaking them easy to combine and position."
+  , "sections" :
+     [{"name":"Creating Images","values":["image","fittedImage","croppedImage"]}
+     ,{"name":"Styling Elements",
+       "values":["width","height","color","opacity","link","tag"]}
+     ,{"name":"Inspecting Elements","values":["widthOf","heightOf","sizeOf"]}
+     ,{"name":"Combining Elements",
+       "values":["above","below","beside","layers","flow",
+                 "up","down","left","right","inward","outward"]}
+     ,{"name":"Positioning Elements",
+       "values":["spacer","container",
+                 "middle","midTop","midBottom","midLeft","midRight",
+                 "topLeft","topRight","bottomLeft","bottomRight",
+                 "middleAt","midTopAt","midBottomAt","midLeftAt","midRightAt",
+                 "topLeftAt","topRightAt","bottomLeftAt","bottomRightAt",
+                 "absolute","relative"]}
+     ]
+  }
+, { "module" : "Graphics.Input"
+  , "description" : "See [the walkthrough on `Graphics.Input`](/) to get a better understanding of how this library works and why it is designed this way."
+  , "sections" :
+    [{"name":"One-way Inputs",
+      "values":["button","customButton","checkbox","field","email","password"]}
+    ,{"name":"Input Groups: create and update inputs dynamically",
+      "values":["buttons","customButtons","checkboxes","fields","FieldState","emptyFieldState"]}
+    ]
+  }
+, { "module" : "Graphics.Collage"
+  , "description" : "The `collage` API is for freeform graphics. You can move, rotate, scale, etc. arbitrary shapes and put them together however you want."
+  , "sections" :
+    [{"name":"Unstructured Graphics",
+      "values":["collage"]}
+    ,{"name":"Creating Forms",
+      "values":["toForm","sprite","filled","textured",
+                "gradient","outlined","traced"]}
+    ,{"name":"Transforming Forms",
+      "values":["move","moveX","moveY","scale","rotate"]}
+    ,{"name":"Grouping Forms",
+      "values":["group","groupTransform"]}
+    ,{"name":"Shapes",
+      "values":["rect","oval","square","circle","ngon","polygon"]}
+    ,{"name":"Paths",
+      "values":["segment","path"]}
+    ,{"name":"Line Styles",
+      "values":["solid","dashed","dotted",
+                "LineStyle","LineCap","LineJoin","defaultLine"]}
+    ]
+  }
+, { "module" : "Prelude"
+  , "description" : "Tons of useful functions that get imported by default.\n\nThe following libraries also get imported by default: `List`, `Signal`, `Text`, `Maybe`, `Time`, `Graphics.Element`, `Color`, `Graphics.Collage`"
+  , "sections" :
+     [{"name":"To Strings",
+       "values":["show"]}
+     ,{"name":"Equality",
+       "values":["==","/="]}
+     ,{"name":"Comparisons",
+       "values":["Order","compare","<",">","<=",">="]}
+     ,{"name":"Booleans",
+       "values":["&&","||","xor","not","otherwise"]}
+     ,{"name":"Mathematics",
+       "values":["+","-","*","/","div","rem","mod","^","abs","sqrt","logBase","e","max","min","clamp"]}
+     ,{"name":"Trigonometry",
+       "values":["pi","cos","sin","tan","acos","asin","atan","atan2"]}
+     ,{"name":"Number Conversions",
+       "values":["round","floor","ceiling","truncate","toFloat","readInt","readFloat"]}
+     ,{"name":"Angle Conversions",
+       "values":["radians","degrees","turns"]}
+     ,{"name":"Polar Coordinates",
+       "values":["toPolar","fromPolar"]}
+     ,{"name":"Tuples",
+       "values":["fst","snd"]}
+     ,{"name":"Higher-order helpers",
+       "values":["id","|>","<|",".","flip","curry","uncurry"]}
+     ]
+  }
+]

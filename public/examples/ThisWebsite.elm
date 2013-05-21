@@ -1,6 +1,6 @@
 
-import List (intersperse)
-import Website.Skeleton
+import Website.Skeleton (skeleton)
+import Window
 
 content w = width w [markdown|
 

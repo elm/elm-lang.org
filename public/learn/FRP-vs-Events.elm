@@ -1,4 +1,4 @@
-import Website.Skeleton
+import Website.Skeleton (skeleton)
 import Website.ColorScheme
 
 
@@ -77,5 +77,5 @@ main = lift (skeleton (\w -> width w content)) Window.width
 ---- Setting the title of the page to be prettier ----
 
 titles = lift JavaScript.castStringToJSString (constant "FRP vs Events")
-foreign export jsevent "elm_title"
+foreign export jsevent "title"
   titles :: Signal JSString

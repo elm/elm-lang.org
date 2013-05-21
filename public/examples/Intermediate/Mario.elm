@@ -1,30 +1,38 @@
 
-module Mario where
+import Keyboard
+import Window
 
-mario = { x = 0, y = 0, vx = 0, vy = 0, dir = "right" }
-
-jumpStep isJump obj = if isJump && obj.y == 0 then { obj | vy <- 5 } else obj
-gravityStep t obj = { obj | vy <- if obj.y > 0 then obj.vy - t/4 else obj.vy }
-timeStep t obj = let {x,y,vx,vy} = obj in
-                 { obj | x <- x + t * vx , y <- max 0 $ y + t * vy }
-walkStep dir obj = { obj | vx <- dir, dir <- if | dir < 0   -> "left"
-                                                | dir > 0   -> "right"
-                                                | otherwise -> obj.dir }
-
-step t d j = timeStep t . gravityStep t . jumpStep j . walkStep d
+-- MODEL
+mario = { x=0, y=0, vx=0, vy=0, dir="right" }
 
 
-delta = lift (flip (/) 20) (fps 25)
-leftRight = toFloat . .x <~ Keyboard.arrows
-jump = (\{y} -> y > 0) <~ Keyboard.arrows
-steps = sampleOn delta (lift3 step delta leftRight jump)
+-- UPDATE -- ("m" is for Mario)
+jump {y} m = if y > 0 && m.y == 0 then { m | vy <- 5 } else m
+gravity t m = if m.y > 0 then { m | vy <- m.vy - t/4 } else m
+physics t m = { m | x <- m.x + t*m.vx , y <- max 0 (m.y + t*m.vy) }
+walk {x} m = { m | vx <- x, dir <- if | x < 0     -> "left"
+                                      | x > 0     -> "right"
+                                      | otherwise -> m.dir }
 
-main  = lift2 render Window.dimensions (foldp ($) mario steps)
+step (t,dir) = physics t . walk dir . gravity t . jump dir
 
+
+-- DISPLAY
 render (w,h) mario =
-  let verb = if mario.y  >  0 then "jump" else
-             if mario.vx /= 0 then "walk" else "stand"
+  let half n = n `div` 2
+      verb = if | mario.y  >  0 -> "jump"
+                | mario.vx /= 0 -> "walk"
+                | otherwise     -> "stand"
       src  = "/imgs/mario/" ++ verb ++ "/" ++ mario.dir ++ ".gif"
-  in  collage w h [ filled (rgb 174 238 238) $ rect w h (w `div` 2, h `div` 2)
-                  , filled (rgb 74 163 41) $ rect w 50 (w `div` 2,h-25)
-                  , toForm (mario.x, (h-63)-mario.y) (image 35 35 src) ]
+  in collage w h
+       [ rect w h  |> filled (rgb 174 238 238)
+       , rect w 50 |> filled (rgb 74 163 41)
+                   |> move (0, 24 - half h)
+       , toForm (image 35 35 src) |> move (mario.x, mario.y + 62 - half h)
+       ]
+
+-- MARIO
+input = let delta = lift (\t -> t/20) (fps 25)
+        in sampleOn delta (lift2 (,) delta Keyboard.arrows)
+
+main  = lift2 render Window.dimensions (foldp step mario input)

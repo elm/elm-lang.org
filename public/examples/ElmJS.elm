@@ -1,6 +1,5 @@
-
-import List (intercalate,intersperse)
-import Website.Skeleton
+import Website.Skeleton (skeleton)
+import Window
 
 basics =
   [ ("Change Page Title",
@@ -41,16 +40,16 @@ json =
         ])
   ]
 
-example (name, loc) = Text.link loc (fromString name)
+example (name, loc) = Text.link loc (toText name)
 toLinks (title, links) =
-  text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
-         intercalate (toText ", ") (map example links)
+  text <| toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
+          join (toText ", ") (map example links)
 
-insertSpace lst = case lst of { x:xs -> x : spacer 1 5 : xs ; [] -> [] }
+insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
   flow down . insertSpace . map (width w) $
-    (text . bold $ toText name) : map toLinks info
+    (text . bold $ toText name) :: map toLinks info
 
 intro =   [markdown|
 
@@ -65,7 +64,7 @@ Now for some examples.
 |]
 
 content w =
-  width w intro : map (subsection w) [ ("JSON", json), ("Basic I/O", basics), ("Larger Examples", biggers) ]
+  width w intro :: map (subsection w) [ ("JSON", json), ("Basic I/O", basics), ("Larger Examples", biggers) ]
 
 exampleSets w = flow down . intersperse (plainText "&nbsp;") $ content w
 

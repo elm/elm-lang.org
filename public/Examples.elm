@@ -1,7 +1,6 @@
 
-import Website.Skeleton
-import Website.Tiles
-import Window as Window
+import Website.Skeleton (skeleton)
+import Window
 
 words = [markdown|
 
@@ -17,13 +16,7 @@ You may also want to take a look at the [overview of Elm&rsquo;s syntax][syntax]
 
 * [Intermediate][2]
 
-* [Elm + JavaScript][4]
-
-* [Elm + Haskell][5]
-
 * [This Website][6]
-
-* [Elm for Games][7]
 
 <br/>
 

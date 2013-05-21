@@ -1,22 +1,17 @@
-import Website.Skeleton
-import Website.ColorScheme
 
-title = constant (JavaScript.castStringToJSString "Upgrade Time: Elm 0.6")
-foreign export jsevent "elm_title"
-  title :: Signal JSString
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+import Window
+import JavaScript as JS
+import Graphics.Input as Input
 
+title = constant (JS.fromString "Upgrade Time: Elm 0.6")
+foreign export jsevent "title"
+  title : Signal JSString
 
-sideBySide wid e1 e2 =
-  let w = wid `div` 2
-      h = max (heightOf e1) (heightOf e2)
-      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rarr;"
-  in  layers [ container wid h middle arrow
-             , flow right [ container w h middle e1
-                          , container w h middle e2
-                          ]
-             ]
+main = lift (skeleton intro) Window.width
 
-intro = [markdown|
+intro w = width (min 600 w) [markdown|
 
 <style>p { text-align: justify }</style>
 
@@ -27,7 +22,7 @@ With these additions, I think its easier than ever to create complex
 interactions and animations.
 
 The most obvious changes in [Elm](/) 0.6 are whitespace sensitivity and the
-addition of many useful time signals such as `(fps :: Number -> Signal Time)`
+addition of many useful time signals such as `(fps : Number -> Signal Time)`
 which make it much easier to make rich animations that work on many devices.
 
 This release also includes a [`Date` library][date], supports
@@ -38,7 +33,7 @@ There is also some cool news at the end!
 
   [date]: /docs/Date.elm "Date library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV Colors"
-  [color]: /docs/Graphics/Color.elm "Color library"
+  [color]: /docs/Color.elm "Color library"
 
 These changes allowed a big rewrite of the [Pong in Elm][pong]
 [source code][code], making things generally much nicer. I also wrote a
@@ -49,6 +44,12 @@ larger examples ([sliding circle][slide], [color wheel][wheel]).
   [code]: https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong "Source for Pong"
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"
+
+**The rest of this post is out of order for now. Sorry for the inconvenience!**
+
+|]
+
+{--
 
 ## Syntax
 
@@ -88,7 +89,7 @@ And replace any use of `every` with the new `every'`.
 To help make the change to milliseconds more natural in new code, the library
 provides the values:
 
-        ms, second, minute, hour :: Time
+        ms, second, minute, hour : Time
 
 so you can express half a second as `(second / 2)` and 45 minutes
 as `(45 * minute)` or `(0.75 * hour)`.
@@ -101,8 +102,8 @@ delaying signals.
 
 The following functions simply provide a way to add timestamps to any signal.
 
-        timestamp :: Signal a -> Signal (Time,a)
-        timeOf    :: Signal a -> Signal Time
+        timestamp : Signal a -> Signal (Time,a)
+        timeOf    : Signal a -> Signal Time
 
 Function `timestamp` adds a timestamp whereas `timeOf` just gives the time of
 the update, dropping the value entirely. This is a low-level way to explore
@@ -117,8 +118,8 @@ time1 = [markdown|
 The following FPS functions provide a way to request an upper bound on frame
 rates that will gracefully degrade on less powerful devices.
 
-        fps     :: Number -> Signal Time
-        fpsWhen :: Number -> Signal Bool -> Signal Time
+        fps     : Number -> Signal Time
+        fpsWhen : Number -> Signal Bool -> Signal Time
 
 So the expression `(fps 40)` will create a signal that attempts to update 40
 times per second. The value of the signal is always the time delta between
@@ -146,7 +147,7 @@ significantly clearer and more concise.
 
 Finally, we have a function for delaying signals by a given amount of time:
 
-        delay :: Time -> Signal a -> Signal a
+        delay : Time -> Signal a -> Signal a
 
 The `delay` function makes it possible to ask questions like, &ldquo;has this
 signal changed in the last second?&rdquo;
@@ -161,8 +162,8 @@ mouse has been stable for 10 milliseconds.
 
 The Time library also includes some helpers based on the `delay` function:
 
-        since :: Time -> Signal a -> Signal Bool
-        after :: Time -> Signal a -> Signal Bool
+        since : Time -> Signal a -> Signal Bool
+        after : Time -> Signal a -> Signal Bool
 
 These let you ask &ldquo;is it one second after the last mouse click?&rdquo;
 
@@ -205,21 +206,21 @@ For more information on using HSV colors see the
 [Color library documentation][lib] and the [Wikipedia page on HSV colors][hsv].
 
   [rgb]: http://en.wikipedia.org/wiki/RGB_color_model "RGB colors"
-  [lib]: /docs/Graphics/Color.elm "Color Library"
+  [lib]: /docs/Color.elm "Color Library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV colors"
 
 ## Even more Signals
 
 In addition to the new `Time` signals, there are a couple more new and useful signal functions. Again, providing fundamentally new capabilities is the `merge` function which combines two different signals into one, always taking the latest value.
 
-        merge :: Signal a -> Signal a -> Signal a
-        merges :: [Signal a] -> Signal a
+        merge  : Signal a -> Signal a -> Signal a
+        merges : [Signal a] -> Signal a
 
 Both `merge` and `merges` are left-biased. Expressions such as `(merge Mouse.x Mouse.y)` result in simultaneous updates for both input signals, so the left-most signal takes precedence. Therefore, `(merge Mouse.x Mouse.y)` is equivalent to `Mouse.x`.
 
 This release also includes the `average` function, which makes it easier to assess the average frame rates you are getting for an animation.
 
-        average :: Int -> Signal Number -> Signal Float
+        average : Int -> Signal Number -> Signal Float
 
 Function `average` takes a sample size `n` and a signal `s`. It uses the `n` most recent updates to `s` to get a snapshot of the average value of `s`. If you wanted to get the frame rate of a signal called `deltas` over the last 40 frames, it would look like this:
 
@@ -232,7 +233,7 @@ The Date library provides a basic way to work with locale specific dates. I am n
 The coolest function here is probably `Date.read` which attempts to read an arbitrary string as a date:
 |]
 
-(dateInput, dateString) = Input.textField "Date"
+(dateInput, dateString) = Input.textfield "Date"
 
 maybeDate w str =
   let msg = Graphics.height 50 (case Date.read str of
@@ -372,8 +373,8 @@ spiral time =
       f n = ( n/2 * cos (n/3)
             , n/2 * sin (n/3) )
       spiral = line $ map f [ 3 .. 100 ]
-      clr = hsv ((inSeconds time * 30) `mod` 360) 1 1
-  in  collage 100 100 [ move 50 50 . rotate a $ solid clr spiral ]
+      clr = hsv (round (inSeconds time * 30) `mod` 360) 1 1
+  in  collage 100 100 [ move (50,50) . rotate a <| traced (solid clr) spiral ]
 
 times1 = foldp (+) 0 $ 30 `fpsWhen` Mouse.isDown
 
@@ -390,5 +391,16 @@ speed = lift clickSpeed . foldp min 5000 . diffs $ timeOf Mouse.clicks
 
 times3 = foldp (+) 0 (30 `fpsWhen` (second `since` Mouse.clicks))
 
+sideBySide wid e1 e2 =
+  let w = wid `div` 2
+      h = max (heightOf e1) (heightOf e2)
+      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rarr;"
+  in  layers [ container wid h middle arrow
+             , flow right [ container w h middle e1
+                          , container w h middle e2
+                          ]
+             ]
+
 main = lift2 skeleton (lift4 scene speed times1 times3 dateString) Window.width
 
+--}

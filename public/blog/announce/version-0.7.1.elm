@@ -1,10 +1,12 @@
 
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+import Window
+import JavaScript as JS
 
-title = constant (JavaScript.castStringToJSString "Elm 0.7.1 - Library Cultivation")
-foreign export jsevent "elm_title"
-  title :: Signal JSString
+title = constant (JS.fromString "Elm 0.7.1 - Library Cultivation")
+foreign export jsevent "title"
+  title : Signal JSString
 
 intro = [markdown|
 
@@ -59,7 +61,7 @@ Okay, now let&rsquo;s dive into Elm 0.7.1!
 [The new `Keyboard` library][keys] introduces a couple simple and useful signals.
 First there are the directional signals:
 
-    arrows, wasd :: Signal { x :: Int, y :: Int }
+    arrows, wasd : Signal { x : Int, y : Int }
 
 These allow you to easily handle input from the arrow keys or the [wasd keys][wasd].
 It turns out there is a [long and crazy history of arrow configurations][arrows],
@@ -67,7 +69,7 @@ so please let me know if you think there should be more choices.
 
 There are also a few signals for common modifier keys:
 
-    ctrl, shift, space :: Signal Bool
+    ctrl, shift, space : Signal Bool
 
 The existing `Keyboard.Raw` library provides some lower-level signals that
 allow you to work with arbitrary keyboard input, but that is often too more
@@ -112,13 +114,12 @@ The `touches` signal is a list of all of the ongoing touches. A touch is:
 The reason for including so much information is to make it easier to define
 more complicated gestures. The type looks like this:
 
-    touches :: Signal [{ x  :: Int, y  :: Int, id :: Int,
-                         x0 :: Int, y0 :: Int, t0 :: Int }]
+    touches : Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
 
 The `Touch` library also includes a `taps` signal which just gives the
 coordinates of the latest tap. The default value is the origin.
 
-    taps :: Signal { x :: Int, y :: Int }
+    taps : Signal { x : Int, y : Int }
 
 You can find examples for these signals [here][t1], [here][t2], [here][t3],
 and [here][t4]. Warning: you need an Android or iOS touch device for these!
@@ -150,7 +151,7 @@ I have come up with two basic ideas that need to be tested out:
 
 1. Represent gestures with a general state machine. Perhaps the programmer
    provides a set of step conditions, and the output is a signal of states
-   (such as `TwoSwipe {x::Int,y::Int}`) that carry any relevant information
+   (such as `TwoSwipe {x:Int,y:Int}`) that carry any relevant information
    for interactive animations.
 
 2. Represent gestures as a function of position and time. For instance,
@@ -170,7 +171,7 @@ in mind when using `touches` and let [the list][discuss] know what you learn!
 [here](/edit/examples/Functional/Either.elm). The most important
 addition to come with this library is actually in the `Signal` library:
 
-    mergeEither :: Signal a -> Signal b -> Signal (Either a b)
+    mergeEither : Signal a -> Signal b -> Signal (Either a b)
 
 This lets you combine two signals without losing information about
 the original source of the signal.
@@ -185,19 +186,19 @@ Names are now consistent with the new `Either` library. For example,
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
 
-    justs  :: [Maybe a] -> [a]
-    lefts  :: [Either a b] -> [a]
-    rights :: [Either a b] -> [b]
+    justs  : [Maybe a] -> [a]
+    lefts  : [Either a b] -> [a]
+    rights : [Either a b] -> [b]
 
 Or if you are curious about what kind of value you have:
 
-    isNothing, isJust :: Maybe a -> Bool
-    isLeft, isRight   :: Either a b -> Bool
+    isNothing, isJust : Maybe a -> Bool
+    isLeft, isRight   : Either a b -> Bool
 
 Or if you want to extract a value from a Maybe or Either, you can use:
 
-    maybe  :: b -> (a -> b) -> Maybe a -> b
-    either :: (a -> c) -> (b -> c) -> Either a b -> c
+    maybe  : b -> (a -> b) -> Maybe a -> b
+    either : (a -> c) -> (b -> c) -> Either a b -> c
 
 With both extraction functions, you provide two ways to extract a value.
 
@@ -205,11 +206,11 @@ Some functions have also been taken out of the `Maybe` library: `fromMaybe`
 and `mapMaybe`. I removed them because I thought they had silly names and
 could be defined easily with more general functions. They can be re-defined as follows:
 
-    fromMaybe :: a -> Maybe a -> a
+    fromMaybe : a -> Maybe a -> a
     fromMaybe default option = maybe default id option
     fromMaybe' d = maybe d id
 
-    mapMaybe :: (a -> Maybe b) -> [a] -> [b]
+    mapMaybe : (a -> Maybe b) -> [a] -> [b]
     mapMaybe f xs = justs (map f xs)
     mapMaybe' f = justs . map f
 

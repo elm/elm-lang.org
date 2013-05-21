@@ -1,7 +1,6 @@
 
-myBlue  = rgb 0 85 170
-myGreen = rgba 28 267 85 (1/2)
+clearGrey = rgba 111 111 111 0.6
 
-main = collage 300 300 [ filled myBlue  $ ngon 4 75 (150, 150)
-                       , filled myGreen $ ngon 5 50 (200, 100)
-                       ]
+main = collage 300 300
+       [ filled clearGrey (ngon 4 75),
+         filled clearGrey (ngon 5 50) |> move (50,10) ]

@@ -1,19 +1,20 @@
 
-import List (intercalate,intersperse)
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import Website.ColorScheme (accent4)
+import Window as Window
+import Text as Text
 
 addFolder folder lst =
-  let add (x,y) = (x, folder ++ y ++ ".elm") in
-  let f (n,xs) = (n, map add xs) in
-  map f lst
+  let add (x,y) = (x, folder ++ y ++ ".elm")
+      f (n,xs) = (n, map add xs)
+  in  map f lst
 
 elements = addFolder "Elements/"
   [ ("Primitives",
         [ ("Text"  , "HelloWorld")
         , ("Images", "Image")
         , ("Fitted Images", "FittedImage")
-        , ("Videos", "Video")
+        , ("Cropped Images", "CroppedImage")
         , ("Markdown", "Markdown")
         ])
   , ("Formatting",
@@ -29,14 +30,17 @@ elements = addFolder "Elements/"
         , ("Positioning", "Position")
         , ("Spacers"    , "Spacer")
         ])
-  , ("Collage", [ ("Lines"     , "Lines")
-                , ("Shapes"    , "Shapes")
-                , ("Sprites"   , "Sprite")
-                , ("Elements"  , "ToForm")
-                , ("Colors"    , "Color")
-                , ("Textures"  , "Texture")
-                , ("Transforms", "Transforms")
-                ])
+  , ("2D Shapes", [ ("Lines"     , "Lines")
+                  , ("Shapes"    , "Shapes")
+                  , ("Sprites"   , "Sprite")
+                  , ("Elements"  , "ToForm")
+                  , ("Transforms", "Transforms")
+                  ])
+  , ("2D Fills", [ ("Colors"    , "Color")
+                 , ("Linear Gradient", "LinearGradient")
+                 , ("Radial Gradient", "RadialGradient")
+                 , ("Textures"  , "Texture")
+                 ])
   ]
 
 
@@ -99,28 +103,30 @@ reactive = addFolder "Reactive/"
   , ("Input",  [ ("Text Fields", "TextField")
                , ("Passwords"  , "Password")
                , ("Check Boxes", "CheckBox")
-               , ("String Drop Down", "StringDropDown")
-               , ("Drop Down", "DropDown")
+--               , ("String Drop Down", "StringDropDown")
+--               , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("HTTP",   [ ("Zip Codes", "ZipCodes") ])
+--  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
-               , ("Keep If", "KeepIf")
-               , ("Drop Repeats", "DropRepeats")
+--               , ("Keep If", "KeepIf")
+--               , ("Drop Repeats", "DropRepeats")
                ])
   ]
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
-  flow right [ width 130 (plainText $ "   " ++ title)
-             , text (intercalate (bold . Text.color accent4 $ toText "  &middot;  ") $ map example links)
-             ]
+  flow right
+   [ width 130 (plainText $ "   " ++ title)
+   , text . join (bold . Text.color accent4 $ toText "  &middot;  ") $
+     map example links
+   ]
 
-insertSpace lst = case lst of { x:xs -> x : spacer 1 5 : xs ; [] -> [] }
+insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
   flow down . insertSpace . intersperse (spacer 1 1) . map (width w) $
-    (text . bold $ toText name) : map toLinks info
+    (text . bold $ toText name) :: map toLinks info
 
 words = [markdown|
 
@@ -135,8 +141,10 @@ For more details on the syntax of Elm, take a look at [The Syntax of Elm][syntax
 |]
 
 content w =
-  words : map (subsection w) [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  in  words :: map (subsection w) exs
 
-exampleSets w = flow down . map (width w) . intersperse (plainText " ") $ content w
+exampleSets w =
+  flow down . map (width w) . intersperse (plainText " ") $ content w
 
 main = skeleton exampleSets <~ Window.width

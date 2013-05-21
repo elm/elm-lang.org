@@ -71,9 +71,9 @@ requestTag tag =
 
 -- Take a list of photos and choose one, resulting in a request.
 requestOneFrom photoList =
-  let getPhotoID json =
-          case findArray "photo" (findObject "photos" json) of
-          { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
+  let getPhotoID json = case findArray "photo" (findObject "photos" json) of
+                          JsonObject hd :: tl -> findString "id" hd
+                          _                   -> ""
       requestSizes id = if id == ""  then "" else
                         concat [ flickrRequest
                                , "&method=flickr.photos.getSizes&photo_id=", id ]
@@ -84,8 +84,8 @@ requestOneFrom photoList =
 sizesToPhoto sizeOptions =
   let getImg sizes =
           case reverse sizes of
-            _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
-            (JsonObject obj) : _ -> findString "source" obj
+            _ :: _ :: _ :: JsonObject obj :: _ -> findString "source" obj
+            JsonObject obj :: _ -> findString "source" obj
             _ -> "waiting.gif"
   in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
 

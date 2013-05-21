@@ -1,4 +1,4 @@
-
+import Graphics.Input as Input
 
 ----  Create graphs from scratch  ----
 
@@ -13,13 +13,13 @@ plot style w h points =
       ymax = eps * maximum ys
       fit scale lo hi z = scale * abs (z-lo) / abs (hi-lo)
       f (x,y) = (fit w xmin xmax x, h - fit h ymin ymax y)
-      axis a b = solid black . line . map f $ [a,b]
+      axis a b = traced (solid black) . line . map f <| [a,b]
       xaxis = axis (xmin, clamp ymin ymax 0) (xmax, clamp ymin ymax 0)
       yaxis = axis (clamp xmin xmax 0, ymin) (clamp xmin xmax 0, ymax)
       draw ps = case style of
-                  Points -> map (outlined blue . ngon 4 3) ps
-                  Line   -> [ solid blue $ line ps ]
-  in  collage (round w) (round h) $ [ xaxis, yaxis ] ++ draw (map f points)
+                  Points -> map (\p -> move p . outlined (solid blue) <| ngon 4 3) ps
+                  Line   -> [ traced (solid blue) <| path ps ]
+  in  collage (round w) (round h) <| [ xaxis, yaxis ] ++ draw (map f points)
 
 
 -----  Provide many graphs for display  ----

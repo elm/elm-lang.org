@@ -1,50 +1,13 @@
-import JavaScript
-import Window as Win
-import Automaton
-import Input
-import Random
-import List
 
-title = constant (castStringToJSString "The Libraries You Need: Elm 0.5")
-foreign export jsevent "elm_title"
-  title :: Signal JSString
+import JavaScript as JS
+import Website.Skeleton (skeleton)
+import Window
 
-(butnMore,pressMore) = button "  +  "
-(butnLess,pressLess) = button "  -  "
+title = constant (JS.fromString "The Libraries You Need: Elm 0.5")
+foreign export jsevent "title"
+  title : Signal JSString
 
-data Command = Incr | Decr | Idnt
-
-formsAutomaton =
-  let fstep (cmd,pos,color,mouse) fs =
-          let fs' = case cmd of
-                      Incr -> fs ++ [draggable $ filled color (ngon 5 20 pos)]
-                      Decr -> if fs == [] then [] else tail fs
-                      Idnt -> fs
-          in  unzip $ map (\f -> step f mouse) fs'
-  in  init' [draggable $ filled cyan (ngon 5 20 (200,200)) ] fstep
-
-allInput tly wid =
-  let commands = let step less more = if less then Decr else
-                                      if more then Incr else Idnt
-                 in  lift2 step pressLess pressMore
-      rand n = randomize 0 n commands
-      pos = lift2 (,) (rand 400) (rand 400)
-      color = lift3 rgb (rand 255) (rand 255) (rand 255)
-      tlx = lift (\w -> (w - 400) `div` 2) wid
-      relativePos = lift2 (\tlx (x,y) -> (x - tlx, y - tly)) tlx Mouse.position
-      mouse = lift2 (,) Mouse.isDown relativePos
-  in  lift4 (,,,) commands pos color mouse
-
-controls = 
-  container 400 50 middle $
-  flow right [ butnLess, plainText "  Number of Pentagons  ",  butnMore ]
-
-display fs = collage 400 400 (outlined black (rect 400 400 (200,200)) : fs)
-
-widget y w = lift (\forms -> display forms `above` controls)
-           $ run formsAutomaton (allInput y w)
-
-blog = [markdown|
+blog w = width (min 600 w) [markdown|
 
 # The Libraries You Need: Elm 0.5
 
@@ -67,19 +30,7 @@ The Dict and Set libraries could be used from JavaScript. I can make this easier
 This version also introduces the [Automaton][auto] library. This library will
 make it easier to create dynamic components that can be switched in and out of a program.
 
-Most notably, it includes a `draggable` function. As seen in the following example,
-it is pretty easy to dynamically create and destroy draggable forms.
-
   [auto]: /docs/Automaton.elm "Automaton Library"
-
-|]
-
-
-
-outro = [markdown|
-
-That example uses draggable pentagons, but images, `Elements`, or any other shapes will work just as well.
-Check out the [source][self] of this page if you want to mess around with it!
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
 takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
@@ -127,11 +78,11 @@ now they do not have to!
     * `(,,) === (\\x y z -> (x,y,z))`
     * etc.
 - New functions for converting strings to numbers. Great for text input boxes:
-    * `readInt :: String -> Maybe Int`
-    * `readFloat :: String -> Maybe Float`
-- [`(complement :: Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
+    * `readInt : String -> Maybe Int`
+    * `readFloat : String -> Maybe Float`
+- [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: /docs/Graphics/Color.elm "Color library"
+  [color]: /docs/Color.elm "Color library"
 
 ### Fewer Library Prefixes
 
@@ -166,17 +117,5 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
 
 |]
 
-page =
-  let top = flow down
-            [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-            , width 600 blog ]
-      mid = widget (heightOf top) Win.width
-      bot = flow down [ width 600 outro
-                      , container 600 60 middle
-                        [markdown| [Home](/) &nbsp; &nbsp; [About](/About.elm) &nbsp; &nbsp; [Download](/Download.elm) |]                          
-                      , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-                        toText "&copy; 2011-2012 Evan Czaplicki" ]
-  in  lift (\m -> flow down [ top, container 600 (heightOf m) middle m, bot ]) mid
-
-main = lift2 (\page w -> container w (heightOf page) midTop page) page Win.width
+main = lift (skeleton blog) Window.width
 

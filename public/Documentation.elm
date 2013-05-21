@@ -1,44 +1,45 @@
 
-import Website.Skeleton (addSpaces, skeleton)
-import Website.Tiles (tile)
-import List
+import Website.Skeleton (skeleton)
+import Window
 
-standard = ("General",
-  [ ("List",  "docs/Data/List.elm")
-  , ("Dict",  "docs/Data/Dict.elm")
-  , ("Set",  "docs/Data/Set.elm")
-  , ("Char", "docs/Data/Char.elm")
-  , ("Maybe", "docs/Data/Maybe.elm")
-  , ("Either", "docs/Data/Either.elm")
-  , ("Date", "docs/Date.elm")
-  , ("Prelude", "docs/Prelude.elm")
+general = ("General",
+  [ ("Char", "Char.elm")
+  , ("Date", "Date.elm")
+  , ("Prelude", "Prelude.elm")
   ])
+containers = ("Containers",
+ [("List",  "List.elm"),
+  ("Dict",  "Dict.elm"),
+  ("Set",  "Set.elm"),
+  ("Maybe", "Maybe.elm"),
+  ("Either", "Either.elm")])
 
 graphics = ("Graphics",
-  [ ("Graphics", "docs/Graphics/Element.elm")
-  , ("Color"  , "docs/Graphics/Color.elm")
-  , ("Text",  "docs/Graphics/Text.elm")
+  [ ("Element" , "Graphics/Element.elm")
+  , ("Collage" , "Graphics/Collage.elm")
+  , ("Input"   , "Graphics/Input.elm")
+  , ("Color"   , "Color.elm")
+  , ("Text"    , "Text.elm")
+  , ("Matrix2D", "Matrix2D.elm")
   ])
 
-input = ("Interaction",
-  [ ("Signal" , "docs/Signal/Signal.elm")
-  , ("Automaton", "docs/Automaton.elm")
-  , ("Mouse"  , "docs/Signal/Mouse.elm")
-  , ("Keyboard","docs/Signal/Keyboard.elm")
-  , ("Keyboard.Raw", "docs/Signal/KeyboardRaw.elm")
-  , ("Touch"  , "docs/Signal/Touch.elm")
-  , ("Window" , "docs/Signal/Window.elm")
-  , ("Input"  , "docs/Signal/Input.elm")
-  , ("Time"   , "docs/Signal/Time.elm")
-  , ("HTTP"   , "docs/Signal/HTTP.elm")
-  , ("Random" , "docs/Signal/Random.elm")
-  ])
-
-
+signals = ("Interaction",
+  [("Signal" , "Signal.elm"),
+   ("Automaton", "Automaton.elm")])
+userInput = ("User Input",
+  [("Mouse"  , "Mouse.elm"),
+   ("Keyboard","Keyboard.elm"),
+   ("Touch"  , "Touch.elm")])
+systemInput = ("System Input",
+  [("Window" , "Window.elm"),
+   ("Time"   , "Time.elm"),
+   ("Random" , "Random.elm"),
+   ("Http"   , "Http.elm"),
+   ("WebSocket", "WebSocket.elm")])
 ffi = ("JavaScript",
-  [ ("JavaScript", "docs/Foreign/JavaScript.elm") 
-  , ("JavaScript.Experimental", "docs/Foreign/JavaScript/Experimental.elm") 
-  , ("JSON", "docs/Foreign/JavaScript/JSON.elm") 
+  [ ("JavaScript", "JavaScript.elm") 
+  , ("Json", "Json.elm") 
+  , ("JavaScript.Experimental", "JavaScript/Experimental.elm") 
   ])
 
 intro = [markdown|
@@ -85,19 +86,23 @@ and [JavaScript integration][3].
 
 |]
 
-linkify (name, src) = toText "    " ++ Text.link src (toText name)
+linkify (name, src) =
+    Text.toText "    " ++ Text.link ("docs/" ++ src) (Text.toText name)
 linkList (name, pairs) = 
-  flow down . map text $ bold (toText name) : map linkify pairs
+  flow down . intersperse (spacer 2 2) . map Text.text $
+  Text.bold (Text.toText name) :: map linkify pairs
 
+makeCol w = width w . flow down . intersperse (spacer 10 20) . map linkList
 threeCol w l m r =
-  let w' = w `div` 3 in
-  flow right [ width w' l, width w' m, width w' r ]
+    flow right $ map (makeCol (w `div` 3)) [l,m,r]
+
+col1 = [ general, containers ]
+col2 = [ signals, userInput, systemInput ]
+col3 = [ graphics, ffi ]
 
 categories w =
-  flow down
-  [ width w intro
-  , threeCol w (linkList standard) (linkList input) (flow down [ linkList graphics, spacer 10 40, linkList ffi ])
-  , width w outro
-  ]
+  flow down [ width w intro,
+              threeCol w col1 col2 col3,
+              width w outro ]
 
 main = lift (skeleton categories) Window.width

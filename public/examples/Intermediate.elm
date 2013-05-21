@@ -1,6 +1,7 @@
 
-import Website.Skeleton
-import Website.Tiles
+import Website.Skeleton (skeleton)
+import Website.Tiles (toTile, tile)
+import Window
 
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
@@ -9,19 +10,15 @@ intermediate = addFolder "Intermediate/"
   , ("Turtle", "Turtle")
   , ("Side-Scroller", "Mario")
   , ("Adventure", "Walk")
-  , ("Light Box", "LightBox")
   , ("Pong", "Pong")
-  , ("Flickr API", "Flickr")
   , ("Analog Clock", "Clock")
   , ("Diagrams", "Physics")
-  , ("Keyboard & Animations", "MovingBox")
   , ("Quick Animations", "Slide")
   , ("Stamps", "Stamps")
-  , ("Graphs", "Plot")
-  , ("Form Validation", "Form")
   , ("Pascal's Triangle", "PascalsTriangle")
   , ("Fibonacci Tiles", "FibonacciTiles")
   , ("Web", "Web")
+  , ("Circles", "Circles")
   ]
 
 intro =  [markdown|

@@ -1,10 +1,11 @@
 
-import JavaScript
-import Window as Win
+import Website.Skeleton (skeleton)
+import JavaScript as JS
+import Window
 
-title = constant (castStringToJSString "Elm 0.4: Graphics Upgrade")
-foreign export jsevent "elm_title"
-  title :: Signal JSString
+title = constant (JS.fromString "Elm 0.4: Graphics Upgrade")
+foreign export jsevent "title"
+  title : Signal JSString
 
 blog = [markdown|
 
@@ -61,7 +62,7 @@ Markdown lets you write fairly complicated formatted text
 
 The syntax is as follows:
 
-    [markdown| ... |\] :: Element
+    [markdown| ... |\] : Element
 
 Where `...` is some Markdown (and can span multiple lines). For example:
 
@@ -93,15 +94,15 @@ The `collage` interface just became *way* more flexible. Collages can now
 include pretty much anything. More specifically:
 
 * Display *any* `Element` with:
-      `toForm :: (Int,Int) -> Element -> Form`<br/>
+      `toForm : (Int,Int) -> Element -> Form`<br/>
   This allows you to use text, gifs, videos, and other complex components
   just like any other `Form`.
 
 * Display sprites with:
-      `sprite :: String -> Int -> Int -> (Int,Int) -> Form`
+      `sprite : String -> Int -> Int -> (Int,Int) -> Form`
 
 * Fill shapes with arbitrary textures with:
-      `texture :: String -> Shape -> Form`
+      `texture : String -> Shape -> Form`
 
 All of these new forms can be moved, scaled, and rotated.
 
@@ -112,9 +113,9 @@ you can decide for yourself!
 These additions required a small change to the API for transforms. The new
 functions have the following types:
 
-    move :: Int -> Int -> Form -> Form
-    rotate :: Float -> Form -> Form
-    scale :: Float -> Form -> Form
+    move : Int -> Int -> Form -> Form
+    rotate : Float -> Form -> Form
+    scale : Float -> Form -> Form
 
 The only difference is that a transform now acts upon a `Form` instead of
 directly upon a form-precursor (a `Shape` or `Line`). Before, form-precursors
@@ -146,7 +147,7 @@ This is great for Elm in general, and it is particularly important for game maki
 Set the typeface (often incorrectly called the "font") used to display text.
 The string argument contains the names of the typefaces you want to use.
 
-    typeface :: String -> Text -> Text
+    typeface : String -> Text -> Text
 
 See the [`typeface` example][typeface] for details.
 
@@ -156,9 +157,9 @@ See the [`typeface` example][typeface] for details.
 
 You can look up the dimensions of an `Element` with:
 
-    widthOf  :: Element -> Int
-    heightOf :: Element -> Int
-    sizeOf   :: Element -> (Int,Int)
+    widthOf  : Element -> Int
+    heightOf : Element -> Int
+    sizeOf   : Element -> (Int,Int)
 
 This should make it easier to create higher-order elements (functions that take
 take elements as arguments and produce a more complicated layout).
@@ -191,7 +192,7 @@ as possible.
 This one is sad, but `image` and `video` both require a width and a
 height. The new API is:
 
-    image, video :: Int -> Int -> String -> Element
+    image, video : Int -> Int -> String -> Element
 
 This unfortunate requirement has a very good rational though.
 
@@ -208,7 +209,7 @@ does not load!
 It is actually still possible to load an image without specifying dimensions,
 but the API is a little different:
 
-    images :: Signal String -> Signal Element
+    images : Signal String -> Signal Element
 
 The old `image src` is almost the same as `images (constant src)`, but
 instead of yeilding an `Element`, the new version produces `Signal Element`.
@@ -220,8 +221,8 @@ the image loads asynchronously.
 Two existing functions (`box` and `rectangle`) have been renamed and reworked
 (now `container` and `spacer`).
 
-    container :: Int -> Int -> Position -> Element -> Element
-    spacer :: Int -> Int -> Element
+    container : Int -> Int -> Position -> Element -> Element
+    spacer : Int -> Int -> Element
 
 For more info on the new functions see the [`container` example][container] and the
 [`spacer` example][spacer].
@@ -246,12 +247,7 @@ my experience), but it is your call!
 
 |]
 
-page = flow down
-  [ container 600 40 bottomRight (text . Text.link "/" $ toText "Home")
-  , width 600 blog
-  , container 600 60 middle . text . Text.color (rgb 216 221 225) $
-      toText "&copy; 2011-2012 Evan Czaplicki"
-  ]
+page w = width (min 600 w) blog
 
-main = lift (\w -> container w (heightOf page) midTop page) Win.width
+main = lift (skeleton page) Window.width
 

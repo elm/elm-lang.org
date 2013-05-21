@@ -1,23 +1,19 @@
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+
+import JavaScript as JS
+import Mouse
+import Window
 
 
 ---- Text of the page: all written in Markdown ----
 
 what1 = [markdown|
 
-Functional Reactive Programming (FRP) allows rich interaction in a
-functional setting. It answers the question, &ldquo;How can I handle
-user input and update a GUI in a functional way?&rdquo; FRP ends up
-making it much easier to create interactive GUIs and to work with complex sequences
-of synchronous and asynchronous events. Its ideas can be valuable in an imperative
-setting too [[1]][dfp] [[2]][rp].
+Functional Reactive Programming (FRP) is a high-level way to work with
+interactions. It provides control flow structures for *time*.
 
-  [dfp]: http://en.wikipedia.org/wiki/Dataflow_programming "Dataflow Programming"
-  [rp]: http://en.wikipedia.org/wiki/Reactive_programming "Reactive Programming"
-
-FRP comes down to one simple idea: *some values change over time*.
-In FRP, these time-varying values are called *signals* and they update automatically.
+FRP is build around the idea of time-varying values, called *signals* in Elm.
 
 You can see some signals in action in the colorful box to the right.
 Take a second to play around with each of the examples. Try to make them change
@@ -27,12 +23,12 @@ The first example is the position of the mouse. In Elm, the mouse position
 is represented by a signal named `Mouse.position`. When the mouse moves, the value of
 `Mouse.position` changes automatically [[3]][mouse].
 
-  [mouse]: http://elm-lang.org/edit/examples/Reactive/Position.elm "mouse"
+  [mouse]: /edit/examples/Reactive/Position.elm "mouse"
 
 The `Window.dimensions` signal works exactly the same way, automatically changing
 whenever the window is resized [[4]][dimensions].
 
-  [dimensions]: http://elm-lang.org/edit/examples/Reactive/ResizePaint.elm "dimensions"
+  [dimensions]: /edit/examples/Reactive/ResizePaint.elm "dimensions"
 
 The third example uses the `count` function which counts the number of times a
 signal is updated. In this case we are counting mouse clicks.
@@ -46,23 +42,17 @@ to &ldquo;lift&rdquo; a normal function onto a signal. Once lifted, a function i
 automatically whenever the signal updates. So if the function produces static graphics,
 [lifting it onto a signal produces an animation][example]!
 
-  [example]: http://elm-lang.org/edit/examples/Reactive/Clock.elm "animation"
+  [example]: /edit/examples/Reactive/Clock.elm "animation"
 
 These examples are just the basics of FRP. There are tons of other
 [interactive examples](/examples/Basic.elm) that allow you to play around
 with FRP in [Elm](/). More information on how to use signals can be found
-[here](/docs/Signal/Signal.elm).
-
-FRP becomes truly powerful when paired with a good [graphics library](/docs/Graphics/Element.elm),
-making it possible to create interactive pages such as the one you are currently looking at
-([interactive source](/edit/learn/What-is-FRP.elm)) or design purely functional games
-([Creating purely functional Pong](http://elm-lang.org/blog/games-in-elm/part-0/Making-Pong.html))
+[here](/docs/Signal.elm).
 
 |]
 
-complex1 = [markdown|<br/>
+complex1 = [markdown|
 
-* * *
 ## Combining Signals
 
 FRP is also great for working with multiple signals. This means you can combine multiple event sources
@@ -94,11 +84,9 @@ Again, this stuff becomes even cooler when you mix it with a good graphics libra
 
 |]
 
-why = [markdown|<br/>
+why = [markdown|
 
-* * *
-
-## &ldquo;Why is FRP a good idea?&rdquo;
+## Why is FRP a good idea?
 
 Functional reactive programming (FRP) is a *declarative* approach to GUI design. The
 term *declarative* makes a distinction between the &ldquo;what&rdquo; and the
@@ -136,23 +124,23 @@ example w1 w2 code =
 clickCount = count Mouse.clicks
 
 examples1 =
-  let title = text . bold . toText in
-  let example' = example 250 110 in
-    [ constant (entry 250 110 (title "Source Code") (title "Value"))
-    , example' "Mouse.position" Mouse.position
-    , example' "Window.dimensions" Window.dimensions
-    , example' "clks = count Mouse.clicks" clickCount
-    , example' "lift (\\n -> n^2) clks" (lift (\n -> n^2) clickCount)
-    ]
+  let title = text . bold . toText
+      example' = example 250 110
+  in [ constant (entry 250 110 (title "Source Code") (title "Value"))
+     , example' "Mouse.position" Mouse.position
+     , example' "Window.dimensions" Window.dimensions
+     , example' "clks = count Mouse.clicks" clickCount
+     , example' "lift (\\n -> n^2) clks" (lift (\n -> n^2) clickCount)
+     ]
 
 examples2 =
-  let title = text . bold . toText in
-  let example' = example 420 200 in
-    [ constant (entry 420 200 (title "Source Code") (title "Value"))
-    , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
-    , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
-    , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
-    ]
+  let title = text . bold . toText
+      example' = example 420 200
+  in [ constant (entry 420 200 (title "Source Code") (title "Value"))
+     , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
+     , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
+     , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
+     ]
 
 box exs =
   let putInBox exs = 
@@ -163,7 +151,7 @@ box exs =
         in  flow down [ color accent1 $ spacer (widthOf eBox') 2
                       , eBox'
                       , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ foldr (lift2 (:)) (constant []) exs
+  in  lift putInBox $ combine exs
 
 
 
@@ -172,7 +160,7 @@ box exs =
 whatIsFRP exs w =
   let hw = w `div` 2 - 15 in
   flow down
-    [ [markdown|## What is &ldquo;Functional Reactive Programming&rdquo;? |]
+    [ [markdown|## What is Functional Reactive Programming? |]
     , flow right [ width hw what1
                  , spacer 30 10
                  , flow down [ spacer hw 20
@@ -198,6 +186,6 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JavaScript.castStringToJSString (constant "What is FRP?")
-foreign export jsevent "elm_title"
-  titles :: Signal JSString
+titles = constant (JS.fromString "What is FRP?")
+foreign export jsevent "title"
+  titles : Signal JSString

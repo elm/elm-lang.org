@@ -1,10 +1,7 @@
 
-square   = rect 200 200 (150,150)
-circle   = oval 140 140 (150,150)
-pentagon = ngon   5  60 (150,150)
+shape n =
+  let angle = degrees (30 * toFloat n)
+  in  circle 10 |> filled (hsv angle 1 1)
+                |> move (45 * cos angle, 45 * sin angle)
 
-main = collage 300 300
-         [ outlined black square
-         , filled green pentagon
-         , customOutline [8,4] blue circle
-         ]
+main = collage 150 150 <| map shape [0..11]

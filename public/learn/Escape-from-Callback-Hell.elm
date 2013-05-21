@@ -1,14 +1,49 @@
-import Website.Skeleton
-import HTTP
-import JSON
+import Website.Skeleton (skeleton)
+import Website.ColorScheme
+
+import JavaScript as JS
+import Window as Window
+import Graphics.Input as Input
+--import HTTP
+--import JSON
 
 intro = [markdown|
 
-<style type="text/css">p { text-align:justify; }</style>
+<style type="text/css">
+p { text-align:justify; }
+pre {
+ background-color: rgb(245,245,245);
+ margin: 0 30px;
+ padding: 4px 10px;
+ border-left: solid 2px rgb(96,181,204);
+}
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
 
 <h1><div style="text-align:center">Escape from Callback Hell
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
 </h1>
+
+<span style="color:rgb(234,21,122)">
+*This post is temporarily out of order. Sorry for the inconvenience! It should be back up soon.*
+</span>
 
 |]
 
@@ -96,8 +131,6 @@ In short:
 [goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
 </div>
 
-<br/>
-
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
   [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
   [frp]: /learn/What-is-FRP.elm "FRP"
@@ -121,9 +154,14 @@ this more concrete. The following example will explain the current state
 of affairs and fully explain how to create readable, responsive code that is
 entirely free of callbacks.
 
+<span style="color:rgb(234,21,122)">
+*The rest of this post should be back soon!*
+</span>
+
+
 |]
 
-
+{--
 funcs = spacer 170 300 `above` width 170 [markdown|
 
 <div style="color:#666;font-size:0.6em;text-align:left">
@@ -180,13 +218,15 @@ and asynchronously with FRP.
 First let's do this with synchronous HTTP requests. We will rely on a couple of
 functions specified to the right. Here is our code:
 
-        function getPhoto(tag) {
-            var photoList  = syncGet(requestTag(tag));
-            var photoSizes = syncGet(requestOneFrom(photoList));
-            return sizesToPhoto(photoSizes);
-        }
+```javascript
+function getPhoto(tag) {
+    var photoList  = syncGet(requestTag(tag));
+    var photoSizes = syncGet(requestOneFrom(photoList));
+    return sizesToPhoto(photoSizes);
+}
 
-        drawOnScreen(getPhoto('tokyo'));
+drawOnScreen(getPhoto('tokyo'));
+```
 
 It's pretty clear what is going on here. The `syncGet` function takes a request and blocks
 until it receives a response. The logic of the program is simple and linear. If you wanted
@@ -205,15 +245,17 @@ acceptable user experience.
 The current solution is to instead make asynchronous HTTP requests (AJAX requests) that use
 callbacks that give finer-grained control over time-dependencies.
 
-        function getPhoto(tag, handlerCallback) {
-            asyncGet(requestTag(tag), function(photoList) {
-                asyncGet(requestOneFrom(photoList), function(photoSizes) {
-                    handlerCallback(sizesToPhoto(photoSizes));
-                });
-            });
-        }
+```javascript
+function getPhoto(tag, handlerCallback) {
+    asyncGet(requestTag(tag), function(photoList) {
+        asyncGet(requestOneFrom(photoList), function(photoSizes) {
+            handlerCallback(sizesToPhoto(photoSizes));
+        });
+    });
+}
     
-        getPhoto('tokyo', drawOnScreen);
+getPhoto('tokyo', drawOnScreen);
+```
 
 The `asyncGet` function takes a request and a callback to run once a response is received.
 We can now say, &ldquo;These computations must happen one after another, but other things
@@ -245,11 +287,13 @@ all interactive time-varying content. For example, the value of a text input fie
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
-        (inputField, tags) = Input.textField "Tag"
+```haskell
+(tagField, tags) = Input.field "Tag"
+```
 
-This creates two values. The first is a visual element called `inputField` that users can type into.
-This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
-as the user types into `inputField`. Here are the `inputField` and the `tags` signal in action. Try typing
+We created two values. The first is a signal of visual elements called `tagField`. This is a normal
+text box. The second is a signal called `tags`. The value of `tags` changes automatically
+as the user types and highlights in the input field. Here they are in action. Try typing
 into the input box to see `tags` update automatically.
 
 |]
@@ -283,10 +327,12 @@ framework of signals. The response is just another signal, exactly the same as `
 We can turn its values into requests and send them too. In fact, that's exactly what we
 are going to do. Here is the full Elm code for making many requests to the Flickr API:
 
-        getPhotos tags =
-            let photoList  = send (lift requestTag tags) in
-            let photoSizes = send (lift requestOneFrom photoList) in
-                lift sizesToPhoto photoSizes
+```haskell
+getPhotos tags =
+    let photoList  = send (lift requestTag tags)
+        photoSizes = send (lift requestOneFrom photoList)
+    in  lift sizesToPhoto photoSizes
+```
 
 We have effectively set up a processing pipeline of how to handle user input:
 we take in a tag, turn it into a request, send it, turn the response into a
@@ -310,10 +356,12 @@ from start to finish.
 
 In fact, here is an abbreviated version that fits in this blog post:
 
-        scene img = flow down [ container 300  60 middle inputField
-                              , fittedImage 300 300 img ]
+```haskell
+scene img = flow down [ container 300  60 middle inputField
+                      , fittedImage 300 300 img ]
 
-        main = lift scene (getPhotos (dropRepeats tags))
+main = lift scene (getPhotos (dropRepeats tags))
+```
 
 In `scene` we stack two elements vertically so that they flow downward.
 The first one is a 300 by 60 container with our `inputField` text field right in
@@ -325,13 +373,13 @@ of HTTP requests we make. The result looks like this:
 
 
 |]
-
-(tagInput',tags') = Input.textField "Flickr Search"
+{-
+(tagInput',tags') = Input.field "Flickr Search"
 
 getPhotos tags =
-  let photoList  = send (lift requestTag tags) in
-  let photoSizes = send (lift requestOneFrom photoList) in
-      lift sizesToPhoto photoSizes
+  let photoList  = send (lift requestTag tags)
+      photoSizes = send (lift requestOneFrom photoList)
+  in  lift sizesToPhoto photoSizes
 
 scene img = flow down [ container 300  60 middle tagInput'
                       , fittedImage 300 300 img ]
@@ -345,8 +393,8 @@ flickrRequest =
 
 extract response =
   case response of
-  { Success str -> JSON.fromString str
-  ; _ -> empty }
+    Success str -> JSON.fromString str
+    _ -> empty
 
 requestTag tag =
   if tag == "" then get "" else
@@ -354,9 +402,9 @@ requestTag tag =
               , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
 
 requestOneFrom photoList =
-  let getPhotoID json =
-        case findArray "photo" (findObject "photos" json) of
-        { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
+  let getPhotoID json = case findArray "photo" (findObject "photos" json) of
+                          JsonObject hd :: tl -> findString "id" hd
+                          _ -> ""
       requestSizes id = if id == "" then "" else
                         concat [ flickrRequest
                                , "&method=flickr.photos.getSizes&photo_id=", id ]
@@ -364,12 +412,13 @@ requestOneFrom photoList =
 
 sizesToPhoto sizeOptions =
   let getImg sizes =
-          case sizes of
-          { _ : _ : _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
-          ; (JsonObject obj) : _ -> findString "source" obj
-          ; _ -> "/grey.jpg" }
-  in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
-
+          case drop 5 sizes of
+            JsonObject obj :: _ -> findString "source" obj
+            _ -> "/grey.jpg"
+  in  case extract sizeOptions of
+        Just sizes -> getImg (findArray "size" (findObject "sizes" sizes))
+        Nothing -> "/grey.jpg"
+-}
 
 outro = [markdown|
 
@@ -422,56 +471,76 @@ if you do not have any experience reading academic papers. You can also email
 
 |]
 
-(inputField, tags) = Input.textField "Tag"
 
-code = text . monospace . toText
+(inputField, tags) = Input.field "Tag"
+
+code w = width w . centered . monospace . toText
 box w e = container w 30 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
-dropTil s = case s of { h:t -> if h == '[' then t else dropTil t ; _ -> s }
+dropTil s = case s of { h::t -> if h == '[' then t else dropTil t ; _ -> s }
 format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
-showResponse r = code (case r of { Success r -> "Success \"... " ++ format r ++ " ...\""
-                                 ; Waiting -> "Waiting"
-                                 ; Failure n _ -> "Failure " ++ show n ++ " \"...\"" })
+showResponse r =
+  code (case r of
+          Success r -> "Success \"... " ++ format r ++ " ...\""
+          Waiting -> "Waiting"
+          Failure n _ -> "Failure " ++ show n ++ " \"...\"")
+--}
 
-content w tags response search =
-  let sideBySide big small = flow right [ width w big, spacer 30 100, small ] in
-  let codePair l r = pairing w (code l) (asText r) in
-  let asyncElm = flow down . map (width w) $
+{--
+content w inputField tags response search =
+  let sideBySide big small = flow right [ width w big, spacer 30 100, small ]
+      codePair l r = pairing w (code l) (asText r)
+      asyncElm = flow down . map (width w) <|
                  [ asyncElm1
-                 , pairing w inputField (asText tags)
+                 , container w (heightOf inputField + 4) middle inputField
+                 , spacer w 10
+                 , container w 20 middle (asText tags)
                  , asyncElm2
-                 , codePair "lift length tags" (length tags)
-                 , codePair "lift reverse tags" (reverse tags)
-                 , codePair "lift requestTag tags" (requestTagSimple tags)
+                 , code w ("tagString = lift .string tags")
+                 , code w ("lift length tagString == " ++ show (length tags.string))
+                 , code w ("lift reverse tagString == " ++ show (reverse tags.string))
+                 --, codePair "lift requestTag tags" (requestTagSimple tags)
                  , asyncElm3
-                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
-                 , asyncElm4 ] in
-  flow down
-    [ width w intro
-    , sideBySide midtro1 quote1
-    , sideBySide midtro2 quote2
-    , sideBySide midtro3 funcs
-    , asyncElm
-    , container w (heightOf search) middle search
-    , width w outro ]
-
+                 --, pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , asyncElm4 ]
+--}
+content wid =
+  let w = wid - 200
+  in flow down
+      [ width w intro
+--      , sideBySide midtro1 quote1
+--      , sideBySide midtro2 quote2
+{--      , sideBySide midtro3 funcs
+      , asyncElm
+      , container w (heightOf search) middle search
+      , width w outro
+--}
+      ]
+{--
 defaultContent = content 600
 
-blog tags response search w' = 
-    let w = w' - 200 in
-    let c = if w' == 800 then defaultContent tags response search else content w tags response search in
-      container w' (heightOf c) middle c
+blog inputField tags response search w' = 
+    let w = w' - 200
+        c = if w' == 800 then defaultContent inputField tags response search
+                         else content w inputField tags response search
+    in  container w' (heightOf c) middle c
 
 requestTag' tag =
   if tag == "" then "" else
   concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
   
-everything = lift3 blog tags (HTTP.sendGet (lift requestTag' tags)) flickrSearch
+everything = blog <~ inputField
+                   ~ tags
+                   ~ (constant "" {-HTTP.sendGet (lift requestTag' tags)-})
+                   ~ (constant $ spacer 200 200 {-flickrSearch-})
 
 main = lift2 skeleton everything Window.width
+--}
 
-titles = constant (JavaScript.castStringToJSString "Escape from Callback Hell")
-foreign export jsevent "elm_title"
-  titles :: Signal JSString
+main = skeleton content <~ Window.width
+
+titles = constant (JS.fromString "Escape from Callback Hell")
+foreign export jsevent "title"
+  titles : Signal JSString
