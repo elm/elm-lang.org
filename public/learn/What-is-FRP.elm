@@ -1,9 +1,9 @@
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
 
 import JavaScript as JS
-import Mouse as Mouse
-import Window as Window
+import Mouse
+import Window
 
 
 ---- Text of the page: all written in Markdown ----

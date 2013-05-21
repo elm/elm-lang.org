@@ -1,7 +1,7 @@
 
-import Website.Skeleton
+import Website.Skeleton (skeleton)
 import Website.ColorScheme
-import Window as Window
+import Window
 import JavaScript as JS
 
 title = constant (JS.fromString "JavaScript Integration")

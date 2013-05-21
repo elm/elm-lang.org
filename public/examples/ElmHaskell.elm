@@ -1,6 +1,6 @@
 
-import List (intercalate,intersperse)
-import Website.Skeleton
+import Website.Skeleton (skeleton)
+import Window
 
 servers =
   [ ("HAppStack",
@@ -18,10 +18,10 @@ libraries =
         ])
   ]
 
-example (name, loc) = Text.link loc (fromString name)
+example (name, loc) = Text.link loc (toText name)
 toLinks (title, links) =
   text $ toText "&nbsp;&nbsp;&nbsp;" ++ italic (toText title) ++ toText " &#8212; " ++
-         intercalate (toText ", ") (map example links)
+         join (toText ", ") (map example links)
 
 insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 

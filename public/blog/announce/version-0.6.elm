@@ -1,9 +1,9 @@
-import Graphics.Input as Input
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
+
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+import Window
 import JavaScript as JS
-import Text as Text
+import Graphics.Input as Input
 
 title = constant (JS.fromString "Upgrade Time: Elm 0.6")
 foreign export jsevent "title"

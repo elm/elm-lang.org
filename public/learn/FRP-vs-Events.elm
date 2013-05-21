@@ -1,4 +1,4 @@
-import Website.Skeleton
+import Website.Skeleton (skeleton)
 import Website.ColorScheme
 
 

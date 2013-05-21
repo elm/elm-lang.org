@@ -1,5 +1,5 @@
 [ { "module" : "List"
-  , "description" : ""
+  , "description" : "A library for manipulating lists of values. Every value in a list must have the same type."
   , "sections" :
        [ { "name" : "Basics"
          , "values" : ["::","++","length","reverse","map"] }
@@ -18,7 +18,7 @@
        ]
   }
 , { "module" : "Char"
-  , "description" : ""
+  , "description" : "Convenience functions for working with characters."
   , "sections" :
        [ { "name" : "Classification"
          , "values" : [ "isUpper", "isLower"
@@ -39,21 +39,21 @@
        ]
   }
 , { "module" : "Maybe"
-  , "description" : ""
+  , "description" : "The `Maybe` library is a safe way to represent the return values of [partial functions](http://en.wikipedia.org/wiki/Partial_function) such as `Json.fromString`."
   , "sections" :
        [ { "name":"Basics"    , "values":["maybe","isJust","isNothing"] }
        , { "name":"With Lists", "values":["justs","cons"] }
        ]
   }
 , { "module" : "Either"
-  , "description" : ""
+  , "description" : "This library can be useful for representing errors. The result of a computation can be `Right`, and if there is an error, you can put the error message in `Left`."
   , "sections" :
        [ { "name":"Basics"    , "values":["either","isLeft","isRight"] }
        , { "name":"With Lists", "values":["lefts","rights","partition"] }
        ]
   }
 , { "module" : "Dict"
-  , "description" : ""
+  , "description" : "A dictionary mapping unique keys to values. The keys can be any comparable type. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists of comparable types."
   , "sections" :
      [ {"name":"Build"  , "values":["empty","singleton","insert","remove"] }
      , {"name":"Query"  , "values":["member","lookup","findWithDefault"] }
@@ -63,7 +63,7 @@
      ]
   }
 , { "module" : "Set"
-  , "description" : ""
+  , "description" : "A set of unique values. The values can be any comparable type. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists of comparable types."
   , "sections" :
        [ { "name":"Build"  , "values":["empty","singleton","insert","remove"] }
        , { "name":"Query"  , "values":["member"] }
@@ -96,7 +96,7 @@
      ]
   }
 , { "module" : "Mouse"
-  , "description" : ""
+  , "description" : "Library for working with mouse input."
   , "sections" :
      [ { "name":"Position", "values":["position","x","y"] }
      , { "name":"Button Status", "values":["isDown","clicks","isClicked"] }
@@ -110,11 +110,11 @@
      ]
   }
 , { "module" : "Window"
-  , "description" : ""
+  , "description" : "Provides information about the container that your Elm program lives in. When you embed Elm in a `<div>` it gives the dimensions of the container, not the whole window."
   , "sections" : [{"name":"Dimensions", "values":["dimensions","width","height"]}]
   }
 , { "module" : "Keyboard"
-  , "description" : ""
+  , "description" : "Library for handling keyboard input."
   , "sections" :
      [ {"name":"Representing Keys", "values":["KeyCode"]}
      , {"name":"Directions", "values":["arrows","wasd"]}
@@ -124,7 +124,7 @@
      ]
   }
 , { "module" : "Http"
-  , "description" : ""
+  , "description" : "Library for making asynchronous HTTP requests."
   , "sections" :
      [ {"name":"Sending Requests", "values":["send","sendGet"]}
      , {"name":"Creating Requests", "values":["get","post","request"]}
@@ -133,10 +133,10 @@
   }
 , { "module" : "WebSocket"
   , "description" : "An experimental library for low latency HTTP communication.\nThis API is likely to change if a better approach is found.\nSee the [Http library](/docs/Http.elm) for standard requests like GET, POST, etc."
-  , "sections" : [ {"name":"Open Connections", "values":["open"]} ]
+  , "sections" : [ {"name":"Open Connections", "values":["connect"]} ]
   }
 , { "module" : "Time"
-  , "description" : ""
+  , "description" : "Library for manipulating time. You can create time dependent signals with this library."
   , "sections" :
      [ {"name":"Units",
         "values":["Time","millisecond","second","minute","hour",
@@ -164,10 +164,12 @@
      ]
   }
 , { "module" : "Json"
-  , "description" : ""
+  , "description" : "A rough library for working with arbitrary JSON values. If you have problems with the API please report them to the [mailing list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)!"
   , "sections" :
-     [ {"name":"Write Json","values":["toString","toPrettyString","toJSString"]}
-     , {"name":"Read Json", "values":["fromString","fromJSString"]}
+     [ {"name":"Json Values","values":["JsonValue"]}
+     , {"name":"Strings and Json", "values":["fromString","toString"]}
+     , {"name":"JS Objects and Json","values":["fromJSObject","toJSObject"]}
+     , {"name":"JS Strings and Json","values":["fromJSString","toJSString"]}
      ]
   }
 , { "module" : "Random"
@@ -182,7 +184,7 @@
      ]
   }
 , { "module" : "Text"
-  , "description" : ""
+  , "description" : "Library for styled text."
   , "sections" :
      [ {"name":"Creating Text","values":["toText"]}
      , {"name":"Creating Elements",
@@ -192,7 +194,7 @@
                   "color","monospace","typeface","link","header","height"]} ]
   }
 , { "module" : "Color"
-  , "description" : ""
+  , "description" : "Work with colors. Allows you to [RGB](http://en.wikipedia.org/wiki/RGB_color_model) and [HSV colors](http://en.wikipedia.org/wiki/HSL_and_HSV)."
   , "sections" :
      [ {"name":"Colors",
         "values":["rgb","rgba","hsv","hsva","complement"]}
@@ -204,7 +206,7 @@
      ]
   }
 , { "module" : "Graphics.Element"
-  , "description" : "The basic building blocks of graphics.\nEach `Element` has a known width and height,\nmaking them easy to combine and position."
+  , "description" : "Basic building blocks that snap together to build complex widgets and layouts.\nEach `Element` has a known width and height,\nmaking them easy to combine and position."
   , "sections" :
      [{"name":"Creating Images","values":["image","fittedImage","croppedImage"]}
      ,{"name":"Styling Elements",
@@ -232,7 +234,7 @@
     ]
   }
 , { "module" : "Graphics.Collage"
-  , "description" : ""
+  , "description" : "The `collage` API is for freeform graphics. You can move, rotate, scale, etc. arbitrary shapes and put them together however you want."
   , "sections" :
     [{"name":"Unstructured Graphics",
       "values":["collage"]}
@@ -253,7 +255,7 @@
     ]
   }
 , { "module" : "Prelude"
-  , "description" : ""
+  , "description" : "Tons of useful functions that get imported by default.\n\nThe following libraries also get imported by default: `List`, `Signal`, `Text`, `Maybe`, `Time`, `Graphics.Element`, `Color`, `Graphics.Collage`"
   , "sections" :
      [{"name":"To Strings",
        "values":["show"]}

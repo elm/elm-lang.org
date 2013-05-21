@@ -1,7 +1,7 @@
 
-import Website.Skeleton
-import Website.Tiles
-import Window as Window
+import Website.Skeleton (skeleton)
+import Website.Tiles (toTile, tile)
+import Window
 
 addFolder folder = map (\(x,y) -> (x, y, folder))
 

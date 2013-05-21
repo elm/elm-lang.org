@@ -1,7 +1,6 @@
 
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
+import Website.Skeleton (skeleton)
+import Window
 
 intro = [markdown|
 

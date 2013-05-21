@@ -1,8 +1,7 @@
 
-import Website.Skeleton
-import Text as Text
+import Website.Skeleton (skeleton)
 import JavaScript as JS
-import Window as Win
+import Window
 
 title = constant (JS.fromString "Elm 0.4: Graphics Upgrade")
 foreign export jsevent "title"
@@ -248,7 +247,7 @@ my experience), but it is your call!
 
 |]
 
-page w = width w blog
+page w = width (min 600 w) blog
 
-main = lift (skeleton page) Win.width
+main = lift (skeleton page) Window.width
 

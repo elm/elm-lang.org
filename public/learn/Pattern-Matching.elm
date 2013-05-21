@@ -1,6 +1,5 @@
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
+import Website.Skeleton (skeleton)
+import Window
 import JavaScript as JS
 
 ---- Text of the page: all written in Markdown ----

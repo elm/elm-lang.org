@@ -1,9 +1,8 @@
 
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
 import JavaScript as JS
-import Text as Text
+import Website.ColorScheme (accent1)
+import Website.Skeleton (skeleton)
+import Window
 
 title = constant (JS.fromString "Elm 0.7 - Extensible Records")
 foreign export jsevent "elm_title"

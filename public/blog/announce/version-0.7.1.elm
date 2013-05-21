@@ -1,7 +1,7 @@
 
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+import Window
 import JavaScript as JS
 
 title = constant (JS.fromString "Elm 0.7.1 - Library Cultivation")

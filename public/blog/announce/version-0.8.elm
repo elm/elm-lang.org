@@ -1,7 +1,7 @@
 
-import Website.Skeleton
-import Website.ColorScheme
-import Window as Window
+import Website.Skeleton (skeleton)
+import open Website.ColorScheme
+import Window
 import JavaScript as JS
 
 title = constant (JS.fromString "Elm 0.8 - Improve Everything")
@@ -52,14 +52,15 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Too many improvements to fit in a pithy title*</div></div>
 </h1>
 
-The most important improvements and additions are:
+This release has been in the works for quite a while now, and it is introducing
+a ton of new features. The most important improvements and additions are:
 
-* [Embedding Elm in HTML and JS](#embedding-elm-in-html-and-js)
+* [Embedding Elm in HTML and JS](#embedding-elm-in-html-and-js) ([video demo](http://www.youtube.com/watch?v=xt07tLqa_m8))
+* [Type annotations and type aliases](#type-annotations-and-type-aliases)
 * [Input widgets can be created dynamically and updated programmatically](#dynamic-inputs)
 * [Better 2D graphics API](#better-2d-graphics)
-* [Type annotations and type aliases](#type-annotations-and-type-aliases)
 * [Performance and infrastructure improvements](#faster-currying-and-data-structures)
-* [Inline documentation in the online editor](#inline-documentation) (thanks to Mads)
+* [Inline documentation in the online editor](#inline-documentation) (thanks to Mads!)
 
 So this release finally answers the questions &ldquo;How do I dynamically create
 buttons?&rdquo; and &ldquo;How do I embed Elm in HTML and JS?&rdquo; I think
@@ -312,15 +313,18 @@ which describes how currying works in Haskell.
 
 ## Inline Documentation
 
-The online editor now shows type information and documentation when your cursor
-moves over a function. This means you do not need to flip between the editor and
-documentation. It also makes it way easier for beginners to get oriented in
-a program.
+[The online editor](/edit/examples/Intermediate/Circles.elm) now shows type
+information and documentation when your cursor moves over a function. This
+even works for hard to Google operators like `(<~)` built-in syntax like `if`
+This makes it way easier for beginners to get oriented in a program.
+
+You can use `ctrl-k` and `ctrl-shift-k` to see the type information or documentation,
+so you no longer need to flip between the editor and docs.
 
 It is simple to disable this feature if you want, but I find it is usually
 quite handy.
 
-This feature was conceived, designed and implemented by Mads. 
+This feature was conceived, designed, and implemented by Mads. 
 I think this is one of the coolest things in the editor!
 
 ## Thank you!

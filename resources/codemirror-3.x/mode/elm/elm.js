@@ -196,7 +196,7 @@ CodeMirror.defineMode("elm", function() {
     setType("keyword")(
       "as", "case", "class", "data", "default", "deriving", "do", "else", "export", "foreign",
       "hiding", "jsevent", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let",
-      "module", "newtype", "of", "then", "type", "where", "_");
+      "module", "newtype", "of", "open", "then", "type", "where", "_");
       
     setType("keyword")(
       "\.\.", "|", ":", "::", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB");

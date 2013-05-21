@@ -1,7 +1,7 @@
 
 import JavaScript as JS
-import Website.Skeleton
-import Window as Window
+import Website.Skeleton (skeleton)
+import Window
 
 title = constant (JS.fromString "The Libraries You Need: Elm 0.5")
 foreign export jsevent "title"
