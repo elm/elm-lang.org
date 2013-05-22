@@ -70,7 +70,7 @@ Reactive style. In the case of dynamic creation of buttons, it actually
 required an approach that appears to be new to FRP.
 
 There are a some breaking changes, so it is highly likely that your existing
-Elm code will need to be modified to work with 0.8. If you are having truoble,
+Elm code will need to be modified to work with 0.8. If you are having trouble,
 please let us know on the [mailing
 list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
 so we can help you out and get better documentation out for any confusing parts.
