@@ -116,8 +116,9 @@ Elm.Native.Utils = function(elm) {
     t.style.cssFloat   = "left";
 
     elm.node.appendChild(t);
-    var w = t.clientWidth;
-    var h = t.clientHeight;
+    var style = window.getComputedStyle(t, null);
+    var w = Math.ceil(style.getPropertyValue("width").slice(0,-2) - 0);
+    var h = Math.ceil(style.getPropertyValue("height").slice(0,-2) - 0);
     elm.node.removeChild(t);
     return Tuple2(w,h);
   }
@@ -521,8 +522,20 @@ Elm.Native.Matrix2D = function(elm) {
  elm.Native = elm.Native || {};
  if (elm.Native.Matrix2D) return elm.Native.Matrix2D;
 
- if (typeof Float32Array === 'undefined'){ Float32Array = Array; }
- var A = Float32Array;
+ var A;
+ if (typeof Float32Array === 'undefined') {
+     A = function(arr) {
+         this.length = arr.length;
+         this[0] = arr[0];
+         this[1] = arr[1];
+         this[2] = arr[2];
+         this[3] = arr[3];
+         this[4] = arr[4];
+         this[5] = arr[5];
+     };
+ } else {
+     A = Float32Array;
+ }
 
  // layout of matrix in an array is
  //
@@ -2269,6 +2282,14 @@ Elm.Native.Graphics.Input = function(elm) {
      return { _:{}, box:F2(box), events:events };
  }
 
+ function setRange(node, start, end, dir) {
+     if (node.parentNode) {
+         node.setSelectionRange(start, end, dir);
+     } else {
+         setTimeout(function(){node.setSelectionRange(start, end, dir);}, 0);
+     }
+ }
+
  function mkTextPool(type) { return function fields(defaultValue) {
      var events = Signal.constant(defaultValue);
 
@@ -2282,7 +2303,7 @@ Elm.Native.Graphics.Input = function(elm) {
 	 field.type = type;
 	 field.placeholder = fromString(model.placeHolder);
 	 field.value = fromString(model.state.string);
-	 field.setSelectionRange(model.state.selectionStart, model.state.selectionEnd);
+	 setRange(field, model.state.selectionStart, model.state.selectionEnd, 'forward');
 	 field.style.border = 'none';
          state = model.state;
 
@@ -2331,7 +2352,7 @@ Elm.Native.Graphics.Input = function(elm) {
          if (node.selectionStart !== start
              || node.selectionEnd !== end
              || node.selectionDirection !== direction) {
-             node.setSelectionRange(start, end, direction);
+             setRange(node, start, end, direction);
          }
      }
 
@@ -5015,7 +5036,12 @@ function updateTracker(w,h,div) {
             if (!container) {
                 div.appendChild(container);
             } else {
-                div.insertBefore(container, kids[i]);
+                var kid = kids[i];
+                if (kid) {
+                    div.insertBefore(container, kid);
+                } else {
+                    div.appendChild(container);
+                }
             }
         }
         // we have added a new node, so we must step our position
