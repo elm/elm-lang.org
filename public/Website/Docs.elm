@@ -1,10 +1,9 @@
 
 module Website.Docs (createDocs2,createDocs) where
 
-import Website.ColorScheme
-import Window as Window
-import Text as Text
-import Char as Char
+import open Website.ColorScheme
+import Window
+import Char
 
 accents = [accent0,accent1,accent2,accent3,accent4]
 
