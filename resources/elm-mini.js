@@ -2092,7 +2092,7 @@ Elm.Native.Http = function(elm) {
 
 
   function registerReq(queue,responses) { return function(req) {
-    if (req.url !== "") { sendReq(queue,responses,req); }
+    if (req.url.ctor !== 'Nil') { sendReq(queue,responses,req); }
    };
   }
 
@@ -2149,12 +2149,50 @@ Elm.Native.Graphics.Input = function(elm) {
  if (elm.Native.Graphics.Input) return elm.Native.Graphics.Input;
 
  var Render = ElmRuntime.use(ElmRuntime.Render.Element);
- var Utils = ElmRuntime.use(ElmRuntime.Render.Utils);
- var newNode = Utils.newElement, fromString = Utils.fromString,
-     toString = Utils.toString;
+ var newNode = ElmRuntime.use(ElmRuntime.Render.Utils).newElement;
 
  var Signal = Elm.Signal(elm);
  var newElement = Elm.Graphics.Element(elm).newElement;
+ var JS = Elm.Native.JavaScript(elm);
+ var Tuple2 = Elm.Native.Utils(elm).Tuple2;
+
+ function dropDown(values) {
+     var entries = JS.fromList(values);
+     var events = Signal.constant(entries[0]._1);
+
+     var drop = newNode('select');
+     drop.style.border = '0 solid';
+     for (var i = 0; i < entries.length; ++i) {
+         var option = newNode('option');
+         var name = JS.fromString(entries[i]._0);
+         option.value = name;
+         option.innerHTML = name;
+         drop.appendChild(option);
+     }
+     drop.addEventListener('change', function() {
+             elm.notify(events.id, entries[drop.selectedIndex]._1);
+         });
+
+     var t = drop.cloneNode(true);
+     t.style.visibility = "hidden";
+
+     elm.node.appendChild(t);
+     var style = window.getComputedStyle(t, null);
+     var w = Math.ceil(style.getPropertyValue("width").slice(0,-2) - 0);
+     var h = Math.ceil(style.getPropertyValue("height").slice(0,-2) - 0);
+     elm.node.removeChild(t);
+     
+     console.log(w,h);
+     var element = A3(newElement, w, h, {
+             ctor: 'Custom',
+             type: 'DropDown',
+             render: function render(model) { return drop; },
+             update: function update(node, oldModel, newModel) {},
+             model: {}
+         });
+
+     return Tuple2(Signal.constant(element), events);
+ }
 
  function buttons(defaultValue) {
      var events = Signal.constant(defaultValue);
@@ -2181,7 +2219,7 @@ Elm.Native.Graphics.Input = function(elm) {
 		     type: 'Button',
 		     render: render,
 		     update: update,
-		     model: { event:evnt, text:fromString(txt) }
+		     model: { event:evnt, text:JS.fromString(txt) }
 	     });
      }
 
@@ -2301,8 +2339,8 @@ Elm.Native.Graphics.Input = function(elm) {
 
 	 field.id = 'test';
 	 field.type = type;
-	 field.placeholder = fromString(model.placeHolder);
-	 field.value = fromString(model.state.string);
+	 field.placeholder = JS.fromString(model.placeHolder);
+	 field.value = JS.fromString(model.state.string);
 	 setRange(field, model.state.selectionStart, model.state.selectionEnd, 'forward');
 	 field.style.border = 'none';
          state = model.state;
@@ -2315,7 +2353,7 @@ Elm.Native.Graphics.Input = function(elm) {
 		 end = field.selectionStart;
 	     }
              state = { _:{},
-                       string:toString(field.value),
+                       string:JS.toString(field.value),
                        selectionStart:start,
                        selectionEnd:end };
 	     elm.notify(events.id, field.elmHandler(state));
@@ -2337,7 +2375,7 @@ Elm.Native.Graphics.Input = function(elm) {
      function update(node, oldModel, newModel) {
 	 node.elmHandler = newModel.handler;
          if (state === newModel.state) return;
-         var newStr = fromString(newModel.state.string);
+         var newStr = JS.fromString(newModel.state.string);
 	 if (node.value !== newStr) node.value = newStr;
 
          var start = newModel.state.selectionStart;
@@ -2378,7 +2416,8 @@ Elm.Native.Graphics.Input = function(elm) {
      checkboxes:checkboxes,
      fields:mkTextPool('text'),
      emails:mkTextPool('email'),
-     passwords:mkTextPool('password')
+     passwords:mkTextPool('password'),
+     dropDown:dropDown
  };
 
 };
@@ -3671,44 +3710,51 @@ Elm.Graphics.Input = function(elm){
   var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
   var $op = {};
   var _ = Elm.Signal(elm); var Signal = _;
-  var lift = _.lift;
+  var lift = _.lift, dropRepeats = _.dropRepeats;
   var N = Elm.Native.Graphics.Input(elm);
-  var id_0 = function(x_9){
-    return x_9;};
-  var button_1 = function(txt_10){
+  var _ = Elm.List(elm); var List = _;
+  var id_0 = function(x_10){
+    return x_10;};
+  var button_1 = function(txt_11){
     return function(){
-      var pool_11 = N.buttons({ctor:"Tuple0"});
-      return {ctor:"Tuple2", _0:A2(pool_11.button, {ctor:"Tuple0"}, txt_10), _1:pool_11.events};}();};
-  var customButton_2 = F3(function(up_12, hover_13, down_14){
+      var pool_12 = N.buttons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A2(pool_12.button, {ctor:"Tuple0"}, txt_11), _1:pool_12.events};}();};
+  var customButton_2 = F3(function(up_13, hover_14, down_15){
     return function(){
-      var pool_15 = N.customButtons({ctor:"Tuple0"});
-      return {ctor:"Tuple2", _0:A4(pool_15.button, {ctor:"Tuple0"}, up_12, hover_13, down_14), _1:pool_15.events};}();});
-  var checkbox_3 = function(b_16){
+      var pool_16 = N.customButtons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A4(pool_16.button, {ctor:"Tuple0"}, up_13, hover_14, down_15), _1:pool_16.events};}();});
+  var checkbox_3 = function(b_17){
     return function(){
-      var cbs_17 = N.checkboxes(b_16);
-      return {ctor:"Tuple2", _0:A2(lift, cbs_17.box(id_0), cbs_17.events), _1:cbs_17.events};}();};
-  var FieldState_4 = F3(function(string_18, selectionStart_19, selectionEnd_20){
+      var cbs_18 = N.checkboxes(b_17);
+      return {ctor:"Tuple2", _0:A2(lift, cbs_18.box(id_0), cbs_18.events), _1:cbs_18.events};}();};
+  var FieldState_4 = F3(function(string_19, selectionStart_20, selectionEnd_21){
     return {
       _:{
       },
-      selectionEnd:selectionEnd_20,
-      selectionStart:selectionStart_19,
-      string:string_18};});
-  var field_6 = function(placeHolder_21){
+      selectionEnd:selectionEnd_21,
+      selectionStart:selectionStart_20,
+      string:string_19};});
+  var field_6 = function(placeHolder_22){
     return function(){
-      var tfs_22 = N.fields(emptyFieldState_5);
-      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_22.field, id_0, placeHolder_21), tfs_22.events), _1:A2(lift, function(__23){
-        return __23.string;}, tfs_22.events)};}();};
-  var password_7 = function(placeHolder_24){
+      var tfs_23 = N.fields(emptyFieldState_5);
+      var changes_24 = dropRepeats(tfs_23.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_23.field, id_0, placeHolder_22), changes_24), _1:dropRepeats(A2(lift, function(__25){
+        return __25.string;}, changes_24))};}();};
+  var password_7 = function(placeHolder_26){
     return function(){
-      var tfs_25 = N.passwords(emptyFieldState_5);
-      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_25.field, id_0, placeHolder_24), tfs_25.events), _1:A2(lift, function(__26){
-        return __26.string;}, tfs_25.events)};}();};
-  var email_8 = function(placeHolder_27){
+      var tfs_27 = N.passwords(emptyFieldState_5);
+      var changes_28 = dropRepeats(tfs_27.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_27.field, id_0, placeHolder_26), changes_28), _1:dropRepeats(A2(lift, function(__29){
+        return __29.string;}, changes_28))};}();};
+  var email_8 = function(placeHolder_30){
     return function(){
-      var tfs_28 = N.emails(emptyFieldState_5);
-      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_28.field, id_0, placeHolder_27), tfs_28.events), _1:A2(lift, function(__29){
-        return __29.string;}, tfs_28.events)};}();};
+      var tfs_31 = N.emails(emptyFieldState_5);
+      var changes_32 = dropRepeats(tfs_31.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_31.field, id_0, placeHolder_30), changes_32), _1:dropRepeats(A2(lift, function(__33){
+        return __33.string;}, changes_32))};}();};
+  var stringDropDown_9 = function(strs_34){
+    return N.dropDown(A2(List.map, function(s_35){
+      return {ctor:"Tuple2", _0:s_35, _1:s_35};}, strs_34));};
   var emptyFieldState_5 = {
     _:{
     },
@@ -3727,7 +3773,8 @@ Elm.Graphics.Input = function(elm){
   _.emptyFieldState = emptyFieldState_5;
   _.field = field_6;
   _.password = password_7;
-  _.email = email_8
+  _.email = email_8;
+  _.stringDropDown = stringDropDown_9
   elm.Graphics = elm.Graphics||{};
   return elm.Graphics.Input = _;
   };
