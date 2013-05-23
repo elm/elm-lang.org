@@ -1,5 +1,5 @@
 import Website.Skeleton (skeleton)
-import Website.ColorScheme
+import Website.ColorScheme (lightGrey)
 
 import JavaScript as JS
 import Window as Window
@@ -41,20 +41,16 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
 </h1>
 
-<span style="color:rgb(234,21,122)">
-*This post is temporarily out of order. Sorry for the inconvenience! It should be back up soon.*
-</span>
-
 |]
 
 quote1 = spacer 170 200 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;The unbridled use of the go to statement has an immediate consequence that it
 becomes terribly hard to find a meaningful set of coordinates in which to describe the process progress.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:right">[Edsger Dijkstra][goto]</div>
+<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
 
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
 
@@ -62,12 +58,12 @@ becomes terribly hard to find a meaningful set of coordinates in which to descri
 
 quote2 = spacer 170 40 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;For a number of years I have been familiar with the observation that the quality
 of programmers is a decreasing function of the density of go to statements in the programs they produce.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:right">[Edsger Dijkstra][goto]</div>
+<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
 
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
 
@@ -154,27 +150,21 @@ this more concrete. The following example will explain the current state
 of affairs and fully explain how to create readable, responsive code that is
 entirely free of callbacks.
 
-<span style="color:rgb(234,21,122)">
-*The rest of this post should be back soon!*
-</span>
-
-
 |]
 
-{--
 funcs = spacer 170 300 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 **Function Specifications**
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `requestTag` which turns a tag &ndash; such as `"badger"` &ndash; into
 a valid Flickr API request. These requests will return a JSON object
 containing a list of `"badger"` photos.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `requestOneFrom` takes a JSON object of photos and turns it into a request
 for just *one* photo. This request will return a JSON object of size options.
 Flickr is basically asking, &ldquo;Do you want low resolution? Original quality?
@@ -182,13 +172,13 @@ Flickr is basically asking, &ldquo;Do you want low resolution? Original quality?
 occured with the previous request.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `sizesToPhoto` turns a JSON object of sizes options into an actual image that
 we can use. Again, this function handles any errors that might have occured with
 the previous request.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `drawOnScreen` puts the image on screen for the user to see. You do not need to
 mess around with the DOM in [Elm](/), so this function only gets used in the JS code.
 </div>
@@ -418,7 +408,7 @@ sizesToPhoto sizeOptions =
   in  case extract sizeOptions of
         Just sizes -> getImg (findArray "size" (findObject "sizes" sizes))
         Nothing -> "/grey.jpg"
--}
+--}
 
 outro = [markdown|
 
@@ -471,10 +461,9 @@ if you do not have any experience reading academic papers. You can also email
 
 |]
 
-
 (inputField, tags) = Input.field "Tag"
 
-code w = width w . centered . monospace . toText
+code = centered . monospace . toText
 box w e = container w 30 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
@@ -486,35 +475,27 @@ showResponse r =
           Success r -> "Success \"... " ++ format r ++ " ...\""
           Waiting -> "Waiting"
           Failure n _ -> "Failure " ++ show n ++ " \"...\"")
---}
 
-{--
-content w inputField tags response search =
-  let sideBySide big small = flow right [ width w big, spacer 30 100, small ]
-      codePair l r = pairing w (code l) (asText r)
+content inputField tags wid = -- tags response search
+  let w = wid - 200
+      sideBySide big small = flow right [ width w big, spacer 30 100, small ]
       asyncElm = flow down . map (width w) <|
                  [ asyncElm1
-                 , container w (heightOf inputField + 4) middle inputField
-                 , spacer w 10
-                 , container w 20 middle (asText tags)
+                 , pairing w (color lightGrey inputField) (asText tags)
                  , asyncElm2
-                 , code w ("tagString = lift .string tags")
-                 , code w ("lift length tagString == " ++ show (length tags.string))
-                 , code w ("lift reverse tagString == " ++ show (reverse tags.string))
-                 --, codePair "lift requestTag tags" (requestTagSimple tags)
+                 , pairing w (code "lift length tags") (asText <| length tags)
+                 , pairing w (code "lift reverse tags") (asText <| reverse tags)
+                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
                  , asyncElm3
                  --, pairing w (code "send (lift requestTag tags)") (showResponse response)
                  , asyncElm4 ]
---}
-content wid =
-  let w = wid - 200
   in flow down
       [ width w intro
---      , sideBySide midtro1 quote1
---      , sideBySide midtro2 quote2
-{--      , sideBySide midtro3 funcs
+      , sideBySide midtro1 quote1
+      , sideBySide midtro2 quote2
+      , sideBySide midtro3 funcs
       , asyncElm
-      , container w (heightOf search) middle search
+--      , container w (heightOf search) middle search
       , width w outro
 --}
       ]
@@ -539,7 +520,7 @@ everything = blog <~ inputField
 main = lift2 skeleton everything Window.width
 --}
 
-main = skeleton content <~ Window.width
+main = lift2 skeleton (content <~ inputField ~ tags) Window.width
 
 titles = constant (JS.fromString "Escape from Callback Hell")
 foreign export jsevent "title"
