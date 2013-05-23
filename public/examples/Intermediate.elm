@@ -6,19 +6,20 @@ import Window
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
 intermediate = addFolder "Intermediate/"
-  [ ("Slide Show", "SlideShow")
-  , ("Turtle", "Turtle")
-  , ("Side-Scroller", "Mario")
+  [ ("Side-Scroller", "Mario")
   , ("Adventure", "Walk")
   , ("Pong", "Pong")
+  , ("Turtle", "Turtle")
+  , ("Slide Show", "SlideShow")
+  , ("Flickr Search", "Flickr")
   , ("Analog Clock", "Clock")
   , ("Diagrams", "Physics")
-  , ("Quick Animations", "Slide")
+  , ("Animations", "Slide")
   , ("Stamps", "Stamps")
-  , ("Pascal's Triangle", "PascalsTriangle")
-  , ("Fibonacci Tiles", "FibonacciTiles")
   , ("Web", "Web")
   , ("Circles", "Circles")
+  , ("Pascal's Triangle", "PascalsTriangle")
+  , ("Fibonacci Tiles", "FibonacciTiles")
   ]
 
 intro =  [markdown|
