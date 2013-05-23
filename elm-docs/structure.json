@@ -228,7 +228,8 @@
   , "description" : "See [the walkthrough on `Graphics.Input`](/) to get a better understanding of how this library works and why it is designed this way."
   , "sections" :
     [{"name":"One-way Inputs",
-      "values":["button","customButton","checkbox","field","email","password"]}
+      "values":["button","customButton","field","email","password",
+                "checkbox","dropDown","stringDropDown"]}
     ,{"name":"Input Groups: create and update inputs dynamically",
       "values":["buttons","customButtons","checkboxes","fields","FieldState","emptyFieldState"]}
     ]
