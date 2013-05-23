@@ -14,6 +14,7 @@ import Window
 -- asynchronous HTTP requests to Flickr, resulting in
 -- the URL of an image.
 
+getSources : Signal String -> Signal (Maybe String)
 getSources tag = let photos = Http.send (getTag <~ tag)
                      sizes  = Http.send (getOneFrom <~ photos)
                  in  sizesToSource <~ sizes
@@ -28,6 +29,7 @@ getSources tag = let photos = Http.send (getTag <~ tag)
 -- dimensions of the browser and an image. Results in a
 -- Search box and large image result that fills the screen.
 
+scene : (Int,Int) -> Element -> Maybe String -> Element
 scene (w,h) tagInput imgSrc =
     flow down
       [ container w 100 middle tagInput,
@@ -37,17 +39,12 @@ scene (w,h) tagInput imgSrc =
       ]
 
 
--- Pass in the current dimensions and image. Both inputs are
--- signals so they will update automatically.
-
-
---main = lift asText <| getSources (constant "hello")
+-- Pass in the current dimensions and image. All inputs are
+-- signals and will update automatically.
 
 main = scene <~ Window.dimensions
               ~ tagInput
               ~ getSources (dropRepeats tags)
-
---}
 
 
 
@@ -69,6 +66,7 @@ flickrRequest args =
 
 
 -- Turn a tag into an HTTP GET request.
+getTag : String -> Request String
 getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
@@ -79,7 +77,6 @@ toJson response =
       _ -> Nothing
 
 -- Take a list of photos and choose one, resulting in a request.
-getOneFrom : String -> Request
 getOneFrom photoList =
     case toJson photoList of
       Nothing -> Http.get ""

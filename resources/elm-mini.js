@@ -2119,7 +2119,7 @@ Elm.Native.Http = function(elm) {
     if (window.XMLHttpRequest) { request = new XMLHttpRequest(); }
     request.onreadystatechange = function(e) {
       if (request.readyState === 4) {
-        response.value = (request.status === 200 ?
+        response.value = (request.status >= 200 && request.status < 300 ?
         { ctor:'Success', _0:JS.toString(request.responseText) } :
         { ctor:'Failure', _0:request.status, _1:JS.toString(request.statusText) });
         setTimeout(function() { updateQueue(queue,responses); }, 0);
@@ -3527,150 +3527,157 @@ Elm.Char = function(elm){
 Elm.Automaton = function(elm){
   var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
   var $op = {};
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift, foldp = _.foldp;
   var Step_0 = function(a1){
     return {ctor:"Step", _0:a1};};
-  var run_1 = F3(function(_14000_12, base_13, inputs_14){
+  var run_1 = F3(function(_16000_12, base_13, inputs_14){
     return function(){ 
-    switch (_14000_12.ctor) {
+    switch (_16000_12.ctor) {
       case 'Step':
         return function(){
-          var step_16 = F2(function(a_17, _13000_18){
+          var step_16 = F2(function(a_17, _15000_18){
             return function(){ 
-            switch (_13000_18.ctor) {
+            switch (_15000_18.ctor) {
               case 'Tuple2':
-                switch (_13000_18._0.ctor) {
+                switch (_15000_18._0.ctor) {
                   case 'Step':
-                    return _13000_18._0._0(a_17);
+                    return _15000_18._0._0(a_17);
                 }break;
-            }_E.Case('Line 13, Column 28') }();});
-          return A2(lift, snd, A3(foldp, step_16, base_13, inputs_14));}();
-    }_E.Case('Line 13, Column 3') }();});
-  var step_2 = F2(function(a_20, _18000_21){
+            }_E.Case('Line 15, Column 32') }();});
+          return A2(lift, function(_0_21){
+            return function(){ 
+            switch (_0_21.ctor) {
+              case 'Tuple2':
+                return _0_21._1;
+            }_E.Case('Line 16, Column 23') }();}, A3(foldp, step_16, base_13, inputs_14));}();
+    }_E.Case('Line 15, Column 3') }();});
+  var step_2 = F2(function(a_24, _20000_25){
     return function(){ 
-    switch (_18000_21.ctor) {
+    switch (_20000_25.ctor) {
       case 'Step':
-        return _18000_21._0(a_20);
-    }_E.Case('Line 18, Column 19') }();});
-  $op['>>>'] = F2(function(f_23, g_24){
-    return Step_0(function(a_25){
+        return _20000_25._0(a_24);
+    }_E.Case('Line 20, Column 19') }();});
+  $op['>>>'] = F2(function(f_27, g_28){
+    return Step_0(function(a_29){
       return function(){
-        var _23000_26 = A2(step_2, a_25, f_23);
-        var f$_27 = function(){ 
-        switch (_23000_26.ctor) {
+        var _25000_30 = A2(step_2, a_29, f_27);
+        var f$_31 = function(){ 
+        switch (_25000_30.ctor) {
           case 'Tuple2':
-            return _23000_26._0;
-        }_E.Case('Line 23, Column 29') }();
-        var b_28 = function(){ 
-        switch (_23000_26.ctor) {
+            return _25000_30._0;
+        }_E.Case('Line 25, Column 29') }();
+        var b_32 = function(){ 
+        switch (_25000_30.ctor) {
           case 'Tuple2':
-            return _23000_26._1;
-        }_E.Case('Line 23, Column 29') }();
-        var _24000_29 = A2(step_2, b_28, g_24);
-        var g$_30 = function(){ 
-        switch (_24000_29.ctor) {
+            return _25000_30._1;
+        }_E.Case('Line 25, Column 29') }();
+        var _26000_33 = A2(step_2, b_32, g_28);
+        var g$_34 = function(){ 
+        switch (_26000_33.ctor) {
           case 'Tuple2':
-            return _24000_29._0;
-        }_E.Case('Line 24, Column 29') }();
-        var c_31 = function(){ 
-        switch (_24000_29.ctor) {
+            return _26000_33._0;
+        }_E.Case('Line 26, Column 29') }();
+        var c_35 = function(){ 
+        switch (_26000_33.ctor) {
           case 'Tuple2':
-            return _24000_29._1;
-        }_E.Case('Line 24, Column 29') }();
-        return {ctor:"Tuple2", _0:$op['>>>'](f$_27)(g$_30), _1:c_31};}();});});
-  $op['<<<'] = F2(function(g_40, f_41){
-    return $op['>>>'](f_41)(g_40);});
-  var combine_3 = function(autos_42){
-    return Step_0(function(a_43){
+            return _26000_33._1;
+        }_E.Case('Line 26, Column 29') }();
+        return {ctor:"Tuple2", _0:$op['>>>'](f$_31)(g$_34), _1:c_35};}();});});
+  $op['<<<'] = F2(function(g_44, f_45){
+    return $op['>>>'](f_45)(g_44);});
+  var combine_3 = function(autos_46){
+    return Step_0(function(a_47){
       return function(){
-        var _34000_44 = unzip(A2(map, step_2(a_43), autos_42));
-        var autos$_45 = function(){ 
-        switch (_34000_44.ctor) {
+        var _36000_48 = unzip(A2(map, step_2(a_47), autos_46));
+        var autos$_49 = function(){ 
+        switch (_36000_48.ctor) {
           case 'Tuple2':
-            return _34000_44._0;
-        }_E.Case('Line 34, Column 34') }();
-        var bs_46 = function(){ 
-        switch (_34000_44.ctor) {
+            return _36000_48._0;
+        }_E.Case('Line 36, Column 34') }();
+        var bs_50 = function(){ 
+        switch (_36000_48.ctor) {
           case 'Tuple2':
-            return _34000_44._1;
-        }_E.Case('Line 34, Column 34') }();
-        return {ctor:"Tuple2", _0:combine_3(autos$_45), _1:bs_46};}();});};
-  var pure_4 = function(f_51){
-    return Step_0(function(x_52){
-      return {ctor:"Tuple2", _0:pure_4(f_51), _1:f_51(x_52)};});};
-  var state_5 = F2(function(s_53, f_54){
-    return Step_0(function(x_55){
-      return function(){
-        var s$_56 = A2(f_54, x_55, s_53);
-        return {ctor:"Tuple2", _0:A2(state_5, s$_56, f_54), _1:s$_56};}();});});
-  var hiddenState_6 = F2(function(s_57, f_58){
+            return _36000_48._1;
+        }_E.Case('Line 36, Column 34') }();
+        return {ctor:"Tuple2", _0:combine_3(autos$_49), _1:bs_50};}();});};
+  var pure_4 = function(f_55){
+    return Step_0(function(x_56){
+      return {ctor:"Tuple2", _0:pure_4(f_55), _1:f_55(x_56)};});};
+  var state_5 = F2(function(s_57, f_58){
     return Step_0(function(x_59){
       return function(){
-        var _58000_60 = A2(f_58, x_59, s_57);
-        var s$_61 = function(){ 
-        switch (_58000_60.ctor) {
+        var s$_60 = A2(f_58, x_59, s_57);
+        return {ctor:"Tuple2", _0:A2(state_5, s$_60, f_58), _1:s$_60};}();});});
+  var hiddenState_6 = F2(function(s_61, f_62){
+    return Step_0(function(x_63){
+      return function(){
+        var _60000_64 = A2(f_62, x_63, s_61);
+        var s$_65 = function(){ 
+        switch (_60000_64.ctor) {
           case 'Tuple2':
-            return _58000_60._0;
-        }_E.Case('Line 58, Column 46') }();
-        var out_62 = function(){ 
-        switch (_58000_60.ctor) {
+            return _60000_64._0;
+        }_E.Case('Line 60, Column 46') }();
+        var out_66 = function(){ 
+        switch (_60000_64.ctor) {
           case 'Tuple2':
-            return _58000_60._1;
-        }_E.Case('Line 58, Column 46') }();
-        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_61, f_58), _1:out_62};}();});});
-  var enqueue_9 = F2(function(x_69, _67000_70){
+            return _60000_64._1;
+        }_E.Case('Line 60, Column 46') }();
+        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_65, f_62), _1:out_66};}();});});
+  var enqueue_9 = F2(function(x_73, _69000_74){
     return function(){ 
-    switch (_67000_70.ctor) {
+    switch (_69000_74.ctor) {
       case 'Tuple2':
-        return {ctor:"Tuple2", _0:_L.Cons(x_69,_67000_70._0), _1:_67000_70._1};
-    }_E.Case('Line 67, Column 22') }();});
-  var dequeue_10 = function(q_73){
+        return {ctor:"Tuple2", _0:_L.Cons(x_73,_69000_74._0), _1:_69000_74._1};
+    }_E.Case('Line 69, Column 22') }();});
+  var dequeue_10 = function(q_77){
     return function(){ 
-    switch (q_73.ctor) {
+    switch (q_77.ctor) {
       case 'Tuple2':
-        switch (q_73._0.ctor) {
+        switch (q_77._0.ctor) {
           case 'Nil':
-            switch (q_73._1.ctor) {
+            switch (q_77._1.ctor) {
               case 'Nil':
                 return Nothing;
             }break;
         }
-        switch (q_73._1.ctor) {
+        switch (q_77._1.ctor) {
           case 'Cons':
-            return Just({ctor:"Tuple2", _0:q_73._1._0, _1:{ctor:"Tuple2", _0:q_73._0, _1:q_73._1._1}});
+            return Just({ctor:"Tuple2", _0:q_77._1._0, _1:{ctor:"Tuple2", _0:q_77._0, _1:q_77._1._1}});
           case 'Nil':
-            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_73._0)});
+            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_77._0)});
         }break;
-    }_E.Case('Line 68, Column 13') }();};
-  var average_11 = function(k_78){
+    }_E.Case('Line 70, Column 13') }();};
+  var average_11 = function(k_82){
     return function(){
-      var step_79 = F2(function(n_81, _78000_82){
+      var step_83 = F2(function(n_85, _80000_86){
         return function(){ 
-        switch (_78000_82.ctor) {
+        switch (_80000_86.ctor) {
           case 'Tuple3':
-            return (_N.eq(_78000_82._1,k_78)?A2(stepFull_80, n_81, {ctor:"Tuple3", _0:_78000_82._0, _1:_78000_82._1, _2:_78000_82._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_81, _78000_82._0), _1:(1+_78000_82._1), _2:(_78000_82._2+n_81)}, _1:((_78000_82._2+n_81)/(1+_78000_82._1))});
-        }_E.Case('Line 77, Column 11') }();});
-      var stepFull_80 = F2(function(n_86, _84000_87){
+            return (_N.eq(_80000_86._1,k_82)?A2(stepFull_84, n_85, {ctor:"Tuple3", _0:_80000_86._0, _1:_80000_86._1, _2:_80000_86._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_85, _80000_86._0), _1:(1+_80000_86._1), _2:(_80000_86._2+n_85)}, _1:((_80000_86._2+n_85)/(1+_80000_86._1))});
+        }_E.Case('Line 79, Column 11') }();});
+      var stepFull_84 = F2(function(n_90, _86000_91){
         return function(){ 
-        switch (_84000_87.ctor) {
+        switch (_86000_91.ctor) {
           case 'Tuple3':
             return function(){ 
-            var case48 = dequeue_10(_84000_87._0);
-            switch (case48.ctor) {
+            var case51 = dequeue_10(_86000_91._0);
+            switch (case51.ctor) {
               case 'Just':
-                switch (case48._0.ctor) {
+                switch (case51._0.ctor) {
                   case 'Tuple2':
                     return function(){
-                      var sum$_93 = ((_84000_87._2+n_86)-case48._0._0);
-                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_86, case48._0._1), _1:_84000_87._1, _2:sum$_93}, _1:(sum$_93/_84000_87._1)};}();
+                      var sum$_97 = ((_86000_91._2+n_90)-case51._0._0);
+                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_90, case51._0._1), _1:_86000_91._1, _2:sum$_97}, _1:(sum$_97/_86000_91._1)};}();
                 }break;
               case 'Nothing':
-                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_84000_87._0, _1:_84000_87._1, _2:_84000_87._2}, _1:0};
-            }_E.Case('Line 80, Column 11') }();
-        }_E.Case('Line 80, Column 11') }();});
-      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_79);}();};
-  var count_7 = A2(state_5, 0, function(__67){
-    return function(c_68){
-      return (1+c_68);};});
+                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_86000_91._0, _1:_86000_91._1, _2:_86000_91._2}, _1:0};
+            }_E.Case('Line 82, Column 11') }();
+        }_E.Case('Line 82, Column 11') }();});
+      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_83);}();};
+  var count_7 = A2(state_5, 0, function(__71){
+    return function(c_72){
+      return (1+c_72);};});
   var empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
   elm.Native = elm.Native||{};
   var _ = elm.Native.Automaton||{};
@@ -3722,7 +3729,7 @@ Elm.Graphics.Input = function(elm){
   var customButton_2 = F3(function(up_13, hover_14, down_15){
     return function(){
       var pool_16 = N.customButtons({ctor:"Tuple0"});
-      return {ctor:"Tuple2", _0:A4(pool_16.button, {ctor:"Tuple0"}, up_13, hover_14, down_15), _1:pool_16.events};}();});
+      return {ctor:"Tuple2", _0:A4(pool_16.customButton, {ctor:"Tuple0"}, up_13, hover_14, down_15), _1:pool_16.events};}();});
   var checkbox_3 = function(b_17){
     return function(){
       var cbs_18 = N.checkboxes(b_17);

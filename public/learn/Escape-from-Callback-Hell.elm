@@ -1,11 +1,11 @@
 import Website.Skeleton (skeleton)
-import Website.ColorScheme (lightGrey)
+import Website.ColorScheme (lightGrey,mediumGrey)
 
 import JavaScript as JS
-import Window as Window
+import Window
 import Graphics.Input as Input
---import HTTP
---import JSON
+import Http
+import Json
 
 intro = [markdown|
 
@@ -363,52 +363,66 @@ of HTTP requests we make. The result looks like this:
 
 
 |]
-{-
-(tagInput',tags') = Input.field "Flickr Search"
 
-getPhotos tags =
-  let photoList  = send (lift requestTag tags)
-      photoSizes = send (lift requestOneFrom photoList)
-  in  lift sizesToPhoto photoSizes
+(tagInput,flickrTags) = Input.field "Flickr Search"
 
-scene img = flow down [ container 300  60 middle tagInput'
-                      , fittedImage 300 300 img ]
+getSources : Signal String -> Signal (Maybe String)
+getSources tag = let photos = Http.send (getTag <~ tag)
+                     sizes  = Http.send (getOneFrom <~ photos)
+                 in  sizesToSource <~ sizes
 
-flickrSearch = lift scene (getPhotos (dropRepeats tags'))
+scene : Element -> Maybe String -> Element
+scene tagInput imgSrc =
+    let img = case imgSrc of
+                Just src -> fittedImage 300 300 src
+                Nothing  -> color lightGrey (spacer 298 298)
+    in  flow down [ container 300 60 middle tagInput,
+                    color mediumGrey <| container 300 300 middle img ]
 
 
-flickrRequest =
+searchBox = scene <~ tagInput ~ getSources (dropRepeats flickrTags)
+
+
+{---------------------  Helper Functions  ---------------------}
+
+-- The standard parts of a Flickr API request.
+flickrRequest args =
   "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858"
+  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
 
-extract response =
-  case response of
-    Success str -> JSON.fromString str
-    _ -> empty
+-- Turn a tag into an HTTP GET request.
+getTag : String -> Request String
+getTag tag =
+    let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
+    in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
-requestTag tag =
-  if tag == "" then get "" else
-  get (concat [ flickrRequest
-              , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
+toJson response =
+    case response of
+      Success str -> Json.fromString str
+      _ -> Nothing
 
-requestOneFrom photoList =
-  let getPhotoID json = case findArray "photo" (findObject "photos" json) of
-                          JsonObject hd :: tl -> findString "id" hd
-                          _ -> ""
-      requestSizes id = if id == "" then "" else
-                        concat [ flickrRequest
-                               , "&method=flickr.photos.getSizes&photo_id=", id ]
-  in  get (requestSizes (getPhotoID (extract photoList)))
-
-sizesToPhoto sizeOptions =
-  let getImg sizes =
-          case drop 5 sizes of
-            JsonObject obj :: _ -> findString "source" obj
-            _ -> "/grey.jpg"
-  in  case extract sizeOptions of
-        Just sizes -> getImg (findArray "size" (findObject "sizes" sizes))
-        Nothing -> "/grey.jpg"
---}
+-- Take a list of photos and choose one, resulting in a request.
+getOneFrom photoList =
+    case toJson photoList of
+      Nothing -> Http.get ""
+      Just json ->
+          let photoRecord = JS.toRecord <| Json.toJSObject json
+          in  case photoRecord.photos.photo of
+                h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
+                []   -> Http.get ""
+                        
+-- Take some size options and choose one, resulting in a URL.
+sizesToSource : String -> Maybe String
+sizesToSource sizeOptions =
+    case toJson sizeOptions of
+      Nothing   -> Nothing
+      Just json ->
+          let sizesRecord = JS.toRecord <| Json.toJSObject json
+              sizes = sizesRecord.sizes.size
+          in  case reverse sizes of
+                _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
+                size :: _ -> Just size.source
+                _ -> Nothing
 
 outro = [markdown|
 
@@ -464,7 +478,7 @@ if you do not have any experience reading academic papers. You can also email
 (inputField, tags) = Input.field "Tag"
 
 code = centered . monospace . toText
-box w e = container w 30 middle e
+box w e = container w 40 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
@@ -476,18 +490,21 @@ showResponse r =
           Waiting -> "Waiting"
           Failure n _ -> "Failure " ++ show n ++ " \"...\"")
 
-content inputField tags wid = -- tags response search
+content inputField tags response search wid =
   let w = wid - 200
       sideBySide big small = flow right [ width w big, spacer 30 100, small ]
+      (iw,ih) = sizeOf inputField
+      input = color lightGrey <| container (iw+2) (ih+2) middle
+                              <| color white inputField
       asyncElm = flow down . map (width w) <|
                  [ asyncElm1
-                 , pairing w (color lightGrey inputField) (asText tags)
+                 , pairing w input (asText tags)
                  , asyncElm2
                  , pairing w (code "lift length tags") (asText <| length tags)
                  , pairing w (code "lift reverse tags") (asText <| reverse tags)
                  , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
                  , asyncElm3
-                 --, pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
                  , asyncElm4 ]
   in flow down
       [ width w intro
@@ -495,32 +512,16 @@ content inputField tags wid = -- tags response search
       , sideBySide midtro2 quote2
       , sideBySide midtro3 funcs
       , asyncElm
---      , container w (heightOf search) middle search
+      , container w (heightOf search) middle search
       , width w outro
---}
       ]
-{--
-defaultContent = content 600
 
-blog inputField tags response search w' = 
-    let w = w' - 200
-        c = if w' == 800 then defaultContent inputField tags response search
-                         else content w inputField tags response search
-    in  container w' (heightOf c) middle c
-
-requestTag' tag =
-  if tag == "" then "" else
-  concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
-  
-everything = blog <~ inputField
-                   ~ tags
-                   ~ (constant "" {-HTTP.sendGet (lift requestTag' tags)-})
-                   ~ (constant $ spacer 200 200 {-flickrSearch-})
+everything = content <~ inputField
+                      ~ tags
+                      ~ Http.send (getTag <~ tags)
+                      ~ searchBox
 
 main = lift2 skeleton everything Window.width
---}
-
-main = lift2 skeleton (content <~ inputField ~ tags) Window.width
 
 titles = constant (JS.fromString "Escape from Callback Hell")
 foreign export jsevent "title"
