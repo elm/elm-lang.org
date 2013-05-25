@@ -2888,7 +2888,7 @@ Elm.Either = function(elm){
         return f_11(e_13._0);
       case 'Right':
         return g_12(e_13._0);
-    }_E.Case('Line 15, Column 16') }();});
+    }_E.Case('Line 16, Column 16') }();});
   var isLeft_3 = function(e_16){
     return function(){ 
     switch (e_16.ctor) {
@@ -2916,7 +2916,7 @@ Elm.Either = function(elm){
         return _L.Cons(e_21._0,vs_22);
       case 'Right':
         return vs_22;
-    }_E.Case('Line 39, Column 5') }();});
+    }_E.Case('Line 40, Column 5') }();});
   var consRight_9 = F2(function(e_24, vs_25){
     return function(){ 
     switch (e_24.ctor) {
@@ -2924,19 +2924,19 @@ Elm.Either = function(elm){
         return vs_25;
       case 'Right':
         return _L.Cons(e_24._0,vs_25);
-    }_E.Case('Line 44, Column 5') }();});
-  var consEither_10 = F2(function(e_27, _51000_28){
+    }_E.Case('Line 45, Column 5') }();});
+  var consEither_10 = F2(function(e_27, _52000_28){
     return function(){ 
-    switch (_51000_28.ctor) {
+    switch (_52000_28.ctor) {
       case 'Tuple2':
         return function(){ 
         switch (e_27.ctor) {
           case 'Left':
-            return {ctor:"Tuple2", _0:_L.Cons(e_27._0,_51000_28._0), _1:_51000_28._1};
+            return {ctor:"Tuple2", _0:_L.Cons(e_27._0,_52000_28._0), _1:_52000_28._1};
           case 'Right':
-            return {ctor:"Tuple2", _0:_51000_28._0, _1:_L.Cons(e_27._0,_51000_28._1)};
-        }_E.Case('Line 49, Column 5') }();
-    }_E.Case('Line 49, Column 5') }();});
+            return {ctor:"Tuple2", _0:_52000_28._0, _1:_L.Cons(e_27._0,_52000_28._1)};
+        }_E.Case('Line 50, Column 5') }();
+    }_E.Case('Line 50, Column 5') }();});
   elm.Native = elm.Native||{};
   var _ = elm.Native.Either||{};
   _.$op = {};
@@ -3531,153 +3531,149 @@ Elm.Automaton = function(elm){
   var lift = _.lift, foldp = _.foldp;
   var Step_0 = function(a1){
     return {ctor:"Step", _0:a1};};
-  var run_1 = F3(function(_16000_12, base_13, inputs_14){
+  var run_1 = F3(function(auto_12, base_13, inputs_14){
+    return function(){
+      var step_15 = F2(function(a_16, _15000_17){
+        return function(){ 
+        switch (_15000_17.ctor) {
+          case 'Tuple2':
+            switch (_15000_17._0.ctor) {
+              case 'Step':
+                return _15000_17._0._0(a_16);
+            }break;
+        }_E.Case('Line 15, Column 28') }();});
+      return A2(lift, function(_0_19){
+        return function(){ 
+        switch (_0_19.ctor) {
+          case 'Tuple2':
+            return _0_19._1;
+        }_E.Case('Line 16, Column 23') }();}, A3(foldp, step_15, {ctor:"Tuple2", _0:auto_12, _1:base_13}, inputs_14));}();});
+  var step_2 = F2(function(a_22, _20000_23){
     return function(){ 
-    switch (_16000_12.ctor) {
+    switch (_20000_23.ctor) {
       case 'Step':
-        return function(){
-          var step_16 = F2(function(a_17, _15000_18){
-            return function(){ 
-            switch (_15000_18.ctor) {
-              case 'Tuple2':
-                switch (_15000_18._0.ctor) {
-                  case 'Step':
-                    return _15000_18._0._0(a_17);
-                }break;
-            }_E.Case('Line 15, Column 32') }();});
-          return A2(lift, function(_0_21){
-            return function(){ 
-            switch (_0_21.ctor) {
-              case 'Tuple2':
-                return _0_21._1;
-            }_E.Case('Line 16, Column 23') }();}, A3(foldp, step_16, base_13, inputs_14));}();
-    }_E.Case('Line 15, Column 3') }();});
-  var step_2 = F2(function(a_24, _20000_25){
-    return function(){ 
-    switch (_20000_25.ctor) {
-      case 'Step':
-        return _20000_25._0(a_24);
+        return _20000_23._0(a_22);
     }_E.Case('Line 20, Column 19') }();});
-  $op['>>>'] = F2(function(f_27, g_28){
-    return Step_0(function(a_29){
+  $op['>>>'] = F2(function(f_25, g_26){
+    return Step_0(function(a_27){
       return function(){
-        var _25000_30 = A2(step_2, a_29, f_27);
-        var f$_31 = function(){ 
-        switch (_25000_30.ctor) {
+        var _25000_28 = A2(step_2, a_27, f_25);
+        var f$_29 = function(){ 
+        switch (_25000_28.ctor) {
           case 'Tuple2':
-            return _25000_30._0;
+            return _25000_28._0;
         }_E.Case('Line 25, Column 29') }();
-        var b_32 = function(){ 
-        switch (_25000_30.ctor) {
+        var b_30 = function(){ 
+        switch (_25000_28.ctor) {
           case 'Tuple2':
-            return _25000_30._1;
+            return _25000_28._1;
         }_E.Case('Line 25, Column 29') }();
-        var _26000_33 = A2(step_2, b_32, g_28);
-        var g$_34 = function(){ 
-        switch (_26000_33.ctor) {
+        var _26000_31 = A2(step_2, b_30, g_26);
+        var g$_32 = function(){ 
+        switch (_26000_31.ctor) {
           case 'Tuple2':
-            return _26000_33._0;
+            return _26000_31._0;
         }_E.Case('Line 26, Column 29') }();
-        var c_35 = function(){ 
-        switch (_26000_33.ctor) {
+        var c_33 = function(){ 
+        switch (_26000_31.ctor) {
           case 'Tuple2':
-            return _26000_33._1;
+            return _26000_31._1;
         }_E.Case('Line 26, Column 29') }();
-        return {ctor:"Tuple2", _0:$op['>>>'](f$_31)(g$_34), _1:c_35};}();});});
-  $op['<<<'] = F2(function(g_44, f_45){
-    return $op['>>>'](f_45)(g_44);});
-  var combine_3 = function(autos_46){
-    return Step_0(function(a_47){
+        return {ctor:"Tuple2", _0:$op['>>>'](f$_29)(g$_32), _1:c_33};}();});});
+  $op['<<<'] = F2(function(g_42, f_43){
+    return $op['>>>'](f_43)(g_42);});
+  var combine_3 = function(autos_44){
+    return Step_0(function(a_45){
       return function(){
-        var _36000_48 = unzip(A2(map, step_2(a_47), autos_46));
-        var autos$_49 = function(){ 
-        switch (_36000_48.ctor) {
+        var _36000_46 = unzip(A2(map, step_2(a_45), autos_44));
+        var autos$_47 = function(){ 
+        switch (_36000_46.ctor) {
           case 'Tuple2':
-            return _36000_48._0;
+            return _36000_46._0;
         }_E.Case('Line 36, Column 34') }();
-        var bs_50 = function(){ 
-        switch (_36000_48.ctor) {
+        var bs_48 = function(){ 
+        switch (_36000_46.ctor) {
           case 'Tuple2':
-            return _36000_48._1;
+            return _36000_46._1;
         }_E.Case('Line 36, Column 34') }();
-        return {ctor:"Tuple2", _0:combine_3(autos$_49), _1:bs_50};}();});};
-  var pure_4 = function(f_55){
-    return Step_0(function(x_56){
-      return {ctor:"Tuple2", _0:pure_4(f_55), _1:f_55(x_56)};});};
-  var state_5 = F2(function(s_57, f_58){
-    return Step_0(function(x_59){
+        return {ctor:"Tuple2", _0:combine_3(autos$_47), _1:bs_48};}();});};
+  var pure_4 = function(f_53){
+    return Step_0(function(x_54){
+      return {ctor:"Tuple2", _0:pure_4(f_53), _1:f_53(x_54)};});};
+  var state_5 = F2(function(s_55, f_56){
+    return Step_0(function(x_57){
       return function(){
-        var s$_60 = A2(f_58, x_59, s_57);
-        return {ctor:"Tuple2", _0:A2(state_5, s$_60, f_58), _1:s$_60};}();});});
-  var hiddenState_6 = F2(function(s_61, f_62){
-    return Step_0(function(x_63){
+        var s$_58 = A2(f_56, x_57, s_55);
+        return {ctor:"Tuple2", _0:A2(state_5, s$_58, f_56), _1:s$_58};}();});});
+  var hiddenState_6 = F2(function(s_59, f_60){
+    return Step_0(function(x_61){
       return function(){
-        var _60000_64 = A2(f_62, x_63, s_61);
-        var s$_65 = function(){ 
-        switch (_60000_64.ctor) {
+        var _60000_62 = A2(f_60, x_61, s_59);
+        var s$_63 = function(){ 
+        switch (_60000_62.ctor) {
           case 'Tuple2':
-            return _60000_64._0;
+            return _60000_62._0;
         }_E.Case('Line 60, Column 46') }();
-        var out_66 = function(){ 
-        switch (_60000_64.ctor) {
+        var out_64 = function(){ 
+        switch (_60000_62.ctor) {
           case 'Tuple2':
-            return _60000_64._1;
+            return _60000_62._1;
         }_E.Case('Line 60, Column 46') }();
-        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_65, f_62), _1:out_66};}();});});
-  var enqueue_9 = F2(function(x_73, _69000_74){
+        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_63, f_60), _1:out_64};}();});});
+  var enqueue_9 = F2(function(x_71, _69000_72){
     return function(){ 
-    switch (_69000_74.ctor) {
+    switch (_69000_72.ctor) {
       case 'Tuple2':
-        return {ctor:"Tuple2", _0:_L.Cons(x_73,_69000_74._0), _1:_69000_74._1};
+        return {ctor:"Tuple2", _0:_L.Cons(x_71,_69000_72._0), _1:_69000_72._1};
     }_E.Case('Line 69, Column 22') }();});
-  var dequeue_10 = function(q_77){
+  var dequeue_10 = function(q_75){
     return function(){ 
-    switch (q_77.ctor) {
+    switch (q_75.ctor) {
       case 'Tuple2':
-        switch (q_77._0.ctor) {
+        switch (q_75._0.ctor) {
           case 'Nil':
-            switch (q_77._1.ctor) {
+            switch (q_75._1.ctor) {
               case 'Nil':
                 return Nothing;
             }break;
         }
-        switch (q_77._1.ctor) {
+        switch (q_75._1.ctor) {
           case 'Cons':
-            return Just({ctor:"Tuple2", _0:q_77._1._0, _1:{ctor:"Tuple2", _0:q_77._0, _1:q_77._1._1}});
+            return Just({ctor:"Tuple2", _0:q_75._1._0, _1:{ctor:"Tuple2", _0:q_75._0, _1:q_75._1._1}});
           case 'Nil':
-            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_77._0)});
+            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_75._0)});
         }break;
     }_E.Case('Line 70, Column 13') }();};
-  var average_11 = function(k_82){
+  var average_11 = function(k_80){
     return function(){
-      var step_83 = F2(function(n_85, _80000_86){
+      var step_81 = F2(function(n_83, _80000_84){
         return function(){ 
-        switch (_80000_86.ctor) {
+        switch (_80000_84.ctor) {
           case 'Tuple3':
-            return (_N.eq(_80000_86._1,k_82)?A2(stepFull_84, n_85, {ctor:"Tuple3", _0:_80000_86._0, _1:_80000_86._1, _2:_80000_86._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_85, _80000_86._0), _1:(1+_80000_86._1), _2:(_80000_86._2+n_85)}, _1:((_80000_86._2+n_85)/(1+_80000_86._1))});
+            return (_N.eq(_80000_84._1,k_80)?A2(stepFull_82, n_83, {ctor:"Tuple3", _0:_80000_84._0, _1:_80000_84._1, _2:_80000_84._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_83, _80000_84._0), _1:(1+_80000_84._1), _2:(_80000_84._2+n_83)}, _1:((_80000_84._2+n_83)/(1+_80000_84._1))});
         }_E.Case('Line 79, Column 11') }();});
-      var stepFull_84 = F2(function(n_90, _86000_91){
+      var stepFull_82 = F2(function(n_88, _86000_89){
         return function(){ 
-        switch (_86000_91.ctor) {
+        switch (_86000_89.ctor) {
           case 'Tuple3':
             return function(){ 
-            var case51 = dequeue_10(_86000_91._0);
-            switch (case51.ctor) {
+            var case49 = dequeue_10(_86000_89._0);
+            switch (case49.ctor) {
               case 'Just':
-                switch (case51._0.ctor) {
+                switch (case49._0.ctor) {
                   case 'Tuple2':
                     return function(){
-                      var sum$_97 = ((_86000_91._2+n_90)-case51._0._0);
-                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_90, case51._0._1), _1:_86000_91._1, _2:sum$_97}, _1:(sum$_97/_86000_91._1)};}();
+                      var sum$_95 = ((_86000_89._2+n_88)-case49._0._0);
+                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_88, case49._0._1), _1:_86000_89._1, _2:sum$_95}, _1:(sum$_95/_86000_89._1)};}();
                 }break;
               case 'Nothing':
-                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_86000_91._0, _1:_86000_91._1, _2:_86000_91._2}, _1:0};
+                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_86000_89._0, _1:_86000_89._1, _2:_86000_89._2}, _1:0};
             }_E.Case('Line 82, Column 11') }();
         }_E.Case('Line 82, Column 11') }();});
-      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_83);}();};
-  var count_7 = A2(state_5, 0, function(__71){
-    return function(c_72){
-      return (1+c_72);};});
+      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_81);}();};
+  var count_7 = A2(state_5, 0, function(__69){
+    return function(c_70){
+      return (1+c_70);};});
   var empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
   elm.Native = elm.Native||{};
   var _ = elm.Native.Automaton||{};
@@ -3810,276 +3806,279 @@ Elm.Graphics.Element = function(elm){
   var Fitted_20 = {ctor:"Fitted"};
   var Cropped_21 = function(a1){
     return {ctor:"Cropped", _0:a1};};
-  var P_25 = {ctor:"P"};
-  var Z_26 = {ctor:"Z"};
-  var N_27 = {ctor:"N"};
-  var Absolute_28 = function(a1){
+  var Tiled_22 = {ctor:"Tiled"};
+  var P_27 = {ctor:"P"};
+  var Z_28 = {ctor:"Z"};
+  var N_29 = {ctor:"N"};
+  var Absolute_30 = function(a1){
     return {ctor:"Absolute", _0:a1};};
-  var Relative_29 = function(a1){
+  var Relative_31 = function(a1){
     return {ctor:"Relative", _0:a1};};
-  var DUp_33 = {ctor:"DUp"};
-  var DDown_34 = {ctor:"DDown"};
-  var DLeft_35 = {ctor:"DLeft"};
-  var DRight_36 = {ctor:"DRight"};
-  var DIn_37 = {ctor:"DIn"};
-  var DOut_38 = {ctor:"DOut"};
-  var Properties_0 = F7(function(id_70, width_71, height_72, opacity_73, color_74, href_75, tag_76){
+  var DUp_35 = {ctor:"DUp"};
+  var DDown_36 = {ctor:"DDown"};
+  var DLeft_37 = {ctor:"DLeft"};
+  var DRight_38 = {ctor:"DRight"};
+  var DIn_39 = {ctor:"DIn"};
+  var DOut_40 = {ctor:"DOut"};
+  var Properties_0 = F7(function(id_72, width_73, height_74, opacity_75, color_76, href_77, tag_78){
     return {
       _:{
       },
-      color:color_74,
-      height:height_72,
-      href:href_75,
-      id:id_70,
-      opacity:opacity_73,
-      tag:tag_76,
-      width:width_71};});
-  var Element_1 = F2(function(props_77, element_78){
+      color:color_76,
+      height:height_74,
+      href:href_77,
+      id:id_72,
+      opacity:opacity_75,
+      tag:tag_78,
+      width:width_73};});
+  var Element_1 = F2(function(props_79, element_80){
     return {
       _:{
       },
-      element:element_78,
-      props:props_77};});
-  var widthOf_2 = function(e_79){
-    return e_79.props.width;};
-  var heightOf_3 = function(e_80){
-    return e_80.props.height;};
-  var sizeOf_4 = function(e_81){
-    return {ctor:"Tuple2", _0:e_81.props.width, _1:e_81.props.height};};
-  var width_5 = F2(function(nw_82, e_83){
+      element:element_80,
+      props:props_79};});
+  var widthOf_2 = function(e_81){
+    return e_81.props.width;};
+  var heightOf_3 = function(e_82){
+    return e_82.props.height;};
+  var sizeOf_4 = function(e_83){
+    return {ctor:"Tuple2", _0:e_83.props.width, _1:e_83.props.height};};
+  var width_5 = F2(function(nw_84, e_85){
     return function(){
-      var p_84 = e_83.props;
-      var props_85 = function(){ 
-      var case0 = e_83.element;
+      var p_86 = e_85.props;
+      var props_87 = function(){ 
+      var case0 = e_85.element;
       switch (case0.ctor) {
         case 'Image':
-          return _N.replace([['height',((case0._2/case0._1)*nw_82)]], p_84);
+          return _N.replace([['height',((case0._2/case0._1)*nw_84)]], p_86);
         case 'RawHtml':
           return _N.replace([['height',function(){
-            var _50000_89 = A2(htmlHeight, nw_82, case0._0);
-            var w_90 = function(){ 
-            switch (_50000_89.ctor) {
+            var _50000_91 = A2(htmlHeight, nw_84, case0._0);
+            var w_92 = function(){ 
+            switch (_50000_91.ctor) {
               case 'Tuple2':
-                return _50000_89._0;
+                return _50000_91._0;
             }_E.Case('Line 50, Column 71') }();
-            var h_91 = function(){ 
-            switch (_50000_89.ctor) {
+            var h_93 = function(){ 
+            switch (_50000_91.ctor) {
               case 'Tuple2':
-                return _50000_89._1;
+                return _50000_91._1;
             }_E.Case('Line 50, Column 71') }();
-            return h_91;}()]], p_84);
+            return h_93;}()]], p_86);
       }
-      return p_84; }();
+      return p_86; }();
       return {
         _:{
         },
-        element:e_83.element,
-        props:_N.replace([['width',nw_82]], props_85)};}();});
-  var height_6 = F2(function(nh_96, e_97){
+        element:e_85.element,
+        props:_N.replace([['width',nw_84]], props_87)};}();});
+  var height_6 = F2(function(nh_98, e_99){
     return function(){
-      var p_98 = e_97.props;
-      var props_99 = function(){ 
-      var case12 = e_97.element;
+      var p_100 = e_99.props;
+      var props_101 = function(){ 
+      var case12 = e_99.element;
       switch (case12.ctor) {
         case 'Image':
-          return _N.replace([['width',((case12._1/case12._2)*nh_96)]], p_98);
+          return _N.replace([['width',((case12._1/case12._2)*nh_98)]], p_100);
       }
-      return p_98; }();
+      return p_100; }();
       return {
         _:{
         },
-        element:e_97.element,
-        props:_N.replace([['height',nh_96]], p_98)};}();});
-  var opacity_7 = F2(function(o_102, e_103){
+        element:e_99.element,
+        props:_N.replace([['height',nh_98]], p_100)};}();});
+  var opacity_7 = F2(function(o_104, e_105){
     return function(){
-      var p_104 = e_103.props;
+      var p_106 = e_105.props;
       return {
         _:{
         },
-        element:e_103.element,
-        props:_N.replace([['opacity',o_102]], p_104)};}();});
-  var color_8 = F2(function(c_105, e_106){
+        element:e_105.element,
+        props:_N.replace([['opacity',o_104]], p_106)};}();});
+  var color_8 = F2(function(c_107, e_108){
     return function(){
-      var p_107 = e_106.props;
+      var p_109 = e_108.props;
       return {
         _:{
         },
-        element:e_106.element,
-        props:_N.replace([['color',Just(c_105)]], p_107)};}();});
-  var tag_9 = F2(function(name_108, e_109){
+        element:e_108.element,
+        props:_N.replace([['color',Just(c_107)]], p_109)};}();});
+  var tag_9 = F2(function(name_110, e_111){
     return function(){
-      var p_110 = e_109.props;
+      var p_112 = e_111.props;
       return {
         _:{
         },
-        element:e_109.element,
-        props:_N.replace([['tag',JS.fromString(name_108)]], p_110)};}();});
-  var link_10 = F2(function(href_111, e_112){
+        element:e_111.element,
+        props:_N.replace([['tag',JS.fromString(name_110)]], p_112)};}();});
+  var link_10 = F2(function(href_113, e_114){
     return function(){
-      var p_113 = e_112.props;
+      var p_115 = e_114.props;
       return {
         _:{
         },
-        element:e_112.element,
-        props:_N.replace([['href',JS.fromString(href_111)]], p_113)};}();});
-  var newElement_12 = F3(function(w_114, h_115, e_116){
+        element:e_114.element,
+        props:_N.replace([['href',JS.fromString(href_113)]], p_115)};}();});
+  var newElement_12 = F3(function(w_116, h_117, e_118){
     return {
       _:{
       },
-      element:e_116,
-      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_114, h_115, 1, Nothing, emptyStr_11, emptyStr_11)};});
-  var image_22 = F3(function(w_117, h_118, src_119){
-    return A3(newElement_12, w_117, h_118, A4(Image_13, Plain_19, w_117, h_118, JS.fromString(src_119)));});
-  var fittedImage_23 = F3(function(w_120, h_121, src_122){
-    return A3(newElement_12, w_120, h_121, A4(Image_13, Fitted_20, w_120, h_121, JS.fromString(src_122)));});
-  var croppedImage_24 = F4(function(w_123, h_124, pos_125, src_126){
-    return A3(newElement_12, w_123, h_124, A4(Image_13, Cropped_21(pos_125), w_123, h_124, JS.fromString(src_126)));});
-  var Position_30 = F4(function(horizontal_127, vertical_128, x_129, y_130){
+      element:e_118,
+      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_116, h_117, 1, Nothing, emptyStr_11, emptyStr_11)};});
+  var image_23 = F3(function(w_119, h_120, src_121){
+    return A3(newElement_12, w_119, h_120, A4(Image_13, Plain_19, w_119, h_120, JS.fromString(src_121)));});
+  var fittedImage_24 = F3(function(w_122, h_123, src_124){
+    return A3(newElement_12, w_122, h_123, A4(Image_13, Fitted_20, w_122, h_123, JS.fromString(src_124)));});
+  var croppedImage_25 = F4(function(w_125, h_126, pos_127, src_128){
+    return A3(newElement_12, w_125, h_126, A4(Image_13, Cropped_21(pos_127), w_125, h_126, JS.fromString(src_128)));});
+  var tiledImage_26 = F3(function(w_129, h_130, src_131){
+    return A3(newElement_12, w_129, h_130, A4(Image_13, Tiled_22, w_129, h_130, JS.fromString(src_131)));});
+  var Position_32 = F4(function(horizontal_132, vertical_133, x_134, y_135){
     return {
       _:{
       },
-      horizontal:horizontal_127,
-      vertical:vertical_128,
-      x:x_129,
-      y:y_130};});
-  var container_31 = F4(function(w_131, h_132, pos_133, e_134){
-    return A3(newElement_12, w_131, h_132, A2(Container_14, pos_133, e_134));});
-  var spacer_32 = F2(function(w_135, h_136){
-    return A3(newElement_12, w_135, h_136, Spacer_16);});
-  var flow_39 = F2(function(dir_137, es_138){
+      horizontal:horizontal_132,
+      vertical:vertical_133,
+      x:x_134,
+      y:y_135};});
+  var container_33 = F4(function(w_136, h_137, pos_138, e_139){
+    return A3(newElement_12, w_136, h_137, A2(Container_14, pos_138, e_139));});
+  var spacer_34 = F2(function(w_140, h_141){
+    return A3(newElement_12, w_140, h_141, Spacer_16);});
+  var flow_41 = F2(function(dir_142, es_143){
     return function(){
-      var ws_139 = A2(List.map, widthOf_2, es_138);
-      var hs_140 = A2(List.map, heightOf_3, es_138);
-      var newFlow_141 = F2(function(w_142, h_143){
-        return A3(newElement_12, w_142, h_143, A2(Flow_15, dir_137, es_138));});
-      return (_N.eq(es_138,_L.Nil)?A2(spacer_32, 0, 0):function(){ 
-      switch (dir_137.ctor) {
+      var ws_144 = A2(List.map, widthOf_2, es_143);
+      var hs_145 = A2(List.map, heightOf_3, es_143);
+      var newFlow_146 = F2(function(w_147, h_148){
+        return A3(newElement_12, w_147, h_148, A2(Flow_15, dir_142, es_143));});
+      return (_N.eq(es_143,_L.Nil)?A2(spacer_34, 0, 0):function(){ 
+      switch (dir_142.ctor) {
         case 'DDown':
-          return A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140));
+          return A2(newFlow_146, List.maximum(ws_144), List.sum(hs_145));
         case 'DIn':
-          return A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140));
+          return A2(newFlow_146, List.maximum(ws_144), List.maximum(hs_145));
         case 'DLeft':
-          return A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140));
+          return A2(newFlow_146, List.sum(ws_144), List.maximum(hs_145));
         case 'DOut':
-          return A2(newFlow_141, List.maximum(ws_139), List.maximum(hs_140));
+          return A2(newFlow_146, List.maximum(ws_144), List.maximum(hs_145));
         case 'DRight':
-          return A2(newFlow_141, List.sum(ws_139), List.maximum(hs_140));
+          return A2(newFlow_146, List.sum(ws_144), List.maximum(hs_145));
         case 'DUp':
-          return A2(newFlow_141, List.maximum(ws_139), List.sum(hs_140));
-      }_E.Case('Line 152, Column 3') }());}();});
-  var above_40 = F2(function(hi_144, lo_145){
-    return A3(newElement_12, A2(max, widthOf_2(hi_144), widthOf_2(lo_145)), (heightOf_3(hi_144)+heightOf_3(lo_145)), A2(Flow_15, DDown_34, _L.Cons(hi_144,_L.Cons(lo_145,_L.Nil))));});
-  var below_41 = F2(function(lo_146, hi_147){
-    return A3(newElement_12, A2(max, widthOf_2(hi_147), widthOf_2(lo_146)), (heightOf_3(hi_147)+heightOf_3(lo_146)), A2(Flow_15, DDown_34, _L.Cons(hi_147,_L.Cons(lo_146,_L.Nil))));});
-  var beside_42 = F2(function(lft_148, rht_149){
-    return A3(newElement_12, (widthOf_2(lft_148)+widthOf_2(rht_149)), A2(max, heightOf_3(lft_148), heightOf_3(rht_149)), A2(Flow_15, right_67, _L.Cons(lft_148,_L.Cons(rht_149,_L.Nil))));});
-  var layers_43 = function(es_150){
+          return A2(newFlow_146, List.maximum(ws_144), List.sum(hs_145));
+      }_E.Case('Line 156, Column 3') }());}();});
+  var above_42 = F2(function(hi_149, lo_150){
+    return A3(newElement_12, A2(max, widthOf_2(hi_149), widthOf_2(lo_150)), (heightOf_3(hi_149)+heightOf_3(lo_150)), A2(Flow_15, DDown_36, _L.Cons(hi_149,_L.Cons(lo_150,_L.Nil))));});
+  var below_43 = F2(function(lo_151, hi_152){
+    return A3(newElement_12, A2(max, widthOf_2(hi_152), widthOf_2(lo_151)), (heightOf_3(hi_152)+heightOf_3(lo_151)), A2(Flow_15, DDown_36, _L.Cons(hi_152,_L.Cons(lo_151,_L.Nil))));});
+  var beside_44 = F2(function(lft_153, rht_154){
+    return A3(newElement_12, (widthOf_2(lft_153)+widthOf_2(rht_154)), A2(max, heightOf_3(lft_153), heightOf_3(rht_154)), A2(Flow_15, right_69, _L.Cons(lft_153,_L.Cons(rht_154,_L.Nil))));});
+  var layers_45 = function(es_155){
     return function(){
-      var ws_151 = A2(List.map, widthOf_2, es_150);
-      var hs_152 = A2(List.map, heightOf_3, es_150);
-      return A3(newElement_12, List.maximum(ws_151), List.maximum(hs_152), A2(Flow_15, DOut_38, es_150));}();};
-  var middleAt_55 = F2(function(x_153, y_154){
+      var ws_156 = A2(List.map, widthOf_2, es_155);
+      var hs_157 = A2(List.map, heightOf_3, es_155);
+      return A3(newElement_12, List.maximum(ws_156), List.maximum(hs_157), A2(Flow_15, DOut_40, es_155));}();};
+  var middleAt_57 = F2(function(x_158, y_159){
     return {
       _:{
       },
-      horizontal:Z_26,
-      vertical:Z_26,
-      x:x_153,
-      y:y_154};});
-  var topLeftAt_56 = F2(function(x_155, y_156){
+      horizontal:Z_28,
+      vertical:Z_28,
+      x:x_158,
+      y:y_159};});
+  var topLeftAt_58 = F2(function(x_160, y_161){
     return {
       _:{
       },
-      horizontal:N_27,
-      vertical:P_25,
-      x:x_155,
-      y:y_156};});
-  var topRightAt_57 = F2(function(x_157, y_158){
+      horizontal:N_29,
+      vertical:P_27,
+      x:x_160,
+      y:y_161};});
+  var topRightAt_59 = F2(function(x_162, y_163){
     return {
       _:{
       },
-      horizontal:P_25,
-      vertical:P_25,
-      x:x_157,
-      y:y_158};});
-  var bottomLeftAt_58 = F2(function(x_159, y_160){
+      horizontal:P_27,
+      vertical:P_27,
+      x:x_162,
+      y:y_163};});
+  var bottomLeftAt_60 = F2(function(x_164, y_165){
     return {
       _:{
       },
-      horizontal:N_27,
-      vertical:N_27,
-      x:x_159,
-      y:y_160};});
-  var bottomRightAt_59 = F2(function(x_161, y_162){
+      horizontal:N_29,
+      vertical:N_29,
+      x:x_164,
+      y:y_165};});
+  var bottomRightAt_61 = F2(function(x_166, y_167){
     return {
       _:{
       },
-      horizontal:P_25,
-      vertical:N_27,
-      x:x_161,
-      y:y_162};});
-  var midLeftAt_60 = F2(function(x_163, y_164){
+      horizontal:P_27,
+      vertical:N_29,
+      x:x_166,
+      y:y_167};});
+  var midLeftAt_62 = F2(function(x_168, y_169){
     return {
       _:{
       },
-      horizontal:N_27,
-      vertical:Z_26,
-      x:x_163,
-      y:y_164};});
-  var midRightAt_61 = F2(function(x_165, y_166){
+      horizontal:N_29,
+      vertical:Z_28,
+      x:x_168,
+      y:y_169};});
+  var midRightAt_63 = F2(function(x_170, y_171){
     return {
       _:{
       },
-      horizontal:P_25,
-      vertical:Z_26,
-      x:x_165,
-      y:y_166};});
-  var midTopAt_62 = F2(function(x_167, y_168){
+      horizontal:P_27,
+      vertical:Z_28,
+      x:x_170,
+      y:y_171};});
+  var midTopAt_64 = F2(function(x_172, y_173){
     return {
       _:{
       },
-      horizontal:Z_26,
-      vertical:P_25,
-      x:x_167,
-      y:y_168};});
-  var midBottomAt_63 = F2(function(x_169, y_170){
+      horizontal:Z_28,
+      vertical:P_27,
+      x:x_172,
+      y:y_173};});
+  var midBottomAt_65 = F2(function(x_174, y_175){
     return {
       _:{
       },
-      horizontal:Z_26,
-      vertical:N_27,
-      x:x_169,
-      y:y_170};});
+      horizontal:Z_28,
+      vertical:N_29,
+      x:x_174,
+      y:y_175};});
   var emptyStr_11 = JS.fromString(_str(''));
-  var absolute_44 = Absolute_28;
-  var relative_45 = Relative_29;
-  var middle_46 = {
+  var absolute_46 = Absolute_30;
+  var relative_47 = Relative_31;
+  var middle_48 = {
     _:{
     },
-    horizontal:Z_26,
-    vertical:Z_26,
-    x:Relative_29(0.5),
-    y:Relative_29(0.5)};
-  var topLeft_47 = {
+    horizontal:Z_28,
+    vertical:Z_28,
+    x:Relative_31(0.5),
+    y:Relative_31(0.5)};
+  var topLeft_49 = {
     _:{
     },
-    horizontal:N_27,
-    vertical:P_25,
-    x:Absolute_28(0),
-    y:Absolute_28(0)};
-  var topRight_48 = _N.replace([['horizontal',P_25]], topLeft_47);
-  var bottomLeft_49 = _N.replace([['vertical',N_27]], topLeft_47);
-  var bottomRight_50 = _N.replace([['horizontal',P_25]], bottomLeft_49);
-  var midLeft_51 = _N.replace([['horizontal',N_27],['x',Absolute_28(0)]], middle_46);
-  var midRight_52 = _N.replace([['horizontal',P_25]], midLeft_51);
-  var midTop_53 = _N.replace([['vertical',P_25],['y',Absolute_28(0)]], middle_46);
-  var midBottom_54 = _N.replace([['vertical',N_27]], midTop_53);
-  var up_64 = DUp_33;
-  var down_65 = DDown_34;
-  var left_66 = DLeft_35;
-  var right_67 = DRight_36;
-  var inward_68 = DIn_37;
-  var outward_69 = DOut_38;
+    horizontal:N_29,
+    vertical:P_27,
+    x:Absolute_30(0),
+    y:Absolute_30(0)};
+  var topRight_50 = _N.replace([['horizontal',P_27]], topLeft_49);
+  var bottomLeft_51 = _N.replace([['vertical',N_29]], topLeft_49);
+  var bottomRight_52 = _N.replace([['horizontal',P_27]], bottomLeft_51);
+  var midLeft_53 = _N.replace([['horizontal',N_29],['x',Absolute_30(0)]], middle_48);
+  var midRight_54 = _N.replace([['horizontal',P_27]], midLeft_53);
+  var midTop_55 = _N.replace([['vertical',P_27],['y',Absolute_30(0)]], middle_48);
+  var midBottom_56 = _N.replace([['vertical',N_29]], midTop_55);
+  var up_66 = DUp_35;
+  var down_67 = DDown_36;
+  var left_68 = DLeft_37;
+  var right_69 = DRight_38;
+  var inward_70 = DIn_39;
+  var outward_71 = DOut_40;
   elm.Native = elm.Native||{};
   elm.Native.Graphics = elm.Native.Graphics||{};
   var _ = elm.Native.Graphics.Element||{};
@@ -4094,42 +4093,43 @@ Elm.Graphics.Element = function(elm){
   _.tag = tag_9;
   _.link = link_10;
   _.newElement = newElement_12;
-  _.image = image_22;
-  _.fittedImage = fittedImage_23;
-  _.croppedImage = croppedImage_24;
-  _.container = container_31;
-  _.spacer = spacer_32;
-  _.flow = flow_39;
-  _.above = above_40;
-  _.below = below_41;
-  _.beside = beside_42;
-  _.layers = layers_43;
-  _.absolute = absolute_44;
-  _.relative = relative_45;
-  _.middle = middle_46;
-  _.topLeft = topLeft_47;
-  _.topRight = topRight_48;
-  _.bottomLeft = bottomLeft_49;
-  _.bottomRight = bottomRight_50;
-  _.midLeft = midLeft_51;
-  _.midRight = midRight_52;
-  _.midTop = midTop_53;
-  _.midBottom = midBottom_54;
-  _.middleAt = middleAt_55;
-  _.topLeftAt = topLeftAt_56;
-  _.topRightAt = topRightAt_57;
-  _.bottomLeftAt = bottomLeftAt_58;
-  _.bottomRightAt = bottomRightAt_59;
-  _.midLeftAt = midLeftAt_60;
-  _.midRightAt = midRightAt_61;
-  _.midTopAt = midTopAt_62;
-  _.midBottomAt = midBottomAt_63;
-  _.up = up_64;
-  _.down = down_65;
-  _.left = left_66;
-  _.right = right_67;
-  _.inward = inward_68;
-  _.outward = outward_69
+  _.image = image_23;
+  _.fittedImage = fittedImage_24;
+  _.croppedImage = croppedImage_25;
+  _.tiledImage = tiledImage_26;
+  _.container = container_33;
+  _.spacer = spacer_34;
+  _.flow = flow_41;
+  _.above = above_42;
+  _.below = below_43;
+  _.beside = beside_44;
+  _.layers = layers_45;
+  _.absolute = absolute_46;
+  _.relative = relative_47;
+  _.middle = middle_48;
+  _.topLeft = topLeft_49;
+  _.topRight = topRight_50;
+  _.bottomLeft = bottomLeft_51;
+  _.bottomRight = bottomRight_52;
+  _.midLeft = midLeft_53;
+  _.midRight = midRight_54;
+  _.midTop = midTop_55;
+  _.midBottom = midBottom_56;
+  _.middleAt = middleAt_57;
+  _.topLeftAt = topLeftAt_58;
+  _.topRightAt = topRightAt_59;
+  _.bottomLeftAt = bottomLeftAt_60;
+  _.bottomRightAt = bottomRightAt_61;
+  _.midLeftAt = midLeftAt_62;
+  _.midRightAt = midRightAt_63;
+  _.midTopAt = midTopAt_64;
+  _.midBottomAt = midBottomAt_65;
+  _.up = up_66;
+  _.down = down_67;
+  _.left = left_68;
+  _.right = right_69;
+  _.inward = inward_70;
+  _.outward = outward_71
   elm.Graphics = elm.Graphics||{};
   return elm.Graphics.Element = _;
   };
@@ -4243,27 +4243,30 @@ Elm.Graphics.Collage = function(elm){
   var polygon_38 = function(points_94){
     return points_94;};
   var rect_39 = F2(function(w_95, h_96){
-    return _L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(0-(h_96/2))},_L.Cons({ctor:"Tuple2", _0:(0-(w_95/2)), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(h_96/2)},_L.Cons({ctor:"Tuple2", _0:(w_95/2), _1:(0-(h_96/2))},_L.Nil))));});
-  var square_40 = function(n_97){
-    return A2(rect_39, w, h);};
-  var oval_41 = F2(function(w_98, h_99){
     return function(){
-      var n_100 = 50;
-      var t_101 = ((2*Math.PI)/n_100);
-      var hw_102 = (w_98/2);
-      var hh_103 = (h_99/2);
-      var f_104 = function(i_105){
-        return {ctor:"Tuple2", _0:(hw_102*Math.cos((t_101*i_105))), _1:(hh_103*Math.sin((t_101*i_105)))};};
-      return A2(List.map, f_104, _L.range(0,(n_100-1)));}();});
-  var circle_42 = function(r_106){
-    return A2(oval_41, (2*r_106), (2*r_106));};
-  var ngon_43 = F2(function(n_107, r_108){
+      var hw_97 = (w_95/2);
+      var hh_98 = (h_96/2);
+      return _L.Cons({ctor:"Tuple2", _0:(0-hw_97), _1:(0-hh_98)},_L.Cons({ctor:"Tuple2", _0:(0-hw_97), _1:hh_98},_L.Cons({ctor:"Tuple2", _0:hw_97, _1:hh_98},_L.Cons({ctor:"Tuple2", _0:hw_97, _1:(0-hh_98)},_L.Nil))));}();});
+  var square_40 = function(n_99){
+    return A2(rect_39, n_99, n_99);};
+  var oval_41 = F2(function(w_100, h_101){
     return function(){
-      var m_109 = toFloat(n_107);
-      var t_110 = ((2*Math.PI)/m_109);
-      var f_111 = function(i_112){
-        return {ctor:"Tuple2", _0:(r_108*Math.cos((t_110*i_112))), _1:(r_108*Math.sin((t_110*i_112)))};};
-      return A2(List.map, f_111, _L.range(0,(n_107-1)));}();});
+      var n_102 = 50;
+      var t_103 = ((2*Math.PI)/n_102);
+      var hw_104 = (w_100/2);
+      var hh_105 = (h_101/2);
+      var f_106 = function(i_107){
+        return {ctor:"Tuple2", _0:(hw_104*Math.cos((t_103*i_107))), _1:(hh_105*Math.sin((t_103*i_107)))};};
+      return A2(List.map, f_106, _L.range(0,(n_102-1)));}();});
+  var circle_42 = function(r_108){
+    return A2(oval_41, (2*r_108), (2*r_108));};
+  var ngon_43 = F2(function(n_109, r_110){
+    return function(){
+      var m_111 = toFloat(n_109);
+      var t_112 = ((2*Math.PI)/m_111);
+      var f_113 = function(i_114){
+        return {ctor:"Tuple2", _0:(r_110*Math.cos((t_112*i_114))), _1:(r_110*Math.sin((t_112*i_114)))};};
+      return A2(List.map, f_113, _L.range(0,(n_109-1)));}();});
   var defaultLine_11 = {
     _:{
     },
@@ -4572,6 +4575,7 @@ function image(props, img) {
     case 'Plain':   return plainImage(img._3);
     case 'Fitted':  return fittedImage(props.width, props.height, img._3);
     case 'Cropped': return croppedImage(img,props.width,props.height,img._3);
+    case 'Tiled':   return tiledImage(img._3);
     }
 }
 
@@ -4583,31 +4587,20 @@ function plainImage(src) {
     return img;
 }
 
+function tiledImage(src) {
+    var div = newElement('div');
+    div.style.backgroundImage = 'url(' + src + ')';
+    return div;
+}
+
 function fittedImage(w, h, src) {
-    var e = newElement('div');
-    e.style.position = "relative";
-    e.style.overflow = "hidden";
-
-    var img = newElement('img');
-    img.onload = function() {
-	img.style.position = 'absolute';
-	img.style.margin = 'auto';
-
-	var sw = w, sh = h;
-	if (w / h > this.width / this.height) {
-	    sh = Math.round(this.height * w / this.width);
-	} else {
-	    sw = Math.round(this.width * h / this.height);
-	}
-	img.style.width = sw + 'px';
-	img.style.height = sh + 'px';
-	img.style.left = ((w - sw) / 2) + 'px';
-	img.style.top = ((h - sh) / 2) + 'px';
-    };
-    img.src = src;
-    img.name = src;
-    e.appendChild(img);
-    return e;
+    var div = newElement('div');
+    div.style.background = 'url(' + src + ') no-repeat center center fixed';
+    div.style.webkitBackgroundSize = 'cover';
+    div.style.MozBackgroundSize = 'cover';
+    div.style.OBackgroundSize = 'cover';
+    div.style.backgroundSize = 'cover';
+    return div;
 }
 
 function croppedImage(elem, w, h, src) {
