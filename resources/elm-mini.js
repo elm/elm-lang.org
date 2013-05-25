@@ -3792,293 +3792,295 @@ Elm.Graphics.Element = function(elm){
   var _ = Elm.Color(elm); var Color = _;
   var _ = Elm.Maybe(elm); var Maybe = _;
   var Just = _.Just, Nothing = _.Nothing;
-  var Image_13 = F4(function(a1, a2, a3, a4){
+  var Image_14 = F4(function(a1, a2, a3, a4){
     return {ctor:"Image", _0:a1, _1:a2, _2:a3, _3:a4};});
-  var Container_14 = F2(function(a1, a2){
+  var Container_15 = F2(function(a1, a2){
     return {ctor:"Container", _0:a1, _1:a2};});
-  var Flow_15 = F2(function(a1, a2){
+  var Flow_16 = F2(function(a1, a2){
     return {ctor:"Flow", _0:a1, _1:a2};});
-  var Spacer_16 = {ctor:"Spacer"};
-  var RawHtml_17 = function(a1){
+  var Spacer_17 = {ctor:"Spacer"};
+  var RawHtml_18 = function(a1){
     return {ctor:"RawHtml", _0:a1};};
-  var Custom_18 = {ctor:"Custom"};
-  var Plain_19 = {ctor:"Plain"};
-  var Fitted_20 = {ctor:"Fitted"};
-  var Cropped_21 = function(a1){
+  var Custom_19 = {ctor:"Custom"};
+  var Plain_20 = {ctor:"Plain"};
+  var Fitted_21 = {ctor:"Fitted"};
+  var Cropped_22 = function(a1){
     return {ctor:"Cropped", _0:a1};};
-  var Tiled_22 = {ctor:"Tiled"};
-  var P_27 = {ctor:"P"};
-  var Z_28 = {ctor:"Z"};
-  var N_29 = {ctor:"N"};
-  var Absolute_30 = function(a1){
+  var Tiled_23 = {ctor:"Tiled"};
+  var P_28 = {ctor:"P"};
+  var Z_29 = {ctor:"Z"};
+  var N_30 = {ctor:"N"};
+  var Absolute_31 = function(a1){
     return {ctor:"Absolute", _0:a1};};
-  var Relative_31 = function(a1){
+  var Relative_32 = function(a1){
     return {ctor:"Relative", _0:a1};};
-  var DUp_35 = {ctor:"DUp"};
-  var DDown_36 = {ctor:"DDown"};
-  var DLeft_37 = {ctor:"DLeft"};
-  var DRight_38 = {ctor:"DRight"};
-  var DIn_39 = {ctor:"DIn"};
-  var DOut_40 = {ctor:"DOut"};
-  var Properties_0 = F7(function(id_72, width_73, height_74, opacity_75, color_76, href_77, tag_78){
+  var DUp_36 = {ctor:"DUp"};
+  var DDown_37 = {ctor:"DDown"};
+  var DLeft_38 = {ctor:"DLeft"};
+  var DRight_39 = {ctor:"DRight"};
+  var DIn_40 = {ctor:"DIn"};
+  var DOut_41 = {ctor:"DOut"};
+  var Properties_0 = F7(function(id_73, width_74, height_75, opacity_76, color_77, href_78, tag_79){
     return {
       _:{
       },
-      color:color_76,
-      height:height_74,
-      href:href_77,
-      id:id_72,
-      opacity:opacity_75,
-      tag:tag_78,
-      width:width_73};});
-  var Element_1 = F2(function(props_79, element_80){
+      color:color_77,
+      height:height_75,
+      href:href_78,
+      id:id_73,
+      opacity:opacity_76,
+      tag:tag_79,
+      width:width_74};});
+  var Element_1 = F2(function(props_80, element_81){
     return {
       _:{
       },
-      element:element_80,
-      props:props_79};});
-  var widthOf_2 = function(e_81){
-    return e_81.props.width;};
-  var heightOf_3 = function(e_82){
-    return e_82.props.height;};
-  var sizeOf_4 = function(e_83){
-    return {ctor:"Tuple2", _0:e_83.props.width, _1:e_83.props.height};};
-  var width_5 = F2(function(nw_84, e_85){
+      element:element_81,
+      props:props_80};});
+  var widthOf_2 = function(e_82){
+    return e_82.props.width;};
+  var heightOf_3 = function(e_83){
+    return e_83.props.height;};
+  var sizeOf_4 = function(e_84){
+    return {ctor:"Tuple2", _0:e_84.props.width, _1:e_84.props.height};};
+  var width_5 = F2(function(nw_85, e_86){
     return function(){
-      var p_86 = e_85.props;
-      var props_87 = function(){ 
-      var case0 = e_85.element;
+      var p_87 = e_86.props;
+      var props_88 = function(){ 
+      var case0 = e_86.element;
       switch (case0.ctor) {
         case 'Image':
-          return _N.replace([['height',((case0._2/case0._1)*nw_84)]], p_86);
+          return _N.replace([['height',((case0._2/case0._1)*nw_85)]], p_87);
         case 'RawHtml':
           return _N.replace([['height',function(){
-            var _50000_91 = A2(htmlHeight, nw_84, case0._0);
-            var w_92 = function(){ 
-            switch (_50000_91.ctor) {
+            var _50000_92 = A2(htmlHeight, nw_85, case0._0);
+            var w_93 = function(){ 
+            switch (_50000_92.ctor) {
               case 'Tuple2':
-                return _50000_91._0;
+                return _50000_92._0;
             }_E.Case('Line 50, Column 71') }();
-            var h_93 = function(){ 
-            switch (_50000_91.ctor) {
+            var h_94 = function(){ 
+            switch (_50000_92.ctor) {
               case 'Tuple2':
-                return _50000_91._1;
+                return _50000_92._1;
             }_E.Case('Line 50, Column 71') }();
-            return h_93;}()]], p_86);
+            return h_94;}()]], p_87);
       }
-      return p_86; }();
+      return p_87; }();
       return {
         _:{
         },
-        element:e_85.element,
-        props:_N.replace([['width',nw_84]], props_87)};}();});
-  var height_6 = F2(function(nh_98, e_99){
+        element:e_86.element,
+        props:_N.replace([['width',nw_85]], props_88)};}();});
+  var height_6 = F2(function(nh_99, e_100){
     return function(){
-      var p_100 = e_99.props;
-      var props_101 = function(){ 
-      var case12 = e_99.element;
+      var p_101 = e_100.props;
+      var props_102 = function(){ 
+      var case12 = e_100.element;
       switch (case12.ctor) {
         case 'Image':
-          return _N.replace([['width',((case12._1/case12._2)*nh_98)]], p_100);
+          return _N.replace([['width',((case12._1/case12._2)*nh_99)]], p_101);
       }
-      return p_100; }();
+      return p_101; }();
       return {
         _:{
         },
-        element:e_99.element,
-        props:_N.replace([['height',nh_98]], p_100)};}();});
-  var opacity_7 = F2(function(o_104, e_105){
+        element:e_100.element,
+        props:_N.replace([['height',nh_99]], p_101)};}();});
+  var size_7 = F3(function(w_105, h_106, e_107){
+    return A2(height_6, h_106, A2(width_5, w_105, e_107));});
+  var opacity_8 = F2(function(o_108, e_109){
     return function(){
-      var p_106 = e_105.props;
+      var p_110 = e_109.props;
       return {
         _:{
         },
-        element:e_105.element,
-        props:_N.replace([['opacity',o_104]], p_106)};}();});
-  var color_8 = F2(function(c_107, e_108){
+        element:e_109.element,
+        props:_N.replace([['opacity',o_108]], p_110)};}();});
+  var color_9 = F2(function(c_111, e_112){
     return function(){
-      var p_109 = e_108.props;
+      var p_113 = e_112.props;
       return {
         _:{
         },
-        element:e_108.element,
-        props:_N.replace([['color',Just(c_107)]], p_109)};}();});
-  var tag_9 = F2(function(name_110, e_111){
+        element:e_112.element,
+        props:_N.replace([['color',Just(c_111)]], p_113)};}();});
+  var tag_10 = F2(function(name_114, e_115){
     return function(){
-      var p_112 = e_111.props;
+      var p_116 = e_115.props;
       return {
         _:{
         },
-        element:e_111.element,
-        props:_N.replace([['tag',JS.fromString(name_110)]], p_112)};}();});
-  var link_10 = F2(function(href_113, e_114){
+        element:e_115.element,
+        props:_N.replace([['tag',JS.fromString(name_114)]], p_116)};}();});
+  var link_11 = F2(function(href_117, e_118){
     return function(){
-      var p_115 = e_114.props;
+      var p_119 = e_118.props;
       return {
         _:{
         },
-        element:e_114.element,
-        props:_N.replace([['href',JS.fromString(href_113)]], p_115)};}();});
-  var newElement_12 = F3(function(w_116, h_117, e_118){
+        element:e_118.element,
+        props:_N.replace([['href',JS.fromString(href_117)]], p_119)};}();});
+  var newElement_13 = F3(function(w_120, h_121, e_122){
     return {
       _:{
       },
-      element:e_118,
-      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_116, h_117, 1, Nothing, emptyStr_11, emptyStr_11)};});
-  var image_23 = F3(function(w_119, h_120, src_121){
-    return A3(newElement_12, w_119, h_120, A4(Image_13, Plain_19, w_119, h_120, JS.fromString(src_121)));});
-  var fittedImage_24 = F3(function(w_122, h_123, src_124){
-    return A3(newElement_12, w_122, h_123, A4(Image_13, Fitted_20, w_122, h_123, JS.fromString(src_124)));});
-  var croppedImage_25 = F4(function(w_125, h_126, pos_127, src_128){
-    return A3(newElement_12, w_125, h_126, A4(Image_13, Cropped_21(pos_127), w_125, h_126, JS.fromString(src_128)));});
-  var tiledImage_26 = F3(function(w_129, h_130, src_131){
-    return A3(newElement_12, w_129, h_130, A4(Image_13, Tiled_22, w_129, h_130, JS.fromString(src_131)));});
-  var Position_32 = F4(function(horizontal_132, vertical_133, x_134, y_135){
+      element:e_122,
+      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_120, h_121, 1, Nothing, emptyStr_12, emptyStr_12)};});
+  var image_24 = F3(function(w_123, h_124, src_125){
+    return A3(newElement_13, w_123, h_124, A4(Image_14, Plain_20, w_123, h_124, JS.fromString(src_125)));});
+  var fittedImage_25 = F3(function(w_126, h_127, src_128){
+    return A3(newElement_13, w_126, h_127, A4(Image_14, Fitted_21, w_126, h_127, JS.fromString(src_128)));});
+  var croppedImage_26 = F4(function(pos_129, w_130, h_131, src_132){
+    return A3(newElement_13, w_130, h_131, A4(Image_14, Cropped_22(pos_129), w_130, h_131, JS.fromString(src_132)));});
+  var tiledImage_27 = F3(function(w_133, h_134, src_135){
+    return A3(newElement_13, w_133, h_134, A4(Image_14, Tiled_23, w_133, h_134, JS.fromString(src_135)));});
+  var Position_33 = F4(function(horizontal_136, vertical_137, x_138, y_139){
     return {
       _:{
       },
-      horizontal:horizontal_132,
-      vertical:vertical_133,
-      x:x_134,
-      y:y_135};});
-  var container_33 = F4(function(w_136, h_137, pos_138, e_139){
-    return A3(newElement_12, w_136, h_137, A2(Container_14, pos_138, e_139));});
-  var spacer_34 = F2(function(w_140, h_141){
-    return A3(newElement_12, w_140, h_141, Spacer_16);});
-  var flow_41 = F2(function(dir_142, es_143){
+      horizontal:horizontal_136,
+      vertical:vertical_137,
+      x:x_138,
+      y:y_139};});
+  var container_34 = F4(function(w_140, h_141, pos_142, e_143){
+    return A3(newElement_13, w_140, h_141, A2(Container_15, pos_142, e_143));});
+  var spacer_35 = F2(function(w_144, h_145){
+    return A3(newElement_13, w_144, h_145, Spacer_17);});
+  var flow_42 = F2(function(dir_146, es_147){
     return function(){
-      var ws_144 = A2(List.map, widthOf_2, es_143);
-      var hs_145 = A2(List.map, heightOf_3, es_143);
-      var newFlow_146 = F2(function(w_147, h_148){
-        return A3(newElement_12, w_147, h_148, A2(Flow_15, dir_142, es_143));});
-      return (_N.eq(es_143,_L.Nil)?A2(spacer_34, 0, 0):function(){ 
-      switch (dir_142.ctor) {
+      var ws_148 = A2(List.map, widthOf_2, es_147);
+      var hs_149 = A2(List.map, heightOf_3, es_147);
+      var newFlow_150 = F2(function(w_151, h_152){
+        return A3(newElement_13, w_151, h_152, A2(Flow_16, dir_146, es_147));});
+      return (_N.eq(es_147,_L.Nil)?A2(spacer_35, 0, 0):function(){ 
+      switch (dir_146.ctor) {
         case 'DDown':
-          return A2(newFlow_146, List.maximum(ws_144), List.sum(hs_145));
+          return A2(newFlow_150, List.maximum(ws_148), List.sum(hs_149));
         case 'DIn':
-          return A2(newFlow_146, List.maximum(ws_144), List.maximum(hs_145));
+          return A2(newFlow_150, List.maximum(ws_148), List.maximum(hs_149));
         case 'DLeft':
-          return A2(newFlow_146, List.sum(ws_144), List.maximum(hs_145));
+          return A2(newFlow_150, List.sum(ws_148), List.maximum(hs_149));
         case 'DOut':
-          return A2(newFlow_146, List.maximum(ws_144), List.maximum(hs_145));
+          return A2(newFlow_150, List.maximum(ws_148), List.maximum(hs_149));
         case 'DRight':
-          return A2(newFlow_146, List.sum(ws_144), List.maximum(hs_145));
+          return A2(newFlow_150, List.sum(ws_148), List.maximum(hs_149));
         case 'DUp':
-          return A2(newFlow_146, List.maximum(ws_144), List.sum(hs_145));
-      }_E.Case('Line 156, Column 3') }());}();});
-  var above_42 = F2(function(hi_149, lo_150){
-    return A3(newElement_12, A2(max, widthOf_2(hi_149), widthOf_2(lo_150)), (heightOf_3(hi_149)+heightOf_3(lo_150)), A2(Flow_15, DDown_36, _L.Cons(hi_149,_L.Cons(lo_150,_L.Nil))));});
-  var below_43 = F2(function(lo_151, hi_152){
-    return A3(newElement_12, A2(max, widthOf_2(hi_152), widthOf_2(lo_151)), (heightOf_3(hi_152)+heightOf_3(lo_151)), A2(Flow_15, DDown_36, _L.Cons(hi_152,_L.Cons(lo_151,_L.Nil))));});
-  var beside_44 = F2(function(lft_153, rht_154){
-    return A3(newElement_12, (widthOf_2(lft_153)+widthOf_2(rht_154)), A2(max, heightOf_3(lft_153), heightOf_3(rht_154)), A2(Flow_15, right_69, _L.Cons(lft_153,_L.Cons(rht_154,_L.Nil))));});
-  var layers_45 = function(es_155){
+          return A2(newFlow_150, List.maximum(ws_148), List.sum(hs_149));
+      }_E.Case('Line 160, Column 3') }());}();});
+  var above_43 = F2(function(hi_153, lo_154){
+    return A3(newElement_13, A2(max, widthOf_2(hi_153), widthOf_2(lo_154)), (heightOf_3(hi_153)+heightOf_3(lo_154)), A2(Flow_16, DDown_37, _L.Cons(hi_153,_L.Cons(lo_154,_L.Nil))));});
+  var below_44 = F2(function(lo_155, hi_156){
+    return A3(newElement_13, A2(max, widthOf_2(hi_156), widthOf_2(lo_155)), (heightOf_3(hi_156)+heightOf_3(lo_155)), A2(Flow_16, DDown_37, _L.Cons(hi_156,_L.Cons(lo_155,_L.Nil))));});
+  var beside_45 = F2(function(lft_157, rht_158){
+    return A3(newElement_13, (widthOf_2(lft_157)+widthOf_2(rht_158)), A2(max, heightOf_3(lft_157), heightOf_3(rht_158)), A2(Flow_16, right_70, _L.Cons(lft_157,_L.Cons(rht_158,_L.Nil))));});
+  var layers_46 = function(es_159){
     return function(){
-      var ws_156 = A2(List.map, widthOf_2, es_155);
-      var hs_157 = A2(List.map, heightOf_3, es_155);
-      return A3(newElement_12, List.maximum(ws_156), List.maximum(hs_157), A2(Flow_15, DOut_40, es_155));}();};
-  var middleAt_57 = F2(function(x_158, y_159){
+      var ws_160 = A2(List.map, widthOf_2, es_159);
+      var hs_161 = A2(List.map, heightOf_3, es_159);
+      return A3(newElement_13, List.maximum(ws_160), List.maximum(hs_161), A2(Flow_16, DOut_41, es_159));}();};
+  var middleAt_58 = F2(function(x_162, y_163){
     return {
       _:{
       },
-      horizontal:Z_28,
-      vertical:Z_28,
-      x:x_158,
-      y:y_159};});
-  var topLeftAt_58 = F2(function(x_160, y_161){
-    return {
-      _:{
-      },
-      horizontal:N_29,
-      vertical:P_27,
-      x:x_160,
-      y:y_161};});
-  var topRightAt_59 = F2(function(x_162, y_163){
-    return {
-      _:{
-      },
-      horizontal:P_27,
-      vertical:P_27,
+      horizontal:Z_29,
+      vertical:Z_29,
       x:x_162,
       y:y_163};});
-  var bottomLeftAt_60 = F2(function(x_164, y_165){
+  var topLeftAt_59 = F2(function(x_164, y_165){
     return {
       _:{
       },
-      horizontal:N_29,
-      vertical:N_29,
+      horizontal:N_30,
+      vertical:P_28,
       x:x_164,
       y:y_165};});
-  var bottomRightAt_61 = F2(function(x_166, y_167){
+  var topRightAt_60 = F2(function(x_166, y_167){
     return {
       _:{
       },
-      horizontal:P_27,
-      vertical:N_29,
+      horizontal:P_28,
+      vertical:P_28,
       x:x_166,
       y:y_167};});
-  var midLeftAt_62 = F2(function(x_168, y_169){
+  var bottomLeftAt_61 = F2(function(x_168, y_169){
     return {
       _:{
       },
-      horizontal:N_29,
-      vertical:Z_28,
+      horizontal:N_30,
+      vertical:N_30,
       x:x_168,
       y:y_169};});
-  var midRightAt_63 = F2(function(x_170, y_171){
+  var bottomRightAt_62 = F2(function(x_170, y_171){
     return {
       _:{
       },
-      horizontal:P_27,
-      vertical:Z_28,
+      horizontal:P_28,
+      vertical:N_30,
       x:x_170,
       y:y_171};});
-  var midTopAt_64 = F2(function(x_172, y_173){
+  var midLeftAt_63 = F2(function(x_172, y_173){
     return {
       _:{
       },
-      horizontal:Z_28,
-      vertical:P_27,
+      horizontal:N_30,
+      vertical:Z_29,
       x:x_172,
       y:y_173};});
-  var midBottomAt_65 = F2(function(x_174, y_175){
+  var midRightAt_64 = F2(function(x_174, y_175){
     return {
       _:{
       },
-      horizontal:Z_28,
-      vertical:N_29,
+      horizontal:P_28,
+      vertical:Z_29,
       x:x_174,
       y:y_175};});
-  var emptyStr_11 = JS.fromString(_str(''));
-  var absolute_46 = Absolute_30;
-  var relative_47 = Relative_31;
-  var middle_48 = {
+  var midTopAt_65 = F2(function(x_176, y_177){
+    return {
+      _:{
+      },
+      horizontal:Z_29,
+      vertical:P_28,
+      x:x_176,
+      y:y_177};});
+  var midBottomAt_66 = F2(function(x_178, y_179){
+    return {
+      _:{
+      },
+      horizontal:Z_29,
+      vertical:N_30,
+      x:x_178,
+      y:y_179};});
+  var emptyStr_12 = JS.fromString(_str(''));
+  var absolute_47 = Absolute_31;
+  var relative_48 = Relative_32;
+  var middle_49 = {
     _:{
     },
-    horizontal:Z_28,
-    vertical:Z_28,
-    x:Relative_31(0.5),
-    y:Relative_31(0.5)};
-  var topLeft_49 = {
+    horizontal:Z_29,
+    vertical:Z_29,
+    x:Relative_32(0.5),
+    y:Relative_32(0.5)};
+  var topLeft_50 = {
     _:{
     },
-    horizontal:N_29,
-    vertical:P_27,
-    x:Absolute_30(0),
-    y:Absolute_30(0)};
-  var topRight_50 = _N.replace([['horizontal',P_27]], topLeft_49);
-  var bottomLeft_51 = _N.replace([['vertical',N_29]], topLeft_49);
-  var bottomRight_52 = _N.replace([['horizontal',P_27]], bottomLeft_51);
-  var midLeft_53 = _N.replace([['horizontal',N_29],['x',Absolute_30(0)]], middle_48);
-  var midRight_54 = _N.replace([['horizontal',P_27]], midLeft_53);
-  var midTop_55 = _N.replace([['vertical',P_27],['y',Absolute_30(0)]], middle_48);
-  var midBottom_56 = _N.replace([['vertical',N_29]], midTop_55);
-  var up_66 = DUp_35;
-  var down_67 = DDown_36;
-  var left_68 = DLeft_37;
-  var right_69 = DRight_38;
-  var inward_70 = DIn_39;
-  var outward_71 = DOut_40;
+    horizontal:N_30,
+    vertical:P_28,
+    x:Absolute_31(0),
+    y:Absolute_31(0)};
+  var topRight_51 = _N.replace([['horizontal',P_28]], topLeft_50);
+  var bottomLeft_52 = _N.replace([['vertical',N_30]], topLeft_50);
+  var bottomRight_53 = _N.replace([['horizontal',P_28]], bottomLeft_52);
+  var midLeft_54 = _N.replace([['horizontal',N_30],['x',Absolute_31(0)]], middle_49);
+  var midRight_55 = _N.replace([['horizontal',P_28]], midLeft_54);
+  var midTop_56 = _N.replace([['vertical',P_28],['y',Absolute_31(0)]], middle_49);
+  var midBottom_57 = _N.replace([['vertical',N_30]], midTop_56);
+  var up_67 = DUp_36;
+  var down_68 = DDown_37;
+  var left_69 = DLeft_38;
+  var right_70 = DRight_39;
+  var inward_71 = DIn_40;
+  var outward_72 = DOut_41;
   elm.Native = elm.Native||{};
   elm.Native.Graphics = elm.Native.Graphics||{};
   var _ = elm.Native.Graphics.Element||{};
@@ -4088,48 +4090,49 @@ Elm.Graphics.Element = function(elm){
   _.sizeOf = sizeOf_4;
   _.width = width_5;
   _.height = height_6;
-  _.opacity = opacity_7;
-  _.color = color_8;
-  _.tag = tag_9;
-  _.link = link_10;
-  _.newElement = newElement_12;
-  _.image = image_23;
-  _.fittedImage = fittedImage_24;
-  _.croppedImage = croppedImage_25;
-  _.tiledImage = tiledImage_26;
-  _.container = container_33;
-  _.spacer = spacer_34;
-  _.flow = flow_41;
-  _.above = above_42;
-  _.below = below_43;
-  _.beside = beside_44;
-  _.layers = layers_45;
-  _.absolute = absolute_46;
-  _.relative = relative_47;
-  _.middle = middle_48;
-  _.topLeft = topLeft_49;
-  _.topRight = topRight_50;
-  _.bottomLeft = bottomLeft_51;
-  _.bottomRight = bottomRight_52;
-  _.midLeft = midLeft_53;
-  _.midRight = midRight_54;
-  _.midTop = midTop_55;
-  _.midBottom = midBottom_56;
-  _.middleAt = middleAt_57;
-  _.topLeftAt = topLeftAt_58;
-  _.topRightAt = topRightAt_59;
-  _.bottomLeftAt = bottomLeftAt_60;
-  _.bottomRightAt = bottomRightAt_61;
-  _.midLeftAt = midLeftAt_62;
-  _.midRightAt = midRightAt_63;
-  _.midTopAt = midTopAt_64;
-  _.midBottomAt = midBottomAt_65;
-  _.up = up_66;
-  _.down = down_67;
-  _.left = left_68;
-  _.right = right_69;
-  _.inward = inward_70;
-  _.outward = outward_71
+  _.size = size_7;
+  _.opacity = opacity_8;
+  _.color = color_9;
+  _.tag = tag_10;
+  _.link = link_11;
+  _.newElement = newElement_13;
+  _.image = image_24;
+  _.fittedImage = fittedImage_25;
+  _.croppedImage = croppedImage_26;
+  _.tiledImage = tiledImage_27;
+  _.container = container_34;
+  _.spacer = spacer_35;
+  _.flow = flow_42;
+  _.above = above_43;
+  _.below = below_44;
+  _.beside = beside_45;
+  _.layers = layers_46;
+  _.absolute = absolute_47;
+  _.relative = relative_48;
+  _.middle = middle_49;
+  _.topLeft = topLeft_50;
+  _.topRight = topRight_51;
+  _.bottomLeft = bottomLeft_52;
+  _.bottomRight = bottomRight_53;
+  _.midLeft = midLeft_54;
+  _.midRight = midRight_55;
+  _.midTop = midTop_56;
+  _.midBottom = midBottom_57;
+  _.middleAt = middleAt_58;
+  _.topLeftAt = topLeftAt_59;
+  _.topRightAt = topRightAt_60;
+  _.bottomLeftAt = bottomLeftAt_61;
+  _.bottomRightAt = bottomRightAt_62;
+  _.midLeftAt = midLeftAt_63;
+  _.midRightAt = midRightAt_64;
+  _.midTopAt = midTopAt_65;
+  _.midBottomAt = midBottomAt_66;
+  _.up = up_67;
+  _.down = down_68;
+  _.left = left_69;
+  _.right = right_70;
+  _.inward = inward_71;
+  _.outward = outward_72
   elm.Graphics = elm.Graphics||{};
   return elm.Graphics.Element = _;
   };
@@ -4595,7 +4598,7 @@ function tiledImage(src) {
 
 function fittedImage(w, h, src) {
     var div = newElement('div');
-    div.style.background = 'url(' + src + ') no-repeat center center fixed';
+    div.style.background = 'url(' + src + ') no-repeat center';
     div.style.webkitBackgroundSize = 'cover';
     div.style.MozBackgroundSize = 'cover';
     div.style.OBackgroundSize = 'cover';
@@ -4716,7 +4719,7 @@ function update(node, curr, next) {
         if (nextE._0 !== currE._0) node.innerHTML = nextE._0;
         break;
     case "Image":
-	if (nextE._0.ctor === 'Plain') {
+	if (nextE._0.ctor !== 'Plain') {
 	    if (nextE._3 !== currE._3) node.src = nextE._3;
 	} else if (!eq(nextE,currE) ||
 		   next.props.width !== curr.props.width ||
