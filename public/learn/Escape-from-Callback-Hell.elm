@@ -78,7 +78,7 @@ and run that too. Pretty soon you are jumping around the whole codebase.
 If you have worked with [AJAX][ajax] or [node.js][nodejs] or any other callback heavy
 framework, you have probably been to Callback Hell. Your whole application ends up
 being passed around as callbacks, making the code extremely difficult to read and
-maintain. The resulting tangled mess of code is often pejoritively called
+maintain. The resulting tangled mess of code is often pejoratively called
 [spaghetti code][spaghetti], a term borrowed from the days of `goto`.
 
   [ajax]: http://en.wikipedia.org/wiki/Ajax_(programming) "AJAX"
