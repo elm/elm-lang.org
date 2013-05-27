@@ -31,20 +31,20 @@ timeStep t obj = let {x,y,vx,vy} = obj
                  in  { obj | x <- clamp 0 areaW (x + t * vx) ,
                              y <- clamp 0 areaH (y + t * vy) }
 
-step time arrows run =
-  timeStep time . verbStep arrows . runStep run . velStep arrows
+step (time,arrows,run) obj =
+  timeStep time . verbStep arrows . runStep run . velStep arrows <| obj
 
 
 -- LINK
 delta = lift (flip (/) 20) (fps 25)
-steps = sampleOn delta (lift3 step delta Keyboard.arrows Keyboard.ctrl)
+input = sampleOn delta (lift3 (,,) delta Keyboard.arrows Keyboard.ctrl)
 
-main  = lift2 display Window.dimensions (foldp ($) obj steps)
+main  = lift2 display Window.dimensions (foldp step obj input)
 
 
 -- DISPLAY
 display (w,h) {x,y,verb,dir} =
-  container w h middle $ flow down
+  container w h middle <| flow down
     [ layers [ image areaW areaH "/imgs/desert.png"
              , let src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
                    pos = middleAt (absolute x) (absolute y)

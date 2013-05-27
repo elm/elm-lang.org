@@ -6,6 +6,6 @@ latestKey = let step curr prev = maybe prev Char.fromCode curr in
             foldp step '_' Keyboard.Raw.charPressed
 
 display chr =
-  plainText $ "Number of non-repeated key presses: " ++ show chr
+  plainText <| "Number of non-repeated key presses: " ++ show chr
 
 main = lift display (count (dropRepeats latestKey))

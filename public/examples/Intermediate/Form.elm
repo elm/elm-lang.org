@@ -9,7 +9,7 @@ import JavaScript
 isEmpty xs = case xs of { [] -> True ; _ -> False }
 
 getErrors first last email remail =
-  Maybe.justs $ map (\(err,msg) -> if err then Just msg else Nothing)
+  Maybe.justs <| map (\(err,msg) -> if err then Just msg else Nothing)
   [ (isEmpty first  , "First name required.")
   , (isEmpty last   , "Last name required.")
   , (isEmpty email  , "Must enter your email address.")
@@ -44,21 +44,21 @@ foreign export jsevent "elm_redirect"
 
 field txt fld =
   flow right
-    [ container 120 32 midRight $ plainText txt
-    , container 200 32 middle $ size 180 26 fld ]
+    [ container 120 32 midRight <| plainText txt
+    , container 200 32 middle <| size 180 26 fld ]
 
 showErrors presses errs =
   if presses == 0 || isEmpty errs then spacer 10 10 else
-    flow down $ map (text . Text.color red . toText) errs
+    flow down <| map (text . Text.color red . toText) errs
 
 form presses errs =
-  let entry = color (rgb 230 230 230) . flow down $
+  let entry = color (rgb 230 230 230) . flow down <|
                [ field "First Name:"     firstBox
                , field "Last Name:"      lastBox
                , field "Your Email:"     emailBox
                , field "Re-enter Email:" remailBox
                , showErrors presses errs
-               , container 310 40 midRight $ size 60 30 butn
+               , container 310 40 midRight <| size 60 30 butn
                ]
   in  container (widthOf entry + 60) (heightOf entry + 60) middle entry 
 

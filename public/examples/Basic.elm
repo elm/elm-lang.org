@@ -117,16 +117,16 @@ reactive = addFolder "Reactive/"
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
   flow right
-   [ width 130 (plainText $ "   " ++ title)
-   , text . join (bold . Text.color accent4 $ toText "  &middot;  ") $
+   [ width 130 (plainText <| "   " ++ title)
+   , text . join (bold . Text.color accent4 <| toText "  &middot;  ") <|
      map example links
    ]
 
 insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
-  flow down . insertSpace . intersperse (spacer 1 1) . map (width w) $
-    (text . bold $ toText name) :: map toLinks info
+  flow down . insertSpace . intersperse (spacer 1 1) . map (width w) <|
+    (text . bold <| toText name) :: map toLinks info
 
 words = [markdown|
 
@@ -145,6 +145,6 @@ content w =
   in  words :: map (subsection w) exs
 
 exampleSets w =
-  flow down . map (width w) . intersperse (plainText " ") $ content w
+  flow down . map (width w) . intersperse (plainText " ") <| content w
 
 main = skeleton exampleSets <~ Window.width

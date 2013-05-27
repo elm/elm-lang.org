@@ -14,8 +14,8 @@ arrow theta =
         x = w * 2/7
         y = h*3/11
     in  collage (round w) (round h)
-        [ filled c1 $ rect w h (w/2, h/2)
-        , rotate theta . filled c2 $
+        [ filled c1 <| rect w h (w/2, h/2)
+        , rotate theta . filled c2 <|
                  polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
         ]
 
@@ -37,7 +37,7 @@ index = lift2 (-) (countTrue rightClicked) (countTrue leftClicked)
 lightBox imgW imgH imgs =
   let disp = container (imgW `div` 2) imgH in
   let scene (w,h) index =
-       color c3 . container w h middle $ layers
+       color c3 . container w h middle <| layers
         [ fittedImage imgW imgH (safeIth index imgs)
         , disp midLeft leftArrow `beside` disp midRight rightArrow ]
   in  lift2 scene Window.dimensions index

@@ -89,12 +89,12 @@ and [JavaScript integration][3].
 linkify (name, src) =
     Text.toText "    " ++ Text.link ("docs/" ++ src) (Text.toText name)
 linkList (name, pairs) = 
-  flow down . intersperse (spacer 2 2) . map Text.text $
+  flow down . intersperse (spacer 2 2) . map Text.text <|
   Text.bold (Text.toText name) :: map linkify pairs
 
 makeCol w = width w . flow down . intersperse (spacer 10 20) . map linkList
 threeCol w l m r =
-    flow right $ map (makeCol (w `div` 3)) [l,m,r]
+    flow right <| map (makeCol (w `div` 3)) [l,m,r]
 
 col1 = [ general, containers ]
 col2 = [ signals, userInput, systemInput ]

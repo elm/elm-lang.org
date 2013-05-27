@@ -119,7 +119,7 @@ of events, display, and updates.
 
 entry w1 w2 v1 v2 = container w1 40 middle v1 `beside` container w2 40 middle v2
 example w1 w2 code =
-    lift (\info -> entry w1 w2 (text . monospace . toText $ code) (asText info))
+    lift (\info -> entry w1 w2 (text . monospace . toText <| code) (asText info))
 
 clickCount = count Mouse.clicks
 
@@ -144,14 +144,14 @@ examples2 =
 
 box exs =
   let putInBox exs = 
-        let eBox  = color white $ flow down exs
-            eBox' = flow right [ color accent2 $ spacer 2 (heightOf eBox)
+        let eBox  = color white <| flow down exs
+            eBox' = flow right [ color accent2 <| spacer 2 (heightOf eBox)
                                , eBox
-                               , color accent3 $ spacer 2 (heightOf eBox) ]
-        in  flow down [ color accent1 $ spacer (widthOf eBox') 2
+                               , color accent3 <| spacer 2 (heightOf eBox) ]
+        in  flow down [ color accent1 <| spacer (widthOf eBox') 2
                       , eBox'
-                      , color accent4 $ spacer (widthOf eBox') 2 ]
-  in  lift putInBox $ combine exs
+                      , color accent4 <| spacer (widthOf eBox') 2 ]
+  in  lift putInBox <| combine exs
 
 
 

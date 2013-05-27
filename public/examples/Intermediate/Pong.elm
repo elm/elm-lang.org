@@ -83,7 +83,7 @@ make obj shape = shape |> filled white
 
 display (w,h) {state,ball,playerL,playerR} =
   let scores = txt (Text.height 4) (show playerL.score ++ "  " ++ show playerR.score)
-  in container w h middle $ collage (round gameWidth) (round gameHeight)
+  in container w h middle <| collage (round gameWidth) (round gameHeight)
        [ rect gameWidth gameHeight |> filled pongGreen
        , oval 15 15 |> make ball
        , rect 10 40 |> make playerL

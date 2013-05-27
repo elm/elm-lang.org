@@ -377,15 +377,15 @@ used safely!
 evaluate wid pairs =
   let f (a,b) =
         let w = wid `div` 2
-            c = text . monospace $ toText a
-            d = text . monospace $ toText b
+            c = text . monospace <| toText a
+            d = text . monospace <| toText b
             h = 10 + max (heightOf c) (heightOf d)
         in  flow right [ container w h middle c
                        , container w h middle d ]
   in
   let es = map f pairs
-      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rArr;"
-      h = sum $ map heightOf es
+      arrow = text . Text.height 3 . Text.color accent1 . toText <| "&rArr;"
+      h = sum <| map heightOf es
   in  layers [ container wid h middle arrow
              , flow down es ]
 

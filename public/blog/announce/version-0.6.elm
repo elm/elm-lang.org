@@ -237,8 +237,8 @@ The coolest function here is probably `Date.read` which attempts to read an arbi
 
 maybeDate w str =
   let msg = Graphics.height 50 (case Date.read str of
-                                  Just d  -> text . Text.color accent4 . toText $ show d
-                                  Nothing -> text . Text.color accent3 . toText $ "Invalid Date Input")
+                                  Just d  -> text . Text.color accent4 . toText <| show d
+                                  Nothing -> text . Text.color accent3 . toText <| "Invalid Date Input")
   in  container w 50 middle dateInput `above` container w 50 middle msg
 
 date2 = [markdown|
@@ -372,21 +372,21 @@ spiral time =
   let a = inSeconds time / 2
       f n = ( n/2 * cos (n/3)
             , n/2 * sin (n/3) )
-      spiral = line $ map f [ 3 .. 100 ]
+      spiral = line <| map f [ 3 .. 100 ]
       clr = hsv (round (inSeconds time * 30) `mod` 360) 1 1
   in  collage 100 100 [ move (50,50) . rotate a <| traced (solid clr) spiral ]
 
-times1 = foldp (+) 0 $ 30 `fpsWhen` Mouse.isDown
+times1 = foldp (+) 0 <| 30 `fpsWhen` Mouse.isDown
 
 clickSpeed minDelta =
- flow down . map (width 300) $
-      [ centeredText . Text.color accent1 . toText $ "Speed Record"
-      , centeredText . Text.color accent4 . Text.height 3 . bold . toText $ show minDelta 
-      , centeredText . Text.color accent1 . toText $ "milliseconds"
+ flow down . map (width 300) <|
+      [ centeredText . Text.color accent1 . toText <| "Speed Record"
+      , centeredText . Text.color accent4 . Text.height 3 . bold . toText <| show minDelta 
+      , centeredText . Text.color accent1 . toText <| "milliseconds"
       ]
 
-diffs s = lift snd $ foldp (\t (t0,d) -> (t,t-t0)) (0,0) s
-speed = lift clickSpeed . foldp min 5000 . diffs $ timeOf Mouse.clicks
+diffs s = lift snd <| foldp (\t (t0,d) -> (t,t-t0)) (0,0) s
+speed = lift clickSpeed . foldp min 5000 . diffs <| timeOf Mouse.clicks
 
 
 times3 = foldp (+) 0 (30 `fpsWhen` (second `since` Mouse.clicks))
@@ -394,7 +394,7 @@ times3 = foldp (+) 0 (30 `fpsWhen` (second `since` Mouse.clicks))
 sideBySide wid e1 e2 =
   let w = wid `div` 2
       h = max (heightOf e1) (heightOf e2)
-      arrow = text . Text.height 3 . Text.color accent1 . toText $ "&rarr;"
+      arrow = text . Text.height 3 . Text.color accent1 . toText <| "&rarr;"
   in  layers [ container wid h middle arrow
              , flow right [ container w h middle e1
                           , container w h middle e2

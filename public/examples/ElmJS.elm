@@ -48,8 +48,8 @@ toLinks (title, links) =
 insertSpace lst = case lst of { x::xs -> x :: spacer 1 5 :: xs ; [] -> [] }
 
 subsection w (name,info) =
-  flow down . insertSpace . map (width w) $
-    (text . bold $ toText name) :: map toLinks info
+  flow down . insertSpace . map (width w) <|
+    (text . bold <| toText name) :: map toLinks info
 
 intro =   [markdown|
 
@@ -66,6 +66,6 @@ Now for some examples.
 content w =
   width w intro :: map (subsection w) [ ("JSON", json), ("Basic I/O", basics), ("Larger Examples", biggers) ]
 
-exampleSets w = flow down . intersperse (plainText "&nbsp;") $ content w
+exampleSets w = flow down . intersperse (plainText "&nbsp;") <| content w
 
 main = skeleton exampleSets <~ Window.width

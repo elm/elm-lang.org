@@ -1,7 +1,7 @@
 
 msg = toText "\nThe quick brown fox jumps over the lazy dog.\n"
 
-main = flow down $ map (\tf -> text $ typeface tf msg)
+main = flow down <| map (\tf -> text (typeface tf msg))
     [ "times new roman"
     , "helvetica, sans-serif"
     , "georgia, serif"

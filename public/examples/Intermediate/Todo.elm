@@ -30,7 +30,7 @@ step action (tasks,count) =
    Add dsc -> (Task False dsc count :: tasks, count + 1)
    Remove n -> (filter (\t -> t.id /= n) tasks, count)
 
-descriptions = lift fst $ foldp step ([],0) input
+descriptions = lift fst <| foldp step ([],0) input
 
 -- Display
 btn str = container 30 30 middle . text . Text.height 1.5 . bold <| toText str

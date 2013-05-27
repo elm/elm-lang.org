@@ -234,7 +234,7 @@ If you have code that uses the old versions, you can just add these two
 definitions to your code:
 
     box n e =
-      let pos = head . drop ((n-1) `mod` 9) $
+      let pos = head . drop ((n-1) `mod` 9) <|
             [ topLeft, midTop, topRight
             , midLeft, middle, midRight
             , bottomLeft, midBottom, bottomRight ]

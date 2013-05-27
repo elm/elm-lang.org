@@ -1,5 +1,5 @@
 
-main = flow down $ map (\(f,t) -> text . f $ toText t)
+stylePairs =
     [ (header          , "Header")
     , (bold            , "Bold")
     , (italic          , "Italicize")
@@ -10,3 +10,7 @@ main = flow down $ map (\(f,t) -> text . f $ toText t)
     , (strikeThrough   , "Strike Through")
     , (overline        , "Overline")
     ]
+
+pairToElement (style,name) = text (style (toText name))
+
+main = flow down <| map pairToElement stylePairs

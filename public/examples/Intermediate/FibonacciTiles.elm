@@ -8,7 +8,7 @@ fibSquare n =
   let fN = fib n
       len = fN * 15
       clr = rgb ((85*n) `mod` 256) ((36*n) `mod` 256) ((51*n) `mod` 256)
-  in  color clr . container len len middle $ asText fN
+  in  color clr . container len len middle <| asText fN
 
 
 ----  Combine squares  ----
