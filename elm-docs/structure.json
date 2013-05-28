@@ -210,7 +210,7 @@
   , "sections" :
      [{"name":"Creating Images","values":["image","fittedImage","croppedImage"]}
      ,{"name":"Styling Elements",
-       "values":["width","height","color","opacity","link","tag"]}
+       "values":["width","height","size","color","opacity","link","tag"]}
      ,{"name":"Inspecting Elements","values":["widthOf","heightOf","sizeOf"]}
      ,{"name":"Combining Elements",
        "values":["above","below","beside","layers","flow",

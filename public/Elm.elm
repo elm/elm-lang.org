@@ -118,7 +118,7 @@ tryElm w =
 info w =
   let sw = if w >= 800 then 300 else 200
       box txt pics = flow right [ width (w-(30+sw)) txt, spacer 30 10, pics sw ]
-  in  flow down $ [ width w intro, spacer w 10 ] ++
+  in  flow down <| [ width w intro, spacer w 10 ] ++
       intersperse (spacer w 40)
        [ box exampleText content,
          box resources infoq,
