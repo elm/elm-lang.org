@@ -148,8 +148,9 @@ text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
 I am working on writing a walkthrough to explain how these new features work
-in detail. For the now the best showcase is [this TodoFRP demo](https://www.youtube.com/watch?v=BvR5fxlo7Xw). The plan is to release this code and an overview of
-how it works as soon as possible!
+in detail. For the now the best showcase is [this TodoFRP
+demo](https://www.youtube.com/watch?v=cI__rjCiH_k). The plan is to release
+this code and an overview of how it works as soon as possible!
 
 These capabilities is brand new to Elm and was made possible by an idea
 from [@gozala](https://twitter.com/gozala). As this API took shape,
