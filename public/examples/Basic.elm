@@ -1,8 +1,7 @@
 
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
-import Window as Window
-import Text as Text
+import Window
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm")
