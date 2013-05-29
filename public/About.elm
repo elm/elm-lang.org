@@ -73,16 +73,16 @@ releaseNotes = [markdown|
 
 #### Release notes
 
-* [`0.8.0`][8]  &ndash; JS integration, type annotations/aliases
-* [`0.7.1`][71] &ndash; Touch, Either, and better Keyboard
-* [`0.7.0`][7]  &ndash; Extensible Records
-* [`0.6.0`][6]  &ndash; Time, Dates, and whitespace sensitivity
-* [`0.5.0`][5]  &ndash; Dictionaries, Sets, and Automata 
-* [`0.4.0`][4]  &ndash; Markdown and better graphics
-* [`0.3.6`][36] &ndash; JSON support
-* [`0.3.5`][35] &ndash; JavaScript FFI
-* [`0.3.0`][3]  &ndash; Modules
-* `0.1.0` &ndash; Initial Release
+* [`0.8.0`][8]  &nbsp; &nbsp; `05/2013` &nbsp; &nbsp; HTML/JS integration, type annotations/aliases
+* [`0.7.1`][71] &nbsp; &nbsp; `02/2013` &nbsp; &nbsp; Touch, Either, and better Keyboard
+* [`0.7.0`][7]  &nbsp; &nbsp; `01/2012` &nbsp; &nbsp; Extensible Records
+* [`0.6.0`][6]  &nbsp; &nbsp; `12/2012` &nbsp; &nbsp; Time, Dates, and whitespace sensitivity
+* [`0.5.0`][5]  &nbsp; &nbsp; `10/2012` &nbsp; &nbsp; Dictionaries, Sets, and Automata 
+* [`0.4.0`][4]  &nbsp; &nbsp; `09/2012` &nbsp; &nbsp; Markdown and better graphics
+* [`0.3.6`][36] &nbsp; &nbsp; `08/2012` &nbsp; &nbsp; JSON support
+* [`0.3.5`][35] &nbsp; &nbsp; `06/2012` &nbsp; &nbsp; JavaScript FFI
+* [`0.3.0`][3]  &nbsp; &nbsp; `06/2012` &nbsp; &nbsp; Modules
+* `0.1.0`       &nbsp; &nbsp; `04/2012` &nbsp; &nbsp; Initial Release
 
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
@@ -112,7 +112,8 @@ content w =
     [ width w intro
     , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
     , width w midtro
-    , flow right [ width hwidth releaseNotes, spacer 40 10, width hwidth videos ]
+    , width w releaseNotes
+    , width w videos
     ]
 
 main = lift (skeleton content) Window.width

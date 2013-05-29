@@ -33,7 +33,7 @@ Yes, of course! Elm is still totally open source under the BSD3 licence
 and all my work while at Prezi will be available forever under that license.
 This is actually a stronger guarantee than before.
 
-#### Q: Is this why [0.8][0.8] has been taking so long?
+#### Q: Is this why [0.8][0.8] took so long?
 Yes! I have been talking with Prezi for the past couple months.
 I should be able to move a lot quicker now.
 
@@ -45,10 +45,13 @@ The biggest changes are that I will:
 
 * Have time to really focus on Elm.
 * Have the bandwidth to work more closely with contributors and set
-  up reasonable projects for people. Email [the list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
+  up [reasonable projects][projects] for people. Email [the list][list]
   if you are interested!
 * Talk to Prezi designers and front-end developers to better
   understand their problems.
+
+  [projects]: https://docs.google.com/spreadsheet/ccc?key=0AtAn2jvQYh8EdEZTSWtWWU9nSWkzYWlUajJjV0N0aHc#gid=0
+  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
 #### Q: Prezi is based in Budapest, so is Evan moving out there?
 I will split my time 60/40 between San Francisco and Budapest.

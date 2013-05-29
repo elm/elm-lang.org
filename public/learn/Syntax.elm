@@ -329,7 +329,7 @@ scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
 More info can be found [here](/blog/announce/version-0.7.elm#do-you-even-lift)
-and [here](/docs/Signal/Signal.elm).
+and [here](/docs/Signal.elm).
 
 ### Modules
 
