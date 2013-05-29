@@ -22,17 +22,22 @@ h4 { margin-top: 2em; margin-bottom: 0; }
 
 I am now working on Elm full-time at [Prezi](http://prezi.com/)!
 
-I have tried to anticipate the questions people might have, but the
+I have tried to anticipate the questions people might have,
+[as has Péter Halácsy][prezi], but the
 short version is that this is really amazing news for Elm!
+
+  [prezi]: http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/
 
 #### Q: Is Elm still free and open source?
 Yes, of course! Elm is still totally open source under the BSD3 licence
 and all my work while at Prezi will be available forever under that license.
 This is actually a stronger guarantee than before.
 
-#### Q: Is this why 0.8 has been taking so long?
+#### Q: Is this why [0.8][0.8] has been taking so long?
 Yes! I have been talking with Prezi for the past couple months.
 I should be able to move a lot quicker now.
+
+  [0.8]: /blog/announce/version-0.8.elm
 
 #### Q: What might change because of this?
 I am still making the design decisions, so the goals are the same.
