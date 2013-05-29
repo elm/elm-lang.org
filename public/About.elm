@@ -93,11 +93,16 @@ releaseNotes = [markdown|
   [7]:  /blog/announce/version-0.7.elm "Extensible Records & More"
   [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
   [8]:  /blog/announce/version-0.8.elm
-|]
 
-videos = [markdown|
+#### Publications
 
-#### Videos
+* [Concurrent FRP for GUIs][thesis] - reasonably accessible overview of Elm and history of FRP
+* [Asynchronous FRP for GUIs][pldi] - revised and condensed overview of Elm from PLDI 2013
+
+ [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+ [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
+
+#### Conference Talks
 
 * [What is Elm? Why do I care?][infoq]
 * [What is FRP? How do I make games?][mlocjs]
@@ -113,7 +118,6 @@ content w =
     , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
     , width w midtro
     , width w releaseNotes
-    , width w videos
     ]
 
 main = lift (skeleton content) Window.width

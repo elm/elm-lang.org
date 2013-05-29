@@ -29,7 +29,7 @@ short version is that this is really amazing news for Elm!
   [prezi]: http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/
 
 #### Q: Is Elm still free and open source?
-Yes, of course! Elm is still totally open source under the BSD3 licence
+Yes, of course! Elm is still totally open source under the BSD3 license
 and all my work while at Prezi will be available forever under that license.
 This is actually a stronger guarantee than before.
 

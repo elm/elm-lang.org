@@ -44,7 +44,7 @@ ffi = ("JavaScript",
 
 intro = [markdown|
 
-### Library Documentation
+### Libraries
 
 This section provides type-signatures and explanations of Elm's current
 standard libraries.
@@ -57,32 +57,18 @@ outro = [markdown|
 
 <br/>
 
-### Syntax, Semantics, and More
+### More about Elm
 
-There are more in depth introductions to many of the concepts in Elm in [the
-About section](/About.elm).
+[The About section](/About.elm) has a bunch of learning resources.
 
 [The Syntax of Elm][syntax] is a brief overview of all of Elm&rsquo;s syntax.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
-My [thesis][4] discusses the semantics of FRP in
-Elm and how to make FRP efficient. It also provides a
-detailed history of FRP in the *Related Works* section.
+[My thesis][thesis] discusses the semantics of FRP in
+Elm and provides a detailed history of FRP.
 
-Look [here](/learn/What-is-FRP.elm) to answer the question
-&ldquo;What is Functional Reactive Programming?&rdquo;
-
-[This blog][1] is the source of some discussion and
-announcements. It also has more detailed information on the [module system][2]
-and [JavaScript integration][3].
-
-  [1]: http://www.testblogpleaseignore.com "Elm blog"
-  [2]: http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "module system"
-  [3]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript integration"
-  [4]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "Elm Thesis"
-
-<br/>
+  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "Elm Thesis"
 
 |]
 
