@@ -1,5 +1,4 @@
--- Move the Turtle around with the arrow keys. Use the
--- space bar to make the turtle come above water for air.
+-- Move the Turtle around with the arrow keys.
 
 import Keyboard
 import Window
@@ -25,8 +24,8 @@ swimStep delta turtle =
     { turtle | x <- x + delta * velocity * cos angle ,
                y <- y + delta * velocity * sin angle }
 
-step : (Bool,Arrows,Time) -> Turtle -> Turtle
-step (space,arrows,delta) turtle =
+step : (Arrows,Time) -> Turtle -> Turtle
+step (arrows,delta) turtle =
   keysStep arrows <| swimStep delta turtle
 
 
@@ -42,10 +41,9 @@ display (w,h) turtle =
 
 -- TURTLE
 delta = inSeconds <~ fps 30
-input = sampleOn delta <| lift3 (,,) Keyboard.space Keyboard.arrows delta
+input = sampleOn delta <| lift2 (,) Keyboard.arrows delta
 
 main  = lift2 display Window.dimensions (foldp step turtle input)
 
 -- Try switching out Keyboard.arrows for Keyboard.wasd to
--- try out different controls (or swich Keyboard.space for
--- Keyboard.ctrl or Keyboard.shift).
+-- try out different controls.
