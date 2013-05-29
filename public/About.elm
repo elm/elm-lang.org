@@ -75,7 +75,7 @@ releaseNotes = [markdown|
 
 * [`0.8.0`][8]  &nbsp; &nbsp; `05/2013` &nbsp; &nbsp; HTML/JS integration, type annotations/aliases
 * [`0.7.1`][71] &nbsp; &nbsp; `02/2013` &nbsp; &nbsp; Touch, Either, and better Keyboard
-* [`0.7.0`][7]  &nbsp; &nbsp; `01/2012` &nbsp; &nbsp; Extensible Records
+* [`0.7.0`][7]  &nbsp; &nbsp; `01/2013` &nbsp; &nbsp; Extensible Records
 * [`0.6.0`][6]  &nbsp; &nbsp; `12/2012` &nbsp; &nbsp; Time, Dates, and whitespace sensitivity
 * [`0.5.0`][5]  &nbsp; &nbsp; `10/2012` &nbsp; &nbsp; Dictionaries, Sets, and Automata 
 * [`0.4.0`][4]  &nbsp; &nbsp; `09/2012` &nbsp; &nbsp; Markdown and better graphics
