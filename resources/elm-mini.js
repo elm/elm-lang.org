@@ -1713,6 +1713,7 @@ Elm.Native.Signal = function(elm) {
   }
 
   function LiftN(update, args) {
+    console.log(update.toString());
     this.id = Utils.guid();
     this.value = update();
     this.kids = [];
