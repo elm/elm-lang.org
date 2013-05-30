@@ -39,21 +39,26 @@ compilePart = do
   code <- look "input"
   ok $ toResponse $ elmToHtml "Compiled Elm" code
 
-open :: String -> ServerPart String
+open :: String -> ServerPart (Maybe String)
 open fp = do exists <- liftIO (doesFileExist file)
-             if exists then openFile file else openFile "public/Error404.elm"
+             if exists then openFile else return Nothing
     where
       file = "public/" ++ fp
-      openFile file =
-          liftIO $ catch (readFile file)
-                   ((\_ -> return "") :: SomeException -> IO String)
+      openFile = liftIO $ catch (fmap Just $ readFile file) handleError
+                   
+      handleError :: SomeException -> IO (Maybe String)
+      handleError _ = return Nothing
 
 
 -- | Do something with the contents of a File.
 withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
 withFile handler fp = do
-  content <- open fp
-  ok . toResponse $ handler fp content
+  eitherContent <- open fp
+  case eitherContent of
+    Just content -> ok . toResponse $ handler fp content
+    Nothing -> do
+      content <- liftIO (readFile "public/Error404.elm")
+      notFound . toResponse $ elmToHtml (pageTitle fp) content
 
 
 -- | Compile an arbitrary Elm program from the public/ directory.
