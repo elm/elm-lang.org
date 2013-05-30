@@ -6,9 +6,10 @@ import Control.Monad (msum,when)
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
 
-import Text.Blaze.Html (Html)
+import Text.Blaze.Html (Html, toHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
+import System.Directory (doesFileExist)
 
 import qualified Language.Elm as Elm (docs)
 import ElmToHtml
@@ -39,21 +40,25 @@ compilePart = do
   ok $ toResponse $ elmToHtml "Compiled Elm" code
 
 open :: String -> ServerPart String
-open fp = liftIO $ catch (readFile ("public/" ++ fp))
-                         ((\_ -> return "") :: SomeException -> IO String)
+open fp = do exists <- liftIO (doesFileExist file)
+             if exists then openFile file else openFile "public/Error404.elm"
+    where
+      file = "public/" ++ fp
+      openFile file =
+          liftIO $ catch (readFile file)
+                   ((\_ -> return "") :: SomeException -> IO String)
+
 
 -- | Do something with the contents of a File.
 withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
 withFile handler fp = do
   content <- open fp
-  ok . toResponse $ handler fp (content :: String)
+  ok . toResponse $ handler fp content
 
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
-compileFile fp =
-    do content <- open fp
-       ok $ toResponse $ elmToHtml (pageTitle fp) content
+compileFile = withFile (elmToHtml . pageTitle)
 
 
 -- | Simple response for form-validation demo.
