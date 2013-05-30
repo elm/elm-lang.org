@@ -17,7 +17,7 @@ ide fileName code = ideBuilder ("Elm Editor: " ++ pageTitle fileName)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
-emptyIDE = ideBuilder "Try Elm" "" "/Try.elm"
+emptyIDE = ideBuilder "Try Elm" "Empty.elm" "/Try.elm"
 
 ideBuilder :: String -> String -> String -> Html
 ideBuilder title input output =

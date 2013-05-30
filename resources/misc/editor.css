@@ -24,10 +24,15 @@ form { margin-bottom: 0; }
 }
 
 #editor_options {
-  bottom: 28px;
+  bottom: 36px;
   left: 0;
   right: 0;
-  padding: 4px;
+  height: 24px;
+  position: absolute;
+  border: 1px solid rgb(150,150,150);
+  border-left: 0px;
+  border-right: 0px;
+  background: rgb(216,221,225);
   visibility: hidden;
 }
 
