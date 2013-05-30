@@ -17,20 +17,13 @@ msg = [markdown|
 
 # 404: Poetry Edition
 
-<br/>
-
 I shall be telling this with a sigh<br/>
 Somewhere ages and ages hence:<br/>
 Two roads diverged in a wood, and I&mdash;<br/>
 I took the one less traveled by,<br/>
 And that has made all the difference.
 
-<div style="text-align:right;font-style:italic;">Robert Frost</div>
-
-
-<br/>
-
-Please take the [well traveled path](/).
+<p style="text-align:right;font-style:italic;">Robert Frost</p>
 |]
 
 scene (w,h) = container w h middle (box <| width 300 msg)
