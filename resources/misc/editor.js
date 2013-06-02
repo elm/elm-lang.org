@@ -62,10 +62,20 @@ function loadDoc () {
   req.send();
 }
 
+function wrapIfOperator(name) {
+  var nonSymbols = /[A-Za-z0-9]/;
+  if (name.match(nonSymbols)) {
+    return name;
+  } else {
+    //  Best bet is an operator that needs () wrapping
+    return '(' + name + ')';
+  }
+}
+
 function moduleToHtmlLink(module, anchor, text, hoverText) {
   var linkText = text || module;
   var titleText = hoverText || '';
-  var anchorLink = anchor ? '#' + anchor : '';
+  var anchorLink = anchor ? '#' + wrapIfOperator(anchor) : '';
   return '<a href="' + moduleRef(module) + anchorLink + '" target="elm-docs" title="' + titleText + '">' + linkText + '</a>';
 }
 
@@ -128,10 +138,10 @@ function openDocPage () {
     if (ds.length > 1) {
       var q = getQualifier(token, current_pos.line);
       if (q) {
-        ref = moduleRef(ds.filter(function(o) { if (o.module == q) return true;})[0].module + '#' + ds[0].name);
+        ref = moduleRef(ds.filter(function(o) { if (o.module == q) return true;})[0].module + '#' + wrapIfOperator(ds[0].name));
       }
     } else {
-      ref = moduleRef(ds[0].module) + '#' + ds[0].name;
+      ref = moduleRef(ds[0].module) + '#' + wrapIfOperator(ds[0].name);
     }
   }
   if (ref) {
