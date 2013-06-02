@@ -59,15 +59,12 @@ editor filePath code =
              H.div ! A.style "float:right; padding:6px;" $ do
                H.input ! A.class_ "valign" !
                   A.id "compile_button" ! A.type_ "button" !
-                  A.onclick "compileOutput()" ! A.value "Compile" !
-                  A.title "... or hit Ctrl+Enter"
+                  A.onclick "loadJavaScript()" ! A.value "Hot Swap" !
+                  A.title "Ctrl-Enter: change program behavior but keep the state"
                H.input ! A.class_ "valign" !
                   A.id "in_tab_button" ! A.type_ "button" !
-                  A.onclick "compile('_blank')" ! A.value "In Tab" !
-                  A.title "compile in a new tab"
-               H.span  ! A.class_ "valign" $ " Live Updates:"
-               H.input ! A.class_ "valign" ! A.id "autocompile_checkbox" ! A.type_ "checkbox" !
-                  A.onchange "toggleAutoCompile(this.checked)"
+                  A.onclick "compileOutput()" ! A.value "Compile" !
+                  A.title "Ctrl-Shift-Enter"
              H.div ! A.style "float:left; padding:6px;" $ do
                H.input ! A.class_ "valign" ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc" !
                   A.id "help_button" ! A.type_ "button" ! A.style "margin: 0 10px 0 0;" !

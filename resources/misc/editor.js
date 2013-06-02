@@ -5,7 +5,6 @@ function compile(formTarget) {
     var form = document.getElementById('inputForm');
     form.target = formTarget;
     form.submit();
-    //loadJavaScript();
 }
 
 function loadJavaScript() {
@@ -445,7 +444,10 @@ function initEditor() {
       matchBrackets: true,
       theme: initTheme(),
       tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': compileOutput, 'Ctrl-K': toggleDocView, 'Shift-Ctrl-K': openDocPage }
+      extraKeys: {'Ctrl-Enter': loadJavaScript,
+                  'Shift-Ctrl-Enter': compileOutput,
+                  'Ctrl-K': toggleDocView,
+                  'Shift-Ctrl-K': openDocPage }
     });
   editor.focus();
   editor.on('cursorActivity', hideDocView);
