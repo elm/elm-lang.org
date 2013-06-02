@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module ElmToHtml (elmToHtml) where
+module ElmToHtml (elmToHtml, elmToJS) where
 
 import Text.Blaze (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
@@ -28,5 +28,8 @@ elmToHtml name src =
         let js = H.script ! A.type_ "text/javascript"
         js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
         js $ preEscapedToMarkup (Elm.compile src)
-        js $ preEscapedToMarkup ("Elm.fullscreen(Elm." ++ Elm.moduleName src ++ ")")
+        js $ preEscapedToMarkup ("var runningElmModule = Elm.fullscreen(Elm." ++ Elm.moduleName src ++ ")")
         googleAnalytics
+
+elmToJS :: String -> String
+elmToJS = Elm.compile

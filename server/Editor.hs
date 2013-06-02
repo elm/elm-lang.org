@@ -65,7 +65,7 @@ editor filePath code =
                   A.id "in_tab_button" ! A.type_ "button" !
                   A.onclick "compile('_blank')" ! A.value "In Tab" !
                   A.title "compile in a new tab"
-               H.span  ! A.class_ "valign" $ " Auto-compile:"
+               H.span  ! A.class_ "valign" $ " Live Updates:"
                H.input ! A.class_ "valign" ! A.id "autocompile_checkbox" ! A.type_ "checkbox" !
                   A.onchange "toggleAutoCompile(this.checked)"
              H.div ! A.style "float:left; padding:6px;" $ do

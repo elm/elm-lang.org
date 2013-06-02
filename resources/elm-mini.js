@@ -1688,7 +1688,7 @@ Elm.Native.Signal = function(elm) {
   elm.Native = elm.Native || {};
   if (elm.Native.Signal) return elm.Native.Signal;
 
-  var Utils  = Elm.Native.Utils(elm);
+  var Utils = Elm.Native.Utils(elm);
   var foldl1 = Elm.List(elm).foldl1;
 
   function send(node, timestep, changed) {
@@ -1713,7 +1713,6 @@ Elm.Native.Signal = function(elm) {
   }
 
   function LiftN(update, args) {
-    console.log(update.toString());
     this.id = Utils.guid();
     this.value = update();
     this.kids = [];
@@ -1768,13 +1767,22 @@ Elm.Native.Signal = function(elm) {
     return new LiftN(update, [a,b,c,d,e,f,g,h]);
   }
 
-  function foldp(func,state,input) {
-    var first = true;
-    function update() {
-        first ? first = false : state = A2(func, input.value, state);
-        return state;
-    }
-    return new LiftN(update, [input]);
+  function Foldp(step, state, input) {
+    this.id = Utils.guid();
+    this.value = state;
+    this.kids = [];
+
+    this.recv = function(timestep, changed, parentID) {
+      if (changed) {
+          this.value = A2( step, input.value, this.value );
+      }
+      send(this, timestep, changed);
+    };
+    input.kids.push(this);
+  }
+
+  function foldp(step, state, input) {
+      return new Foldp(step, state, input);
   }
 
   function DropIf(pred,base,input) {
@@ -4422,11 +4430,9 @@ Elm.worker = function(module) {
     return init(ElmRuntime.Display.NONE, {}, module);
 };
 
-function init(display, container, module) {
+function init(display, container, module, moduleToReplace) {
   // defining state needed for an instance of the Elm RTS
-  var signalGraph = null;
   var inputs = [];
-  var visualModel = null;
 
   function notify(id, v) {
     var timestep = Date.now();
@@ -4469,45 +4475,105 @@ function init(display, container, module) {
     if (e.value.length > 0) { window.location = e.value; }
   });
 
-  // If graphics are not enabled, escape early, skip over setting up DOM stuff.
-  if (display === ElmRuntime.Display.NONE) {
-      module(elm);
-      return { send : send, recv : recv };
+  function swap(newModule) {
+      var div = document.createElement('div');
+      if (container.id) { div.id = container.id; }
+      var newElm = init(display, div, newModule, elm);
+      // elm.send = newElm.send;
+      // elm.recv = newElm.recv;
+      // elm.swap = newElm.swap;
+      return newElm;
   }
 
-  var Render = ElmRuntime.use(ElmRuntime.Render.Element);
-
-  // evaluate the given module and extract its 'main' value.
-  signalGraph = module(elm).main;
-
-  // make sure the signal graph is actually a signal, extract the visual model,
-  // and filter out any unused inputs.
-  var Signal = Elm.Signal(elm);
-  if (!('recv' in signalGraph)) signalGraph = Signal.constant(signalGraph);
-  visualModel = signalGraph.value;
+  var Module = module(elm);
   inputs = ElmRuntime.filterDeadInputs(inputs);
+  if (display !== ElmRuntime.Display.NONE) {
+      var graphicsNode = initGraphics(elm, Module);
+  }
+  if (typeof moduleToReplace !== 'undefined') {
+      ElmRuntime.swap(moduleToReplace, elm);
+
+      // rerender scene if graphics are enabled.
+      if (typeof graphicsNode !== 'undefined') {
+          graphicsNode.value = A2( Elm.Graphics.Element(elm).spacer, 0, 0 );
+          graphicsNode.recv(0, true, 0);
+      }
+  }
+
+  return { send:send, recv:recv, swap:swap };
+};
+
+function initGraphics(elm, Module) {
+  if (!('main' in Module))
+      throw new Error("'main' is missing! What do I display?!");
+
+  var signalGraph = Module.main;
+
+  // make sure the signal graph is actually a signal & extract the visual model
+  var Signal = Elm.Signal(elm);
+  if (!('recv' in signalGraph)) {
+      signalGraph = Signal.constant(signalGraph);
+  }
+  var currentScene = signalGraph.value;
   
-   // Add the visualModel to the DOM
-  container.appendChild(Render.render(visualModel));
+  // Add the currentScene to the DOM
+  var Render = ElmRuntime.use(ElmRuntime.Render.Element);
+  elm.node.appendChild(Render.render(currentScene));
   if (elm.Native.Window) elm.Native.Window.resizeIfNeeded();
   
   // set up updates so that the DOM is adjusted as necessary.
-  var update = Render.update;
-  function domUpdate(value) {
+  function domUpdate(newScene, currentScene) {
       ElmRuntime.draw(function(_) {
-              update(container.firstChild, visualModel, value);
-              visualModel = value;
+              Render.update(elm.node.firstChild, currentScene, newScene);
               if (elm.Native.Window) elm.Native.Window.resizeIfNeeded();
           });
-      return value;
+      return newScene;
   }
+  return A3(Signal.foldp, F2(domUpdate), currentScene, signalGraph);
+}
 
-  signalGraph = A2(Signal.lift, domUpdate, signalGraph);
-    
-  return { send : send, recv : recv, node : container };
-};
+}());(function() {
 
-}());
+// Returns boolean indicating if the swap was successful.
+// Requires that the two signal graphs have exactly the same
+// structure.
+ElmRuntime.swap = function(from, to) {
+    function similar(nodeOld,nodeNew) {
+        idOkay = nodeOld.id === nodeNew.id;
+        lengthOkay = nodeOld.kids.length === nodeNew.kids.length;
+        return idOkay && lengthOkay;
+    }
+    function swap(nodeOld,nodeNew) {
+        nodeNew.value = nodeOld.value;
+        return true;
+    }
+    var canSwap = depthFirstTraversals(similar, from.inputs, to.inputs);
+    if (canSwap) { depthFirstTraversals(swap, from.inputs, to.inputs); }
+    from.node.parentNode.replaceChild(to.node, from.node);
+    return canSwap;
+}
+
+// Returns false if the node operation f ever fails.
+function depthFirstTraversals(f, queueOld, queueNew) {
+    if (queueOld.length !== queueNew.length) return false;
+    queueOld = queueOld.slice(0);
+    queueNew = queueNew.slice(0);
+
+    var seen = [];
+    while (queueOld.length > 0 && queueNew.length > 0) {
+        var nodeOld = queueOld.pop();
+        var nodeNew = queueNew.pop();
+        if (seen.indexOf(nodeOld.id) < 0) {
+            if (!f(nodeOld, nodeNew)) return false;
+            queueOld = queueOld.concat(nodeOld.kids);
+            queueNew = queueNew.concat(nodeNew.kids);
+            seen.push(nodeOld.id);
+        }
+    }
+    return true;
+}
+
+}())
 ElmRuntime.Render.Utils = function() {
 'use strict';
 

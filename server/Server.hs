@@ -24,7 +24,8 @@ main = simpleHTTP nullConf $ do
          msum [ nullDir >> compileFile "Elm.elm"
               , serveDirectory DisableBrowsing [] "resources"
               , dir "try" (ok $ toResponse $ emptyIDE)
-              , dir "compile" $ compilePart
+              , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
+              , dir "hotswap" $ compilePart elmToJS
               , dir "jsondocs" $ serveFile (asContentType "text/json") docsPath
               , dir "edit" . uriRest $ withFile ide
               , dir "code" . uriRest $ withFile editor
@@ -33,11 +34,10 @@ main = simpleHTTP nullConf $ do
               ]
 
 -- | Compile an Elm program that has been POST'd to the server.
-compilePart :: ServerPart Response
-compilePart = do
+compilePart compile = do
   decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   code <- look "input"
-  ok $ toResponse $ elmToHtml "Compiled Elm" code
+  ok $ toResponse $ compile code
 
 open :: String -> ServerPart (Maybe String)
 open fp = do exists <- liftIO (doesFileExist file)

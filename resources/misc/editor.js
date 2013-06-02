@@ -2,9 +2,31 @@ var editor = null;
 var elmDocs = null;
 
 function compile(formTarget) {
-  var form = document.getElementById('inputForm');
-  form.target = formTarget;
-  form.submit();
+    var form = document.getElementById('inputForm');
+    form.target = formTarget;
+    form.submit();
+    //loadJavaScript();
+}
+
+function loadJavaScript() {
+    var request = null;
+    if (window.ActiveXObject)  { request = new ActiveXObject("Microsoft.XMLHTTP"); }
+    if (window.XMLHttpRequest) { request = new XMLHttpRequest(); }
+    request.onreadystatechange = function(e) {
+        if (request.readyState === 4
+            && request.status >= 200
+            && request.status < 300) {
+            var js = request.responseText;
+            top.output.eval(js);
+            var module = js.substring(0,js.indexOf('=')).replace(/\s/g,'');
+            top.output.runningElmModule = top.output.runningElmModule.swap(top.output.eval(module));
+        }
+    };
+    editor.save();
+    var elmSrc = encodeURIComponent(document.getElementById('input').value);
+    request.open('POST', '/hotswap?input=' + elmSrc, true);
+    request.setRequestHeader('Content-Type', 'application/javascript');
+    request.send();
 }
 
 function setEditorBottom() {
