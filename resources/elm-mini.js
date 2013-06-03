@@ -137,7 +137,7 @@ Elm.Native.Utils = function(elm) {
   }
 
   if (elm.display === ElmRuntime.Display.COMPONENT) {
-      elm.node.addEventListener('mouseover', adjustOffset);
+      elm.addListener(elm.inputs, elm.node, 'mouseover', adjustOffset);
   }
 
   return elm.Native.Utils = {
@@ -1421,10 +1421,9 @@ Elm.Native.Window = function(elm) {
       var w = getWidth();
       var h = getHeight();
       if (dimensions.value._0 === w && dimensions.value._1 === h) return;
-      var hasListener = elm.notify(dimensions.id, Tuple2(w,h));
-      if (!hasListener) window.removeEventListener('resize', resizeIfNeeded);
+      elm.notify(dimensions.id, Tuple2(w,h));
   }
-  window.addEventListener('resize', resizeIfNeeded);
+  elm.addListener([dimensions.id], window, 'resize', resizeIfNeeded);
 
   return elm.Native.Window = {
       dimensions:dimensions,
@@ -1548,11 +1547,10 @@ Elm.Native.Touch = function(elm) {
       for (var i = e.changedTouches.length; i--; ) { f(e.changedTouches[i]); }
       var ts = new Array(e.touches.length);
       for (var i = e.touches.length; i--; ) { ts[i] = touch(e.touches[i]); }
-      var hasListener = elm.notify(root.id, ts);
-      if (!hasListener) return node.removeEventListener(name, update);
+      elm.notify(root.id, ts);
       e.preventDefault();
     }
-    node.addEventListener(name, update);
+    elm.addListener([root.id], node, name, update);
   }
 
   listen("touchstart", start);
@@ -1572,14 +1570,14 @@ Elm.Native.Touch = function(elm) {
           }
       }
   }
-  node.addEventListener("mousedown", function(e) {
+  elm.addListener([root.id], node, "mousedown", function down(e) {
           node.addEventListener("mousemove", move);
           e.identifier = mouseID;
           start(e);
           root.value.push(touch(e));
           elm.notify(root.id, root.value);
       });
-  node.addEventListener("mouseup", function(e) {
+  elm.addListener([root.id], node, "mouseup", function up(e) {
           node.removeEventListener("mousemove", move);
           e.identifier = mouseID;
           end(e);
@@ -1592,7 +1590,7 @@ Elm.Native.Touch = function(elm) {
           }
           elm.notify(root.id, root.value);
       });
-  node.addEventListener("blur", function() {
+  elm.addListener([root.id], node, "blur", function blur(e) {
           node.removeEventListener("mousemove", move);
           if (root.values.length > 0) {
               elm.notify(root.id, []);
@@ -1655,8 +1653,11 @@ Elm.Native.Time = function(elm) {
 
   function everyWhen(t, isOn) {
     var clock = Signal.constant(Date.now());
-    function tellTime() { elm.notify(clock.id, Date.now()); }
-    setInterval(tellTime, t);
+    var id = setInterval(function tellTime() {
+            if (!elm.notify(clock.id, Date.now())) {
+                clearInterval(id);
+            }
+        }, t);
     return clock;
   }
 
@@ -1980,33 +1981,20 @@ Elm.Native.Mouse = function(elm) {
 
   var node = elm.display === ElmRuntime.Display.FULLSCREEN ? document : elm.node;
 
-  function click(e) {
-    var hasListener1 = elm.notify(isClicked.id, true);
-    var hasListener2 = elm.notify(clicks.id, Utils.Tuple0);
-    elm.notify(isClicked.id, false);
-    if (!hasListener1 && !hasListener2)
-	node.removeEventListener('click', click);
-  }
-
-  function down(e) {
-    var hasListener = elm.notify(isDown.id, true);
-    if (!hasListener) node.removeEventListener('mousedown', down);
-  }
-
-  function up(e) {
-    var hasListener = elm.notify(isDown.id, false);
-    if (!hasListener) node.removeEventListener('mouseup', up);
-  }
-
-  function move(e) {
-    var hasListener = elm.notify(position.id, getXY(e));
-    if (!hasListener) node.removeEventListener('mousemove', move);
-  }
-
-  node.addEventListener('click'    , click);
-  node.addEventListener('mousedown', down);
-  node.addEventListener('mouseup'  , up);
-  node.addEventListener('mousemove', move);
+  elm.addListener([isClicked.id, clicks.id], node, 'click', function click() {
+          elm.notify(isClicked.id, true);
+          elm.notify(clicks.id, Utils.Tuple0);
+          elm.notify(isClicked.id, false);
+      });
+  elm.addListener([isDown.id], node, 'mousedown', function down() {
+          elm.notify(isDown.id, true);
+      });
+  elm.addListener([isDown.id], node, 'mouseup', function up() {
+          elm.notify(isDown.id, false);
+      });
+  elm.addListener([position.id], node, 'mousemove', function move(e) {
+          elm.notify(position.id, getXY(e));
+      });
 
   return elm.Native.Mouse = {
       position: position,
@@ -2028,31 +2016,20 @@ Elm.Native.Keyboard = function(elm) {
   var keysDown = Signal.constant(NList.Nil);
   var lastKey = Signal.constant('\0');
 
-  function down(e) {
-      if (NList.member(e.keyCode)(keysDown.value)) return;
-      var list = NList.Cons(e.keyCode, keysDown.value);
-      var hasListener = elm.notify(keysDown.id, list);
-      if (!hasListener) document.removeEventListener('keydown', down);
-  }
-  function up(e) {
-      function notEq(kc) { return kc !== e.keyCode; }
-      var codes = NList.filter(notEq)(keysDown.value);
-      var hasListener = elm.notify(keysDown.id, codes);
-      if (!hasListener) document.removeEventListener('keyup', up);
-  }
-  function blur(e) {
-      var hasListener = elm.notify(keysDown.id, NList.Nil);
-      if (!hasListener) document.removeEventListener('blur', blur);
-  }
-  function press(e) {
-      var hasListener = elm.notify(lastKey.id, e.charCode || e.keyCode);
-      if (!hasListener) document.removeEventListener('keypress', press);
-  }
-
-  document.addEventListener('keydown' , down );
-  document.addEventListener('keyup'   , up   );
-  document.addEventListener('blur'    , blur );
-  document.addEventListener('keypress', press);
+  elm.addListener([keysDown.id], document, 'keydown', function down(e) {
+          if (NList.member(e.keyCode)(keysDown.value)) return;
+          elm.notify(keysDown.id, NList.Cons(e.keyCode, keysDown.value));
+      });
+  elm.addListener([keysDown.id], document, 'keyup', function up(e) {
+          function notEq(kc) { return kc !== e.keyCode; }
+          elm.notify(keysDown.id, NList.filter(notEq)(keysDown.value));
+      });
+  elm.addListener([keysDown.id], document, 'blur', function blur(e) {
+          elm.notify(keysDown.id, NList.Nil);
+      });
+  elm.addListener([lastKey.id], document, 'keypress', function press(e) {
+          elm.notify(lastKey.id, e.charCode || e.keyCode);
+      });
 
   function keySignal(f) {
     var signal = A2( Signal.lift, f, keysDown );
@@ -4414,14 +4391,12 @@ Elm.fullscreen = function(module) {
     return init(ElmRuntime.Display.FULLSCREEN, container, module);
 };
 
-Elm.byId = function(id, module) {
-    var container = document.getElementById(id);
+Elm.domNode = function(container, module) {
     var tag = container.tagName;
     if (tag !== 'DIV') {
-        throw new Error('Elm.byId must be given a div, not a ' + tag + '.');
-    }
-    while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
+        throw new Error('Elm.node must be given a DIV, not a ' + tag + '.');
+    } else if (container.hasChildNodes()) {
+        throw new Error('Elm.node must be given an empty DIV. No children allowed!');
     }
     return init(ElmRuntime.Display.COMPONENT, container, module);
 };
@@ -4435,26 +4410,39 @@ function init(display, container, module, moduleToReplace) {
   var inputs = [];
 
   function notify(id, v) {
-    var timestep = Date.now();
-    var hasListener = false;
-    for (var i = inputs.length; i--; ) {
-      // must maintain the order of this stmt to avoid having the ||
-      // short-circuiting the necessary work of recv
-      hasListener = inputs[i].recv(timestep, id, v) || hasListener;
-    }
-    return hasListener;
+      var timestep = Date.now();
+      var changed = false;
+      for (var i = inputs.length; i--; ) {
+          // order is important here to avoid short-circuiting
+          changed = inputs[i].recv(timestep, id, v) || changed;
+      }
+      return changed;
   }
 
   container.offsetX = 0;
   container.offsetY = 0;
 
+  var listeners = [];
+  function addListener(relevantInputs, domNode, eventName, func) {
+      domNode.addEventListener(eventName, func);
+      var listener = {
+          relevantInputs: relevantInputs,
+          domNode: domNode,
+          eventName: eventName,
+          func: func
+      };
+      listeners.push(listener);
+  }
+
   // create the actual RTS. Any impure modules will attach themselves to this
   // object. This permits many Elm programs to be embedded per document.
-  var elm = { notify:notify,
-              node:container,
-              display:display,
-              id:ElmRuntime.guid(),
-              inputs:inputs
+  var elm = {
+      notify:notify,
+      node:container,
+      display:display,
+      id:ElmRuntime.guid(),
+      addListener:addListener,
+      inputs:inputs
   };
 
   // Set up methods to communicate with Elm program from JS.
@@ -4476,9 +4464,10 @@ function init(display, container, module, moduleToReplace) {
   });
 
   function swap(newModule) {
+      removeListeners(listeners);
       var div = document.createElement('div');
-      if (container.id) { div.id = container.id; }
       var newElm = init(display, div, newModule, elm);
+      inputs = [];
       // elm.send = newElm.send;
       // elm.recv = newElm.recv;
       // elm.swap = newElm.swap;
@@ -4487,6 +4476,7 @@ function init(display, container, module, moduleToReplace) {
 
   var Module = module(elm);
   inputs = ElmRuntime.filterDeadInputs(inputs);
+  filterListeners(inputs, listeners);
   if (display !== ElmRuntime.Display.NONE) {
       var graphicsNode = initGraphics(elm, Module);
   }
@@ -4502,6 +4492,26 @@ function init(display, container, module, moduleToReplace) {
 
   return { send:send, recv:recv, swap:swap };
 };
+
+function filterListeners(inputs, listeners) {
+    loop:
+    for (var i = listeners.length; i--; ) {
+        var listener = listeners[i];
+        for (var j = inputs.length; j--; ) {
+            if (listener.relevantInputs.indexOf(inputs[j].id) >= 0) {
+                continue loop;
+            }
+        }
+        listener.domNode.removeEventListener(listener.eventName, listener.func);
+    }
+}
+
+function removeListeners(listeners) {
+    for (var i = listeners.length; i--; ) {
+        var listener = listeners[i];
+        listener.domNode.removeEventListener(listener.eventName, listener.func);
+    }
+}
 
 function initGraphics(elm, Module) {
   if (!('main' in Module))
@@ -4573,7 +4583,8 @@ function depthFirstTraversals(f, queueOld, queueNew) {
     return true;
 }
 
-}())
+}());
+
 ElmRuntime.Render.Utils = function() {
 'use strict';
 
@@ -4902,6 +4913,7 @@ function trace(ctx, path) {
 
 function line(ctx,style,path) {
     style.dashing.ctor === 'Nil' ? trace(ctx, path) : customLineHelp(ctx, style, path);
+    ctx.scale(1,-1);
     ctx.stroke();
 }
 
@@ -4986,6 +4998,7 @@ function drawShape(redo, ctx, style, path) {
     ctx.fillStyle =
         sty === 'Solid' ? extract(style._0) :
         sty === 'Texture' ? texture(redo, ctx, style._0) : gradient(ctx, style._0);
+    ctx.scale(1,-1);
     ctx.fill();
 }
 
@@ -5005,6 +5018,7 @@ function drawImage(redo, ctx, form) {
         destW = w,
         destH = h;
 
+    ctx.scale(1,-1);
     ctx.drawImage(img, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
 }
 
@@ -5013,7 +5027,7 @@ function renderForm(redo, ctx, form) {
     var x = form.x, y = form.y, theta = form.theta, scale = form.scale;
     if (x !== 0 || y !== 0) ctx.translate(x, y);
     if (theta !== 0) ctx.rotate(theta);
-    ctx.scale(scale,-scale);
+    if (scale !== 1) ctx.scale(scale,scale);
     ctx.beginPath();
     var f = form.form;
     switch(f.ctor) {
@@ -5033,7 +5047,7 @@ function renderForm(redo, ctx, form) {
 
 function formToMatrix(form) {
    var scale = form.scale;
-   var matrix = A6( Matrix.matrix, scale, 0, 0, scale, scale * form.x, scale * form.y );
+   var matrix = A6( Matrix.matrix, scale, 0, 0, scale, form.x, form.y );
 
    var theta = form.theta
    if (theta !== 0)
@@ -5084,7 +5098,7 @@ function stepper(forms) {
     }
     // assumes that there is a next element
     function next(ctx) {
-        while (!ps[0].peekNext()) { ps.shift(); matrices.pop(); ctx.restore(); }
+        while (!ps[0].peekNext()) { ps.shift(); matrices.pop(); if (ctx) { ctx.restore(); } }
         var out = ps[0].next();
         var f = out.form;
         if (f.ctor === 'FGroup') {
@@ -5122,6 +5136,7 @@ function updateTracker(w,h,div) {
     var i = 0;
     function transform(transforms, ctx) {
         ctx.translate(w/2, h/2);
+        ctx.scale(1,-1);
         var len = transforms.length;
         for (var i = 0; i < len; ++i) {
             var m = transforms[i];
@@ -5132,12 +5147,13 @@ function updateTracker(w,h,div) {
     }
     function getContext(transforms) {
         while (i < kids.length) {
-            var node = kids[i++];
+            var node = kids[i];
             if (node.getContext) {
                 node.width = w;
                 node.height = h;
                 node.style.width = w + 'px';
                 node.style.height = h + 'px';
+                ++i;
                 return transform(transforms, node.getContext('2d'));
             }
             div.removeChild(node);
@@ -5155,16 +5171,10 @@ function updateTracker(w,h,div) {
             container.style.overflow = 'hidden';
             container.style.position = 'absolute';
             addTransform(container.style, 'scaleY(-1)');
-            if (!container) {
-                div.appendChild(container);
-            } else {
-                var kid = kids[i];
-                if (kid) {
-                    div.insertBefore(container, kid);
-                } else {
-                    div.appendChild(container);
-                }
-            }
+            
+            var kid = kids[i];
+            kid ? div.insertBefore(container, kid)
+                : div.appendChild(container);
         }
         // we have added a new node, so we must step our position
         ++i;
@@ -5184,7 +5194,12 @@ function updateTracker(w,h,div) {
         node.oldElement = elem;
         addTransform(node.style, makeTransform(w, h, form, matrices));
     }
-    return { getContext:getContext, element:element };
+    function clearRest() {
+        while (i < kids.length) {
+            div.removeChild(kids[i]);
+        }
+    }
+    return { getContext:getContext, element:element, clearRest:clearRest };
 }
 
 
@@ -5206,7 +5221,6 @@ function update(div, _, model) {
     while (formType = stpr.peekNext()) {
         if (ctx === null && formType !== 'FElement') {
             ctx = tracker.getContext(stpr.transforms());
-            ctx.scale(1,-1);
         }
         var form = stpr.next(ctx);
         if (formType === 'FElement') {
@@ -5216,6 +5230,7 @@ function update(div, _, model) {
             renderForm(function() { update(div, model, model); }, ctx, form);
         }
     }
+    tracker.clearRest();
     return div;
 }
 
