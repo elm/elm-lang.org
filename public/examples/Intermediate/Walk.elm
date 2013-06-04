@@ -6,7 +6,7 @@ import Window
 areaW = 407
 areaH = 301
 
-obj = { x=200, y=150, vx=0, vy=0, verb="stand", dir="south" }
+obj = { x=200, y=150, vx=0, vy=0, dir="south" }
 
 
 -- UPDATE
@@ -14,10 +14,9 @@ velStep d obj =
   let f n = if d.x == 0 || d.y == 0 then n else n / sqrt 2
   in  { obj | vx <- f d.x, vy <- f (0-d.y) }
 
-verbStep d obj =
+dirStep d obj =
   let {vx,vy} = obj in
-  { obj | verb <- if vx == 0 && vy == 0 then "stand" else "walk"
-        , dir  <- if | vx > 0 -> "east"
+  { obj | dir  <- if | vx > 0 -> "east"
                      | vx < 0 -> "west"
                      | vy < 0 -> "north"
                      | vy > 0 -> "south"
@@ -32,7 +31,7 @@ timeStep t obj = let {x,y,vx,vy} = obj
                              y <- clamp 0 areaH (y + t * vy) }
 
 step (time,arrows,run) obj =
-  timeStep time . verbStep arrows . runStep run . velStep arrows <| obj
+  timeStep time . dirStep arrows . runStep run . velStep arrows <| obj
 
 
 -- LINK
@@ -43,10 +42,11 @@ main  = lift2 display Window.dimensions (foldp step obj input)
 
 
 -- DISPLAY
-display (w,h) {x,y,verb,dir} =
+display (w,h) {x,y,vx,vy,dir} =
   container w h middle <| flow down
     [ layers [ image areaW areaH "/imgs/desert.png"
-             , let src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
+             , let verb = if vx == 0 && vy == 0 then "stand" else "walk"
+                   src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
                    pos = middleAt (absolute x) (absolute y)
                in  container areaW areaH pos (image 22 28 src)
              ]

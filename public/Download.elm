@@ -16,7 +16,7 @@ You are getting:
 If you run into problems, you should email the [mailing list][2]
 or report an issue to Elm's [source repository][3]
 
-  [1]: https://github.com/evancz/Elm/blob/master/README.md#installing-the-compiler "install instructions"
+  [1]: https://github.com/evancz/Elm/blob/master/README.md#install "install instructions"
   [2]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
   [3]: https://github.com/evancz/Elm "source repository"
 
