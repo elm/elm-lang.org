@@ -1,6 +1,1262 @@
 Elm = {}; Elm.Native = {}; Elm.Native.Graphics = {};
 Elm.Graphics = {}; ElmRuntime = {}; ElmRuntime.Render = {}
 
+Elm.Window = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var W = Elm.Native.Window(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Window||{};
+  _.$op = {}
+  return elm.Window = _;
+  };
+Elm.WebSocket = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var WS = Elm.Native.WebSocket(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.WebSocket||{};
+  _.$op = {}
+  return elm.WebSocket = _;
+  };
+Elm.Touch = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Touch(elm);
+  var Touch_0 = F6(function(x_1, y_2, id_3, x0_4, y0_5, t0_6){
+    return {
+      _:{
+      },
+      id:id_3,
+      t0:t0_6,
+      x:x_1,
+      x0:x0_4,
+      y:y_2,
+      y0:y0_5};});
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Touch||{};
+  _.$op = {};
+  _.Touch = Touch_0
+  return elm.Touch = _;
+  };
+Elm.Time = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Time(elm);
+  var inMilliseconds_4 = function(t_8){
+    return t_8;};
+  var inSeconds_5 = function(t_9){
+    return (t_9/second_1);};
+  var inMinutes_6 = function(t_10){
+    return (t_10/minute_2);};
+  var inHours_7 = function(t_11){
+    return (t_11/hour_3);};
+  var millisecond_0 = 1;
+  var second_1 = (1000*millisecond_0);
+  var minute_2 = (60*second_1);
+  var hour_3 = (60*minute_2);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Time||{};
+  _.$op = {};
+  _.millisecond = millisecond_0;
+  _.second = second_1;
+  _.minute = minute_2;
+  _.hour = hour_3;
+  _.inMilliseconds = inMilliseconds_4;
+  _.inSeconds = inSeconds_5;
+  _.inMinutes = inMinutes_6;
+  _.inHours = inHours_7
+  return elm.Time = _;
+  };
+Elm.Text = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var T = Elm.Native.Text(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Text||{};
+  _.$op = {}
+  return elm.Text = _;
+  };
+Elm.Signal = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var S = Elm.Native.Signal(elm);
+  var L = Elm.List(elm);
+  var combine_0 = A2(L.foldr, S.lift2(function(x_1){
+    return function(y_2){
+      return _L.Cons(x_1,y_2);};}), S.constant(_L.Nil));
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Signal||{};
+  _.$op = {};
+  _.combine = combine_0
+  return elm.Signal = _;
+  };
+Elm.Set = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Dict = Elm.Dict(elm);
+  var List = Elm.List(elm);
+  var singleton_1 = function(k_13){
+    return A2(Dict.singleton, k_13, {ctor:"Tuple0"});};
+  var insert_2 = function(k_14){
+    return A2(Dict.insert, k_14, {ctor:"Tuple0"});};
+  var fromList_9 = function(xs_15){
+    return A3(List.foldl, insert_2, empty_0, xs_15);};
+  var foldl_10 = F3(function(f_16, b_17, s_18){
+    return A3(Dict.foldl, function(k_19){
+      return function(__20){
+        return function(b_21){
+          return A2(f_16, k_19, b_21);};};}, b_17, s_18);});
+  var foldr_11 = F3(function(f_22, b_23, s_24){
+    return A3(Dict.foldr, function(k_25){
+      return function(__26){
+        return function(b_27){
+          return A2(f_22, k_25, b_27);};};}, b_23, s_24);});
+  var map_12 = F2(function(f_28, s_29){
+    return fromList_9(A2(List.map, f_28, toList_8(s_29)));});
+  var empty_0 = Dict.empty;
+  var remove_3 = Dict.remove;
+  var member_4 = Dict.member;
+  var union_5 = Dict.union;
+  var intersect_6 = Dict.intersect;
+  var diff_7 = Dict.diff;
+  var toList_8 = Dict.keys;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Set||{};
+  _.$op = {};
+  _.empty = empty_0;
+  _.singleton = singleton_1;
+  _.insert = insert_2;
+  _.remove = remove_3;
+  _.member = member_4;
+  _.union = union_5;
+  _.intersect = intersect_6;
+  _.diff = diff_7;
+  _.toList = toList_8;
+  _.fromList = fromList_9;
+  _.foldl = foldl_10;
+  _.foldr = foldr_11;
+  _.map = map_12
+  return elm.Set = _;
+  };
+Elm.Random = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var R = Elm.Native.Random(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Random||{};
+  _.$op = {}
+  return elm.Random = _;
+  };
+Elm.Prelude = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Prelude(elm);
+  var LT_5 = {ctor:"LT"};
+  var EQ_6 = {ctor:"EQ"};
+  var GT_7 = {ctor:"GT"};
+  var radians_0 = function(t_9){
+    return t_9;};
+  var degrees_1 = function(d_10){
+    return ((d_10*Math.PI)/180);};
+  var turns_2 = function(r_11){
+    return ((2*Math.PI)*r_11);};
+  var fromPolar_3 = function(_22000_12){
+    return function(){ 
+    switch (_22000_12.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:(_22000_12._0*N.cos(_22000_12._1)), _1:(_22000_12._0*N.sin(_22000_12._1))};
+    }_E.Case('Line 22, Column 20') }();};
+  var toPolar_4 = function(_27000_15){
+    return function(){ 
+    switch (_27000_15.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:N.sqrt((Math.pow(_27000_15._0,2)+Math.pow(_27000_15._1,2))), _1:A2(N.atan2, _27000_15._1, _27000_15._0)};
+    }_E.Case('Line 27, Column 18') }();};
+  var otherwise_8 = true;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Prelude||{};
+  _.$op = {};
+  _.radians = radians_0;
+  _.degrees = degrees_1;
+  _.turns = turns_2;
+  _.fromPolar = fromPolar_3;
+  _.toPolar = toPolar_4;
+  _.LT = LT_5;
+  _.EQ = EQ_6;
+  _.GT = GT_7;
+  _.otherwise = otherwise_8
+  return elm.Prelude = _;
+  };
+Elm.Mouse = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var M = Elm.Native.Mouse(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Mouse||{};
+  _.$op = {}
+  return elm.Mouse = _;
+  };
+Elm.Maybe = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var List = Elm.List(elm);
+  var Just_0 = function(a1){
+    return {ctor:"Just", _0:a1};};
+  var Nothing_1 = {ctor:"Nothing"};
+  var maybe_2 = F3(function(b_7, f_8, m_9){
+    return function(){ 
+    switch (m_9.ctor) {
+      case 'Just':
+        return f_8(m_9._0);
+      case 'Nothing':
+        return b_7;
+    }_E.Case('Line 13, Column 15') }();});
+  var cons_5 = F2(function(mx_12, xs_13){
+    return A3(maybe_2, xs_13, function(x_14){
+      return _L.Cons(x_14,xs_13);}, mx_12);});
+  var isJust_3 = A2(maybe_2, false, function(__11){
+    return true;});
+  var isNothing_4 = function(x){
+    return not(isJust_3(x));};
+  var justs_6 = A2(List.foldr, cons_5, _L.Nil);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Maybe||{};
+  _.$op = {};
+  _.Just = Just_0;
+  _.Nothing = Nothing_1;
+  _.maybe = maybe_2;
+  _.isJust = isJust_3;
+  _.isNothing = isNothing_4;
+  _.cons = cons_5;
+  _.justs = justs_6
+  return elm.Maybe = _;
+  };
+Elm.Matrix2D = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var M = Elm.Native.Matrix2D(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Matrix2D||{};
+  _.$op = {}
+  return elm.Matrix2D = _;
+  };
+Elm.List = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var min = _.min, max = _.max;
+  var L = Elm.Native.List(elm);
+  var isEmpty_0 = function(xs_9){
+    return function(){ 
+    switch (xs_9.ctor) {
+      case 'Nil':
+        return true;
+    }
+    return false; }();};
+  var concatMap_1 = function(f_10){
+    return function(x){
+      return L.concat(A2(L.map, f_10, x));};};
+  var partition_6 = F2(function(pred_15, lst_16){
+    return function(){ 
+    switch (lst_16.ctor) {
+      case 'Cons':
+        return function(){
+          var _113000_19 = A2(partition_6, pred_15, lst_16._1);
+          var bs_20 = function(){ 
+          switch (_113000_19.ctor) {
+            case 'Tuple2':
+              return _113000_19._0;
+          }_E.Case('Line 113, Column 30') }();
+          var cs_21 = function(){ 
+          switch (_113000_19.ctor) {
+            case 'Tuple2':
+              return _113000_19._1;
+          }_E.Case('Line 113, Column 30') }();
+          return (pred_15(lst_16._0)?{ctor:"Tuple2", _0:_L.Cons(lst_16._0,bs_20), _1:cs_21}:{ctor:"Tuple2", _0:bs_20, _1:_L.Cons(lst_16._0,cs_21)});}();
+      case 'Nil':
+        return {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+    }_E.Case('Line 111, Column 5') }();});
+  var unzip_7 = function(pairs_26){
+    return function(){ 
+    switch (pairs_26.ctor) {
+      case 'Cons':
+        switch (pairs_26._0.ctor) {
+          case 'Tuple2':
+            return function(){
+              var _134000_30 = unzip_7(pairs_26._1);
+              var xs_31 = function(){ 
+              switch (_134000_30.ctor) {
+                case 'Tuple2':
+                  return _134000_30._0;
+              }_E.Case('Line 134, Column 33') }();
+              var ys_32 = function(){ 
+              switch (_134000_30.ctor) {
+                case 'Tuple2':
+                  return _134000_30._1;
+              }_E.Case('Line 134, Column 33') }();
+              return {ctor:"Tuple2", _0:_L.Cons(pairs_26._0._0,xs_31), _1:_L.Cons(pairs_26._0._1,ys_32)};}();
+        }break;
+      case 'Nil':
+        return {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+    }_E.Case('Line 132, Column 3') }();};
+  var intersperse_8 = F2(function(sep_37, xs_38){
+    return function(){ 
+    switch (xs_38.ctor) {
+      case 'Cons':
+        switch (xs_38._1.ctor) {
+          case 'Cons':
+            return _L.Cons(xs_38._0,_L.Cons(sep_37,A2(intersperse_8, sep_37, _L.Cons(xs_38._1._0,xs_38._1._1))));
+          case 'Nil':
+            return _L.Cons(xs_38._0,_L.Nil);
+        }break;
+      case 'Nil':
+        return _L.Nil;
+    }_E.Case('Line 152, Column 3') }();});
+  var sum_2 = A2(L.foldl, function(x_11){
+    return function(y_12){
+      return (x_11+y_12);};}, 0);
+  var product_3 = A2(L.foldl, function(x_13){
+    return function(y_14){
+      return (x_13*y_14);};}, 1);
+  var maximum_4 = L.foldl1(max);
+  var minimum_5 = L.foldl1(min);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.List||{};
+  _.$op = {};
+  _.isEmpty = isEmpty_0;
+  _.concatMap = concatMap_1;
+  _.sum = sum_2;
+  _.product = product_3;
+  _.maximum = maximum_4;
+  _.minimum = minimum_5;
+  _.partition = partition_6;
+  _.unzip = unzip_7;
+  _.intersperse = intersperse_8
+  return elm.List = _;
+  };
+Elm.Keyboard = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Keyboard(elm);
+  var arrows_0 = A4(N.directions, 38, 40, 37, 39);
+  var wasd_1 = A4(N.directions, 87, 83, 65, 68);
+  var shift_2 = N.isDown(16);
+  var ctrl_3 = N.isDown(17);
+  var space_4 = N.isDown(32);
+  var enter_5 = N.isDown(13);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Keyboard||{};
+  _.$op = {};
+  _.arrows = arrows_0;
+  _.wasd = wasd_1;
+  _.shift = shift_2;
+  _.ctrl = ctrl_3;
+  _.space = space_4;
+  _.enter = enter_5
+  return elm.Keyboard = _;
+  };
+Elm.Json = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Dict = Elm.Dict(elm);
+  var JS = Elm.JavaScript(elm);
+  var Native = Elm.Native.Json(elm);
+  var String_0 = function(a1){
+    return {ctor:"String", _0:a1};};
+  var Number_1 = function(a1){
+    return {ctor:"Number", _0:a1};};
+  var Boolean_2 = function(a1){
+    return {ctor:"Boolean", _0:a1};};
+  var Null_3 = {ctor:"Null"};
+  var Array_4 = function(a1){
+    return {ctor:"Array", _0:a1};};
+  var Object_5 = function(a1){
+    return {ctor:"Object", _0:a1};};
+  var toString_6 = F2(function(sep_8, v_9){
+    return JS.toString(A2(Native.toJSString, sep_8, v_9));});
+  var fromString_7 = function(s_10){
+    return Native.fromJSString(JS.fromString(s_10));};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Json||{};
+  _.$op = {};
+  _.String = String_0;
+  _.Number = Number_1;
+  _.Boolean = Boolean_2;
+  _.Null = Null_3;
+  _.Array = Array_4;
+  _.Object = Object_5;
+  _.toString = toString_6;
+  _.fromString = fromString_7
+  return elm.Json = _;
+  };
+Elm.JavaScript = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.JavaScript||{};
+  _.$op = {}
+  return elm.JavaScript = _;
+  };
+Elm.Http = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Http(elm); var Native = Native||{};Native.Http = _;
+  var send = _.send;
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift;
+  var Success_0 = function(a1){
+    return {ctor:"Success", _0:a1};};
+  var Waiting_1 = {ctor:"Waiting"};
+  var Failure_2 = F2(function(a1, a2){
+    return {ctor:"Failure", _0:a1, _1:a2};});
+  var Request_3 = F4(function(verb_8, url_9, body_10, headers_11){
+    return {
+      _:{
+      },
+      body:body_10,
+      headers:headers_11,
+      url:url_9,
+      verb:verb_8};});
+  var get_5 = function(url_12){
+    return A4(Request_3, _str('GET'), url_12, _str(''), _L.Nil);};
+  var post_6 = F2(function(url_13, body_14){
+    return A4(Request_3, _str('POST'), url_13, body_14, _L.Nil);});
+  var sendGet_7 = function(reqs_15){
+    return send(A2(lift, get_5, reqs_15));};
+  var request_4 = Request_3;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Http||{};
+  _.$op = {};
+  _.Success = Success_0;
+  _.Waiting = Waiting_1;
+  _.Failure = Failure_2;
+  _.Request = Request_3;
+  _.request = request_4;
+  _.get = get_5;
+  _.post = post_6;
+  _.sendGet = sendGet_7
+  return elm.Http = _;
+  };
+Elm.Either = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.List(elm); var List = _;
+  var Left_0 = function(a1){
+    return {ctor:"Left", _0:a1};};
+  var Right_1 = function(a1){
+    return {ctor:"Right", _0:a1};};
+  var either_2 = F3(function(f_11, g_12, e_13){
+    return function(){ 
+    switch (e_13.ctor) {
+      case 'Left':
+        return f_11(e_13._0);
+      case 'Right':
+        return g_12(e_13._0);
+    }_E.Case('Line 16, Column 16') }();});
+  var isLeft_3 = function(e_16){
+    return function(){ 
+    switch (e_16.ctor) {
+      case 'Left':
+        return true;
+    }
+    return false; }();};
+  var isRight_4 = function(e_17){
+    return function(){ 
+    switch (e_17.ctor) {
+      case 'Right':
+        return true;
+    }
+    return false; }();};
+  var lefts_5 = function(es_18){
+    return A3(List.foldr, consLeft_8, _L.Nil, es_18);};
+  var rights_6 = function(es_19){
+    return A3(List.foldr, consRight_9, _L.Nil, es_19);};
+  var partition_7 = function(es_20){
+    return A3(List.foldr, consEither_10, {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil}, es_20);};
+  var consLeft_8 = F2(function(e_21, vs_22){
+    return function(){ 
+    switch (e_21.ctor) {
+      case 'Left':
+        return _L.Cons(e_21._0,vs_22);
+      case 'Right':
+        return vs_22;
+    }_E.Case('Line 40, Column 5') }();});
+  var consRight_9 = F2(function(e_24, vs_25){
+    return function(){ 
+    switch (e_24.ctor) {
+      case 'Left':
+        return vs_25;
+      case 'Right':
+        return _L.Cons(e_24._0,vs_25);
+    }_E.Case('Line 45, Column 5') }();});
+  var consEither_10 = F2(function(e_27, _52000_28){
+    return function(){ 
+    switch (_52000_28.ctor) {
+      case 'Tuple2':
+        return function(){ 
+        switch (e_27.ctor) {
+          case 'Left':
+            return {ctor:"Tuple2", _0:_L.Cons(e_27._0,_52000_28._0), _1:_52000_28._1};
+          case 'Right':
+            return {ctor:"Tuple2", _0:_52000_28._0, _1:_L.Cons(e_27._0,_52000_28._1)};
+        }_E.Case('Line 50, Column 5') }();
+    }_E.Case('Line 50, Column 5') }();});
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Either||{};
+  _.$op = {};
+  _.Left = Left_0;
+  _.Right = Right_1;
+  _.either = either_2;
+  _.isLeft = isLeft_3;
+  _.isRight = isRight_4;
+  _.lefts = lefts_5;
+  _.rights = rights_6;
+  _.partition = partition_7;
+  _.consLeft = consLeft_8;
+  _.consRight = consRight_9;
+  _.consEither = consEither_10
+  return elm.Either = _;
+  };
+Elm.Dict = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Maybe = Elm.Maybe(elm);
+  var Error = Elm.Native.Error(elm);
+  var List = Elm.List(elm);
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var compare = _.compare;
+  var Red_0 = {ctor:"Red"};
+  var Black_1 = {ctor:"Black"};
+  var RBNode_2 = F5(function(a1, a2, a3, a4, a5){
+    return {ctor:"RBNode", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
+  var RBEmpty_3 = {ctor:"RBEmpty"};
+  var min_5 = function(t_41){
+    return function(){ 
+    switch (t_41.ctor) {
+      case 'RBEmpty':
+        return Error.raise(_str('(min Empty) is not defined'));
+      case 'RBNode':
+        switch (t_41._3.ctor) {
+          case 'RBEmpty':
+            return {ctor:"Tuple2", _0:t_41._1, _1:t_41._2};
+        }
+        return min_5(t_41._3);
+    }_E.Case('Line 104, Column 3') }();};
+  var lookup_6 = F2(function(k_45, t_46){
+    return function(){ 
+    switch (t_46.ctor) {
+      case 'RBEmpty':
+        return Maybe.Nothing;
+      case 'RBNode':
+        return function(){ 
+        var case12 = A2(compare, k_45, t_46._1);
+        switch (case12.ctor) {
+          case 'EQ':
+            return Maybe.Just(t_46._2);
+          case 'GT':
+            return A2(lookup_6, k_45, t_46._4);
+          case 'LT':
+            return A2(lookup_6, k_45, t_46._3);
+        }_E.Case('Line 124, Column 5') }();
+    }_E.Case('Line 121, Column 2') }();});
+  var findWithDefault_7 = F3(function(base_51, k_52, t_53){
+    return function(){ 
+    switch (t_53.ctor) {
+      case 'RBEmpty':
+        return base_51;
+      case 'RBNode':
+        return function(){ 
+        var case19 = A2(compare, k_52, t_53._1);
+        switch (case19.ctor) {
+          case 'EQ':
+            return t_53._2;
+          case 'GT':
+            return A3(findWithDefault_7, base_51, k_52, t_53._4);
+          case 'LT':
+            return A3(findWithDefault_7, base_51, k_52, t_53._3);
+        }_E.Case('Line 136, Column 5') }();
+    }_E.Case('Line 133, Column 2') }();});
+  var member_8 = F2(function(k_58, t_59){
+    return $op['$'](Maybe.isJust)(A2(lookup_6, k_58, t_59));});
+  var rotateLeft_9 = function(t_60){
+    return function(){ 
+    switch (t_60.ctor) {
+      case 'RBNode':
+        switch (t_60._4.ctor) {
+          case 'RBNode':
+            return A5(RBNode_2, t_60._0, t_60._4._1, t_60._4._2, A5(RBNode_2, Red_0, t_60._1, t_60._2, t_60._3, t_60._4._3), t_60._4._4);
+        }break;
+    }
+    return Error.raise(_str('rotateLeft of a node without enough children')); }();};
+  var rotateRight_10 = function(t_70){
+    return function(){ 
+    switch (t_70.ctor) {
+      case 'RBNode':
+        switch (t_70._3.ctor) {
+          case 'RBNode':
+            return A5(RBNode_2, t_70._0, t_70._3._1, t_70._3._2, t_70._3._3, A5(RBNode_2, Red_0, t_70._1, t_70._2, t_70._3._4, t_70._4));
+        }break;
+    }
+    return Error.raise(_str('rotateRight of a node without enough children')); }();};
+  var rotateLeftIfNeeded_11 = function(t_80){
+    return function(){ 
+    switch (t_80.ctor) {
+      case 'RBNode':
+        switch (t_80._4.ctor) {
+          case 'RBNode':
+            switch (t_80._4._0.ctor) {
+              case 'Red':
+                return rotateLeft_9(t_80);
+            }break;
+        }break;
+    }
+    return t_80; }();};
+  var rotateRightIfNeeded_12 = function(t_81){
+    return function(){ 
+    switch (t_81.ctor) {
+      case 'RBNode':
+        switch (t_81._3.ctor) {
+          case 'RBNode':
+            switch (t_81._3._0.ctor) {
+              case 'Red':
+                switch (t_81._3._3.ctor) {
+                  case 'RBNode':
+                    switch (t_81._3._3._0.ctor) {
+                      case 'Red':
+                        return rotateRight_10(t_81);
+                    }break;
+                }break;
+            }break;
+        }break;
+    }
+    return t_81; }();};
+  var otherColor_13 = function(c_82){
+    return function(){ 
+    switch (c_82.ctor) {
+      case 'Black':
+        return Red_0;
+      case 'Red':
+        return Black_1;
+    }_E.Case('Line 185, Column 16') }();};
+  var color_flip_14 = function(t_83){
+    return function(){ 
+    switch (t_83.ctor) {
+      case 'RBNode':
+        switch (t_83._3.ctor) {
+          case 'RBNode':
+            switch (t_83._4.ctor) {
+              case 'RBNode':
+                return A5(RBNode_2, otherColor_13(t_83._0), t_83._1, t_83._2, A5(RBNode_2, otherColor_13(t_83._3._0), t_83._3._1, t_83._3._2, t_83._3._3, t_83._3._4), A5(RBNode_2, otherColor_13(t_83._4._0), t_83._4._1, t_83._4._2, t_83._4._3, t_83._4._4));
+            }break;
+        }break;
+    }
+    return Error.raise(_str('color_flip called on a Empty or Node with a Empty child')); }();};
+  var color_flipIfNeeded_15 = function(t_97){
+    return function(){ 
+    switch (t_97.ctor) {
+      case 'RBNode':
+        switch (t_97._3.ctor) {
+          case 'RBNode':
+            switch (t_97._3._0.ctor) {
+              case 'Red':
+                switch (t_97._4.ctor) {
+                  case 'RBNode':
+                    switch (t_97._4._0.ctor) {
+                      case 'Red':
+                        return color_flip_14(t_97);
+                    }break;
+                }break;
+            }break;
+        }break;
+    }
+    return t_97; }();};
+  var fixUp_16 = function(t_98){
+    return color_flipIfNeeded_15(rotateRightIfNeeded_12(rotateLeftIfNeeded_11(t_98)));};
+  var ensureBlackRoot_17 = function(t_99){
+    return function(){ 
+    switch (t_99.ctor) {
+      case 'RBNode':
+        switch (t_99._0.ctor) {
+          case 'Red':
+            return A5(RBNode_2, Black_1, t_99._1, t_99._2, t_99._3, t_99._4);
+        }break;
+    }
+    return t_99; }();};
+  var insert_18 = F3(function(k_104, v_105, t_106){
+    return function(){
+      var ins_107 = function(t_108){
+        return function(){ 
+        switch (t_108.ctor) {
+          case 'RBEmpty':
+            return A5(RBNode_2, Red_0, k_104, v_105, RBEmpty_3, RBEmpty_3);
+          case 'RBNode':
+            return function(){
+              var h_114 = function(){ 
+              var case114 = A2(compare, k_104, t_108._1);
+              switch (case114.ctor) {
+                case 'EQ':
+                  return A5(RBNode_2, t_108._0, t_108._1, v_105, t_108._3, t_108._4);
+                case 'GT':
+                  return A5(RBNode_2, t_108._0, t_108._1, t_108._2, t_108._3, ins_107(t_108._4));
+                case 'LT':
+                  return A5(RBNode_2, t_108._0, t_108._1, t_108._2, ins_107(t_108._3), t_108._4);
+              }_E.Case('Line 218, Column 19') }();
+              return fixUp_16(h_114);}();
+        }_E.Case('Line 215, Column 7') }();};
+      return ensureBlackRoot_17(ins_107(t_106));}();});
+  var singleton_19 = F2(function(k_115, v_116){
+    return A3(insert_18, k_115, v_116, RBEmpty_3);});
+  var isRed_20 = function(t_117){
+    return function(){ 
+    switch (t_117.ctor) {
+      case 'RBNode':
+        switch (t_117._0.ctor) {
+          case 'Red':
+            return true;
+        }break;
+    }
+    return false; }();};
+  var isRedLeft_21 = function(t_118){
+    return function(){ 
+    switch (t_118.ctor) {
+      case 'RBNode':
+        switch (t_118._3.ctor) {
+          case 'RBNode':
+            switch (t_118._3._0.ctor) {
+              case 'Red':
+                return true;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedLeftLeft_22 = function(t_119){
+    return function(){ 
+    switch (t_119.ctor) {
+      case 'RBNode':
+        switch (t_119._3.ctor) {
+          case 'RBNode':
+            switch (t_119._3._3.ctor) {
+              case 'RBNode':
+                switch (t_119._3._3._0.ctor) {
+                  case 'Red':
+                    return true;
+                }break;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedRight_23 = function(t_120){
+    return function(){ 
+    switch (t_120.ctor) {
+      case 'RBNode':
+        switch (t_120._4.ctor) {
+          case 'RBNode':
+            switch (t_120._4._0.ctor) {
+              case 'Red':
+                return true;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var isRedRightLeft_24 = function(t_121){
+    return function(){ 
+    switch (t_121.ctor) {
+      case 'RBNode':
+        switch (t_121._4.ctor) {
+          case 'RBNode':
+            switch (t_121._4._3.ctor) {
+              case 'RBNode':
+                switch (t_121._4._3._0.ctor) {
+                  case 'Red':
+                    return true;
+                }break;
+            }break;
+        }break;
+    }
+    return false; }();};
+  var moveRedLeft_25 = function(t_122){
+    return function(){
+      var t$_123 = color_flip_14(t_122);
+      return function(){ 
+      switch (t$_123.ctor) {
+        case 'RBNode':
+          return function(){ 
+          switch (t$_123._4.ctor) {
+            case 'RBNode':
+              switch (t$_123._4._3.ctor) {
+                case 'RBNode':
+                  switch (t$_123._4._3._0.ctor) {
+                    case 'Red':
+                      return color_flip_14(rotateLeft_9(A5(RBNode_2, t$_123._0, t$_123._1, t$_123._2, t$_123._3, rotateRight_10(t$_123._4))));
+                  }break;
+              }break;
+          }
+          return t$_123; }();
+      }
+      return t$_123; }();}();};
+  var moveRedRight_26 = function(t_129){
+    return function(){
+      var t$_130 = color_flip_14(t_129);
+      return (isRedLeftLeft_22(t$_130)?color_flip_14(rotateRight_10(t$_130)):t$_130);}();};
+  var moveRedLeftIfNeeded_27 = function(t_131){
+    return ((isRedLeft_21(t_131)||isRedLeftLeft_22(t_131))?t_131:moveRedLeft_25(t_131));};
+  var moveRedRightIfNeeded_28 = function(t_132){
+    return ((isRedRight_23(t_132)||isRedRightLeft_24(t_132))?t_132:moveRedRight_26(t_132));};
+  var deleteMin_29 = function(t_133){
+    return function(){
+      var del_134 = function(t_135){
+        return function(){ 
+        switch (t_135.ctor) {
+          case 'RBNode':
+            switch (t_135._3.ctor) {
+              case 'RBEmpty':
+                return RBEmpty_3;
+            }break;
+        }
+        return function(){ 
+        var case198 = moveRedLeftIfNeeded_27(t_135);
+        switch (case198.ctor) {
+          case 'RBEmpty':
+            return RBEmpty_3;
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, case198._0, case198._1, case198._2, del_134(case198._3), case198._4));
+        }_E.Case('Line 296, Column 12') }(); }();};
+      return ensureBlackRoot_17(del_134(t_133));}();};
+  var remove_30 = F2(function(k_141, t_142){
+    return function(){
+      var eq_and_noRightNode_143 = function(t_149){
+        return function(){ 
+        switch (t_149.ctor) {
+          case 'RBNode':
+            switch (t_149._4.ctor) {
+              case 'RBEmpty':
+                return _N.eq(k_141,t_149._1);
+            }break;
+        }
+        return false; }();};
+      var eq_144 = function(t_151){
+        return function(){ 
+        switch (t_151.ctor) {
+          case 'RBNode':
+            return _N.eq(k_141,t_151._1);
+        }
+        return false; }();};
+      var delLT_145 = function(t_153){
+        return function(){ 
+        var case216 = moveRedLeftIfNeeded_27(t_153);
+        switch (case216.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delLT on Empty'));
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, case216._0, case216._1, case216._2, del_148(case216._3), case216._4));
+        }_E.Case('Line 321, Column 17') }();};
+      var delEQ_146 = function(t_159){
+        return function(){ 
+        switch (t_159.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delEQ called on a Empty'));
+          case 'RBNode':
+            return function(){
+              var _325000_163 = min_5(t_159._4);
+              var k$_164 = function(){ 
+              switch (_325000_163.ctor) {
+                case 'Tuple2':
+                  return _325000_163._0;
+              }_E.Case('Line 325, Column 53') }();
+              var v$_165 = function(){ 
+              switch (_325000_163.ctor) {
+                case 'Tuple2':
+                  return _325000_163._1;
+              }_E.Case('Line 325, Column 53') }();
+              return fixUp_16(A5(RBNode_2, t_159._0, k$_164, v$_165, t_159._3, deleteMin_29(t_159._4)));}();
+        }_E.Case('Line 324, Column 17') }();};
+      var delGT_147 = function(t_170){
+        return function(){ 
+        switch (t_170.ctor) {
+          case 'RBEmpty':
+            return Error.raise(_str('delGT called on a Empty'));
+          case 'RBNode':
+            return fixUp_16(A5(RBNode_2, t_170._0, t_170._1, t_170._2, t_170._3, del_148(t_170._4)));
+        }_E.Case('Line 328, Column 17') }();};
+      var del_148 = function(t_176){
+        return function(){ 
+        switch (t_176.ctor) {
+          case 'RBEmpty':
+            return RBEmpty_3;
+          case 'RBNode':
+            return ((_N.cmp(k_141,t_176._1).ctor==='LT')?delLT_145(t_176):function(){
+              var u_178 = (isRedLeft_21(t_176)?rotateRight_10(t_176):t_176);
+              return (eq_and_noRightNode_143(u_178)?RBEmpty_3:function(){
+                var t$_179 = moveRedRightIfNeeded_28(t_176);
+                return (eq_144(t$_179)?delEQ_146(t$_179):delGT_147(t$_179));}());}());
+        }_E.Case('Line 331, Column 15') }();};
+      return (A2(member_8, k_141, t_142)?ensureBlackRoot_17(del_148(t_142)):t_142);}();});
+  var map_31 = F2(function(f_180, t_181){
+    return function(){ 
+    switch (t_181.ctor) {
+      case 'RBEmpty':
+        return RBEmpty_3;
+      case 'RBNode':
+        return A5(RBNode_2, t_181._0, t_181._1, f_180(t_181._2), A2(map_31, f_180, t_181._3), A2(map_31, f_180, t_181._4));
+    }_E.Case('Line 351, Column 3') }();});
+  var foldl_32 = F3(function(f_187, acc_188, t_189){
+    return function(){ 
+    switch (t_189.ctor) {
+      case 'RBEmpty':
+        return acc_188;
+      case 'RBNode':
+        return A3(foldl_32, f_187, A3(f_187, t_189._1, t_189._2, A3(foldl_32, f_187, acc_188, t_189._3)), t_189._4);
+    }_E.Case('Line 359, Column 3') }();});
+  var foldr_33 = F3(function(f_194, acc_195, t_196){
+    return function(){ 
+    switch (t_196.ctor) {
+      case 'RBEmpty':
+        return acc_195;
+      case 'RBNode':
+        return A3(foldr_33, f_194, A3(f_194, t_196._1, t_196._2, A3(foldr_33, f_194, acc_195, t_196._4)), t_196._3);
+    }_E.Case('Line 367, Column 3') }();});
+  var union_34 = F2(function(t1_201, t2_202){
+    return A3(foldl_32, insert_18, t2_202, t1_201);});
+  var intersect_35 = F2(function(t1_203, t2_204){
+    return function(){
+      var combine_205 = F3(function(k_206, v_207, t_208){
+        return (A2(member_8, k_206, t2_204)?A3(insert_18, k_206, v_207, t_208):t_208);});
+      return A3(foldl_32, combine_205, empty_4, t1_203);}();});
+  var diff_36 = F2(function(t1_209, t2_210){
+    return A3(foldl_32, function(k_211){
+      return function(v_212){
+        return function(t_213){
+          return A2(remove_30, k_211, t_213);};};}, t1_209, t2_210);});
+  var keys_37 = function(t_214){
+    return A3(foldr_33, function(k_215){
+      return function(v_216){
+        return function(acc_217){
+          return _L.Cons(k_215,acc_217);};};}, _L.Nil, t_214);};
+  var values_38 = function(t_218){
+    return A3(foldr_33, function(k_219){
+      return function(v_220){
+        return function(acc_221){
+          return _L.Cons(v_220,acc_221);};};}, _L.Nil, t_218);};
+  var toList_39 = function(t_222){
+    return A3(foldr_33, function(k_223){
+      return function(v_224){
+        return function(acc_225){
+          return _L.Cons({ctor:"Tuple2", _0:k_223, _1:v_224},acc_225);};};}, _L.Nil, t_222);};
+  var fromList_40 = function(assocs_226){
+    return A3(List.foldl, function(_0_227){
+      return function(){ 
+      switch (_0_227.ctor) {
+        case 'Tuple2':
+          return function(d_230){
+            return A3(insert_18, _0_227._0, _0_227._1, d_230);};
+      }_E.Case('Line 402, Column 43') }();}, empty_4, assocs_226);};
+  var empty_4 = RBEmpty_3;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Dict||{};
+  _.$op = {};
+  _.empty = empty_4;
+  _.lookup = lookup_6;
+  _.findWithDefault = findWithDefault_7;
+  _.member = member_8;
+  _.insert = insert_18;
+  _.singleton = singleton_19;
+  _.remove = remove_30;
+  _.map = map_31;
+  _.foldl = foldl_32;
+  _.foldr = foldr_33;
+  _.union = union_34;
+  _.intersect = intersect_35;
+  _.diff = diff_36;
+  _.keys = keys_37;
+  _.values = values_38;
+  _.toList = toList_39;
+  _.fromList = fromList_40
+  return elm.Dict = _;
+  };
+Elm.Date = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Mon_0 = {ctor:"Mon"};
+  var Tue_1 = {ctor:"Tue"};
+  var Wed_2 = {ctor:"Wed"};
+  var Thu_3 = {ctor:"Thu"};
+  var Fri_4 = {ctor:"Fri"};
+  var Sat_5 = {ctor:"Sat"};
+  var Sun_6 = {ctor:"Sun"};
+  var Jan_7 = {ctor:"Jan"};
+  var Feb_8 = {ctor:"Feb"};
+  var Mar_9 = {ctor:"Mar"};
+  var Apr_10 = {ctor:"Apr"};
+  var May_11 = {ctor:"May"};
+  var Jun_12 = {ctor:"Jun"};
+  var Jul_13 = {ctor:"Jul"};
+  var Aug_14 = {ctor:"Aug"};
+  var Sep_15 = {ctor:"Sep"};
+  var Oct_16 = {ctor:"Oct"};
+  var Nov_17 = {ctor:"Nov"};
+  var Dec_18 = {ctor:"Dec"};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Date||{};
+  _.$op = {};
+  _.Mon = Mon_0;
+  _.Tue = Tue_1;
+  _.Wed = Wed_2;
+  _.Thu = Thu_3;
+  _.Fri = Fri_4;
+  _.Sat = Sat_5;
+  _.Sun = Sun_6;
+  _.Jan = Jan_7;
+  _.Feb = Feb_8;
+  _.Mar = Mar_9;
+  _.Apr = Apr_10;
+  _.May = May_11;
+  _.Jun = Jun_12;
+  _.Jul = Jul_13;
+  _.Aug = Aug_14;
+  _.Sep = Sep_15;
+  _.Oct = Oct_16;
+  _.Nov = Nov_17;
+  _.Dec = Dec_18
+  return elm.Date = _;
+  };
+Elm.Color = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var Color_0 = F4(function(a1, a2, a3, a4){
+    return {ctor:"Color", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var Linear_20 = F3(function(a1, a2, a3){
+    return {ctor:"Linear", _0:a1, _1:a2, _2:a3};});
+  var Radial_21 = F5(function(a1, a2, a3, a4, a5){
+    return {ctor:"Radial", _0:a1, _1:a2, _2:a3, _3:a4, _4:a5};});
+  var rgb_2 = F3(function(r_24, g_25, b_26){
+    return A4(Color_0, r_24, g_25, b_26, 1);});
+  var rgba_1 = Color_0;
+  var red_3 = A4(Color_0, 255, 0, 0, 1);
+  var lime_4 = A4(Color_0, 0, 255, 0, 1);
+  var blue_5 = A4(Color_0, 0, 0, 255, 1);
+  var yellow_6 = A4(Color_0, 255, 255, 0, 1);
+  var cyan_7 = A4(Color_0, 0, 255, 255, 1);
+  var magenta_8 = A4(Color_0, 255, 0, 255, 1);
+  var black_9 = A4(Color_0, 0, 0, 0, 1);
+  var white_10 = A4(Color_0, 255, 255, 255, 1);
+  var gray_11 = A4(Color_0, 128, 128, 128, 1);
+  var grey_12 = A4(Color_0, 128, 128, 128, 1);
+  var maroon_13 = A4(Color_0, 128, 0, 0, 1);
+  var navy_14 = A4(Color_0, 0, 0, 128, 1);
+  var green_15 = A4(Color_0, 0, 128, 0, 1);
+  var teal_16 = A4(Color_0, 0, 128, 128, 1);
+  var purple_17 = A4(Color_0, 128, 0, 128, 1);
+  var violet_18 = A4(Color_0, 238, 130, 238, 1);
+  var forestGreen_19 = A4(Color_0, 34, 139, 34, 1);
+  var linear_22 = Linear_20;
+  var radial_23 = Radial_21;
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Color||{};
+  _.$op = {};
+  _.Color = Color_0;
+  _.rgba = rgba_1;
+  _.rgb = rgb_2;
+  _.red = red_3;
+  _.lime = lime_4;
+  _.blue = blue_5;
+  _.yellow = yellow_6;
+  _.cyan = cyan_7;
+  _.magenta = magenta_8;
+  _.black = black_9;
+  _.white = white_10;
+  _.gray = gray_11;
+  _.grey = grey_12;
+  _.maroon = maroon_13;
+  _.navy = navy_14;
+  _.green = green_15;
+  _.teal = teal_16;
+  _.purple = purple_17;
+  _.violet = violet_18;
+  _.forestGreen = forestGreen_19;
+  _.Linear = Linear_20;
+  _.Radial = Radial_21;
+  _.linear = linear_22;
+  _.radial = radial_23
+  return elm.Color = _;
+  };
+Elm.Char = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var N = Elm.Native.Char(elm);
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Char||{};
+  _.$op = {}
+  return elm.Char = _;
+  };
+Elm.Automaton = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift, foldp = _.foldp;
+  var Step_0 = function(a1){
+    return {ctor:"Step", _0:a1};};
+  var run_1 = F3(function(auto_12, base_13, inputs_14){
+    return function(){
+      var step_15 = F2(function(a_16, _15000_17){
+        return function(){ 
+        switch (_15000_17.ctor) {
+          case 'Tuple2':
+            switch (_15000_17._0.ctor) {
+              case 'Step':
+                return _15000_17._0._0(a_16);
+            }break;
+        }_E.Case('Line 15, Column 28') }();});
+      return A2(lift, function(_0_19){
+        return function(){ 
+        switch (_0_19.ctor) {
+          case 'Tuple2':
+            return _0_19._1;
+        }_E.Case('Line 16, Column 23') }();}, A3(foldp, step_15, {ctor:"Tuple2", _0:auto_12, _1:base_13}, inputs_14));}();});
+  var step_2 = F2(function(a_22, _20000_23){
+    return function(){ 
+    switch (_20000_23.ctor) {
+      case 'Step':
+        return _20000_23._0(a_22);
+    }_E.Case('Line 20, Column 19') }();});
+  $op['>>>'] = F2(function(f_25, g_26){
+    return Step_0(function(a_27){
+      return function(){
+        var _25000_28 = A2(step_2, a_27, f_25);
+        var f$_29 = function(){ 
+        switch (_25000_28.ctor) {
+          case 'Tuple2':
+            return _25000_28._0;
+        }_E.Case('Line 25, Column 29') }();
+        var b_30 = function(){ 
+        switch (_25000_28.ctor) {
+          case 'Tuple2':
+            return _25000_28._1;
+        }_E.Case('Line 25, Column 29') }();
+        var _26000_31 = A2(step_2, b_30, g_26);
+        var g$_32 = function(){ 
+        switch (_26000_31.ctor) {
+          case 'Tuple2':
+            return _26000_31._0;
+        }_E.Case('Line 26, Column 29') }();
+        var c_33 = function(){ 
+        switch (_26000_31.ctor) {
+          case 'Tuple2':
+            return _26000_31._1;
+        }_E.Case('Line 26, Column 29') }();
+        return {ctor:"Tuple2", _0:$op['>>>'](f$_29)(g$_32), _1:c_33};}();});});
+  $op['<<<'] = F2(function(g_42, f_43){
+    return $op['>>>'](f_43)(g_42);});
+  var combine_3 = function(autos_44){
+    return Step_0(function(a_45){
+      return function(){
+        var _36000_46 = $op['$'](unzip)(A2(map, step_2(a_45), autos_44));
+        var autos$_47 = function(){ 
+        switch (_36000_46.ctor) {
+          case 'Tuple2':
+            return _36000_46._0;
+        }_E.Case('Line 36, Column 34') }();
+        var bs_48 = function(){ 
+        switch (_36000_46.ctor) {
+          case 'Tuple2':
+            return _36000_46._1;
+        }_E.Case('Line 36, Column 34') }();
+        return {ctor:"Tuple2", _0:combine_3(autos$_47), _1:bs_48};}();});};
+  var pure_4 = function(f_53){
+    return Step_0(function(x_54){
+      return {ctor:"Tuple2", _0:pure_4(f_53), _1:f_53(x_54)};});};
+  var state_5 = F2(function(s_55, f_56){
+    return Step_0(function(x_57){
+      return function(){
+        var s$_58 = A2(f_56, x_57, s_55);
+        return {ctor:"Tuple2", _0:A2(state_5, s$_58, f_56), _1:s$_58};}();});});
+  var hiddenState_6 = F2(function(s_59, f_60){
+    return Step_0(function(x_61){
+      return function(){
+        var _60000_62 = A2(f_60, x_61, s_59);
+        var s$_63 = function(){ 
+        switch (_60000_62.ctor) {
+          case 'Tuple2':
+            return _60000_62._0;
+        }_E.Case('Line 60, Column 46') }();
+        var out_64 = function(){ 
+        switch (_60000_62.ctor) {
+          case 'Tuple2':
+            return _60000_62._1;
+        }_E.Case('Line 60, Column 46') }();
+        return {ctor:"Tuple2", _0:A2(hiddenState_6, s$_63, f_60), _1:out_64};}();});});
+  var enqueue_9 = F2(function(x_71, _69000_72){
+    return function(){ 
+    switch (_69000_72.ctor) {
+      case 'Tuple2':
+        return {ctor:"Tuple2", _0:_L.Cons(x_71,_69000_72._0), _1:_69000_72._1};
+    }_E.Case('Line 69, Column 22') }();});
+  var dequeue_10 = function(q_75){
+    return function(){ 
+    switch (q_75.ctor) {
+      case 'Tuple2':
+        switch (q_75._0.ctor) {
+          case 'Nil':
+            switch (q_75._1.ctor) {
+              case 'Nil':
+                return Nothing;
+            }break;
+        }
+        switch (q_75._1.ctor) {
+          case 'Cons':
+            return Just({ctor:"Tuple2", _0:q_75._1._0, _1:{ctor:"Tuple2", _0:q_75._0, _1:q_75._1._1}});
+          case 'Nil':
+            return enqueue_9({ctor:"Tuple2", _0:_L.Nil, _1:reverse(q_75._0)});
+        }break;
+    }_E.Case('Line 70, Column 13') }();};
+  var average_11 = function(k_80){
+    return function(){
+      var step_81 = F2(function(n_83, _80000_84){
+        return function(){ 
+        switch (_80000_84.ctor) {
+          case 'Tuple3':
+            return (_N.eq(_80000_84._1,k_80)?A2(stepFull_82, n_83, {ctor:"Tuple3", _0:_80000_84._0, _1:_80000_84._1, _2:_80000_84._2}):{ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_83, _80000_84._0), _1:(1+_80000_84._1), _2:(_80000_84._2+n_83)}, _1:((_80000_84._2+n_83)/(1+_80000_84._1))});
+        }_E.Case('Line 79, Column 11') }();});
+      var stepFull_82 = F2(function(n_88, _86000_89){
+        return function(){ 
+        switch (_86000_89.ctor) {
+          case 'Tuple3':
+            return function(){ 
+            var case49 = dequeue_10(_86000_89._0);
+            switch (case49.ctor) {
+              case 'Just':
+                switch (case49._0.ctor) {
+                  case 'Tuple2':
+                    return function(){
+                      var sum$_95 = ((_86000_89._2+n_88)-case49._0._0);
+                      return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:A2(enqueue_9, n_88, case49._0._1), _1:_86000_89._1, _2:sum$_95}, _1:(sum$_95/_86000_89._1)};}();
+                }break;
+              case 'Nothing':
+                return {ctor:"Tuple2", _0:{ctor:"Tuple3", _0:_86000_89._0, _1:_86000_89._1, _2:_86000_89._2}, _1:0};
+            }_E.Case('Line 82, Column 11') }();
+        }_E.Case('Line 82, Column 11') }();});
+      return A2(hiddenState_6, {ctor:"Tuple3", _0:empty_8, _1:0, _2:0}, step_81);}();};
+  var count_7 = A2(state_5, 0, function(__69){
+    return function(c_70){
+      return (1+c_70);};});
+  var empty_8 = {ctor:"Tuple2", _0:_L.Nil, _1:_L.Nil};
+  elm.Native = elm.Native||{};
+  var _ = elm.Native.Automaton||{};
+  _.$op = {'>>>' : $op['>>>'], '<<<' : $op['<<<']};
+  _.Step = Step_0;
+  _.run = run_1;
+  _.step = step_2;
+  _.combine = combine_3;
+  _.pure = pure_4;
+  _.state = state_5;
+  _.hiddenState = hiddenState_6;
+  _.count = count_7;
+  _.empty = empty_8;
+  _.enqueue = enqueue_9;
+  _.dequeue = dequeue_10;
+  _.average = average_11
+  return elm.Automaton = _;
+  };
 Elm.Native.Utils = function(elm) {
   'use strict';
 
@@ -2430,6 +3686,644 @@ Elm.Native.Graphics.Collage = function(elm) {
  return elm.Native.Graphics.Collage = { collage:F3(collage) };
 
 };
+Elm.JavaScript = Elm.JavaScript||{};
+Elm.JavaScript.Experimental = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var JS = Elm.JavaScript(elm);
+  var toRecord_0 = JS.toRecord;
+  var fromRecord_1 = JS.fromRecord;
+  elm.Native = elm.Native||{};
+  elm.Native.JavaScript = elm.Native.JavaScript||{};
+  var _ = elm.Native.JavaScript.Experimental||{};
+  _.$op = {};
+  _.toRecord = toRecord_0;
+  _.fromRecord = fromRecord_1
+  elm.JavaScript = elm.JavaScript||{};
+  return elm.JavaScript.Experimental = _;
+  };
+Elm.Graphics = Elm.Graphics||{};
+Elm.Graphics.Input = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Signal(elm); var Signal = _;
+  var lift = _.lift, dropRepeats = _.dropRepeats;
+  var N = Elm.Native.Graphics.Input(elm);
+  var _ = Elm.List(elm); var List = _;
+  var id_0 = function(x_10){
+    return x_10;};
+  var button_1 = function(txt_11){
+    return function(){
+      var pool_12 = N.buttons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A2(pool_12.button, {ctor:"Tuple0"}, txt_11), _1:pool_12.events};}();};
+  var customButton_2 = F3(function(up_13, hover_14, down_15){
+    return function(){
+      var pool_16 = N.customButtons({ctor:"Tuple0"});
+      return {ctor:"Tuple2", _0:A4(pool_16.customButton, {ctor:"Tuple0"}, up_13, hover_14, down_15), _1:pool_16.events};}();});
+  var checkbox_3 = function(b_17){
+    return function(){
+      var cbs_18 = N.checkboxes(b_17);
+      return {ctor:"Tuple2", _0:A2(lift, cbs_18.box(id_0), cbs_18.events), _1:cbs_18.events};}();};
+  var FieldState_4 = F3(function(string_19, selectionStart_20, selectionEnd_21){
+    return {
+      _:{
+      },
+      selectionEnd:selectionEnd_21,
+      selectionStart:selectionStart_20,
+      string:string_19};});
+  var field_6 = function(placeHolder_22){
+    return function(){
+      var tfs_23 = N.fields(emptyFieldState_5);
+      var changes_24 = dropRepeats(tfs_23.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_23.field, id_0, placeHolder_22), changes_24), _1:dropRepeats(A2(lift, function(__25){
+        return __25.string;}, changes_24))};}();};
+  var password_7 = function(placeHolder_26){
+    return function(){
+      var tfs_27 = N.passwords(emptyFieldState_5);
+      var changes_28 = dropRepeats(tfs_27.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_27.field, id_0, placeHolder_26), changes_28), _1:dropRepeats(A2(lift, function(__29){
+        return __29.string;}, changes_28))};}();};
+  var email_8 = function(placeHolder_30){
+    return function(){
+      var tfs_31 = N.emails(emptyFieldState_5);
+      var changes_32 = dropRepeats(tfs_31.events);
+      return {ctor:"Tuple2", _0:A2(lift, A2(tfs_31.field, id_0, placeHolder_30), changes_32), _1:dropRepeats(A2(lift, function(__33){
+        return __33.string;}, changes_32))};}();};
+  var stringDropDown_9 = function(strs_34){
+    return N.dropDown(A2(List.map, function(s_35){
+      return {ctor:"Tuple2", _0:s_35, _1:s_35};}, strs_34));};
+  var emptyFieldState_5 = {
+    _:{
+    },
+    selectionEnd:0,
+    selectionStart:0,
+    string:_str('')};
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Input||{};
+  _.$op = {};
+  _.id = id_0;
+  _.button = button_1;
+  _.customButton = customButton_2;
+  _.checkbox = checkbox_3;
+  _.FieldState = FieldState_4;
+  _.emptyFieldState = emptyFieldState_5;
+  _.field = field_6;
+  _.password = password_7;
+  _.email = email_8;
+  _.stringDropDown = stringDropDown_9
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Input = _;
+  };
+Elm.Graphics = Elm.Graphics||{};
+Elm.Graphics.Element = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var guid = _.guid, max = _.max, htmlHeight = _.htmlHeight;
+  var JS = Elm.JavaScript(elm);
+  var List = Elm.List(elm);
+  var _ = Elm.Color(elm); var Color = _;
+  var _ = Elm.Maybe(elm); var Maybe = _;
+  var Just = _.Just, Nothing = _.Nothing;
+  var Image_14 = F4(function(a1, a2, a3, a4){
+    return {ctor:"Image", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var Container_15 = F2(function(a1, a2){
+    return {ctor:"Container", _0:a1, _1:a2};});
+  var Flow_16 = F2(function(a1, a2){
+    return {ctor:"Flow", _0:a1, _1:a2};});
+  var Spacer_17 = {ctor:"Spacer"};
+  var RawHtml_18 = function(a1){
+    return {ctor:"RawHtml", _0:a1};};
+  var Custom_19 = {ctor:"Custom"};
+  var Plain_20 = {ctor:"Plain"};
+  var Fitted_21 = {ctor:"Fitted"};
+  var Cropped_22 = function(a1){
+    return {ctor:"Cropped", _0:a1};};
+  var Tiled_23 = {ctor:"Tiled"};
+  var P_28 = {ctor:"P"};
+  var Z_29 = {ctor:"Z"};
+  var N_30 = {ctor:"N"};
+  var Absolute_31 = function(a1){
+    return {ctor:"Absolute", _0:a1};};
+  var Relative_32 = function(a1){
+    return {ctor:"Relative", _0:a1};};
+  var DUp_36 = {ctor:"DUp"};
+  var DDown_37 = {ctor:"DDown"};
+  var DLeft_38 = {ctor:"DLeft"};
+  var DRight_39 = {ctor:"DRight"};
+  var DIn_40 = {ctor:"DIn"};
+  var DOut_41 = {ctor:"DOut"};
+  var Properties_0 = F7(function(id_73, width_74, height_75, opacity_76, color_77, href_78, tag_79){
+    return {
+      _:{
+      },
+      color:color_77,
+      height:height_75,
+      href:href_78,
+      id:id_73,
+      opacity:opacity_76,
+      tag:tag_79,
+      width:width_74};});
+  var Element_1 = F2(function(props_80, element_81){
+    return {
+      _:{
+      },
+      element:element_81,
+      props:props_80};});
+  var widthOf_2 = function(e_82){
+    return e_82.props.width;};
+  var heightOf_3 = function(e_83){
+    return e_83.props.height;};
+  var sizeOf_4 = function(e_84){
+    return {ctor:"Tuple2", _0:e_84.props.width, _1:e_84.props.height};};
+  var width_5 = F2(function(nw_85, e_86){
+    return function(){
+      var p_87 = e_86.props;
+      var props_88 = function(){ 
+      var case0 = e_86.element;
+      switch (case0.ctor) {
+        case 'Image':
+          return _N.replace([['height',((case0._2/case0._1)*nw_85)]], p_87);
+        case 'RawHtml':
+          return _N.replace([['height',function(){
+            var _50000_92 = A2(htmlHeight, nw_85, case0._0);
+            var w_93 = function(){ 
+            switch (_50000_92.ctor) {
+              case 'Tuple2':
+                return _50000_92._0;
+            }_E.Case('Line 50, Column 71') }();
+            var h_94 = function(){ 
+            switch (_50000_92.ctor) {
+              case 'Tuple2':
+                return _50000_92._1;
+            }_E.Case('Line 50, Column 71') }();
+            return h_94;}()]], p_87);
+      }
+      return p_87; }();
+      return {
+        _:{
+        },
+        element:e_86.element,
+        props:_N.replace([['width',nw_85]], props_88)};}();});
+  var height_6 = F2(function(nh_99, e_100){
+    return function(){
+      var p_101 = e_100.props;
+      var props_102 = function(){ 
+      var case12 = e_100.element;
+      switch (case12.ctor) {
+        case 'Image':
+          return _N.replace([['width',((case12._1/case12._2)*nh_99)]], p_101);
+      }
+      return p_101; }();
+      return {
+        _:{
+        },
+        element:e_100.element,
+        props:_N.replace([['height',nh_99]], p_101)};}();});
+  var size_7 = F3(function(w_105, h_106, e_107){
+    return A2(height_6, h_106, A2(width_5, w_105, e_107));});
+  var opacity_8 = F2(function(o_108, e_109){
+    return function(){
+      var p_110 = e_109.props;
+      return {
+        _:{
+        },
+        element:e_109.element,
+        props:_N.replace([['opacity',o_108]], p_110)};}();});
+  var color_9 = F2(function(c_111, e_112){
+    return function(){
+      var p_113 = e_112.props;
+      return {
+        _:{
+        },
+        element:e_112.element,
+        props:_N.replace([['color',Just(c_111)]], p_113)};}();});
+  var tag_10 = F2(function(name_114, e_115){
+    return function(){
+      var p_116 = e_115.props;
+      return {
+        _:{
+        },
+        element:e_115.element,
+        props:_N.replace([['tag',JS.fromString(name_114)]], p_116)};}();});
+  var link_11 = F2(function(href_117, e_118){
+    return function(){
+      var p_119 = e_118.props;
+      return {
+        _:{
+        },
+        element:e_118.element,
+        props:_N.replace([['href',JS.fromString(href_117)]], p_119)};}();});
+  var newElement_13 = F3(function(w_120, h_121, e_122){
+    return {
+      _:{
+      },
+      element:e_122,
+      props:A7(Properties_0, guid({ctor:"Tuple0"}), w_120, h_121, 1, Nothing, emptyStr_12, emptyStr_12)};});
+  var image_24 = F3(function(w_123, h_124, src_125){
+    return A3(newElement_13, w_123, h_124, A4(Image_14, Plain_20, w_123, h_124, JS.fromString(src_125)));});
+  var fittedImage_25 = F3(function(w_126, h_127, src_128){
+    return A3(newElement_13, w_126, h_127, A4(Image_14, Fitted_21, w_126, h_127, JS.fromString(src_128)));});
+  var croppedImage_26 = F4(function(pos_129, w_130, h_131, src_132){
+    return A3(newElement_13, w_130, h_131, A4(Image_14, Cropped_22(pos_129), w_130, h_131, JS.fromString(src_132)));});
+  var tiledImage_27 = F3(function(w_133, h_134, src_135){
+    return A3(newElement_13, w_133, h_134, A4(Image_14, Tiled_23, w_133, h_134, JS.fromString(src_135)));});
+  var Position_33 = F4(function(horizontal_136, vertical_137, x_138, y_139){
+    return {
+      _:{
+      },
+      horizontal:horizontal_136,
+      vertical:vertical_137,
+      x:x_138,
+      y:y_139};});
+  var container_34 = F4(function(w_140, h_141, pos_142, e_143){
+    return A3(newElement_13, w_140, h_141, A2(Container_15, pos_142, e_143));});
+  var spacer_35 = F2(function(w_144, h_145){
+    return A3(newElement_13, w_144, h_145, Spacer_17);});
+  var flow_42 = F2(function(dir_146, es_147){
+    return function(){
+      var newFlow_150 = F2(function(w_151, h_152){
+        return A3(newElement_13, w_151, h_152, A2(Flow_16, dir_146, es_147));});
+      var ws_148 = A2(List.map, widthOf_2, es_147);
+      var hs_149 = A2(List.map, heightOf_3, es_147);
+      return (_N.eq(es_147,_L.Nil)?A2(spacer_35, 0, 0):function(){ 
+      switch (dir_146.ctor) {
+        case 'DDown':
+          return A2(newFlow_150, List.maximum(ws_148), List.sum(hs_149));
+        case 'DIn':
+          return A2(newFlow_150, List.maximum(ws_148), List.maximum(hs_149));
+        case 'DLeft':
+          return A2(newFlow_150, List.sum(ws_148), List.maximum(hs_149));
+        case 'DOut':
+          return A2(newFlow_150, List.maximum(ws_148), List.maximum(hs_149));
+        case 'DRight':
+          return A2(newFlow_150, List.sum(ws_148), List.maximum(hs_149));
+        case 'DUp':
+          return A2(newFlow_150, List.maximum(ws_148), List.sum(hs_149));
+      }_E.Case('Line 160, Column 3') }());}();});
+  var above_43 = F2(function(hi_153, lo_154){
+    return A3(newElement_13, A2(max, widthOf_2(hi_153), widthOf_2(lo_154)), (heightOf_3(hi_153)+heightOf_3(lo_154)), A2(Flow_16, DDown_37, _L.Cons(hi_153,_L.Cons(lo_154,_L.Nil))));});
+  var below_44 = F2(function(lo_155, hi_156){
+    return A3(newElement_13, A2(max, widthOf_2(hi_156), widthOf_2(lo_155)), (heightOf_3(hi_156)+heightOf_3(lo_155)), A2(Flow_16, DDown_37, _L.Cons(hi_156,_L.Cons(lo_155,_L.Nil))));});
+  var beside_45 = F2(function(lft_157, rht_158){
+    return A3(newElement_13, (widthOf_2(lft_157)+widthOf_2(rht_158)), A2(max, heightOf_3(lft_157), heightOf_3(rht_158)), A2(Flow_16, right_70, _L.Cons(lft_157,_L.Cons(rht_158,_L.Nil))));});
+  var layers_46 = function(es_159){
+    return function(){
+      var ws_160 = A2(List.map, widthOf_2, es_159);
+      var hs_161 = A2(List.map, heightOf_3, es_159);
+      return A3(newElement_13, List.maximum(ws_160), List.maximum(hs_161), A2(Flow_16, DOut_41, es_159));}();};
+  var middleAt_58 = F2(function(x_162, y_163){
+    return {
+      _:{
+      },
+      horizontal:Z_29,
+      vertical:Z_29,
+      x:x_162,
+      y:y_163};});
+  var topLeftAt_59 = F2(function(x_164, y_165){
+    return {
+      _:{
+      },
+      horizontal:N_30,
+      vertical:P_28,
+      x:x_164,
+      y:y_165};});
+  var topRightAt_60 = F2(function(x_166, y_167){
+    return {
+      _:{
+      },
+      horizontal:P_28,
+      vertical:P_28,
+      x:x_166,
+      y:y_167};});
+  var bottomLeftAt_61 = F2(function(x_168, y_169){
+    return {
+      _:{
+      },
+      horizontal:N_30,
+      vertical:N_30,
+      x:x_168,
+      y:y_169};});
+  var bottomRightAt_62 = F2(function(x_170, y_171){
+    return {
+      _:{
+      },
+      horizontal:P_28,
+      vertical:N_30,
+      x:x_170,
+      y:y_171};});
+  var midLeftAt_63 = F2(function(x_172, y_173){
+    return {
+      _:{
+      },
+      horizontal:N_30,
+      vertical:Z_29,
+      x:x_172,
+      y:y_173};});
+  var midRightAt_64 = F2(function(x_174, y_175){
+    return {
+      _:{
+      },
+      horizontal:P_28,
+      vertical:Z_29,
+      x:x_174,
+      y:y_175};});
+  var midTopAt_65 = F2(function(x_176, y_177){
+    return {
+      _:{
+      },
+      horizontal:Z_29,
+      vertical:P_28,
+      x:x_176,
+      y:y_177};});
+  var midBottomAt_66 = F2(function(x_178, y_179){
+    return {
+      _:{
+      },
+      horizontal:Z_29,
+      vertical:N_30,
+      x:x_178,
+      y:y_179};});
+  var emptyStr_12 = JS.fromString(_str(''));
+  var absolute_47 = Absolute_31;
+  var relative_48 = Relative_32;
+  var middle_49 = {
+    _:{
+    },
+    horizontal:Z_29,
+    vertical:Z_29,
+    x:Relative_32(0.5),
+    y:Relative_32(0.5)};
+  var topLeft_50 = {
+    _:{
+    },
+    horizontal:N_30,
+    vertical:P_28,
+    x:Absolute_31(0),
+    y:Absolute_31(0)};
+  var topRight_51 = _N.replace([['horizontal',P_28]], topLeft_50);
+  var bottomLeft_52 = _N.replace([['vertical',N_30]], topLeft_50);
+  var bottomRight_53 = _N.replace([['horizontal',P_28]], bottomLeft_52);
+  var midLeft_54 = _N.replace([['horizontal',N_30],['x',Absolute_31(0)]], middle_49);
+  var midRight_55 = _N.replace([['horizontal',P_28]], midLeft_54);
+  var midTop_56 = _N.replace([['vertical',P_28],['y',Absolute_31(0)]], middle_49);
+  var midBottom_57 = _N.replace([['vertical',N_30]], midTop_56);
+  var up_67 = DUp_36;
+  var down_68 = DDown_37;
+  var left_69 = DLeft_38;
+  var right_70 = DRight_39;
+  var inward_71 = DIn_40;
+  var outward_72 = DOut_41;
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Element||{};
+  _.$op = {};
+  _.widthOf = widthOf_2;
+  _.heightOf = heightOf_3;
+  _.sizeOf = sizeOf_4;
+  _.width = width_5;
+  _.height = height_6;
+  _.size = size_7;
+  _.opacity = opacity_8;
+  _.color = color_9;
+  _.tag = tag_10;
+  _.link = link_11;
+  _.newElement = newElement_13;
+  _.image = image_24;
+  _.fittedImage = fittedImage_25;
+  _.croppedImage = croppedImage_26;
+  _.tiledImage = tiledImage_27;
+  _.container = container_34;
+  _.spacer = spacer_35;
+  _.flow = flow_42;
+  _.above = above_43;
+  _.below = below_44;
+  _.beside = beside_45;
+  _.layers = layers_46;
+  _.absolute = absolute_47;
+  _.relative = relative_48;
+  _.middle = middle_49;
+  _.topLeft = topLeft_50;
+  _.topRight = topRight_51;
+  _.bottomLeft = bottomLeft_52;
+  _.bottomRight = bottomRight_53;
+  _.midLeft = midLeft_54;
+  _.midRight = midRight_55;
+  _.midTop = midTop_56;
+  _.midBottom = midBottom_57;
+  _.middleAt = middleAt_58;
+  _.topLeftAt = topLeftAt_59;
+  _.topRightAt = topRightAt_60;
+  _.bottomLeftAt = bottomLeftAt_61;
+  _.bottomRightAt = bottomRightAt_62;
+  _.midLeftAt = midLeftAt_63;
+  _.midRightAt = midRightAt_64;
+  _.midTopAt = midTopAt_65;
+  _.midBottomAt = midBottomAt_66;
+  _.up = up_67;
+  _.down = down_68;
+  _.left = left_69;
+  _.right = right_70;
+  _.inward = inward_71;
+  _.outward = outward_72
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Element = _;
+  };
+Elm.Graphics = Elm.Graphics||{};
+Elm.Graphics.Collage = function(elm){
+  var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
+  var $op = {};
+  var _ = Elm.List(elm); var List = _;
+  var _ = Elm.Native.Utils(elm); var Native = Native||{};Native.Utils = _;
+  var toFloat = _.toFloat;
+  var _ = Elm.Either(elm); var Either = _;
+  var Matrix = Elm.Native.Matrix2D(elm);
+  var N = Elm.Native.Graphics.Collage(elm);
+  var _ = Elm.Graphics.Element(elm); var Graphics = Graphics||{};Graphics.Element = _;
+  var _ = Elm.Color(elm); var Color = _;
+  var Solid_1 = function(a1){
+    return {ctor:"Solid", _0:a1};};
+  var Texture_2 = function(a1){
+    return {ctor:"Texture", _0:a1};};
+  var Gradient_3 = function(a1){
+    return {ctor:"Gradient", _0:a1};};
+  var Flat_4 = {ctor:"Flat"};
+  var Round_5 = {ctor:"Round"};
+  var Padded_6 = {ctor:"Padded"};
+  var Smooth_7 = {ctor:"Smooth"};
+  var Sharp_8 = function(a1){
+    return {ctor:"Sharp", _0:a1};};
+  var Clipped_9 = {ctor:"Clipped"};
+  var FPath_15 = F2(function(a1, a2){
+    return {ctor:"FPath", _0:a1, _1:a2};});
+  var FShape_16 = F2(function(a1, a2){
+    return {ctor:"FShape", _0:a1, _1:a2};});
+  var FImage_17 = F4(function(a1, a2, a3, a4){
+    return {ctor:"FImage", _0:a1, _1:a2, _2:a3, _3:a4};});
+  var FElement_18 = function(a1){
+    return {ctor:"FElement", _0:a1};};
+  var FGroup_19 = F2(function(a1, a2){
+    return {ctor:"FGroup", _0:a1, _1:a2};});
+  var Form_0 = F5(function(theta_44, scale_45, x_46, y_47, form_48){
+    return {
+      _:{
+      },
+      form:form_48,
+      scale:scale_45,
+      theta:theta_44,
+      x:x_46,
+      y:y_47};});
+  var LineStyle_10 = F6(function(color_49, width_50, cap_51, join_52, dashing_53, dashOffset_54){
+    return {
+      _:{
+      },
+      cap:cap_51,
+      color:color_49,
+      dashOffset:dashOffset_54,
+      dashing:dashing_53,
+      join:join_52,
+      width:width_50};});
+  var solid_12 = function(clr_55){
+    return _N.replace([['color',clr_55]], defaultLine_11);};
+  var dashed_13 = function(clr_56){
+    return _N.replace([['color',clr_56],['dashing',_L.Cons(8,_L.Cons(4,_L.Nil))]], defaultLine_11);};
+  var dotted_14 = function(clr_57){
+    return _N.replace([['color',clr_57],['dashing',_L.Cons(3,_L.Cons(3,_L.Nil))]], defaultLine_11);};
+  var form_20 = function(f_58){
+    return {
+      _:{
+      },
+      form:f_58,
+      scale:1,
+      theta:0,
+      x:0,
+      y:0};};
+  var fill_21 = F2(function(style_59, shape_60){
+    return form_20(A2(FShape_16, Either.Right(style_59), shape_60));});
+  var filled_22 = F2(function(color_61, shape_62){
+    return A2(fill_21, Solid_1(color_61), shape_62);});
+  var textured_23 = F2(function(src_63, shape_64){
+    return A2(fill_21, Texture_2(src_63), shape_64);});
+  var gradient_24 = F2(function(grad_65, shape_66){
+    return A2(fill_21, Gradient_3(grad_65), shape_66);});
+  var outlined_25 = F2(function(style_67, shape_68){
+    return form_20(A2(FShape_16, Either.Left(style_67), shape_68));});
+  var traced_26 = F2(function(style_69, path_70){
+    return form_20(A2(FPath_15, style_69, path_70));});
+  var sprite_27 = F4(function(w_71, h_72, pos_73, src_74){
+    return form_20(A4(FImage_17, w_71, h_72, pos_73, src_74));});
+  var toForm_28 = function(e_75){
+    return form_20(FElement_18(e_75));};
+  var group_29 = function(fs_76){
+    return form_20(A2(FGroup_19, Matrix.identity, fs_76));};
+  var groupTransform_30 = F2(function(matrix_77, fs_78){
+    return form_20(A2(FGroup_19, matrix_77, fs_78));});
+  var rotate_31 = F2(function(t_79, f_80){
+    return _N.replace([['theta',(f_80.theta+t_79)]], f_80);});
+  var scale_32 = F2(function(s_81, f_82){
+    return _N.replace([['scale',(f_82.scale*s_81)]], f_82);});
+  var move_33 = F2(function(_138000_83, f_84){
+    return function(){ 
+    switch (_138000_83.ctor) {
+      case 'Tuple2':
+        return _N.replace([['x',(f_84.x+_138000_83._0)],['y',(f_84.y+_138000_83._1)]], f_84);
+    }_E.Case('Line 138, Column 20') }();});
+  var moveX_34 = F2(function(x_87, f_88){
+    return _N.replace([['x',(f_88.x+x_87)]], f_88);});
+  var moveY_35 = F2(function(y_89, f_90){
+    return _N.replace([['y',(f_90.y+y_89)]], f_90);});
+  var path_36 = function(ps_91){
+    return ps_91;};
+  var segment_37 = F2(function(p1_92, p2_93){
+    return _L.Cons(p1_92,_L.Cons(p2_93,_L.Nil));});
+  var polygon_38 = function(points_94){
+    return points_94;};
+  var rect_39 = F2(function(w_95, h_96){
+    return function(){
+      var hw_97 = (w_95/2);
+      var hh_98 = (h_96/2);
+      return _L.Cons({ctor:"Tuple2", _0:(0-hw_97), _1:(0-hh_98)},_L.Cons({ctor:"Tuple2", _0:(0-hw_97), _1:hh_98},_L.Cons({ctor:"Tuple2", _0:hw_97, _1:hh_98},_L.Cons({ctor:"Tuple2", _0:hw_97, _1:(0-hh_98)},_L.Nil))));}();});
+  var square_40 = function(n_99){
+    return A2(rect_39, n_99, n_99);};
+  var oval_41 = F2(function(w_100, h_101){
+    return function(){
+      var f_106 = function(i_107){
+        return {ctor:"Tuple2", _0:(hw_104*Math.cos((t_103*i_107))), _1:(hh_105*Math.sin((t_103*i_107)))};};
+      var n_102 = 50;
+      var t_103 = ((2*Math.PI)/n_102);
+      var hw_104 = (w_100/2);
+      var hh_105 = (h_101/2);
+      return A2(List.map, f_106, _L.range(0,(n_102-1)));}();});
+  var circle_42 = function(r_108){
+    return A2(oval_41, (2*r_108), (2*r_108));};
+  var ngon_43 = F2(function(n_109, r_110){
+    return function(){
+      var f_113 = function(i_114){
+        return {ctor:"Tuple2", _0:(r_110*Math.cos((t_112*i_114))), _1:(r_110*Math.sin((t_112*i_114)))};};
+      var m_111 = toFloat(n_109);
+      var t_112 = ((2*Math.PI)/m_111);
+      return A2(List.map, f_113, _L.range(0,(n_109-1)));}();});
+  var defaultLine_11 = {
+    _:{
+    },
+    cap:Flat_4,
+    color:Color.black,
+    dashOffset:0,
+    dashing:_L.Nil,
+    join:Sharp_8(10),
+    width:1};
+  elm.Native = elm.Native||{};
+  elm.Native.Graphics = elm.Native.Graphics||{};
+  var _ = elm.Native.Graphics.Collage||{};
+  _.$op = {};
+  _.Form = Form_0;
+  _.Solid = Solid_1;
+  _.Texture = Texture_2;
+  _.Gradient = Gradient_3;
+  _.Flat = Flat_4;
+  _.Round = Round_5;
+  _.Padded = Padded_6;
+  _.Smooth = Smooth_7;
+  _.Sharp = Sharp_8;
+  _.Clipped = Clipped_9;
+  _.LineStyle = LineStyle_10;
+  _.defaultLine = defaultLine_11;
+  _.solid = solid_12;
+  _.dashed = dashed_13;
+  _.dotted = dotted_14;
+  _.FPath = FPath_15;
+  _.FShape = FShape_16;
+  _.FImage = FImage_17;
+  _.FElement = FElement_18;
+  _.FGroup = FGroup_19;
+  _.form = form_20;
+  _.fill = fill_21;
+  _.filled = filled_22;
+  _.textured = textured_23;
+  _.gradient = gradient_24;
+  _.outlined = outlined_25;
+  _.traced = traced_26;
+  _.sprite = sprite_27;
+  _.toForm = toForm_28;
+  _.group = group_29;
+  _.groupTransform = groupTransform_30;
+  _.rotate = rotate_31;
+  _.scale = scale_32;
+  _.move = move_33;
+  _.moveX = moveX_34;
+  _.moveY = moveY_35;
+  _.path = path_36;
+  _.segment = segment_37;
+  _.polygon = polygon_38;
+  _.rect = rect_39;
+  _.square = square_40;
+  _.oval = oval_41;
+  _.circle = circle_42;
+  _.ngon = ngon_43
+  elm.Graphics = elm.Graphics||{};
+  return elm.Graphics.Collage = _;
+  };
 Elm.Window = function(elm){
   var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _str = N.JavaScript(elm).toString;
   var $op = {};
