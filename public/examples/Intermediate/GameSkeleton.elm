@@ -1,4 +1,3 @@
-
 module GameSkeleton where
 
 
@@ -56,7 +55,7 @@ Task: redefine `stepGame` to use the UserInput and GameState
 ------------------------------------------------------------------------------}
 
 stepGame : Input -> GameState -> GameState
-stepGame (Input delta userInput)) gameState = gameState
+stepGame (Input delta userInput) gameState = gameState
 
 
 
