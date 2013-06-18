@@ -15,6 +15,7 @@ function hotSwap() {
             && request.status >= 200
             && request.status < 300) {
             var result = JSON.parse(request.responseText);
+            var top = self.parent;
             if (js = result.success) {
                 var error = top.output.document.getElementById('ErrorMessage');
                 if (error) {
