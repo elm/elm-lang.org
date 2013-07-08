@@ -13,7 +13,7 @@ what1 = [markdown|
 Functional Reactive Programming (FRP) is a high-level way to work with
 interactions. It provides control flow structures for *time*.
 
-FRP is build around the idea of time-varying values, called *signals* in Elm.
+FRP is built around the idea of time-varying values, called *signals* in Elm.
 
 You can see some signals in action in the colorful box to the right.
 Take a second to play around with each of the examples. Try to make them change
