@@ -447,7 +447,12 @@ function initEditor() {
       extraKeys: {'Ctrl-Enter': loadJavaScript,
                   'Shift-Ctrl-Enter': compileOutput,
                   'Ctrl-K': toggleDocView,
-                  'Shift-Ctrl-K': openDocPage }
+                  'Shift-Ctrl-K': openDocPage,
+                  'Tab': function(cm) {
+                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                          cm.replaceSelection(spaces, "end", "+input");
+                      }
+       }
     });
   editor.focus();
   editor.on('cursorActivity', hideDocView);

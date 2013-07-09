@@ -19,8 +19,7 @@ keysStep arrows turtle =
                angle <- turtle.angle - arrows.x / 20 }
 
 swimStep : Time -> Turtle -> Turtle
-swimStep delta turtle =
-    let {x,y,angle,velocity} = turtle in
+swimStep delta ({x,y,angle,velocity} as turtle) =
     { turtle | x <- x + delta * velocity * cos angle ,
                y <- y + delta * velocity * sin angle }
 
