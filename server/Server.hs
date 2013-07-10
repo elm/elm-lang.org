@@ -1,16 +1,21 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Prelude hiding (head,span,id,catch)
-import Control.Monad (msum,when)
+import Prelude hiding (head, span, id, catch)
+import Control.Monad (msum, zipWithM_)
+import Data.List (stripPrefix)
+import Data.Maybe (fromJust)
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
 
 import Text.Blaze.Html (Html, toHtml)
+import Text.Blaze.Html.Renderer.String (renderHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
-import System.Directory (doesFileExist)
+import System.Directory (doesFileExist, createDirectoryIfMissing)
+import System.FilePath ((</>))
 
+import DirTree
 import qualified Language.Elm as Elm (docs)
 import ElmToHtml
 import Editor
@@ -60,11 +65,13 @@ withFile handler fp = do
       content <- liftIO (readFile "public/Error404.elm")
       notFound . toResponse $ elmToHtml (pageTitle fp) content
 
-
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
-compileFile = withFile (elmToHtml . pageTitle)
+compileFile = withFile elmToPage
 
+-- | Compile an elm file with a page title.
+elmToPage :: FilePath -> String -> Html
+elmToPage = elmToHtml . pageTitle
 
 -- | Simple response for form-validation demo.
 sayHi :: ServerPart Response
@@ -77,3 +84,21 @@ sayHi = do
             , "! Welcome to the fake login-confirmation page.\n\n"
             , "We will not attempt to contact you at ", email
             , ".\nIn fact, your (fake?) email has not even been recorded." ]
+
+-- | Compile all of the Elm files in public/ to the compiled/ folder
+compileAll :: FilePath -> FilePath -> IO ()
+compileAll fromPre toPre = do
+  dirTree <- buildDirTree fromPre
+  let fromToTo =  map ((toPre </>) . fromJust . stripPrefix fromPre)
+      compDirs =  fromToTo (directories dirTree)
+      compFiles = fromToTo (files dirTree)
+  mapM_ (createDirectoryIfMissing True) compDirs
+  zipWithM_ compileFromTo (files dirTree) compFiles
+  where -- pubPrefix = "public/"
+        -- compPrefix = "compiled/"
+
+compileFromTo :: FilePath -> FilePath -> IO ()
+compileFromTo from to = do
+  contents <- readFile from
+  let out = renderHtml $ elmToPage to contents
+  writeFile to out
