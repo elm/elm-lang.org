@@ -214,7 +214,7 @@ hypotenuse a b = sqrt (a^2 + b^2)
 ```
 
 You can also create custom infix operators. They have the highest precedence
-and are left associative. You cannot override built-in operators.
+and are right associative. You cannot override built-in operators.
 
 ```haskell
 (a,b) +++ (x,y) = (a + x, b + y)
