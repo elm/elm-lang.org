@@ -19,17 +19,17 @@ step (t,dir) = physics t . walk dir . gravity t . jump dir
 
 -- DISPLAY
 render (w,h) mario =
-  let half n = n `div` 2
+  let half n = toFloat n / 2
       verb = if | mario.y  >  0 -> "jump"
                 | mario.vx /= 0 -> "walk"
                 | otherwise     -> "stand"
       src  = "/imgs/mario/" ++ verb ++ "/" ++ mario.dir ++ ".gif"
   in collage w h
-       [ rect w h  |> filled (rgb 174 238 238)
-       , rect w 50 |> filled (rgb 74 163 41)
-                   |> move (0, 24 - half h)
-       , toForm (image 35 35 src) |> move (mario.x, mario.y + 62 - half h)
-       ]
+      [ rect w h  |> filled (rgb 174 238 238)
+      , rect w 50 |> filled (rgb 74 163 41)
+                  |> move (0, 24 - half h)
+      , toForm (image 35 35 src) |> move (mario.x, mario.y + 62 - half h)
+      ]
 
 -- MARIO
 input = let delta = lift (\t -> t/20) (fps 25)
