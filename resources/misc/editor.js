@@ -419,7 +419,6 @@ function initEditor() {
       matchBrackets: true,
       theme: initTheme(),
       tabMode: 'shift',
-<<<<<<< HEAD
       extraKeys: {'Ctrl-Enter': loadJavaScript,
                   'Shift-Ctrl-Enter': compileOutput,
                   'Ctrl-K': toggleDocView,
@@ -429,12 +428,6 @@ function initEditor() {
                           cm.replaceSelection(spaces, "end", "+input");
                       }
        }
-=======
-      extraKeys: {'Ctrl-Enter': hotSwap,
-                  'Shift-Ctrl-Enter': compile,
-                  'Ctrl-K': toggleVerbose,
-                  'Shift-Ctrl-K': openDocPage }
->>>>>>> 021e01a9805da13d1a392563281d3a1ba33417eb
     });
   editor.focus();
   editor.on('cursorActivity', hideStuff);
