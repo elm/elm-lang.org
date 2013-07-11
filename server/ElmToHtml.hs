@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module ElmToHtml (elmToHtml, elmToJS) where
 
-import Text.Blaze (preEscapedToMarkup)
+import Data.Maybe (fromMaybe)
+import Text.Blaze (preEscapedToMarkup, toMarkup)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
@@ -26,10 +27,19 @@ elmToHtml name src =
           \color: rgb(234,21,122);}" :: String)
       H.body $ do
         let js = H.script ! A.type_ "text/javascript"
+            name = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
+            runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ name ++ ")"
         js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
-        js $ preEscapedToMarkup (Elm.compile src)
-        js $ preEscapedToMarkup ("var runningElmModule = Elm.fullscreen(Elm." ++ Elm.moduleName src ++ ")")
+        case Elm.compile src of
+          Right jsSrc -> do
+              js $ preEscapedToMarkup jsSrc
+              js $ preEscapedToMarkup runFullscreen
+          Left err ->
+              H.span ! A.style "font-family: monospace;" $
+              mapM_ (\line -> toMarkup line >> H.br) (lines err)
         googleAnalytics
 
 elmToJS :: String -> String
-elmToJS = Elm.compile
+elmToJS src = case Elm.compile src of
+                Right js -> "{ \"success\" : " ++ show js ++ " }"
+                Left err -> "{ \"error\" : " ++ show err ++ " }"
