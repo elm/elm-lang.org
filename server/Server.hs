@@ -2,17 +2,20 @@
 module Main where
 
 import Prelude hiding (head, span, id, catch)
-import Control.Monad (msum, zipWithM_)
+import Control.Monad (msum, when, zipWithM_)
+import Data.Char (toLower)
 import Data.List (stripPrefix)
 import Data.Maybe (fromJust)
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
+import Happstack.Server.FileServe.BuildingBlocks (serveDirectory')
 
 import Text.Blaze.Html (Html, toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
 import System.Directory (doesFileExist, createDirectoryIfMissing)
+import System.Environment (getArgs)
 import System.FilePath ((</>))
 
 import DirTree
@@ -21,22 +24,45 @@ import ElmToHtml
 import Editor
 import Utils
 
+data Mode = Prod | Dev
+          deriving Eq
+
 -- | Set up the server.
 main :: IO ()
-main = simpleHTTP nullConf $ do
-         docsPath <- liftIO $ Elm.docs
-         compressedResponseFilter
-         msum [ nullDir >> compileFile "Elm.elm"
-              , serveDirectory DisableBrowsing [] "resources"
-              , dir "try" (ok $ toResponse $ emptyIDE)
-              , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
-              , dir "hotswap" $ compilePart elmToJS
-              , dir "jsondocs" $ serveFile (asContentType "text/json") docsPath
-              , dir "edit" . uriRest $ withFile ide
-              , dir "code" . uriRest $ withFile editor
-              , dir "login" sayHi
-              , uriRest compileFile
-              ]
+main = do
+  args <- getArgs
+  let mode = getMode . map (map toLower) $ args
+  when (mode == Prod) $ do
+    putStrLn "Compiling..."
+    (compileAll "public/" "compiled/")
+  putStrLn "Serving at localhost:8000"
+  simpleHTTP nullConf $ do
+    compressedResponseFilter
+    docsPath <- liftIO $ Elm.docs
+    uncurry (route docsPath) $ case mode of
+      Prod ->
+        (serveFile mime "compiled/Elm.elm",
+         serveDirectory' DisableBrowsing [] mime "compiled")
+      Dev ->
+        (compileFile "Elm.elm",
+        uriRest compileFile)
+  where getMode ("prod":_) = Prod
+        getMode _          = Dev
+        mime = asContentType "text/html; charset=UTF-8"
+
+route :: FilePath -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
+route docsPath empty rest = do
+  msum [ nullDir >> empty
+       , serveDirectory DisableBrowsing [] "resources"
+       , dir "try" (ok $ toResponse $ emptyIDE)
+       , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
+       , dir "hotswap" $ compilePart elmToJS
+       , dir "jsondocs" $ serveFile (asContentType "text/json") docsPath
+       , dir "edit" . uriRest $ withFile ide
+       , dir "code" . uriRest $ withFile editor
+       , dir "login" sayHi
+       , rest
+       ]
 
 -- | Compile an Elm program that has been POST'd to the server.
 compilePart compile = do
