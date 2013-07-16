@@ -28,6 +28,11 @@ Then follow these steps to get this all running on your local machine:
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at [localhost:8000/](http://localhost:8000/).
 
+### Options
+
+###### Production Mode
+
+By default, the server will recompile your source code on the fly each time a request comes in so you can edit your code and refresh to see the changes. Alternatively you can launch the server with `./Server prod` which will precompile all files in the `public/` folder to the `compiled` folder and serve directly from there.
 
 ### Project Structure
 

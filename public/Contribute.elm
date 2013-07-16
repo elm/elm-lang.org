@@ -1,8 +1,9 @@
 
-import Website.Skeleton
+import Website.Skeleton (skeleton)
 import Window as Win
+import JavaScript
 
-title = constant (JavaScript.castStringToJSString "Contribute to Elm")
+title = constant (JavaScript.fromString "Contribute to Elm")
 foreign export jsevent "elm_title"
   title : Signal JSString
 
