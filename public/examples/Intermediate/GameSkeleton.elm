@@ -1,6 +1,6 @@
 module GameSkeleton where
 
-
+import Window
 
 {-- Part 1: Model the user input ----------------------------------------------
 
@@ -74,7 +74,7 @@ display (w,h) gameState = asText gameState
 
 {-- That's all folks! ---------------------------------------------------------
 
-The following code puts it all together and show it on screen.
+The following code puts it all together and shows it on screen.
 
 ------------------------------------------------------------------------------}
 
