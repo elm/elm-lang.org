@@ -19,7 +19,7 @@ Then follow these steps to get this all running on your local machine:
 
 - Fork this project.
 - Run `bash compile.sh`. This will compile the server.
-- Run `./Server` to start the server.
+- Run `./ElmServer` to start the server.
 
 ###### Windows
 
