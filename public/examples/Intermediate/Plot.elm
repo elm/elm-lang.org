@@ -24,9 +24,9 @@ plot style w h points =
 
 -----  Provide many graphs for display  ----
 
-range    = map toFloat [ 0-10 .. 10 ]
-piRange  = map (\x -> toFloat x / 40 * pi) [0-40..40]
-offRange = map (\x -> toFloat x / 5) [0-20..10]
+range    = map toFloat [ -10 .. 10 ]
+piRange  = map (\x -> toFloat x / 40 * pi) [-40..40]
+offRange = map (\x -> toFloat x / 5) [-20..10]
 
 graph f range = zip range (map f range)
 

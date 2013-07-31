@@ -18,7 +18,7 @@ step inp ((tx,ty),(x,y)) =
                                  y + (ty-y) * (d/100) ))
 
 -- DISPLAY
-greenGrad = radial (0,0) 10 (7,0-5) 30
+greenGrad = radial (0,0) 10 (7,-5) 30
               [(0, rgb 167 211 12), (0.9, rgb 1 159 98), (1, rgba 1 159 98 0)]
 
 follower (w,h) (target,(x,y)) =

@@ -7,7 +7,7 @@ desired = 50
 timestep = fps desired
 
 delta = let bothZero (x,y) = x == 0 && y == 0
-            scale s {x,y} = (x*s/10, 0-y*s/10)
+            scale s {x,y} = (x*s/10, -y*s/10)
             scaledDir = lift2 scale timestep Keyboard.arrows
         in  dropIf bothZero (0,0) <| sampleOn timestep scaledDir
 

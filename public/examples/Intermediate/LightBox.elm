@@ -16,7 +16,7 @@ arrow theta =
     in  collage (round w) (round h)
         [ filled c1 <| rect w h (w/2, h/2)
         , rotate theta . filled c2 <|
-                 polygon [ (x,0),(0-x,y),(0-x,0-y) ] (w/2,h/2)
+                 polygon [ (x,0),(-x,y),(-x,-y) ] (w/2,h/2)
         ]
 
 (leftArrow , leftClicked ) = Mouse.isClickedOn (arrow 0.5)

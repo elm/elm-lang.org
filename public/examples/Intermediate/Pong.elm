@@ -59,8 +59,8 @@ stepPlyr t dir points player =
 
 stepGame {space,dirL,dirR,delta} game =
   let {state,ball,playerL,playerR} = game
-      scoreL = if ball.x >   halfWidth then 1 else 0
-      scoreR = if ball.x < 0-halfWidth then 1 else 0
+      scoreL = if ball.x >  halfWidth then 1 else 0
+      scoreR = if ball.x < -halfWidth then 1 else 0
   in  {game| state   <- if | space            -> Play
                            | scoreL /= scoreR -> Pause
                            | otherwise        -> state

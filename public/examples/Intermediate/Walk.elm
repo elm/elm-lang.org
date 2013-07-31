@@ -12,7 +12,7 @@ obj = { x=200, y=150, vx=0, vy=0, dir="south" }
 -- UPDATE
 velStep d obj =
   let f n = if d.x == 0 || d.y == 0 then n else n / sqrt 2
-  in  { obj | vx <- f d.x, vy <- f (0-d.y) }
+  in  { obj | vx <- f d.x, vy <- f -d.y }
 
 dirStep d obj =
   let {vx,vy} = obj in

@@ -22,10 +22,11 @@ Now that we can gravity, let's see if we can do it with elasticity!
 |]
 
 bouncingBallAt angle =
-  let y = abs (150 * sin angle) - 75
+  let ball = filled red (circle 15)
+      ground = filled green (rect 300 50)
   in  collage 300 200
-          [ move (0,y) (filled red (circle 15)),
-            move (0,0-100) (filled green (rect 300 50)) ]
+          [ ball   |> move (0, abs (150 * sin angle) - 75),
+            ground |> move (0,-100) ]
 
 bouncingBall = lift bouncingBallAt time
 
