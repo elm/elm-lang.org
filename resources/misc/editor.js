@@ -37,7 +37,7 @@ function hotSwap() {
                     error.style.backgroundColor = 'rgba(245,245,245,0.95)';
                 }
                 error.innerHTML = '<b>Hot Swap Failed</b><br/>' +
-                                  result.error.replace(/\n/g, '<br/>');
+                    result.error.replace(/\n/g, '<br/>').replace(/  /g, " &nbsp;");
                 top.output.document.body.appendChild(error);
             }
         }
@@ -320,7 +320,7 @@ function setAutoCompile(enable) {
 
 function updateOutput() {
   clearTimeout(delay);
-  delay = setTimeout(compileOutput, 1000);
+  delay = setTimeout(compile, 1000);
 }
 
 function setTheme(theme) {
@@ -419,9 +419,9 @@ function initEditor() {
       matchBrackets: true,
       theme: initTheme(),
       tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': loadJavaScript,
-                  'Shift-Ctrl-Enter': compileOutput,
-                  'Ctrl-K': toggleDocView,
+      extraKeys: {'Ctrl-Enter': hotSwap,
+                  'Shift-Ctrl-Enter': compile,
+                  'Ctrl-K': toggleVerbose,
                   'Shift-Ctrl-K': openDocPage,
                   'Tab': function(cm) {
                           var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");

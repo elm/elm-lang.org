@@ -50,7 +50,7 @@ a:hover {text-decoration: underline;color: rgb(234,21,122);}
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 24px;
+  height: 15px;
   margin: 0;
   padding: 2px 4px;
 }
@@ -58,7 +58,7 @@ a:hover {text-decoration: underline;color: rgb(234,21,122);}
 // Markdown styling
 
 .doc {
-  margin: 0.5em;
+  margin: 4px;
 }
 
 .doc h1, .doc h2, .doc h3, .doc h4, .doc h5, .doc h6 {
