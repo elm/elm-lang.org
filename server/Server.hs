@@ -61,7 +61,8 @@ route docsPath empty rest = do
        , dir "edit" . uriRest $ withFile ide
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
-       , rest
+       , withFile undefined
+       , uriRest return404
        ]
 
 -- | Compile an Elm program that has been POST'd to the server.
@@ -87,9 +88,11 @@ withFile handler fp = do
   eitherContent <- open fp
   case eitherContent of
     Just content -> ok . toResponse $ handler fp content
-    Nothing -> do
-      content <- liftIO (readFile "public/Error404.elm")
-      notFound . toResponse $ elmToHtml (pageTitle fp) content
+    Nothing -> return404 fp
+
+return404 fp = do
+  content <- liftIO (readFile "public/Error404.elm")
+  notFound . toResponse $ elmToHtml (pageTitle fp) content
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
