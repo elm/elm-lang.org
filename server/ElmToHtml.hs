@@ -2,7 +2,7 @@
 module ElmToHtml (elmToHtml, elmToJS) where
 
 import Data.Maybe (fromMaybe)
-import Text.Blaze (preEscapedToMarkup, toMarkup)
+import Text.Blaze (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
@@ -36,8 +36,14 @@ elmToHtml name src =
               js $ preEscapedToMarkup runFullscreen
           Left err ->
               H.span ! A.style "font-family: monospace;" $
-              mapM_ (\line -> toMarkup line >> H.br) (lines err)
+              mapM_ (\line -> preEscapedToMarkup (addSpaces line) >> H.br) (lines err)
         googleAnalytics
+
+addSpaces str =
+  case str of
+    ' ' : ' ' : rest -> " &nbsp;" ++ addSpaces rest
+    c : rest -> c : addSpaces rest
+    [] -> []
 
 elmToJS :: String -> String
 elmToJS src = case Elm.compile src of
