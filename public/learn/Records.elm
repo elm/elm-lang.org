@@ -136,7 +136,7 @@ There are a number of ways to access records:
 |]
 
 access w = evaluate w
-  [ ("point3.z", "12")
+  [ ("point3D.z", "12")
   , ("bill.name", "\"Gates\"")
   , (".name bill", "\"Gates\"")
   , ("map .age people", "[57,56,39]") ]
