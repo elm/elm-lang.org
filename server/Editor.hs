@@ -7,11 +7,11 @@ import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
-import Utils
+import qualified System.FilePath as FP
 
 -- | Display an editor and the compiled result side-by-side.
 ide :: FilePath -> String -> Html
-ide fileName code = ideBuilder ("Elm Editor: " ++ pageTitle fileName)
+ide fileName code = ideBuilder ("Elm Editor: " ++ FP.takeBaseName fileName)
                                fileName
                                ("/compile?input=" ++ urlEncode code)
 
@@ -41,7 +41,7 @@ editor :: FilePath -> String -> Html
 editor filePath code =
     H.html $ do
       H.head $ do
-        H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
+        H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
         H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty

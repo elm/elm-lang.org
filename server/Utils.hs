@@ -7,11 +7,6 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
 
--- | Strip the directories and .elm file extension from a path
-pageTitle :: FilePath -> String
-pageTitle fp = reverse . takeWhile (/='/') . drop 4 $ reverse fp
-
-
 -- | Add analytics to a page.
 googleAnalytics :: Html
 googleAnalytics =
