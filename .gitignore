@@ -1,3 +1,5 @@
 Server/ghc_output
 docs
 compiled
+ElmFiles
+ElmServer
