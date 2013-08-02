@@ -109,7 +109,6 @@ reactive = addFolder "Reactive/"
   , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
 --               , ("Keep If", "KeepIf")
---               , ("Drop Repeats", "DropRepeats")
                ])
   ]
 
