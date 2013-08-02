@@ -51,7 +51,3 @@ skeleton bodyFunc outer =
          Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
              Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
        ]
-
-redirect = JS.fromString <~ navigation.events
-foreign export jsevent "redirect"
-  redirect : Signal JS.JSString

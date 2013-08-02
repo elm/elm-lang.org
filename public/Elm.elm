@@ -2,9 +2,9 @@ import Website.Skeleton (skeleton)
 import Website.Tiles (miniTiles)
 import Website.ColorScheme
 
-import Text as Text
-import JavaScript as JavaScript
-import Window as Window
+import Text
+import JavaScript as JS
+import Window
 
 intro = [markdown|
 
@@ -145,6 +145,6 @@ info w =
 
 main = lift (skeleton info) Window.width
 
-title = constant (JavaScript.fromString "The Elm Programming Language")
+title = constant (JS.fromString "The Elm Programming Language")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
