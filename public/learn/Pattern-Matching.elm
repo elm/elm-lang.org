@@ -242,4 +242,4 @@ main = lift (skeleton (what . min 600)) Window.width
 
 titles = constant (JS.fromString "What is Pattern Matching?")
 foreign export jsevent "title"
-  titles : Signal JSString
+  titles : Signal JS.JSString

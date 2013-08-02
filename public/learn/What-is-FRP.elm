@@ -188,4 +188,4 @@ main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.wid
 
 titles = constant (JS.fromString "What is FRP?")
 foreign export jsevent "title"
-  titles : Signal JSString
+  titles : Signal JS.JSString
