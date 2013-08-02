@@ -29,7 +29,7 @@ elmToHtml name src =
         let js = H.script ! A.type_ "text/javascript"
             name = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
             runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ name ++ ")"
-        js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
+        js ! A.src (H.toValue ("/elm-runtime.js" :: String)) $ ""
         case Elm.compile src of
           Right jsSrc -> do
               js $ preEscapedToMarkup jsSrc

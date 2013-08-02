@@ -99,7 +99,7 @@ precompile =
   do setCurrentDirectory "public"
      files <- getFiles True "."
      forM_ files $ \file -> do
-       rawSystem "elm" ["--make","--runtime=/elm-mini.js",file]
+       rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
      files' <- getFiles False "ElmFiles"
      forM_ files' $ \file ->
          case takeExtension file == ".html" of
