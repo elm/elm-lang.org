@@ -95,7 +95,7 @@ options = H.div ! A.class_ "valign_kids"
                ! A.id "help_button"
                ! A.value "?"
                ! A.style "margin-right: 10px;"
-               ! A.onclick "showVerbose();"
+               ! A.onclick "toggleVerbose();"
                ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc"
       opts = do
         H.span $ "Options:"
