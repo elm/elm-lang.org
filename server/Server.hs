@@ -3,6 +3,7 @@ module Main where
 
 import Prelude hiding (head, span, id, catch)
 import qualified Data.Char as Char
+import qualified Data.List as List
 import Control.Monad
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
@@ -96,21 +97,22 @@ sayHi = do
 precompile :: IO ()
 precompile =
   do setCurrentDirectory "public"
-     files <- getFiles "."
+     files <- getFiles True "."
      forM_ files $ \file -> do
-       rawSystem "elm" ["--make","--runtime=elm-mini.js",file]
-     files' <- getFiles "ElmFiles"
+       rawSystem "elm" ["--make","--runtime=/elm-mini.js",file]
+     files' <- getFiles False "ElmFiles"
      forM_ files' $ \file ->
          case takeExtension file == ".html" of
            True -> renameFile file (replaceExtension file "elm")
            False -> removeFile file
      setCurrentDirectory ".."
   where
-    getFiles :: FilePath -> IO [FilePath]
-    getFiles dir = do
-      putStrLn dir
-      contents <- map (dir </>) `fmap` getDirectoryContents dir
-      files    <- filterM doesFileExist contents
-      let dirs =  [] --filter (not . hasExtension) contents
-      filess   <- mapM getFiles dirs
-      return (files ++ concat filess)
+    getFiles :: Bool -> FilePath -> IO [FilePath]
+    getFiles skip dir = do
+        print dir
+        if skip && List.isInfixOf "ElmFiles" dir then return [] else
+            do contents <- map (dir </>) `fmap` getDirectoryContents dir
+               files    <- filterM doesFileExist contents
+               let dirs =  filter (not . hasExtension) contents
+               filess   <- mapM (getFiles skip) dirs
+               return (files ++ concat filess)
