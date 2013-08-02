@@ -2,10 +2,8 @@
 module Main where
 
 import Prelude hiding (head, span, id, catch)
-import Control.Monad (msum, when, zipWithM_)
-import Data.Char (toLower)
-import Data.List (stripPrefix)
-import Data.Maybe (fromJust)
+import qualified Data.Char as Char
+import Control.Monad
 import Happstack.Server hiding (body)
 import Happstack.Server.Compression
 import Happstack.Server.FileServe.BuildingBlocks (serveDirectory')
@@ -14,41 +12,26 @@ import Text.Blaze.Html (Html, toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
-import System.Directory (doesFileExist, createDirectoryIfMissing)
-import System.Environment (getArgs)
-import System.FilePath ((</>))
+import System.FilePath as FP
+import System.Process
+import System.Directory
 
-import DirTree
-import qualified Language.Elm as Elm (docs)
+import qualified Language.Elm as Elm
 import ElmToHtml
 import Editor
-import Utils
-
-data Mode = Prod | Dev
-          deriving Eq
 
 -- | Set up the server.
 main :: IO ()
 main = do
-  args <- getArgs
-  let mode = getMode . map (map toLower) $ args
-  when (mode == Prod) $ do
-    putStrLn "Compiling..."
-    (compileAll "public/" "compiled/")
+  putStrLn "Initializing Server"
+  precompile
   putStrLn "Serving at localhost:8000"
   simpleHTTP nullConf $ do
     compressedResponseFilter
     docsPath <- liftIO $ Elm.docs
-    uncurry (route docsPath) $ case mode of
-      Prod ->
-        (serveFile mime "compiled/Elm.elm",
-         serveDirectory' DisableBrowsing [] mime "compiled")
-      Dev ->
-        (compileFile "Elm.elm",
-        uriRest compileFile)
-  where getMode ("prod":_) = Prod
-        getMode _          = Dev
-        mime = asContentType "text/html; charset=UTF-8"
+    let mime = asContentType "text/html; charset=UTF-8"
+    route docsPath (serveFile mime "public/ElmFiles/Elm.elm")
+          (serveDirectory' EnableBrowsing [] mime "public/ElmFiles")
 
 route :: FilePath -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
 route docsPath empty rest = do
@@ -61,8 +44,8 @@ route docsPath empty rest = do
        , dir "edit" . uriRest $ withFile ide
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
-       , withFile undefined
-       , uriRest return404
+       , rest
+       , return404
        ]
 
 -- | Compile an Elm program that has been POST'd to the server.
@@ -72,14 +55,15 @@ compilePart compile = do
   ok $ toResponse $ compile code
 
 open :: String -> ServerPart (Maybe String)
-open fp = do exists <- liftIO (doesFileExist file)
-             if exists then openFile else return Nothing
-    where
-      file = "public/" ++ fp
-      openFile = liftIO $ catch (fmap Just $ readFile file) handleError
-                   
-      handleError :: SomeException -> IO (Maybe String)
-      handleError _ = return Nothing
+open fp =
+  do exists <- liftIO (doesFileExist file)
+     if exists then openFile else return Nothing
+  where
+    file = "public/" ++ fp
+    openFile = liftIO $ catch (fmap Just $ readFile file) handleError
+
+    handleError :: SomeException -> IO (Maybe String)
+    handleError _ = return Nothing
 
 
 -- | Do something with the contents of a File.
@@ -88,19 +72,13 @@ withFile handler fp = do
   eitherContent <- open fp
   case eitherContent of
     Just content -> ok . toResponse $ handler fp content
-    Nothing -> return404 fp
+    Nothing -> return404
 
-return404 fp = do
-  content <- liftIO (readFile "public/Error404.elm")
-  notFound . toResponse $ elmToHtml (pageTitle fp) content
+return404 = serveFile (asContentType "text/html; charset=UTF-8") "public/ElmFiles/Error404.elm"
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
-compileFile = withFile elmToPage
-
--- | Compile an elm file with a page title.
-elmToPage :: FilePath -> String -> Html
-elmToPage = elmToHtml . pageTitle
+compileFile = withFile (elmToHtml . FP.takeBaseName)
 
 -- | Simple response for form-validation demo.
 sayHi :: ServerPart Response
@@ -115,19 +93,24 @@ sayHi = do
             , ".\nIn fact, your (fake?) email has not even been recorded." ]
 
 -- | Compile all of the Elm files in public/ to the compiled/ folder
-compileAll :: FilePath -> FilePath -> IO ()
-compileAll fromPre toPre = do
-  dirTree <- buildDirTree fromPre
-  let fromToTo =  map ((toPre </>) . fromJust . stripPrefix fromPre)
-      compDirs =  fromToTo (directories dirTree)
-      compFiles = fromToTo (files dirTree)
-  mapM_ (createDirectoryIfMissing True) compDirs
-  zipWithM_ compileFromTo (files dirTree) compFiles
-  where -- pubPrefix = "public/"
-        -- compPrefix = "compiled/"
-
-compileFromTo :: FilePath -> FilePath -> IO ()
-compileFromTo from to = do
-  contents <- readFile from
-  let out = renderHtml $ elmToPage to contents
-  writeFile to out
+precompile :: IO ()
+precompile =
+  do setCurrentDirectory "public"
+     files <- getFiles "."
+     forM_ files $ \file -> do
+       rawSystem "elm" ["--make","--runtime=elm-mini.js",file]
+     files' <- getFiles "ElmFiles"
+     forM_ files' $ \file ->
+         case takeExtension file == ".html" of
+           True -> renameFile file (replaceExtension file "elm")
+           False -> removeFile file
+     setCurrentDirectory ".."
+  where
+    getFiles :: FilePath -> IO [FilePath]
+    getFiles dir = do
+      putStrLn dir
+      contents <- map (dir </>) `fmap` getDirectoryContents dir
+      files    <- filterM doesFileExist contents
+      let dirs =  [] --filter (not . hasExtension) contents
+      filess   <- mapM getFiles dirs
+      return (files ++ concat filess)
