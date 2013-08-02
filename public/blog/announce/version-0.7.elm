@@ -6,7 +6,7 @@ import JavaScript as JS
 
 title = constant (JS.fromString "Elm 0.7 - Extensible Records")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 intro = [markdown|
 

@@ -5,7 +5,7 @@ import Window
 
 title = constant (JS.fromString "Elm and Prezi")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 main = lift (skeleton intro) Window.width
 
