@@ -73,7 +73,7 @@ getTag tag =
 
 toJson response =
     case response of
-      Success str -> Json.fromString str
+      Http.Success str -> Json.fromString str
       _ -> Nothing
 
 -- Take a list of photos and choose one, resulting in a request.
