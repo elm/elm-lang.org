@@ -3,3 +3,4 @@ docs
 compiled
 ElmFiles
 ElmServer
+resources/elm-runtime.js
