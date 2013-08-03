@@ -98,23 +98,21 @@ sayHi = do
 precompile :: IO ()
 precompile =
   do setCurrentDirectory "public"
-     files <- getFiles True "."
+     files <- getFiles True ".elm" "."
      forM_ files $ \file -> do
        rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
-     files' <- getFiles False "ElmFiles"
-     forM_ files' $ \file ->
-         case takeExtension file == ".html" of
-           True -> renameFile file (replaceExtension file "elm")
-           False -> removeFile file
+     htmls <- getFiles False ".html" "ElmFiles"
+     forM_ htmls $ \file ->
+         renameFile file (replaceExtension file "elm")
      setCurrentDirectory ".."
   where
-    getFiles :: Bool -> FilePath -> IO [FilePath]
-    getFiles skip dir = do
+    getFiles :: Bool -> String -> FilePath -> IO [FilePath]
+    getFiles skip ext dir = do
         if skip && List.isInfixOf "ElmFiles" dir then return [] else
             do contents <- map (dir </>) `fmap` getDirectoryContents dir
-               files    <- filterM doesFileExist contents
-               let dirs =  filter (not . hasExtension) contents
-               filess   <- mapM (getFiles skip) dirs
+               let files = filter ((ext==) . takeExtension) contents
+                   dirs  = filter (not . hasExtension) contents
+               filess <- mapM (getFiles skip ext) dirs
                return (files ++ concat filess)
 
 getRuntime :: IO ()
