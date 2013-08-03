@@ -110,7 +110,6 @@ precompile =
   where
     getFiles :: Bool -> FilePath -> IO [FilePath]
     getFiles skip dir = do
-        print dir
         if skip && List.isInfixOf "ElmFiles" dir then return [] else
             do contents <- map (dir </>) `fmap` getDirectoryContents dir
                files    <- filterM doesFileExist contents
