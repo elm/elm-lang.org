@@ -26,6 +26,7 @@ main :: IO ()
 main = do
   putStrLn "Initializing Server"
   precompile
+  getRuntime
   putStrLn "Serving at localhost:8000"
   simpleHTTP nullConf $ do
     compressedResponseFilter
@@ -116,3 +117,8 @@ precompile =
                let dirs =  filter (not . hasExtension) contents
                filess   <- mapM (getFiles skip) dirs
                return (files ++ concat filess)
+
+getRuntime :: IO ()
+getRuntime = do
+  rts <- readFile =<< Elm.runtime
+  writeFile "resources/elm-runtime.js" rts
