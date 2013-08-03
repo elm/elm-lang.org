@@ -4,7 +4,7 @@
 
 import Window
 
-resizeablePaint (w,h) = fittedImage w h "paint.jpg"
+resizeablePaint (w,h) = fittedImage w h "/paint.jpg"
 main = lift resizeablePaint Window.dimensions
 
 
