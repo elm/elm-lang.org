@@ -3,14 +3,14 @@
   You can set the width and height of the element with
   the following two functions:
 
-        width, height :: Int -> Element -> Element
+        width, height : Int -> Element -> Element
 
   You can set both width and height at the same time
   with this function:
   
-          size :: Int -> Int -> Element -> Element
+          size : Int -> Int -> Element -> Element
 
-   Try them out on Yogi Bear.
+   Try them out on the car.
 -------------------------------------------------------}
 
 
