@@ -21,8 +21,8 @@ buttons = flow right . map button <|
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
- let ttl = Text.link "/" . Text.color black . Text.height 40 . bold <| toText "Elm"
- in  container w 60 midLeft (text ttl)
+ let logo = text . Text.color black . Text.height 40 . bold <| toText "Elm"
+ in  container w 60 midLeft (link "/" logo)
 
 veiwSource = [markdown|
 <a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!='/edit')top.location.href='/edit'+(p=='/'?'/Elm.elm':p);">
