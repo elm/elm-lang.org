@@ -40,7 +40,8 @@ display (w,h) turtle =
 
 -- TURTLE
 delta = inSeconds <~ fps 30
-input = sampleOn delta <| lift2 (,) Keyboard.arrows delta
+floatify {x,y} = { x = toFloat x, y = toFloat y }
+input = sampleOn delta <| lift2 (,) (floatify <~ Keyboard.arrows) delta
 
 main  = lift2 display Window.dimensions (foldp step turtle input)
 
