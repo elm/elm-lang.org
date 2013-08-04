@@ -1,12 +1,11 @@
-
-import Either
 import Mouse
 import Window
 
 -- MODEL
-data Update = Click (Int,Int) | TimeDelta Time
+data Update = Click (Float,Float) | TimeDelta Time
 
-input = let clickPos = sampleOn Mouse.clicks Mouse.position
+floatify (x,y) = (toFloat x, toFloat y)
+input = let clickPos = floatify <~ sampleOn Mouse.clicks Mouse.position
         in  merge (Click <~ clickPos)
                   (TimeDelta <~ (40 `fpsWhen` (second `since` clickPos)))
 
@@ -23,7 +22,7 @@ greenGrad = radial (0,0) 10 (7,-5) 30
 
 follower (w,h) (target,(x,y)) =
   layers [ collage w h [ circle 100 |> gradient greenGrad
-                                    |> move (x- toFloat w/2, toFloat h/2-y) ]
+                                    |> move (x - toFloat w / 2, toFloat h / 2 - y) ]
          , plainText "Click anywhere and the circle will follow." ]
 
 main = follower <~ Window.dimensions

@@ -66,7 +66,7 @@ flickrRequest args =
 
 
 -- Turn a tag into an HTTP GET request.
-getTag : String -> Request String
+getTag : String -> Http.Request String
 getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
@@ -88,7 +88,7 @@ getOneFrom photoList =
 
                         
 -- Take some size options and choose one, resulting in a URL.
-sizesToSource : String -> Maybe String
+sizesToSource : Http.Response String -> Maybe String
 sizesToSource sizeOptions =
     case toJson sizeOptions of
       Nothing   -> Nothing
