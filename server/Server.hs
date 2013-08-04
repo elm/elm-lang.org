@@ -102,8 +102,7 @@ precompile =
      forM_ files $ \file -> do
        rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
      htmls <- getFiles False ".html" "ElmFiles"
-     forM_ htmls $ \file ->
-         renameFile file (replaceExtension file "elm")
+     mapM_ adjustHtmlFile htmls
      elmi <- getFiles False ".elmi" "ElmFiles"
      elmo <- getFiles False ".elmo" "ElmFiles"
      mapM_ removeFile (elmi ++ elmo)
@@ -122,3 +121,21 @@ getRuntime :: IO ()
 getRuntime = do
   rts <- readFile =<< Elm.runtime
   writeFile "resources/elm-runtime.js" rts
+
+adjustHtmlFile :: FilePath -> IO ()
+adjustHtmlFile file =
+  do src <- readFile file
+     let (before,after) =
+             length src `seq`
+             List.break (List.isInfixOf "<title>") (lines src)
+     removeFile file
+     writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after))
+  where
+    style = 
+        unlines . map ("    "++) $
+        [ "<style type=\"text/css\">"
+        , "  a:link {text-decoration: none; color: rgb(15,102,230);}"
+        , "  a:visited {text-decoration: none}"
+        , "  a:active {text-decoration: none}"
+        , "  a:hover {text-decoration: underline; color: rgb(234,21,122);}"
+        , "</style>" ]
