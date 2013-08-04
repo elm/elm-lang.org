@@ -104,6 +104,9 @@ precompile =
      htmls <- getFiles False ".html" "ElmFiles"
      forM_ htmls $ \file ->
          renameFile file (replaceExtension file "elm")
+     elmi <- getFiles False ".elmi" "ElmFiles"
+     elmo <- getFiles False ".elmo" "ElmFiles"
+     mapM_ removeFile (elmi ++ elmo)
      setCurrentDirectory ".."
   where
     getFiles :: Bool -> String -> FilePath -> IO [FilePath]
