@@ -35,7 +35,7 @@ scene (w,h) tagInput imgSrc =
       [ container w 100 middle tagInput,
         case imgSrc of
           Just src -> fittedImage w (h-100) src
-          Nothing -> container w (h-100) middle (image 16 16 "waiting.gif")
+          Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")
       ]
 
 

@@ -1,11 +1,10 @@
-
 import Mouse
 import Window
 
 ith i lst = case lst of
               x::xs -> if i == 0 then x else ith (i-1) xs
 
-images = [ "book.jpg", "shells.jpg", "stack.jpg", "car.jpg", "pipe.jpg" ]
+images = [ "/book.jpg", "/shells.jpg", "/stack.jpg", "/car.jpg", "/pipe.jpg" ]
 slideShow (w,h) index =
   let i = index `mod` length images
   in  color black . container w h middle . image 472 315 <| ith i images
