@@ -32,8 +32,8 @@ main = do
     compressedResponseFilter
     docsPath <- liftIO $ Elm.docs
     let mime = asContentType "text/html; charset=UTF-8"
-    route docsPath (serveFile mime "public/ElmFiles/Elm.elm")
-          (serveDirectory' EnableBrowsing [] mime "public/ElmFiles")
+    route docsPath (serveFile mime "public/build/Elm.elm")
+          (serveDirectory' EnableBrowsing [] mime "public/build")
 
 route :: FilePath -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
 route docsPath empty rest = do
@@ -76,7 +76,7 @@ withFile handler fp = do
     Just content -> ok . toResponse $ handler fp content
     Nothing -> return404
 
-return404 = serveFile (asContentType "text/html; charset=UTF-8") "public/ElmFiles/Error404.elm"
+return404 = serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response
@@ -101,21 +101,20 @@ precompile =
      files <- getFiles True ".elm" "."
      forM_ files $ \file -> do
        rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
-     htmls <- getFiles False ".html" "ElmFiles"
+     htmls <- getFiles False ".html" "build"
      mapM_ adjustHtmlFile htmls
-     elmi <- getFiles False ".elmi" "ElmFiles"
-     elmo <- getFiles False ".elmo" "ElmFiles"
-     mapM_ removeFile (elmi ++ elmo)
      setCurrentDirectory ".."
   where
     getFiles :: Bool -> String -> FilePath -> IO [FilePath]
     getFiles skip ext dir = do
-        if skip && List.isInfixOf "ElmFiles" dir then return [] else
-            do contents <- map (dir </>) `fmap` getDirectoryContents dir
-               let files = filter ((ext==) . takeExtension) contents
-                   dirs  = filter (not . hasExtension) contents
-               filess <- mapM (getFiles skip ext) dirs
-               return (files ++ concat filess)
+        case skip && "build" `elem` map dropTrailingPathSeparator (splitPath dir) of
+          True -> return []
+          False -> do
+            contents <- map (dir </>) `fmap` getDirectoryContents dir
+            let files = filter ((ext==) . takeExtension) contents
+                dirs  = filter (not . hasExtension) contents
+            filess <- mapM (getFiles skip ext) dirs
+            return (files ++ concat filess)
 
 getRuntime :: IO ()
 getRuntime = do
