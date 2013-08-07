@@ -94,7 +94,7 @@ sayHi = do
             , "We will not attempt to contact you at ", email
             , ".\nIn fact, your (fake?) email has not even been recorded." ]
 
--- | Compile all of the Elm files in public/ to the compiled/ folder
+-- | Compile all of the Elm files in public/, placing results in public/build/
 precompile :: IO ()
 precompile =
   do setCurrentDirectory "public"
