@@ -1,6 +1,7 @@
 Server/ghc_output
 docs
 compiled
-ElmFiles
 ElmServer
+cache
+build
 resources/elm-runtime.js
