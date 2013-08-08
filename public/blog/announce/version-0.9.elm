@@ -12,11 +12,7 @@ main = lift (skeleton everything) Window.width
 
 everything wid =
     let w = min 600 wid
-    in  flow down [ width w intro,
-                    container w 50 middle dots,
-                    spacer w 10, width w midtro,
-                    container w 50 middle crosses,
-                    spacer w 10, width w postCross ]
+    in  width w intro
 
 intro = [markdown|
 
@@ -48,46 +44,216 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.9 &ndash; Fix the Type-Checker
-<div style="font-size:0.5em;font-weight:normal">*Fast and reliable errors*</div></div>
+<h1><div style="text-align:center">Elm 0.9
+<div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
 </h1>
 
-Build Improvements:
-  * Major speed improvements to type-checker
-  * Type-checker should catch _all_ type errors now
-  * Module-level compilation, only re-compile if necessary
-  * Import types and type aliases between modules
-  * Intermediate files are generated to avoid unneeded recompilation
-    and shorten compile time. These files go in ElmFiles/ by default
-  * Generated files are placed in ElmFiles/ by default, replicating
-    the directory structure of your source code.
+[Elm](/)&rsquo;s type checker has been completely rewritten.
+At a high level, the key difference is simple: it works now.
 
-Error Messages:
-  * Cross-module type errors
-  * Errors for undefined values
-  * Pretty printing of expressions and types
- 
-Syntax:
-  * Pattern matching on literals
-  * Pattern aliases with `as` (Andrew)
-  * Unary negation
-  * Triple-quoted multi-line strings
-  * Type annotations in let expressions (Andrew)
-  * Record Constructors
+  * Undefined values are errors. Finally.
+  * All type errors are caught and reported.
+  * Error messages are more specific and easier to read.
+  * It&rsquo;s fast.
+
+This is a huge step forward, creating a solid foundation for further improvement.
+
+This release also introduces many frequently requested syntax improvements. The
+most notable are as follows:
+
+  * Sane unary negation
+  * Pattern matching on literals and `as` patterns
+  * Multi-line strings
+
+Finally, there are a bunch of miscellaneous improvements:
+
+  * API for detecting when the mouse hovers over an `Element`
+  * Set `alpha` of any `Form` for transparency in a `collage`
+  * Many bug fixes for `collage`, especially when rendering an `Element`
+  * `Text.height` use pixels instead of [ems][], after [much debate][]
+
+  [much debate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/specifying$20size$20of$20text/elm-discuss/3Iz-HpV1QRg/oHPoqWDgrmEJ
+  [ems]: http://en.wikipedia.org/wiki/Em_(typography)
+
+The rest of this post will try to cover [all of the changes][changes] in more detail.
+Maybe start the [download process][download] while you are reading!
+
+  [download]: https://github.com/evancz/Elm/blob/master/README.md#install
+  [changes]: https://github.com/evancz/Elm/blob/master/changelog.txt
+
+<br/>
+
+## Type checker and Build Improvements
+
+This was a really big project for me, so I want to first thank Prezi
+for making all of this work possible! Also, thank you to Spiros and
+Laszlo for talking through issues with me as they came up; this was
+a huge help!
+
+#### Why was the type cheker bad before?
+
+Before this release, my primary priority was: prove that FRP is viable and good.
+If FRP is not the right way, it does not matter how good or bad the type checker
+is.
+
+I recently started to feel that the poor error messages were
+becoming the primary barrier for Elm. The questions have started to
+move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
+doing this with FRP, how can the tools be better?&rdquo; This is a
+very positive sign for FRP!
+
+#### How to make it better?
+
+A big part of improving the type checker was making it possible for information
+to flow between modules. This meant improving the build system.
+
+Elm now creates two directories when compiling:
+
+  * The `cache/` directory holds intermediate files. These hold metadata
+    about types, type aliases, fixity of infix ops, etc. This information
+    is used to pass information between modules and to build the final result.
+    It also caches information from previous compilation passes, so if a file
+    is unchanged, it does not need to be recompiled. This speeds up the build.
+
+  * The `build/` directory holds only the generated `.html` and `.js` files,
+    things you want to run and distribute. This directory should match the
+    directory structure of your project, making it easy to export these
+    files and start serving them.
+
+You can use the `--cache-dir` and `--build-dir` flags to change the name
+or location of these two directories. We [discussed a bunch of naming options][dirs]
+for them, but ultimately, maybe you still know better :P
+
+  [dirs]: https://groups.google.com/forum/?fromgroups#!topic/elm-discuss/bkEEN1P5f9U
+
+These improvements make it possible to allow user-defined fixity and associativity
+for infix operators, so that should be arriving in a future release.
+
+#### Notes on the Type Checker
+
+With the build infrastructure was in place, cross-module type checking became
+possible. The next task was understand and implement an efficienct type inference
+algorithm.
+
+To summarize, it is very tricky and there are few resources available that even
+discuss efficient practical implementations, let alone give details on specific
+techniques and strategies. I am planning to do a &ldquo;field guide to efficient
+type inference&rdquo; to make it easier for others to create a type inferencer
+that is correct and *fast*.
+
+For now, take a look at [this chapter][] of Advanced Topics in Types and Programming
+Languages. It is one of the best resources I have found.
+
+  [this chapter]: http://www.cs.cmu.edu/~rwh/courses/refinements/papers/PottierRemy04/hmx.pdf
+
+## Syntax Improvements
+
+#### Pattern Matching
+
+You can now pattern match on literals like numbers, strings, and booleans.
+
+```haskell
+commasToSpaces str =
+  case str of
+    ',':rest -> ' ' : simpleEscape rest
+    c  :rest ->  c  : simpleEscape rest
+
+isOrigin pos =
+  case pos of
+    (0,0) -> True
+    _     -> False
+```
+
+You can also use `as` patterns now, thanks to Andrew!
+
+```haskell
+move time ({x,y,vx,vy} as object) =
+  { object | x <- x + vx * time
+           , y <- y + vy * time }
+```
+
+This lets you name a structure and match on its sub-structure.
+The `as` keyword binds very loosely, so it often needs parentheses.
+One example might be:
+
+```haskell
+data World = World Mario [Goomba] [Brick]
+
+step input (World mario goombas bricks as world) = ...
+```
+
+#### Unary negation
+
+I was very hesitant to add this feature because I had not seen a
+statically-typed functional language that I felt got this right.
+The issue is that the `(-)` operator overlaps with subtraction,
+so mathematical expressions can become ambiguous for the parser
+and reader.
+
+You get questions like: is `(x -1)` subtraction or is `(f -1)` function
+application with a negative argument?
+
+After [discussing many options][negate], we decided on the following requirements
+to classify a minus sign as unary negation:
+
+  * it is preceded by whitespace or `(` or `[` or `,`
+  * no whitespace on the right, the negated value follows without spaces
+
+The following examples attempt to cover all of the cases you might see in the wild:
+
+```haskell
+n - 1        -- subtraction
+n-1          -- subtraction
+-10          -- negative ten
+- 10         -- parse error, no spaces allowed on right
+(-100,-100)  -- point in quadrant III
+abs -1       -- abs (-1)
+max -2 -4    -- max (-2) (-4)
+h - 3 - 5    -- subtraction twice
+n - -1       -- n + 1
+```
+
+Another way to describe these rules is &ldquo;unary negation binds tighter than function
+application and infix operations.&rdquo;
+
+  [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
+
+In practice, I have found that this is how my brain parses code. I definitely read
+`(max -2 -4)` as a function, my brain blocks each syntactic unit into a semantic unit.
+
+This is similar to how `(.)` can mean many different things depending on spacing. It is
+unfortunate to overload, but I think this is the best solution given the constraints.
+
+#### Triple-quoted multi-line strings
+
+Just like Python, you can have big multi-line strings:
+This will make it easier to embed plain-text or JSON if
+necessary.
+
+```haskell
+json = """
+{
+  "title" : "Narcissus and Goldmund",
+  "author": "Hermann Hesse",
+  "pages" : 320
+}
+"""
+```
+
+#### Record Constructors
+
+When you create 
+
+#### Miscellaneous Improvements
+
   * Record type aliases can be closed on the zeroth column
+  * type annotations in let expressions, thanks again to Andrew.
   * (,,) syntax in types
   * Allow infix op definitions without args: (*) = add
   * Unparenthesized if, let, case, lambda at end of binary expressions
 
-Libraries:
-  * Detect hovering over any Element
-  * Set alpha of arbitrary forms in collages
-  * Switch Text.height to use px instead of em
+## Website
 
-Bug Fixes:
-  * Many bug fixes for collage, especially when rendering Elements.
-
-Website:
   * Hot-swapping
   * Much faster page load with pre-compiled Elm files (Max New)
 
