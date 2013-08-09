@@ -1,8 +1,6 @@
 
 import Graphics.Input as Input
 
-main = let (field, state) = Input.field "Type here!"
-       in  lift2 display field state
+(field, content) = Input.field "Type here!"
 
-display field state =
-  field `above` asText state
+main = lift2 above field (lift (plainText . reverse) content)
