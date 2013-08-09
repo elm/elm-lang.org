@@ -65,23 +65,30 @@ bar id body = H.div ! A.id id ! A.class_ "option" $ body
 buttons :: Html
 buttons = H.div ! A.class_ "valign_kids"
                 ! A.style "float:right; padding-right: 6px;"
-                $ compileButton >> hotSwapButton
+                $ "Auto-Swap" >> autoBox >> "     " >> hotSwapButton >> compileButton
       where
+        hotSwapButton = 
+            H.input
+                 ! A.type_ "button"
+                 ! A.id "hot_swap_button"
+                 ! A.value "Hot Swap"
+                 ! A.onclick "hotSwap()"
+                 ! A.title "Ctrl-Shift-Enter"
+
         compileButton = 
             H.input
                  ! A.type_ "button"
                  ! A.id "compile_button"
-                 ! A.value "Hot Swap"
-                 ! A.onclick "hotSwap()"
-                 ! A.title "Ctrl-Enter: change program behavior but keep the state"
-
-        hotSwapButton = 
-            H.input
-                 ! A.type_ "button"
-                 ! A.id "in_tab_button"
                  ! A.value "Compile"
                  ! A.onclick "compile()"
-                 ! A.title "Ctrl-Shift-Enter"
+                 ! A.title "Ctrl-Enter: change program behavior but keep the state"
+
+        autoBox =
+            H.input
+                 ! A.type_ "checkbox"
+                 ! A.id "auto_hot_swap_checkbox"
+                 ! A.onchange "setAutoHotSwap(this.checked)"
+                 ! A.title "attempt to hot-swap automatically"
 
 
 options :: Html

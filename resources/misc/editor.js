@@ -307,20 +307,20 @@ function showLines(on) {
 }
 
 var delay;
-function setAutoCompile(enable) {
-  document.getElementById('compile_button').disabled = enable;
+function setAutoHotSwap(enable) {
+  document.getElementById('hot_swap_button').disabled = enable;
   if (enable) {
     updateOutput();
     editor.on('change', updateOutput);
   } else {
     editor.off('change', updateOutput);
   }
-  cookie('autocompile', enable);
+  cookie('autoHotSwap', enable);
 }
 
 function updateOutput() {
   clearTimeout(delay);
-  delay = setTimeout(compile, 1000);
+  delay = setTimeout(hotSwap, 1000);
 }
 
 function setTheme(theme) {
@@ -406,10 +406,10 @@ function initMenu() {
   showType(show);
 }
 
-function initAutocompile() {
-  var yes = readCookie('autocompile') === 'true';
-  document.getElementById('autocompile_checkbox').checked = yes;
-  setAutoCompile(yes);
+function initAutoHotSwap() {
+  var yes = readCookie('autoHotSwap') === 'true';
+  document.getElementById('auto_hot_swap_checkbox').checked = yes;
+  setAutoHotSwap(yes);
 }
 
 function initEditor() {
@@ -419,8 +419,8 @@ function initEditor() {
       matchBrackets: true,
       theme: initTheme(),
       tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': hotSwap,
-                  'Shift-Ctrl-Enter': compile,
+      extraKeys: {'Ctrl-Enter': compile,
+                  'Shift-Ctrl-Enter': hotSwap,
                   'Ctrl-K': toggleVerbose,
                   'Shift-Ctrl-K': openDocPage,
                   'Tab': function(cm) {
@@ -433,6 +433,7 @@ function initEditor() {
   editor.on('cursorActivity', hideStuff);
   initZoom();
   initMenu();
+  initAutoHotSwap();
 }
 
 /* jshint browser: true */
