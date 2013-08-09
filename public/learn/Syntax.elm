@@ -99,6 +99,15 @@ A `Number` can be interpreted as an `Int` or a `Float` depending on how it is us
 3.14      -- Float
 ```
 
+For multi-line strings, use a triple-quoted string:
+
+```
+"""
+This is useful for holding JSON or other
+content that has "quotation marks".
+"""
+```
+
 ### Lists
 
 Here are four things that are equivalent:
@@ -134,21 +143,25 @@ if | key == 40 -> n+1
 ```
 
 You can alse have conditional behavior based on the structure of algebraic
-data types.
+data types and literals
 
 ```haskell
-case exp of
-  Pattern1 -> exp1
-  Pattern2 -> exp2
-  _        -> exp3
+case maybe of
+  Just xs -> xs
+  Nothing -> []
 
 case xs of
   []    -> Nothing
   x::xs -> Just x
+
+case n of
+  0 -> 1
+  1 -> 1
+  _ -> fib (n-1) + fib (n-2)
 ```
 
 Each pattern is indentation sensitive, meaning that you have to align
-all of your patterns for this to parse right.
+all of your patterns.
 
 If you think you can do a one liner, it might be useful to use the `{;;}`
 separators for your case statement.
@@ -404,13 +417,8 @@ Elm currently does not support:
 - setting the precedence or associativity of infix operators (also will be added)
 - operator sections such as `(+1)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
-- arbitrary ordering for non-function definitions (i.e. `x = y` must come after `y = 3` for now)
 - `where` clauses
 - any sort of `do` or `proc` notation
-- a unary negation operator. Negative 3 is the same as `(0-3)`.
-- multi-line function declarations where the function being defined actually
-  appears multiple times as a definition. In Elm, that actually means to
-  define a value multiple times.
 
 |]
 
