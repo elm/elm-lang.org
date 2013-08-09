@@ -56,7 +56,7 @@ rightCol = [markdown|
 * [Creating a working website][this]
 * [A skeleton for making games][games]
 
- [install]: https://github.com/evancz/Elm/blob/master/README.md#elm "install"
+ [install]: https://github.com/evancz/Elm/blob/master/README.md#install "install"
  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
  [games]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1 "Game Skeleton"
 
@@ -73,16 +73,17 @@ releaseNotes = [markdown|
 
 #### Release notes
 
-* [`0.8.0`][8]  &nbsp; &nbsp; `05/2013` &nbsp; &nbsp; HTML/JS integration, type annotations/aliases
-* [`0.7.1`][71] &nbsp; &nbsp; `02/2013` &nbsp; &nbsp; Touch, Either, and better Keyboard
-* [`0.7.0`][7]  &nbsp; &nbsp; `01/2013` &nbsp; &nbsp; Extensible Records
-* [`0.6.0`][6]  &nbsp; &nbsp; `12/2012` &nbsp; &nbsp; Time, Dates, and whitespace sensitivity
-* [`0.5.0`][5]  &nbsp; &nbsp; `10/2012` &nbsp; &nbsp; Dictionaries, Sets, and Automata 
-* [`0.4.0`][4]  &nbsp; &nbsp; `09/2012` &nbsp; &nbsp; Markdown and better graphics
-* [`0.3.6`][36] &nbsp; &nbsp; `08/2012` &nbsp; &nbsp; JSON support
-* [`0.3.5`][35] &nbsp; &nbsp; `06/2012` &nbsp; &nbsp; JavaScript FFI
-* [`0.3.0`][3]  &nbsp; &nbsp; `06/2012` &nbsp; &nbsp; Modules
-* `0.1.0`       &nbsp; &nbsp; `04/2012` &nbsp; &nbsp; Initial Release
+* <code>[0.9][9]    &nbsp; &nbsp;&nbsp; 8/2013 &nbsp; &nbsp; </code>Fix the type checker. Fast and reliable static checks.
+* <code>[0.8][8]    &nbsp; &nbsp;&nbsp; 5/2013 &nbsp; &nbsp; </code>HTML/JS integration, type annotations/aliases
+* <code>[0.7.1][71]        &nbsp;&nbsp; 2/2013 &nbsp; &nbsp; </code>Touch, Either, and better Keyboard
+* <code>[0.7][7]    &nbsp; &nbsp;&nbsp; 1/2013 &nbsp; &nbsp; </code>Extensible Records
+* <code>[0.6][6]    &nbsp; &nbsp;&nbsp;12/2012 &nbsp; &nbsp; </code>Time, Dates, and whitespace sensitivity
+* <code>[0.5][5]    &nbsp; &nbsp;&nbsp;10/2012 &nbsp; &nbsp; </code>Dictionaries, Sets, and Automata 
+* <code>[0.4][4]    &nbsp; &nbsp;&nbsp; 9/2012 &nbsp; &nbsp; </code>Markdown and better graphics
+* <code>[0.3.6][36]        &nbsp;&nbsp; 8/2012 &nbsp; &nbsp; </code>JSON support
+* <code>[0.3.5][35]        &nbsp;&nbsp; 6/2012 &nbsp; &nbsp; </code>JavaScript FFI
+* <code>[0.3][3]    &nbsp; &nbsp;&nbsp; 6/2012 &nbsp; &nbsp; </code>Modules
+* <code> 0.1        &nbsp; &nbsp;&nbsp; 4/2012 &nbsp; &nbsp; </code>Initial Release
 
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
@@ -93,6 +94,7 @@ releaseNotes = [markdown|
   [7]:  /blog/announce/version-0.7.elm "Extensible Records & More"
   [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
   [8]:  /blog/announce/version-0.8.elm
+  [9]:  /blog/announce/version-0.9.elm
 
 #### Publications
 
