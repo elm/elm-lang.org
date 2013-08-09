@@ -30,19 +30,18 @@ main = do
   putStrLn "Serving at localhost:8000"
   simpleHTTP nullConf $ do
     compressedResponseFilter
-    docsPath <- liftIO $ Elm.docs
     let mime = asContentType "text/html; charset=UTF-8"
-    route docsPath (serveFile mime "public/build/Elm.elm")
+    route (serveFile mime "public/build/Elm.elm")
           (serveDirectory' EnableBrowsing [] mime "public/build")
 
-route :: FilePath -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
-route docsPath empty rest = do
+route :: ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
+route empty rest = do
   msum [ nullDir >> empty
        , serveDirectory DisableBrowsing [] "resources"
        , dir "try" (ok $ toResponse $ emptyIDE)
        , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
        , dir "hotswap" $ compilePart elmToJS
-       , dir "jsondocs" $ serveFile (asContentType "text/json") docsPath
+       , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json"
        , dir "edit" . uriRest $ withFile ide
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
