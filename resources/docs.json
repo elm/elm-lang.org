@@ -127,7 +127,7 @@
         },
         { "name" : "height",
           "type" : "Float -> Text -> Text",
-          "desc" : "Set the height of text in \\\"ems\\\". 1em is the normal height of text. 2ems is twice that height.\n"
+          "desc" : "Set the height of text in pixels.\n"
         },
         { "name" : "color",
           "type" : "Color -> Text -> Text",
@@ -1528,6 +1528,14 @@
         { "name" : "checkbox",
           "type" : "Bool -> (Signal Element, Signal Bool)",
           "desc" : "Create a checkbox with a given start state. Unlike `button`, this result\nis a *signal* of elements. That is because a checkbox has state that\nupdates based on user input.\nThe boolean signal represents the current state of the checkbox.\n"
+        },
+        { "name" : "hoverables",
+          "type" : "a -> { events : Signal a, hoverable : (Bool -> a) -> Element -> Element }",
+          "desc" : "Detect when the mouse is hovering over some elements. This allows you to create and destroy elements dynamically and still detect hover information."
+        },
+        { "name" : "hoverable",
+          "type" : "Element -> (Element, Signal Bool)",
+          "desc" : "Detect when the mouse is hovering over a specifici `Element`."
         },
         { "name" : "FieldState",
           "type" : "type FieldState = { string:String, selectionStart:Int, selectionEnd:Int }",
