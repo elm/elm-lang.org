@@ -243,7 +243,7 @@
       "values":["toForm","sprite","filled","textured",
                 "gradient","outlined","traced"]}
     ,{"name":"Transforming Forms",
-      "values":["move","moveX","moveY","scale","rotate","opacity"]}
+      "values":["move","moveX","moveY","scale","rotate","alpha"]}
     ,{"name":"Grouping Forms",
       "values":["group","groupTransform"]}
     ,{"name":"Shapes",

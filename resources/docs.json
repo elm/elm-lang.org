@@ -1981,6 +1981,10 @@
           "type" : "Float -> Form -> Form",
           "desc" : "Scale a form by a given factor. Scaling by 2 doubles the size.\n"
         },
+        { "name" : "alpha",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Set the alpha of a `Form`. The default is 1, and 0 is totally transparent.\n"
+        },
         { "name" : "move",
           "type" : "(Float,Float) -> Form -> Form",
           "desc" : "Move a form by the given amount. This is a relative translation so\n`(move (10,10) form)` would move `form` ten pixels up and ten pixels to the\nright.\n"
