@@ -291,10 +291,14 @@ for Elm. I find that bringing an idea up on the lists always results in a
 thoughtful discussion and ultimately leads to more refined design choices,
 so thank you!
 
+ [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
+
 Now for some 0.9 specifics. Thank you to Andrew who added `as` patterns and
 type annotations in let expressions. And thank you to Max New who significantly
 sped up this website.
 
- [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
+Thank you to the beginners who came to my programming class in Budapest.
+Not only was it super fun, but you found a bug in the compiler!
+This experience also convinced me that unary negation was a good idea.
 
 |]
