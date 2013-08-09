@@ -64,6 +64,7 @@ most notable are as follows:
   * Sane unary negation
   * Pattern matching on literals and `as` patterns
   * Multi-line strings
+  * Record constructors
 
 Finally, there are a bunch of miscellaneous improvements:
 
@@ -242,19 +243,58 @@ json = """
 
 #### Record Constructors
 
-When you create 
+When you create a type alias for a record, you also create a &ldquo;record constructor&rdquo;.
 
-#### Miscellaneous Improvements
+```haskell
+type Book = { title:String, author:String, pages:Int }
 
-  * Record type aliases can be closed on the zeroth column
-  * type annotations in let expressions, thanks again to Andrew.
-  * (,,) syntax in types
-  * Allow infix op definitions without args: (*) = add
-  * Unparenthesized if, let, case, lambda at end of binary expressions
+-- This creates the following record constructor:
+-- Book : String -> String -> Int -> Book
 
-## Website
+book : Book
+book = Book "Foundation" "Asimov" 255
+```
 
-  * Hot-swapping
-  * Much faster page load with pre-compiled Elm files (Max New)
+The arguments to `Book` must be given in the order they appear in the type alias.
+
+Record constructors also work for extensible records:
+
+```haskell
+type Positioned a = { a | x:Float, y:Float }
+
+-- This creates the following record constructor:
+-- Positioned : Float -> Float -> a -> Positioned a
+
+myBook : Positioned Book
+myBook = Positioned 3 4 book
+```
+
+Notice that the record we are extending is the *last* argument. This convention
+makes it much easier to compose a chain of record extensions.
+
+```haskell
+type Moving a = { a | velocity:Float, angle:Float }
+
+projectile : Moving (Positioned Book)
+projectile = Moving 100 (degrees 30) myBook
+
+projectile' : Moving (Positioned Book)
+projectile' = book |> Positioned 0 0
+                   |> Moving 100 (degrees 90)
+```
+
+## Final Notes
+
+Huge thank you to Prezi and the community on the [elm-discuss lists][list].
+The diversity of opinions and experiences on the list is extremely helpful
+for Elm. I find that bringing an idea up on the lists always results in a
+thoughtful discussion and ultimately leads to more refined design choices,
+so thank you!
+
+Now for some 0.9 specifics. Thank you to Andrew who added `as` patterns and
+type annotations in let expressions. And thank you to Max New who significantly
+sped up this website.
+
+ [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
 |]
