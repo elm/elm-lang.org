@@ -61,7 +61,7 @@ This is a huge step forward, creating a solid foundation for further improvement
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
 
-  * Sane unary negation
+  * Unary negation
   * Pattern matching on literals and `as` patterns
   * Multi-line strings
   * Record constructors
