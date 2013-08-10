@@ -86,7 +86,7 @@ function parseDoc(mods) {
 function loadDoc() {
   var req = new XMLHttpRequest();
   req.onload = function () { elmDocs = parseDoc(JSON.parse(this.responseText)); };
-  req.open('GET', '/jsondocs', true);
+  req.open('GET', '/docs.json?v0.9', true);
   req.send();
 }
 
