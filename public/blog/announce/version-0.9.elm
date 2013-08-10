@@ -189,13 +189,10 @@ step input (World mario goombas bricks as world) = ...
 
 I was very hesitant to add this feature because I had not seen a
 statically-typed functional language that I felt got this right.
-The issue is that the `(-)` operator overlaps with subtraction,
-so mathematical expressions can become ambiguous for the parser
-and reader.
 
 You get questions like: is `(x -1)` subtraction? Is `(f -1)` function
 application with a negative argument? From the perspective of the parser
-they are exactly the same. You must choose one.
+they are exactly the same, even though we can figure it out based on context.
 
 Writing `(x -1)` to mean subtraction is not recommended and is considered
 sloppy, whereas `(f -1)` is definitely going to come up quite quickly
