@@ -307,25 +307,25 @@ function showLines(on) {
 }
 
 var delay;
-function setAutoHotSwap(enable) {
-  document.getElementById('hot_swap_button').disabled = enable;
-  if (enable) {
-    updateOutput();
-    editor.on('change', updateOutput);
-  } else {
-    editor.off('change', updateOutput);
-  }
-  cookie('autoHotSwap', enable);
+function setAutoHotSwap(enable, init) {
+    document.getElementById('hot_swap_button').disabled = enable;
+    if (enable) {
+        if (!init) updateOutput();
+        editor.on('change', updateOutput);
+    } else {
+        editor.off('change', updateOutput);
+    }
+    cookie('autoHotSwap', enable);
 }
 
 function updateOutput() {
-  clearTimeout(delay);
-  delay = setTimeout(hotSwap, 1000);
+    clearTimeout(delay);
+    delay = setTimeout(hotSwap, 1000);
 }
 
 function setTheme(theme) {
-  editor.setOption('theme', theme);
-  cookie('theme', theme);
+    editor.setOption('theme', theme);
+    cookie('theme', theme);
 }
 
 function setZoom() {
@@ -407,9 +407,9 @@ function initMenu() {
 }
 
 function initAutoHotSwap() {
-  var yes = readCookie('autoHotSwap') === 'true';
-  document.getElementById('auto_hot_swap_checkbox').checked = yes;
-  setAutoHotSwap(yes);
+    var yes = readCookie('autoHotSwap') === 'true';
+    document.getElementById('auto_hot_swap_checkbox').checked = yes;
+    setAutoHotSwap(yes, true);
 }
 
 function initEditor() {
