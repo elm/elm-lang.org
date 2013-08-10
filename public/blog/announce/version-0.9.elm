@@ -196,24 +196,24 @@ they are exactly the same, even though we can figure it out based on context.
 
 Writing `(x -1)` to mean subtraction is not recommended and is considered
 sloppy, whereas `(f -1)` is definitely going to come up quite quickly
-([it does in OCaml][ocaml]).
+([it does in OCaml][ocaml]). After [discussing many options][negate],
+we decided to optimize for function application.
 
  [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
+ [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
-After [discussing many options][negate], we decided on a solution that is
-whitespace sensitive so that unary negation works as expected in the common case.
 Any unary negation operator must meet both of these requirements:
 
-  * It is preceded by whitespace or `(` or `[` or `,`
-  * It is *not* followed by whitespace
+  1. It is preceded by whitespace or `(` or `[` or `,`
+  2. It is *not* followed by whitespace
 
 The following examples cover many cases you might see in the wild:
 
 ```haskell
 n - 1        -- subtraction
-n-1          -- subtraction
+n-1          -- subtraction, does not meet requirement 1
 -10          -- negative ten
-- 10         -- parse error, no spaces allowed on right
+- 10         -- parse error, does not meet requirement 2
 (-100,-100)  -- point in quadrant III
 abs -1       -- abs (-1)
 max -2 -4    -- max (-2) (-4)
@@ -223,8 +223,6 @@ n - -1       -- n + 1
 
 Another way to describe these rules is &ldquo;unary negation binds tighter than function
 application and infix operations.&rdquo;
-
-  [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
 In practice, I have found that this is how my brain parses code. I definitely read
 `(max -2 -4)` as a function, my brain blocks each syntactic unit into a semantic unit.
