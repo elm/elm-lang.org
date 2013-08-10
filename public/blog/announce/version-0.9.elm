@@ -63,10 +63,10 @@ This is a huge step forward, creating a solid foundation for further improvement
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
 
-  * Unary negation
-  * Pattern matching on literals and `as` patterns
-  * Multi-line strings
-  * Record constructors
+  * [Unary negation](#unary-negation)
+  * [Pattern matching on literals and `as` patterns](#pattern-matching)
+  * [Multi-line strings](#multi-line-strings)
+  * [Record constructors](#record-constructors)
 
 Finally, there are a bunch of miscellaneous improvements:
 
@@ -230,11 +230,10 @@ In practice, I have found that this is how my brain parses code. I definitely re
 This is similar to how `(.)` can mean many different things depending on spacing. It is
 unfortunate to overload, but I think this is the best solution given the constraints.
 
-#### Triple-quoted multi-line strings
+#### Multi-line Strings
 
-Just like Python, you can have big multi-line strings:
-This will make it easier to embed plain-text or JSON if
-necessary.
+Just like Python, you can use multi-line strings if you use the triple-quote.
+This will make it easier to embed plain-text or JSON if the text uses `"`.
 
 ```haskell
 json = """
