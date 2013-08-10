@@ -39,9 +39,9 @@ There are some Elm specific highlighters.
 Haskell syntax highlighting also tends to work pretty well.
 
 * *Vim* &ndash; use Haskell mode or [try elm.vim](https://github.com/otavialabs/elm.vim).
-* *Sublime Text* &ndash; install [Elm Language Support](https://github.com/deadfoxygrandpa/Elm.tmLanguage) with [Package Control](http://wbond.net/sublime_packages/package_control).
 * *Emacs* &ndash; turn on [haskell-mode](https://github.com/afeinberg/haskellmode-emacs#readme)
   for `.elm` files.
+* *Sublime Text* &ndash; [Elm Language Support](https://github.com/deadfoxygrandpa/Elm.tmLanguage) with [Package Control](http://wbond.net/sublime_packages/package_control).
 
 There is some more info on this [on the email list](https://groups.google.com/forum/?fromgroups#!topic/elm-discuss/Tt0Z538Xv7g).
 |]
