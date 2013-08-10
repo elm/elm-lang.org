@@ -5,7 +5,7 @@ import Window
 
 title = constant (JS.fromString "The Libraries You Need: Elm 0.5")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 blog w = width (min 600 w) [markdown|
 

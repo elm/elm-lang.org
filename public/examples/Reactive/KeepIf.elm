@@ -1,7 +1,9 @@
+import Char
+import Graphics.Input as Input
 
-(field, input) = Input.textField ""
+(field, input) = Input.field "numbers"
 
-scene inp = field `above` plainText ("Last input of all digits: " ++ inp)
+scene field inp = field `above` plainText ("Last input of all digits: " ++ inp)
 
-main = lift scene (keepIf (all Char.isDigit) "" input)
+main = lift2 scene field (keepIf (all Char.isDigit) "" input)
 

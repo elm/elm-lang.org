@@ -1,5 +1,6 @@
 import Website.Skeleton (skeleton)
-import Website.ColorScheme
+import JavaScript as JS
+import Window
 
 
 ---- Text of the page: all written in Markdown ----
@@ -76,6 +77,6 @@ main = lift (skeleton (\w -> width w content)) Window.width
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JavaScript.castStringToJSString (constant "FRP vs Events")
+titles = lift JS.fromString (constant "FRP vs Events")
 foreign export jsevent "title"
-  titles :: Signal JSString
+  titles : Signal JS.JSString

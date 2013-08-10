@@ -1,6 +1,4 @@
 
-import JavaScript as JS
-
 main = asText (quicksort [5,3,8,1,9,4,7])
 
 quicksort list =
@@ -16,24 +14,12 @@ quicksort list =
 
 QuickSort works as follows:
 
- - Choose a pivot element which be placed in the "middle" of the
-   sorted list. In our case we are choosing the first element as
-   the pivot.
+ - Choose a pivot element to put in the "middle" of the sorted list.
+ - Gather all of the elements less than the pivot in `lower`.
+ - Gather all of the elements greater than the pivot in `higher`.
+ - Run `quicksort` on the `lower` and `higher` lists, sorting them.
+ - Put the sorted lists together.
 
- - Gather all of the elements less than the pivot (the first
-   filter). We know that these must come before our pivot element
-   in the sorted list.
-
- - Gather all of the elements greater than the pivot in the second
-   filter. We know that these must come after our pivot element
-   in the sorted list.
-
- - Run `quicksort` on the lesser elements, producing a sorted list
-   that contains only elements less than the pivot. Put these before
-   the pivot.
-
- - Run `quicksort` on the greater elements, producing a sorted list.
-   Put these after the pivot.
 
 Note that choosing a bad pivot can have bad effects. Take a sorted
 list with N elements. The pivot will always be the lowest member,

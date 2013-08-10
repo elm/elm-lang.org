@@ -1,13 +1,16 @@
-
 import Mouse
 import Window
 
-scene (x,y) (w,h) =
-  collage w h
-    [ ngon 4 100 |> filled (rgb 0 85 170)
-                 |> rotate (degrees x),
-      ngon 5 30  |> filled (rgba 28 267 85 0.5)
-                 |> move (x - toFloat w / 2, toFloat h / 2 - y)
-    ]
-
 main = lift2 scene Mouse.position Window.dimensions
+
+scene (x,y) (w,h) =
+  let dx = (toFloat x - toFloat w / 2)
+      dy = (toFloat h / 2 - toFloat y)
+  in  collage w h
+       [ ngon 3 100
+          |> filled (rgb 0 85 170)
+          |> rotate (atan2 dy dx)
+       , ngon 6 30
+          |> filled (rgba 255 127 0 0.7)
+          |> move (dx, dy)
+       ]

@@ -1,5 +1,5 @@
 
-module Website.Docs (createDocs2,createDocs) where
+module Website.Docs (createDocs) where
 
 import open Website.ColorScheme
 import Window
@@ -47,18 +47,11 @@ f2 w c = let c' = width w c
          in  container w (heightOf c') pos c'
 
 group f w (name, fs) =
-  flow down <| text (section (5/4) name) :: spacer 1 20 :: map (entry f w) fs
+  flow down <| text (section 20 name) :: spacer 1 20 :: map (entry f w) fs
 
-createDocs name cats =
+createDocs name overview cats =
   let f w = flow down <| [ text <| Text.link "/Documentation.elm" (toText "Back")
-                         , width w . centered <| section 2 name
-                         , spacer 1 30
-                         ] ++ (addSpaces 50 <| map (group f1 w) cats)
-  in  lift (skeleton f) Window.width
-
-createDocs2 name overview cats =
-  let f w = flow down <| [ text <| Text.link "/Documentation.elm" (toText "Back")
-                         , width w . centered <| section 2 name
+                         , width w . centered <| section 40 name
                          , width w overview
                          , spacer 1 30
                          ] ++ (addSpaces 50 <| map (group f2 w) cats)

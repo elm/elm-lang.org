@@ -6,7 +6,7 @@ import JavaScript as JS
 
 title = constant (JS.fromString "JavaScript Integration")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 main = lift (skeleton intro) Window.width
 
@@ -171,12 +171,12 @@ import JavaScript as JS
 
 foreign import jsevent "do-something-in-elm"
     (JS.fromString "")
-    computationRequests : Signal JSString
+    computationRequests : Signal JS.JSString
 
 results = doSomeStuff computationRequests
 
 foreign export jsevent "do-the-rest-in-js"
-    results : Signal JSString
+    results : Signal JS.JSString
 ```
 
 So the two key parts of this are the `foreign import` and `foreign export`.
@@ -241,7 +241,7 @@ brushColor = -- some signal
 cookies = lift (JS.fromString . show) brushColor
 
 foreign export jsevent "set-brush-color-cookie"
-  cookies : Signal JSString
+  cookies : Signal JS.JSString
 ```
 So we start with some code that exports values to JS. In JavaScript,
 we receive these values with `recv` and actually set the cookie:

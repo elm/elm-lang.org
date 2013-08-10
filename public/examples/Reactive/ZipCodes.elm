@@ -21,9 +21,9 @@ responses = Http.sendGet (Maybe.maybe "" id <~ realInput)
 -- Display a response.
 display response = 
   case response of
-    Success address -> text . monospace <| toText address
-    Waiting -> image 16 16 "waiting.gif"
-    Failure _ _ -> asText response
+    Http.Success address -> text . monospace <| toText address
+    Http.Waiting -> image 16 16 "waiting.gif"
+    Http.Failure _ _ -> asText response
 
 -- Give the user a message depending on whether their input is valid and
 -- the response from any AJAX requests.

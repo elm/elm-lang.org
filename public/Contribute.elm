@@ -1,10 +1,11 @@
 
-import Website.Skeleton
-import Window as Win
+import Website.Skeleton (skeleton)
+import Window
+import JavaScript as JS
 
-title = constant (JavaScript.castStringToJSString "Contribute to Elm")
+title = constant (JS.fromString "Contribute to Elm")
 foreign export jsevent "elm_title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 blog w = width w [markdown|
 
@@ -162,5 +163,5 @@ to make sure that your ideas fit with the long term vision of Elm.
 
 |]
 
-main = lift (skeleton blog) Win.width
+main = lift (skeleton blog) Window.width
 

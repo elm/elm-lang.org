@@ -5,8 +5,8 @@ import Website.Skeleton (skeleton)
 import Window
 
 title = constant (JS.fromString "Elm 0.7 - Extensible Records")
-foreign export jsevent "elm_title"
-  title : Signal JSString
+foreign export jsevent "title"
+  title : Signal JS.JSString
 
 intro w = width w [markdown|
 

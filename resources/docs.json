@@ -1,0 +1,2055 @@
+{ "modules" : [
+    { "name" : "Window",
+      "values" : [
+        { "name" : "dimensions",
+          "type" : "Signal (Int,Int)",
+          "desc" : "The current dimensions of the window (i.e. the area viewable to the\nuser, not including scroll bars).\n"
+        },
+        { "name" : "width",
+          "type" : "Signal Int",
+          "desc" : "The current width of the window.\n"
+        },
+        { "name" : "height",
+          "type" : "Signal Int",
+          "desc" : "The current height of the window.\n"
+        }
+      ]
+    },
+    { "name" : "WebSocket",
+      "values" : [
+        { "name" : "connect",
+          "type" : "String -> Signal String -> Signal String",
+          "desc" : "Create a web-socket. The first argument is the URL of the desired\nweb-socket server. The input signal holds the outgoing messages,\nand the resulting signal contains the incoming ones.\n"
+        }
+      ]
+    },
+    { "name" : "Touch",
+      "values" : [
+        { "name" : "Touch",
+          "type" : "type Touch = { x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Time }",
+          "desc" : "Every `Touch` has `xy` coordinates. It also has an identifier `id` to\ndistinguish one touch from another.\n\nA touch also keeps info about the intial point and time of contact:\n`x0`, `y0`, and `t0`. This helps compute more complicated gestures\nlike taps, drags, and swipes which need to know about timing or direction.\n"
+        },
+        { "name" : "touches",
+          "type" : "Signal [Touch]",
+          "desc" : "A list of ongoing touches.\n"
+        },
+        { "name" : "taps",
+          "type" : "Signal { x:Int, y:Int }",
+          "desc" : "The last position that was tapped. Default value is `{x=0,y=0}`.\nUpdates whenever the user taps the screen.\n"
+        }
+      ]
+    },
+    { "name" : "Time",
+      "values" : [
+        { "name" : "Time",
+          "type" : "type Time = Float",
+          "desc" : "Type alias to make it clearer when you are working with time values.\nUsing the `Time` constants instead of raw numbers is very highly recommended.\n"
+        },
+        { "name" : "millisecond",
+          "type" : "Time",
+          "desc" : "Units of time, making it easier to specify things like a\nhalf-second `(500 * milliseconds)` without remembering Elm&rsquo;s\nunderlying units of time.\n"
+        },
+        { "name" : "second",
+          "type" : "Time",
+          "desc" : ""
+        },
+        { "name" : "minute",
+          "type" : "Time",
+          "desc" : ""
+        },
+        { "name" : "hour",
+          "type" : "Time",
+          "desc" : ""
+        },
+        { "name" : "inMilliseconds",
+          "type" : "Time -> Float",
+          "desc" : ""
+        },
+        { "name" : "inSeconds",
+          "type" : "Time -> Float",
+          "desc" : ""
+        },
+        { "name" : "inMinutes",
+          "type" : "Time -> Float",
+          "desc" : ""
+        },
+        { "name" : "inHours",
+          "type" : "Time -> Float",
+          "desc" : ""
+        },
+        { "name" : "fps",
+          "type" : "Number a -> Signal Time",
+          "desc" : "Takes desired number of frames per second (fps). The resulting signal\ngives a sequence of time deltas as quickly as possible until it reaches\nthe desired FPS. A time delta is the time between the last frame and the\ncurrent frame.\n"
+        },
+        { "name" : "fpsWhen",
+          "type" : "Number a -> Signal Bool -> Signal Time",
+          "desc" : "Same as the fps function, but you can turn it on and off. Allows you\nto do brief animations based on user input without major inefficiencies.\nThe first time delta after a pause is always zero, no matter how long\nthe pause was. This way summing the deltas will actually give the amount\nof time that the output signal has been running.\n"
+        },
+        { "name" : "every",
+          "type" : "Time -> Signal Time",
+          "desc" : "Takes a time interval t. The resulting signal is the current time,\nupdated every t.\n"
+        },
+        { "name" : "since",
+          "type" : "Time -> Signal a -> Signal Bool",
+          "desc" : "Takes a time `t` and any signal. The resulting boolean signal\nis true for time `t` after every event on the input signal.\nSo ``(second `since` Mouse.clicks)`` would result in a signal\nthat is true for one second after each mouse click and false\notherwise.\n"
+        },
+        { "name" : "timestamp",
+          "type" : "Signal a -> Signal (Time, a)",
+          "desc" : "Add a timestamp to any signal. Timestamps increase monotonically. Each\ntimestamp is related to a specfic event, so `Mouse.x` and `Mouse.y` will\nalways have the same timestamp because they both rely on the same\nunderlying event.\n"
+        },
+        { "name" : "delay",
+          "type" : "Time -> Signal a -> Signal a",
+          "desc" : "Delay a signal by a certain amount of time. So `(delay second Mouse.clicks)`\nwill update one second later than any mouse click.\n"
+        }
+      ]
+    },
+    { "name" : "Text",
+      "values" : [
+        { "name" : "toText",
+          "type" : "String -> Text",
+          "desc" : "Convert a string into text which can be styled and displayed.\n"
+        },
+        { "name" : "typeface",
+          "type" : "String -> Text -> Text",
+          "desc" : "Set the typeface of some text. The first argument should be a comma separated listing of the desired typefaces\n    \"helvetica, arial, sans-serif\"\nWorks the same as the CSS font-family property.\n"
+        },
+        { "name" : "monospace",
+          "type" : "Text -> Text",
+          "desc" : "Switch to a monospace typeface. Good for code snippets.\n"
+        },
+        { "name" : "header",
+          "type" : "Text -> Text",
+          "desc" : "Make text big and noticable.\n"
+        },
+        { "name" : "link",
+          "type" : "String -> Text -> Text",
+          "desc" : "Create a link.\n"
+        },
+        { "name" : "height",
+          "type" : "Float -> Text -> Text",
+          "desc" : "Set the height of text in pixels.\n"
+        },
+        { "name" : "color",
+          "type" : "Color -> Text -> Text",
+          "desc" : "Set the color of a string.\n"
+        },
+        { "name" : "bold",
+          "type" : "Text -> Text",
+          "desc" : "Make a string bold.\n"
+        },
+        { "name" : "italic",
+          "type" : "Text -> Text",
+          "desc" : "Italicize a string.\n"
+        },
+        { "name" : "overline",
+          "type" : "Text -> Text",
+          "desc" : "Draw a line above a string.\n"
+        },
+        { "name" : "underline",
+          "type" : "Text -> Text",
+          "desc" : "Underline a string.\n"
+        },
+        { "name" : "strikeThrough",
+          "type" : "Text -> Text",
+          "desc" : "Draw a line through a string.\n"
+        },
+        { "name" : "justified",
+          "type" : "Text -> Element",
+          "desc" : "Display justified, styled text.\n"
+        },
+        { "name" : "centered",
+          "type" : "Text -> Element",
+          "desc" : "Display centered, styled text.\n"
+        },
+        { "name" : "righted",
+          "type" : "Text -> Element",
+          "desc" : "Display right justified, styled text.\n"
+        },
+        { "name" : "text",
+          "type" : "Text -> Element",
+          "desc" : "Display styled text.\n"
+        },
+        { "name" : "plainText",
+          "type" : "String -> Element",
+          "desc" : "Display a plain string.\n"
+        },
+        { "name" : "asText",
+          "type" : "a -> Element",
+          "desc" : "Convert anything to it's textual representation and make it displayable in browser\n\n    asText == text . monospace . show\n\nExcellent for debugging.\n"
+        }
+      ]
+    },
+    { "name" : "Signal",
+      "values" : [
+        { "name" : "constant",
+          "type" : "a -> Signal a",
+          "desc" : "Create a constant signal that never changes.\n"
+        },
+        { "name" : "lift",
+          "type" : "(a -> b) -> Signal a -> Signal b",
+          "desc" : "Transform a signal with a given function.\n"
+        },
+        { "name" : "lift2",
+          "type" : "(a -> b -> c) -> Signal a -> Signal b -> Signal c",
+          "desc" : "Combine two signals with a given function.\n"
+        },
+        { "name" : "lift3",
+          "type" : "(a -> b -> c -> d) -> Signal a -> Signal b -> Signal c -> Signal d",
+          "desc" : "Combine three signals with a given function.\n"
+        },
+        { "name" : "lift4",
+          "type" : "(a -> b -> c -> d -> e) -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e",
+          "desc" : ""
+        },
+        { "name" : "lift5",
+          "type" : "(a -> b -> c -> d -> e -> f) -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f",
+          "desc" : ""
+        },
+        { "name" : "lift6",
+          "type" : "(a -> b -> c -> d -> e -> f -> g)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g",
+          "desc" : ""
+        },
+        { "name" : "lift7",
+          "type" : "(a -> b -> c -> d -> e -> f -> g -> h)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g -> Signal h",
+          "desc" : ""
+        },
+        { "name" : "lift8",
+          "type" : "(a -> b -> c -> d -> e -> f -> g -> h -> i)\n      -> Signal a -> Signal b -> Signal c -> Signal d -> Signal e -> Signal f -> Signal g -> Signal h -> Signal i",
+          "desc" : ""
+        },
+        { "name" : "foldp",
+          "type" : "(a -> b -> b) -> b -> Signal a -> Signal b",
+          "desc" : "Create a past-dependent signal. Each value given on the input signal will\nbe accumulated, producing a new output value.\n\nFor instance, `(foldp (\\\\t acc -> acc + 1) 0 (Time.every second))` increments every second.\n"
+        },
+        { "name" : "merge",
+          "type" : "Signal a -> Signal a -> Signal a",
+          "desc" : "Merge two signals into one, biased towards the first signal if both signals\nupdate at the same time.\n"
+        },
+        { "name" : "merges",
+          "type" : "[Signal a] -> Signal a",
+          "desc" : "Merge many signals into one, biased towards the left-most signal if multiple\nsignals update simultaneously.\n"
+        },
+        { "name" : "combine",
+          "type" : "[Signal a] -> Signal [a]",
+          "desc" : "Combine a list of signals into a signal of lists.\n"
+        },
+        { "name" : "count",
+          "type" : "Signal a -> Signal Int",
+          "desc" : "Count the number of events that have occured.\n"
+        },
+        { "name" : "countIf",
+          "type" : "(a -> Bool) -> Signal a -> Signal Int",
+          "desc" : "Count the number of events that have occured that satisfy a given predicate.\n"
+        },
+        { "name" : "keepIf",
+          "type" : "(a -> Bool) -> a -> Signal a -> Signal a",
+          "desc" : "Keep only events that satisfy the given predicate. Elm does not allow\nundefined signals, so a base case must be provided in case the predicate is\nnever satisfied.\n"
+        },
+        { "name" : "dropIf",
+          "type" : "(a -> Bool) -> a -> Signal a -> Signal a",
+          "desc" : "Drop events that satisfy the given predicate. Elm does not allow undefined\nsignals, so a base case must be provided in case the predicate is never\nsatisfied.\n"
+        },
+        { "name" : "keepWhen",
+          "type" : "Signal Bool -> a -> Signal a -> Signal a",
+          "desc" : "Keep events only when the first signal is true. When the first signal becomes\ntrue, the most recent value of the second signal will be propagated. Until\nthe first signal becomes false again, all events will be propagated. Elm does\nnot allow undefined signals, so a base case must be provided in case the first\nsignal is never true.\n"
+        },
+        { "name" : "dropWhen",
+          "type" : "Signal Bool -> a -> Signal a -> Signal a",
+          "desc" : "Drop events when the first signal is true. When the first signal becomes false,\nthe most recent value of the second signal will be propagated. Until the first\nsignal becomes true again, all events will be propagated. Elm does not allow\nundefined signals, so a base case must be provided in case the first signal is\nalways true.\n"
+        },
+        { "name" : "dropRepeats",
+          "type" : "Signal a -> Signal a",
+          "desc" : "Drop sequential repeated values. For example, if a signal produces the\nsequence `[1,1,2,2,1]`, it becomes `[1,2,1]` by dropping the values that\nare the same as the previous value.\n"
+        },
+        { "name" : "sampleOn",
+          "type" : "Signal a -> Signal b -> Signal b",
+          "desc" : "Sample from the second input every time an event occurs on the first input.\nFor example, `(sampleOn clicks (every second))` will give the approximate\ntime of the latest click.\n"
+        },
+        { "name" : "<~",
+          "type" : "(a -> b) -> Signal a -> Signal b",
+          "desc" : "An alias for `lift`. A prettier way to apply a\nfunction to the current value of a signal.\n\n        lift f signal == f <~ signal\n"
+        },
+        { "name" : "~",
+          "type" : "Signal (a -> b) -> Signal a -> Signal b",
+          "desc" : "Signal application. This takes two signals, holding a function and\na value. It applies the current function to the current value.\n\nSo the following expressions are equivalent:\n\n        scene <~ Window.dimensions ~ Mouse.position\n        lift2 scene Window.dimensions Mouse.position\n"
+        }
+      ]
+    },
+    { "name" : "Set",
+      "values" : [
+        { "name" : "empty",
+          "type" : "Set (Comparable k)",
+          "desc" : "Create an empty set.\n"
+        },
+        { "name" : "singleton",
+          "type" : "Comparable k -> Set (Comparable k)",
+          "desc" : "Create a set with one value.\n"
+        },
+        { "name" : "insert",
+          "type" : "Comparable k -> Set (Comparable k) -> Set (Comparable k)",
+          "desc" : "Insert a value into a set.\n"
+        },
+        { "name" : "remove",
+          "type" : "Comparable k -> Set (Comparable k) -> Set (Comparable k)",
+          "desc" : "Remove a value from a set. If the value is not found, no changes are made.\n"
+        },
+        { "name" : "member",
+          "type" : "Comparable k -> Set (Comparable k) -> Bool",
+          "desc" : "Determine if a value is in a set.\n"
+        },
+        { "name" : "union",
+          "type" : "Set (Comparable k) -> Set (Comparable k) -> Set (Comparable k)",
+          "desc" : "Get the union of two sets. Keep all values.\n"
+        },
+        { "name" : "intersect",
+          "type" : "Set (Comparable k) -> Set (Comparable k) -> Set (Comparable k)",
+          "desc" : "Get the intersection of two sets. Keeps values that appear in both sets.\n"
+        },
+        { "name" : "diff",
+          "type" : "Set (Comparable k) -> Set (Comparable k) -> Set (Comparable k)",
+          "desc" : "Get the difference between the first set and the second. Keeps values\nthat do not appear in the second set.\n"
+        },
+        { "name" : "toList",
+          "type" : "Set (Comparable k) -> [Comparable k]",
+          "desc" : "Convert a set into a list.\n"
+        },
+        { "name" : "fromList",
+          "type" : "[Comparable k] -> Set (Comparable k)",
+          "desc" : "Convert a list into a set, removing any duplicates.\n"
+        },
+        { "name" : "foldl",
+          "type" : "(Comparable a -> b -> b) -> b -> Set (Comparable a) -> b",
+          "desc" : "Fold over the values in a set, in order from lowest to highest.\n"
+        },
+        { "name" : "foldr",
+          "type" : "(Comparable a -> b -> b) -> b -> Set (Comparable a) -> b",
+          "desc" : "Fold over the values in a set, in order from highest to lowest.\n"
+        },
+        { "name" : "map",
+          "type" : "(Comparable a -> Comparable b) -> Set (Comparable a) -> Set (Comparable b)",
+          "desc" : "Map a function onto a set, creating a new set with no duplicates.\n"
+        }
+      ]
+    },
+    { "name" : "Random",
+      "values" : [
+        { "name" : "range",
+          "type" : "Int -> Int -> Signal a -> Signal Int",
+          "desc" : "Given a range from low to high and a signal of values, this produces\na new signal that changes whenever the input signal changes. The new\nvalues are random number between 'low' and 'high' inclusive.\n"
+        },
+        { "name" : "float",
+          "type" : "Signal a -> Signal Float",
+          "desc" : "Produces a new signal that changes whenever the input signal changes.\nThe new values are random numbers in [0..1).\n"
+        }
+      ]
+    },
+    { "name" : "Prelude",
+      "values" : [
+        { "name" : "radians",
+          "type" : "Float -> Float",
+          "desc" : "Convert radians to standard Elm angles (radians).\n"
+        },
+        { "name" : "degrees",
+          "type" : "Float -> Float",
+          "desc" : "Convert degrees to standard Elm angles (radians).\n"
+        },
+        { "name" : "turns",
+          "type" : "Float -> Float",
+          "desc" : "Convert turns to standard Elm angles (radians).\nOne turn is equal to 360&deg;.\n"
+        },
+        { "name" : "fromPolar",
+          "type" : "(Float,Float) -> (Float,Float)",
+          "desc" : "Start with polar coordinates (r,&theta;)\nand get out cartesian coordinates (x,y).\n"
+        },
+        { "name" : "toPolar",
+          "type" : "(Float,Float) -> (Float,Float)",
+          "desc" : "Start with cartesian coordinates (x,y)\nand get out polar coordinates (r,&theta;).\n"
+        },
+        { "name" : "+",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : ""
+        },
+        { "name" : "-",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : ""
+        },
+        { "name" : "*",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : ""
+        },
+        { "name" : "/",
+          "type" : "Float -> Float -> Float",
+          "desc" : "Floating point division.\n"
+        },
+        { "name" : "div",
+          "type" : "Int -> Int -> Int",
+          "desc" : "Integer division, remainder is discarded.\n"
+        },
+        { "name" : "rem",
+          "type" : "Int -> Int -> Int",
+          "desc" : "Finds the remainder after dividing one number by another: ``4 `rem` 3 == 1``\n"
+        },
+        { "name" : "mod",
+          "type" : "Int -> Int -> Int",
+          "desc" : "Perform modular arithmetic: ``7 `mod` 2 == 1``\n"
+        },
+        { "name" : "^",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : "Exponentiation: `3^2 == 9`\n"
+        },
+        { "name" : "cos",
+          "type" : "Float -> Float",
+          "desc" : ""
+        },
+        { "name" : "sin",
+          "type" : "Float -> Float",
+          "desc" : ""
+        },
+        { "name" : "tan",
+          "type" : "Float -> Float",
+          "desc" : ""
+        },
+        { "name" : "acos",
+          "type" : "Float -> Float",
+          "desc" : ""
+        },
+        { "name" : "asin",
+          "type" : "Float -> Float",
+          "desc" : ""
+        },
+        { "name" : "atan",
+          "type" : "Float -> Float",
+          "desc" : "You probably do not want to use this. Because it takes `(y/x)` as the argument\nthere is no way to know where the negative signs come from so the resulting\nangle is always between &pi;/2 and -&pi;/2 (in quadrants I and IV).\n"
+        },
+        { "name" : "atan2",
+          "type" : "Float -> Float -> Float",
+          "desc" : "This helps you find the angle of a cartesian coordinate.\nYou will almost certainly want to use this instead of `atan`.\nSo `atan2 y x` computes *atan(y/x)* but also keeps track of which\nquadrant the angle should really be in. The result will be between\n&pi; and -&pi;, giving you the full range of angles.\n"
+        },
+        { "name" : "sqrt",
+          "type" : "Number a -> Number a",
+          "desc" : "Take the square root of a number.\n"
+        },
+        { "name" : "abs",
+          "type" : "Number a -> Number a",
+          "desc" : "Take the absolute value of a number.\n"
+        },
+        { "name" : "logBase",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : "Calculate the logarithm of a number with a given base: `logBase 10 100 == 2`\n"
+        },
+        { "name" : "min",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : "Given two numbers, returns the smaller one.\n"
+        },
+        { "name" : "max",
+          "type" : "Number a -> Number a -> Number a",
+          "desc" : "Given two numbers, returns the larger one.\n"
+        },
+        { "name" : "clamp",
+          "type" : "Number a -> Number a -> Number a -> Number a",
+          "desc" : "Clamps a number within a given range. With the expression `clamp 100 200 x`\nthe results are as follows:\n\n  * `100   if x < 100`\n  * ` x    if 100 <= x < 200`\n  * `200   if 200 <= x`\n"
+        },
+        { "name" : "pi",
+          "type" : "Float",
+          "desc" : "An approximation of pi.\n"
+        },
+        { "name" : "e",
+          "type" : "Float",
+          "desc" : "An approximation of e.\n"
+        },
+        { "name" : "==",
+          "type" : "a -> a -> Bool",
+          "desc" : "Compare any two values for structural equality. Functions cannot be compared.\n"
+        },
+        { "name" : "/=",
+          "type" : "a -> a -> Bool",
+          "desc" : ""
+        },
+        { "name" : "<",
+          "type" : "Comparable a -> Comparable a -> Bool",
+          "desc" : ""
+        },
+        { "name" : ">",
+          "type" : "Comparable a -> Comparable a -> Bool",
+          "desc" : ""
+        },
+        { "name" : "<=",
+          "type" : "Comparable a -> Comparable a -> Bool",
+          "desc" : ""
+        },
+        { "name" : ">=",
+          "type" : "Comparable a -> Comparable a -> Bool",
+          "desc" : ""
+        },
+        { "name" : "compare",
+          "type" : "Comparable a -> Comparable a -> Order",
+          "desc" : "Compare any two comparable values. Comparable values include `String`, `Char`,\n`Int`, `Float`, `Time`, or a list or tuple containing comparable values.\nThese are also the only values that work as `Dict` keys or `Set` members.\n"
+        },
+        { "name" : "LT",
+          "type" : "Order",
+          "desc" : ""
+        },
+        { "name" : "EQ",
+          "type" : "Order",
+          "desc" : ""
+        },
+        { "name" : "GT",
+          "type" : "Order",
+          "desc" : ""
+        },
+        { "name" : "Order",
+          "type" : "data Order = LT | EQ | GT",
+          "desc" : "Represents the relative ordering of two things.\nThe relations are less than, equal to, and greater than.\n"
+        },
+        { "name" : "&&",
+          "type" : "Bool -> Bool -> Bool",
+          "desc" : "The and operator. True if both inputs are True.\n"
+        },
+        { "name" : "||",
+          "type" : "Bool -> Bool -> Bool",
+          "desc" : "The or operator. True if one or both inputs are True.\n"
+        },
+        { "name" : "xor",
+          "type" : "Bool -> Bool -> Bool",
+          "desc" : "The exclusive-or operator. True if exactly one input is True.\n"
+        },
+        { "name" : "not",
+          "type" : "Bool -> Bool",
+          "desc" : "Negate a boolean value: `(not True == False)` and `(not False == True)`\n"
+        },
+        { "name" : "otherwise",
+          "type" : "Bool",
+          "desc" : "Equal to true. Useful as the last case of a multi-way-if.\n"
+        },
+        { "name" : "round",
+          "type" : "Float -> Int",
+          "desc" : "Round a number to the nearest integer.\n"
+        },
+        { "name" : "truncate",
+          "type" : "Float -> Int",
+          "desc" : "Truncate a decimal number, rounding towards zero.\n"
+        },
+        { "name" : "floor",
+          "type" : "Float -> Int",
+          "desc" : "Floor function, rounding down.\n"
+        },
+        { "name" : "ceiling",
+          "type" : "Float -> Int",
+          "desc" : "Ceiling function, rounding up.\n"
+        },
+        { "name" : "toFloat",
+          "type" : "Int -> Float",
+          "desc" : "Convert an integer into a float.\n"
+        },
+        { "name" : "show",
+          "type" : "a -> String",
+          "desc" : "Convert almost any value to its string representation.\n"
+        },
+        { "name" : "readInt",
+          "type" : "String -> Maybe Int",
+          "desc" : "Read an integer from a string\n"
+        },
+        { "name" : "readFloat",
+          "type" : "String -> Maybe Float",
+          "desc" : "Read a float from a string.\n"
+        },
+        { "name" : ".",
+          "type" : "(b -> c) -> (a -> b) -> (a -> c)",
+          "desc" : "Function composition: `(f . g == (\\\\x -> f (g x)))`\n"
+        },
+        { "name" : "|>",
+          "type" : "a -> (a -> b) -> b",
+          "desc" : "Forward function application `x |> f == f x`. This function is useful\nfor avoiding parenthesis and writing code in a more natural way.\nConsider the following code to create a pentagon:\n\n        scale 2 (move (10,10) (filled blue (ngon 5 30)))\n\nThis can also be written as:\n\n        ngon 5 30 |> filled blue\n                  |> move (10,10)\n                  |> scale 2\n"
+        },
+        { "name" : "<|",
+          "type" : "(a -> b) -> a -> b",
+          "desc" : "Function application `f <| x == f x`. This function is useful for avoiding\nparenthesis. Consider the following code to create a text element:\n\n        text (monospace (toText \"code\"))\n\nThis can also be written as:\n\n        text . monospace <| toText \"code\"\n"
+        },
+        { "name" : "id",
+          "type" : "a -> a",
+          "desc" : "Given a value, returns exactly the same value.\n"
+        },
+        { "name" : "fst",
+          "type" : "(a,b) -> a",
+          "desc" : "Given a 2-tuple, returns the first value.\n"
+        },
+        { "name" : "snd",
+          "type" : "(a,b) -> b",
+          "desc" : "Given a 2-tuple, returns the second value.\n"
+        },
+        { "name" : "flip",
+          "type" : "(a -> b -> c) -> (b -> a -> c)",
+          "desc" : "Flips the order of the first two arguments to a function.\n"
+        },
+        { "name" : "curry",
+          "type" : "((a,b) -> c) -> a -> b -> c",
+          "desc" : "Change how arguments are passed to a function. This splits paired arguments\ninto two separate arguments.\n"
+        },
+        { "name" : "uncurry",
+          "type" : "(a -> b -> c) -> (a,b) -> c",
+          "desc" : "Change how arguments are passed to a function. This combines two arguments\ninto a sigle pair.\n"
+        }
+      ]
+    },
+    { "name" : "Mouse",
+      "values" : [
+        { "name" : "position",
+          "type" : "Signal (Int,Int)",
+          "desc" : "The current mouse position.\n"
+        },
+        { "name" : "x",
+          "type" : "Signal Int",
+          "desc" : "The current x-coordinate of the mouse.\n"
+        },
+        { "name" : "y",
+          "type" : "Signal Int",
+          "desc" : "The current y-coordinate of the mouse.\n"
+        },
+        { "name" : "isDown",
+          "type" : "Signal Bool",
+          "desc" : "The current state of the left mouse-button.\nTrue when the button is down, and false otherwise.\n"
+        },
+        { "name" : "isClicked",
+          "type" : "Signal Bool",
+          "desc" : "True immediately after the left mouse-button has been clicked,\nand false otherwise.\n"
+        },
+        { "name" : "clicks",
+          "type" : "Signal ()",
+          "desc" : "Always equal to unit. Event triggers on every mouse click.\n"
+        }
+      ]
+    },
+    { "name" : "Maybe",
+      "values" : [
+        { "name" : "Just",
+          "type" : "t1 -> Maybe t1",
+          "desc" : ""
+        },
+        { "name" : "Nothing",
+          "type" : "Maybe t1",
+          "desc" : ""
+        },
+        { "name" : "Maybe",
+          "type" : "data Maybe a = Just a | Nothing",
+          "desc" : "The Maybe datatype. Useful when a computation may or may not\nresult in a value (e.g. logarithm is defined only for positive numbers).\n"
+        },
+        { "name" : "maybe",
+          "type" : "b -> (a -> b) -> Maybe a -> b",
+          "desc" : "Apply a function to the contents of a `Maybe`.\nReturn default when given `Nothing`.\n"
+        },
+        { "name" : "isJust",
+          "type" : "Maybe a -> Bool",
+          "desc" : "Check if constructed with `Just`.\n"
+        },
+        { "name" : "isNothing",
+          "type" : "Maybe a -> Bool",
+          "desc" : "Check if constructed with `Nothing`.\n"
+        },
+        { "name" : "cons",
+          "type" : "Maybe a -> [a] -> [a]",
+          "desc" : "If `Just`, adds the value to the front of the list.\nIf `Nothing`, list is unchanged.\n"
+        },
+        { "name" : "justs",
+          "type" : "[Maybe a] -> [a]",
+          "desc" : "Filters out Nothings and extracts the remaining values.\n"
+        }
+      ]
+    },
+    { "name" : "Matrix2D",
+      "values" : [
+        { "name" : "identity",
+          "type" : "Matrix2D",
+          "desc" : "Create an identity matrix.\n\n          / 1 0 \\\\\n          \\\\ 0 1 /\n"
+        },
+        { "name" : "matrix",
+          "type" : "Float -> Float -> Float -> Float -> Float -> Float -> Matrix2D",
+          "desc" : "Creates an arbitrary matrix. This lets you create scales, shears, reflections,\ntranslations, or any other 2D transform.\n\n      matrix a b c d dx dy\n\n          / a b \\\\\n          \\\\ c d /\n\nAnd `dx` and `dy` are the translation values.\n"
+        },
+        { "name" : "rotation",
+          "type" : "Float -> Matrix2D",
+          "desc" : "Creates a [rotation matrix](http://en.wikipedia.org/wiki/Rotation_matrix).\nGiven an angle t, it creates a counterclockwise rotation matrix:\n\n          / cos t  -sin t \\\\\n          \\\\ sin t   cos t /\n"
+        },
+        { "name" : "multiply",
+          "type" : "Matrix2D -> Matrix2D -> Matrix2D",
+          "desc" : "Multiplies two matrices together:\n\n      multiply a b\n\n          / a11 a12 \\\\  .  / b11 b12 \\\\\n          \\\\ a21 a22 /     \\\\ b21 b22 /\n"
+        }
+      ]
+    },
+    { "name" : "List",
+      "values" : [
+        { "name" : "::",
+          "type" : "a -> [a] -> [a]",
+          "desc" : "Add an element to the front of a list `(1 :: [2,3] == [1,2,3])`\n"
+        },
+        { "name" : "++",
+          "type" : "Appendable a -> Appendable a -> Appendable a",
+          "desc" : "Puts two appendable things together:\n\n        [1,1] ++ [2,3] == [1,1,2,3]\n        \"abc\" ++ \"123\" == \"abc123\"\n"
+        },
+        { "name" : "head",
+          "type" : "[a] -> a",
+          "desc" : "Extract the first element of a list. List must be non-empty.\n`(head [1,2,3] == 1)`\n"
+        },
+        { "name" : "tail",
+          "type" : "[a] -> [a]",
+          "desc" : "Extract the elements after the head of the list. List must be non-empty.\n `(tail [1,2,3] == [2,3])`\n"
+        },
+        { "name" : "last",
+          "type" : "[a] -> a",
+          "desc" : "Extract the last element of a list. List must be non-empty.\n`(last [1,2,3] == 3)`\n"
+        },
+        { "name" : "map",
+          "type" : "(a -> b) -> [a] -> [b]",
+          "desc" : "Apply a function to every element of a list: `(map sqrt [1,4,9] == [1,2,3])`\n"
+        },
+        { "name" : "foldl",
+          "type" : "(a -> b -> b) -> b -> [a] -> b",
+          "desc" : "Reduce a list from the left: `(foldl (::) [] \"gateman\" == \"nametag\")`\n"
+        },
+        { "name" : "foldr",
+          "type" : "(a -> b -> b) -> b -> [a] -> b",
+          "desc" : "Reduce a list from the right: `(foldr (+) 0 [1,2,3] == 6)`\n"
+        },
+        { "name" : "foldl1",
+          "type" : "(a -> a -> a) -> [a] -> a",
+          "desc" : "Reduce a list from the left without a base case. List must be non-empty.\n"
+        },
+        { "name" : "foldr1",
+          "type" : "(a -> a -> a) -> [a] -> a",
+          "desc" : "Reduce a list from the right without a base case. List must be non-empty.\n"
+        },
+        { "name" : "scanl",
+          "type" : "(a -> b -> b) -> b -> [a] -> [b]",
+          "desc" : "Reduce a list from the left, building up all of the intermediate results into a list.\n\n        scanl (+) 0 [1,2,3,4] == [0,1,3,6,10]\n"
+        },
+        { "name" : "scanl1",
+          "type" : "(a -> a -> a) -> [a] -> [a]",
+          "desc" : "Same as scanl but it doesn't require a base case. List must be non-empty.\n\n        scanl1 (+) [1,2,3,4] == [1,3,6,10]\n"
+        },
+        { "name" : "filter",
+          "type" : "(a -> Bool) -> [a] -> [a]",
+          "desc" : "Filter out elements which do not satisfy the predicate: `(filter isLower \"AaBbCc\" == \"abc\")`\n"
+        },
+        { "name" : "length",
+          "type" : "[a] -> Int",
+          "desc" : "Determine the length of a list: `(length \"innumerable\" == 11)`\n"
+        },
+        { "name" : "reverse",
+          "type" : "[a] -> [a]",
+          "desc" : "Reverse a list. `(reverse [1..4] == [4,3,2,1])`\n"
+        },
+        { "name" : "all",
+          "type" : "(a -> Bool) -> [a] -> Bool",
+          "desc" : "Check to see if all elements satisfy the predicate.\n"
+        },
+        { "name" : "any",
+          "type" : "(a -> Bool) -> [a] -> Bool",
+          "desc" : "Check to see if any elements satisfy the predicate.\n"
+        },
+        { "name" : "and",
+          "type" : "[Bool] -> Bool",
+          "desc" : "Check to see if all elements are True.\n"
+        },
+        { "name" : "or",
+          "type" : "[Bool] -> Bool",
+          "desc" : "Check to see if any elements are True.\n"
+        },
+        { "name" : "concat",
+          "type" : "[Appendable a] -> Appendable a",
+          "desc" : "Concatenate a list of appendable things:\n\n        concat [\"tree\",\"house\"] == \"treehouse\"\n"
+        },
+        { "name" : "concatMap",
+          "type" : "(a -> Appendable b) -> [a] -> Appendable b",
+          "desc" : "Map a given function onto a list and flatten the resulting lists.\n\n        concatMap f xs == concat (map f xs)\n"
+        },
+        { "name" : "sum",
+          "type" : "[Number a] -> Number a",
+          "desc" : "Get the sum of the list elements. `(sum [1..4] == 10)`\n"
+        },
+        { "name" : "product",
+          "type" : "[Number a] -> Number a",
+          "desc" : "Get the product of the list elements. `(product [1..4] == 24)`\n"
+        },
+        { "name" : "maximum",
+          "type" : "[Number a] -> Number a",
+          "desc" : "Find the highest number in a non-empty list.\n"
+        },
+        { "name" : "minimum",
+          "type" : "[Number a] -> Number a",
+          "desc" : "Find the lowest number in a non-empty list.\n"
+        },
+        { "name" : "partition",
+          "type" : "(a -> Bool) -> [a] -> ([a],[a])",
+          "desc" : "Split a list based on the predicate.\n"
+        },
+        { "name" : "zip",
+          "type" : "[a] -> [b] -> [(a,b)]",
+          "desc" : "Combine two lists, combining them into tuples pairwise.\nIf one list is longer, the extra elements are dropped.\n\n        zip [1,2,3] [6,7] == [(1,6),(2,7)]\n        zip == zipWith (,)\n"
+        },
+        { "name" : "zipWith",
+          "type" : "(a -> b -> c) -> [a] -> [b] -> [c]",
+          "desc" : "Combine two lists, combining them with the given function.\nIf one list is longer, the extra elements are dropped.\n\n        zipWith (+) [1,2,3] [1,2,3,4] == [2,4,6]\n"
+        },
+        { "name" : "unzip",
+          "type" : "[(a,b)] -> ([a],[b])",
+          "desc" : "Decompose a list of tuples.\n"
+        },
+        { "name" : "split",
+          "type" : "[a] -> [a] -> [[a]]",
+          "desc" : "Split a list with a given seperator.\n\n        split \",\" \"hello,there,friend\" == [\"hello\", \"there\", \"friend\"]\n"
+        },
+        { "name" : "join",
+          "type" : "Appendable a -> [Appendable a] -> Appendable a",
+          "desc" : "Places the given value between all of the lists in the second argument\nand concatenates the result. \n\n        join \"a\" [\"H\",\"w\",\"ii\",\"n\"] == \"Hawaiian\"\n"
+        },
+        { "name" : "intersperse",
+          "type" : "a -> [a] -> [a]",
+          "desc" : "Places the given value between all members of the given list.\n\n        intersperse ' ' \"INCEPTION\" == \"I N C E P T I O N\"\n"
+        },
+        { "name" : "take",
+          "type" : "Int -> [a] -> [a]",
+          "desc" : "Take the first n members of a list: `(take 2 [1,2,3,4] == [1,2])`\n"
+        },
+        { "name" : "drop",
+          "type" : "Int -> [a] -> [a]",
+          "desc" : "Drop the first n members of a list: `(drop 2 [1,2,3,4] == [3,4])`\n"
+        }
+      ]
+    },
+    { "name" : "Keyboard",
+      "values" : [
+        { "name" : "KeyCode",
+          "type" : "type KeyCode = Int",
+          "desc" : "Type alias to make it clearer what integers are supposed to represent\nin this library. Use [`Char.toCode`](docs/Char.elm#toCode) and\n[`Char.fromCode`](/docs/Char.elm#fromCode) to convert key codes to characters.\n"
+        },
+        { "name" : "arrows",
+          "type" : "Signal { x:Int, y:Int }",
+          "desc" : "A signal of records indicating which arrow keys are pressed.\n\n`{ x = 0, y = 0 }` when pressing no arrows.<br>\n`{ x =-1, y = 0 }` when pressing the left arrow.<br>\n`{ x = 1, y = 1 }` when pressing the up and right arrows.<br>\n`{ x = 0, y =-1 }` when pressing the down, left, and right arrows.\n"
+        },
+        { "name" : "wasd",
+          "type" : "Signal { x:Int, y:Int }",
+          "desc" : "Just like the arrows signal, but this uses keys w, a, s, and d,\nwhich are common controls for many computer games.\n"
+        },
+        { "name" : "directions",
+          "type" : "KeyCode -> KeyCode -> KeyCode -> KeyCode -> Signal { x:Int, y:Int }",
+          "desc" : "Custom key directions so that you can support different locales.\nThe plan is to have a locale independent version of this function\nthat uses the physical location of keys, but I don't know how to do it.\n"
+        },
+        { "name" : "isDown",
+          "type" : "KeyCode -> Signal Bool",
+          "desc" : "Whether an arbitrary key is pressed.\n"
+        },
+        { "name" : "shift",
+          "type" : "Signal Bool",
+          "desc" : "Whether the shift key is pressed.\n"
+        },
+        { "name" : "ctrl",
+          "type" : "Signal Bool",
+          "desc" : "Whether the control key is pressed.\n"
+        },
+        { "name" : "space",
+          "type" : "Signal Bool",
+          "desc" : "Whether the space key is pressed.\n"
+        },
+        { "name" : "enter",
+          "type" : "Signal Bool",
+          "desc" : "Whether the enter key is pressed.\n"
+        },
+        { "name" : "keysDown",
+          "type" : "Signal [KeyCode]",
+          "desc" : "List of keys that are currently down.\n"
+        },
+        { "name" : "lastPressed",
+          "type" : "Signal KeyCode",
+          "desc" : "The latest key that has been pressed.\n"
+        }
+      ]
+    },
+    { "name" : "Json",
+      "values" : [
+        { "name" : "String",
+          "type" : "String -> JsonValue",
+          "desc" : ""
+        },
+        { "name" : "Number",
+          "type" : "Float -> JsonValue",
+          "desc" : ""
+        },
+        { "name" : "Boolean",
+          "type" : "Bool -> JsonValue",
+          "desc" : ""
+        },
+        { "name" : "Null",
+          "type" : "JsonValue",
+          "desc" : ""
+        },
+        { "name" : "Array",
+          "type" : "[JsonValue] -> JsonValue",
+          "desc" : ""
+        },
+        { "name" : "Object",
+          "type" : "Dict String JsonValue -> JsonValue",
+          "desc" : ""
+        },
+        { "name" : "JsonValue",
+          "type" : "data JsonValue\n    = String String\n    | Number Float\n    | Boolean Bool\n    | Null\n    | Array [JsonValue]\n    | Object (Dict String JsonValue)",
+          "desc" : "This datatype can represent all valid values that can be held in a JSON\nobject. In Elm, a proper JSON object is represented as a (Dict String JsonValue)\nwhich is a mapping from strings to Json Values.\n"
+        },
+        { "name" : "toString",
+          "type" : "String -> JsonValue -> String",
+          "desc" : "Convert a `JsonValue` into a prettified string.\nThe first argument is a separator token (e.g. \\\" \\\", \\\"\\\\n\\\", etc.) that will\nbe used for indentation in the prettified string version of the JSON.\n"
+        },
+        { "name" : "toJSString",
+          "type" : "String -> JsonValue -> JSString",
+          "desc" : "Convert a proper JSON object into a JavaScript string.\nNote that the type JSString seen here is not the same as the type constructor\nJsonString used elsewhere in this module.\n"
+        },
+        { "name" : "fromString",
+          "type" : "String -> Maybe JsonValue",
+          "desc" : "Parse a string representation of a proper JSON object into\nits Elm representation.\n"
+        },
+        { "name" : "fromJSString",
+          "type" : "JSString -> Maybe JsonValue",
+          "desc" : "Parse a JavaScript string representation of a proper JSON object into\nits Elm representation.\n"
+        },
+        { "name" : "fromJSObject",
+          "type" : "JSObject -> JsonValue",
+          "desc" : "Convert a JS object into a `JsonValue`.\n"
+        },
+        { "name" : "toJSObject",
+          "type" : "JsonValue -> JSObject",
+          "desc" : "Convert a `JsonValue` into a `JSObject`. Paired with the\n[`JavaScript.Experimental` library](/docs/JavaScript/Experimental.elm),\nThis lets you convert strings into Elm records:\n\n      import JavaScript.Experimental as JS\n\n      stringToRecord str =\n          case fromString str of\n            Just jsonValue -> Just (JS.toRecord (toJSObject jsonValue))\n            Nothing -> Nothing\n"
+        }
+      ]
+    },
+    { "name" : "JavaScript",
+      "values" : [
+        { "name" : "toList",
+          "type" : "JSArray a -> [a]",
+          "desc" : "Requires that the input array be uniform (all members have the same type)\n"
+        },
+        { "name" : "toInt",
+          "type" : "JSNumber -> Int",
+          "desc" : ""
+        },
+        { "name" : "toFloat",
+          "type" : "JSNumber -> Float",
+          "desc" : ""
+        },
+        { "name" : "toBool",
+          "type" : "JSBool -> Bool",
+          "desc" : ""
+        },
+        { "name" : "toString",
+          "type" : "JSString -> String",
+          "desc" : ""
+        },
+        { "name" : "fromList",
+          "type" : "[a] -> JSArray a",
+          "desc" : "Produces a uniform JavaScript array with all members of the same type.\n"
+        },
+        { "name" : "fromInt",
+          "type" : "Int -> JSNumber",
+          "desc" : ""
+        },
+        { "name" : "fromFloat",
+          "type" : "Float -> JSNumber",
+          "desc" : ""
+        },
+        { "name" : "fromBool",
+          "type" : "Bool -> JSBool",
+          "desc" : ""
+        },
+        { "name" : "fromString",
+          "type" : "String -> JSString",
+          "desc" : ""
+        },
+        { "name" : "fromElement",
+          "type" : "Element -> JSDomNode",
+          "desc" : "Turn an `Element` into a plain old DOM node.\n"
+        },
+        { "name" : "toElement",
+          "type" : "Int -> Int -> JSDomNode -> Element",
+          "desc" : "Turn a DOM node into an `Element`. You can resize the node\nusing the normal `width` and `height` functions.\n"
+        }
+      ]
+    },
+    { "name" : "Http",
+      "values" : [
+        { "name" : "Success",
+          "type" : "t1 -> Response t1",
+          "desc" : ""
+        },
+        { "name" : "Waiting",
+          "type" : "Response t1",
+          "desc" : ""
+        },
+        { "name" : "Failure",
+          "type" : "Int -> String -> Response t1",
+          "desc" : ""
+        },
+        { "name" : "Response",
+          "type" : "data Response a = Success a | Waiting | Failure Int String",
+          "desc" : "The datatype for responses. Success contains only the returned message.\nFailures contain both an error code and an error message.\n"
+        },
+        { "name" : "Request",
+          "type" : "type Request a = {\n  verb : String,\n  url  : String,\n  body : a,\n  headers : [(String,String)]\n }",
+          "desc" : ""
+        },
+        { "name" : "request",
+          "type" : "String -> String -> String -> [(String,String)] -> Request String",
+          "desc" : "Create a customized request. Arguments are request type (get, post, put,\ndelete, etc.), target url, data, and a list of additional headers.\n"
+        },
+        { "name" : "get",
+          "type" : "String -> Request String",
+          "desc" : "Create a GET request to the given url.\n"
+        },
+        { "name" : "post",
+          "type" : "String -> String -> Request String",
+          "desc" : "Create a POST request to the given url, carrying the given data.\n"
+        },
+        { "name" : "send",
+          "type" : "Signal (Request a) -> Signal (Response String)",
+          "desc" : "Performs an HTTP request with the given requests. Produces a signal\nthat carries the responses.\n"
+        },
+        { "name" : "sendGet",
+          "type" : "Signal String -> Signal (Response String)",
+          "desc" : "Performs an HTTP GET request with the given urls. Produces a signal\nthat carries the responses.\n"
+        }
+      ]
+    },
+    { "name" : "Either",
+      "values" : [
+        { "name" : "Left",
+          "type" : "t1 -> Either t1 t2",
+          "desc" : ""
+        },
+        { "name" : "Right",
+          "type" : "t2 -> Either t1 t2",
+          "desc" : ""
+        },
+        { "name" : "Either",
+          "type" : "data Either a b = Left a | Right b",
+          "desc" : "Represents any data that can take two different types.\n\nThis can also be used for error handling `(Either String a)` where error\nmessages are stored on the left, and the correct values (&ldquo;right&rdquo;\nvalues) are stored on the right.\n"
+        },
+        { "name" : "either",
+          "type" : "(a -> c) -> (b -> c) -> Either a b -> c",
+          "desc" : "Apply the first function to a `Left` and the second function to a `Right`.\nThis allows the extraction of a value from an `Either`.\n"
+        },
+        { "name" : "isLeft",
+          "type" : "Either a b -> Bool",
+          "desc" : "True if the value is a `Left`.\n"
+        },
+        { "name" : "isRight",
+          "type" : "Either a b -> Bool",
+          "desc" : "True if the value is a `Right`.\n"
+        },
+        { "name" : "lefts",
+          "type" : "[Either a b] -> [a]",
+          "desc" : "Keep only the values held in `Left` values.\n"
+        },
+        { "name" : "rights",
+          "type" : "[Either a b] -> [b]",
+          "desc" : "Keep only the values held in `Right` values.\n"
+        },
+        { "name" : "partition",
+          "type" : "[Either a b] -> ([a],[b])",
+          "desc" : "Split into two lists, lefts on the left and rights on the right. So we\nhave the equivalence: `(partition es == (lefts es, rights es))`\n"
+        }
+      ]
+    },
+    { "name" : "Dict",
+      "values" : [
+        { "name" : "Red",
+          "type" : "NColor",
+          "desc" : ""
+        },
+        { "name" : "Black",
+          "type" : "NColor",
+          "desc" : ""
+        },
+        { "name" : "RBNode",
+          "type" : "NColor -> t1 -> t2 -> Dict t1 t2 -> Dict t1 t2 -> Dict t1 t2",
+          "desc" : ""
+        },
+        { "name" : "RBEmpty",
+          "type" : "Dict t1 t2",
+          "desc" : ""
+        },
+        { "name" : "empty",
+          "type" : "Dict (Comparable k) v",
+          "desc" : "Create an empty dictionary.\n"
+        },
+        { "name" : "lookup",
+          "type" : "Comparable k -> Dict (Comparable k) v -> Maybe v",
+          "desc" : "Lookup the value associated with a key.\n"
+        },
+        { "name" : "findWithDefault",
+          "type" : "v -> Comparable k -> Dict (Comparable k) v -> v",
+          "desc" : "Find the value associated with a key. If the key is not found,\nreturn the default value.\n"
+        },
+        { "name" : "member",
+          "type" : "Comparable k -> Dict (Comparable k) v -> Bool",
+          "desc" : "Determine if a key is in a dictionary.\n"
+        },
+        { "name" : "insert",
+          "type" : "Comparable k -> v -> Dict (Comparable k) v -> Dict (Comparable k) v",
+          "desc" : "Insert a key-value pair into a dictionary. Replaces value when there is\na collision.\n"
+        },
+        { "name" : "singleton",
+          "type" : "Comparable k -> v -> Dict (Comparable k) v",
+          "desc" : "Create a dictionary with one key-value pair.\n"
+        },
+        { "name" : "remove",
+          "type" : "Comparable k -> Dict (Comparable k) v -> Dict (Comparable k) v",
+          "desc" : "Remove a key-value pair from a dictionary. If the key is not found,\nno changes are made.\n"
+        },
+        { "name" : "map",
+          "type" : "(a -> b) -> Dict (Comparable k) a -> Dict (Comparable k) b",
+          "desc" : "Apply a function to all values in a dictionary.\n"
+        },
+        { "name" : "foldl",
+          "type" : "(Comparable k -> v -> b -> b) -> b -> Dict (Comparable k) v -> b",
+          "desc" : "Fold over the key-value pairs in a dictionary, in order from lowest\nkey to highest key.\n"
+        },
+        { "name" : "foldr",
+          "type" : "(Comparable k -> v -> b -> b) -> b -> Dict (Comparable k) v -> b",
+          "desc" : "Fold over the key-value pairs in a dictionary, in order from highest\nkey to lowest key.\n"
+        },
+        { "name" : "union",
+          "type" : "Dict (Comparable k) v -> Dict (Comparable k) v -> Dict (Comparable k) v",
+          "desc" : "Combine two dictionaries. If there is a collision, preference is given\nto the first dictionary.\n"
+        },
+        { "name" : "intersect",
+          "type" : "Dict (Comparable k) v -> Dict (Comparable k) v -> Dict (Comparable k) v",
+          "desc" : "Keep a key-value pair when its key appears in the second dictionary.\nPreference is given to values in the first dictionary.\n"
+        },
+        { "name" : "diff",
+          "type" : "Dict (Comparable k) v -> Dict (Comparable k) v -> Dict (Comparable k) v",
+          "desc" : "Keep a key-value pair when its key does not appear in the second dictionary.\nPreference is given to the first dictionary.\n"
+        },
+        { "name" : "keys",
+          "type" : "Dict (Comparable k) v -> [Comparable k]",
+          "desc" : "Get all of the keys in a dictionary.\n"
+        },
+        { "name" : "values",
+          "type" : "Dict (Comparable k) v -> [v]",
+          "desc" : "Get all of the values in a dictionary.\n"
+        },
+        { "name" : "toList",
+          "type" : "Dict (Comparable k) v -> [(Comparable k,v)]",
+          "desc" : "Convert a dictionary into an association list of key-value pairs.\n"
+        },
+        { "name" : "fromList",
+          "type" : "[(Comparable k,v)] -> Dict (Comparable k) v",
+          "desc" : "Convert an association list into a dictionary.\n"
+        }
+      ]
+    },
+    { "name" : "Date",
+      "values" : [
+        { "name" : "Mon",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Tue",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Wed",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Thu",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Fri",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Sat",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Sun",
+          "type" : "Day",
+          "desc" : ""
+        },
+        { "name" : "Day",
+          "type" : "data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun",
+          "desc" : "Represents the days of the week.\n"
+        },
+        { "name" : "Jan",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Feb",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Mar",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Apr",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "May",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Jun",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Jul",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Aug",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Sep",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Oct",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Nov",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Dec",
+          "type" : "Month",
+          "desc" : ""
+        },
+        { "name" : "Month",
+          "type" : "data Month = Jan | Feb | Mar | Apr\n           | May | Jun | Jul | Aug\n           | Sep | Oct | Nov | Dec",
+          "desc" : "Represents the month of the year.\n"
+        },
+        { "name" : "read",
+          "type" : "String -> Maybe Date",
+          "desc" : "Attempt to read a date from a string.\n"
+        },
+        { "name" : "toTime",
+          "type" : "Date -> Time",
+          "desc" : "Convert a date into a time since midnight (UTC) of 1 January 1990 (i.e.\n[UNIX time](http://en.wikipedia.org/wiki/Unix_time)). Given the date 23 June\n1990 at 11:45AM this returns the corresponding time.\n"
+        },
+        { "name" : "year",
+          "type" : "Date -> Int",
+          "desc" : "Extract the year of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `1990`.\n"
+        },
+        { "name" : "month",
+          "type" : "Date -> Month",
+          "desc" : "Extract the month of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the Month `Jun` as defined below.\n"
+        },
+        { "name" : "day",
+          "type" : "Date -> Int",
+          "desc" : "Extract the day of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `23`.\n"
+        },
+        { "name" : "dayOfWeek",
+          "type" : "Date -> Day",
+          "desc" : "Extract the day of the week for a given date. Given the date 23 June\n1990 at 11:45AM this returns the Day `Thu` as defined below.\n"
+        },
+        { "name" : "hour",
+          "type" : "Date -> Int",
+          "desc" : "Extract the hour of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `11`.\n"
+        },
+        { "name" : "minute",
+          "type" : "Date -> Int",
+          "desc" : "Extract the minute of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `45`.\n"
+        },
+        { "name" : "second",
+          "type" : "Date -> Int",
+          "desc" : "Extract the second of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `0`.\n"
+        }
+      ]
+    },
+    { "name" : "Color",
+      "values" : [
+        { "name" : "Color",
+          "type" : "Int -> Int -> Int -> Float -> Color",
+          "desc" : ""
+        },
+        { "name" : "Color",
+          "type" : "data Color = Color Int Int Int Float",
+          "desc" : ""
+        },
+        { "name" : "rgba",
+          "type" : "Int -> Int -> Int -> Float -> Color",
+          "desc" : "Create RGB colors with an alpha component for transparency.\nThe alpha component is specified with numbers between 0 and 1.\n"
+        },
+        { "name" : "rgb",
+          "type" : "Int -> Int -> Int -> Color",
+          "desc" : "Create RGB colors from numbers between 0 and 255 inclusive.\n"
+        },
+        { "name" : "red",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "lime",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "blue",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "yellow",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "cyan",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "magenta",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "black",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "white",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "gray",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "grey",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "maroon",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "navy",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "green",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "teal",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "purple",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "violet",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "forestGreen",
+          "type" : "Color",
+          "desc" : ""
+        },
+        { "name" : "complement",
+          "type" : "Color -> Color",
+          "desc" : "Produce a &ldquo;complementary color&rdquo;.\nThe two colors will accent each other.\n"
+        },
+        { "name" : "hsva",
+          "type" : "Float -> Float -> Float -> Float -> Color",
+          "desc" : "Create [HSV colors](http://en.wikipedia.org/wiki/HSL_and_HSV)\nwith an alpha component for transparency.\n"
+        },
+        { "name" : "hsv",
+          "type" : "Float -> Float -> Float -> Color",
+          "desc" : "Create [HSV colors](http://en.wikipedia.org/wiki/HSL_and_HSV).\nThis is very convenient for creating colors that cycle and shift.\n\n        hsv (degrees 240) 1 1 == blue\n"
+        },
+        { "name" : "Linear",
+          "type" : "(Float,Float) -> (Float,Float) -> [(Float,Color)] -> Gradient",
+          "desc" : ""
+        },
+        { "name" : "Radial",
+          "type" : "(Float,Float) -> Float -> (Float,Float) -> Float -> [(Float,Color)] -> Gradient",
+          "desc" : ""
+        },
+        { "name" : "Gradient",
+          "type" : "data Gradient\n  = Linear (Float,Float) (Float,Float) [(Float,Color)]\n  | Radial (Float,Float) Float (Float,Float) Float [(Float,Color)]",
+          "desc" : ""
+        },
+        { "name" : "linear",
+          "type" : "(Number a, Number a) -> (Number a, Number a) -> [(Float,Color)] -> Gradient",
+          "desc" : "Create a linear gradient. Takes a start and end point and then a series\nof &ldquo;color stops&rdquo; that indicate how to interpolate between\nthe start and end points. See [this example](/edit/examples/Elements/LinearGradient.elm) for\na more visual explanation.\n"
+        },
+        { "name" : "radial",
+          "type" : "(Number a,Number a) -> Number a -> (Number a,Number a) -> Number a -> [(Float,Color)] -> Gradient",
+          "desc" : "Create a radial gradient. First takes a start point and inner radius.\nThen takes an end point and outer radius. It then takes a series\nof &ldquo;color stops&rdquo; that indicate how to interpolate between\nthe inner and outer circles. See [this example](/edit/examples/Elements/RadialGradient.elm) for\na more visual explanation.\n"
+        }
+      ]
+    },
+    { "name" : "Char",
+      "values" : [
+        { "name" : "isUpper",
+          "type" : "Char -> Bool",
+          "desc" : "True for upper case letters.\n"
+        },
+        { "name" : "isLower",
+          "type" : "Char -> Bool",
+          "desc" : "True for lower case letters.\n"
+        },
+        { "name" : "isDigit",
+          "type" : "Char -> Bool",
+          "desc" : "True for ASCII digits (`0..9`).\n"
+        },
+        { "name" : "isOctDigit",
+          "type" : "Char -> Bool",
+          "desc" : "True for ASCII octal digits (`0..7`).\n"
+        },
+        { "name" : "isHexDigit",
+          "type" : "Char -> Bool",
+          "desc" : "True for ASCII hexadecimal digits (`0..9a..fA..F`).\n"
+        },
+        { "name" : "toUpper",
+          "type" : "Char -> Char",
+          "desc" : "Convert to upper case.\n"
+        },
+        { "name" : "toLower",
+          "type" : "Char -> Char",
+          "desc" : "Convert to lower case.\n"
+        },
+        { "name" : "toLocaleUpper",
+          "type" : "Char -> Char",
+          "desc" : "Convert to upper case, according to any locale-specific case mappings.\n"
+        },
+        { "name" : "toLocaleLower",
+          "type" : "Char -> Char",
+          "desc" : "Convert to lower case, according to any locale-specific case mappings.\n"
+        },
+        { "name" : "toCode",
+          "type" : "Char -> KeyCode",
+          "desc" : "Convert to unicode.\n"
+        },
+        { "name" : "fromCode",
+          "type" : "KeyCode -> Char",
+          "desc" : "Convert from unicode.\n"
+        }
+      ]
+    },
+    { "name" : "Automaton",
+      "values" : [
+        { "name" : "Step",
+          "type" : "(t1 -> (Automaton t1 t2,t2)) -> Automaton t1 t2",
+          "desc" : ""
+        },
+        { "name" : "Automaton",
+          "type" : "data Automaton a b = Step (a -> (Automaton a b, b))",
+          "desc" : ""
+        },
+        { "name" : "run",
+          "type" : "Automaton a b -> b -> Signal a -> Signal b",
+          "desc" : "Run an automaton on a given signal. The automaton steps forward\nwhenever the input signal updates.\n"
+        },
+        { "name" : "step",
+          "type" : "a -> Automaton a b -> (Automaton a b, b)",
+          "desc" : "Step an automaton forward once with a given input.\n"
+        },
+        { "name" : ">>>",
+          "type" : "Automaton a b -> Automaton b c -> Automaton a c",
+          "desc" : "Compose two automatons, chaining them together.\n"
+        },
+        { "name" : "<<<",
+          "type" : "Automaton b c -> Automaton a b -> Automaton a c",
+          "desc" : "Compose two automatons, chaining them together.\n"
+        },
+        { "name" : "combine",
+          "type" : "[Automaton a b] -> Automaton a [b]",
+          "desc" : "Combine a list of automatons into a single automaton that produces a list.\n"
+        },
+        { "name" : "pure",
+          "type" : "(a -> b) -> Automaton a b",
+          "desc" : "Create an automaton with no memory. It just applies the given function to\nevery input.\n"
+        },
+        { "name" : "state",
+          "type" : "b -> (a -> b -> b) -> Automaton a b",
+          "desc" : "Create an automaton with state. Requires an initial state and a step\nfunction to step the state forward. For example, an automaton that counted\nhow many steps it has taken would look like this:\n\n        count = Automaton a Int\n        count = state 0 (\\\\_ c -> c+1)\n\nIt is a stateful automaton. The initial state is zero, and the step function\nincrements the state on every step.\n"
+        },
+        { "name" : "hiddenState",
+          "type" : "s -> (a -> s -> (s,b)) -> Automaton a b",
+          "desc" : "Create an automaton with hidden state. Requires an initial state and a\nstep function to step the state forward and produce an output.\n"
+        },
+        { "name" : "count",
+          "type" : "Automaton a Int",
+          "desc" : "Count the number of steps taken.\n"
+        },
+        { "name" : "Queue",
+          "type" : "type Queue t = ([t],[t])",
+          "desc" : ""
+        },
+        { "name" : "average",
+          "type" : "Int -> Automaton Float Float",
+          "desc" : "Computes the running average of the last `n` inputs.\n"
+        }
+      ]
+    },
+    { "name" : "JavaScript.Experimental",
+      "values" : [
+        { "name" : "toRecord",
+          "type" : "JSObject -> a",
+          "desc" : "Turn arbitrary JavaScript objects into Elm records.\nArrays are converted into lists, nested objects are allowed.\nNo `null` values or non-homogeneous arrays.\n\n        -- OK objects\n        { student:\"Steve\", scores:[83,94,99,72] }\n        { errorLevel:10, critical:true }\n\n        -- BAD objects\n        { answer:null }\n        { info:[true,42,'what'] }\n"
+        },
+        { "name" : "fromRecord",
+          "type" : "a -> JSObject",
+          "desc" : "Turn arbitrary Elm records into JavaScript objects.\nLists become arrays, nested records are allowed. No ADTs.\n\n        -- OK records\n        { student=\"Steve\", scores=[83,94,99,72] }\n        { errorLevel=10, critical=True }\n\n        -- BAD records\n        { answer = Nothing }\n        { result = Left \"An error occurred\" }\n"
+        }
+      ]
+    },
+    { "name" : "Graphics.Input",
+      "values" : [
+        { "name" : "buttons",
+          "type" : "a -> { events : Signal a,\n                 button : a -> String -> Element }",
+          "desc" : "Create a group of buttons.\n\n* The first argument is the default value of the `events` signal.\n* The `events` signal represents all of the activity in this group\n  of buttons.\n* The `button` function creates a button\n  with the given name, like &ldquo;Submit&rdquo; or &ldquo;Cancel&rdquo;.\n  The `a` value is sent to `events` whenever the button is pressed.\n"
+        },
+        { "name" : "button",
+          "type" : "String -> (Element, Signal ())",
+          "desc" : "Create a button with a given label. The result is an `Element` and\na signal of units. This signal triggers whenever the button is pressed.\n"
+        },
+        { "name" : "customButtons",
+          "type" : "a -> { events : Signal a,\n                       customButton : a -> Element -> Element -> Element -> Element }",
+          "desc" : "Create a group of custom buttons.\n\n* The first argument is the default value of the `events` signal.\n* The `events` signal represents all of the activity in this group\n  of custom buttons.\n* The `customButton` function creates a button with three different visual\n  states, one for up, hovering, and down. The resulting button has dimensions\n  large enough to fit all three possible `Elements`.\n  The `a` value is sent to `events` whenever the button is pressed.\n"
+        },
+        { "name" : "customButton",
+          "type" : "Element -> Element -> Element -> (Element, Signal ())",
+          "desc" : "Create a button with custom states for up, hovering, and down\n(given in that order). The result is an `Element` and\na signal of units. This signal triggers whenever the button is pressed.\n"
+        },
+        { "name" : "checkboxes",
+          "type" : "a -> { events : Signal a,\n                    checkbox : (Bool -> a) -> Bool -> Element }",
+          "desc" : "Create a group of checkboxes.\n\n* The first argument is the default value of the `events` signal.\n* The `events` signal represents all of the activity in this group\n  of checkboxes.\n* The `checkbox` function creates a\n  checkbox with a given state. The `(Bool -> a)` function is used\n  when the checkbox is modified. It takes the new state and turns\n  it into a value that can be sent to `events`. For example, this\n  lets you add an ID to distinguish between checkboxes.\n"
+        },
+        { "name" : "checkbox",
+          "type" : "Bool -> (Signal Element, Signal Bool)",
+          "desc" : "Create a checkbox with a given start state. Unlike `button`, this result\nis a *signal* of elements. That is because a checkbox has state that\nupdates based on user input.\nThe boolean signal represents the current state of the checkbox.\n"
+        },
+        { "name" : "hoverables",
+          "type" : "a -> { events : Signal a, hoverable : (Bool -> a) -> Element -> Element }",
+          "desc" : "Detect when the mouse is hovering over some elements. This allows you to create and destroy elements dynamically and still detect hover information."
+        },
+        { "name" : "hoverable",
+          "type" : "Element -> (Element, Signal Bool)",
+          "desc" : "Detect when the mouse is hovering over a specifici `Element`."
+        },
+        { "name" : "FieldState",
+          "type" : "type FieldState = { string:String, selectionStart:Int, selectionEnd:Int }",
+          "desc" : "Represents the current state of a text field. The `string` represents the\ncharacters filling the text field. The `selectionStart` and `selectionEnd`\nvalues represent what the user has selected with their mouse or keyboard.\nFor example:\n\n        { string=\"She sells sea shells\", selectionStart=3, selectionEnd=0 }\n\nThis means the user highlighted the substring `\"She\"` backwards.\n"
+        },
+        { "name" : "fields",
+          "type" : "a -> { events : Signal a,\n                field : (FieldState -> a) -> String -> FieldState -> Element }",
+          "desc" : "Create a group of text input fields.\n\n* The first argument is the default value of the `events` signal.\n* The `events` signal represents all of the activity in this group\n  of text fields.\n* The `field` function creates a\n  field with the given ghost text and initial field state.\n  When the field is modified, the `(FieldState -> a)` function\n  takes the new state and turns\n  it into a value that can be sent to `events`. For example, this\n  lets you add an ID to distinguish between input fields.\n"
+        },
+        { "name" : "emptyFieldState",
+          "type" : "FieldState",
+          "desc" : "The empty field state:\n\n        { string=\"\", selectionStart=0, selectionEnd=0 }\n"
+        },
+        { "name" : "field",
+          "type" : "String -> (Signal Element, Signal String)",
+          "desc" : "Create a field with the given default text. The output is an element that\nupdates to match the user input and a signal of strings representing the\ncontent of the field.\n"
+        },
+        { "name" : "password",
+          "type" : "String -> (Signal Element, Signal String)",
+          "desc" : "Same as `field` but the UI element blocks out each characters.\n"
+        },
+        { "name" : "email",
+          "type" : "String -> (Signal Element, Signal String)",
+          "desc" : "Same as `field` but it adds an annotation that this field is for email\naddresses. This is helpful for auto-complete and for mobile users who may\nget a custom keyboard with an `@` and `.com` button.\n"
+        },
+        { "name" : "dropDown",
+          "type" : "[(String,a)] -> (Signal Element, Signal a)",
+          "desc" : "Create a drop-down menu. When the user selects a string,\nthe current state of the drop-down is set to the associated\nvalue. This lets you avoid manually mapping the string onto\nfunctions and values.\n"
+        },
+        { "name" : "stringDropDown",
+          "type" : "[String] -> (Signal Element, Signal String)",
+          "desc" : "Create a drop-down menu for selecting strings. The resulting\nsignal of strings represents the string that is currently selected.\n"
+        }
+      ]
+    },
+    { "name" : "Graphics.Element",
+      "values" : [
+        { "name" : "widthOf",
+          "type" : "Element -> Int",
+          "desc" : "Get the width of an Element\n"
+        },
+        { "name" : "heightOf",
+          "type" : "Element -> Int",
+          "desc" : "Get the height of an Element\n"
+        },
+        { "name" : "sizeOf",
+          "type" : "Element -> (Int,Int)",
+          "desc" : "Get the width and height of an Element\n"
+        },
+        { "name" : "width",
+          "type" : "Int -> Element -> Element",
+          "desc" : "Create an `Element` with a given width.\n"
+        },
+        { "name" : "height",
+          "type" : "Int -> Element -> Element",
+          "desc" : "Create an `Element` with a given height.\n"
+        },
+        { "name" : "size",
+          "type" : "Int -> Int -> Element -> Element",
+          "desc" : "Create an `Element` with a new width and height.\n"
+        },
+        { "name" : "opacity",
+          "type" : "Float -> Element -> Element",
+          "desc" : "Create an `Element` with a given opacity. Opacity is a number between 0 and 1\nwhere 0 means totally clear.\n"
+        },
+        { "name" : "color",
+          "type" : "Color -> Element -> Element",
+          "desc" : "Create an `Element` with a given background color.\n"
+        },
+        { "name" : "tag",
+          "type" : "String -> Element -> Element",
+          "desc" : "Create an `Element` with a tag. This lets you link directly to it.\nThe element `(tag \"all-about-badgers\" thirdParagraph)` can be reached\nwith a link lik this: `/facts-about-animals.elm#all-about-badgers`\n"
+        },
+        { "name" : "link",
+          "type" : "String -> Element -> Element",
+          "desc" : "Create an `Element` that is a hyper-link.\n"
+        },
+        { "name" : "Image",
+          "type" : "ImageStyle -> Int -> Int -> JSString -> ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "Container",
+          "type" : "Position -> Element -> ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "Flow",
+          "type" : "Direction -> [Element] -> ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "Spacer",
+          "type" : "ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "RawHtml",
+          "type" : "JSString -> ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "Custom",
+          "type" : "ElementPrim",
+          "desc" : ""
+        },
+        { "name" : "Plain",
+          "type" : "ImageStyle",
+          "desc" : ""
+        },
+        { "name" : "Fitted",
+          "type" : "ImageStyle",
+          "desc" : ""
+        },
+        { "name" : "Cropped",
+          "type" : "(Int,Int) -> ImageStyle",
+          "desc" : ""
+        },
+        { "name" : "Tiled",
+          "type" : "ImageStyle",
+          "desc" : ""
+        },
+        { "name" : "image",
+          "type" : "Int -> Int -> String -> Element",
+          "desc" : "Create an image given a width, height, and image source.\n"
+        },
+        { "name" : "fittedImage",
+          "type" : "Int -> Int -> String -> Element",
+          "desc" : "Create a fitted image given a width, height, and image source.\nThis will crop the picture to best fill the given dimensions.\n"
+        },
+        { "name" : "croppedImage",
+          "type" : "(Int,Int) -> Int -> Int -> String -> Element",
+          "desc" : "Create a cropped image. Take a rectangle out of the picture starting\nat the given top left coordinate. If you have a 140-by-140 image,\nthe following will cut a 100-by-100 square out of the middle of it.\n\n        croppedImage (20,20) 100 100 \"yogi.jpg\"\n"
+        },
+        { "name" : "tiledImage",
+          "type" : "Int -> Int -> String -> Element",
+          "desc" : ""
+        },
+        { "name" : "P",
+          "type" : "Three",
+          "desc" : ""
+        },
+        { "name" : "Z",
+          "type" : "Three",
+          "desc" : ""
+        },
+        { "name" : "N",
+          "type" : "Three",
+          "desc" : ""
+        },
+        { "name" : "Absolute",
+          "type" : "Int -> Pos",
+          "desc" : ""
+        },
+        { "name" : "Relative",
+          "type" : "Float -> Pos",
+          "desc" : ""
+        },
+        { "name" : "container",
+          "type" : "Int -> Int -> Position -> Element -> Element",
+          "desc" : "Put an element in a container. This lets you position the element really\neasily, and there are tons of ways to set the `Position`.\nTo center `element` exactly in a 300-by-300 square you would say:\n\n        container 300 300 middle element\n\nBy setting the color of the container, you can create borders.\n"
+        },
+        { "name" : "spacer",
+          "type" : "Int -> Int -> Element",
+          "desc" : "Create an empty box. This is useful for getting your spacing right and\nfor making borders.\n"
+        },
+        { "name" : "DUp",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "DDown",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "DLeft",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "DRight",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "DIn",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "DOut",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "flow",
+          "type" : "Direction -> [Element] -> Element",
+          "desc" : "Have a list of elements flow in a particular direction.\nThe `Direction` starts from the first element in the list.\n\n        flow right [a,b,c]\n\n          +---+---+---+\n          | a | b | c |\n          +---+---+---+\n"
+        },
+        { "name" : "above",
+          "type" : "Element -> Element -> Element",
+          "desc" : "Stack elements vertically. To put `a` above `b` you would say:\n\n        a `above` b\n"
+        },
+        { "name" : "below",
+          "type" : "Element -> Element -> Element",
+          "desc" : "Stack elements vertically. To put `a` below `b` you would say:\n\n        a `below` b\n"
+        },
+        { "name" : "beside",
+          "type" : "Element -> Element -> Element",
+          "desc" : "Put elements beside each other horizontally.\n"
+        },
+        { "name" : "layers",
+          "type" : "[Element] -> Element",
+          "desc" : "Layer elements on top of each other, starting from the bottom.\n`(layers == flow outward)`\n"
+        },
+        { "name" : "absolute",
+          "type" : "Int -> Pos",
+          "desc" : ""
+        },
+        { "name" : "relative",
+          "type" : "Float -> Pos",
+          "desc" : ""
+        },
+        { "name" : "middle",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "topLeft",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "topRight",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "bottomLeft",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "bottomRight",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "midLeft",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "midRight",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "midTop",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "midBottom",
+          "type" : "Position",
+          "desc" : ""
+        },
+        { "name" : "middleAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "topLeftAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "topRightAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "bottomLeftAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "bottomRightAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "midLeftAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "midRightAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "midTopAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "midBottomAt",
+          "type" : "Pos -> Pos -> Position",
+          "desc" : ""
+        },
+        { "name" : "up",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "down",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "left",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "right",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "inward",
+          "type" : "Direction",
+          "desc" : ""
+        },
+        { "name" : "outward",
+          "type" : "Direction",
+          "desc" : ""
+        }
+      ]
+    },
+    { "name" : "Graphics.Collage",
+      "values" : [
+        { "name" : "Form",
+          "type" : "type Form = {\n  theta : Float,\n  scale : Float,\n  x : Float,\n  y : Float,\n  form : BasicForm\n }",
+          "desc" : ""
+        },
+        { "name" : "Solid",
+          "type" : "Color -> FillStyle",
+          "desc" : ""
+        },
+        { "name" : "Texture",
+          "type" : "String -> FillStyle",
+          "desc" : ""
+        },
+        { "name" : "Gradient",
+          "type" : "Gradient -> FillStyle",
+          "desc" : ""
+        },
+        { "name" : "FillStyle",
+          "type" : "data FillStyle\n  = Solid Color\n  | Texture String\n  | Gradient Gradient",
+          "desc" : ""
+        },
+        { "name" : "Flat",
+          "type" : "LineCap",
+          "desc" : ""
+        },
+        { "name" : "Round",
+          "type" : "LineCap",
+          "desc" : ""
+        },
+        { "name" : "Padded",
+          "type" : "LineCap",
+          "desc" : ""
+        },
+        { "name" : "LineCap",
+          "type" : "data LineCap = Flat | Round | Padded",
+          "desc" : "The shape of the ends of a line. \n"
+        },
+        { "name" : "Smooth",
+          "type" : "LineJoin",
+          "desc" : ""
+        },
+        { "name" : "Sharp",
+          "type" : "Float -> LineJoin",
+          "desc" : ""
+        },
+        { "name" : "Clipped",
+          "type" : "LineJoin",
+          "desc" : ""
+        },
+        { "name" : "LineJoin",
+          "type" : "data LineJoin = Smooth | Sharp Float | Clipped",
+          "desc" : "The shape of the &ldquo;joints&rdquo; of a line, where each line segment\nmeets. `Sharp` takes an argument to limit the length of the joint. This\ndefaults to 10.\n"
+        },
+        { "name" : "LineStyle",
+          "type" : "type LineStyle = {\n  color : Color,\n  width : Float,\n  cap   : LineCap,\n  join  : LineJoin,\n  dashing    : [Int],\n  dashOffset : Int\n }",
+          "desc" : "All of the attributes of a line style. This lets you build up a line style\nhowever you want. You can also update existing line styles with record updates.\n"
+        },
+        { "name" : "defaultLine",
+          "type" : "LineStyle",
+          "desc" : "The default line style, which is solid black with flat caps and sharp joints.\nYou can use record updates to build the line style you\nwant. For example, to make a thicker line, you could say:\n\n        { defaultLine | width <- 10 }\n"
+        },
+        { "name" : "solid",
+          "type" : "Color -> LineStyle",
+          "desc" : "Create a solid line style with a given color.\n"
+        },
+        { "name" : "dashed",
+          "type" : "Color -> LineStyle",
+          "desc" : "Create a dashed line style with a given color. Dashing equals `[8,4]`.\n"
+        },
+        { "name" : "dotted",
+          "type" : "Color -> LineStyle",
+          "desc" : "Create a dotted line style with a given color. Dashing equals `[3,3]`.\n"
+        },
+        { "name" : "FPath",
+          "type" : "LineStyle -> Path -> BasicForm",
+          "desc" : ""
+        },
+        { "name" : "FShape",
+          "type" : "Either LineStyle FillStyle -> Shape -> BasicForm",
+          "desc" : ""
+        },
+        { "name" : "FImage",
+          "type" : "Int -> Int -> (Int,Int) -> String -> BasicForm",
+          "desc" : ""
+        },
+        { "name" : "FElement",
+          "type" : "Element -> BasicForm",
+          "desc" : ""
+        },
+        { "name" : "FGroup",
+          "type" : "Matrix2D -> [Form] -> BasicForm",
+          "desc" : ""
+        },
+        { "name" : "BasicForm",
+          "type" : "data BasicForm\n  = FPath LineStyle Path\n  | FShape (Either LineStyle FillStyle) Shape\n  | FImage Int Int (Int,Int) String\n  | FElement Element\n  | FGroup Matrix2D [Form]",
+          "desc" : ""
+        },
+        { "name" : "filled",
+          "type" : "Color -> Shape -> Form",
+          "desc" : "Create a filled in shape.\n"
+        },
+        { "name" : "textured",
+          "type" : "String -> Shape -> Form",
+          "desc" : "Create a textured shape. The texture is described by some url and is\ntiled to fill the entire shape.\n"
+        },
+        { "name" : "gradient",
+          "type" : "Gradient -> Shape -> Form",
+          "desc" : "Fill a shape with a [gradient](/docs/Color.elm#linear).\n"
+        },
+        { "name" : "outlined",
+          "type" : "LineStyle -> Shape -> Form",
+          "desc" : "Outline a shape with a given line style.\n"
+        },
+        { "name" : "traced",
+          "type" : "LineStyle -> Path -> Form",
+          "desc" : "Trace a path with a given line style.\n"
+        },
+        { "name" : "sprite",
+          "type" : "Int -> Int -> (Int,Int) -> String -> Form",
+          "desc" : "Create a sprite from a sprite sheet. It cuts out a rectangle\nat a given position.\n"
+        },
+        { "name" : "toForm",
+          "type" : "Element -> Form",
+          "desc" : "Turn any `Element` into a `Form`. This lets you use text, gifs, and video\nin your collage. This means you can move, rotate, and scale\nan `Element` however you want.\n"
+        },
+        { "name" : "group",
+          "type" : "[Form] -> Form",
+          "desc" : "Flatten many forms into a single `Form`. This lets you move and rotate them\nas a single unit, making it possible to build small, modular components.\n"
+        },
+        { "name" : "groupTransform",
+          "type" : "Matrix2D -> [Form] -> Form",
+          "desc" : "Flatten many forms into a single `Form` and then apply a matrix\ntransformation.\n"
+        },
+        { "name" : "rotate",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Rotate a form by a given angle. Rotate takes standard Elm angles (radians)\nand turns things counterclockwise. So to turn `form` 30&deg; to the left\nyou would say, `(rotate (degrees 30) form)`.\n"
+        },
+        { "name" : "scale",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Scale a form by a given factor. Scaling by 2 doubles the size.\n"
+        },
+        { "name" : "alpha",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Set the alpha of a `Form`. The default is 1, and 0 is totally transparent.\n"
+        },
+        { "name" : "move",
+          "type" : "(Float,Float) -> Form -> Form",
+          "desc" : "Move a form by the given amount. This is a relative translation so\n`(move (10,10) form)` would move `form` ten pixels up and ten pixels to the\nright.\n"
+        },
+        { "name" : "moveX",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Move a shape in the x direction. This is relative so `(moveX 10 form)` moves\n`form` 10 pixels to the right.\n"
+        },
+        { "name" : "moveY",
+          "type" : "Float -> Form -> Form",
+          "desc" : "Move a shape in the y direction. This is relative so `(moveY 10 form)` moves\n`form` upwards by 10 pixels.\n"
+        },
+        { "name" : "collage",
+          "type" : "Int -> Int -> [Form] -> Element",
+          "desc" : "A collage is a collection of 2D forms. There are no strict positioning\nrelationships between forms, so you are free to do all kinds of 2D graphics.\n"
+        },
+        { "name" : "Path",
+          "type" : "type Path = [(Float,Float)]",
+          "desc" : ""
+        },
+        { "name" : "path",
+          "type" : "[(Number a,Number a)] -> Path",
+          "desc" : "Create a path that follows a sequence of points.\n"
+        },
+        { "name" : "segment",
+          "type" : "(Number a,Number a) -> (Number a,Number a) -> Path",
+          "desc" : "Create a path along a given line segment.\n"
+        },
+        { "name" : "Shape",
+          "type" : "type Shape = [(Float,Float)]",
+          "desc" : ""
+        },
+        { "name" : "polygon",
+          "type" : "[(Number a,Number a)] -> Shape",
+          "desc" : "Create an arbitrary polygon by specifying its corners in order.\n`polygon` will automatically close all shapes, so the given list\nof points does not need to start and end with the same position.\n"
+        },
+        { "name" : "rect",
+          "type" : "Number a -> Number a -> Shape",
+          "desc" : "A rectangle with a given width and height.\n"
+        },
+        { "name" : "square",
+          "type" : "Number a -> Shape",
+          "desc" : "A square with a given edge length.\n"
+        },
+        { "name" : "oval",
+          "type" : "Number a -> Number a -> Shape",
+          "desc" : "An oval with a given width and height.\n"
+        },
+        { "name" : "circle",
+          "type" : "Number a -> Shape",
+          "desc" : "A circle with a given radius.\n"
+        },
+        { "name" : "ngon",
+          "type" : "Int -> Number a -> Shape",
+          "desc" : "A regular polygon with N sides. The first argument specifies the number\nof sides and the second is the radius. So to create a pentagon with radius\n30 you would say:\n\n        ngon 5 30\n"
+        }
+      ]
+    }
+  ]
+}

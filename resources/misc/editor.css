@@ -7,94 +7,58 @@ a:hover {text-decoration: underline;color: rgb(234,21,122);}
 
 .CodeMirror { height: 100% }
 
-form { margin-bottom: 0; }
-.zoom-80 { font-size: 80%; }
+// form { margin-bottom: 0; }
+.zoom-80  { font-size:  80%; }
 .zoom-100 { font-size: 100%; }
 .zoom-150 { font-size: 150%; }
 .zoom-200 { font-size: 200%; }
-.valign { vertical-align: middle; }
 
-.opts {
-  background-color: rgb(216,221,225);
-  font-family: Arial;
-  font-size: 14px;
-  overflow: hidden;
-  position: absolute;
-  z-index: 6;
+#editor_box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
 }
 
-#editor_options {
-  bottom: 36px;
-  left: 0;
-  right: 0;
-  height: 24px;
-  position: absolute;
-  border: 1px solid rgb(150,150,150);
-  border-left: 0px;
-  border-right: 0px;
-  background: rgb(216,221,225);
-  visibility: hidden;
+#always_on { padding: 5px 0; }
+#editor_options { padding: 2px 0; }
+
+#always_on *, #editor_options * {
+  vertical-align: middle;
 }
 
 #options {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 36px;
-}
-
-
-#doc_type {
-  bottom: 36px;
-  left: 0;
-  right: 0;
-  height: 24px;
   position: absolute;
-  border: 1px solid rgb(150,150,150);
-  border-left: 0px;
-  border-right: 0px;
-  background: rgb(216,221,225);
-  visibility: hidden;
+  width: 100%;
+  bottom: 0;
 }
 
-.doc_type {
+.option {
+  background-color: rgb(216,221,225);
+  font-family: calibri, helvetica, arial, sans-serif;
+  font-size: 14px;
+  width: 100%;
+  border-top: 1px solid rgb(150,150,150);
+  overflow: hidden;
+}
+
+.type {
   font-family: monospace; 
   font-weight: bold; 
   font-size: 13px; 
   color: black;
-  margin: 4px;
-}
-
-#doc_type .doc_type {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#doc_desc .doc_type {
+  height: 15px;
   margin: 0;
-  margin-bottom: 4px;
   padding: 2px 4px;
-}
-
-#doc_desc {
-  font-family: calibri,helvetica,arial,sans-serif;
-  bottom: 36px;
-  left: 0;
-  right: 0;
-  position: absolute;
-  border: 1px solid rgb(150,150,150);
-  border-left: 0px;
-  border-right: 0px;
-  z-index: 5;
-  visibility: hidden;
-  background: rgb(216,221,225);
 }
 
 // Markdown styling
 
 .doc {
-  margin: 0.5em;
+  margin: 4px;
 }
 
 .doc h1, .doc h2, .doc h3, .doc h4, .doc h5, .doc h6 {

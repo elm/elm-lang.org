@@ -7,13 +7,12 @@ import Data.Map ((!))
 import Data.List (intercalate,(\\))
 import Control.Applicative
 import Text.JSON
-import qualified Language.Elm as Elm
 import RenameTypes as Rename
 import System.FilePath
 import System.Directory
 
 main = do
-  libs <- fmap parse (readFile =<< Elm.docs)
+  libs <- fmap parse (readFile "../resources/docs.json")
   structure <- readFile "structure.json"
   mapM writeDocs (parseStructure libs structure)
 
@@ -35,10 +34,10 @@ parseStructure libs s =
 
 toElm libraries structure = (name, code)
   where
-    code = concat [ "\nimport Website.Docs (createDocs2)\n\n"
+    code = concat [ "\nimport Website.Docs (createDocs)\n\n"
                   , "sections =", listify 1 sections, "\n\n"
                   , "description = [markdown|", desc, "|]\n\n"
-                  , "main = createDocs2 \"", name, "\" description sections\n" ]
+                  , "main = createDocs \"", name, "\" description sections\n" ]
     name = extract (get "module" structure)
     desc = extract (get "description" structure)
     sections = map toSection (ss ++ rest)

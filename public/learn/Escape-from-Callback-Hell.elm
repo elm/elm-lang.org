@@ -2,6 +2,7 @@ import Website.Skeleton (skeleton)
 import Website.ColorScheme (lightGrey,mediumGrey)
 
 import JavaScript as JS
+import JavaScript.Experimental as JS
 import Window
 import Graphics.Input as Input
 import Http
@@ -364,7 +365,7 @@ of HTTP requests we make. The result looks like this:
 
 |]
 
-(tagInput,flickrTags) = Input.field "Flickr Search"
+(tagInput, flickrTags) = Input.field "Flickr Search"
 
 getSources : Signal String -> Signal (Maybe String)
 getSources tag = let photos = Http.send (getTag <~ tag)
@@ -391,14 +392,14 @@ flickrRequest args =
   "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
 
 -- Turn a tag into an HTTP GET request.
-getTag : String -> Request String
+getTag : String -> Http.Request String
 getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
 toJson response =
     case response of
-      Success str -> Json.fromString str
+      Http.Success str -> Json.fromString str
       _ -> Nothing
 
 -- Take a list of photos and choose one, resulting in a request.
@@ -412,7 +413,6 @@ getOneFrom photoList =
                 []   -> Http.get ""
                         
 -- Take some size options and choose one, resulting in a URL.
-sizesToSource : String -> Maybe String
 sizesToSource sizeOptions =
     case toJson sizeOptions of
       Nothing   -> Nothing
@@ -485,10 +485,10 @@ requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
 dropTil s = case s of { h::t -> if h == '[' then t else dropTil t ; _ -> s }
 format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
 showResponse r =
-  code (case r of
-          Success r -> "Success \"... " ++ format r ++ " ...\""
-          Waiting -> "Waiting"
-          Failure n _ -> "Failure " ++ show n ++ " \"...\"")
+  code <| case r of
+            Http.Success r -> "Success \"... " ++ format r ++ " ...\""
+            Http.Waiting -> "Waiting"
+            Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
 
 content inputField tags response search wid =
   let w = wid - 200
@@ -525,4 +525,4 @@ main = lift2 skeleton everything Window.width
 
 titles = constant (JS.fromString "Escape from Callback Hell")
 foreign export jsevent "title"
-  titles : Signal JSString
+  titles : Signal JS.JSString

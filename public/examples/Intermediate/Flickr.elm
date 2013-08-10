@@ -35,7 +35,7 @@ scene (w,h) tagInput imgSrc =
       [ container w 100 middle tagInput,
         case imgSrc of
           Just src -> fittedImage w (h-100) src
-          Nothing -> container w (h-100) middle (image 16 16 "waiting.gif")
+          Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")
       ]
 
 
@@ -66,14 +66,14 @@ flickrRequest args =
 
 
 -- Turn a tag into an HTTP GET request.
-getTag : String -> Request String
+getTag : String -> Http.Request String
 getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
 toJson response =
     case response of
-      Success str -> Json.fromString str
+      Http.Success str -> Json.fromString str
       _ -> Nothing
 
 -- Take a list of photos and choose one, resulting in a request.
@@ -88,7 +88,7 @@ getOneFrom photoList =
 
                         
 -- Take some size options and choose one, resulting in a URL.
-sizesToSource : String -> Maybe String
+sizesToSource : Http.Response String -> Maybe String
 sizesToSource sizeOptions =
     case toJson sizeOptions of
       Nothing   -> Nothing

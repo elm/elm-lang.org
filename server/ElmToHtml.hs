@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module ElmToHtml (elmToHtml, elmToJS) where
 
+import Data.Maybe (fromMaybe)
 import Text.Blaze (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
@@ -19,17 +20,31 @@ elmToHtml name src =
         H.meta ! A.charset "UTF-8"
         H.title . H.toHtml $ name
         H.style ! A.type_ "text/css" $ preEscapedToMarkup
-         ("a:link {text-decoration: none; color: rgb(15,102,230);}\
-          \a:visited {text-decoration: none}\
-          \a:active {text-decoration: none}\
-          \a:hover {text-decoration: underline;\
-          \color: rgb(234,21,122);}" :: String)
+         ("a:link {text-decoration: none; color: rgb(15,102,230);}\n\
+          \a:visited {text-decoration: none}\n\
+          \a:active {text-decoration: none}\n\
+          \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
       H.body $ do
         let js = H.script ! A.type_ "text/javascript"
-        js ! A.src (H.toValue ("/elm-mini.js" :: String)) $ ""
-        js $ preEscapedToMarkup (Elm.compile src)
-        js $ preEscapedToMarkup ("var runningElmModule = Elm.fullscreen(Elm." ++ Elm.moduleName src ++ ")")
+            name = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
+            runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ name ++ ")"
+        js ! A.src (H.toValue ("/elm-runtime.js" :: String)) $ ""
+        case Elm.compile src of
+          Right jsSrc -> do
+              js $ preEscapedToMarkup jsSrc
+              js $ preEscapedToMarkup runFullscreen
+          Left err ->
+              H.span ! A.style "font-family: monospace;" $
+              mapM_ (\line -> preEscapedToMarkup (addSpaces line) >> H.br) (lines err)
         googleAnalytics
 
+addSpaces str =
+  case str of
+    ' ' : ' ' : rest -> " &nbsp;" ++ addSpaces rest
+    c : rest -> c : addSpaces rest
+    [] -> []
+
 elmToJS :: String -> String
-elmToJS = Elm.compile
+elmToJS src = case Elm.compile src of
+                Right js -> "{ \"success\" : " ++ show js ++ " }"
+                Left err -> "{ \"error\" : " ++ show err ++ " }"

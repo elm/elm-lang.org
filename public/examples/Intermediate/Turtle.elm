@@ -31,16 +31,17 @@ step (arrows,delta) turtle =
 -- DISPLAY
 display : (Int,Int) -> Turtle -> Element
 display (w,h) turtle =
-  let turtlePic = image 96 96 "turtle.gif" |> toForm
-                                           |> rotate turtle.angle
-                                           |> move (turtle.x,turtle.y)
+  let turtlePic = image 96 96 "/turtle.gif" |> toForm
+                                            |> rotate turtle.angle
+                                            |> move (turtle.x,turtle.y)
   in layers [ collage w h [turtlePic],
-              opacity 0.7 <| fittedImage w h "water.gif" ]
+              opacity 0.7 <| fittedImage w h "/water.gif" ]
 
 
 -- TURTLE
 delta = inSeconds <~ fps 30
-input = sampleOn delta <| lift2 (,) Keyboard.arrows delta
+floatify {x,y} = { x = toFloat x, y = toFloat y }
+input = sampleOn delta <| lift2 (,) (floatify <~ Keyboard.arrows) delta
 
 main  = lift2 display Window.dimensions (foldp step turtle input)
 

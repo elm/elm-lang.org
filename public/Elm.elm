@@ -2,9 +2,9 @@ import Website.Skeleton (skeleton)
 import Website.Tiles (miniTiles)
 import Website.ColorScheme
 
-import Text as Text
-import JavaScript as JavaScript
-import Window as Window
+import Text
+import JavaScript as JS
+import Window
 
 intro = [markdown|
 
@@ -96,16 +96,16 @@ news = [markdown|
 #### News
 
 * Upcoming talk on Elm at [StrangeLoop 2013][loop] in St. Louis
+* Type-checker fixed in [Elm 0.9][v9]
+* Elm in [VentureBeat][vb]
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
-* [Elm 0.8][v8] finally released!
 * Extensible Records in [Elm 0.7][v7]
-* [Elm featured on O'Reilly Radar][radar]
 
+ [vb]: http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/
  [v7]: /blog/announce/version-0.7.elm "Extensible Records"
- [v8]: /blog/announce/version-0.8.elm "Improve Everything"
+ [v9]: /blog/announce/version-0.9.elm
  [loop]: https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm "Elm at StrangeLoop"
- [radar]: http://radar.oreilly.com/2012/12/emerging-languages-spotlight-elm.html "Emerging Languages Spotlight"
 
 |]
 
@@ -145,6 +145,6 @@ info w =
 
 main = lift (skeleton info) Window.width
 
-title = constant (JavaScript.fromString "The Elm Programming Language")
+title = constant (JS.fromString "The Elm Programming Language")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString

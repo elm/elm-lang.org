@@ -7,11 +7,11 @@ import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
-import Utils
+import qualified System.FilePath as FP
 
 -- | Display an editor and the compiled result side-by-side.
 ide :: FilePath -> String -> Html
-ide fileName code = ideBuilder ("Elm Editor: " ++ pageTitle fileName)
+ide fileName code = ideBuilder ("Elm Editor: " ++ FP.takeBaseName fileName)
                                fileName
                                ("/compile?input=" ++ urlEncode code)
 
@@ -41,52 +41,106 @@ editor :: FilePath -> String -> Html
 editor filePath code =
     H.html $ do
       H.head $ do
-        H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
+        H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
         H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
         H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
-        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js" $ mempty
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?v0.9" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
-           H.div ! A.id "editor_box" ! A.style "position:absolute;top:0;left:0;right:0;bottom:36px;" $ do
+           H.div ! A.id "editor_box" $ do
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
-           H.div ! A.id "doc_desc" $ ""
-           H.div ! A.id "doc_type" $ ""
-           H.div ! A.class_ "opts" ! A.id "options" $ do
-             H.div ! A.style "float:right; padding:6px;" $ do
-               H.input ! A.class_ "valign" !
-                  A.id "compile_button" ! A.type_ "button" !
-                  A.onclick "loadJavaScript()" ! A.value "Hot Swap" !
-                  A.title "Ctrl-Enter: change program behavior but keep the state"
-               H.input ! A.class_ "valign" !
-                  A.id "in_tab_button" ! A.type_ "button" !
-                  A.onclick "compileOutput()" ! A.value "Compile" !
-                  A.title "Ctrl-Shift-Enter"
-             H.div ! A.style "float:left; padding:6px;" $ do
-               H.input ! A.class_ "valign" ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc" !
-                  A.id "help_button" ! A.type_ "button" ! A.style "margin: 0 10px 0 0;" !
-                  A.onclick "toggleDocView();" ! A.value "?"
-               H.span ! A.class_ "valign" $ "Options:"
-               H.input ! A.class_ "valign" ! A.id "options_checkbox" ! A.type_ "checkbox" !
-                  A.onchange "toggleOptions(this.checked);"
-           H.div ! A.class_ "opts" ! A.id "editor_options" $ do
-             let optionFor text =
-                   H.option ! A.value (toValue (text :: String)) $
-                   toHtml text
-             H.select ! A.class_ "valign" ! A.id "editor_theme" !
-               A.onchange "setTheme()" $ mapM_ optionFor themes
-             H.select ! A.class_ "valign" ! A.id "editor_zoom" !
-               A.onchange "setZoom()" $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
-             H.span $ do
-               H.span ! A.class_ "valign" $ " Line Numbers:"
-               H.input ! A.class_ "valign" ! A.id "editor_lines" !
-                 A.type_ "checkbox" !
-                 A.onchange "toggleLines(this.checked);"
-               H.span ! A.style "padding-left: 16px;" ! A.class_ "valign" $
-                    "Show type:"
-               H.input ! A.class_ "valign" ! A.id "show_type_checkbox" ! A.type_ "checkbox" !
-                  A.onchange "toggleShowType(this.checked);"
+           H.div ! A.id "options" $ do
+             bar "documentation" docs
+             bar "editor_options" editorOptions
+             bar "always_on" (buttons >> options)
         H.script ! A.type_ "text/javascript" $ "initEditor();"
+
+bar :: AttributeValue -> Html -> Html
+bar id body = H.div ! A.id id ! A.class_ "option" $ body
+
+buttons :: Html
+buttons = H.div ! A.class_ "valign_kids"
+                ! A.style "float:right; padding-right: 6px;"
+                $ "Auto-Swap" >> autoBox >> "     " >> hotSwapButton >> compileButton
+      where
+        hotSwapButton = 
+            H.input
+                 ! A.type_ "button"
+                 ! A.id "hot_swap_button"
+                 ! A.value "Hot Swap"
+                 ! A.onclick "hotSwap()"
+                 ! A.title "Ctrl-Shift-Enter"
+
+        compileButton = 
+            H.input
+                 ! A.type_ "button"
+                 ! A.id "compile_button"
+                 ! A.value "Compile"
+                 ! A.onclick "compile()"
+                 ! A.title "Ctrl-Enter: change program behavior but keep the state"
+
+        autoBox =
+            H.input
+                 ! A.type_ "checkbox"
+                 ! A.id "auto_hot_swap_checkbox"
+                 ! A.onchange "setAutoHotSwap(this.checked)"
+                 ! A.title "attempt to hot-swap automatically"
+
+
+options :: Html
+options = H.div ! A.class_ "valign_kids"
+                ! A.style "float:left; padding-left:6px;"
+                $ (docs >> opts)
+    where 
+      docs =
+          H.input
+               ! A.type_ "button"
+               ! A.id "help_button"
+               ! A.value "?"
+               ! A.style "margin-right: 10px;"
+               ! A.onclick "toggleVerbose();"
+               ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc"
+      opts = do
+        H.span $ "Options:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "options_checkbox" 
+                ! A.onchange "showOptions(this.checked);"
+
+editorOptions :: Html
+editorOptions = theme >> zoom >> lineNumbers
+    where
+      optionFor :: String -> Html
+      optionFor text =
+          H.option ! A.value (toValue text) $ toHtml text
+
+      theme =
+          H.select ! A.id "editor_theme"
+                   ! A.onchange "setTheme(this.value)"
+                   $ mapM_ optionFor themes
+              
+      zoom =
+          H.select ! A.id "editor_zoom"
+                   ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"
+                   $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
+
+      lineNumbers = do
+        H.span ! A.style "padding-left: 16px;" $ "Line Numbers:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "editor_lines"
+                ! A.onchange "showLines(this.checked);"
+        H.span ! A.style "padding-left: 16px;" $ "Show type:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "show_type_checkbox"
+                ! A.onchange "showType(this.checked);"
+
+docs :: Html
+docs = tipe >> desc
+    where
+      tipe = H.div ! A.class_ "type" $ ""
+      desc = H.div ! A.class_ "doc"
+                   ! A.style "display:none;"
+                   $ ""

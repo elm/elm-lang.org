@@ -229,9 +229,10 @@
   , "sections" :
     [{"name":"One-way Inputs",
       "values":["button","customButton","field","email","password",
-                "checkbox","dropDown","stringDropDown"]}
+                "checkbox","hoverable","dropDown","stringDropDown"]}
     ,{"name":"Input Groups: create and update inputs dynamically",
-      "values":["buttons","customButtons","checkboxes","fields","FieldState","emptyFieldState"]}
+      "values":["buttons","customButtons","checkboxes","hoverables",
+                "fields","FieldState","emptyFieldState"]}
     ]
   }
 , { "module" : "Graphics.Collage"
@@ -243,7 +244,7 @@
       "values":["toForm","sprite","filled","textured",
                 "gradient","outlined","traced"]}
     ,{"name":"Transforming Forms",
-      "values":["move","moveX","moveY","scale","rotate"]}
+      "values":["move","moveX","moveY","scale","rotate","alpha"]}
     ,{"name":"Grouping Forms",
       "values":["group","groupTransform"]}
     ,{"name":"Shapes",

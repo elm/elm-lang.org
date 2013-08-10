@@ -6,7 +6,7 @@ import JavaScript as JS
 
 title = constant (JS.fromString "Elm 0.8 - Improve Everything")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 main = lift (skeleton everything) Window.width
 

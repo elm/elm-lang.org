@@ -9,10 +9,10 @@ navigation = Input.customButtons ""
 
 button (name, href, clr) =
  let btn alpha =
-       flow down [ color (rgba 200 200 200 alpha) . container 100 58 middle .
-                   width 100 . centered . Text.color black <| toText name
-                 , color clr (spacer 100 2) ]
- in  link href (navigation.customButton href (btn 0) (btn 0.1) (btn 0.2))
+         flow down [ color (rgba 200 200 200 alpha) . container 100 58 middle .
+                     width 100 . centered . Text.color black <| toText name
+                   , color clr (spacer 100 2) ]
+ in  link href <| navigation.customButton href (btn 0) (btn 0.1) (btn 0.2)
 
 buttons = flow right . map button <|
   [ ("About"   , "/About.elm"        , accent1)
@@ -21,8 +21,8 @@ buttons = flow right . map button <|
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
- let ttl = Text.link "/" . Text.color black . Text.height 2 . bold <| toText "Elm"
- in  container w 60 midLeft (text ttl)
+ let logo = text . Text.color black . Text.height 40 . bold <| toText "Elm"
+ in  container w 60 midLeft (link "/" logo)
 
 veiwSource = [markdown|
 <a href="javascript:var p=top.location.pathname;if(p.slice(0,5)!='/edit')top.location.href='/edit'+(p=='/'?'/Elm.elm':p);">
@@ -51,7 +51,3 @@ skeleton bodyFunc outer =
          Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
              Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
        ]
-
-redirect = JS.fromString <~ navigation.events
-foreign export jsevent "redirect"
-  redirect : Signal JSString

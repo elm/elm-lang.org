@@ -5,6 +5,6 @@ import Mouse
 
 edgeLength = lift (uncurry max) Mouse.position
 
-resizeableYogi n = image n n "yogi.jpg"
+resizeableYogi n = image n n "/yogi.jpg"
 
 main = lift resizeableYogi edgeLength

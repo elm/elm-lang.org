@@ -1,13 +1,12 @@
 var editor = null;
 var elmDocs = null;
 
-function compile(formTarget) {
+function compile() {
     var form = document.getElementById('inputForm');
-    form.target = formTarget;
     form.submit();
 }
 
-function loadJavaScript() {
+function hotSwap() {
     var request = null;
     if (window.ActiveXObject)  { request = new ActiveXObject("Microsoft.XMLHTTP"); }
     if (window.XMLHttpRequest) { request = new XMLHttpRequest(); }
@@ -15,10 +14,32 @@ function loadJavaScript() {
         if (request.readyState === 4
             && request.status >= 200
             && request.status < 300) {
-            var js = request.responseText;
-            top.output.eval(js);
-            var module = js.substring(0,js.indexOf('=')).replace(/\s/g,'');
-            top.output.runningElmModule = top.output.runningElmModule.swap(top.output.eval(module));
+            var result = JSON.parse(request.responseText);
+            var top = self.parent;
+            if (js = result.success) {
+                var error = top.output.document.getElementById('ErrorMessage');
+                if (error) {
+                    error.parentNode.removeChild(error);
+                }
+                top.output.eval(js);
+                var module = js.substring(0,js.indexOf('=')).replace(/\s/g,'');
+                top.output.runningElmModule =
+                    top.output.runningElmModule.swap(top.output.eval(module));
+            } else {
+                var error = top.output.document.getElementById('ErrorMessage');
+                if (!error) {
+                    error = document.createElement('div');
+                    error.id = 'ErrorMessage';
+                    error.style.fontFamily = 'monospace';
+                    error.style.position = 'absolute';
+                    error.style.bottom = '0';
+                    error.style.width = '100%';
+                    error.style.backgroundColor = 'rgba(245,245,245,0.95)';
+                }
+                error.innerHTML = '<b>Hot Swap Failed</b><br/>' +
+                    result.error.replace(/\n/g, '<br/>').replace(/  /g, " &nbsp;");
+                top.output.document.body.appendChild(error);
+            }
         }
     };
     editor.save();
@@ -28,25 +49,11 @@ function loadJavaScript() {
     request.send();
 }
 
-function setEditorBottom() {
-  var typeView = document.getElementById('doc_type');
-  var opts = document.getElementById('editor_options');
+function adjustEditorBottom() {
+  var options = document.getElementById('options');
   var edb = document.getElementById('editor_box');
-  visible = typeView.style.visibility === 'visible' || opts.style.visibility === 'visible';
-  edb.style.bottom = visible ? '62px' : '36px';
+  edb.style.bottom = options.clientHeight + 'px';
   editor.refresh();
-}
-
-function showTypeView() {
-  var typeView = document.getElementById('doc_type');
-  typeView.style.visibility = 'visible';
-  setEditorBottom();
-}
-
-function hideTypeView() {
-  var typeView = document.getElementById('doc_type');
-  typeView.style.visibility = 'hidden';
-  setEditorBottom();
 }
 
 function formatType(tipe) {
@@ -76,7 +83,7 @@ function parseDoc(mods) {
   return result;
 }
 
-function loadDoc () {
+function loadDoc() {
   var req = new XMLHttpRequest();
   req.onload = function () { elmDocs = parseDoc(JSON.parse(this.responseText)); };
   req.open('GET', '/jsondocs', true);
@@ -170,25 +177,10 @@ function openDocPage () {
   }
 }
 
-function clearView(id) {
-  var elem = document.getElementById(id);
-  if (elem) {
-    elem.innerHTML = '';
-  }
-}
-
-function clearDocView () {
-  clearView('doc_desc');
-}
-
-function generateView (content, contentIsHtml, cssClass) {
+function generateView(content, cssClass) {
     var div = document.createElement("div");
     div.className = cssClass;
-    if (contentIsHtml) {
-      div.innerHTML = content;
-    } else {
-      div.appendChild(document.createTextNode(content));
-    }
+    div.innerHTML = content;
     return div;
 }
 
@@ -203,8 +195,11 @@ function getDocForTokenAt (pos) {
       if (q) {
         doc = docs.filter(function(o) { if (o.module == q) return true;})[0];
       } else {
-        doc = {};
-        doc.error = 'Ambiguous: ' + token.string + ' defined in ' + docs.map(function(o) { return moduleToHtmlLink(o.module, token.string); }).join(' and ');
+          function f(o) {
+              return moduleToHtmlLink(o.module, token.string);
+          }
+          var places = docs.map(f).join(' and ');
+          doc = {error: 'Ambiguous: ' + token.string + ' defined in ' + places };
       }
     } else {
       doc = docs[0];
@@ -223,123 +218,114 @@ function typeAsText (doc) {
   return result;
 }
 
-function showDoc () {
-  var current_pos = editor.getCursor(true);
-  clearView('doc_desc');
+function updateDocumentation() {
+  var doc = getDocForTokenAt(editor.getCursor(true));
+  var type = '';
+  var desc = '';
 
-  var doc = getDocForTokenAt(current_pos);
-  var typeText = "";
-  var desc = "";
-
-  if (doc && doc.error) {
-    typeText = doc.error;
-  } else if (doc) {
-    typeText = typeAsText(doc);
-    desc = doc.desc;
-  } else {
-    return;
+  if (doc !== null) {
+      type = doc.error ? doc.error : typeAsText(doc);
+      desc = doc.desc ? doc.desc : '<p>No description found</p>';
   }
-
-  if (!desc || desc === "") {
-    desc = 'No description found';
-  }
-
-  var type_div = generateView(typeText, true, 'doc_type');
-  var doc_div = generateView(desc, true, 'doc');
-  var docView = document.getElementById('doc_desc');
-
-  var vscroll = document.getElementsByClassName('CodeMirror-vscrollbar')[0];
-  if (vscroll && vscroll.offsetWidth  > 0) {
-    docView.style.marginRight = vscroll.offsetWidth + "px";
-  }
-
-  docView.appendChild(type_div);
-  docView.appendChild(doc_div);
-  docView.style.visibility = 'visible';
+  var docs = document.getElementById('documentation').childNodes;
+  docs[0].innerHTML = type;
+  docs[1].innerHTML = desc;
+  docs[1].style.display = mode.verbose && desc ? 'block' : 'none';
+  adjustView(mode);
 }
 
-function hideDocView() {
-  var docView = document.getElementById('doc_desc');
-  docView.style.visibility = 'hidden';
+var Mode = { OPTIONS:0, TYPES:1, NONE:2 };
+var mode = { mode: Mode.NONE };
+
+function showOptions(show) {
+    if (mode.mode === Mode.OPTIONS) {
+        mode = show ? mode : mode.hidden;
+    } else {
+        mode = show ? { mode: Mode.OPTIONS, hidden: mode } : mode;
+    }
+    adjustView(mode);
 }
 
-function toggleDocView () {
-  var docView = document.getElementById('doc_desc');
-  if (docView.style.visibility == 'visible') {
-    hideDocView();
-  } else {
-    showDoc();
-  }
+function showType(show) {
+    cookie('showtype', show);
+    var newMode = (show ? { mode: Mode.TYPES, verbose: false }
+                        : { mode: Mode.NONE });
+    if (mode.mode === Mode.OPTIONS) {
+        mode.hidden = newMode;
+    } else {
+        mode = newMode;
+    }
+    adjustView(mode);
 }
 
-function updateTypeView () {
-  var current_pos = editor.getCursor(true);
-
-  clearView('doc_type');
-
-  var doc = getDocForTokenAt(current_pos);
-  var typeText = "";
-
-  if (doc && doc.error) {
-    typeText = doc.error;
-  } else if (doc) {
-    typeText = typeAsText(doc);
-  }
-
-  var type_div = generateView(typeText, true, 'doc_type');
-  var typeView = document.getElementById('doc_type');
-  typeView.appendChild(type_div);
+function toggleVerbose() {
+    mode.verbose = !mode.verbose;
+    updateDocumentation();
 }
 
-function toggleShowType(enable) {
-  if (enable) {
-    showTypeView();
-    editor.on('cursorActivity', updateTypeView);
-    updateTypeView();
-  } else {
-    hideTypeView();
-    editor.off('cursorActivity', updateTypeView);
-  }
-  cookie('showtype', enable);
+function showVerbose() {
+    mode.verbose = true;
+    updateDocumentation();
 }
 
-function toggleOptions(show) {
-  var opts = document.getElementById('editor_options');
-  opts.style.visibility = show ? 'visible' : 'hidden';
-  setEditorBottom();
+function hideStuff() {
+    if (mode.hidden) mode = mode.hidden;
+    document.getElementById('options_checkbox').checked = false;
+    mode.verbose = false;
+    updateDocumentation();
 }
 
-function toggleLines(on) {
+function adjustView(mode) {
+    switch (mode.mode) {
+    case Mode.OPTIONS:
+        setVisibility('editor_options', true);
+        setVisibility('documentation', false);
+        adjustEditorBottom();
+        return;
+    case Mode.TYPES:
+        setVisibility('editor_options', false);
+        setVisibility('documentation', true);
+        adjustEditorBottom();
+        return;
+    case Mode.NONE:
+        setVisibility('editor_options', false);
+        setVisibility('documentation', false);
+        adjustEditorBottom();
+        return;
+    }
+}
+
+function setVisibility(id, visible) {
+  var node = document.getElementById(id);
+  node.style.display = visible ? 'block' : 'none';
+  node.style.borderTopWidth = visible ? '1px' : '0';
+}
+
+function showLines(on) {
   editor.setOption('lineNumbers', on);
   cookie('lineNumbers', on);
 }
 
 var delay;
-function toggleAutoCompile(enable) {
-  document.getElementById('compile_button').disabled = enable;
-  if (enable) {
-    updateOutput();
-    editor.on('change', updateOutput);
-  } else {
-    editor.off('change', updateOutput);
-  }
-  cookie('autocompile', enable);
+function setAutoHotSwap(enable, init) {
+    document.getElementById('hot_swap_button').disabled = enable;
+    if (enable) {
+        if (!init) updateOutput();
+        editor.on('change', updateOutput);
+    } else {
+        editor.off('change', updateOutput);
+    }
+    cookie('autoHotSwap', enable);
 }
 
 function updateOutput() {
-  clearTimeout(delay);
-  delay = setTimeout(compileOutput, 1000);
+    clearTimeout(delay);
+    delay = setTimeout(hotSwap, 1000);
 }
 
-function compileOutput() {
-  compile('output');
-}
-
-function setTheme() {
-  var input = document.getElementById('editor_theme');
-  var theme = input.options[input.selectedIndex].innerHTML;
-  editor.setOption('theme', theme);
-  cookie('theme', theme);
+function setTheme(theme) {
+    editor.setOption('theme', theme);
+    cookie('theme', theme);
 }
 
 function setZoom() {
@@ -354,6 +340,7 @@ function setZoom() {
       newClasses.push(classes[i]);
   newClasses.push(zoom);
   editorDiv.setAttribute('class', newClasses.join(' '));
+  editor.refresh();
   cookie('zoom', zoomLevel);
 }
 
@@ -387,7 +374,7 @@ function eraseCookie(name) {
 function initLines() {
   var lines = readCookie('lineNumbers');
   if (lines) {
-    lines = lines == 'true';
+    lines = lines === 'true';
     document.getElementById('editor_lines').checked = lines;
     return lines;
   }
@@ -411,30 +398,18 @@ function initZoom() {
   }
 }
 
-function initTypeView() {
-  var stored = readCookie('showtype');
-  var showType = stored ? stored === 'true' : true;
-  if (showType) {
-    document.getElementById('show_type_checkbox').checked = showType;
-    toggleShowType(showType);
-  }
-  var doc_type = document.getElementById('doc_type');
-  doc_type.onclick = openDocPage;
+function initMenu() {
   loadDoc();
+  var stored = readCookie('showtype');
+  var show = !stored || stored === 'true';
+  document.getElementById('show_type_checkbox').checked = show;
+  showType(show);
 }
 
-function initAutocompile() {
-  var auto = readCookie('autocompile') == 'true';
-  if (auto) {
-    document.getElementById('autocompile_checkbox').checked = auto;
-    toggleAutoCompile(auto);
-  }
-}
-
-function initOptions() {
-  var options = document.getElementById('options_checkbox');
-  options.checked = false;
-  toggleOptions(document.getElementById('options_checkbox').checked);
+function initAutoHotSwap() {
+    var yes = readCookie('autoHotSwap') === 'true';
+    document.getElementById('auto_hot_swap_checkbox').checked = yes;
+    setAutoHotSwap(yes, true);
 }
 
 function initEditor() {
@@ -444,9 +419,9 @@ function initEditor() {
       matchBrackets: true,
       theme: initTheme(),
       tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': loadJavaScript,
-                  'Shift-Ctrl-Enter': compileOutput,
-                  'Ctrl-K': toggleDocView,
+      extraKeys: {'Ctrl-Enter': compile,
+                  'Shift-Ctrl-Enter': hotSwap,
+                  'Ctrl-K': toggleVerbose,
                   'Shift-Ctrl-K': openDocPage,
                   'Tab': function(cm) {
                           var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
@@ -455,11 +430,10 @@ function initEditor() {
        }
     });
   editor.focus();
-  editor.on('cursorActivity', hideDocView);
-  initAutocompile();
-  initTypeView();
+  editor.on('cursorActivity', hideStuff);
   initZoom();
-  initOptions();
+  initMenu();
+  initAutoHotSwap();
 }
 
 /* jshint browser: true */
@@ -470,7 +444,7 @@ function initEditor() {
 /* global CodeMirror */
 /* global Showdown */
 /* exported initEditor */
-/* exported toggleOptions */
-/* exported toggleLines */
+/* exported showOptions */
+/* exported showLines */
 /* exported setTheme */
 /* exported eraseCookie */

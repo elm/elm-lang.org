@@ -7,7 +7,7 @@ import Graphics.Input as Input
 
 title = constant (JS.fromString "Upgrade Time: Elm 0.6")
 foreign export jsevent "title"
-  title : Signal JSString
+  title : Signal JS.JSString
 
 main = lift (skeleton intro) Window.width
 
