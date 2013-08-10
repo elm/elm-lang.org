@@ -105,7 +105,7 @@ move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
 doing this with FRP, how can the tools be better?&rdquo; This is a
 very positive sign for FRP!
 
-#### How to make it better?
+#### How can the tools be better?
 
 A big part of improving the type checker was making it possible for information
 to flow between modules. This meant improving the build system.
