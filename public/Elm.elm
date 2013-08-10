@@ -96,7 +96,6 @@ news = [markdown|
 #### News
 
 * Upcoming talk on Elm at [StrangeLoop 2013][loop] in St. Louis
-* Type-checker fixed in [Elm 0.9][v9]
 * Elm in [VentureBeat][vb]
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
