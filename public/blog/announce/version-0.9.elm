@@ -93,7 +93,7 @@ for making all of this work possible! Also, thank you to Spiros and
 Laszlo for talking through issues with me as they came up; this was
 a huge help!
 
-#### Why was the type cheker bad before?
+#### Why was the type checker bad before?
 
 Before this release, my primary priority was: prove that FRP is viable and good.
 If FRP is not the right way, it does not matter how good or bad the type checker
@@ -196,13 +196,14 @@ and reader.
 You get questions like: is `(x -1)` subtraction or is `(f -1)` function
 application with a negative argument?
 
-After [discussing many options][negate], we decided on the following requirements
-to classify a minus sign as unary negation:
+After [discussing many options][negate], we decided on a solution that is
+whitespace sensitive. The unary negation operator must meet both of these
+requirements:
 
-  * it is preceded by whitespace or `(` or `[` or `,`
-  * no whitespace on the right, the negated value follows without spaces
+  * It *is* preceded by whitespace or `(` or `[` or `,`
+  * It *is not* followed by whitespace
 
-The following examples attempt to cover all of the cases you might see in the wild:
+The following examples cover many cases you might see in the wild:
 
 ```haskell
 n - 1        -- subtraction
