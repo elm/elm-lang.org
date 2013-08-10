@@ -5,9 +5,7 @@ install = [markdown|
 
 ### Install
 
-If you are on Mac OSX, [download this](https://dl.dropboxusercontent.com/u/5850974/Elm/Elm.pkg).
-Otherwise use these [install instructions][1].
-You are getting:
+Follow the [install instructions][1]. You are getting:
 
 1. *Compiler* &ndash; Turn Elm code into HTML, CSS, and JavaScript.
 
