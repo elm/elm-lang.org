@@ -48,7 +48,7 @@ editor filePath code =
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
         H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
-        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js" $ mempty
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?v0.9" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
            H.div ! A.id "editor_box" $ do
