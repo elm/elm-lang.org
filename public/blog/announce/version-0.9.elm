@@ -195,11 +195,11 @@ and reader.
 
 You get questions like: is `(x -1)` subtraction? Is `(f -1)` function
 application with a negative argument? From the perspective of the parser
-they are exactly the same, so you must choose one.
+they are exactly the same. You must choose one.
 
-Writing `(x -1)` to mean subtraction is not recommended in any situation,
-whereas `(f -1)` is definitely going to come up quite quickly ([it does in
-OCaml][ocaml]).
+Writing `(x -1)` to mean subtraction is not recommended and is considered
+sloppy, whereas `(f -1)` is definitely going to come up quite quickly
+([it does in OCaml][ocaml]).
 
  [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
 
