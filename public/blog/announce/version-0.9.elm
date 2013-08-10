@@ -139,7 +139,7 @@ possible. The next task was understand and implement an efficienct type inferenc
 algorithm.
 
 To summarize, it is very tricky and there are few resources available that even
-discuss efficient practical implementations, let alone give details on specific
+*discuss* efficient practical implementations, let alone give details on specific
 techniques and strategies. I am planning to do a &ldquo;field guide to efficient
 type inference&rdquo; to make it easier for others to create a type inferencer
 that is correct and *fast*.
