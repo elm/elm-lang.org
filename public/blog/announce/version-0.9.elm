@@ -204,7 +204,7 @@ sloppy, whereas `(f -1)` is definitely going to come up quite quickly
  [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
 
 After [discussing many options][negate], we decided on a solution that is
-whitespace sensitive so that unary negation tends to do &ldquo;the expected thing&rdquo;.
+whitespace sensitive so that unary negation works as expected in the common case.
 Any unary negation operator must meet both of these requirements:
 
   * It is preceded by whitespace or `(` or `[` or `,`
