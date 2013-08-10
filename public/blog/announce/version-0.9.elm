@@ -193,15 +193,22 @@ The issue is that the `(-)` operator overlaps with subtraction,
 so mathematical expressions can become ambiguous for the parser
 and reader.
 
-You get questions like: is `(x -1)` subtraction or is `(f -1)` function
-application with a negative argument?
+You get questions like: is `(x -1)` subtraction? Is `(f -1)` function
+application with a negative argument? From the perspective of the parser
+they are exactly the same.
+
+Writing `(x -1)` to mean subtraction is not recommended in any situation,
+whereas `(f -1)` is definitely going to come up quite quickly ([it does in
+OCaml][ocaml]).
+
+ [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
 
 After [discussing many options][negate], we decided on a solution that is
-whitespace sensitive. The unary negation operator must meet both of these
-requirements:
+whitespace sensitive so that unary negation tends to do &ldquo;the expected thing&rdquo;.
+Any unary negation operator must meet both of these requirements:
 
-  * It *is* preceded by whitespace or `(` or `[` or `,`
-  * It *is not* followed by whitespace
+  * It is preceded by whitespace or `(` or `[` or `,`
+  * It is *not* followed by whitespace
 
 The following examples cover many cases you might see in the wild:
 
