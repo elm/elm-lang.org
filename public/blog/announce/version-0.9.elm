@@ -70,11 +70,14 @@ most notable are as follows:
 
 Finally, there are a bunch of miscellaneous improvements:
 
-  * API for detecting when the mouse hovers over an `Element`
-  * Set `alpha` of any `Form` for transparency in a `collage`
-  * Many bug fixes for `collage`, especially when rendering an `Element`
-  * `Text.height` use pixels instead of [ems][], after [much debate][]
+  * `elm-server` can serve multi-module projects
+  * [Detect mouse hover][hover]
+  * [Transparency in collages][alpha] and many bug fixes
+  * [`Text.height`][height] use pixels instead of [ems][], after [much debate][]
 
+  [hover]: http://elm-lang.org/docs/Graphics/Input.elm#hoverable
+  [alpha]: http://elm-lang.org/docs/Graphics/Collage.elm#alpha
+  [height]: http://elm-lang.org/docs/Text.elm#height
   [much debate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/specifying$20size$20of$20text/elm-discuss/3Iz-HpV1QRg/oHPoqWDgrmEJ
   [ems]: http://en.wikipedia.org/wiki/Em_(typography)
 
