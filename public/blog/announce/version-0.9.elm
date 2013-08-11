@@ -202,23 +202,26 @@ we decided to optimize for function application.
  [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
  [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
-Any unary negation operator must meet both of these requirements:
+Any unary negation operator must meet **both** of these requirements:
 
   1. It is preceded by whitespace or `(` or `[` or `,`
   2. It is *not* followed by whitespace
 
-The following examples cover many cases you might see in the wild:
+Where whitespace means spaces, newlines, and comments.
+The following expressions show many cases you might encounter
+in the wild:
 
 ```haskell
-n - 1        -- subtraction
-n-1          -- subtraction, does not meet requirement 1
--10          -- negative ten
-- 10         -- parse error, does not meet requirement 2
-(-100,-100)  -- point in quadrant III
-abs -1       -- abs (-1)
-max -2 -4    -- max (-2) (-4)
-h - 3 - 5    -- subtraction twice
-n - -1       -- n + 1
+n - 1         -- subtraction
+n-1           -- subtraction, breaks requirement 1
+-10           -- negative ten
+- 10          -- parse error, breaks requirement 2
+( -1, -1 )    -- point in quadrant III
+[-1,-1,-1]    -- a list of negative ones
+abs -1        -- abs (-1)
+max -2 -4     -- max (-2) (-4)
+h - 3 - 5     -- subtraction twice
+n - -1        -- n + 1
 ```
 
 Another way to describe these rules is &ldquo;unary negation binds tighter than function
