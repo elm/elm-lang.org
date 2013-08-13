@@ -200,7 +200,7 @@ we decided to optimize for function application.
  [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
  [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
-Any unary negation operator must meet **both** of these requirements:
+In Elm, any unary negation operator must meet **both** of these requirements:
 
   1. It is preceded by whitespace or `(` or `[` or `,`
   2. It is *not* followed by whitespace
