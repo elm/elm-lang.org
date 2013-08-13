@@ -48,8 +48,6 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
 </h1>
 
-<div style="text-align:center; color:red;">Official announcement coming soon, please do not post or tweet yet!</div>
-
 [Elm](/)&rsquo;s type checker has been completely rewritten.
 At a high level, the key difference is simple: it works now.
 
