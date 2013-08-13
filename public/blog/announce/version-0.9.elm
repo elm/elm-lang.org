@@ -48,18 +48,26 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
 </h1>
 
-[Elm](/)&rsquo;s type checker has been completely rewritten.
-At a high level, the key difference is simple: it works now.
+Before this release of [Elm](/), my primary priority was: prove that
+FRP is pleasant and practical. If FRP is not the right way, it does
+not matter how good or bad the type checker is.
+
+I recently started to feel that the poor error messages were
+becoming the primary barrier for Elm. The questions have started to
+move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
+doing this with FRP, how can the tools be better?&rdquo; This is a
+very positive sign!
+
+To begin improving tools for FRP and Elm, the type checker has been
+completely rewritten. The key improvements are:
 
   * Undefined values are errors
-  * All type errors are caught and reported
+  * *All* type errors are caught and reported
   * Error messages are more specific and easier to read
   * It&rsquo;s fast
 
 This is a huge step forward. It also creates a solid foundation
-for further improvement. You may be thinking, &ldquo;Great, but why not sooner?&rdquo;
-In short, I must prioritize features, and it did not matter how good the type checker
-was if people were not interested in FRP or Elm. [More on this later](#why-not-sooner).
+for further improvement.
 
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
@@ -92,24 +100,10 @@ Maybe start the [download process][download] while you are reading!
 
 ## Type checker and Build Improvements
 
-This was a really big project for me, so I want to first thank Prezi
+This was a really big project, so I want to first thank Prezi
 for making all of this work possible! Also, thank you to Spiros and
 Laszlo for talking through issues with me as they came up; this was
 a huge help!
-
-#### Why not sooner?
-
-Before this release, my primary priority was: prove that FRP is viable and good.
-If FRP is not the right way, it does not matter how good or bad the type checker
-is.
-
-I recently started to feel that the poor error messages were
-becoming the primary barrier for Elm. The questions have started to
-move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
-doing this with FRP, how can the tools be better?&rdquo; This is a
-very positive sign for FRP!
-
-#### How can the tools be better?
 
 A big part of improving the type checker was making it possible for information
 to flow between modules. This meant improving the build system.
