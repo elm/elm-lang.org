@@ -75,7 +75,8 @@ withFile handler fp = do
     Just content -> ok . toResponse $ handler fp content
     Nothing -> return404
 
-return404 = serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
+return404 =
+    notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
 
 -- | Compile an arbitrary Elm program from the public/ directory.
 compileFile :: FilePath -> ServerPart Response

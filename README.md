@@ -11,7 +11,8 @@ only need to think about the content.
 
 ### Set up
 
-First make sure that you have the Elm compiler installed ([directions](https://github.com/evancz/Elm#elm)).
+First make sure that you have the Elm compiler installed
+([directions](https://github.com/evancz/Elm#elm)).
 
 Then follow these steps to get this all running on your local machine:
 
@@ -19,7 +20,7 @@ Then follow these steps to get this all running on your local machine:
 
 - Fork this project.
 - Run `bash compile.sh`. This will compile the server.
-- Run `./Server` to start the server.
+- Run `./ElmServer` to start the server.
 
 ###### Windows
 
@@ -27,12 +28,6 @@ Then follow these steps to get this all running on your local machine:
 - Run `compile.bat`. This will compile the server and start it on your machine.
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at [localhost:8000/](http://localhost:8000/).
-
-### Options
-
-###### Production Mode
-
-By default, the server will recompile your source code on the fly each time a request comes in so you can edit your code and refresh to see the changes. Alternatively you can launch the server with `./Server prod` which will precompile all files in the `public/` folder to the `compiled` folder and serve directly from there.
 
 ### Project Structure
 

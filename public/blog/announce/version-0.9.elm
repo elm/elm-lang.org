@@ -48,31 +48,45 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
 </h1>
 
-[Elm](/)&rsquo;s type checker has been completely rewritten.
-At a high level, the key difference is simple: it works now.
+Before this release, my primary priority was: prove that
+FRP is pleasant and practical. If FRP is not the right way, it does
+not matter how good or bad the type checker is.
 
-  * Undefined values are errors. Finally.
-  * All type errors are caught and reported.
-  * Error messages are more specific and easier to read.
-  * It&rsquo;s fast.
+I recently started to feel that poor error messages had become
+the primary barrier for Elm. Questions started to shift from
+&ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
+doing this with FRP, how can the tools be better?&rdquo;
+This is a very positive sign!
 
-This is a huge step forward, creating a solid foundation for further improvement.
+To begin improving tools for FRP and Elm, the type checker has been
+completely rewritten. The key improvements are:
+
+  * Undefined values are errors
+  * All type errors are caught and reported
+  * Error messages are more specific and easier to read
+  * It&rsquo;s fast
+
+This is a huge step forward. It also creates a solid foundation
+for further improvement.
 
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
 
-  * Unary negation
-  * Pattern matching on literals and `as` patterns
-  * Multi-line strings
-  * Record constructors
+  * [Unary negation](#unary-negation)
+  * [Pattern matching on literals and `as` patterns](#pattern-matching)
+  * [Multi-line strings](#multi-line-strings)
+  * [Record constructors](#record-constructors)
 
 Finally, there are a bunch of miscellaneous improvements:
 
-  * API for detecting when the mouse hovers over an `Element`
-  * Set `alpha` of any `Form` for transparency in a `collage`
-  * Many bug fixes for `collage`, especially when rendering an `Element`
-  * `Text.height` use pixels instead of [ems][], after [much debate][]
+  * `elm-server` can serve multi-module projects
+  * [Detect mouse hover][hover]
+  * [Transparency in collages][alpha] and many bug fixes
+  * [`Text.height`][height] use pixels instead of [ems][], after [much debate][]
 
+  [hover]: http://elm-lang.org/docs/Graphics/Input.elm#hoverable
+  [alpha]: http://elm-lang.org/docs/Graphics/Collage.elm#alpha
+  [height]: http://elm-lang.org/docs/Text.elm#height
   [much debate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/specifying$20size$20of$20text/elm-discuss/3Iz-HpV1QRg/oHPoqWDgrmEJ
   [ems]: http://en.wikipedia.org/wiki/Em_(typography)
 
@@ -86,24 +100,10 @@ Maybe start the [download process][download] while you are reading!
 
 ## Type checker and Build Improvements
 
-This was a really big project for me, so I want to first thank Prezi
+This was a really big project, so I want to first thank Prezi
 for making all of this work possible! Also, thank you to Spiros and
 Laszlo for talking through issues with me as they came up; this was
 a huge help!
-
-#### Why was the type cheker bad before?
-
-Before this release, my primary priority was: prove that FRP is viable and good.
-If FRP is not the right way, it does not matter how good or bad the type checker
-is.
-
-I recently started to feel that the poor error messages were
-becoming the primary barrier for Elm. The questions have started to
-move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
-doing this with FRP, how can the tools be better?&rdquo; This is a
-very positive sign for FRP!
-
-#### How to make it better?
 
 A big part of improving the type checker was making it possible for information
 to flow between modules. This meant improving the build system.
@@ -132,12 +132,12 @@ for infix operators, so that should be arriving in a future release.
 
 #### Notes on the Type Checker
 
-With the build infrastructure was in place, cross-module type checking became
+With this build infrastructure in place, cross-module type checking became
 possible. The next task was understand and implement an efficienct type inference
 algorithm.
 
 To summarize, it is very tricky and there are few resources available that even
-discuss efficient practical implementations, let alone give details on specific
+*discuss* efficient practical implementations, let alone give details on specific
 techniques and strategies. I am planning to do a &ldquo;field guide to efficient
 type inference&rdquo; to make it easier for others to create a type inferencer
 that is correct and *fast*.
@@ -154,10 +154,10 @@ Languages. It is one of the best resources I have found.
 You can now pattern match on literals like numbers, strings, and booleans.
 
 ```haskell
-commasToSpaces str =
+stripCommas str =
   case str of
-    ',':rest -> ' ' : simpleEscape rest
-    c  :rest ->  c  : simpleEscape rest
+    ',' :: rest -> stripCommas rest
+    c   :: rest ->  c  :: stripCommas rest
 
 isOrigin pos =
   case pos of
@@ -187,37 +187,43 @@ step input (World mario goombas bricks as world) = ...
 
 I was very hesitant to add this feature because I had not seen a
 statically-typed functional language that I felt got this right.
-The issue is that the `(-)` operator overlaps with subtraction,
-so mathematical expressions can become ambiguous for the parser
-and reader.
 
-You get questions like: is `(x -1)` subtraction or is `(f -1)` function
-application with a negative argument?
+You get questions like: is `(x -1)` subtraction? Is `(f -1)` function
+application with a negative argument? From the perspective of the parser
+they are exactly the same, even though we can figure it out based on context.
 
-After [discussing many options][negate], we decided on the following requirements
-to classify a minus sign as unary negation:
+Writing `(x -1)` to mean subtraction is not recommended and is considered
+sloppy, whereas `(f -1)` is definitely going to come up quite quickly
+([it does in OCaml][ocaml]). After [discussing many options][negate],
+we decided to optimize for function application.
 
-  * it is preceded by whitespace or `(` or `[` or `,`
-  * no whitespace on the right, the negated value follows without spaces
+ [ocaml]: http://stackoverflow.com/questions/8984661/unary-minus-and-floating-point-number-in-ocaml
+ [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
-The following examples attempt to cover all of the cases you might see in the wild:
+In Elm, any unary negation operator must meet **both** of these requirements:
+
+  1. It is preceded by whitespace or `(` or `[` or `,`
+  2. It is *not* followed by whitespace
+
+Where whitespace means spaces, newlines, and comments.
+The following expressions show many cases you might encounter
+in the wild:
 
 ```haskell
-n - 1        -- subtraction
-n-1          -- subtraction
--10          -- negative ten
-- 10         -- parse error, no spaces allowed on right
-(-100,-100)  -- point in quadrant III
-abs -1       -- abs (-1)
-max -2 -4    -- max (-2) (-4)
-h - 3 - 5    -- subtraction twice
-n - -1       -- n + 1
+n - 1         -- subtraction
+n-1           -- subtraction, breaks requirement 1
+-10           -- negative ten
+- 10          -- parse error, breaks requirement 2
+( -1, -1 )    -- point in quadrant III
+[-1,-1,-1]    -- a list of negative ones
+abs -1        -- abs (-1)
+max -2 -4     -- max (-2) (-4)
+h - 3 - 5     -- subtraction twice
+n - -1        -- n + 1
 ```
 
 Another way to describe these rules is &ldquo;unary negation binds tighter than function
 application and infix operations.&rdquo;
-
-  [negate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/negation/elm-discuss/DcvoUKPzM_M/KIogCVoL9G0J
 
 In practice, I have found that this is how my brain parses code. I definitely read
 `(max -2 -4)` as a function, my brain blocks each syntactic unit into a semantic unit.
@@ -225,11 +231,10 @@ In practice, I have found that this is how my brain parses code. I definitely re
 This is similar to how `(.)` can mean many different things depending on spacing. It is
 unfortunate to overload, but I think this is the best solution given the constraints.
 
-#### Triple-quoted multi-line strings
+#### Multi-line Strings
 
-Just like Python, you can have big multi-line strings:
-This will make it easier to embed plain-text or JSON if
-necessary.
+Just like Python, you can use multi-line strings if you use the triple-quote.
+This will make it easier to embed plain-text or JSON if the text uses `"`.
 
 ```haskell
 json = """
