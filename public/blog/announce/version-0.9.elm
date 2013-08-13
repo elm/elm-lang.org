@@ -48,21 +48,21 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
 </h1>
 
-Before this release of [Elm](/), my primary priority was: prove that
+Before this release, my primary priority was: prove that
 FRP is pleasant and practical. If FRP is not the right way, it does
 not matter how good or bad the type checker is.
 
-I recently started to feel that the poor error messages were
-becoming the primary barrier for Elm. The questions have started to
-move from &ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
-doing this with FRP, how can the tools be better?&rdquo; This is a
-very positive sign!
+I recently started to feel that poor error messages had become
+the primary barrier for Elm. Questions started to shift from
+&ldquo;is this possible with FRP?&rdquo; to &ldquo;I am
+doing this with FRP, how can the tools be better?&rdquo;
+This is a very positive sign!
 
 To begin improving tools for FRP and Elm, the type checker has been
 completely rewritten. The key improvements are:
 
   * Undefined values are errors
-  * *All* type errors are caught and reported
+  * All type errors are caught and reported
   * Error messages are more specific and easier to read
   * It&rsquo;s fast
 
