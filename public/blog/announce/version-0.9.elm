@@ -57,7 +57,9 @@ At a high level, the key difference is simple: it works now.
   * It&rsquo;s fast
 
 This is a huge step forward. It also creates a solid foundation
-for further improvement.
+for further improvement. You may be thinking, &ldquo;Great, but why not sooner?&rdquo;
+In short, I must prioritize features, and it did not matter how good the type checker
+was if people were not interested in FRP or Elm. [More on this later](#why-not-sooner).
 
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
@@ -95,7 +97,7 @@ for making all of this work possible! Also, thank you to Spiros and
 Laszlo for talking through issues with me as they came up; this was
 a huge help!
 
-#### Why was the type checker bad before?
+#### Why not sooner?
 
 Before this release, my primary priority was: prove that FRP is viable and good.
 If FRP is not the right way, it does not matter how good or bad the type checker
