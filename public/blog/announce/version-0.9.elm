@@ -51,12 +51,13 @@ code > span.er { font-weight: bold; }
 [Elm](/)&rsquo;s type checker has been completely rewritten.
 At a high level, the key difference is simple: it works now.
 
-  * Undefined values are errors.
-  * All type errors are caught and reported.
-  * Error messages are more specific and easier to read.
-  * It&rsquo;s fast.
+  * Undefined values are errors
+  * All type errors are caught and reported
+  * Error messages are more specific and easier to read
+  * It&rsquo;s fast
 
-This is a huge step forward, creating a solid foundation for further improvement.
+This is a huge step forward. It also creates a solid foundation
+for further improvement.
 
 This release also introduces many frequently requested syntax improvements. The
 most notable are as follows:
