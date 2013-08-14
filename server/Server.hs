@@ -20,6 +20,7 @@ import System.Directory
 import qualified Language.Elm as Elm
 import ElmToHtml
 import Editor
+import Utils
 
 -- | Set up the server.
 main :: IO ()
@@ -128,7 +129,7 @@ adjustHtmlFile file =
              length src `seq`
              List.break (List.isInfixOf "<title>") (lines src)
      removeFile file
-     writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after))
+     writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after ++ [renderHtml googleAnalytics]))
   where
     style = 
         unlines . map ("    "++) $
