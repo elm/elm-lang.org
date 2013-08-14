@@ -8,9 +8,9 @@ scene (x,y) (w,h) =
       dy = (toFloat h / 2 - toFloat y)
   in  collage w h
        [ ngon 3 100
-          |> filled (rgb 0 85 170)
+          |> filled blue
           |> rotate (atan2 dy dx)
        , ngon 6 30
-          |> filled (rgba 255 127 0 0.7)
+          |> filled orange
           |> move (dx, dy)
        ]
