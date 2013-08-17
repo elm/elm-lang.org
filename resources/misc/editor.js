@@ -407,9 +407,10 @@ function initMenu() {
 }
 
 function initAutoHotSwap() {
-    var yes = readCookie('autoHotSwap') === 'true';
-    document.getElementById('auto_hot_swap_checkbox').checked = yes;
-    setAutoHotSwap(yes, true);
+    var status = readCookie('autoHotSwap') === 'true' ||
+                 window.location.pathname.indexOf("Bounce") >= 0;
+    document.getElementById('auto_hot_swap_checkbox').checked = status;
+    setAutoHotSwap(status, true);
 }
 
 function initEditor() {
