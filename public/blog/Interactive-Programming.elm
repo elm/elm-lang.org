@@ -63,12 +63,11 @@ creating an IDE for interactive programming.
 Elm takes the next step, exploring what it means to be a *language* for
 interactive programming.
 
-Modifying running code is traditionally called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
-[It is not a new concept](http://www.erlang.org/), it is just hard to do in languages that
-freely mix functions, data, and side-effects. In a purely functional language like Elm,
-hot-swapping works quite easily and naturally.
+Interactive programming centers around the concept of [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
+Hot-swapping means *modifying running code*. It means you do not have to
+restart your program to change its behavior.
 
-Elm&rsquo;s online editor now allows you to modify running code:
+Elm&rsquo;s online editor now supports hot-swapping, so let&rsquo;s see it in action:
 
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/cI__rjCiH_k"
@@ -125,6 +124,10 @@ on the CoCC. This is no coincidence.
 In a language like JavaScript where side-effects can happen anywhere
 and program state is scattered haphazardly throughout the codebase, .
 
+
+[It is not a new concept](http://www.erlang.org/), it is just hard to do in languages that
+freely mix functions, data, and side-effects. In a purely functional language like Elm,
+hot-swapping works quite easily and naturally.
 
 ### Fast Compilation: Modern Module System
 
