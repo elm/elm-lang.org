@@ -61,7 +61,7 @@ open fp =
   do exists <- liftIO (doesFileExist file)
      if exists then openFile else return Nothing
   where
-    file = "public/" ++ fp
+    file = "public/" ++ takeWhile (/='?') fp
     openFile = liftIO $ catch (fmap Just $ readFile file) handleError
 
     handleError :: SomeException -> IO (Maybe String)
