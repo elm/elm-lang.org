@@ -63,7 +63,7 @@ creating an IDE for interactive programming.
 Elm takes the next step, exploring what it means to be a *language* for
 interactive programming. Elm&rsquo;s online editor now allows you to modify
 running code, so you do not have to restart your program to change its behavior.
-Let&rsquo;s see it in action!
+Let&rsquo;s see it in action:
 
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/cI__rjCiH_k"
@@ -96,74 +96,64 @@ During those four days, it became very clear that the practicality of supporting
 interactive programming was directly related to the abstractions (or lack-thereof) in
 the language.
 
-## Interactive Programming needs the right Language
+## How Hot-Swapping Works in Elm
 
-Languages impose fundamental limitations on speed and quality of feedback.
-Hot-swapping is just one aspect of interactive programming. The *right*
-language for interactive programming would be able to provide:
+signal graph, nodes are associated with a pure function and an immutable value
 
- * [Hot-Swapping](#hot-swapping-pure-functions-and-immutable-data)
- * [Fast Compilation](#fast-compilation-modern-module-system)
- * [Useful Error Messages](#useful-error-messages-static-type-system)
+## Language-Level advantages of Elm
 
-In each of these cases, developers can get faster and better feedback,
-but this is only possible in languages that are *designed* for it.
-It is only possible in languages that **take abstractions seriously**.
+Not all languages are going to work well for interactive programming. There
+are a number of key language features that make hot-swapping a fundamentally better
+experience in Elm.
 
-These three properties of interactive programming&mdash;hot-swapping, fast compilation,
-and useful error messages&mdash;are directly related to the language
-you are working in. In fact, each one comes from specific language features.
+### Pure Functions
 
-### Hot-Swapping: Pure Functions and Immutable Data
+### Immutable Values
+
+### Static Types
+
+In some cases it is impossible to do a hot-swap with a running program.
+If the data-structures used in the program change, the new functions and old
+state become incompatable.
+
+Say we switch from representing points as tuples like `(3,4)` and move
+to records like `{x=3,y=4}`. Swapping in the new functions will cause errors.
+
+In a dynamically typed language like JavaScript, you would just swap the code and
+*hope* the runtime error happens quickly and is easy to reproduce. The programmer
+will be left wondering if their code was wrong or if there was a problem hot-swapping.
+Perhaps the programmer starts chasing a bug that does not even exist.
+
+In a staticly typed language like Elm, it is possible to find these problems
+immediately and restart the program, which would be necessary with or without
+static types. It is just that in this case, the programmer can be sure that
+any error they see is an error that matters, not an accident of hot-swapping.
+
+### Static Signal Graphs
+
+In Elm, the structure of signal graphs is known as soon as the program starts
+and does not change. Elm&rsquo;s static signal graphs are possible because
+Elm does not permit signals-of-signals.
+
+Many other FRP frameworks, particularly in imperative languages, allow signal
+graphs to change over time. When the structure of the signal graph no longer
+matches the the initial structure, hot-swapping becomes very difficult. It is
+no longer clear how the new functions should mix with the old state.
+
+## Interactive Programming
 
 Elm and Erlang both support hot-swapping. Both languages only allow
 pure functions and only provide immutable data. In fact, both are based
 on the CoCC. This is no coincidence.
 
-In a language like JavaScript where side-effects can happen anywhere
-and program state is scattered haphazardly throughout the codebase, .
-
+In JavaScript, side-effects can happen anywhere and program state is
+scattered haphazardly throughout the codebase. To ask &ldquo;how does the initial state
+of my program connect to the current state?&rdquo; barely makes sense. because you must
+execute your program 
 
 [It is not a new concept](http://www.erlang.org/), it is just hard to do in languages that
 freely mix functions, data, and side-effects. In a purely functional language like Elm,
 hot-swapping works quite easily and naturally.
 
-### Fast Compilation: Modern Module System
-
-While working on backend services within gmail, waiting for my C++ servers
-to compile was a fundamental fact of life. The stone-age linking process
-used by C++ means that compilation can be *exponential* in the number of files!
-This is not a problem that can be solved by faster or more hardware, although
-Google has already used both of these methods to improve compile times.
-Between all of Google&rsquo;s engineers, the cost of this is huge, [whether you
-measure it in productivity, coffee, or snacks](http://imgs.xkcd.com/comics/compiling.png).
-
-One of the primary design goals of Go is to cut compilation time out of
-an engineers day. Go set out to solve the complitation delays at the *language*
-level. By choosing the right lanugage features, Go was able to bring compile
-times down to O(n) if you are compiling from scratch. From there Go can use
-cached information so that only needs to compile files that have been changed.
-
-This is a small step towards immediate feedback in compiled languages. In fact,
-many *modern* compiled languages use a very similar strategy.
-
-### Useful Error Messages: Static Type System
-
-A static type system makes it possible to catch many common errors at compile time.
-This is an important feature of Elm and I think it is quite helpful.
-
-That said, I have found that debate is not a viable strategy for this topic.
-The best argument I can make is to recommend extensively using a statically-typed
-functional language with type inference and seeing if you like it.
-
-I think the key problem is that when people hear &ldquo;static types&rdquo;
-they think of Java. This is the definition of a marketing problem.
-Not all static type systems are equal, and I think languages like OCaml, F#,
-Haskell, and Elm are much better representatives of static types.
-
-People will tell you things like, &ldquo;makes development faster&rdquo;,
-&ldquo;fewer bugs&rdquo;, &ldquo;not just for academics&rdquo;, yada, yada, yada.
-None of that is going to convince you. Just try out a language with a proper type
-system and *then* make up your mind.
 
 |]
