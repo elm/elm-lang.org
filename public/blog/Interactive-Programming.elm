@@ -61,13 +61,9 @@ creating an IDE for interactive programming.
  [ip]: http://en.wikipedia.org/wiki/Interactive_programming
 
 Elm takes the next step, exploring what it means to be a *language* for
-interactive programming.
-
-Interactive programming centers around the concept of [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
-Hot-swapping means *modifying running code*. It means you do not have to
-restart your program to change its behavior.
-
-Elm&rsquo;s online editor now supports hot-swapping, so let&rsquo;s see it in action:
+interactive programming. Elm&rsquo;s online editor now allows you to modify
+running code, so you do not have to restart your program to change its behavior.
+Let&rsquo;s see it in action!
 
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/cI__rjCiH_k"
@@ -76,6 +72,9 @@ Elm&rsquo;s online editor now supports hot-swapping, so let&rsquo;s see it in ac
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="640" height="480"></iframe>
 </div>
+
+In Elm, this is called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
+Hot-swapping means *modifying running code*.
 
 Support for hot-swapping is live, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm)
