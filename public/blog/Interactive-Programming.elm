@@ -126,13 +126,8 @@ to compile was a fundamental fact of life. The stone-age linking process
 used by C++ means that compilation can be *exponential* in the number of files!
 This is not a problem that can be solved by faster or more hardware, although
 Google has already used both of these methods to improve compile times.
-Between all of Google&rsquo;s engineers, the cost of this is huge, whether you
-measure it in productivity, coffee, or snacks.
-
-<img src="http://imgs.xkcd.com/comics/compiling.png"
-     style="height:180px; float:right;"
-     title="Over-used, but still relevant"
-     alt="Compiling">
+Between all of Google&rsquo;s engineers, the cost of this is huge, [whether you
+measure it in productivity, coffee, or snacks](http://imgs.xkcd.com/comics/compiling.png).
 
 One of the primary design goals of Go is to cut compilation time out of
 an engineers day. Go set out to solve the complitation delays at the *language*
