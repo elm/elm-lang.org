@@ -78,7 +78,7 @@ Hot-swapping means *modifying running code*.
 
 Support for hot-swapping is live, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm)
-or play with the bouncing ball below. As you tweak the colors, shapes,
+and play with the bouncing ball below. As you tweak the colors, shapes,
 and physics in the code, you will see the ball update automatically.
 
 <iframe src="/edit/examples/Reactive/Bounce.elm?cols=100%25%2C150px"
