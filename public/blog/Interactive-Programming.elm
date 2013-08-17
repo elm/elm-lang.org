@@ -48,44 +48,51 @@ code > span.er { font-weight: bold; }
 </h1>
 
 JavaScript proved that the development loop can be as short as refreshing
-your browser. This kind of [interactive programming][ip] is very powerful
-for quickly iterating and testing an idea, making programming more accessible
-and more fun.
+your browser. By now it is obvious that this is great for quickly iterating
+and testing an idea, making programming more accessible and more fun.
+
+This was the first step towards [interactive programming][ip]: the ability to
+modify and interact with programs *while they are running*.
+Articles like [Learnable Programming](http://worrydream.com/LearnableProgramming/)
+explore the potential of interactive programming.
+Projects like [LightTable](http://www.lighttable.com/) work on the tooling,
+creating an IDE for interactive programming.
 
  [ip]: http://en.wikipedia.org/wiki/Interactive_programming
-
-Articles like [Learnable Programming](http://worrydream.com/LearnableProgramming/)
-are presenting ideas on what interactive programming might look like. Projects like
-[LightTable](http://www.lighttable.com/) are taking this concept further, making
-an IDE for interactive programming.
 
 Elm takes the next step, exploring what it means to be a *language* for
 interactive programming.
 
 Modifying running code is traditionally called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
-[It is not a new concept](http://www.erlang.org/), it is just hard to do in most languages.
-Turns out, it is very easy in Elm.
+[It is not a new concept](http://www.erlang.org/), it is just hard to do in languages that
+freely mix functions, data, and side-effects. In a purely functional language like Elm,
+hot-swapping works quite easily and naturally.
+
+Elm&rsquo;s online editor now allows you to modify running code:
 
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-<iframe src="//www.youtube.com/embed/SmUD0vbSUHg"
+<iframe src="//www.youtube.com/embed/cI__rjCiH_k"
         frameborder="0"
         allowfullscreen
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="640" height="480"></iframe>
 </div>
 
-Support for hot-swapping is live, so you can [mess with Mario too](/edit/examples/Intermediate/Mario.elm).
-Just check the auto-swap button in the editor. As you tweak the code
-below&mdash;colors, numbers, etc.&mdash;you will see the program update
-automatically.
+Support for hot-swapping is live, so you can [mess with Mario
+yourself](/edit/examples/Intermediate/Mario.elm)
+or play with the bouncing ball below. As you tweak the colors, shapes,
+and physics in the code, you will see the ball update automatically.
 
-<iframe src="/edit/examples/Intermediate/Clock.elm" 
+<iframe src="/edit/examples/Reactive/Bounce.elm?cols=100%25%2C150px"
         frameborder="0"
-        style="overflow:hidden;height:300px;width:100%"
-        height="300px" width="100%"></iframe>
+        style="overflow:hidden; height:400px; width:100%"
+        height="400px" width="100%"></iframe>
 
-Perhaps the most interesting thing about hot-swapping is that it was quite
-easy to add. It took about four days.
+There are [many more examples](/examples/Intermediate.elm), so you can
+continue to explore Elm and hot-swapping.
+
+Perhaps the most interesting thing about adding hot-swapping to Elm was that it
+was quite easy. It took about four days.
 
 During those four days, it became very clear that the practicality of supporting
 interactive programming was directly related to the abstractions (or lack-thereof) in
