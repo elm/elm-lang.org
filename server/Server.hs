@@ -43,7 +43,7 @@ route empty rest = do
        , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
        , dir "hotswap" $ compilePart elmToJS
        , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?v0.9"
-       , dir "edit" . uriRest $ withFile ide
+       , dir "edit" serveEditor
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
        , rest
@@ -67,6 +67,10 @@ open fp =
     handleError :: SomeException -> IO (Maybe String)
     handleError _ = return Nothing
 
+serveEditor :: ServerPart Response
+serveEditor = do
+  cols <- look "cols"
+  uriRest $ withFile (ide (if null cols then "50%,50%" else cols))
 
 -- | Do something with the contents of a File.
 withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response

@@ -10,22 +10,24 @@ import Network.HTTP.Base (urlEncode)
 import qualified System.FilePath as FP
 
 -- | Display an editor and the compiled result side-by-side.
-ide :: FilePath -> String -> Html
-ide fileName code = ideBuilder ("Elm Editor: " ++ FP.takeBaseName fileName)
-                               fileName
-                               ("/compile?input=" ++ urlEncode code)
+ide :: String -> FilePath -> String -> Html
+ide cols fileName code =
+    ideBuilder cols
+               ("Elm Editor: " ++ FP.takeBaseName fileName)
+               fileName
+               ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
-emptyIDE = ideBuilder "Try Elm" "Empty.elm" "/Try.elm"
+emptyIDE = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
 
-ideBuilder :: String -> String -> String -> Html
-ideBuilder title input output =
+ideBuilder :: String -> String -> String -> String -> Html
+ideBuilder cols title input output =
     H.docTypeHtml $ do
       H.head $ do
         H.title . toHtml $ title
       preEscapedToMarkup $ 
-         concat [ "<frameset cols=\"50%,50%\">\n"
+         concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
                 , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
                 , "  <frame name=\"output\" src=\"", output, "\" />\n"
                 , "</frameset>" ]
