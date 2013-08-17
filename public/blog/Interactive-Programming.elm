@@ -100,11 +100,23 @@ the language.
 
 signal graph, nodes are associated with a pure function and an immutable value
 
-## Language-Level advantages of Elm
+swap the pure function, keep the state
+
+## Language Features that make Hot-Swapping Easy
 
 Not all languages are going to work well for interactive programming. There
-are a number of key language features that make hot-swapping a fundamentally better
-experience in Elm.
+are a number of key language features that make hot-swapping easy to implement,
+and much more importantly, easy to use. 
+
+Hot-swapping is fundamentally nicer to work with in a language that has:
+
+ * Pure Functions
+ * Immutable Values
+ * Static Types
+ * Predictable Structure
+
+I am not saying that all of these features are strictly required for hot-swapping,
+just that having them results in a better experience for programmers. Here&rsquo;s why:
 
 ### Pure Functions
 
