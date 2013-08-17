@@ -4,7 +4,7 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Live Coding in Elm")
+title = constant (JS.fromString "Interactive Programming in Elm")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
@@ -74,7 +74,7 @@ Turns out, it is very easy in Elm.
         width="640" height="480"></iframe>
 </div>
 
-Support for interactive programming is already live on this site.
+Support for hot-swapping is live, so you can [mess with Mario too](/edit/examples/Intermediate/Mario.elm).
 Just check the auto-swap button in the editor. As you tweak the code
 below&mdash;colors, numbers, etc.&mdash;you will see the program update
 automatically.
@@ -84,7 +84,7 @@ automatically.
         style="overflow:hidden;height:300px;width:100%"
         height="300px" width="100%"></iframe>
 
-Perhaps the most interesting thing about this feature is that it was quite
+Perhaps the most interesting thing about hot-swapping is that it was quite
 easy to add. It took about four days.
 
 During those four days, it became very clear that the practicality of supporting
