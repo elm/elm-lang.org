@@ -11,7 +11,13 @@ foreign export jsevent "title"
 main = lift (skeleton everything) Window.width
 
 everything w =
-    width w intro
+  let w' = min 600 w in
+  flow down
+  [ width w' intro
+  , width w  video
+  , width w' segue
+  , width w  editor
+  , width w' rest ]
 
 intro = [markdown|
 
@@ -64,7 +70,9 @@ Elm takes the next step, exploring what it means to be a *language* for
 interactive programming. Elm&rsquo;s online editor now allows you to modify
 running code, so you do not have to restart your program to change its behavior.
 Let&rsquo;s see it in action:
+|]
 
+video = [markdown|
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/cI__rjCiH_k"
         frameborder="0"
@@ -72,7 +80,9 @@ Let&rsquo;s see it in action:
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="640" height="480"></iframe>
 </div>
+|]
 
+segue = [markdown|
 In Elm, this is called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
 Hot-swapping means *modifying running code*.
 
@@ -80,12 +90,16 @@ Support for hot-swapping is live, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm)
 and play with the bouncing ball below. As you tweak the colors, shapes,
 and physics in the code, you will see the ball update automatically.
+|]
 
+editor = [markdown|
 <iframe src="/edit/examples/Reactive/Bounce.elm?cols=100%25%2C150px"
         frameborder="0"
         style="overflow:hidden; height:400px; width:100%"
         height="400px" width="100%"></iframe>
+|]
 
+rest = [markdown|
 There are [many more examples](/examples/Intermediate.elm), so you can
 continue to explore Elm and hot-swapping.
 
@@ -102,7 +116,7 @@ signal graph, nodes are associated with a pure function and an immutable value
 
 swap the pure function, keep the state
 
-## Language Features that make Hot-Swapping Easy
+## Language Features that make Hot-Swapping easy
 
 Not all languages are going to work well for interactive programming. There
 are a number of key language features that make hot-swapping easy to implement,
@@ -120,7 +134,39 @@ just that having them results in a better experience for programmers. Here&rsquo
 
 ### Pure Functions
 
+[Pure Functions](http://en.wikipedia.org/wiki/Pure_function) have no
+observable side-effects. This means the same arguments *always* give
+the same results.
+
+In most programming languages, impure functions are very very common.
+These are functions that may depend on some mutable value, giving different
+results depending on the state of *the rest of the program*.
+
+To implement hot-swapping for impure functions, you must be sure that ???
+
 ### Immutable Values
+
+[Immutable values](http://en.wikipedia.org/wiki/Immutable_object)
+cannot be modified after creation. The key benefit for interactive programming
+is [referential transparency](http://en.wikipedia.org/wiki/Referential_transparency_(computer_science)).
+
+Referential transparency means that the memory address of values are not important
+for understanding a program. With mutable values, the behavior of a function or
+system may depend on referencing a specific object in memory, or if two objects
+have the same address in memory.
+
+In a language with mutable values, hot-swapping *must* take this
+into consideration. To swap code in may mean figuring out if an objects *address
+in memory* must be preserved! Unfortunately, this depends on the meaning of the
+code. In some cases, it will be right to have a new address, in other cases,
+it will be right to try to use the old one.
+
+Figuring this out greatly complicates the process of swapping in code. If the wrong
+choice is made, it will lead to unexpected behavior. The programmer will be left wondering
+if their no code introduced a bug or if it was just a case of bad hot-swapping. Perhaps
+they start hunting for a bug that does not exist. Perhaps they ignore a bug that *does*.
+
+Immutable values make hot-swapping predictable and reliable.
 
 ### Static Types
 
@@ -141,7 +187,7 @@ immediately and restart the program, which would be necessary with or without
 static types. It is just that in this case, the programmer can be sure that
 any error they see is an error that matters, not an accident of hot-swapping.
 
-### Static Signal Graphs
+### Predictable Structure
 
 In Elm, the structure of signal graphs is known as soon as the program starts
 and does not change. Elm&rsquo;s static signal graphs are possible because
