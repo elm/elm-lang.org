@@ -54,17 +54,19 @@ skeleton bodyFunc outer =
 style = [markdown|
 <style type="text/css">
 pre {
-  background-color: rgb(245,245,245);
   margin: 0 30px;
   padding: 4px 10px;
-  border-left: solid 2px rgb(96,181,204);
+  border-top:    solid 2px rgb(96,181,204);
+  border-left:   solid 2px rgb(240,173,0);
+  border-right:  solid 2px rgb(234,21,122);
+  border-bottom: solid 2px rgb(127,209,59);
 }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: #f8f8f8; }
+table.sourceCode { width: 100%; background-color: white; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
+pre, code { background-color: white; }
 code > span.kw { color: #204a87; font-weight: bold; }
 code > span.dt { color: #204a87; }
 code > span.dv { color: #0000cf; }
