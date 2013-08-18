@@ -35,7 +35,7 @@ title = [markdown|
 
 intro = [markdown|
 <style type="text/css">
-p {
+p, li {
   text-align: justify;
   line-height: 1.5em;
 }
@@ -71,7 +71,7 @@ video = [markdown|
 
 segue = [markdown|
 <style type="text/css">
-p {
+p, li {
   text-align: justify;
   line-height: 1.5em;
 }
@@ -95,9 +95,12 @@ editor = [markdown|
 rest = [markdown|
 
 <style type="text/css">
-p {
+p, li {
   text-align: justify;
   line-height: 1.5em;
+}
+h2, h3, h4 {
+  font-family: futura; 
 }
 </style>
 
@@ -125,49 +128,46 @@ and much more importantly, easy to use.
 
 Hot-swapping is fundamentally nicer to work with in a language that has:
 
- * Pure Functions
- * Immutable Values
- * Static Types
- * Predictable Structure
+ * [Immutable Values](#immutable-values)
+ * [Static Types](#static-types)
+ * [Predictable Structure](#predictable-structure)
 
 I am not saying that all of these features are strictly required for hot-swapping
 or interactive programming. I am saying that having them results in a better experience
 for programmers. Let&rsquo;s examine these language features individually to see why
 each provides concrete benefits for hot-swapping.
 
-### Pure Functions
-
-[Pure Functions](http://en.wikipedia.org/wiki/Pure_function) have no
-observable side-effects. This means the same arguments *always* give
-the same results.
-
-In most programming languages, impure functions are very very common.
-These are functions that may depend on some mutable value, giving different
-results depending on the state of *the rest of the program*.
-
-To implement hot-swapping for impure functions, you must be sure that ???
-
 ### Immutable Values
 
-[Immutable values](http://en.wikipedia.org/wiki/Immutable_object)
-cannot be modified after creation. The key benefit for interactive programming
-is [referential transparency](http://en.wikipedia.org/wiki/Referential_transparency_(computer_science)).
+[Immutability](http://en.wikipedia.org/wiki/Immutable_object)
+is a programming strategy that can be used in any language to make
+code easier to understand, test, and debug.
 
-Referential transparency means that the memory address of values are not important
-for understanding a program. With mutable values, the behavior of a function or
-system may depend on referencing a specific object in memory, or if two objects
-have the same address in memory.
+Immutability means *values cannot be modified after creation*. You can
+create new values, but you cannot change old ones.
 
-In a language with mutable values, hot-swapping *must* take this
-into consideration. To swap code in may mean figuring out if an objects *address
-in memory* must be preserved! Unfortunately, this depends on the meaning of the
-code. In some cases, it will be right to have a new address, in other cases,
-it will be right to try to use the old one.
+In a mutable world, the behavior of the function depends not only on
+other functions that can modify the shared state, but also on the
+*order* in which those functions were used. This is a big part of why stack
+traces are so valuable in languages Java and JavaScript.
 
-Figuring this out greatly complicates the process of swapping in code. If the wrong
-choice is made, it will lead to unexpected behavior. The programmer will be left wondering
-if their no code introduced a bug or if it was just a case of bad hot-swapping. Perhaps
-they start hunting for a bug that does not exist. Perhaps they ignore a bug that *does*.
+Limiting yourself to immutable values gives you a very important property:
+*giving a function the same arguments **always** gives the same result*.
+
+This is huge for hot-swapping. Immutability guarantees that you can simply
+swap in a function by name, the internal details do not matter. With immutability,
+a function cannot have internal state or shared state
+that must be migrated through the hot-swap.
+
+With mutable values, hot-swapping must examine the details of each function
+and find any state that must be preserved. It must also figure out how that
+state relates to the state in the *new* function, which may not always be possible.
+
+Figuring this out greatly complicates the process of swapping in code, and if
+state is not preserved correctly it will lead to unexpected behavior.
+The programmer will be left wondering if their no code introduced a bug
+or if it was just a case of bad hot-swapping. Perhaps they start hunting
+for a bug that does not exist. Perhaps they ignore a bug that *does*.
 
 Immutable values make hot-swapping predictable and reliable.
 
@@ -181,9 +181,11 @@ Let&rsquo;s make this more concrete. The following two functions are *not* inter
 even though they do the same thing:
 
 ```haskell
+
 distance (x,y) = sqrt (x^2 + y^2)
 
 distance point = sqrt (point.x^2 + point.y^2)
+ 
 ```
 
 Swapping in the new function will definitely cause errors.
@@ -210,20 +212,30 @@ graphs to change over time. When the structure of the signal graph no longer
 matches the the initial structure, hot-swapping becomes very difficult. It is
 no longer clear how the new functions should mix with the old state.
 
-## Interactive Programming
+## The Future of Interactive Programming in Elm
 
-Elm and Erlang both support hot-swapping. Both languages only allow
-pure functions and only provide immutable data. In fact, both are based
-on the CoCC. This is no coincidence.
+Elm makes many language-level decisions that make Interactive Programming easy
+to implement and pleasant to use, but hot-swapping in Elm is not perfect yet.
+There are still some tough questions:
 
-In JavaScript, side-effects can happen anywhere and program state is
-scattered haphazardly throughout the codebase. To ask &ldquo;how does the initial state
-of my program connect to the current state?&rdquo; barely makes sense. because you must
-execute your program 
+  * Can a hot-swap be performed when the signal graph changes? Perhaps in
+    a limited subset of &ldquo;safe&rdquo; changes?
+  * When the state that is persisted across a hot-swap is a function that uses
+    [continuaution passing style](http://en.wikipedia.org/wiki/Continuation-passing_style),
+    is it necessary to be more clever about how hot-swapping works?
 
-[It is not a new concept](http://www.erlang.org/), it is just hard to do in languages that
-freely mix functions, data, and side-effects. In a purely functional language like Elm,
-hot-swapping works quite easily and naturally.
+There are also some fun questions:
 
+  * How can ideas some of the more extreme ideas from Learnable Programming
+    make hot-swapping an even better experience?
+  * How would Elm integrate with an IDE like LightTable that is already focused
+    on making the tools for Interactive Programming?
+
+Both of these questions are more on the IDE and tooling side of things.
+My goal is for Elm to provide a solid foundation for Interactive Programming
+*at the language level* so that the development tools are easier to make and use.
+Elm&rsquo;s online editor is a proof of concept, so I am excited to see what
+the developers of proper IDEs and development tools can do when a *language*
+makes hot-swapping is easy!
 
 |]
