@@ -142,4 +142,5 @@ adjustHtmlFile file =
         , "  a:visited {text-decoration: none}"
         , "  a:active {text-decoration: none}"
         , "  a:hover {text-decoration: underline; color: rgb(234,21,122);}"
+        , "  body { font-family: calibri, verdana, helvetica, arial }"
         , "</style>" ]

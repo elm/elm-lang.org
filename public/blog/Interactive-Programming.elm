@@ -1,59 +1,47 @@
 
-import Website.Skeleton (skeleton)
+import Website.Blog (skeleton)
 import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Interactive Programming in Elm")
+pageTitle = constant (JS.fromString "Interactive Programming in Elm")
 foreign export jsevent "title"
-  title : Signal JS.JSString
+  pageTitle : Signal JS.JSString
 
 main = lift (skeleton everything) Window.width
 
-everything w =
-  let w' = min 600 w in
+everything wid =
+  let w  = truncate (toFloat wid * 0.8)
+      w' = min 600 w
+      section txt =
+          let words = width w' txt in
+          container w (heightOf words) middle words
+  in
   flow down
-  [ width w' intro
-  , width w  video
-  , width w' segue
-  , width w  editor
-  , width w' rest ]
+  [ width w title
+  , section intro
+  , width w video
+  , section segue
+  , width w editor
+  , section rest ]
+
+title = [markdown|
+<br/>
+<div style="font-family: futura; text-align: center;">
+<div style="font-size: 4em;">Interactive Programming</div>
+<div style="font-size: 1.5em;">Modifying Running Programs</div>
+</div>
+|]
 
 intro = [markdown|
-
 <style type="text/css">
-p { text-align: justify }
-pre {
- background-color: rgb(245,245,245);
- margin: 0 30px;
- padding: 4px 10px;
- border-left: solid 2px rgb(96,181,204);
+p {
+  text-align: justify;
+  line-height: 1.5em;
 }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Interactive Programming
-<div style="font-size:0.5em;font-weight:normal">*Modifying Running Programs / Immediate Feedback*</div></div>
-</h1>
-
-JavaScript proved that the development loop can be as short as refreshing
+<br/>JavaScript proved that the development loop can be as short as refreshing
 your browser. By now it is obvious that this is great for quickly iterating
 and testing an idea, making programming more accessible and more fun.
 
@@ -68,8 +56,7 @@ creating an IDE for interactive programming.
 
 Elm takes the next step, exploring what it means to be a *language* for
 interactive programming. Elm&rsquo;s online editor now allows you to modify
-running code, so you do not have to restart your program to change its behavior.
-Let&rsquo;s see it in action:
+running code, so you do not have to restart your program to change its behavior:
 |]
 
 video = [markdown|
@@ -83,6 +70,12 @@ video = [markdown|
 |]
 
 segue = [markdown|
+<style type="text/css">
+p {
+  text-align: justify;
+  line-height: 1.5em;
+}
+</style>
 In Elm, this is called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
 Hot-swapping means *modifying running code*.
 
@@ -100,6 +93,14 @@ editor = [markdown|
 |]
 
 rest = [markdown|
+
+<style type="text/css">
+p {
+  text-align: justify;
+  line-height: 1.5em;
+}
+</style>
+
 There are [many more examples](/examples/Intermediate.elm), so you can
 continue to explore Elm and hot-swapping.
 
@@ -129,8 +130,10 @@ Hot-swapping is fundamentally nicer to work with in a language that has:
  * Static Types
  * Predictable Structure
 
-I am not saying that all of these features are strictly required for hot-swapping,
-just that having them results in a better experience for programmers. Here&rsquo;s why:
+I am not saying that all of these features are strictly required for hot-swapping
+or interactive programming. I am saying that having them results in a better experience
+for programmers. Let&rsquo;s examine these language features individually to see why
+each provides concrete benefits for hot-swapping.
 
 ### Pure Functions
 
@@ -174,13 +177,22 @@ In some cases it is impossible to do a hot-swap with a running program.
 If the data-structures used in the program change, the new functions and old
 state become incompatable.
 
-Say we switch from representing points as tuples like `(3,4)` and move
-to records like `{x=3,y=4}`. Swapping in the new functions will cause errors.
+Let&rsquo;s make this more concrete. The following two functions are *not* interchangeble
+even though they do the same thing:
+
+```haskell
+distance (x,y) = sqrt (x^2 + y^2)
+
+distance point = sqrt (point.x^2 + point.y^2)
+```
+
+Swapping in the new function will definitely cause errors.
 
 In a dynamically typed language like JavaScript, you would just swap the code and
 *hope* the runtime error happens quickly and is easy to reproduce. The programmer
 will be left wondering if their code was wrong or if there was a problem hot-swapping.
-Perhaps the programmer starts chasing a bug that does not even exist.
+Perhaps the programmer starts chasing a bug that does not even exist. Perhaps
+the programmer ignores a bug that *does* exist!
 
 In a staticly typed language like Elm, it is possible to find these problems
 immediately and restart the program, which would be necessary with or without
