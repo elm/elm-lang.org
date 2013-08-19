@@ -45,17 +45,17 @@ p, li {
 your browser. This is great for quickly iterating and testing an idea, making
 programming more accessible and more fun.
 
-This was the first step towards [interactive programming][ip]: the ability to
+This was the first step towards [Interactive Programming][ip]: the ability to
 modify and interact with programs *while they are running*.
 Articles like [Learnable Programming](http://worrydream.com/LearnableProgramming/)
-explore the potential of interactive programming.
+explore the potential of Interactive Programming.
 Projects like [LightTable](http://www.lighttable.com/) work on the tooling,
-creating an IDE for interactive programming.
+creating an IDE for Interactive Programming.
 
  [ip]: http://en.wikipedia.org/wiki/Interactive_programming
 
 Elm takes the next step, exploring what it means to be a *language* for
-interactive programming. Elm&rsquo;s online editor now allows you to modify
+Interactive Programming. Elm&rsquo;s online editor now allows you to modify
 running code, so you do not have to restart your program to change its behavior:
 |]
 
@@ -111,7 +111,7 @@ Perhaps the most interesting thing about adding hot-swapping to Elm was that it
 was quite easy. It took about four days.
 
 During those four days, it became very clear that the practicality of supporting
-interactive programming was directly related to the abstractions (or lack-thereof) in
+Interactive Programming was directly related to the abstractions (or lack-thereof) in
 the language.
 
 ## How Hot-Swapping Works in Elm
@@ -122,7 +122,7 @@ swap the pure function, keep the state
 
 ## Language Features that make Hot-Swapping easy
 
-Not all languages are going to work well for interactive programming. There
+Not all languages are going to work well for Interactive Programming. There
 are a number of key language features that make hot-swapping easy to implement,
 and much more importantly, easy to use. 
 
@@ -133,7 +133,7 @@ Hot-swapping is fundamentally nicer to work with in a language that has:
  * [Predictable Structure](#predictable-structure)
 
 I am not saying that all of these features are strictly required for hot-swapping
-or interactive programming. I am saying that having them results in a better experience
+or Interactive Programming. I am saying that having them results in a better experience
 for programmers. Let&rsquo;s examine these language features individually to see why
 each provides concrete benefits for hot-swapping.
 
