@@ -114,17 +114,40 @@ During those four days, it became very clear that the practicality of supporting
 Interactive Programming was directly related to the abstractions (or lack-thereof) in
 the language.
 
-## How Hot-Swapping Works in Elm
+## How hot-swapping works in Elm
 
-signal graph, nodes are associated with a pure function and an immutable value
+Elm uses *signals* to represent values as they flow through the program.
+An Elm program is basically a network for processing these values. This
+event processing network is called a [signal graph][].
 
-swap the pure function, keep the state
+  [signal graph]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html
 
-## Language Features that make Hot-Swapping easy
+  VIDEO
 
-Not all languages are going to work well for Interactive Programming. There
-are a number of key language features that make hot-swapping easy to implement,
-and much more importantly, easy to use. 
+Each node in the signal graph is associated with a pure function. When
+we hot-swap, we need to replace these functions. Some nodes may also
+hold state, keeping a record of the previous frame. This is what we
+must preserve to maintain the existing state of our application.
+
+To implement hot-swapping, one simply needs to compile the new program
+and copy the state over from the old signal graph. This is quite
+easy to do in JavaScript, but since hot-swapping only
+requires copying values from the old signal graph to the new
+one, it can be done quite easily even in languages that are not
+dynamic. It is just reassigning a variable.
+
+Not all languages are going to work so well with Interactive Programming.
+Hot-swapping was incredebly straightforward in Elm, but only because Elm has
+strong abstractions that drastically simplify the problem.
+
+## Language features that make hot-swapping easy
+
+There are a number of key language features that make hot-swapping
+easy to implement, and much more importantly, easy to use.
+
+Let me stress that again: having these langauge features results
+in a system that is more predictable and helpful *for developers*,
+not just IDE creators.
 
 Hot-swapping is fundamentally nicer to work with in a language that has:
 
@@ -133,7 +156,8 @@ Hot-swapping is fundamentally nicer to work with in a language that has:
  * [Predictable Structure](#predictable-structure)
 
 I am not saying that all of these features are strictly required for hot-swapping
-or Interactive Programming. I *am* saying that having them results in a better experience.
+or Interactive Programming. I *am* saying that having them results in a better
+experience. 
 Let&rsquo;s examine these language features individually to see why each provides
 concrete benefits for hot-swapping.
 
@@ -145,7 +169,7 @@ code easier to understand, test, and debug.
 
 Immutability means *values cannot be modified after creation*. You can
 create new values, but you cannot change old ones. Immutability already
-been very successful in making concurrency easy in languages like
+been very successful for concurrency in languages like
 [Erlang](http://www.erlang.org/)&mdash;one of the few other languages
 that supports hot-swapping.
 
@@ -203,11 +227,20 @@ and does not change. Elm&rsquo;s static signal graphs are possible because
 Elm does not permit signals-of-signals.
 
 Many other FRP frameworks, particularly in imperative languages, allow signal
-graphs to change over time. When the structure of the signal graph no longer
-matches the the initial structure, hot-swapping becomes very difficult. It is
-no longer clear how the new functions should mix with the old state.
+graphs to change over time. With these dynamic signal graphs, programmers can
+create and destroy nodes as they see fit. Unfortunately, when the structure of
+the signal graph no longer matches the the initial structure, hot-swapping becomes
+very difficult. How do you copy state from the old signal graph to the new one when
+the graphs are not the same? When there are now extra nodes that were not there
+initially?
 
-## The Future of Interactive Programming in Elm
+The issues with dynamic signal graphs are just a subset of the issues that come
+up in languages without any support for FRP at all. When a program is just a
+spaghetti soup of callbacks and shared state, figuring out how the initial program
+relates to the current program must rely on much more complicated program analysis.
+I am not saying it is impossible, but figuring this out would at least earn you a PhD.
+
+## The future of Interactive Programming in Elm
 
 Elm makes many language-level decisions that make Interactive Programming easy
 to implement and pleasant to use, but hot-swapping in Elm is not perfect yet.
