@@ -61,7 +61,7 @@ running code, so you do not have to restart your program to change its behavior:
 
 video = [markdown|
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-<iframe src="//www.youtube.com/embed/cI__rjCiH_k"
+<iframe src="//www.youtube.com/embed/FpsSXrCwGyE"
         frameborder="0"
         allowfullscreen
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
@@ -198,7 +198,7 @@ the programmer ignores a bug that *does* exist!
 
 In a staticly typed language like Elm, it is possible to find these problems
 immediately and restart the program, which would be necessary with or without
-static types. It is just that in this case, the programmer can be sure that
+static types. It is just that in Elm, the programmer can be sure that
 any error they see is an error that matters, not an accident of hot-swapping.
 
 ### Predictable Structure
