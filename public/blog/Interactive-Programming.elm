@@ -29,7 +29,7 @@ title = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Interactive Programming</div>
-<div style="font-size: 1.5em;">Programming with Immediate Feedback</div>
+<div style="font-size: 1.5em;">A New Kind of REPL</div>
 </div>
 |]
 
@@ -50,13 +50,16 @@ modify and interact with programs *while they are running*.
 Articles like [Learnable Programming](http://worrydream.com/LearnableProgramming/)
 explore the potential of Interactive Programming.
 Projects like [LightTable](http://www.lighttable.com/) work on the tooling,
-creating an IDE for Interactive Programming.
+creating an IDE for Interactive Programming
+Elm takes the next step, exploring what it means to be a *language* for
+Interactive Programming. Elm&rsquo;s online editor now allows you to modify
+running code, so you do not have to restart your program to change its behavior.
 
  [ip]: http://en.wikipedia.org/wiki/Interactive_programming
 
-Elm takes the next step, exploring what it means to be a *language* for
-Interactive Programming. Elm&rsquo;s online editor now allows you to modify
-running code, so you do not have to restart your program to change its behavior:
+In Elm, this is called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
+Hot-swapping means *modifying running code*. Check out this video for a short demo:
+
 |]
 
 video = [markdown|
@@ -76,10 +79,8 @@ p, li {
   line-height: 1.5em;
 }
 </style>
-In Elm, this is called [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping).
-Hot-swapping means *modifying running code*.
 
-Support for hot-swapping is live, so you can [mess with Mario
+Support for hot-swapping is live on this site, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm)
 and play with the bouncing ball below. As you tweak the colors, shapes,
 and physics in the code, you will see the ball update automatically.
@@ -108,11 +109,9 @@ There are [many more examples](/examples/Intermediate.elm), so you can
 continue to explore Elm and hot-swapping.
 
 Perhaps the most interesting thing about adding hot-swapping to Elm was that it
-was quite easy. It took about four days.
-
-During those four days, it became very clear that the practicality of supporting
-Interactive Programming was directly related to the abstractions (or lack-thereof) in
-the language.
+was quite easy. It took about four days. In that time, it became very clear that
+the practicality of supporting Interactive Programming was directly related
+to the abstractions (or lack-thereof) in the language.
 
 ## How hot-swapping works in Elm
 
@@ -128,62 +127,43 @@ Each node in the signal graph is associated with a pure function. When
 we hot-swap, we need to replace these functions. Some nodes may also
 hold state, keeping a record of the previous frame. This is what we
 must preserve to maintain the existing state of our application.
-
-To implement hot-swapping, one simply needs to compile the new program
-and copy the state over from the old signal graph. This is quite
-easy to do in JavaScript, but since hot-swapping only
-requires copying values from the old signal graph to the new
-one, it can be done quite easily even in languages that are not
-dynamic. It is just reassigning a variable.
-
-Not all languages are going to work so well with Interactive Programming.
-Hot-swapping was incredibly straightforward in Elm, but only because Elm has
-strong abstractions that dramatically simplify the problem.
+To implement hot-swapping in Elm, one simply needs to compile the
+new program and copy the state over from the old signal graph.
 
 ## Language features that make hot-swapping easy
 
-There are a number of key language features that make hot-swapping
-easy to implement, and much more importantly, easy to use.
-
-Let me stress that again: having these language features results
-in a system that is more predictable and helpful *for developers*,
-not just IDE creators.
-
-Hot-swapping is fundamentally nicer to work with in a language that has:
+Not all languages are going to work so well with Interactive Programming.
+Hot-swapping was incredibly straightforward in Elm because the language has
+strong abstractions that dramatically simplify the problem:
 
  * [Immutable Values](#immutable-values)
  * [Static Types](#static-types)
  * [Predictable Structure](#predictable-structure)
 
-I am not saying that all of these features are strictly required for hot-swapping
-or Interactive Programming. I *am* saying that having them results in a better
-experience. 
-Let&rsquo;s examine these language features individually to see why each provides
-concrete benefits for hot-swapping.
+These language features make it easy to implement hot-swapping, but more
+importantly, they make it easier for developers to *use* hot-swapping.
+Let&rsquo;s examine these language features individually to see how each
+provides concrete benefits.
 
 ### Immutable Values
 
 [Immutability](http://en.wikipedia.org/wiki/Immutable_object)
-is a programming strategy that can be used in any language to make
-code easier to understand, test, and debug.
-
-Immutability means *values cannot be modified after creation*. You can
+means *values cannot be modified after creation*. You can
 create new values, but you cannot change old ones. Immutability already
 been very successful for concurrency in languages like
-[Erlang](http://www.erlang.org/)&mdash;one of the few other languages
-that supports hot-swapping.
+[Erlang](http://www.erlang.org/), one of the few languages
+that also supports hot-swapping.
 
 Limiting yourself to immutable values gives you a very important property:
 *giving a function the same arguments **always** gives the same result*.
-
-This is huge for hot-swapping. Immutability guarantees that you can simply
-swap in a function by name, the internal details do not matter. With immutability,
-a function cannot have shared state that must be migrated through the hot-swap.
+This is nice for testing and debugging, but it is a major benefit hot-swapping.
+Immutability guarantees that you can simply swap in a function by name, the
+internal details do not matter. With immutability, a function cannot have
+shared state that must be migrated through the hot-swap.
 
 With mutable values, hot-swapping must examine the details of each function
 and find any state that must be preserved. It must also figure out how that
 state relates to the state in the *new* function, which may not always be possible.
-
 Figuring this out greatly complicates the process of swapping in code, and if
 state is not preserved correctly it will lead to unexpected behavior.
 The programmer will be left wondering if their no code introduced a bug
@@ -194,9 +174,7 @@ for a bug that does not exist. Perhaps they ignore a bug that *does* exist.
 
 In some cases it is impossible to do a hot-swap with a running program.
 If the data-structures used in the program change, the new functions and old
-state become incompatible.
-
-Let&rsquo;s make this more concrete. The following two functions are *not*
+state become incompatible. For example, the following two functions are *not*
 interchangeable even though they do the same thing:
 
 ```haskell
@@ -207,8 +185,6 @@ distance point = sqrt (point.x^2 + point.y^2)
  
 ```
 
-Swapping in the new function will definitely cause errors.
-
 In a dynamically typed language like JavaScript, you would just swap the code and
 *hope* the runtime error happens quickly and is easy to reproduce. The programmer
 will be left wondering if their code was wrong or if there was a problem hot-swapping.
@@ -216,9 +192,8 @@ Perhaps the programmer starts chasing a bug that does not even exist. Perhaps
 the programmer ignores a bug that *does* exist!
 
 In a statically typed language like Elm, it is possible to find these problems
-immediately and restart the program, which would be necessary with or without
-static types. It is just that in Elm, the programmer can be sure that
-any error they see is an error that matters, not an accident of hot-swapping.
+immediately and restart the program automatically. This guarantees that hot-swapping
+cannot introduce runtime errors into a correct programming.
 
 ### Predictable Structure
 
@@ -260,10 +235,8 @@ There are also some fun questions:
     on making the tools for Interactive Programming?
 
 Both of these questions are more on the IDE and tooling side of things.
-My goal is for Elm to provide a solid foundation for Interactive Programming
-*at the language level* so that the development tools are easier to make and use.
-Elm&rsquo;s online editor is a proof of concept, and I am excited to see what
-the developers of proper IDEs and development tools can do when a *language*
-makes hot-swapping is easy!
+Elm provides a solid foundation for Interactive Programming
+*at the language level*, and I am excited to see how this can be
+used to create a new kind of REPL.
 
 |]
