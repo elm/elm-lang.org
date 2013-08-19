@@ -42,8 +42,8 @@ p, li {
 </style>
 
 <br/>JavaScript proved that the development loop can be as short as refreshing
-your browser. By now it is obvious that this is great for quickly iterating
-and testing an idea, making programming more accessible and more fun.
+your browser. This is great for quickly iterating and testing an idea, making
+programming more accessible and more fun.
 
 This was the first step towards [interactive programming][ip]: the ability to
 modify and interact with programs *while they are running*.
@@ -234,7 +234,7 @@ There are also some fun questions:
 Both of these questions are more on the IDE and tooling side of things.
 My goal is for Elm to provide a solid foundation for Interactive Programming
 *at the language level* so that the development tools are easier to make and use.
-Elm&rsquo;s online editor is a proof of concept, so I am excited to see what
+Elm&rsquo;s online editor is a proof of concept, and I am excited to see what
 the developers of proper IDEs and development tools can do when a *language*
 makes hot-swapping is easy!
 
