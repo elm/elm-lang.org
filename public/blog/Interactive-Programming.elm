@@ -27,9 +27,9 @@ everything wid =
 
 title = [markdown|
 <br/>
-<div style="font-family: futura; text-align: center;">
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Interactive Programming</div>
-<div style="font-size: 1.5em;">Modifying Running Programs</div>
+<div style="font-size: 1.5em;">Programming with Immediate Feedback</div>
 </div>
 |]
 
@@ -86,7 +86,7 @@ and physics in the code, you will see the ball update automatically.
 |]
 
 editor = [markdown|
-<iframe src="/edit/examples/Reactive/Bounce.elm?cols=100%25%2C150px"
+<iframe src="/edit/examples/Intermediate/Bounce.elm?cols=100%25%2C150px"
         frameborder="0"
         style="overflow:hidden; height:400px; width:100%"
         height="400px" width="100%"></iframe>
@@ -100,7 +100,7 @@ p, li {
   line-height: 1.5em;
 }
 h2, h3, h4 {
-  font-family: futura; 
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
 }
 </style>
 
