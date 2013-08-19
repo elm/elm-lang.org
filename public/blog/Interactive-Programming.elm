@@ -137,15 +137,15 @@ one, it can be done quite easily even in languages that are not
 dynamic. It is just reassigning a variable.
 
 Not all languages are going to work so well with Interactive Programming.
-Hot-swapping was incredebly straightforward in Elm, but only because Elm has
-strong abstractions that drastically simplify the problem.
+Hot-swapping was incredibly straightforward in Elm, but only because Elm has
+strong abstractions that dramatically simplify the problem.
 
 ## Language features that make hot-swapping easy
 
 There are a number of key language features that make hot-swapping
 easy to implement, and much more importantly, easy to use.
 
-Let me stress that again: having these langauge features results
+Let me stress that again: having these language features results
 in a system that is more predictable and helpful *for developers*,
 not just IDE creators.
 
@@ -194,10 +194,10 @@ for a bug that does not exist. Perhaps they ignore a bug that *does* exist.
 
 In some cases it is impossible to do a hot-swap with a running program.
 If the data-structures used in the program change, the new functions and old
-state become incompatable.
+state become incompatible.
 
-Let&rsquo;s make this more concrete. The following two functions are *not* interchangeble
-even though they do the same thing:
+Let&rsquo;s make this more concrete. The following two functions are *not*
+interchangeable even though they do the same thing:
 
 ```haskell
 
@@ -215,7 +215,7 @@ will be left wondering if their code was wrong or if there was a problem hot-swa
 Perhaps the programmer starts chasing a bug that does not even exist. Perhaps
 the programmer ignores a bug that *does* exist!
 
-In a staticly typed language like Elm, it is possible to find these problems
+In a statically typed language like Elm, it is possible to find these problems
 immediately and restart the program, which would be necessary with or without
 static types. It is just that in Elm, the programmer can be sure that
 any error they see is an error that matters, not an accident of hot-swapping.
@@ -249,7 +249,7 @@ There are still some tough questions:
   * Can a hot-swap be performed when the signal graph changes? Perhaps in
     a limited subset of &ldquo;safe&rdquo; changes?
   * When the state that is persisted across a hot-swap is a function that uses
-    [continuaution passing style](http://en.wikipedia.org/wiki/Continuation-passing_style),
+    [continuation passing style](http://en.wikipedia.org/wiki/Continuation-passing_style),
     is it necessary to be more clever about how hot-swapping works?
 
 There are also some fun questions:
