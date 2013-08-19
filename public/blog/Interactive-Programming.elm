@@ -133,9 +133,9 @@ Hot-swapping is fundamentally nicer to work with in a language that has:
  * [Predictable Structure](#predictable-structure)
 
 I am not saying that all of these features are strictly required for hot-swapping
-or Interactive Programming. I am saying that having them results in a better experience
-for programmers. Let&rsquo;s examine these language features individually to see why
-each provides concrete benefits for hot-swapping.
+or Interactive Programming. I *am* saying that having them results in a better experience.
+Let&rsquo;s examine these language features individually to see why each provides
+concrete benefits for hot-swapping.
 
 ### Immutable Values
 
@@ -144,20 +144,17 @@ is a programming strategy that can be used in any language to make
 code easier to understand, test, and debug.
 
 Immutability means *values cannot be modified after creation*. You can
-create new values, but you cannot change old ones.
-
-In a mutable world, the behavior of the function depends not only on
-other functions that can modify the shared state, but also on the
-*order* in which those functions were used. This is a big part of why stack
-traces are so valuable in languages Java and JavaScript.
+create new values, but you cannot change old ones. Immutability already
+been very successful in making concurrency easy in languages like
+[Erlang](http://www.erlang.org/)&mdash;one of the few other languages
+that supports hot-swapping.
 
 Limiting yourself to immutable values gives you a very important property:
 *giving a function the same arguments **always** gives the same result*.
 
 This is huge for hot-swapping. Immutability guarantees that you can simply
 swap in a function by name, the internal details do not matter. With immutability,
-a function cannot have internal state or shared state
-that must be migrated through the hot-swap.
+a function cannot have shared state that must be migrated through the hot-swap.
 
 With mutable values, hot-swapping must examine the details of each function
 and find any state that must be preserved. It must also figure out how that
@@ -167,9 +164,7 @@ Figuring this out greatly complicates the process of swapping in code, and if
 state is not preserved correctly it will lead to unexpected behavior.
 The programmer will be left wondering if their no code introduced a bug
 or if it was just a case of bad hot-swapping. Perhaps they start hunting
-for a bug that does not exist. Perhaps they ignore a bug that *does*.
-
-Immutable values make hot-swapping predictable and reliable.
+for a bug that does not exist. Perhaps they ignore a bug that *does* exist.
 
 ### Static Types
 
