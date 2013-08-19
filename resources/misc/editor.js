@@ -406,9 +406,12 @@ function initMenu() {
   showType(show);
 }
 
+function isBounceInIFrame() {
+    return window.location.pathname.indexOf("Bounce") >= 0 && window !== window.top;
+}
+
 function initAutoHotSwap() {
-    var status = readCookie('autoHotSwap') === 'true' ||
-                 window.location.pathname.indexOf("Bounce") >= 0;
+    var status = readCookie('autoHotSwap') === 'true' || isBounceInIFrame();
     document.getElementById('auto_hot_swap_checkbox').checked = status;
     setAutoHotSwap(status, true);
 }
@@ -430,7 +433,7 @@ function initEditor() {
                       }
        }
     });
-  editor.focus();
+  if (!isBounceInIFrame()) editor.focus();
   editor.on('cursorActivity', hideStuff);
   initZoom();
   initMenu();
