@@ -43,7 +43,7 @@ route empty rest = do
        , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
        , dir "hotswap" $ compilePart elmToJS
        , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?v0.9"
-       , dir "edit" . uriRest $ withFile ide
+       , dir "edit" serveEditor
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
        , rest
@@ -61,12 +61,18 @@ open fp =
   do exists <- liftIO (doesFileExist file)
      if exists then openFile else return Nothing
   where
-    file = "public/" ++ fp
+    file = "public/" ++ takeWhile (/='?') fp
     openFile = liftIO $ catch (fmap Just $ readFile file) handleError
 
     handleError :: SomeException -> IO (Maybe String)
     handleError _ = return Nothing
 
+serveEditor :: ServerPart Response
+serveEditor = do
+  cols <- getDataFn (look "cols")
+  uriRest . withFile . ide $ case cols of
+                               Left _    -> "50%,50%"
+                               Right str -> str
 
 -- | Do something with the contents of a File.
 withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
@@ -138,4 +144,5 @@ adjustHtmlFile file =
         , "  a:visited {text-decoration: none}"
         , "  a:active {text-decoration: none}"
         , "  a:hover {text-decoration: underline; color: rgb(234,21,122);}"
+        , "  body { font-family: calibri, verdana, helvetica, arial }"
         , "</style>" ]
