@@ -123,12 +123,14 @@ event processing network is called a [signal graph][].
 
   VIDEO
 
-Each node in the signal graph is associated with a pure function. When
-we hot-swap, we need to replace these functions. Some nodes may also
-hold state, keeping a record of the previous frame. This is what we
-must preserve to maintain the existing state of our application.
-To implement hot-swapping in Elm, one simply needs to compile the
-new program and copy the state over from the old signal graph.
+Each node in the signal graph is associated with a pure function and
+a record of the node&rsquo;s most recent value. When we hot-swap, we need
+to replace the function with the new version, but preserve
+the node&rsquo;s most recent value. To implement hot-swapping in Elm, one
+simply needs to compile the new program and copy the state over from the
+old signal graph.
+
+Limits of hotswapping...
 
 ## Language features that make hot-swapping easy
 
@@ -149,8 +151,8 @@ provides concrete benefits.
 
 [Immutability](http://en.wikipedia.org/wiki/Immutable_object)
 means *values cannot be modified after creation*. You can
-create new values, but you cannot change old ones. Immutability already
-been very successful for concurrency in languages like
+create new values, but you cannot change old ones. Immutability has
+already been very successful for concurrency in languages like
 [Erlang](http://www.erlang.org/), one of the few languages
 that also supports hot-swapping.
 
