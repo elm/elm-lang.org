@@ -37,7 +37,7 @@ title w =
  in  link "/" <| container w 30 middle logo
 
 heading outer =
-  layers [ topBar 10 outer, style ]
+  topBar 10 outer
 
 skeleton bodyFunc outer =
   let body = bodyFunc outer
@@ -49,36 +49,3 @@ skeleton bodyFunc outer =
          Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
              Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
        ]
-
-
-style = [markdown|
-<style type="text/css">
-pre {
-  margin: 0 30px;
-  padding: 4px 10px;
-  border-top:    solid 2px rgb(96,181,204);
-  border-left:   solid 2px rgb(240,173,0);
-  border-right:  solid 2px rgb(234,21,122);
-  border-bottom: solid 2px rgb(127,209,59);
-}
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: white; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: white; }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
-</style>
-
-|]
