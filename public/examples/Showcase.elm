@@ -6,7 +6,10 @@ import Window
 addFolder folder = map (\(x,y) -> (x, y, folder))
 
 intermediate = addFolder "Showcase/"
-  [ 
+  [
+-- red black trees
+-- max's pretty spinning orb rainbow
+-- slime volleyball
   ]
 
 intro =  [markdown|
