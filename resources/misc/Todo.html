@@ -32,7 +32,7 @@ Elm.Todo = function(elm){
   var Display = Elm.Display(elm);
   var _op = {};
   var tasks = A2(Signal._op['<~'], Basics.fst, A3(Signal.foldp, Update.update, Model.initialState, Display.input));
-  var main = A2(Signal._op['~'], A2(Signal._op['~'], A2(Signal._op['<~'], Display.display, Window.dimensions), Display.taskField), tasks);
+  var main = A2(Signal._op['~'], A2(Signal._op['~'], A2(Signal._op['<~'], Display.display, Window.dimensions), Display.fieldState), tasks);
   return elm.Todo = {
     _op : _op, 
     tasks : tasks, 
@@ -57,33 +57,34 @@ Elm.Display = function(elm){
   var Keyboard = Elm.Keyboard(elm);
   var Model = Elm.Model(elm);
   var _op = {};
-  var taskInput = Graphics.Input.fields(Graphics.Input.emptyFieldState);
+  var taskField = Graphics.Input.fields(Graphics.Input.emptyFieldState);
   var taskDelete = Graphics.Input.customButtons(0);
-  var makeGrey = Graphics.Element.color(A3(Color.rgb, 247, 247, 247));
   var entered = A3(Signal.keepIf, Basics.id, true, Keyboard.enter);
-  var input = Signal.merges(_J.toList([A2(Signal._op['<~'], Model.Remove, taskDelete.events),A2(Signal._op['<~'], function(field){
-    return Model.Add(field.string);}, A2(Signal.sampleOn, entered, taskInput.events))]));
-  var taskFieldState = function(){
+  var fieldState = function(){
     var resetOnEnter = A2(Signal.sampleOn, entered, Signal.constant(Graphics.Input.emptyFieldState));
-    return A2(Signal.merge, taskInput.events, resetOnEnter);}();
-  var taskField = A2(Signal._op['<~'], A2(taskInput.field, Basics.id, _str('What needs to be done?')), taskFieldState);
-  var btn = function(str){
-    return A3(Graphics.Element.container, 30, 30, Graphics.Element.middle)(Text.text(Text.height(28)(Text.bold(Text.toText(str)))));};
+    return A2(Signal.merge, taskField.events, resetOnEnter);}();
+  var input = Signal.merges(_J.toList([A2(Signal._op['<~'], Model.Remove, taskDelete.events),A2(Signal._op['<~'], function(field){
+    return Model.Add(field.string);}, A2(Signal.sampleOn, entered, taskField.events))]));
   var displayTask = function(task){
-    return Graphics.Element.color(A4(Color.rgba, 255, 255, 255, 0.9))(A3(Graphics.Element.container, 500, 30, Graphics.Element.midRight)(A2(Graphics.Element.flow, Graphics.Element.right, _J.toList([A3(Graphics.Element.container, 410, 30, Graphics.Element.midLeft)(Text.text(Text.toText(task.description))),A4(taskDelete.customButton, task.id, btn(_str('')), btn(_str('&times;')), btn(_str('&times;')))]))));};
-  var display = F3(function(arg3, taskField, tasks){
+    return function(){
+      var grey = A3(Color.rgb, 230, 230, 230);
+      var btn = function(f){
+        return A3(Graphics.Element.container, 30, 30, Graphics.Element.middle)(Text.text(Text.height(28)(f(Text.toText(_str('&times;'))))));};
+      return Graphics.Element.color(A4(Color.rgba, 255, 255, 255, 0.9))(A3(Graphics.Element.container, 500, 30, Graphics.Element.midRight)(A2(Graphics.Element.flow, Graphics.Element.right, _J.toList([A3(Graphics.Element.container, 410, 30, Graphics.Element.midLeft)(Text.text(Text.toText(task.description))),A4(taskDelete.customButton, task.id, btn(Text.color(grey)), btn(Basics.id), btn(Text.bold))]))));}();};
+  var display = F3(function(arg3, fieldState, tasks){
     return function(){
       switch (arg3.ctor) {
         case '_Tuple2':
           return function(){
             var pos = A2(Graphics.Element.midTopAt, Graphics.Element.relative(0.5), Graphics.Element.absolute(40));
-            return Graphics.Element.layers(_J.toList([A3(Graphics.Element.tiledImage, arg3._0, arg3._1, _str('/texture.png')),Text.text('<div style="height:0;width:0;">&nbsp;</div><style>input:focus { outline: none; }</style>\n<div style="height:0;width:0;">&nbsp;</div>'),A3(Graphics.Element.container, arg3._0, arg3._1, pos)(A2(Graphics.Element.flow, Graphics.Element.down, _J.toList([Graphics.Element.width(500)(Text.centered(Text.color(A3(Color.rgb, 179, 179, 179))(Text.height(48)(Text.toText(_str('todos')))))),Graphics.Element.color(A3(Color.rgb, 141, 125, 119))(A2(Graphics.Element.spacer, 500, 15)),Graphics.Element.color(A3(Color.rgb, 108, 125, 119))(A2(Graphics.Element.spacer, 500, 1)),makeGrey(A3(Graphics.Element.container, 500, 45, Graphics.Element.midRight)(makeGrey(A2(Graphics.Element.width, 440, A2(Graphics.Element.height, 45, taskField))))),Graphics.Element.flow(Graphics.Element.down)(A2(List.map, displayTask, tasks))])))]));}();
-      }_E.Case($moduleName,'between lines 29 and 44')}();});
+            var grey = A3(Color.rgb, 247, 247, 247);
+            return Graphics.Element.layers(_J.toList([A3(Graphics.Element.tiledImage, arg3._0, arg3._1, _str('/texture.png')),Text.text('<div style="height:0;width:0;">&nbsp;</div><style>input:focus { outline: none; }</style>\n<div style="height:0;width:0;">&nbsp;</div>'),A3(Graphics.Element.container, arg3._0, arg3._1, pos)(A2(Graphics.Element.flow, Graphics.Element.down, _J.toList([Graphics.Element.width(500)(Text.centered(Text.color(A3(Color.rgb, 179, 179, 179))(Text.height(48)(Text.toText(_str('todos')))))),Graphics.Element.color(A3(Color.rgb, 141, 125, 119))(A2(Graphics.Element.spacer, 500, 15)),Graphics.Element.color(A3(Color.rgb, 108, 125, 119))(A2(Graphics.Element.spacer, 500, 1)),Graphics.Element.color(grey)(A3(Graphics.Element.container, 500, 45, Graphics.Element.midRight)(Graphics.Element.color(grey)(Graphics.Element.width(440)(Graphics.Element.height(45)(A3(taskField.field, Basics.id, _str('What needs to be done?'), fieldState)))))),Graphics.Element.flow(Graphics.Element.down)(A2(List.map, displayTask, tasks))])))]));}();
+      }_E.Case($moduleName,'between lines 10 and 26')}();});
   return elm.Display = {
     _op : _op, 
     display : display, 
     input : input, 
-    taskField : taskField};};
+    fieldState : fieldState};};
 Elm.Update = function(elm){
   var N = Elm.Native, _N = N.Utils(elm), _L = N.List(elm), _E = N.Error(elm), _J = N.JavaScript(elm), _str = _J.toString, $moduleName = 'Update';
   var Text = Elm.Text(elm);
