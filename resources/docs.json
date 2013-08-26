@@ -2030,23 +2030,23 @@
           "desc" : "Create an arbitrary polygon by specifying its corners in order.\n`polygon` will automatically close all shapes, so the given list\nof points does not need to start and end with the same position.\n"
         },
         { "name" : "rect",
-          "type" : "Number a -> Number a -> Shape",
+          "type" : "Float -> Float -> Shape",
           "desc" : "A rectangle with a given width and height.\n"
         },
         { "name" : "square",
-          "type" : "Number a -> Shape",
+          "type" : "Float -> Shape",
           "desc" : "A square with a given edge length.\n"
         },
         { "name" : "oval",
-          "type" : "Number a -> Number a -> Shape",
+          "type" : "Float -> Float -> Shape",
           "desc" : "An oval with a given width and height.\n"
         },
         { "name" : "circle",
-          "type" : "Number a -> Shape",
+          "type" : "Float -> Shape",
           "desc" : "A circle with a given radius.\n"
         },
         { "name" : "ngon",
-          "type" : "Int -> Number a -> Shape",
+          "type" : "Int -> Float -> Shape",
           "desc" : "A regular polygon with N sides. The first argument specifies the number\nof sides and the second is the radius. So to create a pentagon with radius\n30 you would say:\n\n        ngon 5 30\n"
         }
       ]
