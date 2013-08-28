@@ -210,19 +210,19 @@ in some cases.
 
 ## Pushing the limits of hot-swapping
 
-It is possible to change a program so much that it is no longer compatable
-with previous versions. If we try to hot-swap with incompatable code, it will
+It is possible to change a program so much that it is no longer compatible
+with previous versions. If we try to hot-swap with incompatible code, it will
 lead to runtime errors. The programmer will be left wondering if their new
 code introduced a bug or if it was just a case of bad hot-swapping. Perhaps
 they start hunting for a bug that does not exist. Perhaps they ignore a bug
 that *does* exist. This is not Interactive Programming, this is a buggy IDE.
 
-To make hot-swapping reliable, we must know when programs are incompatable.
+To make hot-swapping reliable, we must know when programs are incompatible.
 The more precise we can be, the more reliable hot-swapping can be.
-There are two major categories of incompatabilies:
+There are two major categories of incompatibilies:
 
 * **The API has changed.** If the types of the arguments to a
-  function change, it is no longer compatable with the rest of the program.
+  function change, it is no longer compatible with the rest of the program.
 
 * **It is not possible to copy the old state into the new program.**
   Perhaps there are now many more values and it is unclear how they relate
@@ -247,7 +247,7 @@ distance (x,y) = sqrt (x^2 + y^2)
 distance point = sqrt (point.x^2 + point.y^2)
 ```
 
-But these functions are not interchangable because their types do not match.
+But these functions are not interchangeable because their types do not match.
 One works on tuples and the other on records. It is likely a couple other
 functions would need to be modified to get everything working again.
 In a dynamically typed language like JavaScript, deciding if it is a good idea
