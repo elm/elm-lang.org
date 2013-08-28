@@ -83,7 +83,7 @@ see how hot-swapping works in Elm:
 
 video1 = [markdown|
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-<iframe src="//www.youtube.com/embed/zHPtvw8c3Lc"
+<iframe src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0"
         frameborder="0"
         allowfullscreen
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
@@ -140,7 +140,7 @@ flow through the program. You can think of a signal as a value that changes
 over time or as a stream of events. Every Elm program sets up a network for
 processing these signals, called a signal graph.
 The following video describes signal graphs in much more detail and begins to
-show how they can be used for hot-swapping.
+show how they can be used for hot-swapping:
 
 |]
 
@@ -190,7 +190,7 @@ code > span.er { font-weight: bold; }
 </style>
 
 <span style="color:#999;">
-For more details on signal graphs, see
+For tons more details on signals and signal graphs, see
 [this thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
 or [this paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
 </span>
@@ -215,7 +215,7 @@ with previous versions. If we try to hot-swap with incompatable code, it will
 lead to runtime errors. The programmer will be left wondering if their new
 code introduced a bug or if it was just a case of bad hot-swapping. Perhaps
 they start hunting for a bug that does not exist. Perhaps they ignore a bug
-that *does* exist.
+that *does* exist. This is not Interactive Programming, this is a buggy IDE.
 
 To make hot-swapping reliable, we must know when programs are incompatable.
 The more precise we can be, the more reliable hot-swapping can be.
@@ -275,9 +275,8 @@ and functions. When we copy over the old state, we know that there is no shared
 or hidden state that we are missing. This is made possible by the following
 two features:
 
-* [Immutability](http://en.wikipedia.org/wiki/Immutable_object) &ndash;
-  values cannot be modified after creation
-
+* [Immutabile Data](http://en.wikipedia.org/wiki/Immutable_object) &ndash;
+  data cannot be modified after creation
 * [Pure Functions](http://en.wikipedia.org/wiki/Pure_function) &ndash;
   same arguments, same result
 
@@ -291,12 +290,12 @@ In Elm, the structure of signal graphs is known as soon as the program starts
 and does not change. Elm&rsquo;s static signal graphs are possible because
 Elm does not permit signals-of-signals.
 
-Many other FRP frameworks, particularly in imperative languages, allow signal
-graphs to change over time. With these dynamic signal graphs, programmers can
-create and destroy nodes as they see fit. Unfortunately, when the structure of
-the signal graph no longer matches the the initial structure, hot-swapping becomes
-very difficult. How do you copy state from the old signal graph to the new one when
-the graphs are not the same?
+Many other frameworks for Functional Reactive Programming (FRP), particularly in
+imperative languages, allow signal graphs to change over time. With
+dynamic signal graphs, programmers can create and destroy nodes as they see fit.
+Unfortunately, when the structure of the signal graph no longer matches the the
+initial structure, hot-swapping becomes very difficult. How do you copy state from
+the old signal graph to the new one when the graphs are not the same?
 
 The issues with dynamic signal graphs are just a subset of the issues that come
 up in languages without any support for FRP at all. When a program is just a
@@ -315,6 +314,7 @@ still some open technical questions:
 * Programmers can change the structure of a signal graph in their code.
   Can a hot-swap ever be performed when the signal graph changes? Perhaps in
   a limited subset of &ldquo;safe&rdquo; changes?
+
 * Even in a pure language, it is possible to associate state with functions by using
   [continuation passing style](http://en.wikipedia.org/wiki/Continuation-passing_style) (CPS).
   This comes up in [the Automaton library](/docs/Automaton.elm), which is an alternate way
@@ -324,6 +324,7 @@ There are also some fun questions:
 
   * How can ideas some of the more extreme ideas from Learnable Programming
     make hot-swapping an even better experience?
+
   * How would Elm integrate with an IDE like LightTable that is already focused
     on making the tools for Interactive Programming?
 
