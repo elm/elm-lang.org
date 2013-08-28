@@ -138,9 +138,8 @@ Interactive Programming in languages like JavaScript, Clojure, Elm, etc.
 Elm uses [signals](/learn/What-is-FRP.elm) to represent values as they
 flow through the program. You can think of a signal as a value that changes
 over time or as a stream of events. Every Elm program sets up a network for
-processing these signals, called a signal graph.
-The following video describes signal graphs in much more detail and begins to
-show how they can be used for hot-swapping:
+processing these signals, called a signal graph. Watch the following video
+to understand signal graphs and how they can be used for hot-swapping:
 
 |]
 
