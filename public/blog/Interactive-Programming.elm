@@ -208,7 +208,7 @@ has language features let us *safely* make many simplifying assumptions.
 But even with optimal language features, hot-swapping is still impossible
 in some cases.
 
-## The limits of hot-swapping
+## Pushing the limits of hot-swapping
 
 It is possible to change a program so much that it is no longer compatable
 with previous versions. If we try to hot-swap with incompatable code, it will
@@ -219,7 +219,7 @@ that *does* exist. This is not Interactive Programming, this is a buggy IDE.
 
 To make hot-swapping reliable, we must know when programs are incompatable.
 The more precise we can be, the more reliable hot-swapping can be.
-Obvious examples of incompatabilies are:
+There are two major categories of incompatabilies:
 
 * **The API has changed.** If the types of the arguments to a
   function change, it is no longer compatable with the rest of the program.
