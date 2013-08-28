@@ -277,7 +277,7 @@ and functions. When we copy over the old state, we know that there is no shared
 or hidden state that we are missing. This is made possible by the following
 two features:
 
-* [Immutabile Data](http://en.wikipedia.org/wiki/Immutable_object) &ndash;
+* [Immutable Data](http://en.wikipedia.org/wiki/Immutable_object) &ndash;
   data cannot be modified after creation
 * [Pure Functions](http://en.wikipedia.org/wiki/Pure_function) &ndash;
   same arguments, same result
