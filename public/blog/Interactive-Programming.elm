@@ -54,7 +54,7 @@ exploring the possibilities of interactive programming while projects like
 Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
-So far this movement towards immediate feedback lacks a common vocabulary.
+So far this movement towards interactivity lacks a common vocabulary.
 I&rsquo;d like to introduce the terms *Interactive Programming*
 and *Hot-Swapping* to help us better understand where we are going and the
 challenges we face:
