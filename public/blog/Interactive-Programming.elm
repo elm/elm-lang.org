@@ -54,10 +54,10 @@ exploring the possibilities of interactive programming while projects like
 Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
-So far this movement towards an interactive programming style lacks
-a common vocabulary. I&rsquo;d like to introduce the terms *Interactive Programming*
-and *Hot-Swapping* to help us better understand where we are going and the challenges
-we face:
+So far this movement towards immediate feedback lacks a common vocabulary.
+I&rsquo;d like to introduce the terms *Interactive Programming*
+and *Hot-Swapping* to help us better understand where we are going and the
+challenges we face:
 
 * **[Interactive Programming](http://en.wikipedia.org/wiki/Interactive_programming)
   &ndash; coding with immediate feedback**<br/>
@@ -125,7 +125,7 @@ h2, h3, h4 {
 </style>
 
 There are [many more examples](/examples/Intermediate.elm), so you can
-continue to explore Elm and hot-swapping.
+continue to explore Elm and experiment with hot-swapping.
 
 Perhaps the most interesting thing about adding hot-swapping to Elm was that it
 was quite easy. It took about four days. In that time, it became very clear that
