@@ -61,8 +61,8 @@ we face:
 
 * **[Interactive Programming](http://en.wikipedia.org/wiki/Interactive_programming)
   &ndash; coding with immediate feedback**<br/>
-  It makes programming easier by integrating compilation, documentation, testing,
-  errors, and more into the process of coding, further tightening the development loop.
+  Tighten the development loop by integrating compilation, error messages, documentation,
+  testing, and more into the *process* of coding.
   This encompasses the general goals of Learnable Programming and LightTable.
 
 * **[Hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping) &ndash;
@@ -190,6 +190,8 @@ code > span.er { font-weight: bold; }
 </style>
 
 <span style="color:#999;">
+Huge thank you to Laszlo for working on the
+[debugger](https://github.com/laszlopandy/elm-lang.org/tree/signal-graph-demo) demoed above.
 For tons more details on signals and signal graphs, see
 [this thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
 or [this paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
