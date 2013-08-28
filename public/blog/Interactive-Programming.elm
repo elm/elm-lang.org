@@ -83,7 +83,7 @@ see how hot-swapping works in Elm:
 
 video1 = [markdown|
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-<iframe src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0"
+<iframe src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0&html5=1"
         frameborder="0"
         allowfullscreen
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
@@ -146,7 +146,7 @@ show how they can be used for hot-swapping:
 
 video2 = [markdown|
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-<iframe src="//www.youtube.com/embed/FSdXiBLpErU?rel=0"
+<iframe src="//www.youtube.com/embed/FSdXiBLpErU?rel=0&html5=1"
         frameborder="0"
         allowfullscreen
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
