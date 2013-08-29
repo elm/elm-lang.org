@@ -16,6 +16,7 @@ import Control.Exception
 import System.FilePath as FP
 import System.Process
 import System.Directory
+import GHC.Conc
 
 import qualified Language.Elm as Elm
 import ElmToHtml
@@ -25,6 +26,7 @@ import Utils
 -- | Set up the server.
 main :: IO ()
 main = do
+  setNumCapabilities =<< getNumProcessors
   putStrLn "Initializing Server"
   precompile
   getRuntime
