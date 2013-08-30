@@ -179,7 +179,8 @@ tongueTwister = [markdown|
 She sells sea shells by the sea shore.
 |\]
 
-main = flow down [ tongueTwister, fittedImage 300 200 "/shells.jpg" ]
+main = flow down [ tongueTwister
+                 , fittedImage 300 200 "/shells.jpg" ]
 ```
 
 You can change down to be lots of different things. Your options are:
@@ -203,12 +204,11 @@ it is an easily stackable rectangle. The cool part is that a collage takes
 a list of forms. In this case, we gave it a pentagon (an N-gon with five sides)
 that has a radius of 100 pixels. We then filled the pentagon with red.
 
-We could just have easily outlined that pentagon with blue.
+We could just have easily outlined that pentagon with green.
 
 ```haskell
 main = collage 400 400
-         [ filled red (ngon 5 100)
-         , outlined (dashed green) (ngon 5 100) ]
+         [ outlined (dashed green) (ngon 5 100) ]
 ```
 
 It does not need to be a dashed line though, it could also be `solid` or `dotted`.
@@ -216,6 +216,25 @@ It does not need to be a dashed line though, it could also be `solid` or `dotted
 ### Moving, Rotating, and Scaling
 
 The best part of forms is that we can move, rotate, and scale them.
+
+```haskell
+main =
+  collage 400 400
+    [ move (100,100) (filled red (square 40))
+    , scale 2 (filled green (square 40))
+    , rotate (degrees 45) (filled blue (square 40))
+    ]
+```
+
+But we are starting to repeat ourselves. We wrote the same code
+for all three forms. We can break this out into functions to make
+this easier to read.
+
+### Forms and Function
+
+Whenever your code starts to look ugly or repetative, it is likely
+that you need to create a function to help out. In the example above
+we can make a function for creating squares.
 
 ```haskell
 box color = filled color (square 40)
@@ -228,15 +247,45 @@ main =
     ]
 ```
 
-Okay, so that was a lot of stuff. The trouble is that there is a lot more stuff!
-This is why documentation is so important for programming languages. There are
-tons of cool functions that other people have written that you can just start using.
+This example is a lot nicer to read already! As we learn more about Elm,
+we will see ways to make this code look even nicer.
 
+### Documentation
+
+That was a lot of new stuff! To help you remember you can look at all
+of the documentation for Elm [here](/Documentation.elm).
+Each category is called a *library*. The ones we used today are the
+[Element](/docs/Graphics/Element.elm) and [Collage](/docs/Graphics/Collage.elm) libraries.
+Documentation can be hard to read and takes some getting used to, but
+being able to read and understand this kind of document is very important
+for quickly learning new things.
 
 # Practice Problems
 
+These problems will challenge you to use the functions and concepts from
+this class, hopefully making graphics easier to use.
 
 ### Problem 1
 
+Find portraits of three people you find interesting.
+Show all three images on screen, flowing from left to right.
+
+### Problem 2
+
+Take the three portraits from Problem 1, and add names underneath them.
+It should start to look a bit like a row in a yearbook.
+
+### Problem 3
+
+Draw a circle, rectangle, and triangle on screen. Choose the best colors.
+
+### Problem 4
+
+Draw a circle, rectangle, and triangle on screen. Label each shape with
+their [perimeter](http://en.wikipedia.org/wiki/Perimeter).
+
+### Problem 5
+
+Make a snowman.
 
 |]
