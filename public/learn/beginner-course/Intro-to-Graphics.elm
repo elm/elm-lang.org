@@ -92,7 +92,7 @@ code > span.er { font-weight: bold; }
 <span id="words"></span><br/>
 Okay, now we are going to cover the same material, but in text form.
 
-This covers the basic graphical elements in Elm.
+This covers basic graphics in Elm.
 We will first cover images and text. From there we will learn how to
 put many graphical elements together. Once we are good at putting
 rectangular shapes together, we will branch out to the wild west
@@ -127,7 +127,7 @@ Maybe we decide to look at some shells from South Africa:
 main = image 400 200 "/shells.jpg"
 ```
 
-That image looks all weird. The `image` function just stretches the
+That image looks a little weird. The `image` function just stretches the
 image to fit the dimensions. Let’s fix that!
 
 ```haskell
@@ -142,7 +142,7 @@ In the first class, we used `asText` to show
 very simple values, but it always used a monospace font.
 It is not great for normal blocks of text. For that we use
 [Markdown](http://daringfireball.net/projects/markdown/), a
-nice format for making fancy text:
+nice format for describing styled text:
 
 ```haskell
 main = [markdown|
@@ -211,11 +211,13 @@ main = collage 400 400
          [ outlined (dashed green) (ngon 5 100) ]
 ```
 
-It does not need to be a dashed line though, it could also be `solid` or `dotted`.
+It does not need to be a dashed line though, it could also be
+[`solid` or `dotted`](/examples/Elements/Lines.elm).
 
 ### Moving, Rotating, and Scaling
 
-The best part of forms is that we can move, rotate, and scale them.
+The best part of forms is that we can [move, rotate, and scale
+them](/edit/examples/Elements/Transforms.elm).
 
 ```haskell
 main =
@@ -230,7 +232,7 @@ But we are starting to repeat ourselves. We wrote the same code
 for all three forms. We can break this out into functions to make
 this easier to read.
 
-### Forms and Function
+### Forms and Functions
 
 Whenever your code starts to look ugly or repetative, it is likely
 that you need to create a function to help out. In the example above
@@ -249,6 +251,47 @@ main =
 
 This example is a lot nicer to read already! As we learn more about Elm,
 we will see ways to make this code look even nicer.
+
+### Elements as Forms
+
+We have this very flexible collage for moving, rotating, and scaling things,
+and we do not want to leave elements out. It is safe to do these transformations
+on elements as long as they live in the wild-west of forms where there is no
+easy stacking.
+
+```haskell
+main = collage 400 400 [ toForm (asText 42) ]
+```
+
+The `toForm` function will convert any element into a form. From there, we can move
+it around however we want!
+
+```haskell
+main =
+  collage 400 400
+   [ move (30,30) (toForm (image 19 21 "/imgs/skull/red.gif"))
+   , move (-30,0) (toForm (image 19 21 "/imgs/skull/blue.gif"))
+   , move (0,-50) (toForm (image 19 21 "/imgs/skull/red.gif"))
+   ]
+```
+
+But we are repeating ourselves again. Let&rsquo;s factor out some common code into
+a function.
+
+```haskell
+skull color position =
+  move position
+    (toForm (image 19 21 ("/imgs/skull/" ++ color ++ ".gif")))
+
+main = collage 400 400
+         [ skull "red"  (30,30)
+         , skull "blue" (-30,0)
+         , skull "red"  (0,-50)
+         ]
+```
+
+Note that not just any color will work in this case, we have to have
+an image for it and we currently only have red and blue.
 
 ### Documentation
 
