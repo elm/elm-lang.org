@@ -265,27 +265,17 @@ for quickly learning new things.
 These problems will challenge you to use the functions and concepts from
 this class, hopefully making graphics easier to use.
 
-### Problem 1
+ 1. Find portraits of three people you find interesting.
+    Show all three images, flowing from left to right.
 
-Find portraits of three people you find interesting.
-Show all three images on screen, flowing from left to right.
+ 2. Take the three portraits from problem 1, and add the appropriate name
+    beneath each one. It should start to look a bit like a row in a yearbook.
 
-### Problem 2
+ 3. Draw a circle, rectangle, and triangle. Choose the best colors.
 
-Take the three portraits from Problem 1, and add names underneath them.
-It should start to look a bit like a row in a yearbook.
+ 4. Draw a circle, rectangle, and triangle. Label each shape with
+    their [perimeter](http://en.wikipedia.org/wiki/Perimeter).
 
-### Problem 3
-
-Draw a circle, rectangle, and triangle on screen. Choose the best colors.
-
-### Problem 4
-
-Draw a circle, rectangle, and triangle on screen. Label each shape with
-their [perimeter](http://en.wikipedia.org/wiki/Perimeter).
-
-### Problem 5
-
-Make a snowman.
+ 5. Make a snowman.
 
 |]
