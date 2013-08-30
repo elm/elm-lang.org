@@ -41,8 +41,8 @@ The following video, [written explanation](#words), and [practice problems](#pra
 are designed to help you dive into working with images, text, and shapes.
 
 The video is followed by a written explanation that covers exactly the
-same material. As always, **you can use the [online editor](http://elm-lang.org/try) to
-follow along** and start experimenting on your own.
+same material. You can use the [online editor](http://elm-lang.org/try) to
+follow along and start experimenting on your own.
 |]
 
 video = [markdown|
@@ -90,37 +90,59 @@ code > span.er { font-weight: bold; }
 </style>
 
 <span id="words"></span><br/>
-Okay, now we are going to cover the same material, but in text form. This is nice
-for skimming or review or whatever.
+Okay, now we are going to cover the same material, but in text form.
+
+This covers the basic graphical elements in Elm.
+We will first cover images and text. From there we will learn how to
+put many graphical elements together. Once we are good at putting
+rectangular shapes together, we will branch out to the wild west
+of triangles, pentagons, and circles.
 
 # Elements
 
-The basic building blocks of graphics are literally blocks, rectangles
-filled with pretty things.
+Basic graphical elements are called *elements* in Elm. An element is a rectangle
+with a known width and height. Unlike triangles and pentagons, rectangles are
+no-nonsense shapes that can be put together very easily.
+
+There are many built-in functions that will help us create all of these
+graphical elements. First we are going to cover images and text.
 
 ### Images
 
-Some of those pretty rectangles are pictures:
+We will start with a classic cartoon bear.
 
 ```haskell
-main = image 400 200 "shells.jpg"
+main = image 200 200 "/yogi.jpg"
 ```
 
 Pictures have a width, height, and file name.
-That file can be anything on the internet, even this one.
+That file can be anything on the internet. We chose Yogi Bear, but
+we could have chosen
+[Hermann Hesse](http://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Hermann_Hesse_2.jpg/501px-Hermann_Hesse_2.jpg)
+or [Saturn](http://upload.wikimedia.org/wikipedia/commons/2/25/Saturn_PIA06077.jpg)
 
-But that image looks weird. It is all stretched. Let’s fix that!
+Maybe we decide to look at some shells from South Africa:
 
 ```haskell
-main = fittedImage 400 200 "shells.jpg"
+main = image 400 200 "/shells.jpg"
+```
+
+That image looks all weird. The `image` function just stretches the
+image to fit the dimensions. Let’s fix that!
+
+```haskell
+main = fittedImage 400 200 "/shells.jpg"
 ```
 
 Lookin&rsquo; good.
 
-### Fancy Text
+### Text
 
-You can also do text that is all fancy, like with bullet
-points and italics and big bold things.
+In the first class, we used `asText` to show
+very simple values, but it always used a monospace font.
+It is not great for normal blocks of text. For that we use
+[Markdown](http://daringfireball.net/projects/markdown/), a
+nice format for making fancy text:
 
 ```haskell
 main = [markdown|
@@ -142,7 +164,7 @@ list of kinds of fancy text:
 |\]
 ```
 
-Markdown is supposed to look a lot like the styled version it produces.
+Markdown is supposed to look a lot like the styled text it produces.
 So bullet points look a lot like bullet points, and paragraphs are actually
 separated like paragraphs. It tends to do the right thing, but if not,
 you can look up the details [here](http://daringfireball.net/projects/markdown/syntax).
@@ -153,7 +175,7 @@ It’s not enough to have pretty pictures and fancy text. We need both.
 
 At the same time.
 
-We do this with the flow function.
+We do this with the `flow` function.
 
 ```haskell
 fancyText = [markdown|
