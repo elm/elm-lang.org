@@ -20,8 +20,6 @@ everything wid =
   , section preface
   , width w video
   , section intro
-  , section (pics w')
-  , section problems
   ]
 
 title = [markdown|
@@ -171,20 +169,6 @@ they say they do. Try some of them!
 
 `flow up` kind of sounds like throw up. I don’t like this.
 
-### Positioning
-
-So now we have multiple things on screen, but what if we
-want those things to be centered? For this we create a
-container which has a width, height, position, and sub-element.
-
-```haskell
-main = container 400 400 middle (image 200 200 "yogi.jpg")
-```
-
-You can change the position to be a lot of things:
-`midLeft`, `midRight`, `bottomRight`, `topLeft`, `midTop`, etc.
-
-
 # Forms
 
 Rectangles are cool and all, but sometimes you just need a pentagon.
@@ -262,152 +246,8 @@ tons of cool functions that other people have written that you can just start us
 
 # Practice Problems
 
-These problems are a way for you to get more familiar writing code and *thinking*
-like a programmer.
 
 ### Problem 1
 
-There is a built-in function called `sqrt`. It lets you compute the
-square root of a number. So the following is a list of
-`True` things: `[ sqrt 4 == 2, sqrt 9 == 3 ]`
-
-Do you remember [the Pythagorean Theorem](http://en.wikipedia.org/wiki/Pythagorean_theorem)?
-It is a way to find the length of the diagonal edge of a right triangle. You can think of it
-a couple different ways:
-|]
-
-pics w =
-  flow right . map (container (w `div` 2) 160 middle) <|
-    [ image 200 140 "/imgs/right-triangle.jpg"
-    , image 150 150 "http://upload.wikimedia.org/wikipedia/commons/6/65/Pythag_anim.gif"
-    ]
-
-problems = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-h1, h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre {
-  margin: 0 30px;
-  padding: 4px 10px;
-  border: solid 1px rgb(235,235,235);
-}
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: white; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: white; }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
-</style>
-
-<div style="height:50px">
-The standard equation is
-<img src="http://upload.wikimedia.org/math/3/a/e/3ae71ab3eb71d3d182a3b9e437fba6ee.png"
-     style="width:100px; height:20px;"></img>
-but to make it easier to *find x*, we can write it as 
-<img src="http://upload.wikimedia.org/math/3/b/8/3b84a4234e90bf69db1029281d06e174.png"
-     style="width:114px; height:21px;"></img>
-</div>
-
-Let’s write a function that takes an `a` and `b` and computes `c`.
-
-```haskell
-hypotenuse a b = ???
-
-main = asText [hypotenuse 3 4, hypotenuse 5 12, hypotenuse 8 15]
--- the answer should be [5,13,17]
-```
-
-### Problem 2
-
-Boolean values let us talk about things that are true and false. We can also
-talk about truth when there are many conditions. Say we want to extend our `hello`
-function above to deal with more people.
-
-```haskell
--- isEnemy just checks for Sally. She is the enemy.
-isEnemy name = name == "Sally"
-
--- isFriend is True if the given name is Steve OR Sally.
---   || means OR
-isFriend name = name == "Steve" || name == "Sally"
-
--- isFrenemy is True if the person is a friend AND an enemy.
---   && means AND
-isFrenemy name = isFriend name && isEnemy name
-```
-
-Using `||` and `&&` to mean *or* and *and* is kind of weird, but it is one
-of the many historical things that is now so common that it is pretty much
-impossible to change.
-
-Your challenge is to write a function that tells you if the three
-arguments are in increasing order.
-
-```haskell
-isIncreasing a b c = ???
-
-main = asText [ isIncreasing 1 2 3
-              , isIncreasing 1 4 9
-              , isIncreasing 1 4 0 ]
-```
-
-The answer should be `[True,True,False]`.
-
-### Problem 3
-
-Remember the factorial problem? Okay, keep that in your mind...
-
-Now we are going to mess around with [Fibonacci
-Numbers](http://en.wikipedia.org/wiki/Fibonacci_number).
-The Fibonacci Numbers are the following sequence of numbers:
-
-<img src="http://upload.wikimedia.org/math/c/a/b/cabe91689f6a1af616ace02827c6e89c.png"
-     style="width:402px; height:18px; display:block; margin-left:auto; margin-right:auto;"></img>
-
-We arbitrarily say that the first two numbers are 0 and 1. From there, each number
-is the sum of the previous two. We will give each of these numbers a name *F<sub>n</sub>*
-where *n* indicates how many numbers in we are.
-
-The mathier way to say this is like this:
-
-<img src="http://upload.wikimedia.org/math/0/c/e/0cebc512d9a3ac497eda6f10203f792e.png"
-     style="width:156px; height:18px; display:block; margin-left:auto; margin-right:auto; padding:10px;"></img>
-<img src="http://upload.wikimedia.org/math/a/9/2/a92c5f0981136ba333124cdfe6d3c3ce.png"
-     style="width:132px; height:18px; display:block; margin-left:auto; margin-right:auto; padding:10px;"></img>
-
-Okay, so your challenge is to compute the *n<sup>th</sup>* Fibonacci number.
-
-```haskell
-fibonacci n = ???
-
-main = asText [ fibonacci 0
-              , fibonacci 1
-              , fibonacci 2
-              , fibonacci 3
-              , fibonacci 4
-              , fibonacci 5
-              , fibonacci 6 ]
--- The result should be [0,1,1,2,3,5,8]
-```
-
-Once you are done, you can check out a [visualization of
-the Fibonacci numbers](/edit/examples/Intermediate/FibonacciTiles.elm).
 
 |]
