@@ -171,95 +171,62 @@ you can look up the details [here](http://daringfireball.net/projects/markdown/s
 
 ### Stacking Things
 
-It’s not enough to have pretty pictures and fancy text. We need both.
-
-At the same time.
-
-We do this with the `flow` function.
+Now that we have some basic elements, the next step is to start putting them
+together. We do this with the `flow` function.
 
 ```haskell
-fancyText = [markdown|
-I’m a *pretty* pony.
+tongueTwister = [markdown|
+She sells sea shells by the sea shore.
 |\]
 
-main = flow down [ fancyText, fittedImage 300 200 "car.jpg" ]
+main = flow down [ tongueTwister, fittedImage 300 200 "/shells.jpg" ]
 ```
 
 You can change down to be lots of different things. Your options are:
 `up`, `down`, `left`, `right`, `inward`, and `outward`. They do what
 they say they do. Try some of them!
 
-`flow up` kind of sounds like throw up. I don’t like this.
-
 # Forms
 
 Rectangles are cool and all, but sometimes you just need a pentagon.
+In Elm, irregular shapes that cannot be stacked easily are called *forms*.
+These visual forms have shape, color, and many more properties and can be
+displayed any which way on a [collage](ahttp://en.wikipedia.org/wiki/Collage).
+We will start with a red pentagon:
 
 ```haskell
-main = collage 400 400 [ filled green (ngon 5 100) ]
+main = collage 400 400 [ filled red (ngon 5 100) ]
 ```
 
-Okay, so this one is more complicated. A `collage` is an Element with
-a width and a height (boring). The cool part is that it takes
-a list of forms that can be rotated, moved, and scaled in any way you want.
-In this case, we gave it a pentagon (an n-gon with five sides) that has
-a radius of 100 pixels. We then filled the pentagon with green.
+A `collage` is an element with a width and a height. It is just like images and text;
+it is an easily stackable rectangle. The cool part is that a collage takes
+a list of forms. In this case, we gave it a pentagon (an N-gon with five sides)
+that has a radius of 100 pixels. We then filled the pentagon with red.
 
 We could just have easily outlined that pentagon with blue.
 
 ```haskell
 main = collage 400 400
-         [ filled yellow (ngon 5 100) 
-         , outlined (dashed blue) (ngon 5 100) ]
+         [ filled red (ngon 5 100)
+         , outlined (dashed green) (ngon 5 100) ]
 ```
 
 It does not need to be a dashed line though, it could also be `solid` or `dotted`.
 
 ### Moving, Rotating, and Scaling
 
-Now that we can make shapes, let’s mess around with them.
+The best part of forms is that we can move, rotate, and scale them.
 
 ```haskell
-lightGrey = filled (rgba 99 99 99 0.3)
+box color = filled color (square 40)
 
 main =
   collage 400 400
-    [ move (100,100) (lightGrey (circle 50))
-    , scale 2 (lightGrey (oval 50 30))
-    , rotate (degrees 45) (lightGrey (rect 150 15))
+    [ move (100,100) (box red)
+    , scale 2 (box green)
+    , rotate (degrees 45) (box blue)
     ]
 ```
-
-It can get kind of hard to read all of these functions, so Elm lets you use
-the `|>` operator to change the order of functions and get rid of a bunch of parentheses.
-
-As a basic example, let’s use `|>` on some simple functions:
-
-```haskell
-main = asText [ sqrt 4, 4 |> sqrt ]
-```
-
-They are the same thing, so you can think of `|>` as saying
-“give this value to that function over there, where I am pointing.”
-
-Let’s use it on our example of moving things around:
-
-```haskell
-main =
-  collage 400 400
-    [ circle 50
-          |> outlined (solid green)
-          |> move (100,100)
-    , oval 50 30
-          |> filled red
-          |> scale 2
-    , rect 150 15
-          |> filled (rgba 12 0 212 0.3)
-          |> rotate (degrees 45)
-    ]
-```
-
-Wowzers, that is way easier to read now!
 
 Okay, so that was a lot of stuff. The trouble is that there is a lot more stuff!
 This is why documentation is so important for programming languages. There are
