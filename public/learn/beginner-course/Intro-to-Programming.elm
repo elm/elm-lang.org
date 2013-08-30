@@ -1,5 +1,10 @@
 import Website.Blog (skeleton)
 import Window
+import JavaScript as JS
+
+titles = constant (JS.fromString "Intro to Programming")
+foreign export jsevent "title"
+  titles : Signal JS.JSString
 
 main = lift (skeleton everything) Window.width
 
