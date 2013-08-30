@@ -276,6 +276,11 @@ this class, hopefully making graphics easier to use.
  4. Draw a circle, rectangle, and triangle. Label each shape with
     their [perimeter](http://en.wikipedia.org/wiki/Perimeter).
 
- 5. Make a snowman.
+ 5. Starting with [this example](/edit/examples/Intermediate/Clock.elm),
+    tweak the size and aesthetics until you end up with a nice clock.
+
+ 6. Starting with [this example](/edit/examples/Intermediate/Physics.elm),
+    change the orbit of the Earth. Part of programming is working with code
+    that you do not understand entirely. Do not be afraid!
 
 |]
