@@ -100,9 +100,10 @@ p, li {
 </style>
 
 Support for hot-swapping is live on this site, so you can [mess with Mario
-yourself](/edit/examples/Intermediate/Mario.elm)
-and play with the bouncing ball below. As you tweak the colors, shapes,
-and physics in the code, you will see the ball update automatically.
+yourself](/edit/examples/Intermediate/Mario.elm) and play with the
+[bouncing ball](/edit/examples/Intermediate/Bounce.elm) below.
+As you tweak the colors, shapes, and physics in the code, you
+will see the ball update automatically.
 |]
 
 editor = [markdown|
