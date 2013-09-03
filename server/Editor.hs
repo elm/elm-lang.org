@@ -12,7 +12,10 @@ import qualified System.FilePath as FP
 -- | Display an editor and the compiled result side-by-side.
 ide :: String -> FilePath -> String -> Html
 ide cols fileName code =
-    ideBuilder cols ("Elm Editor: " ++ FP.takeBaseName fileName) fileName fileName
+    ideBuilder cols
+               ("Elm Editor: " ++ FP.takeBaseName fileName)
+               fileName
+               ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
