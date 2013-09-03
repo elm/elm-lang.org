@@ -55,8 +55,8 @@ Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
 [Elm](/) is taking the next step by introducing *hot-swapping*, the
-key component in truly interactive programming. Before diving into
-details, I need to define two terms to help formalize where we are
+key component in truly *interactive programming*. Before diving into
+details, we need to define these two terms to help formalize where we are
 going and the challenges we face:
 
 * **[Interactive Programming](http://en.wikipedia.org/wiki/Interactive_programming)
