@@ -52,10 +52,10 @@ Articles like [Learnable Programming](http://worrydream.com/LearnableProgramming
 exploring the possibilities of interactive programming while projects like
 [LightTable](http://www.lighttable.com/) develop the tooling for it.
 Our tools are finally allowing the kind of interactivity that makes
-programming more fun and more productive.
+programming more fun and more productive. [Elm](/) is taking the next step
+by introducing *hot-swapping*.
 
-So far this movement towards interactivity lacks a common vocabulary.
-I&rsquo;d like to introduce the terms *Interactive Programming*
+Before diving into details, I need to introduce the terms *Interactive Programming*
 and *Hot-Swapping* to help us better understand where we are going and the
 challenges we face:
 
