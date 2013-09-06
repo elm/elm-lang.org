@@ -6,6 +6,6 @@ import Window
 
 scene (w,h) {x,y} =
     let positioned = move (toFloat x - toFloat w/2, toFloat h/2 - toFloat y) 
-    in  collage w h [ positioned (filled teal (circle 40)) ]
+    in  collage w h [ positioned (filled purple (circle 40)) ]
 
 main = lift2 scene Window.dimensions Touch.taps
