@@ -17,7 +17,7 @@ test = either putStrLn putStrLn $ do
   doc <- eitherDecode "{\"name\":\"List\", \"document\":\"# Test Documentation\nhello how are you? Welcome to the docs.\n\n* abc\n* def\n@docs a,(+)\n\nThat was the docs, thanks for listening!\",\"aliases\":[],\"values\":[{\"name\":\"a\",\"comment\":\"the letter A\",\"raw\":\"a : Char\"},{\"name\":\"+\",\"comment\":\"add numbers\",\"raw\":\"(+) : number -> number -> number\",\"associativity\":\"left\",\"precedence\":4}],\"datatypes\":[]}"
   docToElm doc
 
-main = document "List"
+main = mapM document ["List","Either","Maybe","Mouse","Signal","Window","Graphics/Input","Basics"]
 
 document name = do
   src <- BS.readFile $ "../../elm/libraries/docs/" ++ name ++ ".json"
@@ -79,8 +79,11 @@ docToElm doc =
      case Either.partitionEithers $ map (contentToElm entries) contents of
        ([], code) -> Right $ unlines [ "import open Docs"
                                      , "import Window"
+                                     , "import Search"
                                      , ""
-                                     , "main = documentation " ++ show (moduleName doc) ++ " entries <~ Window.dimensions"
+                                     , "main = documentation " ++ show (moduleName doc) ++ " entries <~ Window.dimensions ~ Search.box ~ Search.results"
+
+
                                      , ""
                                      , "entries ="
                                      , "  [ " ++ List.intercalate "\n  , " code ++ "\n  ]"
@@ -114,7 +117,7 @@ getEntries doc =
 contentToElm :: Map.Map String Entry -> Content -> Either String String
 contentToElm entries content =
     case content of
-      Markdown md -> Right $ "flip width [markdown|<style>h1 {font-weight:normal;}</style>" ++ md ++ "|]"
+      Markdown md -> Right $ "flip width [markdown|<style>p,ul,pre {color:#747679;} h1 {font-weight:normal;font-size:24px;}</style>" ++ md ++ "|]"
       Value name ->
           case Map.lookup name entries of
             Nothing -> Left name
