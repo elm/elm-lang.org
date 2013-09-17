@@ -29,7 +29,7 @@ main = do
   setNumCapabilities =<< getNumProcessors
   putStrLn "Initializing Server"
   precompile
-  getRuntime
+  getRuntimeAndDocs
   putStrLn "Serving at localhost:8000"
   simpleHTTP nullConf $ do
     compressedResponseFilter
@@ -121,10 +121,10 @@ precompile =
             filess <- mapM (getFiles skip ext) dirs
             return (files ++ concat filess)
 
-getRuntime :: IO ()
-getRuntime = do
-  rts <- readFile =<< Elm.runtime
-  writeFile "resources/elm-runtime.js" rts
+getRuntimeAndDocs :: IO ()
+getRuntimeAndDocs = do
+  writeFile "resources/elm-runtime.js" =<< readFile =<< Elm.runtime
+  writeFile "resources/docs.json" =<< readFile =<< Elm.docs
 
 adjustHtmlFile :: FilePath -> IO ()
 adjustHtmlFile file =
