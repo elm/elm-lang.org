@@ -257,7 +257,7 @@ should align with the one above it.
 
 ### Applying Functions
 
-If we deine some function called `append` that puts lists together
+If we define some function called `append` that puts lists together
 
 ```haskell
 append xs ys = xs ++ ys

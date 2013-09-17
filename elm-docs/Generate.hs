@@ -1,24 +1,34 @@
-
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Data.Char (isSymbol)
 import qualified Data.Map as Map
-import Data.Map ((!))
-import Data.List (intercalate,(\\))
-import Control.Applicative
-import Text.JSON
-import RenameTypes as Rename
+import qualified Data.List as List
+import qualified Data.Char as Char
+import qualified Data.Either as Either
+import qualified Data.ByteString.Lazy.Char8 as BS
+import Control.Applicative ((<$>),(<*>))
+import Control.Monad
+import Data.Aeson
 import System.FilePath
 import System.Directory
+import Text.Parsec
 
-main = do
-  libs <- fmap parse (readFile "../resources/docs.json")
-  structure <- readFile "structure.json"
-  mapM writeDocs (parseStructure libs structure)
+test = either putStrLn putStrLn $ do
+  doc <- eitherDecode "{\"name\":\"List\", \"document\":\"# Test Documentation\nhello how are you? Welcome to the docs.\n\n* abc\n* def\n@docs a,(+)\n\nThat was the docs, thanks for listening!\",\"aliases\":[],\"values\":[{\"name\":\"a\",\"comment\":\"the letter A\",\"raw\":\"a : Char\"},{\"name\":\"+\",\"comment\":\"add numbers\",\"raw\":\"(+) : number -> number -> number\",\"associativity\":\"left\",\"precedence\":4}],\"datatypes\":[]}"
+  docToElm doc
 
-writeDocs (name, code) = do putStrLn name
-                            createDirectoryIfMissing True dir
-                            writeFile fileName code
+main = mapM document ["List","Either","Maybe","Mouse","Signal","Window","Graphics/Input","Basics"]
+
+document name = do
+  src <- BS.readFile $ "../../elm/libraries/docs/" ++ name ++ ".json"
+  case eitherDecode src of
+    Left err -> print err
+    Right doc -> either putStrLn (writeFile $ name ++ ".elm") (docToElm doc)
+
+writeDocs (name, code) =
+  do putStrLn name
+     createDirectoryIfMissing True dir
+     writeFile fileName code
   where
     fileName =  dir </> last fileParts <.> "elm"
 
@@ -29,56 +39,94 @@ writeDocs (name, code) = do putStrLn name
     split xs = hd : split (dropWhile (=='.') tl)
         where (hd,tl) = span (/='.') xs
 
-parseStructure libs s =
-    map (toElm libs) . extract $ decodeStrict s
+data Document = Doc
+    { moduleName :: String
+    , structure :: String
+    , entries :: [Entry]
+    } deriving (Show)
 
-toElm libraries structure = (name, code)
+data Entry = Entry
+    { name :: String
+    , comment :: String
+    , raw :: String
+    , assocPrec :: Maybe (String,Int)
+    } deriving (Show)
+
+instance FromJSON Document where
+    parseJSON (Object v) =
+        Doc <$> v .: "name"
+            <*> v .: "document"
+            <*> (concat <$> sequence [ v .: "aliases", v .: "datatypes", v .: "values" ])
+
+    parseJSON _ = fail "Conversion to Document was expecting an object"
+
+instance FromJSON Entry where
+    parseJSON (Object v) =
+        Entry <$> v .: "name"
+              <*> v .: "comment"
+              <*> v .: "raw"
+              <*> (liftM2 (,) <$> v .:? "associativity"
+                              <*> v .:? "precedence")
+
+    parseJSON _ = fail "Conversion to Entry was expecting an object"
+
+data Content = Markdown String | Value String
+               deriving Show
+
+docToElm doc =
+  do contents <- either (Left . show) Right $ parse (parseDoc []) "" (structure doc)
+     let entries = getEntries doc
+     case Either.partitionEithers $ map (contentToElm entries) contents of
+       ([], code) -> Right $ unlines [ "import open Docs"
+                                     , "import Window"
+                                     , "import Search"
+                                     , ""
+                                     , "main = documentation " ++ show (moduleName doc) ++ " entries <~ Window.dimensions ~ Search.box ~ Search.results"
+
+
+                                     , ""
+                                     , "entries ="
+                                     , "  [ " ++ List.intercalate "\n  , " code ++ "\n  ]"
+                                     ]
+       (missing, _) -> Left $ "Could not find documentation for: " ++ List.intercalate ", " missing
   where
-    code = concat [ "\nimport Website.Docs (createDocs)\n\n"
-                  , "sections =", listify 1 sections, "\n\n"
-                  , "description = [markdown|", desc, "|]\n\n"
-                  , "main = createDocs \"", name, "\" description sections\n" ]
-    name = extract (get "module" structure)
-    desc = extract (get "description" structure)
-    sections = map toSection (ss ++ rest)
-        where gets obj = (,) <$> get "name" obj <*> valFromObj "values" obj
-              ss = extract (mapM gets =<< valFromObj "sections" structure)
-              leftovers = Map.keys facts \\ concatMap snd ss
-              rest = if null leftovers then [] else []
-                     --[("Other Useful Functions", leftovers)]
+    parseDoc contents =
+        choice [ eof >> return contents
+               , do try (string "@docs")
+                    whitespace
+                    values <- sepBy1 (var <|> op) comma
+                    parseDoc (contents ++ map Value values)
+               , do let stop = eof <|> try (string "@docs" >> return ())
+                    md <- manyTill anyChar (lookAhead stop)
+                    parseDoc (contents ++ [Markdown md])
+               ]
 
-    find err = let msg = "Lookup Error: " ++ err ++ " was not found"
-               in  Map.findWithDefault (error msg)
+    var = (:) <$> letter <*> many (alphaNum <|> oneOf "_'")
+    op = do char '(' >> whitespace
+            operator <- many1 (satisfy Char.isSymbol <|> oneOf "+-/*=.$<>:&|^?%#@~!")
+            whitespace >> char ')'
+            return operator
 
-    facts = find ("module " ++ name) name libraries
-    listify indent xs = spc ++ "[ " ++ intercalate (spc ++ ", ") xs ++ spc ++ "]"
-        where spc = '\n' : replicate indent ' '
-    toSection (name,values) = 
-        "(\"" ++ name ++ "\"," ++ listify 4 (map toEntry values) ++ ")"
-    isOp c = isSymbol c || elem c "+-/*=.$<>:&|^?%#@~!"
-    toEntry value =
-        "(\"" ++ value' ++ "\", \"" ++ tipe' ++ "\", [markdown|" ++ desc ++ "|])"
-        where (tipe, desc) = find (name ++ "." ++ value) value facts
-              tipe' = Rename.rename tipe
-              value' = if all isOp value then "(" ++ value ++ ")" else value
+    comma = try (whitespace >> char ',') >> whitespace
+    whitespace = many (satisfy (`elem` " \n\r"))
 
-extract :: Result a -> a
-extract result = case result of { Error err -> error err; Ok libs -> libs }
+getEntries :: Document -> Map.Map String Entry
+getEntries doc =
+    Map.fromList $ map (\entry -> (name entry, entry)) (entries doc)
 
-parse docs = extract $ do
-               obj <- decodeStrict docs
-               modules <- valFromObj "modules" obj
-               Map.fromList `fmap` mapM getValues modules
-
-get :: String -> JSObject JSValue -> Result String
-get = valFromObj
-
-getValue obj = (,) <$> get "name" obj <*> pair
-    where pair = (,) <$> get "type" obj <*> get "desc" obj
-
---getValues :: JSObject JSValue -> Result (String, Map.Map String String)
-getValues obj = do
-  name <- get "name" obj
-  vs   <- valFromObj "values" obj
-  vals <- mapM getValue vs
-  return (name, Map.fromList vals)
+contentToElm :: Map.Map String Entry -> Content -> Either String String
+contentToElm entries content =
+    case content of
+      Markdown md -> Right $ "flip width [markdown|<style>p,ul,pre {color:#747679;} h1 {font-weight:normal;font-size:24px;}</style>" ++ md ++ "|]"
+      Value name ->
+          case Map.lookup name entries of
+            Nothing -> Left name
+            Just entry ->
+                Right $ unwords [ "entry"
+                                , show name
+                                , show (raw entry)
+                                , case assocPrec entry of
+                                    Nothing -> "Nothing"
+                                    Just ap -> "(" ++ show (Just ap) ++ ")"
+                                , "[markdown|" ++ comment entry ++ "|]"
+                                ]

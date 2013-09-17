@@ -1,5 +1,10 @@
 import Website.Blog (skeleton)
 import Window
+import JavaScript as JS
+
+titles = constant (JS.fromString "Intro to Programming")
+foreign export jsevent "title"
+  titles : Signal JS.JSString
 
 main = lift (skeleton everything) Window.width
 
@@ -112,13 +117,13 @@ You can also do simple mathematics.
 main = asText 42
 ```
 
-Addition just uses the plus sign.
+Addition uses the plus sign.
 
 ```haskell
 main = asText (2 + 2)
 ```
 
-This is just like using a graphing calculator or doing math on paper.
+This is similar to using a graphing calculator or doing math on paper.
 Note that `*` means multiply, `/` means divide, and `^` means “to the power of”
 
 This is 3 times 4 over 2
@@ -142,7 +147,7 @@ main = asText ("Hello " ++ "Steve!")
 ```
 
 ### Lists
-Lists are just a sequence of things. All the things must be the same type
+Lists are a sequence of things. All the things must be the same type
 of thing though! For instance, the list can be all numbers:
 
 ```haskell
@@ -285,7 +290,7 @@ of a number.
 main = asText (sqrt 25)
 ```
 
-Here is a very simple function that just increment numbers by one.
+Here is a function that increments numbers by one.
 
 ```haskell
 increment n = n + 1
@@ -447,7 +452,7 @@ The Fibonacci Numbers are the following sequence of numbers:
 <img src="http://upload.wikimedia.org/math/c/a/b/cabe91689f6a1af616ace02827c6e89c.png"
      style="width:402px; height:18px; display:block; margin-left:auto; margin-right:auto;"></img>
 
-We just arbitrarily say that the first two numbers are 0 and 1. From there, each number
+We arbitrarily say that the first two numbers are 0 and 1. From there, each number
 is the sum of the previous two. We will give each of these numbers a name *F<sub>n</sub>*
 where *n* indicates how many numbers in we are.
 

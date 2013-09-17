@@ -16,6 +16,7 @@ import Control.Exception
 import System.FilePath as FP
 import System.Process
 import System.Directory
+import GHC.Conc
 
 import qualified Language.Elm as Elm
 import ElmToHtml
@@ -25,9 +26,10 @@ import Utils
 -- | Set up the server.
 main :: IO ()
 main = do
+  setNumCapabilities =<< getNumProcessors
   putStrLn "Initializing Server"
   precompile
-  getRuntime
+  getRuntimeAndDocs
   putStrLn "Serving at localhost:8000"
   simpleHTTP nullConf $ do
     compressedResponseFilter
@@ -83,11 +85,7 @@ withFile handler fp = do
     Nothing -> return404
 
 return404 =
-    notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
-
--- | Compile an arbitrary Elm program from the public/ directory.
-compileFile :: FilePath -> ServerPart Response
-compileFile = withFile (elmToHtml . FP.takeBaseName)
+  notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
 
 -- | Simple response for form-validation demo.
 sayHi :: ServerPart Response
@@ -123,10 +121,10 @@ precompile =
             filess <- mapM (getFiles skip ext) dirs
             return (files ++ concat filess)
 
-getRuntime :: IO ()
-getRuntime = do
-  rts <- readFile =<< Elm.runtime
-  writeFile "resources/elm-runtime.js" rts
+getRuntimeAndDocs :: IO ()
+getRuntimeAndDocs = do
+  writeFile "resources/elm-runtime.js" =<< readFile =<< Elm.runtime
+  writeFile "resources/docs.json" =<< readFile =<< Elm.docs
 
 adjustHtmlFile :: FilePath -> IO ()
 adjustHtmlFile file =

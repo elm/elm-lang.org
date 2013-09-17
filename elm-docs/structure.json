@@ -225,7 +225,7 @@
      ]
   }
 , { "module" : "Graphics.Input"
-  , "description" : "See [the walkthrough on `Graphics.Input`](/) to get a better understanding of how this library works and why it is designed this way."
+  , "description" : "See [the Input examples](/examples/Basic.elm) to get a better understanding of how this library works and why it is designed this way."
   , "sections" :
     [{"name":"One-way Inputs",
       "values":["button","customButton","field","email","password",
