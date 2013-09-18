@@ -9,8 +9,8 @@ Today we are going to learn how to gravity.
 |]
 
 sunAndEarthAt angle =
-  let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]
-      sun = group [ filled lightYellow (circle 35), toForm (plainText "Sun") ]
+  let earth = group [ filled cyan (circle 20), toForm (plainText "Earth") ]
+      sun = group [ filled yellow (circle 35), toForm (plainText "Sun") ]
   in  collage 300 200
         [ earth |> move (120 * cos angle, 80 * sin angle)
         , sun   |> move (25,0) ]
@@ -22,7 +22,7 @@ Now that we can gravity, let's see if we can do it with elasticity!
 |]
 
 bouncingBallAt angle =
-  let ball = filled lightRed (circle 15)
+  let ball = filled red (circle 15)
       ground = filled green (rect 300 50)
   in  collage 300 200
           [ ball   |> move (0, abs (150 * sin angle) - 75),

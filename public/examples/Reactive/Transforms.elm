@@ -11,6 +11,6 @@ scene (x,y) (w,h) =
           |> filled blue
           |> rotate (atan2 dy dx)
        , ngon 6 30
-          |> filled orange
+          |> filled red
           |> move (dx, dy)
        ]
