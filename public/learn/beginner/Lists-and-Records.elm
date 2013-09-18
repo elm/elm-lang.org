@@ -24,7 +24,7 @@ everything wid =
 
 title = [markdown|
 <br/>
-<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
+<div style="font-family: futura, calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Intro to Lists and Records</div>
 </div>
 |]
@@ -40,13 +40,13 @@ Now that you have been [introduced to programming](/learn/beginner-course/Intro-
 you are about to learn how to work with lists and records.
 
   * **Lists** are basically what they say, a big list of values.
-    Not too crazy, but the values can be *anything*! Lists can
-    represent anything from todo lists to armories full of
+    Lists can represent anything from todo lists to armories full of
     axes and magic potions.
+
   * **Records** are a way for structuring and naming information.
-    This sounds pretty dull, but records are amazing!
-    They make it easy to represent complex ideas in code, like
-    the values that will go in our todo list or armory.
+    Records make it easy to represent complex ideas in code, so
+    we can begin to talk about tasks in our todo list or weapons
+    in our armory.
 
 The following video, [written explanation](#words), and [practice problems](#practice-problems)
 are designed to help you dive into lists and records.
@@ -73,7 +73,7 @@ p, li {
   line-height: 1.5em;
 }
 h1, h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+  font-family: futura,calibri,verdana,helvetica,arial;
 }
 pre {
   margin: 0 30px;
@@ -113,5 +113,15 @@ to start writing more complex programs.
 # Records
 
 # Practice Problems
+
+These problems will challenge you to use and expand upon your knowledge of
+lists and records. Remember that case expressions and pattern matching are
+your friends!
+
+  1. Do this.
+
+  2. Do that.
+
+  3. Do the other thing.
 
 |]
