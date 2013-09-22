@@ -32,7 +32,7 @@ title = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Interactive Programming</div>
-<div style="font-size: 1.5em;">A New Kind of REPL</div>
+<div style="font-size: 1.5em;">Hot-swapping in Elm</div>
 </div>
 |]
 
@@ -54,7 +54,7 @@ exploring the possibilities of interactive programming while projects like
 Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
-[Elm](/) is taking the next step by introducing *hot-swapping*, the
+[Elm](/) is taking the next step by supporting *hot-swapping*, the
 key component in truly *interactive programming*. Before diving into
 details, we need to define these two terms to help formalize where we are
 going and the challenges we face:
