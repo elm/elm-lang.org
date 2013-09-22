@@ -54,7 +54,8 @@ exploring the possibilities of interactive programming while projects like
 Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
-[Elm](/) is taking the next step by supporting *hot-swapping*, the
+[Elm](/) is taking the next step by supporting
+[*hot-swapping*](http://en.wikipedia.org/wiki/Hot_swapping#Software), the
 key component in truly *interactive programming*. Before diving into
 details, we need to define these two terms to help formalize where we are
 going and the challenges we face:
@@ -68,8 +69,7 @@ going and the challenges we face:
 * **[Hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping) &ndash;
   modifying running code**<br/>This is a specific technique used by compilers
   and runtime systems to swap new functions and values into a program while it
-  is running. This technique is required for fully Interactive Programming and is
-  a key requirement for both Learnable Programming and LightTable.
+  is running. This technique is required for fully Interactive Programming.
 
 Interactive programming is the goal and hot-swapping is the primary technical
 challenge. I make this distinction because *hot-swapping is not always possible*
