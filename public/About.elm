@@ -11,7 +11,7 @@ intro = [markdown|
 
 leftCol = [markdown|
 
-#### Overview of features
+#### Intro to features
 
 * [What is &ldquo;FRP&rdquo;?][frp]
 * [Types][types]
@@ -30,18 +30,16 @@ leftCol = [markdown|
 
 rightCol = [markdown|
 
-#### Quick References
+#### Syntax
 
-* [Syntax Reference](/learn/Syntax.elm)
+* [Reference Sheet](/learn/Syntax.elm)
 * [Learn by example](/Examples.elm)
 
 #### Getting Started
 
-* [Install compiler and server][install]
 * [Website skeleton][this]
 * [Game skeleton][games]
 
- [install]: https://github.com/evancz/Elm/blob/master/README.md#install "install"
  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
  [games]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1 "Game Skeleton"
 
