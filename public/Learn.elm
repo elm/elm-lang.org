@@ -30,7 +30,7 @@ leftCol = [markdown|
 
 rightCol = [markdown|
 
-#### Getting Started
+#### Get Started
 
 * [Syntax reference](/learn/Syntax.elm)
 * [Website skeleton][this]
@@ -41,9 +41,9 @@ rightCol = [markdown|
 
 #### Beginner Classes
 
-* [Intro to Programming]()
-* [Intro to Graphics]()
-* [Intro to Lists and Records]()
+* [Intro to Programming](/learn/courses/beginner/Programming.elm)
+* [Intro to Graphics](/learn/courses/beginner/Graphics.elm)
+* [Intro to Lists and Records](/learn/courses/beginner/Lists-and-Records.elm)
 
 |]
 
