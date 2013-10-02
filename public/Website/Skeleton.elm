@@ -11,7 +11,7 @@ skeleton' inner bodyFunc (w,h) =
     color lightGrey <|
     flow down [ topBar w
               , container w (max (h-80) (heightOf content)) midTop content
-              , container w 50 midBottom . Text.centered <|
+              , container w 50 (midBottomAt (relative 0.5) (absolute 10)) . Text.centered <|
                 Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
                 Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
               ]
@@ -26,7 +26,7 @@ topBar w =
 
 paths1 =
   [ ("Docs"     , "http://docs.elm-lang.org")
-  , ("Learn"    , "/About.elm")
+  , ("Learn"    , "/Learn.elm")
   , ("Examples" , "/Examples.elm")
   , ("Blog"     , "/Blog.elm")
   ]
@@ -34,7 +34,7 @@ paths1 =
 paths2 = 
   [ ("Try"       , "/try")
   , ("Share"     , "http://www.share-elm.com/")
-  , ("Install"   , "/Download.elm")
+  , ("Install"   , "/Install.elm")
   , ("Contribute", "/Contribute.elm")
   ]
 
