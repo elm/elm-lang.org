@@ -13,10 +13,10 @@ leftCol = [markdown|
 
 #### Intro to features
 
-* [What is &ldquo;FRP&rdquo;?][frp]
+* [FRP][frp]
 * [Types][types]
 * [Algebraic data types][adt]
-* [Extensible records][records]
+* [Records][records]
 * [JavaScript integration][js]
 
  [adt]: learn/Pattern-Matching.elm
