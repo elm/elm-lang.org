@@ -1,4 +1,4 @@
-import Website.Skeleton (skeleton)
+import Website.Skeleton (skeleton')
 import Window
 
 ---- Text of the page: all written in Markdown ----
@@ -73,13 +73,13 @@ releaseNotes = [markdown|
 
 #### Release notes
 
-* <code>[0.9][9]    &nbsp; &nbsp;&nbsp; 8/2013 &nbsp; &nbsp; </code>Fix the type checker. Fast and reliable static checks.
-* <code>[0.8][8]    &nbsp; &nbsp;&nbsp; 5/2013 &nbsp; &nbsp; </code>HTML/JS integration, type annotations/aliases
-* <code>[0.7.1][71]        &nbsp;&nbsp; 2/2013 &nbsp; &nbsp; </code>Touch, Either, and better Keyboard
-* <code>[0.7][7]    &nbsp; &nbsp;&nbsp; 1/2013 &nbsp; &nbsp; </code>Extensible Records
-* <code>[0.6][6]    &nbsp; &nbsp;&nbsp;12/2012 &nbsp; &nbsp; </code>Time, Dates, and whitespace sensitivity
+* <code>[0.9][9]    &nbsp; &nbsp;&nbsp; 8/2013 &nbsp; &nbsp; </code>Fast and reliable type checker
+* <code>[0.8][8]    &nbsp; &nbsp;&nbsp; 5/2013 &nbsp; &nbsp; </code>HTML/JS integration
+* <code>[0.7.1][71]        &nbsp;&nbsp; 2/2013 &nbsp; &nbsp; </code>Touch, Either, Keyboard
+* <code>[0.7][7]    &nbsp; &nbsp;&nbsp; 1/2013 &nbsp; &nbsp; </code>Extensible records
+* <code>[0.6][6]    &nbsp; &nbsp;&nbsp;12/2012 &nbsp; &nbsp; </code>Whitespace sensitivity
 * <code>[0.5][5]    &nbsp; &nbsp;&nbsp;10/2012 &nbsp; &nbsp; </code>Dictionaries, Sets, and Automata 
-* <code>[0.4][4]    &nbsp; &nbsp;&nbsp; 9/2012 &nbsp; &nbsp; </code>Markdown and better graphics
+* <code>[0.4][4]    &nbsp; &nbsp;&nbsp; 9/2012 &nbsp; &nbsp; </code>Markdown
 * <code>[0.3.6][36]        &nbsp;&nbsp; 8/2012 &nbsp; &nbsp; </code>JSON support
 * <code>[0.3.5][35]        &nbsp;&nbsp; 6/2012 &nbsp; &nbsp; </code>JavaScript FFI
 * <code>[0.3][3]    &nbsp; &nbsp;&nbsp; 6/2012 &nbsp; &nbsp; </code>Modules
@@ -122,4 +122,4 @@ content w =
     , width w releaseNotes
     ]
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton' 800 content) Window.dimensions

@@ -7,7 +7,7 @@ title = constant (JS.fromString "Elm and Prezi")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
-main = lift (skeleton intro) Window.width
+main = lift (skeleton intro) Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 

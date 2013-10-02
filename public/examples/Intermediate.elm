@@ -37,4 +37,4 @@ content w =
   let tiles = tile w <| map toTile intermediate
   in  width w intro `above` container w (heightOf tiles) midTop tiles
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton content) Window.dimensions

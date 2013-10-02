@@ -1,4 +1,4 @@
-import Website.Skeleton (skeleton)
+import Website.Skeleton (skeleton')
 import Website.ColorScheme (lightGrey,mediumGrey)
 
 import JavaScript as JS
@@ -521,7 +521,7 @@ everything = content <~ inputField
                       ~ Http.send (getTag <~ tags)
                       ~ searchBox
 
-main = lift2 skeleton everything Window.width
+main = lift2 (\e (w,h) -> skeleton' 800 e (w,h)) everything Window.dimensions
 
 titles = constant (JS.fromString "Escape from Callback Hell")
 foreign export jsevent "title"

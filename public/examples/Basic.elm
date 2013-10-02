@@ -145,4 +145,4 @@ content w =
 exampleSets w =
   flow down . map (width w) . intersperse (plainText " ") <| content w
 
-main = skeleton exampleSets <~ Window.width
+main = skeleton exampleSets <~ Window.dimensions

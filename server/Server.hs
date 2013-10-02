@@ -142,5 +142,7 @@ adjustHtmlFile file =
         , "  a:visited {text-decoration: none}"
         , "  a:active {text-decoration: none}"
         , "  a:hover {text-decoration: underline; color: rgb(234,21,122);}"
-        , "  body { font-family: calibri, verdana, helvetica, arial }"
+        , "  body { font-family: \"Lucida Grande\",\"Trebuchet MS\",\"Bitstream Vera Sans\",Verdana,Helvetica,sans-serif !important; }"
+        , "  p, li { font-size: 14px !important;"
+        , "          line-height: 1.5em !important; }"
         , "</style>" ]
