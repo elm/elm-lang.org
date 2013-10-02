@@ -19,24 +19,23 @@ areas to contrubute to are:
  * [Libraries](#libraries)
  * [Compiler](#compiler)
 
-And remember the [email list][list] and [#elm IRC channel][irc] are great
-places to go for help or to talk about ideas.
+If you decide to take on a project, be sure to mention this on the [email list][list]
+so that you can get early feedback from the people who will eventually be reviewing
+and using your code. This will also help avoid duplication of effort.
 
  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
 
-<br/>
-
 #### Community
 
-Perhaps surprisingly, the technical and theoretical merits of a project do not have a lot
-to do with its success. Building a community and fostering healthy discussion and debate
-is vital to a programming language. This stuff is really important!
+Building a community and fostering healthy discussion and debate
+is vital to a programming language. This is an easy an important way to help.
 
- * Write about making things in Elm. Learning by example is a core part of Elm so far,
+ * Write about making things in Elm. Learning by example is a core part of Elm,
    so help continue the tradition.
 
- * Hang out on the [#elm IRC channel][irc]. Ask questions, start answering them yourself, and
-   talk about how to make Elm better.
+ * Hang out on the [#elm IRC channel][irc]. Ask questions, start answering them
+   yourself, and talk about how to make Elm better. Try to make sure discussions
+   are friendly and evidence-based.
 
  [irc]: http://webchat.freenode.net/?channels=elm "irc"
 
@@ -44,43 +43,40 @@ is vital to a programming language. This stuff is really important!
 #### Examples
 
 Build demos for the world to see. Blog about it. Tell people how you did it and
-why that is cool. To get started with this, see [how to make Pong][pong]. Some
-cool things might be:
+why that is cool. To get started with this, see [how to make
+Pong](/blog/games-in-elm/part-0/Making-Pong.html). Some cool things might be:
 
-  * Diagram-heavy presentations, like [this](/learn/What-is-FRP.elm) and
-    [this](physics). Presentations about physics, chemistry, and engineering
-    are super easy in Elm!
+  * **Diagrams** &ndash; like [this](/learn/What-is-FRP.elm) and
+    [this](/examples/Intermediate/Physics.elm). Interactive presentations
+    about programming, physics, chemistry, and engineering are super easy in Elm!
 
-  * Games: Maze, Sudoku, Breakout, Side-scroller, etc.
+  * **Games** &ndash; such as Sudoku, Breakout, a
+    [side-scroller](/examples/Intermediate/Mario.elm),
+    [an RPG](/examples/Intermediate/Walk.elm), a maze, space invaders, etc.
 
-  * Be creative! Do something that is easy in Elm, but hard elsewhere.
-
- [physics]: https://groups.google.com/forum/?fromgroups=#!searchin/elm-discuss/physics/elm-discuss/90Nuj7KCEfw/l3Do6DMbaAoJ "physics"
-
-The most important thing here is to tell people about your work!
-
- [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong"
-
+  * **Data Visualization** &ndash; like [this pie
+    chart](http://www.share-elm.com/sprout/524bb079e4b0d6a98b152be8). See what
+    other kinds of plots and charts are simple in Elm.
 
 #### Libraries
 
 Libraries are a very visible way to make a contribution to core Elm infrastructure.
 These are tools that all Elm programmers will use and appreciate.
 
- * Flexible navigation and sidebar libraries. Make it easy to create a blog.
+ * **GUI toolkits** &ndash; navigation, sidebars, forms, blog frameworks, etc. These
+   are all areas in which a good Elm library could make things much simpler.
    The modules [here](https://github.com/evancz/elm-lang.org/tree/master/public/Website)
    are the basic framework for this website. They define the color scheme, navigation,
    and formatting. Expand this. Generalize it. Be creative!
 
- * Build a purely functional way to do 3D graphics with WebGL. Model it on the API design
-   choices made in Elm's [`Graphics`](http://elm-lang.org/docs/Graphics/Element.elm)
-   library, specifically the `collage` interface and `Forms`.
+ * **WebGL** &ndash; purely functional 3D graphics. Model it on the API design
+   choices made in Elm's [`Graphics.Collage`](http://elm-lang.org/docs/Graphics/Collage.elm)
+   library.
 
- * Basic parser combinator library in the style of Haskell's [Parsec][parsec].
-   Web programmers have been trying to parse XML with regular expressions for too long!
+ * **Parser combinator library** &ndash; make parsing easy in the style of
+   Haskell&rsquo;s [Parsec][parsec]. Web programmers have been trying to parse
+   XML with regular expressions for too long!
 
- [node]: http://nodejs.org/ "node.js"
- [http]: https://github.com/evancz/Elm/blob/master/core-js/Signal/HTTP.js "http code"
  [parsec]: http://www.haskell.org/haskellwiki/Parsec "parsec"
 
 
@@ -99,10 +95,10 @@ than when you found it!
    set up. Maybe something more.
 
  * Work towards organizing the compiler to make it easier to optimize Elm and to
-   compile to different backends (iOS, Android, etc.). This paper on the [design of
-   GHC][ghc] may be a good starting point.
+   compile to different backends (CLR, LLVM, iOS, Android, etc.). This paper on the
+   [design of GHC][ghc] may be a good starting point.
 
- * Work on different compiler backends for iOS, Android, etc. This will include additions
+ * Work on compiler backends for CLR or LLVM. This will include additions
    to the compiler and creating a new runtime system (RTS) for the platform you are targeting.
 
 The compiler code lives [here][compiler], and is roughly divided into sections by the major
