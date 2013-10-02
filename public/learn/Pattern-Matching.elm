@@ -235,7 +235,7 @@ more about representing boolean expressions.
 ---- Putting it all together into a single page ----
 
 
-main = lift (skeleton (what . min 600)) Window.width
+main = lift (skeleton (what . min 600)) Window.dimensions
 
 
 ---- Setting the title of the page to be prettier ----

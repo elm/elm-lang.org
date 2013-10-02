@@ -249,5 +249,5 @@ my experience), but it is your call!
 
 page w = width (min 600 w) blog
 
-main = lift (skeleton page) Window.width
+main = lift (skeleton page) Window.dimensions
 

@@ -233,5 +233,5 @@ scene obj w' =
   let w = min 600 w' in
   width w intro
 
-main = lift2 (skeleton . scene) (constant ()) Window.width
+main = lift2 (skeleton . scene) (constant ()) Window.dimensions
 

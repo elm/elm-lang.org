@@ -117,5 +117,5 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
 
 |]
 
-main = lift (skeleton blog) Window.width
+main = lift (skeleton blog) Window.dimensions
 

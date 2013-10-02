@@ -8,7 +8,7 @@ title = constant (JS.fromString "Elm 0.8 - Improve Everything")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
-main = lift (skeleton everything) Window.width
+main = lift (skeleton everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid

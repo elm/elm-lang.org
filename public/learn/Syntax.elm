@@ -424,4 +424,4 @@ Elm currently does not support:
 
 content w = width (min 600 w) intro
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton content) Window.dimensions

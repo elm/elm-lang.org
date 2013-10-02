@@ -408,6 +408,6 @@ content w =
     , postPoly w
     ]
 
-main = lift (skeleton (content . min 600)) Window.width
+main = lift (skeleton (content . min 600)) Window.dimensions
 
 

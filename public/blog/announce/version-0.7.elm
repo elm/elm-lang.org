@@ -291,5 +291,5 @@ if you are in the neighborhood!
 
 scene w = width w intro
 
-main = lift (skeleton (scene . min 600)) Window.width
+main = lift (skeleton (scene . min 600)) Window.dimensions
 
