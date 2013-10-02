@@ -30,15 +30,15 @@ and using your code. This will also help avoid duplication of effort.
 Building a community and fostering healthy discussion and debate
 is vital to a programming language. This is an easy an important way to help.
 
- * Write about making things in Elm. Learning by example is a core part of Elm,
-   so help continue the tradition.
+ * **Blog** &ndash; Write about making things in Elm, and share in
+   [/r/programming](http://reddit.com/r/elm) or [/r/elm](http://reddit.com/r/elm).
+   Learning by example is a core part of Elm, so help continue the tradition.
 
- * Hang out on the [#elm IRC channel][irc]. Ask questions, start answering them
-   yourself, and talk about how to make Elm better. Try to make sure discussions
+ * **IRC** &ndash; Hang out on the [#elm IRC channel][irc]. Ask questions, start answering
+   them yourself, and talk about how to make Elm better. Make sure discussions
    are friendly and evidence-based.
 
  [irc]: http://webchat.freenode.net/?channels=elm "irc"
-
 
 #### Examples
 
@@ -87,19 +87,15 @@ this is the section for you! These are big changes that are challenging from a t
 and conceptual perspective. Please try to leave the code with better style and documentation
 than when you found it!
 
- * Figure out how to distribute Elm without Haskell! I imagine having to install the Haskell
-   Platform is a barrier for some (many?) users.
+ * **Distribution** &ndash; figure out how to distribute Elm without Haskell!
+   I imagine having to install the Haskell Platform is a barrier for some (many?) users.
 
- * Figure out how to easily deploy an Elm server to an existing VPS service such as
-   Rackspace or AWS. Maybe this just means setting up a OS image that has Elm already
-   set up. Maybe something more.
+ * **Deploy** &ndash; make it easy to deploy an Elm server to AWS, Rackspace, Azure, etc.
+   Maybe this just means setting up a OS image that has Elm already set up. Maybe something
+   more.
 
- * Work towards organizing the compiler to make it easier to optimize Elm and to
-   compile to different backends (CLR, LLVM, iOS, Android, etc.). This paper on the
-   [design of GHC][ghc] may be a good starting point.
-
- * Work on compiler backends for CLR or LLVM. This will include additions
-   to the compiler and creating a new runtime system (RTS) for the platform you are targeting.
+ * **Backends** &ndash; get Elm working on CLR or LLVM. Try compiling through F# or OCaml
+   to get Elm running natively on iOS and Android.
 
 The compiler code lives [here][compiler], and is roughly divided into sections by the major
 directories. If you want to make syntactic or semantic changes, talk to [Evan][evan] early on
@@ -108,7 +104,6 @@ to make sure that your ideas fit with the long term vision of Elm.
  [compiler]: https://github.com/evancz/Elm/tree/master/elm "elm compiler"
  [libs]: https://github.com/evancz/Elm/tree/master/core-elm "libraries"
  [infer]: http://web.cecs.pdx.edu/~mpj/thih/TypingHaskellInHaskell.html "Typing Haskell"
- [ghc]: http://community.haskell.org/~simonmar/papers/aos.pdf
  [evan]: https://github.com/evancz "Evan"
 
 
