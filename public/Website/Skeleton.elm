@@ -17,9 +17,9 @@ skeleton' inner bodyFunc (w,h) =
               ]
 
 topBar w =
-    let logo = link "/" . container 70 30 middle <| image 30 30 "/logo.png"
+    let logo = link "/" . container 70 32 middle <| image 30 30 "/logo.png"
     in  flow down
-            [ container w 30 middle . flow right <|
+            [ container w 32 middle . flow right <|
               map button paths1 ++ logo :: map button paths2
             , container w 10 midTop <| color mediumGrey (spacer 800 1)
             ]
@@ -35,10 +35,10 @@ paths2 =
   [ ("Try"       , "/try")
   , ("Share"     , "http://www.share-elm.com/")
   , ("Install"   , "/Download.elm")
-  , ("Contribute", "https://github.com/evancz/Elm")
+  , ("Contribute", "/Contribute.elm")
   ]
 
 button (name, href) =
     let words = text . Text.link href <| toText name
-    in  container (widthOf words + 20) 30 middle words
+    in  container (widthOf words + 20) 32 middle words
 

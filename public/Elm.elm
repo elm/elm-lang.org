@@ -1,4 +1,4 @@
-import Website.SkeletonV2 (skeleton)
+import Website.Skeleton (skeleton)
 import open Website.ColorScheme
 
 import Text
@@ -84,7 +84,7 @@ info w = let content = flow down [ width contentWidth language, exampleBlock
                                  , width contentWidth intro, other contentWidth ]
          in  container w (heightOf content) middle content 
 
-main = skeleton info <~ Window.width
+main = skeleton info <~ Window.dimensions
 
 title = constant (JS.fromString "Elm - functional web programming")
 foreign export jsevent "title"
