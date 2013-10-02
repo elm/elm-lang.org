@@ -26,7 +26,7 @@ topBar w =
 
 paths1 =
   [ ("Docs"     , "http://docs.elm-lang.org")
-  , ("Learn"    , "/About.elm"   )
+  , ("Learn"    , "/About.elm")
   , ("Examples" , "/Examples.elm")
   , ("Blog"     , "/Blog.elm")
   ]
