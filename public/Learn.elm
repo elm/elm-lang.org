@@ -11,7 +11,7 @@ intro = [markdown|
 
 leftCol = [markdown|
 
-#### Intro to features
+#### Language features
 
 * [FRP][frp]
 * [Types][types]
@@ -30,18 +30,20 @@ leftCol = [markdown|
 
 rightCol = [markdown|
 
-#### Syntax
-
-* [Reference Sheet](/learn/Syntax.elm)
-* [Learn by example](/Examples.elm)
-
 #### Getting Started
 
+* [Syntax reference](/learn/Syntax.elm)
 * [Website skeleton][this]
-* [Game skeleton][games]
+* [Game skeleton][games] / [walkthrough](/blog/games-in-elm/part-0/Making-Pong.html)
 
  [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
  [games]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1 "Game Skeleton"
+
+#### Beginner Classes
+
+* [Intro to Programming]()
+* [Intro to Graphics]()
+* [Intro to Lists and Records]()
 
 |]
 
@@ -55,7 +57,7 @@ papers = [markdown|
  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
-#### Conference Talks
+#### Conference Videos
 
 * [What is Elm? Why do I care?][infoq]
 * [What is FRP? How do I make games?][mlocjs]
