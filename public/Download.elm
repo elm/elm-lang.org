@@ -14,8 +14,8 @@ Follow [these instructions][1] to get set up on your machine. You are getting:
 
 #### Syntax Highlighting
 
-There are some Elm specific highlighters.
-Haskell syntax highlighting also tends to work pretty well.
+If you cannot find an Elm-specific highlighter, Haskell syntax highlighting tends
+to work pretty well.
 
 * *Vim* &mdash; use Haskell mode or [try elm.vim](https://github.com/otavialabs/elm.vim)
 * *Emacs* &mdash; turn on [haskell-mode](https://github.com/afeinberg/haskellmode-emacs#readme)

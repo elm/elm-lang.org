@@ -63,7 +63,7 @@ Pong](/blog/games-in-elm/part-0/Making-Pong.html). Some cool things might be:
 Libraries are a very visible way to make a contribution to core Elm infrastructure.
 These are tools that all Elm programmers will use and appreciate.
 
- * **GUI toolkits** &ndash; navigation, sidebars, forms, blog frameworks, etc. These
+ * **GUI widgets** &ndash; navigation, sidebars, forms, blog frameworks, etc. These
    are all areas in which a good Elm library could make things much simpler.
    The modules [here](https://github.com/evancz/elm-lang.org/tree/master/public/Website)
    are the basic framework for this website. They define the color scheme, navigation,
@@ -73,7 +73,7 @@ These are tools that all Elm programmers will use and appreciate.
    choices made in Elm's [`Graphics.Collage`](http://elm-lang.org/docs/Graphics/Collage.elm)
    library.
 
- * **Parser combinator library** &ndash; make parsing easy in the style of
+ * **Parsing** &ndash; make parsing easy in the style of
    Haskell&rsquo;s [Parsec][parsec]. Web programmers have been trying to parse
    XML with regular expressions for too long!
 
