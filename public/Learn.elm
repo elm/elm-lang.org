@@ -11,7 +11,7 @@ intro = [markdown|
 
 leftCol = [markdown|
 
-#### Language features
+#### Language Features
 
 * [FRP][frp]
 * [Types][types]
@@ -30,7 +30,7 @@ leftCol = [markdown|
 
 rightCol = [markdown|
 
-#### Get Started
+#### Quick References
 
 * [Syntax reference](/learn/Syntax.elm)
 * [Website skeleton][this]
@@ -51,8 +51,8 @@ papers = [markdown|
 
 #### Publications
 
-* [Concurrent FRP for GUIs][thesis] - overview of Elm and history of FRP
-* [Asynchronous FRP for GUIs][pldi] - semantics of Elm, PLDI 2013
+* [Concurrent FRP for GUIs][thesis] &ndash; overview of Elm and history of FRP
+* [Asynchronous FRP for GUIs][pldi] &ndash; semantics of Elm, PLDI 2013
 
  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"

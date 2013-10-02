@@ -10,9 +10,9 @@ contentWidth = 526
 
 intro = [markdown|
 
-Elm also brings purity and an expressive static type system to GUI programming.
-Elm is fully type inferred, so no type annotations are needed to get the benefits
-of static checks.
+Elm also brings the benefits of purity and an expressive static type system
+to GUI programming. Elm is fully type inferred, so no type annotations are
+needed to get the benefits of static checks.
 
 Join the [elm-discuss list][list] for questions, announcements, and discussion!
 
