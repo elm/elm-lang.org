@@ -7,8 +7,8 @@ instructions = [markdown|
 
 Follow [these instructions][1] to get set up on your machine. You are getting:
 
-1. *Compiler* &mdash; Turn Elm code into HTML, CSS, and JavaScript
-2. *Server* &mdash; simple server that recompiles Elm files on refresh
+1. *Compiler* &mdash; turn Elm code into HTML, CSS, and JavaScript
+2. *Server* &mdash; serve a project, recompile Elm files on refresh
 
   [1]: https://github.com/evancz/Elm/blob/master/README.md#install "install instructions"
 
