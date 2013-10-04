@@ -23,7 +23,9 @@ are unsure how to get started, take a look at some
 <a href="/Examples.elm" target="_top">examples</a>.
 |]
 
-scene (w,h) = container w h middle (box <| width 320 msg)
+scene (w,h) = layers [ tiledImage w h "texture.png"
+                     , container w h middle (box <| width 320 msg)
+                     ]
 
 box e =
   let w = widthOf e
