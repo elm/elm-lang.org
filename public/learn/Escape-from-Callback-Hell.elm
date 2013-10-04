@@ -7,6 +7,8 @@ import Window
 import Graphics.Input as Input
 import Http
 import Json
+import String
+import open Maybe
 
 intro = [markdown|
 
@@ -376,7 +378,7 @@ scene : Element -> Maybe String -> Element
 scene tagInput imgSrc =
     let img = case imgSrc of
                 Just src -> fittedImage 300 300 src
-                Nothing  -> color lightGrey (spacer 298 298)
+                Nothing  -> color white (spacer 298 298)
     in  flow down [ container 300 60 middle tagInput,
                     color mediumGrey <| container 300 300 middle img ]
 
@@ -482,10 +484,19 @@ box w e = container w 40 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
-dropTil s = case s of { h::t -> if h == '[' then t else dropTil t ; _ -> s }
-format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
-showResponse r =
-  code <| case r of
+dropTil str =
+    case String.uncons str of
+      Just (hd,tl) -> if hd == '[' then tl else dropTil tl
+      _ -> str
+take n str =
+    if n < 1 then str else
+    case String.uncons str of
+      Just (hd,tl) -> String.cons hd (take (n-1) tl)
+      Nothing -> ""
+
+format r = String.map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
+showResponse response =
+  code <| case response of
             Http.Success r -> "Success \"... " ++ format r ++ " ...\""
             Http.Waiting -> "Waiting"
             Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
@@ -494,14 +505,14 @@ content inputField tags response search wid =
   let w = wid - 200
       sideBySide big small = flow right [ width w big, spacer 30 100, small ]
       (iw,ih) = sizeOf inputField
-      input = color lightGrey <| container (iw+2) (ih+2) middle
-                              <| color white inputField
+      input = color mediumGrey <| container (iw+2) (ih+2) middle
+                               <| color white inputField
       asyncElm = flow down . map (width w) <|
                  [ asyncElm1
                  , pairing w input (asText tags)
                  , asyncElm2
-                 , pairing w (code "lift length tags") (asText <| length tags)
-                 , pairing w (code "lift reverse tags") (asText <| reverse tags)
+                 , pairing w (code "lift length tags") (asText <| String.length tags)
+                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
                  , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
                  , asyncElm3
                  , pairing w (code "send (lift requestTag tags)") (showResponse response)
