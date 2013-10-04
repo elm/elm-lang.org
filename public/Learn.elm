@@ -4,27 +4,27 @@ import Window
 ---- Text of the page: all written in Markdown ----
 
 intro = [markdown|
+<style>
+h1 { margin-bottom: 0; }
+ul { margin-top: 0; }
+h2,h3,h4 { margin-bottom: 0.5em; margin-top: 2em; }
+h5 { margin-bottom: 0.5em; }
+</style>
 
 # Learn
-
 |]
 
 leftCol = [markdown|
 
 #### Language Features
 
-* [FRP][frp]
-* [Types][types]
-* [Algebraic data types][adt]
-* [Records][records]
-* [JavaScript integration][js]
+* [FRP](/learn/What-is-FRP.elm)
+* [Types](/learn/Getting-started-with-Types.elm)
+* [Algebraic Data Types](/learn/Pattern-Matching.elm)
+* [Records](/learn/Records.elm)
+* [JavaScript Integration](/learn/JavaScript-Integration.elm)
 
- [adt]: learn/Pattern-Matching.elm
  [events]: /learn/FRP-vs-Events.elm "FRP vs Events"
- [frp]: /learn/What-is-FRP.elm "What is FRP?"
- [js]: /learn/JavaScript-Integration.elm
- [records]: /learn/Records.elm "Records in Elm"
- [types]: /learn/Getting-started-with-Types.elm "Getting started with Types"
 
 |]
 
@@ -33,11 +33,8 @@ rightCol = [markdown|
 #### Quick References
 
 * [Syntax reference](/learn/Syntax.elm)
-* [Website skeleton][this]
-* [Game skeleton][games] / [walkthrough](/blog/games-in-elm/part-0/Making-Pong.html)
-
- [this]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "this site"
- [games]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1 "Game Skeleton"
+* [Website skeleton](https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
+* [Game skeleton](https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1) / [walkthrough](/blog/games-in-elm/part-0/Making-Pong.html)
 
 #### Beginner Classes
 
@@ -49,21 +46,31 @@ rightCol = [markdown|
 
 papers = [markdown|
 
+#### Conference Videos
+
+* [Making the Web Functional][infoq] &ndash; Elm and purely functional graphics
+* [Functional Reactive Programming][mlocjs] &ndash; intro to FRP, live-coding Mario
+
+ [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
+ [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+
 #### Publications
 
 * [Concurrent FRP for GUIs][thesis] &ndash; overview of Elm and history of FRP
-* [Asynchronous FRP for GUIs][pldi] &ndash; semantics of Elm, PLDI 2013
+* [Asynchronous FRP for GUIs][pldi] &ndash; formal semantics of Elm, PLDI 2013
 
  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
-#### Conference Videos
+#### Articles / Blog
 
-* [What is Elm? Why do I care?][infoq]
-* [What is FRP? How do I make games?][mlocjs]
+ * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
+ * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
+ * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
+ * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
+ * [Making Pong](/blog/games-in-elm/part-0/Making-Pong.html)
 
- [infoq]: http://www.infoq.com/presentations/Elm "Elm at the Emerging Languages conference"
- [mlocjs]: http://www.ustream.tv/recorded/29330499 "Elm and the mloc.js conference"
+
 |]
 
 content w =
