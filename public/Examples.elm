@@ -17,10 +17,13 @@ words = [markdown|
 
 # Examples
 
-Elm's [interactive editor](/try) allows you to learn Elm by seeing and modifying
-actual code. These examples are designed to build skills as you move down the page.
+This page will help you *learn by example* as you read and modify
+Elm code in the [online editor](/try). It is split into two sections:
 
-Check the [Elm syntax reference][syntax] when you see new syntax.
+ * [Basics](#basics) &ndash; small programs focused on showing one concept
+ * [Intermediate](#intermediate) &ndash; larger examples that combine basic concepts
+
+Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
