@@ -11,4 +11,4 @@ Fun Fact: We can even define zip in terms of zipWith!
 
 ----------------------------------------------------------------}
 
-main = asText <| zipWith (::) ['c','m','t'] ["hop","ill","ape"]
+main = asText <| zipWith (+) [1,2,3] [1,1,1]

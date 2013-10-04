@@ -1,4 +1,5 @@
 import Char
+import String
 import Maybe
 import Http
 import Graphics.Input as Input
@@ -7,7 +8,7 @@ import Graphics.Input as Input
 (field,rawInput) = Input.field "Zip Code"
 
 -- Covert raw input into a usable URL.
-toUrl s = if length s == 5 && all Char.isDigit s
+toUrl s = if String.length s == 5 && String.all Char.isDigit s
              then Just ("http://zip.elevenbasetwo.com/v2/US/" ++ s)
              else Nothing
 
