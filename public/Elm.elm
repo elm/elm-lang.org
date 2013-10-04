@@ -1,10 +1,10 @@
 import Website.Skeleton (homeSkeleton, bigLogo)
 import open Website.ColorScheme
+import Website.Tiles (examples)
 
 import Text
 import JavaScript as JS
 import Window
-import Graphics.Input as Input
 
 intro = [markdown|
 
@@ -52,19 +52,9 @@ other w = width (w `div` 2) [markdown|
 |]
 
 exampleBlock w =
-    let row = flow right . intersperse (spacer 10 124) . map example
-    in  container w 258 middle <| flow down [ row examples1, spacer 10 10, row examples2 ]
-
-examples1 = [ "Mario", "Walk", "Pong", "SlideShow" ]
-examples2 = [ "Clock", "Physics", "Slide", "Stamps" ]
-
-navigation = Input.customButtons ()
-
-example name =
-    let btn clr = color clr . container 124 124 middle <|
-                  image 120 120 ("/screenshot/" ++ name ++ ".jpg")
-    in  link ("/edit/examples/Intermediate/" ++ name ++ ".elm") <|
-        navigation.customButton () (btn mediumGrey) (btn accent1) (btn accent3)
+    examples w [ [ "Mario", "Walk", "Pong", "SlideShow" ]
+               , [ "Clock", "Physics", "Slide", "Stamps" ]
+               ]
 
 language = [markdown|
 

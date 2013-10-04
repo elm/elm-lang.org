@@ -1,13 +1,14 @@
 
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
+import Website.Tiles (examples)
 import Window
 
 main = skeleton exampleSets <~ Window.dimensions
 
 content w =
   let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
-  in  words :: map (subsection w) exs ++ [intermediate]
+  in  words :: map (subsection w) exs ++ [ intermediate, examples w intermediates, spacer w 30 ]
 
 exampleSets w =
   flow down . map (width w) . intersperse (plainText " ") <| content w
@@ -31,9 +32,14 @@ intermediate = [markdown|
 
 ## Intermediate
 
-Prettier examples here
-
 |]
+
+intermediates =
+    [ [ "Mario", "Walk", "Pong", "Turtle" ]
+    , [ "SlideShow", "Flickr", "Clock", "Physics" ]
+    , [ "Slide", "Stamps", "Web", "Circles" ]
+    , [ "PascalsTriangle", "FibonacciTiles" ]
+    ]
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm")
