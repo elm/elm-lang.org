@@ -5,7 +5,8 @@ instructions = [markdown|
 
 # Install
 
-Follow [these instructions][1] to get set up on your machine. You are getting:
+Once you outgrow [the online editor](/try), follow [these instructions][1]
+to get Elm set up on your machine. You are getting:
 
 1. *Compiler* &mdash; turn Elm code into HTML, CSS, and JavaScript
 2. *Server* &mdash; serve a project, recompile Elm files on refresh
