@@ -1,26 +1,21 @@
-
 {------------------------------------------------------------------
+  Follow this link to see the title change:
+  
 
-  Compile to "New Tab" in the bottow right corner to see this
-  code in action.
-
-  This example exports a jsevent called "elm_title" which
-  built-in to Elm. You can use this event without writing any
-  JavaScript.
-
+  This example exports a jsevent called "title" which is
+  built-in and operates on a per-module basis.
 ------------------------------------------------------------------}
 
+import JavaScript as JS
+import Graphics.Input as Input
 
-module ChangeTitle where
+(field, input) = Input.field ""
 
-import JavaScript
-import Input
-
-
-(field, title) = let (f,t) = textField "" in
-                 (f, lift castStringToJSString t)
-
+title = JS.fromString <~ input
 foreign export jsevent "elm_title"
-  title :: Signal JSString
+  title : Signal JS.JSString
 
-main = plainText "Change this page's title to: " `beside` field
+scene fld =
+    plainText "Change this page's title to: " `beside` fld
+
+main = scene <~ field

@@ -1,29 +1,18 @@
-
 {------------------------------------------------------------------
-
   You must open the 'Developer Console' of your browser to see
-  the results of this example. Just press "F12" in most browsers.
+  the results of this example.
 
-  This example exports a jsevent called "elm_log" which built-in
-  to Elm. You can use this event without writing any JavaScript.
-
+  This example exports a built-in jsevent called "log" which writes
+  strings to the developer console.
 ------------------------------------------------------------------}
 
+import JavaScript as JS
+import Graphics.Input as Input
 
-module Logging where
+main = field
 
-import JavaScript
-import Input
+(field, message) = Input.field ""
 
-
-(field, message) = textField ""
-(butn , pressed) = button " Log "
-
-
-messages = lift castStringToJSString (keepWhen pressed "" message)
-
-foreign export jsevent "elm_log"
-  messages :: Signal JSString
-
-
-main = field `beside` butn
+messages = JS.fromString <~ message
+foreign export jsevent "log"
+  messages : Signal JS.JSString
