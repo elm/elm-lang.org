@@ -53,14 +53,14 @@ other w = width (w `div` 2) [markdown|
 
 exampleBlock w =
     examples w [ [ "Mario", "Walk", "Pong", "SlideShow" ]
-               , [ "Clock", "Physics", "Slide", "Stamps" ]
+               , [ "Physics", "PieChart", "Clock", "Stamps" ]
                ]
 
 language = [markdown|
 
-Elm is a functional programming language that compiles to HTML, CSS, and JavaScript. 
-It is built around the concept of [functional reactive programming][frp],
-making it easy to create [highly][mario] [interactive][pong] [applications][flickr].
+Elm is a functional language that compiles to HTML, CSS, and JavaScript. 
+Designed for [functional reactive programming][frp], Elm makes it easy to create
+[highly][mario] [interactive][pong] [applications][flickr].
 
   [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
   [mario]:  /edit/examples/Intermediate/Mario.elm "mario"
