@@ -41,7 +41,7 @@ intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
     , [ "SlideShow", "Flickr", "PieChart", "Clock" ]
     , [ "Physics", "Slide", "Stamps", "Circles" ]
-    , [ "Web", "PascalsTriangle", "FibonacciTiles" ]
+    , [ "Web", "PascalsTriangle", "FibonacciTiles", "Complements" ]
     ]
 
 addFolder folder lst =
