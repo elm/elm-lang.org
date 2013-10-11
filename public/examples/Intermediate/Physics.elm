@@ -29,7 +29,7 @@ time = lift (inSeconds . fst) (timestamp (fps 40))
 
 sunAndEarthAt angle =
   let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]
-      sun = group [ filled yellow (circle 35), toForm (plainText "Sun") ]
+      sun = group [ filled lightYellow (circle 35), toForm (plainText "Sun") ]
   in  collage 300 200
         [ earth |> move (120 * cos angle, 80 * sin angle)
         , sun   |> move (25,0) ]

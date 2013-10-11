@@ -39,9 +39,9 @@ intermediate = [markdown|
 
 intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
-    , [ "SlideShow", "Flickr", "PieChart", "Clock" ]
-    , [ "Physics", "Slide", "Stamps", "Circles" ]
-    , [ "Web", "PascalsTriangle", "FibonacciTiles", "Complements" ]
+    , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
+    , [ "Clock", "Stamps", "Slide", "Complements" ]
+    , [ "Web", "Circles", "PascalsTriangle", "FibonacciTiles" ]
     ]
 
 addFolder folder lst =
