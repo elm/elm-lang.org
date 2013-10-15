@@ -42,8 +42,8 @@ plot style w h points =
       xaxis = axis (xmin, clamp ymin ymax 0) (xmax, clamp ymin ymax 0)
       yaxis = axis (clamp xmin xmax 0, ymin) (clamp xmin xmax 0, ymax)
       draw ps = case style of
-                  Points -> map (\p -> move p . outlined (solid blue) <| ngon 4 3) ps
-                  Line   -> [ traced (solid blue) <| path ps ]
+                  Points -> map (\p -> move p . outlined (solid lightBlue) <| ngon 4 3) ps
+                  Line   -> [ traced (solid lightBlue) <| path ps ]
   in  collage (round w) (round h) [ move (-200,-200) . group <| [ xaxis, yaxis ] ++ draw (map f points) ]
 
 
