@@ -44,6 +44,7 @@ report an issue to Elm's [source repository][3]
 
 ## Release Notes
 
+* <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Native Strings
 * <code>[0.9][9]    &nbsp;&nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; </code>Fast and reliable type inference
 * <code>[0.8][8]    &nbsp;&nbsp;&nbsp; May &nbsp; &nbsp; &nbsp; </code>HTML/JS integration
 * <code>[0.7.1][71]             &nbsp; Feb &nbsp; &nbsp; &nbsp; </code>Touch, Either, Keyboard
@@ -59,13 +60,14 @@ report an issue to Elm's [source repository][3]
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
   [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/ "JSON"
-  [4]:  /blog/announce/version-0.4.0.elm "Graphics Upgrade"
-  [5]:  /blog/announce/version-0.5.0.elm "Libraries"
-  [6]:  /blog/announce/version-0.6.elm "Time, Date, and Syntax"
-  [7]:  /blog/announce/version-0.7.elm "Extensible Records & More"
-  [71]: /blog/announce/version-0.7.1.elm "Touch, Keyboard, Either, etc."
-  [8]:  /blog/announce/version-0.8.elm
-  [9]:  /blog/announce/version-0.9.elm
+  [4]:  /blog/announce/0.4.0.elm "Graphics Upgrade"
+  [5]:  /blog/announce/0.5.0.elm "Libraries"
+  [6]:  /blog/announce/0.6.elm "Time, Date, and Syntax"
+  [7]:  /blog/announce/0.7.elm "Extensible Records & More"
+  [71]: /blog/announce/0.7.1.elm "Touch, Keyboard, Either, etc."
+  [8]:  /blog/announce/0.8.elm
+  [9]:  /blog/announce/0.9.elm
+  [9]:  /blog/announce/0.10.elm
 
 |]
 
