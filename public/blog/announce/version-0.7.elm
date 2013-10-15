@@ -21,7 +21,7 @@ pre {
 }
 </style>
 
-# Extensible Records and more &ndash; Elm 0.7
+# Elm 0.7 &ndash; Extensible Records
 
 Major changes in this release include:
 

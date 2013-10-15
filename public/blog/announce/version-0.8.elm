@@ -4,7 +4,7 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.8 - Improve Everything")
+title = constant (JS.fromString "Elm 0.8")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
@@ -48,7 +48,7 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.8 &ndash; Improve Everything
+<h1><div style="text-align:center">Elm 0.8
 <div style="font-size:0.5em;font-weight:normal">*Too many improvements to fit in a pithy title*</div></div>
 </h1>
 
