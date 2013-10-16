@@ -65,9 +65,9 @@ report an issue to Elm's [source repository][3]
   [6]:  /blog/announce/0.6.elm "Time, Date, and Syntax"
   [7]:  /blog/announce/0.7.elm "Extensible Records & More"
   [71]: /blog/announce/0.7.1.elm "Touch, Keyboard, Either, etc."
-  [8]:  /blog/announce/0.8.elm
-  [9]:  /blog/announce/0.9.elm
-  [9]:  /blog/announce/0.10.elm
+  [8]:  /blog/announce/0.8.elm "HTML/JS integration"
+  [9]:  /blog/announce/0.9.elm "type inference"
+  [10]: /blog/announce/0.10.elm "native strings"
 
 |]
 
