@@ -48,23 +48,66 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Native strings and incremental fixes*</div></div>
 </h1>
 
+By far the biggest change in this release is a switch to a [native string
+representation](http://docs.elm-lang.org/library/String.elm).
+Otherwise it is mostly smaller bug fixes and additions.
+
+## Native Strings
+
+Native strings are used by default in SML, OCaml, Agda, Idris, and all other
+languages from the ML-family I could find, whether they came before or
+after Haskell. In previous releases of Elm, strings were represented by a list of characters:
+
+<div style="text-align:center; font-size:2em;">`String = [Char]`</div>
+
+I really love this isomorphism. It is simple and elegant. It is one of the
+many things that I got really excited about while reading
+[Learn You a Haskell](http://learnyouahaskell.com/).
+It is also not a great default for strings.
+
+Character lists are relatively slow, but the real flaw is that they expose
+implementation details. This means that switching to a faster representation
+is a breaking change. It becomes harder and harder to make that change as a
+language grows, and I think it is not too late for Elm. Elm 0.10 introduces
+[a library specifically for strings](http://docs.elm-lang.org/library/String.elm).
+It is significantly faster and provides many new string-specific functions.
+
+Overall, I have been really happy with this change. In my experience, it leads
+to two kinds of breaking changes, both pretty easy to fix.
+
+  1. You will need to swap out `List` functions for their corresponding
+     `String` function. This means `map` becomes `String.map`, `filter`
+     becomes `String.filter`, etc.
+
+  2. If you pattern match on character lists, you need to start using the
+     following function to get equivalent behavior:<br/>
+     <div style="text-align:center; font-family: monospace; padding-top: 4px;">[uncons](http://docs.elm-lang.org/library/String.elm#uncons) : String -> Maybe (Char,String)</div>
+
+In case two, the transformation will look something like this:
+
+```haskell
+lengthA : [Char] -> Int
+lengthA charList =
+    case charList of
+      hd::tl -> 1 + lengthA tl
+      []     -> 0
+
+lengthB : String -> Int
+lengthB string =
+    case String.uncons string of
+      Just (hd,tl) -> 1 + lengthB tl
+      Nothing      -> 0
+```
+
+Also, note that using [`String.length`](http://docs.elm-lang.org/library/String.elm#length)
+will be significantly faster than either `lengthA` or `lengthB`.
+
+Overall, the changes I had to make for [elm-lang.org](/) and
+[docs.elm-lang.org](http://docs.elm-lang.org) were not terrible and
+the type checker helped a lot. If you have any trouble with the switch,
+please ask about it on the [mailing list](https://groups.google.com/forum/#!forum/elm-discuss).
 
 ## Final Notes
 
-Huge thank you to Prezi and the community on the [elm-discuss lists][list].
-The diversity of opinions and experiences on the list is extremely helpful
-for Elm. I find that bringing an idea up on the lists always results in a
-thoughtful discussion and ultimately leads to more refined design choices,
-so thank you!
-
- [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
-
-Now for some 0.9 specifics. Thank you to Andrew who added `as` patterns and
-type annotations in let expressions. And thank you to Max New who significantly
-sped up this website.
-
-Thank you to the beginners who came to my programming class in Budapest.
-Not only was it super fun, but you found a bug in the compiler!
-This experience also convinced me that unary negation was a good idea.
 
 |]
