@@ -54,24 +54,21 @@ Otherwise it is mostly smaller bug fixes and additions.
 
 ## Native Strings
 
-Native strings are used by default in SML, OCaml, Agda, Idris, and all other
-languages from the ML-family I could find, whether they came before or
-after Haskell. In previous releases of Elm, strings were represented by a list of characters:
+Elm no longer represents strings as lists of characters. This release
+moves from the Haskell inspired character lists to a native string
+representation.
 
-<div style="text-align:center; font-size:2em;">`String = [Char]`</div>
+<div style="text-align:center; font-size:2em;">`String ≠ [Char]`</div>
 
-I really love this isomorphism. It is simple and elegant. It is one of the
-many things that I got really excited about while reading
-[Learn You a Haskell](http://learnyouahaskell.com/).
-It is also not a great default for strings.
+Character lists are relatively slow, and they expose implementation details
+that make it hard to upgrade to a faster representation. Haskell has dealt
+with this by keeping the slow default but adding the `Text` and `ByteString`
+libraries and an `OverloadedStrings` language extension to make this less
+painful. It is early enough for Elm to just make the breaking change and
+have a nicer default.
 
-Character lists are relatively slow, but the real flaw is that they expose
-implementation details. This means that switching to a faster representation
-is a breaking change. It becomes harder and harder to make that change as a
-language grows, and I think it is not too late for Elm. Elm 0.10 introduces
-[a library specifically for strings](http://docs.elm-lang.org/library/String.elm).
+This release introduces [a library specifically for strings](http://docs.elm-lang.org/library/String.elm).
 It is significantly faster and provides many new string-specific functions.
-
 Overall, I have been really happy with this change. In my experience, it leads
 to two kinds of breaking changes, both pretty easy to fix.
 
@@ -100,7 +97,7 @@ lengthB string =
 ```
 
 Also, note that using [`String.length`](http://docs.elm-lang.org/library/String.elm#length)
-will be significantly faster than either `lengthA` or `lengthB`.
+will be asymptotically faster than either `lengthA` or `lengthB`.
 
 Overall, the changes I had to make for [elm-lang.org](/) and
 [docs.elm-lang.org](http://docs.elm-lang.org) were not terrible and
