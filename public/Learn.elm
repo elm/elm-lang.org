@@ -22,6 +22,7 @@ leftCol = [markdown|
 * [Types](/learn/Getting-started-with-Types.elm)
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
+* [Documentation](/learn/Documentation.elm)
 * [JavaScript Integration](/learn/JavaScript-Integration.elm)
 
  [events]: /learn/FRP-vs-Events.elm "FRP vs Events"

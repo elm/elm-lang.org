@@ -48,27 +48,30 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Native strings and custom infix ops*</div></div>
 </h1>
 
- * Switch to a [native string representation](http://docs.elm-lang.org/library/String.elm)
-   that is significantly faster.
- * Allow custom precedence and associativity for infix operators.
- * Fix silly bugs and make some small improvements.
+New stuff includes:
 
-This release also includes a 
+ * [Strings](#native-strings) &mdash; switch to a
+   [native representation](http://docs.elm-lang.org/library/String.elm)
+   that is significantly faster
+ * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
+ * [Loose ends](#loose-ends) &mdash; tons of small improvements and bug fixes
 
-docs with mgold, maxsnew, and jsl
+There are also some improvements for Elm related tools including
+[nicer docs](http://docs.elm-lang.org/) and
+[hot-swapping](/blog/Interactive-Programming.elm) in the online editor.
 
-alex noriega List.repeat
+I have also been experimenting with &ldquo;traditional webapps&rdquo; in Elm.
+Two notable experiments are:
 
-Elm needs more than a compiler to be nice to use. This includes tools such as
-[nicer docs](http://docs.elm-lang.org/) and [hot-swapping](/blog/Interactive-Programming.elm).
-I have also been experimenting with &ldquo;traditional webapps&rdquo; in Elm. The first
-experiment was [TodoFRP](https://github.com/evancz/todofrp) proved that the basics work.
-The [new documentation](http://docs.elm-lang.org) also has an instant
-search feature that was a great use for FRP. Both left me feeling like Elm can be
-a great fit for traditional webapps, and I am excited to see how far we can push
-in this direction.
+ * [TodoFRP](https://github.com/evancz/todofrp) &mdash; easy to put everything together,
+   FRP worked very nicely, but missing some knobs for aesthetics.
+ * [Instant search feature in docs](http://docs.elm-lang.org) &mdash; wonderful use for FRP!
+   I'll talk about this more [lower down](#new-documentation).
 
-Okay, let's talk specifics!
+Both left me feeling like Elm can be a great fit for traditional webapps, so
+I am excited to see how far we can push in this direction.
+
+Okay, let's talk specifics of 0.10!
 
 ## Native Strings
 
@@ -130,8 +133,7 @@ You now can set the
 of custom infix operorators. This makes it easier to use [embedded
 DSLs](http://c2.com/cgi/wiki?EmbeddedDomainSpecificLanguage). Hypothetical
 examples include D3 bindings and a parsing library ;)
-
-Let's see how it works! Elm&rsquo;s signal operators are defined like this:
+Let's see how it works, taking Elm&rsquo;s signal operators as an example:
 
 ```haskell
 f <~ s = lift f s
@@ -150,8 +152,8 @@ signal  = f <~ a ~ b ~ c
 signal' = (((f <~ a) ~ b) ~ c)
 ```
 
-Left associativity is the default because we tend to read from left to right, but
-sometimes right associativity is very useful. Boolean *or* is a great example!
+Left associativity is the default, but sometimes right associativity is very useful.
+Boolean *or* is a great example.
 
 ```haskell
 a || b = if a then True else b
@@ -161,38 +163,54 @@ falseLeft  = (True || False) || False
 falseRight = True || (False || False)
 ```
 
-Where you add the parentheses does not change the result, but since `(||)`
-[short ciruits](http://en.wikipedia.org/wiki/Short-circuit_evaluation), it
-*does* change how much computation needs to be done. Making `(||)` right
+Where you add the parentheses *does not* change the result,
+but since `(||)` [short ciruits](http://en.wikipedia.org/wiki/Short-circuit_evaluation),
+it *does* change how much computation needs to be done. Making `(||)` right
 associative ensures that we use the faster way when parentheses are left off.
 
-You can even do all this with infix functions:
+Fun facts: [all of the operators in the standard library](http://docs.elm-lang.org/InfixOps.elm)
+are defined this way now, and you can even do all this with infix functions:
 
 ```haskell
 infixl 7 `div`
-
-fortyTwo = 84 `div` 2
 ```
 
-Fun fact: [all of the operators in the standard library](http://docs.elm-lang.org/InfixOps.elm)
-are defined this way now. 
 
 ## New Documentation
 
-[docs.elm-lang.org](http://docs.elm-lang.org/) is the new home of documentation
-for the standard libraries. It will eventually host docs for community
-libraries too, making it the place to go to discover and learn new libraries.
+This release also comes with `elm-doc` which extracts Elm documentation into
+JSON to be used however people want. I am using it to populate the new
+[docs.elm-lang.org](http://docs.elm-lang.org/) site, but I designed it to
+be useful for something like Hoogle or IDE tools like inline-docs or auto-completion.
 
-My favorite part this project is the search bar. It lets you live search the standard
-library for modules, functions, and operators like `<~`. I have not seen something
-like this in other documentation, and I think that is because it would be
-significantly more complicated without FRP. The code for this feature essentially
-says &ldquo;show the search results&rdquo; and it just does the right thing.
+The format for documentation is described [here](/learn/Documentation.elm).
+Huge thank you to [Max New](https://github.com/maxsnew),
+[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
+for helping convert the standard libraries to the new format.
 
-[The source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
-if you want to look into how search works or use the site as a basis for your own project.
+My favorite part this project is [the search bar on the docs site](http://docs.elm-lang.org/).
+It lets you live search the standard library for modules, functions, and operators.
+Hopefully this will help newcomers find operators that are tough to Google for,
+like [`(<~)`](http://localhost:8080/library/Signal.elm#<~)
+and   [`(~)`](http://localhost:8080/library/Signal.elm#~).
 
-## Fixes, Improvements, Thank yous
+That's all great, but the *real* best part is that it was really simple to code that
+feature. I got it running in an afternoon, mainly motivated by the fact that my design
+for the site had an akward amount of empty space in the sidebar. The seach code
+was pretty basic, just crawling over some JSON. The graphics code essentially says
+&ldquo;show the search results&rdquo; and updates just flow through as the user types.
+
+Without FRP and pure graphics I think this feature would be *significantly* more complicated
+and error prone. To be clear, the alternative is manually modifying the DOM and trying to
+synchronize the model state and &ldquo;view state&rdquo;. I put &ldquo;view state&rdquo;
+in quotes to point out that it is often a non-essential and error-prone part of GUIs, yet
+it is a standard and uncontroversial term for talking about front-end programs.
+Is this Stockholm Syndrome?
+
+In any case, [the source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
+if you want to look into search, use the site as a starting point for your own project, or whatever else.
+
+## Loose ends
 
 Thanks to everyone who helped with this release, whether it was
 contributions or helping talk through ideas on the [email
