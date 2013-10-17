@@ -47,7 +47,7 @@ and working through the details with me!
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they
 are totally rad.
 
-  [self]: /edit/blog/announce/version-0.5.0.elm "source"
+  [self]: /edit/blog/announce/0.5.0.elm "source"
   [wiki]: http://en.wikipedia.org/wiki/Automata_theory#Informal_description "automaton wiki"
   [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/02/workshop-02.pdf "Arrowized FRP"
 

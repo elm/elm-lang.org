@@ -36,18 +36,11 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
+* Faster Strings in [Elm 0.10](/blog/announce/0.10.elm)
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
-* Elm at [StrangeLoop 2013][loop]
-* Type-checker fixed in [Elm 0.9][v9]
-* Elm in [VentureBeat][vb]
+* Elm at [StrangeLoop 2013](https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm)
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
-* Extensible Records in [Elm 0.7][v7]
-
- [vb]: http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/
- [v7]: /blog/announce/version-0.7.elm "Extensible Records"
- [v9]: /blog/announce/version-0.9.elm
- [loop]: https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm "Elm at StrangeLoop"
 
 |]
 
