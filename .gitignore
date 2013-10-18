@@ -1,7 +1,7 @@
-Server/ghc_output
-docs
 compiled
 ElmServer
 cache
 build
+dist
 resources/elm-runtime.js
+serve

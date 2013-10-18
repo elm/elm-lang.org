@@ -17,14 +17,14 @@ First make sure that you have the Elm compiler installed
 
 Then follow these steps to get this all running on your local machine:
 
-- Clone this project.
-- Run `cabal clean && cabal build && cabal install`. Note the `clean` step is
-  often necessary if you previously compiled with a different version of the
-  server due to stale compiled Elm files.
-- Run `./ElmServer` to start the server.
+- Clone this project
+- Run `cabal install --bindir=.`
+- Run `./serve` to start the server
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
 [localhost:8000/](http://localhost:8000/).
+
+You can run `cabal clean` to clear out all cached build information and start fresh.
 
 ### Project Structure
 

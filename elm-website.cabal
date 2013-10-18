@@ -20,19 +20,20 @@ executable serve
   main-is:             Server.hs
   other-extensions:    OverloadedStrings
   ghc-options:         -threaded -O2
-  build-depends:       base
-                     , containers
-                     , bytestring
-                     , aeson
-                     , filepath
-                     , directory
-                     , parsec
+  build-depends:       aeson
+                     , base
                      , blaze-html
-                     , HTTP
                      , blaze-markup
-                     , Elm
+                     , bytestring
+                     , containers
+                     , cmdargs
+                     , directory
+                     , Elm >= 0.10
+                     , filepath
                      , happstack-server
+                     , HTTP
                      , mtl
+                     , parsec
                      , process
 
   hs-source-dirs:      server
