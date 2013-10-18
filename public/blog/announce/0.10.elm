@@ -48,7 +48,11 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*Native strings and custom infix ops*</div></div>
 </h1>
 
-New stuff includes:
+[The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
+the compiler, and since then, a lot of rough patches have been discovered
+and fixed. These improvements warrant a proper release on their own, but
+there are also a number of important new features and improvements that
+are past due for release:
 
  * [Strings](#native-strings) &mdash; switch to a
    [native representation](http://docs.elm-lang.org/library/String.elm)
