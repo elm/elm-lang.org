@@ -56,37 +56,33 @@ function adjustEditorBottom() {
   editor.refresh();
 }
 
-function formatType(tipe) {
-    return tipe.replace(/\(Number a\)/g, 'number')
-               .replace(/Number a/g, 'number')
-               .replace(/\(Appendable a\)/g, 'appendable')
-               .replace(/Appendable a/g, 'appendable')
-               .replace(/\(Comparable [ak]\)/g, 'comparable')
-               .replace(/Comparable [ak]/g, 'comparable');
-}
-
-function parseDoc(mods) {
-  var markdown = new Showdown.converter();
-  var ds = mods.modules.map(function (m) {
-    var fs = m.values.map(function (f) {
-      return {name: f.name,
-              type: formatType(f.type),
-              module: m.name,
-              desc: markdown.makeHtml(f.desc)};
-    });
-    return fs;
-  });
-
-  var result = {};
-  result.docs = ds.reduce(function (acc, val) { return acc.concat(val); }, []);
-  result.modules = mods.modules;
-  return result;
+function parseDoc(modules) {
+    var markdown = new Showdown.converter();
+    function parseModule(module) {
+        function formatEntry(entry) {
+            return { name: entry.name,
+                     type: entry.raw,
+                     home: module.name,
+                     desc: markdown.makeHtml(entry.comment)
+            };
+        }
+        return [].concat(module.values,
+                         module.datatypes,
+                         module.datatypes).map(formatEntry);
+    }
+    return {
+        values: [].concat.apply([], modules.map(parseModule)),
+        modules: modules
+    };
 }
 
 function loadDoc() {
   var req = new XMLHttpRequest();
-  req.onload = function () { elmDocs = parseDoc(JSON.parse(this.responseText)); };
-  req.open('GET', '/docs.json?v0.9', true);
+  req.onload = function () {
+      console.log(this.responseText);
+      elmDocs = parseDoc(JSON.parse(this.responseText));
+  };
+  req.open('GET', '/docs.json?v0.10', true);
   req.send();
 }
 
@@ -101,10 +97,11 @@ function wrapIfOperator(name) {
 }
 
 function moduleToHtmlLink(module, anchor, text, hoverText) {
-  var linkText = text || module;
-  var titleText = hoverText || '';
-  var anchorLink = anchor ? '#' + wrapIfOperator(anchor) : '';
-  return '<a href="' + moduleRef(module) + anchorLink + '" target="elm-docs" title="' + titleText + '">' + linkText + '</a>';
+    var linkText = text || module;
+    var titleText = hoverText || '';
+    var anchorLink = anchor ? '#' + wrapIfOperator(anchor) : '';
+    console.log('this one?', module, anchor, text, hoverText);
+    return '<a href="' + moduleRef(module) + anchorLink + '" target="elm-docs" title="' + titleText + '">' + linkText + '</a>';
 }
 
 function moduleRef (module) {
@@ -113,32 +110,31 @@ function moduleRef (module) {
   if (module === 'Syntax') {
     ref = '/learn/Syntax.elm';
   } else {
-    ref = '/docs/' + parts.join('/') + '.elm';
+    ref = 'http://docs.elm-lang.org/library/' + parts.join('/') + '.elm';
   }
   return ref;
 }
 
 function lookupDocs(token, line) {
-  var ds = null;
-  if (token.type == 'keyword') {
-    ds = [{
-      name: token.string,
-      type: 'Keyword',
-      module: 'Syntax'
-    }];
-  } else if (token.type == 'qualifier') {
-    var q = getQualifier(token, line);
-    var module = q ? q + '.' + token.string.slice(0, -1) : token.string.slice(0, -1);
-    ds = [{
-      module: module,
-      type: 'Module'
-    }];
-  } else {
-    if (token.string) {
-      ds = elmDocs.docs.filter(function(x) { if (x.name == token.string) return true; });
+    var matches;
+    if (token.type == 'keyword') {
+        matches = [{
+            name: token.string,
+            type: 'Keyword',
+            module: 'Syntax'
+        }];
+    } else if (token.type == 'qualifier') {
+        var qualifier = getQualifier(token, line);
+        matches = [{
+            module: (qualifier ? qualifier + '.' : '') + token.string.slice(0, -1),
+            type: 'Module'
+        }];
+    } else {
+        if (token.string) {
+            matches = elmDocs.values.filter(function(x) { return x.name == token.string; });
+        }
     }
-  }
-  return ds;
+    return matches;
 }
 
 function getQualifier (token, line) {
@@ -185,47 +181,37 @@ function generateView(content, cssClass) {
 }
 
 function getDocForTokenAt (pos) {
-  var doc = null;
-  var token = editor.getTokenAt(pos);
-  var docs = token.type ? lookupDocs(token, pos.line) : null;
+    var doc = null;
+    var token = editor.getTokenAt(pos);
+    if (!token.type) return null;
+    var results = lookupDocs(token, pos.line);
 
-  if (docs && docs.length > 0) {
-    if (docs.length > 1) {
-      var q = getQualifier(token, pos.line);
-      if (q) {
-        doc = docs.filter(function(o) { if (o.module == q) return true;})[0];
-      } else {
-          function f(o) {
-              return moduleToHtmlLink(o.module, token.string);
-          }
-          var places = docs.map(f).join(' and ');
-          doc = {error: 'Ambiguous: ' + token.string + ' defined in ' + places };
-      }
-    } else {
-      doc = docs[0];
+    if (results.length === 0) return null;
+    if (results.length === 1) return results[0];
+
+    var qualifier = getQualifier(token, pos.line);
+    if (qualifier) {
+        return results.filter(function(result) { return result.home == qualifier; })[0];
     }
-  }
-  return doc;
+
+    function toLink(result) {
+        return moduleToHtmlLink(result.module, token.string);
+    }
+    return { error: 'Ambiguous: ' + token.string + ' defined in ' + results.map(toLink).join(' and ') };
 }
 
-function typeAsText (doc) {
-  var result =  '';
-  result += doc.module ? doc.module : '';
-  result += (doc.module && doc.name) ? '.' : '';
-  result += doc.name ? doc.name : '';
-  result = moduleToHtmlLink(doc.module, doc.name, result);
-  result += doc.type ? ' : ' + doc.type : '';
-  return result;
+function formatType(result) {
+    return result.type;
 }
 
 function updateDocumentation() {
-  var doc = getDocForTokenAt(editor.getCursor(true));
+  var result = getDocForTokenAt(editor.getCursor(true));
   var type = '';
   var desc = '';
 
-  if (doc !== null) {
-      type = doc.error ? doc.error : typeAsText(doc);
-      desc = doc.desc ? doc.desc : '<p>No description found</p>';
+  if (result !== null) {
+      type = result.error ? result.error : formatType(result);
+      desc = result.comment ? result.comment : '<p>No description found</p>';
   }
   var docs = document.getElementById('documentation').childNodes;
   docs[0].innerHTML = type;
