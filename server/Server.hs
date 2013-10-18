@@ -41,7 +41,7 @@ main = do
   putStrLn "Initializing Server"
   precompile
   getRuntime
-  putStrLn "Serving at localhost:8000"
+  putStrLn $ "Serving at localhost:" ++ show (port args)
   simpleHTTP nullConf { Happs.port = port args } $ do
     compressedResponseFilter
     let mime = asContentType "text/html; charset=UTF-8"
