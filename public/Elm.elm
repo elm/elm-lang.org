@@ -25,9 +25,9 @@ other w = width (w `div` 2) [markdown|
 #### Community
 
 * [elm-discuss list][list]
-* [`#elm` on IRC](http://webchat.freenode.net/?channels=elm irc)
-* [/r/elm](http://www.reddit.com/r/elm subreddit)
-* [Elm user group SF](http://www.meetup.com/Elm-user-group-SF/ meetup in SF)
+* [`#elm` on IRC](http://webchat.freenode.net/?channels=elm)
+* [/r/elm](http://www.reddit.com/r/elm)
+* [Elm user group SF](http://www.meetup.com/Elm-user-group-SF/)
 * [Share Code](http://www.share-elm.com)
 * [Contribute!](/Contribute.elm)
 
