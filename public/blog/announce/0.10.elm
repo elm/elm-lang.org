@@ -166,12 +166,26 @@ but since `(||)` [short ciruits](http://en.wikipedia.org/wiki/Short-circuit_eval
 it *does* change how much computation needs to be done. Making `(||)` right
 associative ensures that we use the faster way when parentheses are left off.
 
-Fun facts: [all of the operators in the standard library](http://docs.elm-lang.org/InfixOps.elm)
-are defined this way now, and you can even do all this with infix functions:
+This also works for functions:
 
 ```haskell
 infixl 7 `div`
 ```
+
+**<span style="color:rgb(240, 173, 0)">Do not abuse this power!</span>**
+You must use this feature *very* judiciously.
+Haskell tends to use infix operators very aggressively, often in ways that hamper
+readability. In Elm, you should *never* design an API with specific infix operators
+in mind. Always design your API to have clear and helpful names **for everything**,
+even if you know it is totally an Applicative Functor or whatever else.
+
+Only after you are done with a fully non-symbolic API, then maybe consider the
+possibility of perhaps introducing infix operators. And even if the make
+things significantly nicer, consider not adding them. Maybe wait a few releases
+and see if it is necessary. Ask people to read code that uses them. Do they like
+it? Can they figure it out without you? Does the symbol clarify its meaning? Can
+they figure it out without seeing type signatures? I followed all of these rules
+with `(<~)` and `(~)` and I am still not sure that they were a good idea.
 
 
 ## New Documentation
