@@ -54,24 +54,22 @@ New stuff includes:
    [native representation](http://docs.elm-lang.org/library/String.elm)
    that is significantly faster
  * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
- * [Miscellaneous](#miscellaneous) &mdash; tons of small improvements and bug fixes
+ * [Improvements and Fixes](#improvements-and-fixes) &mdash; lots of them
 
 There are also some improvements for Elm related tools including
 [nicer docs](http://docs.elm-lang.org/) and
 [hot-swapping](/blog/Interactive-Programming.elm) in the online editor.
-
 I have also been experimenting with &ldquo;traditional webapps&rdquo; in Elm.
 Two notable experiments are:
 
  * [TodoFRP](https://github.com/evancz/todofrp) &mdash; easy to put everything together,
    FRP worked very nicely, but missing some knobs for aesthetics.
- * [Instant search feature in docs](http://docs.elm-lang.org) &mdash; wonderful use for FRP!
+ * [Instant search feature in docs](http://docs.elm-lang.org) &mdash; great use for FRP!
    I'll talk about this more [lower down](#new-documentation).
 
-Both left me feeling like Elm can be a great fit for traditional webapps, so
+Both left me feeling like Elm can be a great fit for traditional webapps, and
 I am excited to see how far we can push in this direction.
-
-Okay, let's talk specifics of 0.10!
+Okay, let's talk specifics!
 
 ## Native Strings
 
@@ -189,7 +187,11 @@ this release introduces:
 * [a new home for documentation](http://docs.elm-lang.org/).
 * `elm-doc` which extracts Elm documentation into JSON
 
-My favorite part this project is [the search bar on the docs site](http://docs.elm-lang.org/).
+Huge thank you to [Max New](https://github.com/maxsnew),
+[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
+for helping convert the standard libraries to the new docs format!
+
+Now my favorite part this project is [the search bar on the docs site](http://docs.elm-lang.org/).
 It lets you live search the standard library for modules, functions, and operators.
 Hopefully this will help newcomers find operators that are tough to Google for,
 like [`(<~)`](http://localhost:8080/library/Signal.elm#<~)
@@ -200,19 +202,13 @@ feature. I got it running in an afternoon, mainly motivated by the fact that my 
 for the site had an akward amount of empty space in the sidebar. The seach code
 was pretty basic, just crawling over some JSON. The graphics code essentially says
 &ldquo;show the search results&rdquo; and updates just flow through as the user types.
-Without FRP and pure graphics I think this feature would be *significantly* more complicated
-and error prone. That would mean manually modifying the DOM and trying to
-synchronize the model state and &ldquo;view state&rdquo;, which probably should not
-be the industry default in the first place.
+Without FRP and pure graphics&mdash;and with manual DOM modification&mdash;I think this
+feature would be *significantly* more complicated and error prone.
 
 In any case, [the source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
 if you want to look into search, use the site as a starting point for your own project, or whatever else.
 
-Finally, huge thank you to [Max New](https://github.com/maxsnew),
-[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
-for helping convert the standard libraries to the new docs format!
-
-## Miscellaneous
+## Improvements and Fixes
 
 The following list covers the most important fixes and improvements.
 
@@ -222,27 +218,25 @@ The following list covers the most important fixes and improvements.
   This library is actually made up of [augmented matrices](http://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
   that let you represent translations, and we wanted to make that clearer.
 
-* Switch to [`language-ecmascript`](http://hackage.haskell.org/package/language-ecmascript)
-  for generating JS. This is a very nice, sensible library, and I encourage you to at least
-  check it out and hopefully switch to it. I hope Haskell to JS projects can share code for
-  optimizations and source-maps generation, saving us all a bunch of work.
-
-* Add function to `Random` library to get a list of random numbers, thanks to
-  [Max Goldstien](https://github.com/mgold)!
-  <p style="text-align:center; font-family:monospace;">
-  [floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float]</p>
+* Add <span style="font-family:monospace;">
+  ([Random.floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float])</span><br/>
+  Thanks to [Max Goldstien](https://github.com/mgold)!
 
 * Fix the `remove` function in [the `Dict`
   library](http://docs.elm-lang.org/library/Dict.elm) based on [Matt Might's
   work on this topic](http://matt.might.net/articles/red-black-delete/). Thank you
   to [Max New](https://github.com/maxsnew) for taking on this arduous task!
 
-* Make compiler compatable with cabal 1.18, thanks to [Justin Leitgeb](https://github.com/jsl)!
-
-* Fix bug in functions that take 10+ arguments, thanks to [Max New](https://github.com/maxsnew)
+* Switch to [`language-ecmascript`](http://hackage.haskell.org/package/language-ecmascript)
+  for generating JS. This is a very nice library, and I would love for all Haskell to JS
+  projects to share this backend so we can all benefit from work on optimizations or source-maps.
 
 * Pattern matching on literals was announced in 0.9, but a bug snuck in right before
   release. That is fixed now!
+
+* Make compiler compatable with cabal 1.18, thanks to [Justin Leitgeb](https://github.com/jsl)!
+
+* Fix bug in functions that take 10+ arguments, thanks to [Max New](https://github.com/maxsnew)
 
 Thanks to everyone who helped with this release, whether it was
 contributions or talking through ideas on the
