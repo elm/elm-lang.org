@@ -55,7 +55,7 @@ route empty rest = do
        , dir "try" (ok $ toResponse $ emptyIDE)
        , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
        , dir "hotswap" $ compilePart elmToJS
-       , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?v0.9"
+       , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?0.10"
        , dir "edit" serveEditor
        , dir "code" . uriRest $ withFile editor
        , dir "login" sayHi
@@ -116,7 +116,7 @@ precompile =
   do setCurrentDirectory "public"
      files <- getFiles True ".elm" "."
      forM_ files $ \file -> do
-       rawSystem "elm" ["--make","--runtime=/elm-runtime.js?v0.9",file]
+       rawSystem "elm" ["--make","--runtime=/elm-runtime.js?v0.10",file]
      htmls <- getFiles False ".html" "build"
      mapM_ adjustHtmlFile htmls
      setCurrentDirectory ".."
