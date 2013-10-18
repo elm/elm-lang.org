@@ -33,19 +33,25 @@ code > span.er { font-weight: bold; }
 
 # Documentation
 
+The `elm-doc` command-line tool extracts documentation as JSON.
+This document describes [the format for Elm documentation](#documenting-elm-code)
+and [the format of the JSON produced by `elm-doc`](#resulting-json).
+
+## Documenting Elm code
+
 This documentation format strives for simplicity and regularity. It should
 be easy for readers to glance through a file and find the information they
 need.
-
-## Documenting Elm code
 
 Check out the two files—[Maybe](https://github.com/evancz/Elm/blob/master/libraries/Maybe.elm)
 and [Either](https://github.com/evancz/Elm/blob/master/libraries/Maybe.elm)—before
 reading the following prose description of how it works.
 
+Did you look at those files? Do that now.
+
 General Facts:
 
- * All documentation lives in comment blocks that start with {-| and end with -}
+ * All documentation lives in comment blocks that start with `{-|` and end with `-}`
  * All documentation allows the same kind of markdown that Elm allows
  * The documentation begins directly after the vertical bar. Using the first line is recommended. It sort of looks like a paragraph indent that way, and is generally less awkward.
  * Documentation for values and functions always sits directly above the type annotation.

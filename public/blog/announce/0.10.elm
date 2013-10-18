@@ -54,7 +54,7 @@ New stuff includes:
    [native representation](http://docs.elm-lang.org/library/String.elm)
    that is significantly faster
  * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
- * [Loose ends](#loose-ends) &mdash; tons of small improvements and bug fixes
+ * [Miscellaneous](#miscellaneous) &mdash; tons of small improvements and bug fixes
 
 There are also some improvements for Elm related tools including
 [nicer docs](http://docs.elm-lang.org/) and
@@ -178,15 +178,16 @@ infixl 7 `div`
 
 ## New Documentation
 
-This release also comes with `elm-doc` which extracts Elm documentation into
-JSON to be used however people want. I am using it to populate the new
-[docs.elm-lang.org](http://docs.elm-lang.org/) site, but I designed it to
-be useful for something like Hoogle or IDE tools like inline-docs or auto-completion.
+I designed these things (1) to make documentation nice in Elm code and
+[online](http://docs.elm-lang.org/) and (2) to make docs
+useful for entirely separate projects. I want to support things like
+[Hoogle](http://www.haskell.org/hoogle/)-style type search or creating
+IDE features like inline-docs or autocompletion. To reach these two goals,
+this release introduces:
 
-The format for documentation is described [here](/learn/Documentation.elm).
-Huge thank you to [Max New](https://github.com/maxsnew),
-[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
-for helping convert the standard libraries to the new format.
+* a new format for documentation, [described here](/learn/Documentation.elm)
+* [a new home for documentation](http://docs.elm-lang.org/).
+* `elm-doc` which extracts Elm documentation into JSON
 
 My favorite part this project is [the search bar on the docs site](http://docs.elm-lang.org/).
 It lets you live search the standard library for modules, functions, and operators.
@@ -199,48 +200,52 @@ feature. I got it running in an afternoon, mainly motivated by the fact that my 
 for the site had an akward amount of empty space in the sidebar. The seach code
 was pretty basic, just crawling over some JSON. The graphics code essentially says
 &ldquo;show the search results&rdquo; and updates just flow through as the user types.
-
 Without FRP and pure graphics I think this feature would be *significantly* more complicated
-and error prone. To be clear, the alternative is manually modifying the DOM and trying to
-synchronize the model state and &ldquo;view state&rdquo;. I put &ldquo;view state&rdquo;
-in quotes to point out that it is often a non-essential and error-prone part of GUIs, yet
-it is a standard and uncontroversial term for talking about front-end programs.
-Is this Stockholm Syndrome?
+and error prone. That would mean manually modifying the DOM and trying to
+synchronize the model state and &ldquo;view state&rdquo;, which probably should not
+be the industry default in the first place.
 
 In any case, [the source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
 if you want to look into search, use the site as a starting point for your own project, or whatever else.
 
-## Loose ends
+Finally, huge thank you to [Max New](https://github.com/maxsnew),
+[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
+for helping convert the standard libraries to the new docs format!
 
-Thanks to everyone who helped with this release, whether it was
-contributions or helping talk through ideas on the [email
-list](https://groups.google.com/forum/#!forum/elm-discuss)! 
+## Miscellaneous
+
 The following list covers the most important fixes and improvements.
 
 * Realiasing type errors, making them shorter and easier to read.
-
-* Fix the `remove` function in [the `Dict`
-  library](http://docs.elm-lang.org/library/Dict.elm) based on [Matt Might's
-  work on this topic](http://matt.might.net/articles/red-black-delete/). Thank you
-  to [Max New](https://github.com/maxsnew) for taking on this arduous task!
 
 * The `Matrix2D` library has been renamed [`Transform2D`](http://docs.elm-lang.org/library/Transform2D.elm).
   This library is actually made up of [augmented matrices](http://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
   that let you represent translations, and we wanted to make that clearer.
 
-* Pattern matching on literals was announced in 0.9, but a bug snuck in right before
-  release. That is fixed now!
+* Switch to [`language-ecmascript`](http://hackage.haskell.org/package/language-ecmascript)
+  for generating JS. This is a very nice, sensible library, and I encourage you to at least
+  check it out and hopefully switch to it. I hope Haskell to JS projects can share code for
+  optimizations and source-maps generation, saving us all a bunch of work.
 
 * Add function to `Random` library to get a list of random numbers, thanks to
   [Max Goldstien](https://github.com/mgold)!
   <p style="text-align:center; font-family:monospace;">
   [floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float]</p>
 
+* Fix the `remove` function in [the `Dict`
+  library](http://docs.elm-lang.org/library/Dict.elm) based on [Matt Might's
+  work on this topic](http://matt.might.net/articles/red-black-delete/). Thank you
+  to [Max New](https://github.com/maxsnew) for taking on this arduous task!
+
 * Make compiler compatable with cabal 1.18, thanks to [Justin Leitgeb](https://github.com/jsl)!
 
-* Fix bug in functions that take 10 or more arguments, thanks to [Max New](https://github.com/maxsnew)
+* Fix bug in functions that take 10+ arguments, thanks to [Max New](https://github.com/maxsnew)
 
-* Switch to `language-ecmascript` for generating JS. If you generate JS from Haskell, you
-  should switch too. This is a good library
+* Pattern matching on literals was announced in 0.9, but a bug snuck in right before
+  release. That is fixed now!
+
+Thanks to everyone who helped with this release, whether it was
+contributions or talking through ideas on the
+[list](https://groups.google.com/forum/#!forum/elm-discuss)! 
 
 |]
