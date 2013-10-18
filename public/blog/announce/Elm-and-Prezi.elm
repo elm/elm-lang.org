@@ -7,7 +7,7 @@ title = constant (JS.fromString "Elm and Prezi")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
-main = lift (skeleton intro) Window.width
+main = lift (skeleton intro) Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
@@ -37,7 +37,7 @@ This is actually a stronger guarantee than before.
 Yes! I have been talking with Prezi for the past couple months.
 I should be able to move a lot quicker now.
 
-  [0.8]: /blog/announce/version-0.8.elm
+  [0.8]: /blog/announce/0.8.elm
 
 #### Q: What might change because of this?
 I am still making the design decisions, so the goals are the same.

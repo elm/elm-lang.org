@@ -9,7 +9,7 @@ title = constant (JS.fromString "Upgrade Time: Elm 0.6")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
-main = lift (skeleton intro) Window.width
+main = lift (skeleton intro) Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
@@ -401,6 +401,6 @@ sideBySide wid e1 e2 =
                           ]
              ]
 
-main = lift2 skeleton (lift4 scene speed times1 times3 dateString) Window.width
+main = lift2 skeleton (lift4 scene speed times1 times3 dateString) Window.dimensions
 
 --}

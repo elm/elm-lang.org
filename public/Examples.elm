@@ -1,43 +1,169 @@
 
 import Website.Skeleton (skeleton)
+import Website.ColorScheme (accent4)
+import Website.Tiles (examples)
 import Window
+
+main = skeleton exampleSets <~ Window.dimensions
+
+content w =
+  let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  in  words :: map (subsection w) exs ++ [ intermediate, examples w intermediates, spacer w 30 ]
+
+exampleSets w =
+  flow down . map (width w) . intersperse (plainText " ") <| content w
 
 words = [markdown|
 
-### Learn by Example
+# Examples
 
-Elm's interactive editor allows you to learn Elm by seeing and modifying
-actual code. There are a couple categories of examples for designed to build
-certain skills.
+This page will help you *learn by example* as you read and modify
+Elm code in the [online editor](/try). It is split into two sections:
 
-You may also want to take a look at the [overview of Elm&rsquo;s syntax][syntax].
+ * [Basics](#basics) &ndash; small programs focused on showing one concept
+ * [Intermediate](#intermediate) &ndash; larger examples that combine basic concepts
 
-* [Basic][1]
-
-* [Intermediate][2]
-
-* [This Website][6]
-
-<br/>
-
-Grzegorz has created a great project called [Preselm][preselm] that uses
-Elm as a framework for online presentations. The [source is available][src]
-too! He has also created some cool [smaller examples][3] too.
-
-
-  [1]: /examples/Basic.elm "Basic"
-  [2]: /examples/Intermediate.elm "Intermediate"
-  [3]: http://www.grzegorzbalcerek.net/elm/index.html "Syntax and More"
-  [4]: /examples/ElmJS.elm "Elm + JavaScript"
-  [5]: /examples/ElmHaskell.elm "Elm + Haskell"
-  [6]: /examples/ThisWebsite.elm "This Website"
-  [7]: /blog/games-in-elm/part-0/Making-Pong.html "Elm for Games"
+Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
-  [preselm]: http://www.grzegorzbalcerek.net/preselm/Tutorial.html "Preselm"
-  [src]: https://github.com/grzegorzbalcerek/Preselm "Preselm Source"
+
+## Basics
+
 |]
 
-content w = width w words
+intermediate = [markdown|
 
-main = lift (skeleton content) Window.width
+## Intermediate
+
+|]
+
+intermediates =
+    [ [ "Mario", "Walk", "Pong", "Turtle" ]
+    , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
+    , [ "Plot", "Clock", "Stamps", "Slide" ]
+    , [ "Complements", "Web", "PascalsTriangle", "FibonacciTiles" ]
+--    , [ "Circles" ]
+    ]
+
+addFolder folder lst =
+  let add (x,y) = (x, folder ++ y ++ ".elm")
+      f (n,xs) = (n, map add xs)
+  in  map f lst
+
+elements = addFolder "Elements/"
+  [ ("Words",
+        [ ("Text", "HelloWorld")
+        , ("Markdown", "Markdown")
+        ])
+  , ("Images",
+        [ ("Images", "Image")
+        , ("Fitted", "FittedImage")
+        , ("Cropped", "CroppedImage")
+        ])
+  , ("Formatting",
+        [ ("Size"    , "Size")
+        , ("Opacity" , "Opacity")
+        , ("Text"    , "Text")
+        , ("Typeface", "Typeface")
+        ])
+  , ("Layout",
+        [ ("Simple Flow", "FlowDown1a")
+        , ("Flow Down"  , "FlowDown2")
+        , ("Layers"     , "Layers")
+        ])
+  , ("Positioning",
+        [ ("Containers", "Position")
+        , ("Spacers"   , "Spacer")
+        ])
+  , ("2D Shapes", [ ("Lines"     , "Lines")
+                  , ("Shapes"    , "Shapes")
+                  , ("Sprites"   , "Sprite")
+                  , ("Elements"  , "ToForm")
+                  , ("Transforms", "Transforms")
+                  ])
+  , ("2D Fills", [ ("Color"    , "Color")
+                 , ("Linear Gradient", "LinearGradient")
+                 , ("Radial Gradient", "RadialGradient")
+                 , ("Texture"  , "Texture")
+                 ])
+  ]
+
+
+functional = addFolder "Functional/"
+  [ ("Recursion",
+      [ ("Factorial"  , "Factorial")
+      , ("List Length", "Length")
+      , ("Zip"        , "Zip")
+      , ("Quick Sort" , "QuickSort")
+      ])
+  , ("Functions",
+      [ ("Functions"  , "Anonymous")
+      , ("Application", "Application")
+      , ("Composition", "Composition")
+      , ("Infix Ops"  , "Infix")
+      ])
+  , ("Higher-Order",
+      [ ("Map"    , "Map")
+      , ("Fold"   , "Sum")
+      , ("Filter" , "Filter")
+      , ("ZipWith", "ZipWith")
+      ])
+  , ("Data Types",
+      [ ("Maybe", "Maybe")
+      , ("Boolean Expressions", "BooleanExpressions")
+      , ("Tree", "Tree")
+      ])
+  , ("Libraries",
+        [ ("Either", "Either")
+        , ("Dict", "Dict")
+        , ("Set", "Set")
+        ])
+  ]
+
+reactive = addFolder "Reactive/"
+  [ ("Mouse",  [ ("Position", "Position")
+               , ("Presses"    , "IsDown")
+               , ("Clicks"    , "CountClicks")
+               , ("Yogi", "ResizeYogi")
+               , ("Track", "Transforms")
+               ])
+  ,("Keyboard",[ ("Arrows"     , "Arrows")
+               , ("wasd"       , "Wasd")
+               , ("Keys Down"  , "KeysDown")
+               , ("Key Presses", "CharPressed")
+               ])
+  , ("Touch",  [ ("Raw", "Touches")
+               , ("Touches", "Touch")
+               , ("Taps", "Taps")
+               , ("Draw", "Draw")
+               ])
+  , ("Window", [ ("Size", "ResizePaint")
+               , ("Centering", "Centering")
+               ])
+  , ("Time",   [ ("FPS"     , "Fps")
+               , ("FPS when", "FpsWhen")
+               , ("Every"   , "Every")
+               , ("Clock"   , "Clock")
+               ])
+  , ("Input",  [ ("Text", "TextField")
+               , ("Password"  , "Password")
+               , ("Checkbox", "CheckBox")
+               , ("DropDown", "DropDown")
+               , ("DropDown", "StringDropDown")
+               ])
+  , ("Random", [ ("Randomize", "Randomize") ])
+  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
+  , ("Filters",[ ("Sample", "SampleOn")
+               ])
+  ]
+
+example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
+toLinks (title, links) =
+  flow right
+   [ width 120 (plainText <| " " ++ title)
+   , text . join (toText ", ") <| map example links
+   ]
+
+subsection w (name,info) =
+  flow down . intersperse (spacer w 6) . map (width w) <|
+    (text . bold <| toText name) :: map toLinks info ++ [spacer w 12]

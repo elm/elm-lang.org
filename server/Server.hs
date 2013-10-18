@@ -1,18 +1,20 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module Main where
 
 import Prelude hiding (head, span, id, catch)
 import qualified Data.Char as Char
 import qualified Data.List as List
 import Control.Monad
-import Happstack.Server hiding (body)
+import Happstack.Server hiding (body,port)
 import Happstack.Server.Compression
 import Happstack.Server.FileServe.BuildingBlocks (serveDirectory')
+import qualified Happstack.Server as Happs
 
 import Text.Blaze.Html (Html, toHtml)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
+import System.Console.CmdArgs
 import System.FilePath as FP
 import System.Process
 import System.Directory
@@ -23,15 +25,24 @@ import ElmToHtml
 import Editor
 import Utils
 
+data Flags = Flags
+  { port :: Int
+  } deriving (Data,Typeable,Show,Eq)
+
+flags = Flags
+  { port = 8000 &= help "set the port of the server"
+  }
+
 -- | Set up the server.
 main :: IO ()
 main = do
   setNumCapabilities =<< getNumProcessors
+  args <- cmdArgs flags
   putStrLn "Initializing Server"
   precompile
   getRuntime
-  putStrLn "Serving at localhost:8000"
-  simpleHTTP nullConf $ do
+  putStrLn $ "Serving at localhost:" ++ show (port args)
+  simpleHTTP nullConf { Happs.port = port args } $ do
     compressedResponseFilter
     let mime = asContentType "text/html; charset=UTF-8"
     route (serveFile mime "public/build/Elm.elm")
@@ -142,5 +153,7 @@ adjustHtmlFile file =
         , "  a:visited {text-decoration: none}"
         , "  a:active {text-decoration: none}"
         , "  a:hover {text-decoration: underline; color: rgb(234,21,122);}"
-        , "  body { font-family: calibri, verdana, helvetica, arial }"
+        , "  body { font-family: \"Lucida Grande\",\"Trebuchet MS\",\"Bitstream Vera Sans\",Verdana,Helvetica,sans-serif !important; }"
+        , "  p, li { font-size: 14px !important;"
+        , "          line-height: 1.5em !important; }"
         , "</style>" ]

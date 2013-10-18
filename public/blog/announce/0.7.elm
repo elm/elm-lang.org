@@ -21,7 +21,7 @@ pre {
 }
 </style>
 
-# Extensible Records and more &ndash; Elm 0.7
+# Elm 0.7 &ndash; Extensible Records
 
 Major changes in this release include:
 
@@ -291,5 +291,5 @@ if you are in the neighborhood!
 
 scene w = width w intro
 
-main = lift (skeleton (scene . min 600)) Window.width
+main = lift (skeleton (scene . min 600)) Window.dimensions
 

@@ -1,14 +1,11 @@
 
-(box,checked) = Input.checkbox False
-
 colorCycle t =
-  let toPos t   = (150 + 100 * cos (pi*t/180), 150 + 100 * sin (pi*t/180))
-      toDot r t = filled (hsv t 1 1) <| circle r (toPos t)
-      t1 = (t / 100) `mod` 360
-      t2 = (180 + t / 100) `mod` 360
-  in  flow down [ collage 300 300 <|
-                          toDot 20 t1 :: 
-                          toDot 20 t2 :: map (toDot 10 . (*) 30) [0..11]
-                , container 300 40 middle <| plainText "On / Off  " `beside` box ]
+  let at t   = move <| fromPolar (100, t)
+      toDot r t = at t . filled (hsv t 0.9 0.9) <| circle r
+      t1 = t / 2000
+      t2 = t / 2000 + degrees 180
+  in  collage 300 300 <|
+        toDot 20 t1 :: 
+        toDot 20 t2 :: map (\angle -> toDot 10 (turns <| angle / 12)) [0..11]
 
-main = lift colorCycle (foldp (+) 0 (30 `fpsWhen` checked))
+main = colorCycle <~ foldp (+) 0 (fps 30)

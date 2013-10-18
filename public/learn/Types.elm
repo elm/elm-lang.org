@@ -107,4 +107,4 @@ and direction. Well, a `Thing` fits exactly that description, so you can call
 
 content w = width (min 600 w) intro
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton content) Window.dimensions

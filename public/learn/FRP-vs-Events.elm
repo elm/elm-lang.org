@@ -72,7 +72,7 @@ in the current implementation. Asynchrony is already there though!
 |]
 
 
-main = lift (skeleton (\w -> width w content)) Window.width
+main = lift (skeleton (\w -> width w content)) Window.dimensions
 
 
 ---- Setting the title of the page to be prettier ----

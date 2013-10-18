@@ -43,7 +43,7 @@ Before we get started, there is some non-compiler news:
 * Grzegorz recently released [Preselm](http://www.grzegorzbalcerek.net/preselm/Tutorial.html),
   an [open source](https://github.com/grzegorzbalcerek/Preselm) project for creating presentations.
   In addition to being really cool, it is a great example of how to effectively use
-  [the new record system](/blog/announce/version-0.7.elm).
+  [the new record system](/blog/announce/0.7.elm).
 
 * Mads is currently working on getting inline documentation working in the online editor.
   I think it is a big step towards making Elm really easy to learn for people from
@@ -53,7 +53,7 @@ Before we get started, there is some non-compiler news:
 
 Okay, now let&rsquo;s dive into Elm 0.7.1!
 
- [recs]: /blog/announce/version-0.7.elm
+ [recs]: /blog/announce/0.7.elm
  [draw]: /edit/examples/Reactive/Draw.elm
 
 ## Keyboard
@@ -233,5 +233,5 @@ scene obj w' =
   let w = min 600 w' in
   width w intro
 
-main = lift2 (skeleton . scene) (constant ()) Window.width
+main = lift2 (skeleton . scene) (constant ()) Window.dimensions
 
