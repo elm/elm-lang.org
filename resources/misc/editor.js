@@ -79,32 +79,23 @@ function parseDoc(modules) {
 function loadDoc() {
   var req = new XMLHttpRequest();
   req.onload = function () {
-      console.log(this.responseText);
       elmDocs = parseDoc(JSON.parse(this.responseText));
   };
   req.open('GET', '/docs.json?v0.10', true);
   req.send();
 }
 
-function wrapIfOperator(name) {
-  var nonSymbols = /[A-Za-z0-9]/;
-  if (name.match(nonSymbols)) {
-    return name;
-  } else {
-    //  Best bet is an operator that needs () wrapping
-    return '(' + name + ')';
-  }
+function docsLink(moduleName, value) {
+    var href = moduleRef(moduleName);
+    var text = moduleName;
+    if (value) {
+        href = href + '#' + value;
+        text = text + '.' + value;
+    }
+    return '<a href="' + href + '" target="_blank">' + text + '</a>';
 }
 
-function moduleToHtmlLink(module, anchor, text, hoverText) {
-    var linkText = text || module;
-    var titleText = hoverText || '';
-    var anchorLink = anchor ? '#' + wrapIfOperator(anchor) : '';
-    console.log('this one?', module, anchor, text, hoverText);
-    return '<a href="' + moduleRef(module) + anchorLink + '" target="elm-docs" title="' + titleText + '">' + linkText + '</a>';
-}
-
-function moduleRef (module) {
+function moduleRef(module) {
   var parts = module.split('.');
   var ref = null;
   if (module === 'Syntax') {
@@ -153,7 +144,7 @@ function getQualifier (token, line) {
   return null;
 }
 
-function openDocPage () {
+function openDocPage() {
   var current_pos = editor.getCursor(true);
   var token = editor.getTokenAt(current_pos);
   var ds = token.type ? lookupDocs(token, current_pos.line) : null;
@@ -195,13 +186,22 @@ function getDocForTokenAt (pos) {
     }
 
     function toLink(result) {
-        return moduleToHtmlLink(result.module, token.string);
+        return docsLink(result.module, token.string);
     }
     return { error: 'Ambiguous: ' + token.string + ' defined in ' + results.map(toLink).join(' and ') };
 }
 
 function formatType(result) {
-    return result.type;
+    var annotation = result.type;
+    var firstFive = annotation.slice(0,5);
+    var start = 0;
+    var end = annotation.indexOf(' ')
+    if (firstFive === 'type ' || firstFive === 'data ') {
+        start = 5;
+        end = annotation.indexOf(' ',5);
+    }
+    var name = annotation.slice(start,end);
+    return annotation.replace(name, docsLink(result.home, result.name));
 }
 
 function updateDocumentation() {
