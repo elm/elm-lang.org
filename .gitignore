@@ -4,4 +4,5 @@ cache
 build
 dist
 resources/elm-runtime.js
+resources/docs.json
 serve
