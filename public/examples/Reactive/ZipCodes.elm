@@ -17,7 +17,7 @@ toUrl s = if String.length s == 5 && String.all Char.isDigit s
 realInput = lift toUrl rawInput
 
 -- Send AJAX requests for any valid input!
-responses = Http.sendGet (Maybe.maybe "" id <~ realInput)
+responses = Http.sendGet (lift (Maybe.maybe "" id) realInput)
 
 -- Display a response.
 display response = 

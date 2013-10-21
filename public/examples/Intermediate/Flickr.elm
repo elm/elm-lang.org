@@ -15,9 +15,9 @@ import Window
 -- the URL of an image.
 
 getSources : Signal String -> Signal (Maybe String)
-getSources tag = let photos = Http.send (getTag <~ tag)
-                     sizes  = Http.send (getOneFrom <~ photos)
-                 in  sizesToSource <~ sizes
+getSources tag = let photos = Http.send (lift getTag tag)
+                     sizes  = Http.send (lift getOneFrom photos)
+                 in  lift sizesToSource sizes
 
 -- Create a text input box and a signal of tags, as seen in
 -- "Escape from Callback Hell".
@@ -42,9 +42,7 @@ scene (w,h) tagInput imgSrc =
 -- Pass in the current dimensions and image. All inputs are
 -- signals and will update automatically.
 
-main = scene <~ Window.dimensions
-              ~ tagInput
-              ~ getSources (dropRepeats tags)
+main = lift3 scene Window.dimensions tagInput (getSources (dropRepeats tags))
 
 
 

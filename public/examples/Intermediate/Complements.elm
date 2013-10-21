@@ -8,4 +8,4 @@ colorCycle t =
         toDot 20 t1 :: 
         toDot 20 t2 :: map (\angle -> toDot 10 (turns <| angle / 12)) [0..11]
 
-main = colorCycle <~ foldp (+) 0 (fps 30)
+main = lift colorCycle (foldp (+) 0 (fps 30))

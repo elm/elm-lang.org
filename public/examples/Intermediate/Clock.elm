@@ -1,6 +1,6 @@
 -- An 8-line analog clock.
 
-main = clock <~ every second
+main = lift clock (every second)
 
 clock t = collage 400 400 [ filled grey (ngon 12 110)
                           , hand orange 100  t
