@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 extra-tmp-files:       public/build
                      , public/cache
 
-executable serve
+executable run-elm-website
   main-is:             Server.hs
   other-extensions:    OverloadedStrings
   ghc-options:         -threaded -O2
