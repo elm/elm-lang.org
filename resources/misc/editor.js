@@ -57,11 +57,12 @@ function adjustEditorBottom() {
 }
 
 var elmSyntax = {
-    '='   : 'defining values',
+    '='   : 'defining values, pronounced &ldquo;equals&rdquo;',
     '\\'  : 'anonymous functions, pronounced &ldquo;lambda&rdquo;',
-    ':'   : 'type declarations, pronounced &ldquo;has type&rdquo;',
+    ':'   : '<a href="/learn/Getting-started-with-Types.elm" target="_blank">' +
+            'type annotations</a>, pronounced &ldquo;has type&rdquo;',
     '->'  : 'control flow. Used with lambdas, cases, and multi-way ifs.',
-    '<-'  : 'updating fields in a record',
+    '<-'  : 'updating fields in a record, pronounced &ldquo;gets&rdquo;',
     'as'  : 'aliasing. Can be used on imported modules and pattern complex patterns.',
     'let' : 'beginning a let expression',
     'in'  : 'marking the end of a block of definitions, and starting an expression',
@@ -71,8 +72,10 @@ var elmSyntax = {
     'case': 'beginning a case expression',
     'of'  : 'separating the expression to be pattern matched from possible case branches',
     'type': 'defining type aliases',
-    'data': 'defining <a href="/learn/Pattern-Matching.elm" target="_blank">algebraic data types (ADTs)</a>',
-    '_'   : 'pattern matching anything, often called a &ldquo;wildcard&rdquo;',
+    'data': 'defining <a href="/learn/Pattern-Matching.elm" target="_blank">' +
+            'algebraic data types (ADTs)</a>',
+    '_'   : '<a href="/learn/Pattern-Matching.elm" target="_blank">pattern matching</a>' +
+            ' anything, often called a &ldquo;wildcard&rdquo;',
     '..'  : 'number interpolation',
     '|'   : 'separating various things, sometimes pronounced &ldquo;where&rdquo;',
     'open': 'loading all of a modules values into local scope',
@@ -95,14 +98,14 @@ function parseDoc(modules) {
         }
         return [].concat(module.values,
                          module.datatypes,
-                         module.datatypes).map(formatEntry);
+                         module.aliases).map(formatEntry);
     }
     return {
         values: [].concat.apply([], modules.map(parseModule)),
         modules: modules.map(function(module) {
             var desc = module.document;
-            var end = desc.indexOf('#');
-            if (end === -1) end = desc.indexOf('@');
+            var end = desc.indexOf('\n#');
+            if (end === -1) end = desc.indexOf('\n@');
             if (end !== -1) desc = desc.slice(0,end);
             module.desc = markdown.makeHtml(desc);
             return module;
