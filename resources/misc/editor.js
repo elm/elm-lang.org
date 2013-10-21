@@ -155,6 +155,11 @@ function formatType(result) {
     if (firstFive === 'type ' || firstFive === 'data ') {
         start = 5;
         end = annotation.indexOf(' ',5);
+        var whitelist = ['Maybe','Either','Response','Order',
+                         'Action','Time','Touch','KeyCode'];
+        if (whitelist.indexOf(result.name) === -1) {
+            annotation = annotation.slice(0,end);
+        }
     }
     var name = annotation.slice(start,end);
     return monospace(annotation.replace(name, docsLink(result)));
