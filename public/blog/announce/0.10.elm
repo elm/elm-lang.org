@@ -45,7 +45,7 @@ code > span.er { font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.10
-<div style="font-size:0.5em;font-weight:normal">*Native strings and custom infix ops*</div></div>
+<div style="font-size:0.5em;font-weight:normal">*Native strings and nicer colors*</div></div>
 </h1>
 
 [The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
@@ -57,8 +57,8 @@ are past due for release:
  * [Strings](#native-strings) &mdash; switch to a
    [native representation](http://docs.elm-lang.org/library/String.elm)
    that is significantly faster
- * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
  * [Nice Colors](#nice-default-colors) &mdash; use [Tango color palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines) by default
+ * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
  * [Improvements and Fixes](#improvements-and-fixes) &mdash; lots of them
 
 There are also some improvements for Elm-related tools including
@@ -127,6 +127,30 @@ I look forward to seeing it used in parser combinator libraries in Elm.
 If these two strategies are not working for some reason, please report
 it or ask about it on the [mailing list](https://groups.google.com/forum/#!forum/elm-discuss).
 
+## Nice Default Colors
+
+Typically the default colors are the primary and secondary colors. These colors
+are extremely aggressive and generally do not look very good alone or together.
+Making pretty things should be *easy* in Elm, so
+[the new color library](http://docs.elm-lang.org/library/Color.elm) uses
+[the Tango palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines)
+for default colors:
+
+<div style="width:100%; display:inline-block; text-align:center;">
+<a href="http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines">
+<img src="/Tango-Palette.png" style="width:456px; height:144px;"></img></a></div>
+
+This color palette is designed such that all the colors work nicely
+with each other. This means you can randomly slap some colors on your
+project and have it look pretty good.
+
+[The new default colors](http://docs.elm-lang.org/library/Color.elm#built-in-colors)
+are named red, orange, yellow, green, blue, purple, brown, grey, and charcoal. Each color
+has a light and dark version. We did not use
+[the official Tango names](http://tango.freedesktop.org/static/cvs/tango-art-tools/palettes/Tango-Palette.svg)
+because they are harder to remember and did not add a ton of value in our context. Thank you
+to [Laszlo Pandy](https://github.com/laszlopandy) for suggesting the Tango scheme!
+
 ## Infix Operators
 
 You now can set the
@@ -190,29 +214,6 @@ and see if it is necessary. Ask people to read code that uses them. Do they like
 it? Can they figure it out without you? Does the symbol clarify its meaning? Can
 they figure it out without seeing type signatures? I followed all of these rules
 with `(<~)` and `(~)` and I am still not sure that they were a good idea.
-
-## Nice Default Colors
-
-Typically the default colors are the primary and secondary colors. These colors
-are extremely aggressive and generally do not look very good alone or together.
-Making pretty things should be *easy* in Elm, so
-[the new color library](http://docs.elm-lang.org/library/Color.elm) uses
-[the Tango palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines)
-for default colors:
-
-<div style="width:100%; display:inline-block; text-align:center;">
-<a href="http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines">
-<img src="/Tango-Palette.png" style="width:456px; height:144px;"></img></a></div>
-
-This color palette is designed such that all the colors work nicely
-with each other. This means you can randomly slap some colors on your
-project and have it look pretty good.
-
-[The new default colors](http://docs.elm-lang.org/library/Color.elm#built-in-colors)
-are named red, orange, yellow, green, blue, purple, brown, grey, and charcoal. Each color
-has a light and dark version. We did not use
-[the official Tango names](http://tango.freedesktop.org/static/cvs/tango-art-tools/palettes/Tango-Palette.svg)
-because they are harder to remember and did not add a ton of value in our context.
 
 ## New Documentation
 
