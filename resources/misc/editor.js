@@ -264,16 +264,17 @@ function messageForTokenAt(pos) {
     return {
         message: 'You probably want one of these: ' +
             results.map(docsLink).join(' or '),
-        extra: ''
+        extra: '<p>This feature is not yet clever enough to figure out which one.</p>'
     };
 }
 
 function updateDocumentation() {
     var message = messageForTokenAt(editor.getCursor(true));
-    var docs = document.getElementById('documentation').childNodes;
-    docs[0].innerHTML = message.message;
-    docs[1].innerHTML = message.extra;
-    docs[1].style.display = mode.verbose && message.extra ? 'block' : 'none';
+    var boxes = document.getElementById('documentation').childNodes;
+    boxes[0].childNodes[0].innerHTML = message.message;
+    boxes[0].childNodes[1].style.display = message.message ? 'block' : 'none';
+    boxes[1].innerHTML = message.extra;
+    boxes[1].style.display = mode.verbose && message.extra ? 'block' : 'none';
     adjustView(mode);
 }
 
@@ -304,6 +305,7 @@ function showType(show) {
 
 function toggleVerbose() {
     if (!mode.verbose) showType(true);
+    document.getElementById('toggle_link').innerHTML = mode.verbose ? 'more' : 'less';
     mode.verbose = !mode.verbose;
     updateDocumentation();
 }
@@ -317,6 +319,7 @@ function hideStuff() {
     if (mode.hidden) mode = mode.hidden;
     document.getElementById('options_checkbox').checked = false;
     mode.verbose = false;
+    document.getElementById('toggle_link').innerHTML = 'more';
     updateDocumentation();
 }
 

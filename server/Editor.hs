@@ -97,11 +97,9 @@ buttons = H.div ! A.class_ "valign_kids"
 options :: Html
 options = H.div ! A.class_ "valign_kids"
                 ! A.style "float:left; padding-left:6px; padding-top:2px;"
-                ! A.title hoverText
+                ! A.title "Show documentation and types."
                 $ (docs >> opts)
     where 
-      hoverText = "Show documentation and types.\nCtrl+H for even more information."
-
       docs = do
         H.span $ "Hints:"
         H.input ! A.type_ "checkbox"
@@ -140,7 +138,17 @@ editorOptions = theme >> zoom >> lineNumbers
 docs :: Html
 docs = tipe >> desc
     where
-      tipe = H.div ! A.class_ "type" $ ""
+      tipe = H.div ! A.class_ "type" $ message >> more
+
+      message = H.div ! A.style "position:absolute; left:2px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
+
+      more = H.a ! A.id "toggle_link"
+                 ! A.style "display:none; float:right;"
+                 ! A.href "javascript:toggleVerbose();"
+                 ! A.title "Ctrl+H"
+                 $ "more"
+
       desc = H.div ! A.class_ "doc"
                    ! A.style "display:none;"
                    $ ""
+
