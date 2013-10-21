@@ -79,6 +79,7 @@ var elmSyntax = {
     '..'  : 'number interpolation',
     '|'   : 'separating various things, sometimes pronounced &ldquo;where&rdquo;',
     'open': 'loading all of a modules values into local scope',
+    'main': 'showing values on screen, must have type <code>Element</code> or <code>Signal Element</code>',
     'import': 'importing modules',
     'infix' : 'declaring that a given operator is non-associative',
     'infixl': 'declaring that a given operator is left-associative',
@@ -195,10 +196,10 @@ function getQualifier (token, line) {
 }
 
 function lookupDocs(token, line) {
-    if (token.type == 'keyword') {
+    if (token.type === 'keyword' || token.string === 'main') {
         return { isSyntax:true, name:token.string };
     }
-    if (token.type == 'qualifier') {
+    if (token.type === 'qualifier') {
         var qualifier = getQualifier(token, line);
         var name = token.string.slice(0, -1);
         if (qualifier) {
