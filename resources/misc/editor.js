@@ -56,6 +56,33 @@ function adjustEditorBottom() {
   editor.refresh();
 }
 
+var elmSyntax = {
+    '='   : 'defining values',
+    '\\'  : 'anonymous functions, pronounced &ldquo;lambda&rdquo;',
+    ':'   : 'type declarations, pronounced &ldquo;has type&rdquo;',
+    '->'  : 'control flow. Used with lambdas, cases, and multi-way ifs.',
+    '<-'  : 'updating fields in a record',
+    'as'  : 'aliasing. Can be used on imported modules and pattern complex patterns.',
+    'let' : 'beginning a let expression',
+    'in'  : 'marking the end of a block of definitions, and starting an expression',
+    'if'  : 'beginning an conditional expression',
+    'then': 'separating the conditional from the first branch',
+    'else': 'separating the first and second branch',
+    'case': 'beginning a case expression',
+    'of'  : 'separating the expression to be pattern matched from possible case branches',
+    'type': 'defining type aliases',
+    'data': 'defining <a href="/learn/Pattern-Matching.elm" target="_blank">algebraic data types (ADTs)</a>',
+    '_'   : 'pattern matching anything, often called a &ldquo;wildcard&rdquo;',
+    '..'  : 'number interpolation',
+    '|'   : 'separating various things, sometimes pronounced &ldquo;where&rdquo;',
+    'open': 'loading all of a modules values into local scope',
+    'import': 'importing modules',
+    'infix' : 'declaring that a given operator is non-associative',
+    'infixl': 'declaring that a given operator is left-associative',
+    'infixr': 'declaring that a given operator is right-associative',
+    'module': 'declaring a module definition',
+};
+
 function parseDoc(modules) {
     var markdown = new Showdown.converter();
     function parseModule(module) {
@@ -72,96 +99,42 @@ function parseDoc(modules) {
     }
     return {
         values: [].concat.apply([], modules.map(parseModule)),
-        modules: modules
+        modules: modules.map(function(module) {
+            var desc = module.document;
+            var end = desc.indexOf('#');
+            if (end === -1) end = desc.indexOf('@');
+            if (end !== -1) desc = desc.slice(0,end);
+            module.desc = markdown.makeHtml(desc);
+            return module;
+        })
     };
 }
 
 function loadDoc() {
-  var req = new XMLHttpRequest();
-  req.onload = function () {
-      elmDocs = parseDoc(JSON.parse(this.responseText));
-  };
-  req.open('GET', '/docs.json?v0.10', true);
-  req.send();
-}
-
-function docsLink(moduleName, value) {
-    var href = moduleRef(moduleName);
-    var text = moduleName;
-    if (value) {
-        href = href + '#' + value;
-        text = text + '.' + value;
-    }
-    return '<a href="' + href + '" target="_blank">' + text + '</a>';
-}
-
-function moduleRef(module) {
-  var parts = module.split('.');
-  var ref = null;
-  if (module === 'Syntax') {
-    ref = '/learn/Syntax.elm';
-  } else {
-    ref = 'http://docs.elm-lang.org/library/' + parts.join('/') + '.elm';
-  }
-  return ref;
-}
-
-function lookupDocs(token, line) {
-    var matches;
-    if (token.type == 'keyword') {
-        matches = [{
-            name: token.string,
-            type: 'Keyword',
-            module: 'Syntax'
-        }];
-    } else if (token.type == 'qualifier') {
-        var qualifier = getQualifier(token, line);
-        matches = [{
-            module: (qualifier ? qualifier + '.' : '') + token.string.slice(0, -1),
-            type: 'Module'
-        }];
-    } else {
-        if (token.string) {
-            matches = elmDocs.values.filter(function(x) { return x.name == token.string; });
-        }
-    }
-    return matches;
-}
-
-function getQualifier (token, line) {
-  var ch = token.start;
-  if (ch > 0) {
-    var t = editor.getTokenAt({line: line, ch: ch - 1});
-    if (t.type == 'qualifier') {
-      var previous = getQualifier(t, line);
-      if (previous) {
-        return previous + '.' + t.string.slice(0, -1);
-      } else {
-        return t.string.slice(0, -1);
-      }
-    }
-  }
-  return null;
+    var req = new XMLHttpRequest();
+    req.onload = function () {
+        elmDocs = parseDoc(JSON.parse(this.responseText));
+    };
+    req.open('GET', '/docs.json?v0.10', true);
+    req.send();
 }
 
 function openDocPage() {
-  var current_pos = editor.getCursor(true);
-  var token = editor.getTokenAt(current_pos);
-  var ds = token.type ? lookupDocs(token, current_pos.line) : null;
-  var ref = null;
-  if (ds && ds.length > 0) {
-    if (ds.length > 1) {
-      var q = getQualifier(token, current_pos.line);
-      if (q) {
-        ref = moduleRef(ds.filter(function(o) { if (o.module == q) return true;})[0].module + '#' + wrapIfOperator(ds[0].name));
-      }
-    } else {
-      ref = moduleRef(ds[0].module) + '#' + wrapIfOperator(ds[0].name);
+    var pos = editor.getCursor(true);
+    var token = editor.getTokenAt(pos);
+    if (!token.type) return;
+    var result = lookupDocs(token, pos.line);
+    if (!result) return;
+    if (result.isSyntax) return window.open('/learn/Syntax.elm','_blank');
+    if (result.isModule) return window.open(docsHref(result.home), '_blank');
+
+    var qualifier = getQualifier(token, pos.line);
+    if (qualifier) {
+        result = result.filter(function(r) { return r.home == qualifier; });
     }
-  }
-  if (ref) {
-    window.open(ref, 'elm-docs');
-  }
+    if (result.length === 1) {
+        return window.open(docsHref(result[0].home, result[0].name), '_blank');
+    }
 }
 
 function generateView(content, cssClass) {
@@ -169,26 +142,6 @@ function generateView(content, cssClass) {
     div.className = cssClass;
     div.innerHTML = content;
     return div;
-}
-
-function getDocForTokenAt (pos) {
-    var doc = null;
-    var token = editor.getTokenAt(pos);
-    if (!token.type) return null;
-    var results = lookupDocs(token, pos.line);
-
-    if (results.length === 0) return null;
-    if (results.length === 1) return results[0];
-
-    var qualifier = getQualifier(token, pos.line);
-    if (qualifier) {
-        return results.filter(function(result) { return result.home == qualifier; })[0];
-    }
-
-    function toLink(result) {
-        return docsLink(result.module, token.string);
-    }
-    return { error: 'Ambiguous: ' + token.string + ' defined in ' + results.map(toLink).join(' and ') };
 }
 
 function formatType(result) {
@@ -201,23 +154,106 @@ function formatType(result) {
         end = annotation.indexOf(' ',5);
     }
     var name = annotation.slice(start,end);
-    return annotation.replace(name, docsLink(result.home, result.name));
+    return monospace(annotation.replace(name, docsLink(result)));
+}
+
+function docsHref(name, value) {
+    var href = 'http://docs.elm-lang.org/library/' + name.split('.').join('/') + '.elm'
+    if (value) href = href + '#' + value;
+    return href;
+}
+
+function monospace(txt) {
+    return '<span style="font-family:monospace;">' + txt + '</span>';
+}
+
+function docsLink(result) {
+    var value = result.name;
+    var href = docsHref(result.home, value);
+    var text = result.home + (value ? '.' + value : '');
+    return monospace('<a href="' + href + '" target="_blank">' + text + '</a>');
+}
+
+function getQualifier (token, line) {
+    var ch = token.start;
+    if (ch <= 0) return null;
+
+    var t = editor.getTokenAt({line: line, ch: ch - 1});
+    if (t.type !== 'qualifier') return null;
+
+    var previous = getQualifier(t, line);
+    if (previous) return previous + '.' + t.string.slice(0,-1);
+    return t.string.slice(0,-1);
+}
+
+function lookupDocs(token, line) {
+    if (token.type == 'keyword') {
+        return { isSyntax:true, name:token.string };
+    }
+    if (token.type == 'qualifier') {
+        var qualifier = getQualifier(token, line);
+        var name = token.string.slice(0, -1);
+        if (qualifier) {
+            name = qualifier + '.' + name;
+        }
+        var matches = elmDocs.modules.filter(function(m) { return m.name == name; });
+        return matches.length === 0 ? null : { isModule:true, home:name, desc:matches[0].desc };
+    }
+    if (token.string) {
+        return elmDocs.values.filter(function(x) { return x.name == token.string; });
+    }
+    return null;
+}
+
+function valueToMessage(value) {
+    return {
+        message:formatType(value),
+        extra: value.desc ? value.desc : '<p>No description found</p>'
+    };
+}
+
+function messageForTokenAt(pos) {
+    var token = editor.getTokenAt(pos);
+
+    var empty = { message:'', extra:'' };
+    if (!token.type) return empty;
+
+    var results = lookupDocs(token, pos.line);
+    if (results === null) return empty;
+    if (results.isSyntax) {
+        var info = elmSyntax[results.name];
+        return {
+            message: '<a href="/learn/Syntax.elm">Built-in syntax</a>' + (info ? ' for ' + info : ''),
+            extra: ''
+        };
+    }
+    if (results.isModule) {
+        return {
+            message: 'Module ' + docsLink(results),
+            extra: results.desc
+        };
+    }
+    var qualifier = getQualifier(token, pos.line);
+    if (qualifier) {
+        results = results.filter(function(result) { return result.home == qualifier; });
+    }
+
+    if (results.length === 0) return empty;
+    if (results.length === 1) return valueToMessage(results[0]);
+    return {
+        message: 'You probably want one of these: ' +
+            results.map(docsLink).join(' or '),
+        extra: ''
+    };
 }
 
 function updateDocumentation() {
-  var result = getDocForTokenAt(editor.getCursor(true));
-  var type = '';
-  var desc = '';
-
-  if (result !== null) {
-      type = result.error ? result.error : formatType(result);
-      desc = result.comment ? result.comment : '<p>No description found</p>';
-  }
-  var docs = document.getElementById('documentation').childNodes;
-  docs[0].innerHTML = type;
-  docs[1].innerHTML = desc;
-  docs[1].style.display = mode.verbose && desc ? 'block' : 'none';
-  adjustView(mode);
+    var message = messageForTokenAt(editor.getCursor(true));
+    var docs = document.getElementById('documentation').childNodes;
+    docs[0].innerHTML = message.message;
+    docs[1].innerHTML = message.extra;
+    docs[1].style.display = mode.verbose && message.extra ? 'block' : 'none';
+    adjustView(mode);
 }
 
 var Mode = { OPTIONS:0, TYPES:1, NONE:2 };
@@ -315,19 +351,19 @@ function setTheme(theme) {
 }
 
 function setZoom() {
-  var editorDiv  = document.getElementsByClassName('CodeMirror')[0],
-      classes    = editorDiv.getAttribute('class').split(' '),
-      input      = document.getElementById('editor_zoom'),
-      zoomLevel  = input.options[input.selectedIndex].innerHTML,
-      zoom       = 'zoom-' + zoomLevel.slice(0,-1),
-      newClasses = [];
-  for (var i = classes.length; i--; )
-    if (!(classes[i].match(/^zoom-/)))
-      newClasses.push(classes[i]);
-  newClasses.push(zoom);
-  editorDiv.setAttribute('class', newClasses.join(' '));
-  editor.refresh();
-  cookie('zoom', zoomLevel);
+    var editorDiv  = document.getElementsByClassName('CodeMirror')[0],
+        classes    = editorDiv.getAttribute('class').split(' '),
+        input      = document.getElementById('editor_zoom'),
+        zoomLevel  = input.options[input.selectedIndex].innerHTML,
+        zoom       = 'zoom-' + zoomLevel.slice(0,-1),
+        newClasses = [];
+    for (var i = classes.length; i--; ) {
+        if (!(classes[i].match(/^zoom-/))) newClasses.push(classes[i]);
+    }
+    newClasses.push(zoom);
+    editorDiv.setAttribute('class', newClasses.join(' '));
+    editor.refresh();
+    cookie('zoom', zoomLevel);
 }
 
 function cookie(name,value) { createCookie(name, value, 5*365); }
@@ -403,38 +439,27 @@ function initAutoHotSwap() {
 }
 
 function initEditor() {
-  // global scope editor
-  editor = CodeMirror.fromTextArea(document.getElementById('input'),
-    { lineNumbers: initLines(),
-      matchBrackets: true,
-      theme: initTheme(),
-      tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': compile,
-                  'Shift-Ctrl-Enter': hotSwap,
-                  'Ctrl-K': toggleVerbose,
-                  'Shift-Ctrl-K': openDocPage,
-                  'Tab': function(cm) {
-                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                          cm.replaceSelection(spaces, "end", "+input");
-                      }
-       }
-    });
-  if (!isBounceInIFrame()) editor.focus();
-  editor.on('cursorActivity', hideStuff);
-  initZoom();
-  initMenu();
-  initAutoHotSwap();
+    // global scope editor
+    editor = CodeMirror.fromTextArea(
+        document.getElementById('input'),
+        { lineNumbers: initLines(),
+          matchBrackets: true,
+          theme: initTheme(),
+          tabMode: 'shift',
+          extraKeys: {
+              'Ctrl-Enter': compile,
+              'Shift-Ctrl-Enter': hotSwap,
+              'Ctrl-K': toggleVerbose,
+              'Shift-Ctrl-K': openDocPage,
+              'Tab': function(cm) {
+                  var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                  cm.replaceSelection(spaces, "end", "+input");
+              }
+          }
+        });
+    if (!isBounceInIFrame()) editor.focus();
+    editor.on('cursorActivity', hideStuff);
+    initZoom();
+    initMenu();
+    initAutoHotSwap();
 }
-
-/* jshint browser: true */
-/* jshint devel: true */
-/* jshint undef: true */
-/* jshint unused: true */
-/* jshint unused: true */
-/* global CodeMirror */
-/* global Showdown */
-/* exported initEditor */
-/* exported showOptions */
-/* exported showLines */
-/* exported setTheme */
-/* exported eraseCookie */
