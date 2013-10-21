@@ -67,7 +67,7 @@ bar id body = H.div ! A.id id ! A.class_ "option" $ body
 buttons :: Html
 buttons = H.div ! A.class_ "valign_kids"
                 ! A.style "float:right; padding-right: 6px;"
-                $ "Auto-Swap" >> autoBox >> "     " >> hotSwapButton >> compileButton
+                $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
       where
         hotSwapButton = 
             H.input
@@ -90,24 +90,26 @@ buttons = H.div ! A.class_ "valign_kids"
                  ! A.type_ "checkbox"
                  ! A.id "auto_hot_swap_checkbox"
                  ! A.onchange "setAutoHotSwap(this.checked)"
+                 ! A.style "margin-right:20px;"
                  ! A.title "attempt to hot-swap automatically"
 
 
 options :: Html
 options = H.div ! A.class_ "valign_kids"
-                ! A.style "float:left; padding-left:6px;"
+                ! A.style "float:left; padding-left:6px; padding-top:2px;"
+                ! A.title hoverText
                 $ (docs >> opts)
     where 
-      docs =
-          H.input
-               ! A.type_ "button"
-               ! A.id "help_button"
-               ! A.value "?"
-               ! A.style "margin-right: 10px;"
-               ! A.onclick "toggleVerbose();"
-               ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc"
+      hoverText = "Show documentation and types.\nCtrl+H for even more information."
+
+      docs = do
+        H.span $ "Hints:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "show_type_checkbox"
+                ! A.onchange "showType(this.checked);"
+
       opts = do
-        H.span $ "Options:"
+        H.span ! A.style "padding-left: 12px;" $ "Options:"
         H.input ! A.type_ "checkbox"
                 ! A.id "options_checkbox" 
                 ! A.onchange "showOptions(this.checked);"
@@ -134,10 +136,6 @@ editorOptions = theme >> zoom >> lineNumbers
         H.input ! A.type_ "checkbox"
                 ! A.id "editor_lines"
                 ! A.onchange "showLines(this.checked);"
-        H.span ! A.style "padding-left: 16px;" $ "Show type:"
-        H.input ! A.type_ "checkbox"
-                ! A.id "show_type_checkbox"
-                ! A.onchange "showType(this.checked);"
 
 docs :: Html
 docs = tipe >> desc

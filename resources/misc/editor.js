@@ -290,6 +290,7 @@ function showOptions(show) {
 
 function showType(show) {
     cookie('showtype', show);
+    document.getElementById('show_type_checkbox').checked = show;
     var newMode = (show ? { mode: Mode.TYPES, verbose: false }
                         : { mode: Mode.NONE });
     if (mode.mode === Mode.OPTIONS) {
@@ -301,6 +302,7 @@ function showType(show) {
 }
 
 function toggleVerbose() {
+    if (!mode.verbose) showType(true);
     mode.verbose = !mode.verbose;
     updateDocumentation();
 }
@@ -469,8 +471,7 @@ function initEditor() {
           extraKeys: {
               'Ctrl-Enter': compile,
               'Shift-Ctrl-Enter': hotSwap,
-              'Ctrl-K': toggleVerbose,
-              'Shift-Ctrl-K': openDocPage,
+              'Ctrl-H': toggleVerbose,
               'Tab': function(cm) {
                   var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
                   cm.replaceSelection(spaces, "end", "+input");
