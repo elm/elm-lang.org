@@ -61,7 +61,16 @@ var elmSyntax = {
     '\\'  : 'anonymous functions, pronounced &ldquo;lambda&rdquo;',
     ':'   : '<a href="/learn/Getting-started-with-Types.elm" target="_blank">' +
             'type annotations</a>, pronounced &ldquo;has type&rdquo;',
-    '->'  : 'control flow. Used with lambdas, cases, and multi-way ifs.',
+    '->'  : { message:['&ldquo;function&rdquo; in type annotations <i>or</i>',
+                       'for control flow in lambdas, cases, and multi-way ifs',
+                      ].join(' '),
+              extra:['<p>When used in a type annotation, an arrow indicates a',
+                     'function and is pronounced &ldquo;to&rdquo;. The type',
+                     '<code>String -> Int</code> indicates a function from',
+                     'strings to integers and is read &ldquo;String to Int&rdquo;.',
+                     'You can think of a type like <code>Int -> Int -> Int</code>',
+                     'as a function that takes two integer arguments and returns an integer.</p>'].join(' ')
+            },
     '<-'  : 'updating fields in a record, pronounced &ldquo;gets&rdquo;',
     'as'  : 'aliasing. Can be used on imported modules and pattern complex patterns.',
     'let' : 'beginning a let expression',
@@ -209,7 +218,10 @@ function lookupDocs(token, line) {
         return matches.length === 0 ? null : { isModule:true, home:name, desc:matches[0].desc };
     }
     if (token.string) {
-        return elmDocs.values.filter(function(x) { return x.name == token.string; });
+        var results = elmDocs.values.filter(function(x) { return x.name == token.string; });
+        if (results.length > 0) return results;
+        results = elmDocs.modules.filter(function(m) { return m.name === token.string; });
+        if (results.length === 1) return { isModule:true, home:results[0].name, desc:results[0].desc };
     }
     return null;
 }
@@ -224,9 +236,10 @@ function messageForTokenAt(pos) {
     if (results === null) return empty;
     if (results.isSyntax) {
         var info = elmSyntax[results.name];
+        var desc = info.message || info;
         return {
-            message: '<a href="/learn/Syntax.elm">Built-in syntax</a>' + (info ? ' for ' + info : ''),
-            extra: ''
+            message: '<a href="/learn/Syntax.elm">Built-in syntax</a>' + (desc ? ' for ' + desc : ''),
+            extra: info.extra ? info.extra : ''
         };
     }
     if (results.isModule) {
