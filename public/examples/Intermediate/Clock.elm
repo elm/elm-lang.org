@@ -1,5 +1,4 @@
--- This is not the most visually stunning example, but this is probably
--- the first time you have seen an analog clock written in 8 lines.
+-- An 8-line analog clock.
 
 main = clock <~ every second
 
