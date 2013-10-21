@@ -237,9 +237,10 @@ function messageForTokenAt(pos) {
     if (results.isSyntax) {
         var info = elmSyntax[results.name];
         var desc = info.message || info;
+        var extra = '<p>See the <a href="/learn/Syntax.elm">syntax reference</a> for more information.</p>';
         return {
             message: '<a href="/learn/Syntax.elm">Built-in syntax</a>' + (desc ? ' for ' + desc : ''),
-            extra: info.extra ? info.extra : ''
+            extra: (info.extra ? info.extra : '') + extra
         };
     }
     if (results.isModule) {
@@ -257,7 +258,7 @@ function messageForTokenAt(pos) {
     if (results.length === 1) {
         var value = results[0];
         return { message:formatType(value),
-                 extra: value.desc ? value.desc : '<p>No description found</p>' };
+                 extra: value.desc ? value.desc : '<p>No additional information.</p>' };
     }
 
     return {
