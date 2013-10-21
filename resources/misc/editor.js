@@ -205,13 +205,6 @@ function lookupDocs(token, line) {
     return null;
 }
 
-function valueToMessage(value) {
-    return {
-        message:formatType(value),
-        extra: value.desc ? value.desc : '<p>No description found</p>'
-    };
-}
-
 function messageForTokenAt(pos) {
     var token = editor.getTokenAt(pos);
 
@@ -239,7 +232,12 @@ function messageForTokenAt(pos) {
     }
 
     if (results.length === 0) return empty;
-    if (results.length === 1) return valueToMessage(results[0]);
+    if (results.length === 1) {
+        var value = results[0];
+        return { message:formatType(value),
+                 extra: value.desc ? value.desc : '<p>No description found</p>' };
+    }
+
     return {
         message: 'You probably want one of these: ' +
             results.map(docsLink).join(' or '),
