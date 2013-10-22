@@ -19,11 +19,11 @@ words = [markdown|
 
 This page will help you *learn by example* as you read and modify
 Elm code in the [online editor](/try). It is split into sections
-that will help you grow into writing larger programs:
+that will help you grow from beginner to expert:
 
  * [Basics](#basics) &ndash; small programs focused on showing one concept
  * [Intermediate](#intermediate) &ndash; larger examples that combine basic concepts
- * [Open Source Projects](#open-source-projects) &ndash; big things written in Elm
+ * [Open Source Projects](#open-source-projects) &ndash; bigger things written in Elm
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 
@@ -48,24 +48,22 @@ These are all larger projects created with Elm. I hesitate to call them
 for building on top of or retrofitting for your purposes.
 
  * [TodoFRP](https://github.com/evancz/TodoFRP) &ndash;
-   A smaller project to show how Elm can be used for &ldquo;tradition webapps&rdquo;.
-   It is not feature-complete yet, but it is quite instructive.
+   A [TodoMVC](http://todomvc.com/)-style todo list.
+   It is not feature-complete yet, but it is still a very
+   good resource if you want to create &ldquo;traditional webapps&rdquo;.
 
- * [Elmtris](https://github.com/jcollard/elmtris) by Joe Collard &ndash;
-   A Tetris game for the web browser written in Elm.
+ * [Elmtris](https://github.com/jcollard/elmtris) &ndash;
+   A Tetris game by Joe Collard.
 
- * [This website](https://github.com/evancz/elm-lang.org) &ndash;
-   You can use it as the basis of your own Elm website.
-   You can also run the server locally to turn the [online editor](/try)
-   into an *offline* editor.
+ * [elm-lang.org](https://github.com/evancz/elm-lang.org) &ndash;
+   Use it as the basis of your own website or run it locally to
+   turn the [online editor](/try) into an *offline* editor.
 
- * [Documentation site](https://github.com/evancz/docs.elm-lang.org) &ndash;
-   Entirely written in Elm. This codebase is smaller and simpler than the
-   full Elm website, so it may be a good starting point. Be sure to check
-   out [the instant search feature](http://docs.elm-lang.org).
+ * [docs.elm-lang.org](https://github.com/evancz/docs.elm-lang.org) &ndash;
+   Another good basis for a website. See the [instant search feature](http://docs.elm-lang.org/).
 
- * [Celestia](https://github.com/johnpmayer/celestia) by John P. Mayer &ndash;
-   A modular spaceship game.
+ * [Celestia](https://github.com/johnpmayer/celestia) &ndash;
+   A modular spaceship game by John P. Mayer Jr.
    
 |]
 
@@ -74,8 +72,8 @@ intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
     , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
     , [ "Plot", "Clock", "Stamps", "Slide" ]
-    , [ "Complements", "Web", "PascalsTriangle", "FibonacciTiles" ]
-    , [ "Tracer" {-, "Circles"-} ]
+    , [ "Complements", "Tracer", "PascalsTriangle", "FibonacciTiles" ]
+    , [ "Web", "Circles" ]
     ]
 
 addFolder folder lst =
