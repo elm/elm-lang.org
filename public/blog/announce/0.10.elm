@@ -52,9 +52,9 @@ code > span.er { font-weight: bold; }
 the compiler, and since then, a lot of rough patches have been discovered
 and fixed. These improvements warrant a proper release on their own, but
 there are also a number of important new features and improvements that
-are past due for release:
+are ready for release:
 
- * [Strings](#new-strings) &mdash; switch to a
+ * [Strings](#strings) &mdash; switch to a
    [new representation](http://docs.elm-lang.org/library/String.elm)
    that is significantly faster
  * [Nice Colors](#nice-default-colors) &mdash; use [Tango color palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines) by default
@@ -64,19 +64,12 @@ are past due for release:
 There are also some improvements for Elm-related tools including
 [improved documentation](http://docs.elm-lang.org/) and
 [hot-swapping](/blog/Interactive-Programming.elm) in the online editor.
-I have also been experimenting with &ldquo;traditional webapps&rdquo; in Elm.
-Two notable experiments are:
 
- * [TodoFRP](https://github.com/evancz/todofrp) &mdash; FRP worked very nicely.
-   It was easy to put everything together, but I felt I was missing some knobs for aesthetics.
- * [Instant search feature in docs](http://docs.elm-lang.org) &mdash; great use for FRP!
-   I'll talk about this more [lower down](#new-documentation).
+To upgrade run `cabal update && cabal install elm`. Note that
+.elmi files are *not* backwards compatible, so you must
+delete `cache/` directories in existing projects.
 
-Both left me feeling like Elm can be a great fit for traditional webapps, and
-I am excited to see how far we can push in this direction.
-Okay, let's talk specifics.
-
-## New Strings
+## Strings
 
 This release moves away from the Haskell-inspired list of characters, providing
 [a new string library](http://docs.elm-lang.org/library/String.elm) that
@@ -231,20 +224,14 @@ Now my favorite part this project is [the search bar on the docs site](http://do
 It lets you live search the standard library for modules, functions, and operators.
 Hopefully this will help newcomers find operators that are tough to Google for,
 like [`(<~)`](http://localhost:8080/library/Signal.elm#<~)
-and   [`(~)`](http://localhost:8080/library/Signal.elm#~).
+and   [`(~)`](http://localhost:8080/library/Signal.elm#~). The best part of
+this feature was how simple it was to implement with FRP and Elm.
 
-That's all great, but the *real* best part is that it was really simple to code that
-feature. I got it running in an afternoon, mainly motivated by the fact that my design
-for the site had an akward amount of empty space in the sidebar. The search code
-was pretty basic, just crawling over some JSON. The graphics code essentially says
-&ldquo;show the search results&rdquo; and updates just flow through as the user types.
-Without FRP and pure graphics&mdash;and *with* manual DOM modification&mdash;I think
-this feature would be *significantly* more complicated and error prone.
+[The source code for the docs site](https://github.com/evancz/docs.elm-lang.org)
+is available if you want to look into instant search, use the site as a starting
+point for your own project, or whatever else.
 
-In any case, [the source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
-if you want to look into search, use the site as a starting point for your own project, or whatever else.
-
-Finally, huge thank you to [Max New](https://github.com/maxsnew),
+Huge thanks to [Max New](https://github.com/maxsnew),
 [Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
 for helping convert the standard libraries to the new docs format!
 
@@ -275,7 +262,7 @@ most significant part of this release:
   for generating JS. This is a very nice library, and I would love for all Haskell to JS
   projects to share this backend so we can all benefit from work on optimizations or source-maps.
 
-* Make compiler compatable with cabal 1.18, thanks to [Justin Leitgeb](https://github.com/jsl)!
+* Make compiler compatible with cabal 1.18, thanks to [Justin Leitgeb](https://github.com/jsl)!
 
 * Fix bug in functions that take 10+ arguments, thanks to [Max New](https://github.com/maxsnew)
 
@@ -285,5 +272,8 @@ Thanks again to everyone who helped with this release, whether it was
 contributions, talking through ideas on the
 [list](https://groups.google.com/forum/#!forum/elm-discuss), or finding
 bugs by using the compiler in new and extreme ways!
+
+And remember, `.elmi` files *are not* backwards compatible. Delete
+existing `cache/` directories with `rm -rf cache/`.
 
 |]
