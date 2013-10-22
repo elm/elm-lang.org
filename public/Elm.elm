@@ -36,7 +36,6 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
-* Faster Strings in [Elm 0.10](/blog/announce/0.10.elm)
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
 * Elm at [StrangeLoop 2013](https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm)
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
