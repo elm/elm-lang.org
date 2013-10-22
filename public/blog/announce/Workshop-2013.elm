@@ -4,7 +4,7 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.10")
+title = constant (JS.fromString "Elm Workshop 2013")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
