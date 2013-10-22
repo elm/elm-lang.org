@@ -4,7 +4,7 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.10 - Native Strings")
+title = constant (JS.fromString "Elm 0.10")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
@@ -45,7 +45,7 @@ code > span.er { font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.10
-<div style="font-size:0.5em;font-weight:normal">*Native strings and nicer colors*</div></div>
+<div style="font-size:0.5em;font-weight:normal">*Strings, Colors, and Bugs*</div></div>
 </h1>
 
 [The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
@@ -54,8 +54,8 @@ and fixed. These improvements warrant a proper release on their own, but
 there are also a number of important new features and improvements that
 are past due for release:
 
- * [Strings](#native-strings) &mdash; switch to a
-   [native representation](http://docs.elm-lang.org/library/String.elm)
+ * [Strings](#new-strings) &mdash; switch to a
+   [new representation](http://docs.elm-lang.org/library/String.elm)
    that is significantly faster
  * [Nice Colors](#nice-default-colors) &mdash; use [Tango color palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines) by default
  * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
@@ -76,11 +76,11 @@ Both left me feeling like Elm can be a great fit for traditional webapps, and
 I am excited to see how far we can push in this direction.
 Okay, let's talk specifics.
 
-## Native Strings
+## New Strings
 
-This release moves from the Haskell-inspired list of characters to [a native
-string representation](http://docs.elm-lang.org/library/String.elm) that is
-significantly faster and provides many new string-specific functions.
+This release moves away from the Haskell-inspired list of characters, providing
+[a new string library](http://docs.elm-lang.org/library/String.elm) that
+is significantly faster and provides many new string-specific functions.
 
 <div style="text-align:center; font-size:2em;">`String ≠ [Char]`</div>
 
@@ -90,16 +90,15 @@ common uses of strings. The [new String library](http://docs.elm-lang.org/librar
 is properly abstracted so the underlying representation can be
 optimized or changed without changing the API.
 
-Overall, the changes I had to make to upgrade [elm-lang.org](/) and
+The changes needed to upgrade [elm-lang.org](/) and
 [docs.elm-lang.org](http://docs.elm-lang.org) were fairly minimal.
-In my experience there were two kinds things that I needed to fix.
+There were two kinds things that I needed to fix:
 
 #### 1. Switch to String functions
 
 You will need to swap out `List` functions for their corresponding
 `String` function. So `map` becomes `String.map`, `filter`
-becomes `String.filter`, etc. This is fairly straight-forward and the
-type checker helps a ton.
+becomes `String.filter`, etc.
 
 #### 2. Pattern matching with uncons
 
@@ -118,7 +117,7 @@ length string =
 ```
 
 I mean, [`String.length`](http://docs.elm-lang.org/library/String.elm#length)
-is asymptotically faster than this, but the point is that you can still do
+is asymptotically faster, but the point is that you can still do
 exactly the same stuff as before with minor syntactic changes.
 I should also note that I got this `uncons` trick from the many Haskell
 libraries that did it first&mdash;`Parsec`, `Text`, `ByteString`&mdash;and
@@ -148,7 +147,7 @@ project and have it look pretty good.
 are named red, orange, yellow, green, blue, purple, brown, grey, and charcoal. Each color
 has a light and dark version. We did not use
 [the official Tango names](http://tango.freedesktop.org/static/cvs/tango-art-tools/palettes/Tango-Palette.svg)
-because they are harder to remember and did not add a ton of value in our context. Thank you
+because they are harder to remember. Thank you
 to [Laszlo Pandy](https://github.com/laszlopandy) for suggesting the Tango scheme!
 
 ## Infix Operators
