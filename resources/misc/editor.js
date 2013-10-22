@@ -165,8 +165,8 @@ function formatType(result) {
     if (firstFive === 'type ' || firstFive === 'data ') {
         start = 5;
         end = annotation.indexOf(' ',5);
-        var whitelist = ['Maybe','Either','Response','Order',
-                         'Action','Time','Touch','KeyCode'];
+        var whitelist = ['Maybe','Either','Response','Order','Action',
+                         'Time','Touch','KeyCode','FieldState'];
         if (whitelist.indexOf(result.name) === -1) {
             annotation = annotation.slice(0,end);
         }

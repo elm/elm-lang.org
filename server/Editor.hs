@@ -140,7 +140,7 @@ docs = tipe >> desc
     where
       tipe = H.div ! A.class_ "type" $ message >> more
 
-      message = H.div ! A.style "position:absolute; left:2px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
+      message = H.div ! A.style "position:absolute; left:4px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
 
       more = H.a ! A.id "toggle_link"
                  ! A.style "display:none; float:right;"

@@ -238,8 +238,8 @@ feature. I got it running in an afternoon, mainly motivated by the fact that my 
 for the site had an akward amount of empty space in the sidebar. The search code
 was pretty basic, just crawling over some JSON. The graphics code essentially says
 &ldquo;show the search results&rdquo; and updates just flow through as the user types.
-Without FRP and pure graphics&mdash;and with manual DOM modification&mdash;I think this
-feature would be *significantly* more complicated and error prone.
+Without FRP and pure graphics&mdash;and *with* manual DOM modification&mdash;I think
+this feature would be *significantly* more complicated and error prone.
 
 In any case, [the source code for the docs site](https://github.com/evancz/docs.elm-lang.org) is available
 if you want to look into search, use the site as a starting point for your own project, or whatever else.

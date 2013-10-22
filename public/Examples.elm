@@ -143,7 +143,6 @@ reactive = addFolder "Reactive/"
   , ("Time",   [ ("FPS"     , "Fps")
                , ("FPS when", "FpsWhen")
                , ("Every"   , "Every")
-               , ("Clock"   , "Clock")
                ])
   , ("Input",  [ ("Text", "TextField")
                , ("Password"  , "Password")

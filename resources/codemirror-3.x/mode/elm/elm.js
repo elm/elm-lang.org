@@ -199,7 +199,7 @@ CodeMirror.defineMode("elm", function() {
       "module", "newtype", "of", "open", "then", "type", "where", "_");
       
     setType("keyword")(
-      "\.\.", "|", ":", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB");
+      "..", "|", ":", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB");
 
     setType("builtin")(
       "$", "&&", "+", "++", "-", ".", "/", "/=", "<", "<=", "::",
