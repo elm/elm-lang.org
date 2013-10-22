@@ -8,7 +8,7 @@ main = skeleton exampleSets <~ Window.dimensions
 
 content w =
   let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
-  in  words :: map (subsection w) exs ++ [ intermediate, examples w intermediates, spacer w 30 ]
+  in  words :: map (subsection w) exs ++ [ intermediate, examples w intermediates, projects ]
 
 exampleSets w =
   flow down . map (width w) . intersperse (plainText " ") <| content w
@@ -18,10 +18,12 @@ words = [markdown|
 # Examples
 
 This page will help you *learn by example* as you read and modify
-Elm code in the [online editor](/try). It is split into two sections:
+Elm code in the [online editor](/try). It is split into sections
+that will help you grow into writing larger programs:
 
  * [Basics](#basics) &ndash; small programs focused on showing one concept
  * [Intermediate](#intermediate) &ndash; larger examples that combine basic concepts
+ * [Open Source Projects](#open-source-projects) &ndash; big things written in Elm
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 
@@ -37,12 +39,43 @@ intermediate = [markdown|
 
 |]
 
+projects = [markdown|
+
+## Open Source Projects
+
+These are all larger projects created with Elm. I hesitate to call them
+&ldquo;example&rdquo; projects, but they are all good starting points
+for building on top of or retrofitting for your purposes.
+
+ * [TodoFRP](https://github.com/evancz/TodoFRP) &ndash;
+   A smaller project to show how Elm can be used for &ldquo;tradition webapps&rdquo;.
+   It is not feature-complete yet, but it is quite instructive.
+
+ * [Elmtris](https://github.com/jcollard/elmtris) by Joe Collard &ndash;
+   A Tetris game for the web browser written in Elm.
+
+ * [This website](https://github.com/evancz/elm-lang.org) &ndash;
+   You can use it as the basis of your own Elm website.
+   You can also run the server locally to turn the [online editor](/try)
+   into an *offline* editor.
+
+ * [Documentation site](https://github.com/evancz/docs.elm-lang.org) &ndash;
+   Entirely written in Elm. This codebase is smaller and simpler than the
+   full Elm website, so it may be a good starting point. Be sure to check
+   out [the instant search feature](http://docs.elm-lang.org).
+
+ * [Celestia](https://github.com/johnpmayer/celestia) by John P. Mayer &ndash;
+   A modular spaceship game.
+   
+|]
+
+
 intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
     , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
     , [ "Plot", "Clock", "Stamps", "Slide" ]
     , [ "Complements", "Web", "PascalsTriangle", "FibonacciTiles" ]
---    , [ "Circles" ]
+    , [ "Tracer" {-, "Circles"-} ]
     ]
 
 addFolder folder lst =
@@ -77,7 +110,6 @@ elements = addFolder "Elements/"
         ])
   , ("2D Shapes", [ ("Lines"     , "Lines")
                   , ("Shapes"    , "Shapes")
-                  , ("Sprites"   , "Sprite")
                   , ("Elements"  , "ToForm")
                   , ("Transforms", "Transforms")
                   ])
