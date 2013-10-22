@@ -230,8 +230,7 @@ this feature was how simple it was to implement with FRP and Elm.
 [The source code for the docs site](https://github.com/evancz/docs.elm-lang.org)
 is available if you want to look into instant search, use the site as a starting
 point for your own project, or whatever else.
-
-Huge thanks to [Max New](https://github.com/maxsnew),
+Also, huge thanks to [Max New](https://github.com/maxsnew),
 [Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
 for helping convert the standard libraries to the new docs format!
 
