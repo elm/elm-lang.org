@@ -1,4 +1,4 @@
-import Website.Skeleton (homeSkeleton, bigLogo)
+import Website.Skeleton (homeSkeleton, bigLogo, installButtons)
 import open Website.ColorScheme
 import Website.Tiles (examples)
 
@@ -6,25 +6,24 @@ import Text
 import JavaScript as JS
 import Window
 
-intro = [markdown|
+moreInfo = [markdown|
 
 Elm also brings the benefits of purity and an expressive static type system
 to GUI programming. Elm is fully type inferred, so no type annotations are
 needed to get the benefits of static checks.
+|]
 
-Start programming in Elm with [the online editor](/try). No need to install anything!
-
+emailList = [markdown|
 Join the [elm-discuss list][list] for questions, announcements, and discussion!
 
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
-
 |]
 
 other w = width (w `div` 2) [markdown|
 
 #### Community
 
-* [elm-discuss list][list]
+* [mailing list][list]
 * [`#elm` on IRC](http://webchat.freenode.net/?channels=elm)
 * [/r/elm](http://www.reddit.com/r/elm)
 * [Elm user group SF](http://www.meetup.com/Elm-user-group-SF/)
@@ -66,7 +65,9 @@ info w = let content = flow down [ spacer w 20
                                  , width w language
                                  , exampleBlock w
                                  , spacer w 10
-                                 , width w intro
+                                 , width w moreInfo
+                                 , installButtons w
+                                 , width w emailList
                                  , other w ]
          in  container w (heightOf content) middle content 
 

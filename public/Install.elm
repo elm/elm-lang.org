@@ -1,48 +1,39 @@
-import Website.Skeleton (skeleton)
+import Website.Skeleton (skeleton, installButtons)
 import Window
+import Graphics.Input as Input
+
+main = lift (skeleton info) Window.dimensions
+
+info w = flow down
+  [ spacer w 20
+  , installButtons w
+  , width w instructions ]
 
 instructions = [markdown|
 
-# Install
-
-Once you outgrow [the online editor](/try), follow [these instructions][1]
-to get Elm set up on your machine. You are getting:
-
-1. *Compiler* &mdash; turn Elm code into HTML, CSS, and JavaScript
-2. *Server* &mdash; serve a project, recompile Elm files on refresh
-
-  [1]: https://github.com/evancz/Elm/blob/master/README.md#install "install instructions"
-
-#### Syntax Highlighting
-
-If you cannot find an Elm-specific highlighter, Haskell syntax highlighting tends
-to work pretty well.
-
-* *Vim* &mdash; use Haskell mode or [try elm.vim](https://github.com/otavialabs/elm.vim)
-* *Emacs* &mdash; turn on [haskell-mode](https://github.com/afeinberg/haskellmode-emacs#readme)
-  for `.elm` files
-* *Sublime Text* &mdash; [Elm Language Support](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
-
-#### Build from Source
-
-[The Elm compiler and server](https://github.com/evancz/Elm) are on github.
-[This website](https://github.com/evancz/elm-lang.org) is also
-available with [setup instructions][instruct]. The server can
-be the basis for your own website. It also lets you use
-the interactive editor locally.
+To build from source or [contribute](/Contribute.elm), fork the
+compiler/server [on github](https://github.com/evancz/Elm).
+This website is also [available](https://github.com/evancz/elm-lang.org)
+with [setup instructions][instruct]. It can be the basis for your own website
+or let you use the interactive editor locally.
 
  [instruct]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "install"
 
-#### Problem?
-
-If you run into problems, you should email the [mailing list][2], ask
+If you run into problems, email the [mailing list][2], ask
 questions [on IRC](http://webchat.freenode.net/?channels=elm), or
-report an issue to Elm's [source repository][3]
+report an issue to Elm's [source repository][3].
 
   [2]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
   [3]: https://github.com/evancz/Elm "source repository"
 
-## Release Notes
+#### Syntax Highlighting
+
+* *Sublime Text* &mdash; [Elm Language Support](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
+* *Emacs* &mdash; turn on [haskell-mode](https://github.com/afeinberg/haskellmode-emacs#readme) for `.elm` files
+* *Vim* &mdash; use Haskell mode or try [elm.vim](https://github.com/otavialabs/elm.vim)
+* *Other* &mdash; Haskell syntax highlighting tends to work pretty well
+
+#### Release Notes
 
 * <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
 * <code>[0.9][9]    &nbsp;&nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; </code>Fast and reliable type inference
@@ -70,8 +61,3 @@ report an issue to Elm's [source repository][3]
   [10]: /blog/announce/0.10.elm "native strings"
 
 |]
-
-info w =
-  width w instructions
-
-main = lift (skeleton info) Window.dimensions
