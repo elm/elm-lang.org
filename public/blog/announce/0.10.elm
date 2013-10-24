@@ -45,7 +45,7 @@ code > span.er { font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.10
-<div style="font-size:0.5em;font-weight:normal">*Strings, Colors, and Bugs*</div></div>
+<div style="font-size:0.5em;font-weight:normal">*Strings, Colors, Bugs, and Searchable Docs*</div></div>
 </h1>
 
 [The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
@@ -115,9 +115,6 @@ exactly the same stuff as before with minor syntactic changes.
 I should also note that I got this `uncons` trick from the many Haskell
 libraries that did it first&mdash;`Parsec`, `Text`, `ByteString`&mdash;and
 I look forward to seeing it used in parser combinator libraries in Elm.
-
-If these two strategies are not working for some reason, please report
-it or ask about it on the [mailing list](https://groups.google.com/forum/#!forum/elm-discuss).
 
 ## Nice Default Colors
 
