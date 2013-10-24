@@ -48,7 +48,7 @@ you are about to learn how to work with lists and records.
     we can begin to talk about tasks in our todo list or weapons
     in our armory.
 
-The following video, [written explanation](#words), and [practice problems](#practice-problems)
+The following video and [practice problems](#practice-problems)
 are designed to help you dive into lists and records.
 
 The video is followed by a written explanation that covers exactly the
@@ -100,28 +100,52 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<span id="words"></span><br/>
-Okay, now we are going to cover the same material, but in text form.
-
-This covers basic graphics in Elm.
-We will first cover lists. From there we will learn how to
-use records. From there we will bring lists and records together
-to start writing more complex programs.
-
-# Lists
-
-# Records
-
 # Practice Problems
 
 These problems will challenge you to use and expand upon your knowledge of
 lists and records. Remember that case expressions and pattern matching are
 your friends!
 
-  1. Do this.
+  1. Write `product` which gets the product of a list:
 
-  2. Do that.
+        product [1,2,3] == 6
+        product [4,4] == 16
+        product [] == 1
 
-  3. Do the other thing.
+  2. Write `squareAll` which squares every member of a list:
+
+        squareAll [1,2,3] == [1,4,9]
+
+  3. Write `dropTom` which takes Tom out of a list:
+
+        dropTom ["Sue","Tom","Bill"] == ["Sue","Bill"]
+        dropTom ["Sam","Peter"] == ["Sam","Peter"]
+
+  4. Write `everyOther` which gets every other element of a list:
+
+        everyOther [1,2,3,4] == [1,3]
+        everyOther ["Tom","Sue","Sam"] == ["Tom","Sam"]
+        everyOther [] == []
+
+  5. Write `factorial` without using `if`
+
+        factorial 0 == 1
+        factorial 1 == 1
+        factorial 2 == 2
+        factorial 3 == 6
+        factorial 4 == 24
+
+  6. Create record representations of some animals.
+     Include information on species, age, and coolness level.
+
+  7. Put all of your animals in a list. Write a function `coolest`
+     which finds the coolest animal.
+
+        coolest [cow, chicken, trex] == trex
+        coolest [whale, mouse, tiger] == whale
+
+     These examples use my personal opinions of coolness. Your
+     `coolest` function should decide what to do in the event of
+     a coolness tie.
 
 |]
