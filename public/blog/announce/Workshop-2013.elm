@@ -38,6 +38,7 @@ talks w =
   flow down <| map (talk w)
     [ ("Elm&rsquo;s future", "Evan Czaplicki")
     , ("Bret Victor-style reactive debugging", "Laszlo Pandy")
+    , ("WebWorkers and Concurrent FRP", "John P. Mayer Jr.")
     , ("Signal loops", "Jeff Smits")
     , ("Visual programming with Signals", "Tim Hobbs")
     , ("Making it easier to learn Elm", "Mads Flensted-Urech")
