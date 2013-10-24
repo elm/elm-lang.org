@@ -45,7 +45,7 @@ code > span.er { font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.10
-<div style="font-size:0.5em;font-weight:normal">*Strings, Colors, Bugs, and Searchable Docs*</div></div>
+<div style="font-size:0.5em;font-weight:normal">*faster strings, colors, bug fixes, and searchable docs*</div></div>
 </h1>
 
 [The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
