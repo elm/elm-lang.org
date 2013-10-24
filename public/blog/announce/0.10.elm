@@ -62,8 +62,13 @@ are ready for release:
  * [Improvements and Fixes](#improvements-and-fixes) &mdash; lots of them
 
 There are also some improvements for Elm-related tools including
-[improved documentation](http://docs.elm-lang.org/) and
-[hot-swapping](/blog/Interactive-Programming.elm) in the online editor.
+[improved documentation](http://docs.elm-lang.org/),
+[hot-swapping](/blog/Interactive-Programming.elm) and better hints in
+the online editor, and a big site redesign to make resources like
+[the beginner classes](http://elm-lang.org/Learn.elm),
+[demo of html/js integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo), and
+[larger examples](http://elm-lang.org/Examples.elm#open-source-projects)
+easier to find.
 
 To upgrade run `cabal update && cabal install elm`. Note that
 .elmi files are *not* backwards compatible, so you must
