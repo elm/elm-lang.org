@@ -23,7 +23,7 @@ leftCol = [markdown|
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
 * [Documentation](/learn/Documentation.elm)
-* [Elm + HTML/JS](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo)
+* [HTML/JS Integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo)
 
 |]
 
