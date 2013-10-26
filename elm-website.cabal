@@ -1,5 +1,5 @@
 name:                elm-website
-version:             0.1.0.0
+version:             0.10.0.1
 synopsis:            elm-lang.org web site
 description:         Server and content for the Elm Language web site.
 homepage:            http://elm-lang.org/
@@ -35,6 +35,10 @@ executable run-elm-website
                      , mtl
                      , parsec
                      , process
+                     , acid-state
+                     , random
+                     , safecopy
+                     , hashable
 
   hs-source-dirs:      server
   default-language:    Haskell2010

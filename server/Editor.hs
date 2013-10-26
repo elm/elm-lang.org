@@ -1,34 +1,37 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Editor (editor,ide,emptyIDE) where
+module Editor (editor,ide,emptyIDE,ideBuilder) where
 
 import Data.Monoid (mempty)
+import Text.Blaze (toValue)
 import Text.Blaze.Html
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
-import qualified System.FilePath as FP
+import Gist
+import Data.Hashable
 
 -- | Display an editor and the compiled result side-by-side.
 ide :: String -> FilePath -> String -> Html
 ide cols fileName code =
     ideBuilder cols
-               ("Elm Editor: " ++ FP.takeBaseName fileName)
-               fileName
+               ("Elm Editor: " ++ fileName)
+               ("/code/" ++ fileName)
                ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
-emptyIDE = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
+emptyIDE = ideBuilder "50%,50%" "Try Elm" "/code/Empty.elm" "/Try.elm"
 
+-- TODO: Should use iframe and srcdoc, but only compatible with Chrome and Safari
 ideBuilder :: String -> String -> String -> String -> Html
 ideBuilder cols title input output =
     H.docTypeHtml $ do
       H.head $ do
         H.title . toHtml $ title
-      preEscapedToMarkup $ 
+      preEscapedToMarkup $
          concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
-                , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
+                , "  <frame name=\"input\" src=\"", input, "\" />\n"
                 , "  <frame name=\"output\" src=\"", output, "\" />\n"
                 , "</frameset>" ]
 
@@ -39,11 +42,11 @@ themes = [ "ambiance", "blackboard", "cobalt", "eclipse"
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
-editor :: FilePath -> String -> Html
-editor filePath code =
+editor :: XKCD -> String -> String -> Html
+editor x title code =
     H.html $ do
       H.head $ do
-        H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
+        H.title . toHtml $ "Elm Editor: " ++ title
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
         H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
@@ -52,24 +55,46 @@ editor filePath code =
         H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
         H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?0.10" $ mempty
       H.body $ do
-        H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
+        H.form ! A.name "inputForm" ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
            H.div ! A.id "editor_box" $ do
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
            H.div ! A.id "options" $ do
              bar "documentation" docs
              bar "editor_options" editorOptions
-             bar "always_on" (buttons >> options)
+             bar "always_on" (saveButtons x title >> buttons >> options)
         H.script ! A.type_ "text/javascript" $ "initEditor();"
 
 bar :: AttributeValue -> Html -> Html
 bar id body = H.div ! A.id id ! A.class_ "option" $ body
+
+saveButtons :: XKCD -> String -> Html
+saveButtons x@(XKCD (a,b,c,d)) title = publishButton >> saveButton
+  where
+        publishButton = H.button
+                 ! A.type_ "submit"
+                 ! A.name "publish_button"
+                 ! A.value "Publish"
+                 ! A.title "Publish program (save first!)"
+                 ! A.formtarget "_blank"
+                 ! A.formenctype "multipart/form-data"
+                 ! (A.formaction $ H.toValue $ "/xkcd/" ++ (show $ hash x))
+                 $ "Publish"
+        saveButton = H.button
+                 ! A.type_ "submit"
+                 ! A.name "save_button"
+                 ! A.value "Save"
+                 ! A.title "Save and Compile program"
+                 ! A.formtarget "_top"
+                 ! A.formenctype "multipart/form-data"
+                 ! (A.formaction $ H.toValue $ "/xkcd/" ++ a ++ "/" ++ b ++ "/" ++ c ++ "/" ++ d)
+                 $ "Save"
 
 buttons :: Html
 buttons = H.div ! A.class_ "valign_kids"
                 ! A.style "float:right; padding-right: 6px;"
                 $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
       where
-        hotSwapButton = 
+        hotSwapButton =
             H.input
                  ! A.type_ "button"
                  ! A.id "hot_swap_button"
@@ -77,7 +102,7 @@ buttons = H.div ! A.class_ "valign_kids"
                  ! A.onclick "hotSwap()"
                  ! A.title "Ctrl-Shift-Enter"
 
-        compileButton = 
+        compileButton =
             H.input
                  ! A.type_ "button"
                  ! A.id "compile_button"
@@ -99,7 +124,7 @@ options = H.div ! A.class_ "valign_kids"
                 ! A.style "float:left; padding-left:6px; padding-top:2px;"
                 ! A.title "Show documentation and types."
                 $ (docs >> opts)
-    where 
+    where
       docs = do
         H.span $ "Hints:"
         H.input ! A.type_ "checkbox"
@@ -109,7 +134,7 @@ options = H.div ! A.class_ "valign_kids"
       opts = do
         H.span ! A.style "padding-left: 12px;" $ "Options:"
         H.input ! A.type_ "checkbox"
-                ! A.id "options_checkbox" 
+                ! A.id "options_checkbox"
                 ! A.onchange "showOptions(this.checked);"
 
 editorOptions :: Html
@@ -123,7 +148,7 @@ editorOptions = theme >> zoom >> lineNumbers
           H.select ! A.id "editor_theme"
                    ! A.onchange "setTheme(this.value)"
                    $ mapM_ optionFor themes
-              
+
       zoom =
           H.select ! A.id "editor_zoom"
                    ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"
