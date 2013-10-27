@@ -19,7 +19,7 @@ Then follow these steps to get this all running on your local machine:
 
 - Clone this project
 - Run `cabal install --bindir=.`
-- Run `./serve` to start the server
+- Run `./run-elm-website` to start the server
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
 [localhost:8000/](http://localhost:8000/).
