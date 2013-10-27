@@ -11,6 +11,7 @@ text elements. You can easily make:
   - Images
   - **Bold**, *italic*, and `monospaced` text
   - Lists (numbered, nested, multi-paragraph bullets)
+  - Embedded LaTeX math: $e^{i\pi} = -1$
 
 It all feels quite natural to type. For more information on Markdown,
 see [this site](http://daringfireball.net/projects/markdown/).
