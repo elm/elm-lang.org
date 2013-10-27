@@ -24,7 +24,7 @@ executable run-elm-website
                      , base
                      , blaze-html
                      , blaze-markup
-                     , bytestring
+                     , bytestring >= 0.10
                      , containers
                      , cmdargs
                      , directory
@@ -35,7 +35,7 @@ executable run-elm-website
                      , mtl
                      , parsec
                      , process
-                     , acid-state
+                     , acid-state >= 0.12
                      , random
                      , safecopy
                      , hashable
