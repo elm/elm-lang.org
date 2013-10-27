@@ -77,6 +77,7 @@ route acidGist acidWord empty rest = do
     , dir "try" $ ok $ toResponse $ emptyIDE
     , dir "xkcd" $ method GET >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> getXKCD (XKCD (a,b,c,d)) acidGist)
     , dir "xkcd" $ method POST >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> putXKCD (XKCD (a,b,c,d)) acidGist acidWord)
+    , dir "xkcd" $ method GET >> (path $ \a -> getGistByID (read a) acidGist)
     , dir "xkcd" $ method POST >> (path $ \a -> getGistByID (read a) acidGist)
     , dir "editXKCD" $ method GET >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> editXKCD a b c d)
     , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
