@@ -27,7 +27,6 @@ import Utils
 import Gist
 import Data.Acid
 import Data.Acid.Local
-import Control.Exception.Base (bracket)
 import Data.Acid.Advanced
 import Control.Monad (replicateM)
 import Control.Applicative
@@ -35,6 +34,7 @@ import Network.HTTP.Base (urlEncode)
 import qualified Happstack.Server.SURI as HSURI
 import qualified System.FilePath as FP
 import Data.Hashable
+import Control.Concurrent (killThread, forkIO)
 
 data Flags = Flags
   { port :: Int
@@ -52,21 +52,25 @@ main = do
   putStrLn "Initializing Server"
   precompile
   getRuntimeAndDocs
+  
+  putStrLn "Initializing Database"
+  gistDB <- openLocalState initialGistDB
+  wordDB <- initialWordDB >>= openLocalState w
+  
   putStrLn $ "Serving at localhost:" ++ show (port args)
-  bracket (do
-    gistDB <- openLocalState initialGistDB
-    w <- initialWordDB
-    wordDB <- openLocalState w
-    return (gistDB,wordDB)
-    )
-    (\(gistDB,wordDB) -> createArchive gistDB >> createCheckpointAndClose gistDB
-                     >> createArchive wordDB >> createCheckpointAndClose wordDB) $
-    \(gistDB,wordDB) -> simpleHTTP nullConf { Happs.port = port args } $ do
+  httpThreadId <- forkIO $ simpleHTTP nullConf { Happs.port = port args } $ do
       compressedResponseFilter
       let mime = asContentType "text/html; charset=UTF-8"
       route gistDB wordDB (serveFile mime "public/build/Elm.elm")
             (serveDirectory' EnableBrowsing [] mime "public/build")
-
+  
+  waitForTermination
+  putStrLn "Killing server"
+  killThread httpThreadId
+  putStrLn "Creating Checkpoints"
+  createCheckpointAndClose gistDB >> createArchive gistDB
+  createCheckpointAndClose wordDB >> createArchive wordDB
+  
 route :: AcidState GistDB -> AcidState WordDB
       -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
 route acidGist acidWord empty rest = do
