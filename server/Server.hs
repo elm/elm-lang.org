@@ -55,7 +55,7 @@ main = do
   
   putStrLn "Initializing Database"
   gistDB <- openLocalState initialGistDB
-  wordDB <- initialWordDB >>= openLocalState w
+  wordDB <- initialWordDB >>= openLocalState
   
   putStrLn $ "Serving at localhost:" ++ show (port args)
   httpThreadId <- forkIO $ simpleHTTP nullConf { Happs.port = port args } $ do
