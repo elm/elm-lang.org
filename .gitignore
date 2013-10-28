@@ -6,3 +6,6 @@ dist
 resources/elm-runtime.js
 resources/docs.json
 run-elm-website
+state
+cabal*
+.cabal*

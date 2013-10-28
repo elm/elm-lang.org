@@ -24,6 +24,17 @@ import qualified Language.Elm as Elm
 import ElmToHtml
 import Editor
 import Utils
+import Gist
+import Data.Acid
+import Data.Acid.Local
+import Data.Acid.Advanced
+import Control.Monad (replicateM)
+import Control.Applicative
+import Network.HTTP.Base (urlEncode)
+import qualified Happstack.Server.SURI as HSURI
+import qualified System.FilePath as FP
+import Data.Hashable
+import Control.Concurrent (killThread, forkIO)
 
 data Flags = Flags
   { port :: Int
@@ -41,33 +52,52 @@ main = do
   putStrLn "Initializing Server"
   precompile
   getRuntimeAndDocs
+  
+  putStrLn "Initializing Database"
+  gistDB <- openLocalState initialGistDB
+  wordDB <- initialWordDB >>= openLocalState
+  
   putStrLn $ "Serving at localhost:" ++ show (port args)
-  simpleHTTP nullConf { Happs.port = port args } $ do
-    compressedResponseFilter
-    let mime = asContentType "text/html; charset=UTF-8"
-    route (serveFile mime "public/build/Elm.elm")
-          (serveDirectory' EnableBrowsing [] mime "public/build")
-
-route :: ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
-route empty rest = do
-  msum [ nullDir >> empty
-       , serveDirectory DisableBrowsing [] "resources"
-       , dir "try" (ok $ toResponse $ emptyIDE)
-       , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
-       , dir "hotswap" $ compilePart elmToJS
-       , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?0.10"
-       , dir "edit" serveEditor
-       , dir "code" . uriRest $ withFile editor
-       , dir "login" sayHi
-       , rest
-       , return404
-       ]
-
--- | Compile an Elm program that has been POST'd to the server.
-compilePart compile = do
+  httpThreadId <- forkIO $ simpleHTTP nullConf { Happs.port = port args } $ do
+      compressedResponseFilter
+      let mime = asContentType "text/html; charset=UTF-8"
+      route gistDB wordDB (serveFile mime "public/build/Elm.elm")
+            (serveDirectory' EnableBrowsing [] mime "public/build")
+  
+  waitForTermination
+  putStrLn "Killing server"
+  killThread httpThreadId
+  putStrLn "Creating Checkpoints"
+  createCheckpointAndClose gistDB >> createArchive gistDB
+  createCheckpointAndClose wordDB >> createArchive wordDB
+  
+route :: AcidState GistDB -> AcidState WordDB
+      -> ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
+route acidGist acidWord empty rest = do
   decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
-  code <- look "input"
-  ok $ toResponse $ compile code
+  msum
+    [ nullDir >> empty
+    , serveDirectory DisableBrowsing [] "resources"
+    , dir "try" $ ok $ toResponse $ emptyIDE
+    , dir "xkcd" $ method GET >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> getXKCD (XKCD (a,b,c,d)) acidGist)
+    , dir "xkcd" $ method POST >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> putXKCD (XKCD (a,b,c,d)) acidGist acidWord)
+    , dir "xkcd" $ (path $ \a -> getGistByID (read a) acidGist)
+    , dir "editXKCD" $ method GET >> (path $ \a -> path $ \b -> path $ \c -> path $ \d -> editXKCD a b c d)
+    , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
+    , dir "hotswap" $ compilePart elmToJS
+    , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?0.10"
+    , dir "edit" serveEditor
+    , dir "code" $ do
+                    x <- makeWordsUp acidWord
+                    uriRest $ withFile (editor x)
+    , dir "login" sayHi
+    , rest
+    , return404
+    ]
+
+-- | Compile an Elm program that has been sent via "input" to the server.
+compilePart :: ToMessage a => (String -> a) -> ServerPartT IO Response
+compilePart compile = look "input" >>= ok . toResponse . compile
 
 open :: String -> ServerPart (Maybe String)
 open fp =
@@ -92,8 +122,44 @@ withFile :: (FilePath -> String -> Html) -> FilePath -> ServerPart Response
 withFile handler fp = do
   eitherContent <- open fp
   case eitherContent of
-    Just content -> ok . toResponse $ handler fp content
+    Just content -> ok . toResponse $ handler (FP.takeBaseName fp) content
     Nothing -> return404
+
+ideXKCD :: XKCD -> String -> ServerPart Response
+ideXKCD (XKCD (a,b,c,d)) code= ok $ toResponse $ ideBuilder "50%,50%" ("Elm Editor: " ++ (unwords [a,b,c,d]))
+                  ("/editXKCD/" ++ a ++ "/" ++ b ++ "/" ++ c ++ "/" ++ d ++ "?input="++ urlEncode code)
+                  ("/compile?input=" ++ urlEncode code)
+
+editXKCD :: String -> String -> String -> String -> ServerPart Response
+editXKCD a b c d = do
+  code <- look "input"
+  ok $ toResponse $ editor (XKCD (a,b,c,d)) (unwords ["XKCD: ",a,b,c,d]) code
+
+getXKCD :: XKCD -> AcidState GistDB -> ServerPartT IO Response
+getXKCD x acid = do
+      Gist code <- query' acid (GetGist $ hash x)
+      ideXKCD x code
+
+getGistByID :: Int -> AcidState GistDB -> ServerPartT IO Response
+getGistByID a acid = do
+  Gist code <- query' acid (GetGist a)
+  ok $ toResponse $ elmToHtml "Compiled Elm" code
+
+putXKCD :: XKCD -> AcidState GistDB -> AcidState WordDB -> ServerPartT IO Response
+putXKCD x@(XKCD (a,b,c,d)) acidG acidW = do
+  code <- look "input"
+  res <- query' acidW (MemberWords [a,b,c,d])
+  if res
+  then do
+    saveGist x code
+    ideXKCD x code
+  else do
+    x@(XKCD (a,b,c,d)) <- makeWordsUp acidW
+    saveGist x code
+    seeOther  ("/xkcd/" ++ a ++ "/" ++ b ++ "/" ++ c ++ "/" ++ d)
+            (toResponse ("Redirected" ::String))
+  where
+    saveGist x c = update' acidG (UpdateGist x $ Gist $ c)
 
 return404 =
   notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
@@ -146,7 +212,7 @@ adjustHtmlFile file =
      removeFile file
      writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after ++ [renderHtml googleAnalytics]))
   where
-    style = 
+    style =
         unlines . map ("    "++) $
         [ "<style type=\"text/css\">"
         , "  a:link {text-decoration: none; color: rgb(15,102,230);}"
