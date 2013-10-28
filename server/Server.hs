@@ -59,8 +59,8 @@ main = do
     wordDB <- openLocalState w
     return (gistDB,wordDB)
     )
-    (\(gistDB,wordDB) -> closeAcidState gistDB
-                     >> closeAcidState wordDB) $
+    (\(gistDB,wordDB) -> createArchive gistDB >> createCheckpointAndClose gistDB
+                     >> createArchive wordDB >> createCheckpointAndClose wordDB) $
     \(gistDB,wordDB) -> simpleHTTP nullConf { Happs.port = port args } $ do
       compressedResponseFilter
       let mime = asContentType "text/html; charset=UTF-8"
