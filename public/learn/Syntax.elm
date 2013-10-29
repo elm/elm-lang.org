@@ -35,7 +35,7 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-This document lists all possible Elm syntax.
+This syntax reference is a minimal introduction to:
 
 - [Comments](#comments)
 - [Literals](#literals)
@@ -54,9 +54,8 @@ This document lists all possible Elm syntax.
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
 
-To learn about the libraries and semantics of Elm, check out the [Documentation][docs].
-
-  [docs]: /Documentation.elm "Documentation"
+Check out the [learning resources](/Learn.elm) for
+tutorials and examples on actually *using* this syntax.
 
 ### Comments
 
