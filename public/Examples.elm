@@ -26,6 +26,9 @@ that will help you grow from beginner to expert:
  * [Open Source Projects](#open-source-projects) &ndash; bigger things written in Elm
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
+See the [learning resources](/Learn.elm) if you want to learn the fundamentals
+of the language *not* by example. The [library documentation](http://docs.elm-lang.org)
+is a very information dense resource once you become familiar with Elm.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
@@ -195,4 +198,4 @@ toLinks (title, links) =
 
 subsection w (name,info) =
   flow down . intersperse (spacer w 6) . map (width w) <|
-    (text . bold <| toText name) :: map toLinks info ++ [spacer w 12]
+    (tag name . text . bold <| toText name) :: map toLinks info ++ [spacer w 12]

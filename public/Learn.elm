@@ -12,34 +12,56 @@ h5 { margin-bottom: 0.5em; }
 </style>
 
 # Learn
+
+This page focuses on written and video tutorials on Elm. There are
+learning materials for every level of programmer:
+
+ * *New to programming* &mdash; focus on the [beginner classes](#beginner-classes)
+
+ * *New to functional programming* &mdash; read the 
+   [mini tutorials](#mini-tutorials) tutorials,
+   browse the [syntax reference](/learn/Syntax.elm), and see
+   [these examples](/Examples.elm#compute)
+
+ * *New to FRP* &mdash; read [this intro](/learn/What-is-FRP.elm),
+   see [these examples](/Examples.elm#react),
+   watch [this video](http://www.ustream.tv/recorded/29330499),
+   and read [this paper](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
+
+ * *Using Elm* &mdash; see the [intermediate and large examples](/Examples.elm),
+   resources on [making stuff](#making-stuff), [formal semantics](#publications),
+   [release notes](/Install.elm#release-notes),
+   and [blog posts](#articles-blog)
+
 |]
 
 leftCol = [markdown|
 
-#### Language Features
+#### Mini Tutorials
 
 * [FRP](/learn/What-is-FRP.elm)
+* [Syntax](/learn/Syntax.elm)
 * [Types](/learn/Getting-started-with-Types.elm)
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
-* [Documentation](/learn/Documentation.elm)
+* [Documenting Code](/learn/Documentation.elm)
 * [HTML/JS Integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo)
 
 |]
 
 rightCol = [markdown|
 
-#### Quick References
-
-* [Syntax reference](/learn/Syntax.elm)
-* [Website skeleton](https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
-* [Game skeleton](https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1) / [walkthrough](/blog/games-in-elm/part-0/Making-Pong.html)
-
 #### Beginner Classes
 
 * [Intro to Programming](/learn/courses/beginner/Programming.elm)
 * [Intro to Graphics](/learn/courses/beginner/Graphics.elm)
 * [Intro to Lists and Records](/learn/courses/beginner/Lists-and-Records.elm)
+
+#### Making Stuff
+
+* [Website skeleton](https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
+* [Game skeleton](https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
+* [Making Pong](/blog/games-in-elm/part-0/Making-Pong.html)
 
 |]
 
