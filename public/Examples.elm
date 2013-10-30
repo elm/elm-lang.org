@@ -50,13 +50,23 @@ These are all larger projects created with Elm. I hesitate to call them
 &ldquo;example&rdquo; projects, but they are all good starting points
 for building on top of or retrofitting for your purposes.
 
+#### Games
+
+ * [Tetris](https://github.com/jcollard/elmtris) &ndash;
+   by Joe Collard
+
+ * [Breakout](https://github.com/jcollard/elmtris) &ndash;
+   by Tobias Hermann
+
+ * [Celestia](https://github.com/johnpmayer/celestia) &ndash;
+   modular spaceship game by John P. Mayer Jr
+
+#### Websites
+
  * [TodoFRP](https://github.com/evancz/TodoFRP) &ndash;
    A [TodoMVC](http://todomvc.com/)-style todo list.
    It is not feature-complete yet, but it is still a very
    good resource if you want to create &ldquo;traditional webapps&rdquo;.
-
- * [Elmtris](https://github.com/jcollard/elmtris) &ndash;
-   A Tetris game by Joe Collard.
 
  * [elm-lang.org](https://github.com/evancz/elm-lang.org) &ndash;
    Use it as the basis of your own website or run it locally to
@@ -64,9 +74,6 @@ for building on top of or retrofitting for your purposes.
 
  * [docs.elm-lang.org](https://github.com/evancz/docs.elm-lang.org) &ndash;
    Another good basis for a website. See the [instant search feature](http://docs.elm-lang.org/).
-
- * [Celestia](https://github.com/johnpmayer/celestia) &ndash;
-   A modular spaceship game by John P. Mayer Jr.
    
 |]
 
