@@ -37,11 +37,12 @@ Join us!
 talks w =
   flow down <| map (talk w)
     [ ("Elm&rsquo;s future", "Evan Czaplicki")
-    , ("Bret Victor-style reactive debugging", "Laszlo Pandy")
     , ("WebWorkers and Concurrent FRP", "John P. Mayer Jr.")
     , ("Preemptive Concurrency in JS", "Jaakko Pallari")
     , ("Signal Loops", "Jeff Smits")
+    , ("Real-time collaboration: Elm + Firebase", "Dénes Harmath")
     , ("Visual programming with Signals", "Tim Hobbs")
+    , ("Bret Victor-style reactive debugging", "Laszlo Pandy")
     , ("Making it easier to learn Elm", "Mads Flensted-Urech")
     , ("TypeScript for native Elm modules", "Laszlo Pandy")
     ]
