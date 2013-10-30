@@ -232,6 +232,17 @@ infixr 0 <|
 infixl 4 <~
 ```
 
+The <| and |> operators are a replacement for $ and reduce parentheses usage. See 
+the [documentation](http://docs.elm-lang.org/library/Basics.elm) for use.
+
+```haskell
+f <| g a = f (g a)
+
+f a |> g = g (f a)
+```
+
+Hint: The carat points in the direction of the application.
+
 ### Let Expressions
 
 ```haskell
