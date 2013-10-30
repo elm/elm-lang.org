@@ -1,9 +1,8 @@
 
-outline =  line [ (50,50), (150,50), (150,150), (50,150), (50,50) ]
+outline = path [ (50,50), (50,-50), (-50,-50), (-50,50), (50,50) ]
 
-main = collage 200 530
-         [ dashed blue outline
-         , move 0 110 $ dotted green outline
-         , move 0 220 $ solid  red   outline
-         , move 0 330 $ customLine [8,4,2,4] black outline
+main = collage 200 420
+         [ outline |> traced (dashed blue)  |> move (0, -110)
+         , outline |> traced (dotted green)
+         , outline |> traced (solid  red)   |> move (0, 110)
          ]

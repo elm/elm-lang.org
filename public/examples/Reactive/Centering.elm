@@ -1,5 +1,7 @@
 
-scene (w,h) = container w h middle $ plainText "Hello, World!"
+import Window
+
+scene (w,h) = container w h middle <| plainText "Hello, World!"
 
 main = lift scene Window.dimensions
 

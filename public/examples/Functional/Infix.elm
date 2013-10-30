@@ -20,4 +20,4 @@ plusB x y = (+) x y
 plusC = \x y -> x + y
 plusD = (+)
 
-main = asText $ (+) 4 7
+main = asText <| (+) 4 7

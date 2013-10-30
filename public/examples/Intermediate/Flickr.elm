@@ -1,47 +1,48 @@
-
-import HTTP
-import JSON
+import Graphics.Input as Input
+import Http
+import JavaScript.Experimental as JS
+import Json
+import Window
 
 {------------------------  Core Logic  ------------------------}
 
--- This is the core logic of the Elm program. You end up writing
--- way less code to create the entire application. Imagine
--- creating the same functionality and presentation with HTML,
--- CSS, and JavaScript.
+-- This is the core logic of the Elm program described here:
+--     http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
 
 
 -- Asynchronously get a photo with a given tag. Makes two
 -- asynchronous HTTP requests to Flickr, resulting in
--- the URL of an image. This function uses the composition
--- operator:
---
---     f . g  ==  (\x -> f(g(x)))
---
--- to make things a bit more concise. You can read it from
--- right to left.
+-- the URL of an image.
 
-getPhotos =
-  lift sizesToPhoto . send . lift requestOneFrom . send . lift requestTag
+getSources : Signal String -> Signal (Maybe String)
+getSources tag = let photos = Http.send (lift getTag tag)
+                     sizes  = Http.send (lift getOneFrom photos)
+                 in  lift sizesToSource sizes
 
 -- Create a text input box and a signal of tags, as seen in
 -- "Escape from Callback Hell".
 
-(tagInput, tags) = Input.textField "Flickr Instant Search"
+(tagInput, tags) = Input.field "Flickr Instant Search"
 
 
 -- Put our text input and images together. Takes in the
 -- dimensions of the browser and an image. Results in a
 -- Search box and large image result that fills the screen.
 
-scene (w,h) img = flow down [ container w 60 middle tagInput
-                            , container w (h - 100) middle img ]
+scene : (Int,Int) -> Element -> Maybe String -> Element
+scene (w,h) tagInput imgSrc =
+    flow down
+      [ container w 100 middle tagInput,
+        case imgSrc of
+          Just src -> fittedImage w (h-100) src
+          Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")
+      ]
 
 
--- Pass in the current dimensions and image. Both inputs are
--- signals so they will update automatically.
+-- Pass in the current dimensions and image. All inputs are
+-- signals and will update automatically.
 
-main = lift2 scene Window.dimensions (images (getPhotos (dropRepeats tags)))
-
+main = lift3 scene Window.dimensions tagInput (getSources (dropRepeats tags))
 
 
 
@@ -57,43 +58,42 @@ main = lift2 scene Window.dimensions (images (getPhotos (dropRepeats tags)))
 
 
 -- The standard parts of a Flickr API request.
-flickrRequest =
+flickrRequest args =
   "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858"
+  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
 
 
--- Extract a JSON object from a HTTP response.
-extract response =
-  case response of
-    Success str -> JSON.fromString str
-    _ -> empty
+-- Turn a tag into an HTTP GET request.
+getTag : String -> Http.Request String
+getTag tag =
+    let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
+    in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
-
--- Turn a tag into a request.
-requestTag tag =
-  if tag == "" then get "" else
-  get (concat [ flickrRequest
-              , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
-
+toJson response =
+    case response of
+      Http.Success str -> Json.fromString str
+      _ -> Nothing
 
 -- Take a list of photos and choose one, resulting in a request.
-requestOneFrom photoList =
-  let getPhotoID json =
-          case findArray "photo" (findObject "photos" json) of
-          { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
-      requestSizes id = if id == ""  then "" else
-                        concat [ flickrRequest
-                               , "&method=flickr.photos.getSizes&photo_id=", id ]
-  in  get (requestSizes (getPhotoID (extract photoList)))
+getOneFrom photoList =
+    case toJson photoList of
+      Nothing -> Http.get ""
+      Just json ->
+          let photoRecord = JS.toRecord <| Json.toJSObject json
+          in  case photoRecord.photos.photo of
+                h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
+                []   -> Http.get ""
 
-
+                        
 -- Take some size options and choose one, resulting in a URL.
-sizesToPhoto sizeOptions =
-  let getImg sizes =
-          case reverse sizes of
-            _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
-            (JsonObject obj) : _ -> findString "source" obj
-            _ -> "waiting.gif"
-  in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
-
-
+sizesToSource : Http.Response String -> Maybe String
+sizesToSource sizeOptions =
+    case toJson sizeOptions of
+      Nothing   -> Nothing
+      Just json ->
+          let sizesRecord = JS.toRecord <| Json.toJSObject json
+              sizes = sizesRecord.sizes.size
+          in  case reverse sizes of
+                _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
+                size :: _ -> Just size.source
+                _ -> Nothing

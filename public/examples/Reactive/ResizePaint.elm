@@ -1,9 +1,10 @@
 
-
 -- Show an image that resizes to fit the window
 -- while maintaining its aspect ratio.
 
-resizeablePaint (w,h) = fittedImage w h "paint.jpg"
+import Window
+
+resizeablePaint (w,h) = fittedImage w h "/paint.jpg"
 main = lift resizeablePaint Window.dimensions
 
 

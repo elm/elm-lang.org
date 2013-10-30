@@ -7,34 +7,29 @@ import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
-import Utils
+import qualified System.FilePath as FP
 
 -- | Display an editor and the compiled result side-by-side.
-ide :: FilePath -> String -> Html
-ide fileName code = ideBuilder ("Elm Editor: " ++ pageTitle fileName)
-                               fileName
-                               ("/compile?input=" ++ urlEncode code)
+ide :: String -> FilePath -> String -> Html
+ide cols fileName code =
+    ideBuilder cols
+               ("Elm Editor: " ++ FP.takeBaseName fileName)
+               fileName
+               ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
 emptyIDE :: Html
-emptyIDE = ideBuilder "Try Elm" "" "/Try.elm"
+emptyIDE = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
 
-ideBuilder :: String -> String -> String -> Html
-ideBuilder title input output =
+ideBuilder :: String -> String -> String -> String -> Html
+ideBuilder cols title input output =
     H.docTypeHtml $ do
       H.head $ do
         H.title . toHtml $ title
-        H.script ! A.type_ "text/javascript" $
-             "function toggleExamples(open) {\n\
-             \  document.getElementById('frameset1').rows = open ? '*,160px' : '*,0';\n\
-             \};"
       preEscapedToMarkup $ 
-         concat [ "<frameset id=\"frameset1\" rows=\"*,0\">\n"
-                , "  <frameset cols=\"50%,50%\">\n"
-                , "    <frame name=\"input\" src=\"/code/", input, "\" />\n"
-                , "    <frame name=\"output\" src=\"", output, "\" />\n"
-                , "  </frameset>\n"
-                , "  <frame src=\"/examples/Navigation.elm\" />\n"
+         concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
+                , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
+                , "  <frame name=\"output\" src=\"", output, "\" />\n"
                 , "</frameset>" ]
 
 -- | list of themes to use with CodeMirror
@@ -48,95 +43,112 @@ editor :: FilePath -> String -> Html
 editor filePath code =
     H.html $ do
       H.head $ do
-        H.title . toHtml $ "Elm Editor: " ++ pageTitle filePath
-        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.0/lib/codemirror.css"
-        H.script ! A.src "/codemirror-3.0/lib/codemirror.js" $ mempty
-        H.script ! A.src "/codemirror-3.0/mode/elm/elm.js" $ mempty
-        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.0/theme/" ++ theme ++ ".css" :: String))) themes
-        H.style ! A.type_ "text/css" $ editorCss
-        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js" $ mempty
+        H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
+        H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
+        mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
+        H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?0.10" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
-           H.div ! A.id "editor_box" ! A.style "position:absolute;top:0;left:0;right:0;bottom:36px;" $ do
+           H.div ! A.id "editor_box" $ do
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
-           H.div ! A.class_ "opts" ! A.id "options" $ do
-             H.div ! A.style "float:right; padding:6px;" $ do
-               H.input ! A.class_ "valign" !
-                  A.id "compile_button" ! A.type_ "button" !
-                  A.onclick "compileOutput()" ! A.value "Compile" !
-                  A.title "... or hit Ctrl+Enter"
-               H.input ! A.class_ "valign" !
-                  A.id "in_tab_button" ! A.type_ "button" !
-                  A.onclick "compile('_blank')" ! A.value "In Tab" !
-                  A.title "compile in a new tab"
-               H.span  ! A.class_ "valign" $ " Auto-compile:"
-               H.input ! A.class_ "valign" ! A.type_ "checkbox" !
-                  A.onchange "toggleAutoUpdate(this.checked)"
-             H.div ! A.style "float:left; padding:10px;" $ do
-               H.span ! A.title "Show the basic examples" $ do
-                  H.span ! A.class_ "valign" $ "Examples:"
-                  H.input ! A.class_ "valign" ! A.type_ "checkbox" !
-                     A.onchange "window.top.toggleExamples(this.checked);"
-               H.span ! A.style "padding-left: 16px;" ! A.class_ "valign" $
-                    "Options:"
-               H.input ! A.class_ "valign" ! A.type_ "checkbox" !
-                  A.onchange "toggleOptions(this.checked);"
-           H.div ! A.class_ "opts" ! A.id "editor_options" $ do
-             let optionFor text =
-                   H.option ! A.value (toValue (text :: String)) $
-                   toHtml text
-             H.select ! A.class_ "valign" ! A.id "editor_theme" !
-               A.onchange "setTheme()" $ mapM_ optionFor themes
-             H.select ! A.class_ "valign" ! A.id "editor_zoom" !
-               A.onchange "setZoom()" $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
-             H.span $ do
-               H.span ! A.class_ "valign" $ " Line Numbers:"
-               H.input ! A.class_ "valign" ! A.id "editor_lines" !
-                 A.type_ "checkbox" !
-                 A.onchange "toggleLines(this.checked);"
-        H.script ! A.type_ "text/javascript" $ editorJS
+           H.div ! A.id "options" $ do
+             bar "documentation" docs
+             bar "editor_options" editorOptions
+             bar "always_on" (buttons >> options)
+        H.script ! A.type_ "text/javascript" $ "initEditor();"
 
--- | CSS needed to style the CodeMirror frame.
-editorCss :: Markup
-editorCss = preEscapedToMarkup $
-    ("body { margin: 0; }\n\
-     \.CodeMirror { height: 100% }\n\
-     \form { margin-bottom: 0; }\n\
-     \.zoom-80 { font-size: 80%; }\n\
-     \.zoom-100 { font-size: 100%; }\n\
-     \.zoom-150 { font-size: 150%; }\n\
-     \.zoom-200 { font-size: 200%; }\n\
-     \.valign { vertical-align: middle; }\n\
-     \.opts {\n\
-     \  background-color: rgb(216,221,225);\n\
-     \  font-family: Arial;\n\
-     \  font-size: 14px;\n\
-     \  overflow: hidden;\n\
-     \  position: absolute;\n\
-     \}\n\
-     \#editor_options {\n\
-     \  bottom: 28px;\n\
-     \  left: 0;\n\
-     \  right: 0;\n\
-     \  padding: 4px;\n\
-     \  visibility: hidden;\n\
-     \}\n\
-     \#options {\n\
-     \  left: 0;\n\
-     \  right: 0;\n\
-     \  bottom: 0;\n\
-     \  height: 36px;\n\
-     \}" :: String)
+bar :: AttributeValue -> Html -> Html
+bar id body = H.div ! A.id id ! A.class_ "option" $ body
 
--- | JS needed to set up CodeMirror.
-editorJS :: Html
-editorJS =
-    "var editor = CodeMirror.fromTextArea(document.getElementById('input'), {\n\
-    \ lineNumbers: initLines(),\n\
-    \ matchBrackets: true,\n\
-    \ theme: initTheme(),\n\
-    \ tabMode: 'shift',\n\
-    \ extraKeys: {'Ctrl-Enter': compileOutput},\n\
-    \});\n\
-    \editor.focus();\n\
-    \initZoom();"
+buttons :: Html
+buttons = H.div ! A.class_ "valign_kids"
+                ! A.style "float:right; padding-right: 6px;"
+                $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
+      where
+        hotSwapButton = 
+            H.input
+                 ! A.type_ "button"
+                 ! A.id "hot_swap_button"
+                 ! A.value "Hot Swap"
+                 ! A.onclick "hotSwap()"
+                 ! A.title "Ctrl-Shift-Enter"
+
+        compileButton = 
+            H.input
+                 ! A.type_ "button"
+                 ! A.id "compile_button"
+                 ! A.value "Compile"
+                 ! A.onclick "compile()"
+                 ! A.title "Ctrl-Enter: change program behavior but keep the state"
+
+        autoBox =
+            H.input
+                 ! A.type_ "checkbox"
+                 ! A.id "auto_hot_swap_checkbox"
+                 ! A.onchange "setAutoHotSwap(this.checked)"
+                 ! A.style "margin-right:20px;"
+                 ! A.title "attempt to hot-swap automatically"
+
+
+options :: Html
+options = H.div ! A.class_ "valign_kids"
+                ! A.style "float:left; padding-left:6px; padding-top:2px;"
+                ! A.title "Show documentation and types."
+                $ (docs >> opts)
+    where 
+      docs = do
+        H.span $ "Hints:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "show_type_checkbox"
+                ! A.onchange "showType(this.checked);"
+
+      opts = do
+        H.span ! A.style "padding-left: 12px;" $ "Options:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "options_checkbox" 
+                ! A.onchange "showOptions(this.checked);"
+
+editorOptions :: Html
+editorOptions = theme >> zoom >> lineNumbers
+    where
+      optionFor :: String -> Html
+      optionFor text =
+          H.option ! A.value (toValue text) $ toHtml text
+
+      theme =
+          H.select ! A.id "editor_theme"
+                   ! A.onchange "setTheme(this.value)"
+                   $ mapM_ optionFor themes
+              
+      zoom =
+          H.select ! A.id "editor_zoom"
+                   ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"
+                   $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
+
+      lineNumbers = do
+        H.span ! A.style "padding-left: 16px;" $ "Line Numbers:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "editor_lines"
+                ! A.onchange "showLines(this.checked);"
+
+docs :: Html
+docs = tipe >> desc
+    where
+      tipe = H.div ! A.class_ "type" $ message >> more
+
+      message = H.div ! A.style "position:absolute; left:4px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
+
+      more = H.a ! A.id "toggle_link"
+                 ! A.style "display:none; float:right;"
+                 ! A.href "javascript:toggleVerbose();"
+                 ! A.title "Ctrl+H"
+                 $ "more"
+
+      desc = H.div ! A.class_ "doc"
+                   ! A.style "display:none;"
+                   $ ""
+

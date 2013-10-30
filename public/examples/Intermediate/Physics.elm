@@ -1,7 +1,15 @@
 
----- Prose explanation ----
+---- Put it together and show it ----
+
+main = lift2 presentation sunAndEarth bouncingBall
+
+presentation figure1 figure2 =
+  flow down [ intro, figure1, body, figure2, outro ]
+
+---- Text ----
 
 intro = [markdown|
+
 # Physics: How does it work?
 
 Today we are going to learn how to gravity.
@@ -15,33 +23,24 @@ outro = [markdown|
 Now you know how to gravity with elasticity! Good work physics friend!
 |]
 
+---- Diagrams ----
 
----- Figures ----
+time = lift (inSeconds . fst) (timestamp (fps 40))
 
-time = timeOf (fps 40)
+sunAndEarthAt angle =
+  let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]
+      sun = group [ filled lightYellow (circle 35), toForm (plainText "Sun") ]
+  in  collage 300 200
+        [ earth |> move (120 * cos angle, 80 * sin angle)
+        , sun   |> move (25,0) ]
 
-drawFig1 t =
-  let pos = ( 150 + 120 * cos (inSeconds t)
-            , 150 +  80 * sin (inSeconds t) )
-  in  collage 300 300 [ filled cyan $ circle 20 pos
-                      , toForm pos (plainText "Earth")
-                      , filled yellow $ circle 35 (125,150)
-                      , toForm (125,150) (plainText "Sun") ]
+sunAndEarth = lift sunAndEarthAt time
 
-figure1 = lift drawFig1 time
+bouncingBallAt angle =
+  let ball = filled red (circle 15)
+      ground = filled green (rect 300 50)
+  in  collage 300 200
+          [ ball   |> move (0, abs (150 * sin angle) - 75),
+            ground |> move (0,-100) ]
 
-
-drawFig2 t =
-  let pos = (150, 250 - abs (200 * sin (inSeconds t))) in
-  collage 300 300 [ filled red $ circle 15 pos
-                  , filled green $ rect 300 50 (150,275) ]
-
-figure2 = lift drawFig2 time
-
-
----- Put it together and show it ----
-
-presentation fig1 fig2 =
-  flow down [ intro, fig1, body, fig2, outro ]
-
-main = lift2 presentation figure1 figure2
+bouncingBall = lift bouncingBallAt time

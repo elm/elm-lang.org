@@ -1,8 +1,10 @@
 
 -- Show an image of Yogi that resizes while maintaining its aspect ratio.
 
-resizeableYogi edgeLen = image edgeLen edgeLen "yogi.jpg"
+import Mouse
 
-edgeLen = lift (max 100 . uncurry max) Mouse.position
+edgeLength = lift (uncurry max) Mouse.position
 
-main = lift resizeableYogi edgeLen
+resizeableYogi n = image n n "/yogi.jpg"
+
+main = lift resizeableYogi edgeLength

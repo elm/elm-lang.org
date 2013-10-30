@@ -1,12 +1,12 @@
 
-hand clr len time =
-  let t = pi * inSeconds time / 30 - pi / 2 in
-  solid clr $ line [(200,200), (200 + len * cos t, 200 + len * sin t)]
-
-clock t = collage 400 400
-  [ filled (rgb 96 176 224) $ ngon 12 110 (200,200)
-  , hand  red  100 t
-  , hand black 100 (t/60)
-  , hand black 60  (t/720) ]
-
 main = lift clock (every second)
+
+clock t = collage 400 400 [ filled    lightGrey   (ngon 12 110)
+                          , outlined (solid grey) (ngon 12 110)
+                          , hand orange   100  t
+                          , hand charcoal 100 (t/60)
+                          , hand charcoal 60  (t/720) ]
+
+hand clr len time =
+  let angle = degrees (90 - 6 * inSeconds time)
+  in  traced (solid clr) <| segment (0,0) (len * cos angle, len * sin angle)

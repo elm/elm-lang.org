@@ -16,13 +16,13 @@ Overview:
 -- In traditional imperative languages, we'd have to define a
 -- function before we could use it.
 
-incr n = n + 1
+plus1 n = n + 1
 
 -- This is actually syntactic sugar for the following:
 
-incr_ = \n -> n + 1
+plus1' = \n -> n + 1
 
--- incr_ is bound to a function that takes n as an argument and
+-- plus1' is bound to a function that takes n as an argument and
 -- then computes n + 1. If we only need to use this function
 -- once, why bother binding it to a variable?
 

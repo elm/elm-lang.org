@@ -1,10 +1,6 @@
 
-square   = rect 200 200 (150,150)
-circle   = oval 140 140 (150,150)
-pentagon = ngon   5  60 (150,150)
+clearGrey = rgba 111 111 111 0.6
 
 main = collage 300 300
-         [ outlined black square
-         , filled green pentagon
-         , customOutline [8,4] blue circle
-         ]
+       [ filled clearGrey (ngon 4 75),
+         filled clearGrey (ngon 5 50) |> move (50,10) ]

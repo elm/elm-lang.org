@@ -1,7 +1,8 @@
 
-myBlue  = rgb 0 85 170
-myGreen = rgba 28 267 85 (1/2)
+main = collage 150 150 <| map shape [0..11]
 
-main = collage 300 300 [ filled myBlue  $ ngon 4 75 (150, 150)
-                       , filled myGreen $ ngon 5 50 (200, 100)
-                       ]
+shape n =
+  let angle = degrees (30 * toFloat n)
+  in  circle 10 |> filled (hsv angle 0.7 1)
+                |> move (45 * cos angle, 45 * sin angle)
+

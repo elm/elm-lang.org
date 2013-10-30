@@ -1,5 +1,5 @@
 
 main = layers
-  [ video 320 240 "/bear.ogg"
-  , width 320 . centeredText . header $ toText "Birds and Bears"
+  [ fittedImage 320 240 "/shells.jpg"
+  , width 320 . centered . header <| toText "She sells sea shells."
   ]

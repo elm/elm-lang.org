@@ -1,6 +1,5 @@
-
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import Window
 
 intro = [markdown|
 
@@ -16,9 +15,27 @@ pre {
  padding: 4px 10px;
  border-left: solid 2px rgb(96,181,204);
 }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
 </style>
 
-This document lists all possible Elm syntax.
+This syntax reference is a minimal introduction to:
 
 - [Comments](#comments)
 - [Literals](#literals)
@@ -27,103 +44,125 @@ This document lists all possible Elm syntax.
 - [Algebraic Data Types](#algebraic-data-types)
 - [Records](#records)
 - [Functions](#functions)
+- [Infix Operators](#infix-operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
-- [Lifting with (<~) and (~)](#lifting)
+- [Lifting with `(<~)` and `(~)`](#lifting)
 - [Modules](#modules)
+- [Type Annotations](#type-annotations)
+- [Type Aliases](#type-aliases)
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
 
-To learn about the libraries and semantics of Elm, check out the [Documentation][docs].
-
-  [docs]: /Documentation.elm "Documentation"
+Check out the [learning resources](/Learn.elm) for
+tutorials and examples on actually *using* this syntax.
 
 ### Comments
 
-    -- a single line comment
+```haskell
+-- a single line comment
 
-    {- a multiline comment
-       {- can be nested -}
-    -}
+{- a multiline comment
+   {- can be nested -}
+-}
+```
 
 Here's a handy trick that every Elm programmer should know:
 
-    {--}
-    add x y = x + y
-    --}
+```haskell
+{--}
+add x y = x + y
+--}
+```
 
 Just add or remove the `}` on the first line and you'll toggle between commented and uncommented!
 
 ### Literals
 
-The following shows all the different boolean literals and operators.
+```haskell
+-- Boolean
+True  : Bool
+False : Bool
 
-    True && not (True || False)
+42    : number  -- Int or Float depending on usage
+3.14  : Float
 
-Character and string literals are defined as follows:
+'a'   : Char
+"abc" : String
+```
 
-    'a'       -- Char
-    "Hello!"  -- String
+```
 
-A `Number` can be interpreted as an `Int` or a `Float` depending on how it is used.
+-- multi-line String
+"""
+This is useful for holding JSON or other
+content that has "quotation marks".
+"""
+```
 
-    42        -- Number
-    3.14      -- Float
+Typical manipulation of literals:
+
+```haskell
+True && not (True || False)
+(2 + 4) * (4^2 - 9)
+"abc" ++ "def"
+```
 
 ### Lists
 
 Here are four things that are equivalent:
 
-    [1,2,3,4]
-    1:[2,3,4]
-    1:2:3:4:[]
-    [1..4]
-
-Here are two things that are equivalent:
-
-    ['a','b','c']
-    "abc"
+```haskell
+[1..4]
+[1,2,3,4]
+1 :: [2,3,4]
+1 :: 2 :: 3 :: 4 :: []
+```
 
 ### Conditionals
 
-    if conditional then trueBranch else falseBranch
-    if powerLevel > 9000 then "OVER 9000!!!" else "meh"
+```haskell
+if powerLevel > 9000 then "OVER 9000!!!" else "meh"
+```
 
 Multi-way if-expressions make it easier
 to have a bunch of different branches.
 You can read the `|` as *where*.
 
-    if | key == 40 -> n+1
-       | key == 38 -> n-1
-       | otherwise -> n
+```haskell
+if | key == 40 -> n+1
+   | key == 38 -> n-1
+   | otherwise -> n
+```
 
 You can alse have conditional behavior based on the structure of algebraic
-data types.
+data types and literals
 
-    case exp of
-      Pattern1 -> exp1
-      Pattern2 -> exp2
-      _        -> exp3
+```haskell
+case maybe of
+  Just xs -> xs
+  Nothing -> []
 
-    case xs of
-      []   -> Nothing
-      x:xs -> Just x
+case xs of
+  hd::tl -> Just (hd,tl)
+  []     -> Nothing
+
+case n of
+  0 -> 1
+  1 -> 1
+  _ -> fib (n-1) + fib (n-2)
+```
 
 Each pattern is indentation sensitive, meaning that you have to align
-all of your patterns for this to parse right.
-
-If you think you can do a one liner, it might be useful to use the `{;;}`
-separators for your case statement.
-
-    case xs of { [] -> True ; _ -> False }
-
-This kind of case-expression is not indentation sensitive.
+all of your patterns.
 
 ### Algebraic Data Types
 
-    data List = Nil | Cons Int List
+```haskell
+data List = Nil | Cons Int List
+```
 
-Not sure what this means? [Read this.](/learn/Pattern-Matching.elm)
+Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
 
 ### Records
 
@@ -131,106 +170,122 @@ For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
 
   [exp]: /learn/Records.elm "Records in Elm"
-  [v7]:  /blog/announce/version-0.7.elm "Elm version 0.7"
+  [v7]:  /blog/announce/0.7.elm "Elm version 0.7"
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
-    point = { x = 3, y = 4 }       -- create a record
+```haskell
+point = { x = 3, y = 4 }       -- create a record
 
-    point.x                        -- access field
-    map .x [point,{x=0,y=0}]       -- field access function
+point.x                        -- access field
+map .x [point,{x=0,y=0}]       -- field access function
 
-    { point - x }                  -- remove field
-    { point | z = 12 }             -- add field
-    { point - x | z = point.x }    -- rename field
-    { point - x | x = 6 }          -- update field
+{ point - x }                  -- remove field
+{ point | z = 12 }             -- add field
+{ point - x | z = point.x }    -- rename field
+{ point - x | x = 6 }          -- update field
 
-    { point | x <- 6 }             -- nicer way to update a field
-    { point | x <- point.x + 1
-            , y <- point.x + 1 }   -- batch update fields
+{ point | x <- 6 }             -- nicer way to update a field
+{ point | x <- point.x + 1
+        , y <- point.x + 1 }   -- batch update fields
 
-    dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-    \\{x,y} -> (x,y)
+dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
+\{x,y} -> (x,y)
 
-    lib = { id x = x }             -- polymorphic fields
-    (lib.id 42 == 42)
-    (lib.id [] == [])
+lib = { id x = x }             -- polymorphic fields
+(lib.id 42 == 42)
+(lib.id [] == [])
 
-    data Located a = Located {line :: Int, column :: Int} a
+type Location = { line:Int, column:Int }
+```
 
 ### Functions
 
-    f x = exp
+```haskell
+square n = n^2
 
-You can pattern match in the declaration of any function.
+hypotenuse a b = sqrt (square a + square b)
 
-    hypotenuse a b = sqrt (a^2 + b^2)
+distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
+```
 
-You can also create custom infix operators. They have the highest precedence
-and are left associative. You cannot override built-in operators.
+Anonymous functions:
 
-    (a,b) +++ (x,y) = (a + x, b + y)
+```haskell
+square = \n -> n^2
+squares = map (\n -> n^2) [1..100]
+```
 
-In the case of recursion and mutual recursion, the order of the 
-function definitions does not matter, Elm figures it out.
-In all other cases, assume that definitions
-need to appear before their use.
+### Infix Operators
+
+You can create custom infix operators. The default
+[precedence](http://en.wikipedia.org/wiki/Order_of_operations)
+is 9 and the default
+[associativity](http://en.wikipedia.org/wiki/Operator_associativity)
+is left, but you can set your own.
+You cannot override [the built-in operators](http://docs.elm-lang.org/InfixOps.elm) though.
+
+```haskell
+f <| x = f x
+(<~) = lift
+
+infixr 0 <|
+infixl 4 <~
+```
 
 ### Let Expressions
 
-This lets you reuse code, avoid repeating
-computations, and improve code readability.
+```haskell
+let n = 42
+    (a,b) = (3,4)
+    {x,y} = { x=3, y=4 }
+    square n = n * n
+in  
+    square a + square b
+```
 
-    let c = hypotenuse 3 4 in
-      c*c
-
-    let c1 = hypotenuse 7 12
-        c2 = hypotenuse 3 4
-    in  hypotenuse c1 c2
-
-Let-expressions are also indentation sensitive, so each definition
-should align with the one above it.
+Let-expressions are indentation sensitive.
+Each definition should align with the one above it.
 
 ### Applying Functions
 
-If we deine some function called `append` that puts lists together
+```haskell
+-- alias for appending lists and two lists
+append xs ys = xs ++ ys
+xs = [1,2,3]
+ys = [4,5,6]
 
-    append xs ys = xs ++ ys
+-- All of the following expressions are equivalent:
+a1 = append xs ys
+a2 = (++) xs ys
 
-The following expressions are equivalent:
+b1 = xs `append` ys
+b2 = xs ++ ys
 
-    append [3] [4]
-    [3] `append` [4]
-    (append [3]) [4]
-
-In fact, infix operators can be used as functions, so the next few expressions are
-*also* equivalent:
-
-    (++) [3] [4]
-    [3] ++ [4]
-    ((++) [3]) [4]
+c1 = (append xs) ys
+c2 = ((++) xs) ys
+```
 
 The basic arithmetic infix operators all figure out what type they should have automatically.
 
-    23 + 19    -- Number
-    2.0 + 1    -- Float
+```haskell
+23 + 19    : number
+2.0 + 1    : Float
 
-    6 * 7      -- Number
-    10 * 4.2   -- Float
+6 * 7      : number
+10 * 4.2   : Float
 
-    1 `div` 2  -- Int
-    1 / 2      -- Float
+1 `div` 2  : Int
+1 / 2      : Float
+```
 
 There is a special function for creating tuples:
 
-    (,) 1 2              -- (1,2)
-    (,,,) 1 True 'a' []  -- (1,True,'a',[])
+```haskell
+(,) 1 2              == (1,2)
+(,,,) 1 True 'a' []  == (1,True,'a',[])
+```
 
 You can use as many commas as you want.
-
-You can also use anonymous functions:
-
-    func = (\\a b -> toFloat a / toFloat b)
-    xsMod7 = map (\\n -> n `mod` 7) [1..100]
 
 ### Lifting
 
@@ -243,8 +298,10 @@ You can also use the functions `(<~)` and `(~)` to lift signals. The squigly
 arrow is exactly the same as the lift function, so the following expressions
 are the same:
 
-    lift sqrt Mouse.x
-    sqrt <~ Mouse.x
+```haskell
+lift sqrt Mouse.x
+sqrt <~ Mouse.x
+```
 
 You can think of it as saying &ldquo;send this signal through this
 function.&rdquo;
@@ -254,69 +311,94 @@ values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
 together many signals, just like `lift2`, `lift3`, etc. So the following
 expressions are equivalent:
 
-    lift2 (,) Mouse.x Mouse.y
-    (,) <~ Mouse.x ~ Mouse.y
+```haskell
+lift2 (,) Mouse.x Mouse.y
+(,) <~ Mouse.x ~ Mouse.y
 
-    lift2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-    scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
+lift2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
+scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
+```
 
-More info can be found [here](/blog/announce/version-0.7.elm#do-you-even-lift)
-and [here](/docs/Signal/Signal.elm).
+More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
+and [here](/docs/Signal.elm).
 
 ### Modules
 
-    module MyModule where
+```haskell
+module MyModule where
 
-    import List
-    import List (intercalate, intersperse)
-    import List hiding (map,foldl,foldr)
-    import List as L
+import List
+import open List
+import List as L
+import List (map,foldl,foldr)
+```
+
+### Type Annotations
+
+```haskell
+answer : Int
+answer = 42
+
+factorial : Int -> Int
+factorial n = product [1..n]
+
+addName : String -> a -> { a | name:String }
+addName name record = { record | name = name }
+```
+
+### Type Aliases
+
+```haskell
+type Name = String
+type Age = Int
+
+info : (Name,Age)
+info = ("Steve", 28)
+
+type Point = { x:Float, y:Float }
+
+origin : Point
+origin = { x=0, y=0 }
+```
 
 ### JavaScript FFI
 
-    foreign import jsevent "eventName"
-        (expr)
-        signalName :: Signal jsType
+```haskell
+foreign import jsevent "eventName"
+    (expr)
+    signalName : Signal jsType
+```
 
 The `expr` can be any Elm expression. It is the initial value of the
 signal `signalName`. As events with name `eventName` occur, signal
 `signalName` will get updated. The type `jsType` must be a JavaScript
 type such as `JSNumber` or `JSString`.
 
-    foreign export jsevent "eventName"
-        signalName :: Signal jsType
+```haskell
+foreign export jsevent "eventName"
+   signalName : Signal jsType
+```
 
 The rules are the same for `export` except you do not need an initial value.
 
 Elm has four built-in event handlers that take a `JSString` and automatically
 take some imperative action:
 
-* `"elm_title"` which sets the page title, ignoring empty strings.
-* `"elm_log"` which logs messages in the developer console.
-* `"elm_redirect"` which redirects to a different page, ignoring empty strings.
-* `"elm_viewport"` which is necessary if you want mobile browsers to accurately
-  report their dimensions, allowing you to design a &ldquo;mobile
-  optimized&rdquo; program that looks great on any device. The given string
-  sets the `content` field of a meta tag like this:<br/>
-  `<meta name="viewport" content="width=device-width, initial-scale=1"\>`
+* `"title"` which sets the page title, ignoring empty strings.
+* `"log"` which logs messages in the developer console.
+* `"redirect"` which redirects to a different page, ignoring empty strings.
 
 ### Things *not* in Elm
 
 Elm currently does not support:
 
-- type annotations (high-priority to add)
-- setting the precedence or associativity of infix operators (also will be added)
-- operator sections such as `(1+)`
+- operator sections such as `(+1)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
 - `where` clauses
 - any sort of `do` or `proc` notation
-- a unary negation operator. Negative 3 is the same as `(0-3)`.
-- multi-line function declarations where the function being defined actually
-  appears multiple times as a definition. In Elm, that actually means to
-  define a value multiple times.
 
 |]
 
 content w = width (min 600 w) intro
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton content) Window.dimensions

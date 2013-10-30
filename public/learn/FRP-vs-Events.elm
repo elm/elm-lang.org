@@ -1,5 +1,6 @@
-import Website.Skeleton
-import Website.ColorScheme
+import Website.Skeleton (skeleton)
+import JavaScript as JS
+import Window
 
 
 ---- Text of the page: all written in Markdown ----
@@ -71,11 +72,11 @@ in the current implementation. Asynchrony is already there though!
 |]
 
 
-main = lift (skeleton (\w -> width w content)) Window.width
+main = lift (skeleton (\w -> width w content)) Window.dimensions
 
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JavaScript.castStringToJSString (constant "FRP vs Events")
-foreign export jsevent "elm_title"
-  titles :: Signal JSString
+titles = lift JS.fromString (constant "FRP vs Events")
+foreign export jsevent "title"
+  titles : Signal JS.JSString

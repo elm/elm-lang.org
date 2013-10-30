@@ -1,10 +1,44 @@
-import Website.Skeleton
-import HTTP
-import JSON
+import Website.Skeleton (skeleton')
+import Website.ColorScheme (lightGrey,mediumGrey)
+
+import JavaScript as JS
+import JavaScript.Experimental as JS
+import Window
+import Graphics.Input as Input
+import Http
+import Json
+import String
+import open Maybe
 
 intro = [markdown|
 
-<style type="text/css">p { text-align:justify; }</style>
+<style type="text/css">
+p { text-align:justify; }
+pre {
+ background-color: rgb(245,245,245);
+ margin: 0 30px;
+ padding: 4px 10px;
+ border-left: solid 2px rgb(96,181,204);
+}
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
 
 <h1><div style="text-align:center">Escape from Callback Hell
 <div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
@@ -14,12 +48,12 @@ intro = [markdown|
 
 quote1 = spacer 170 200 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;The unbridled use of the go to statement has an immediate consequence that it
 becomes terribly hard to find a meaningful set of coordinates in which to describe the process progress.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:right">[Edsger Dijkstra][goto]</div>
+<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
 
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
 
@@ -27,12 +61,12 @@ becomes terribly hard to find a meaningful set of coordinates in which to descri
 
 quote2 = spacer 170 40 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;For a number of years I have been familiar with the observation that the quality
 of programmers is a decreasing function of the density of go to statements in the programs they produce.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:right">[Edsger Dijkstra][goto]</div>
+<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
 
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
 
@@ -47,7 +81,7 @@ and run that too. Pretty soon you are jumping around the whole codebase.
 If you have worked with [AJAX][ajax] or [node.js][nodejs] or any other callback heavy
 framework, you have probably been to Callback Hell. Your whole application ends up
 being passed around as callbacks, making the code extremely difficult to read and
-maintain. The resulting tangled mess of code is often pejoritively called
+maintain. The resulting tangled mess of code is often pejoratively called
 [spaghetti code][spaghetti], a term borrowed from the days of `goto`.
 
   [ajax]: http://en.wikipedia.org/wiki/Ajax_(programming) "AJAX"
@@ -96,8 +130,6 @@ In short:
 [goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
 </div>
 
-<br/>
-
   [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
   [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
   [frp]: /learn/What-is-FRP.elm "FRP"
@@ -123,20 +155,19 @@ entirely free of callbacks.
 
 |]
 
-
 funcs = spacer 170 300 `above` width 170 [markdown|
 
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 **Function Specifications**
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `requestTag` which turns a tag &ndash; such as `"badger"` &ndash; into
 a valid Flickr API request. These requests will return a JSON object
 containing a list of `"badger"` photos.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `requestOneFrom` takes a JSON object of photos and turns it into a request
 for just *one* photo. This request will return a JSON object of size options.
 Flickr is basically asking, &ldquo;Do you want low resolution? Original quality?
@@ -144,13 +175,13 @@ Flickr is basically asking, &ldquo;Do you want low resolution? Original quality?
 occured with the previous request.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `sizesToPhoto` turns a JSON object of sizes options into an actual image that
 we can use. Again, this function handles any errors that might have occured with
 the previous request.
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.6em;text-align:left">
+<div style="color:#666;font-size:0.8em;text-align:left">
 `drawOnScreen` puts the image on screen for the user to see. You do not need to
 mess around with the DOM in [Elm](/), so this function only gets used in the JS code.
 </div>
@@ -180,13 +211,15 @@ and asynchronously with FRP.
 First let's do this with synchronous HTTP requests. We will rely on a couple of
 functions specified to the right. Here is our code:
 
-        function getPhoto(tag) {
-            var photoList  = syncGet(requestTag(tag));
-            var photoSizes = syncGet(requestOneFrom(photoList));
-            return sizesToPhoto(photoSizes);
-        }
+```javascript
+function getPhoto(tag) {
+    var photoList  = syncGet(requestTag(tag));
+    var photoSizes = syncGet(requestOneFrom(photoList));
+    return sizesToPhoto(photoSizes);
+}
 
-        drawOnScreen(getPhoto('tokyo'));
+drawOnScreen(getPhoto('tokyo'));
+```
 
 It's pretty clear what is going on here. The `syncGet` function takes a request and blocks
 until it receives a response. The logic of the program is simple and linear. If you wanted
@@ -205,15 +238,17 @@ acceptable user experience.
 The current solution is to instead make asynchronous HTTP requests (AJAX requests) that use
 callbacks that give finer-grained control over time-dependencies.
 
-        function getPhoto(tag, handlerCallback) {
-            asyncGet(requestTag(tag), function(photoList) {
-                asyncGet(requestOneFrom(photoList), function(photoSizes) {
-                    handlerCallback(sizesToPhoto(photoSizes));
-                });
-            });
-        }
+```javascript
+function getPhoto(tag, handlerCallback) {
+    asyncGet(requestTag(tag), function(photoList) {
+        asyncGet(requestOneFrom(photoList), function(photoSizes) {
+            handlerCallback(sizesToPhoto(photoSizes));
+        });
+    });
+}
     
-        getPhoto('tokyo', drawOnScreen);
+getPhoto('tokyo', drawOnScreen);
+```
 
 The `asyncGet` function takes a request and a callback to run once a response is received.
 We can now say, &ldquo;These computations must happen one after another, but other things
@@ -245,11 +280,13 @@ all interactive time-varying content. For example, the value of a text input fie
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
-        (inputField, tags) = Input.textField "Tag"
+```haskell
+(tagField, tags) = Input.field "Tag"
+```
 
-This creates two values. The first is a visual element called `inputField` that users can type into.
-This is a normal text box. The second is a signal called `tags`. The value of `tags` changes automatically
-as the user types into `inputField`. Here are the `inputField` and the `tags` signal in action. Try typing
+We created two values. The first is a signal of visual elements called `tagField`. This is a normal
+text box. The second is a signal called `tags`. The value of `tags` changes automatically
+as the user types and highlights in the input field. Here they are in action. Try typing
 into the input box to see `tags` update automatically.
 
 |]
@@ -283,10 +320,12 @@ framework of signals. The response is just another signal, exactly the same as `
 We can turn its values into requests and send them too. In fact, that's exactly what we
 are going to do. Here is the full Elm code for making many requests to the Flickr API:
 
-        getPhotos tags =
-            let photoList  = send (lift requestTag tags) in
-            let photoSizes = send (lift requestOneFrom photoList) in
-                lift sizesToPhoto photoSizes
+```haskell
+getPhotos tags =
+    let photoList  = send (lift requestTag tags)
+        photoSizes = send (lift requestOneFrom photoList)
+    in  lift sizesToPhoto photoSizes
+```
 
 We have effectively set up a processing pipeline of how to handle user input:
 we take in a tag, turn it into a request, send it, turn the response into a
@@ -310,10 +349,12 @@ from start to finish.
 
 In fact, here is an abbreviated version that fits in this blog post:
 
-        scene img = flow down [ container 300  60 middle inputField
-                              , fittedImage 300 300 img ]
+```haskell
+scene img = flow down [ container 300  60 middle inputField
+                      , fittedImage 300 300 img ]
 
-        main = lift scene (getPhotos (dropRepeats tags))
+main = lift scene (getPhotos (dropRepeats tags))
+```
 
 In `scene` we stack two elements vertically so that they flow downward.
 The first one is a 300 by 60 container with our `inputField` text field right in
@@ -326,50 +367,64 @@ of HTTP requests we make. The result looks like this:
 
 |]
 
-(tagInput',tags') = Input.textField "Flickr Search"
+(tagInput, flickrTags) = Input.field "Flickr Search"
 
-getPhotos tags =
-  let photoList  = send (lift requestTag tags) in
-  let photoSizes = send (lift requestOneFrom photoList) in
-      lift sizesToPhoto photoSizes
+getSources : Signal String -> Signal (Maybe String)
+getSources tag = let photos = Http.send (getTag <~ tag)
+                     sizes  = Http.send (getOneFrom <~ photos)
+                 in  sizesToSource <~ sizes
 
-scene img = flow down [ container 300  60 middle tagInput'
-                      , fittedImage 300 300 img ]
+scene : Element -> Maybe String -> Element
+scene tagInput imgSrc =
+    let img = case imgSrc of
+                Just src -> fittedImage 300 300 src
+                Nothing  -> color white (spacer 298 298)
+    in  flow down [ container 300 60 middle tagInput,
+                    color mediumGrey <| container 300 300 middle img ]
 
-flickrSearch = lift scene (getPhotos (dropRepeats tags'))
+
+searchBox = scene <~ tagInput ~ getSources (dropRepeats flickrTags)
 
 
-flickrRequest =
+{---------------------  Helper Functions  ---------------------}
+
+-- The standard parts of a Flickr API request.
+flickrRequest args =
   "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858"
+  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
 
-extract response =
-  case response of
-  { Success str -> JSON.fromString str
-  ; _ -> empty }
+-- Turn a tag into an HTTP GET request.
+getTag : String -> Http.Request String
+getTag tag =
+    let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
+    in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
-requestTag tag =
-  if tag == "" then get "" else
-  get (concat [ flickrRequest
-              , "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ])
+toJson response =
+    case response of
+      Http.Success str -> Json.fromString str
+      _ -> Nothing
 
-requestOneFrom photoList =
-  let getPhotoID json =
-        case findArray "photo" (findObject "photos" json) of
-        { (JsonObject hd) : tl -> findString "id" hd ; _ -> "" }
-      requestSizes id = if id == "" then "" else
-                        concat [ flickrRequest
-                               , "&method=flickr.photos.getSizes&photo_id=", id ]
-  in  get (requestSizes (getPhotoID (extract photoList)))
-
-sizesToPhoto sizeOptions =
-  let getImg sizes =
-          case sizes of
-          { _ : _ : _ : _ : _ : (JsonObject obj) : _ -> findString "source" obj
-          ; (JsonObject obj) : _ -> findString "source" obj
-          ; _ -> "/grey.jpg" }
-  in  getImg (findArray "size" (findObject "sizes" (extract sizeOptions)))
-
+-- Take a list of photos and choose one, resulting in a request.
+getOneFrom photoList =
+    case toJson photoList of
+      Nothing -> Http.get ""
+      Just json ->
+          let photoRecord = JS.toRecord <| Json.toJSObject json
+          in  case photoRecord.photos.photo of
+                h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
+                []   -> Http.get ""
+                        
+-- Take some size options and choose one, resulting in a URL.
+sizesToSource sizeOptions =
+    case toJson sizeOptions of
+      Nothing   -> Nothing
+      Just json ->
+          let sizesRecord = JS.toRecord <| Json.toJSObject json
+              sizes = sizesRecord.sizes.size
+          in  case reverse sizes of
+                _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
+                size :: _ -> Just size.source
+                _ -> Nothing
 
 outro = [markdown|
 
@@ -422,56 +477,63 @@ if you do not have any experience reading academic papers. You can also email
 
 |]
 
-(inputField, tags) = Input.textField "Tag"
+(inputField, tags) = Input.field "Tag"
 
-code = text . monospace . toText
-box w e = container w 30 middle e
+code = centered . monospace . toText
+box w e = container w 40 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
-dropTil s = case s of { h:t -> if h == '[' then t else dropTil t ; _ -> s }
-format r = map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
-showResponse r = code (case r of { Success r -> "Success \"... " ++ format r ++ " ...\""
-                                 ; Waiting -> "Waiting"
-                                 ; Failure n _ -> "Failure " ++ show n ++ " \"...\"" })
+dropTil str =
+    case String.uncons str of
+      Just (hd,tl) -> if hd == '[' then tl else dropTil tl
+      _ -> str
+take n str =
+    if n < 1 then str else
+    case String.uncons str of
+      Just (hd,tl) -> String.cons hd (take (n-1) tl)
+      Nothing -> ""
 
-content w tags response search =
-  let sideBySide big small = flow right [ width w big, spacer 30 100, small ] in
-  let codePair l r = pairing w (code l) (asText r) in
-  let asyncElm = flow down . map (width w) $
+format r = String.map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
+showResponse response =
+  code <| case response of
+            Http.Success r -> "Success \"... " ++ format r ++ " ...\""
+            Http.Waiting -> "Waiting"
+            Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
+
+content inputField tags response search wid =
+  let w = wid - 200
+      sideBySide big small = flow right [ width w big, spacer 30 100, small ]
+      (iw,ih) = sizeOf inputField
+      input = color mediumGrey <| container (iw+2) (ih+2) middle
+                               <| color white inputField
+      asyncElm = flow down . map (width w) <|
                  [ asyncElm1
-                 , pairing w inputField (asText tags)
+                 , pairing w input (asText tags)
                  , asyncElm2
-                 , codePair "lift length tags" (length tags)
-                 , codePair "lift reverse tags" (reverse tags)
-                 , codePair "lift requestTag tags" (requestTagSimple tags)
+                 , pairing w (code "lift length tags") (asText <| String.length tags)
+                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
+                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
                  , asyncElm3
                  , pairing w (code "send (lift requestTag tags)") (showResponse response)
-                 , asyncElm4 ] in
-  flow down
-    [ width w intro
-    , sideBySide midtro1 quote1
-    , sideBySide midtro2 quote2
-    , sideBySide midtro3 funcs
-    , asyncElm
-    , container w (heightOf search) middle search
-    , width w outro ]
+                 , asyncElm4 ]
+  in flow down
+      [ width w intro
+      , sideBySide midtro1 quote1
+      , sideBySide midtro2 quote2
+      , sideBySide midtro3 funcs
+      , asyncElm
+      , container w (heightOf search) middle search
+      , width w outro
+      ]
 
-defaultContent = content 600
+everything = content <~ inputField
+                      ~ tags
+                      ~ Http.send (getTag <~ tags)
+                      ~ searchBox
 
-blog tags response search w' = 
-    let w = w' - 200 in
-    let c = if w' == 800 then defaultContent tags response search else content w tags response search in
-      container w' (heightOf c) middle c
+main = lift2 (\e (w,h) -> skeleton' 800 e (w,h)) everything Window.dimensions
 
-requestTag' tag =
-  if tag == "" then "" else
-  concat [ flickrRequest, "&method=flickr.photos.search&sort=random&per_page=10&tags=", tag ]
-  
-everything = lift3 blog tags (HTTP.sendGet (lift requestTag' tags)) flickrSearch
-
-main = lift2 skeleton everything Window.width
-
-titles = constant (JavaScript.castStringToJSString "Escape from Callback Hell")
-foreign export jsevent "elm_title"
-  titles :: Signal JSString
+titles = constant (JS.fromString "Escape from Callback Hell")
+foreign export jsevent "title"
+  titles : Signal JS.JSString

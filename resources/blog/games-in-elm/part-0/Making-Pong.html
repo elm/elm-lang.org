@@ -35,13 +35,13 @@ code > span.er { font-weight: bold; }
 <body>
 <div style="width:600px;margin:0 auto;">
 <p style="text-align:right"><a href="/">Home</a></p>
-<h1 id="making-games-in-elm-part-0-pong">Making Games in Elm, Part 0: Pong</h1>
-<p>This series has two major goals:</p>
+<h1 id="making-games-in-elm-part-0-pong">Making Pong</h1>
+<p>This posthas two major goals:</p>
 <ol style="list-style-type: decimal">
 <li>Get you thinking about <a href="/learn/What-is-FRP.elm" title="Functional Reactive Programming">Functional Reactive Programming</a> (FRP) for games.</li>
 <li>Teach you how to make games with Elm.</li>
 </ol>
-<p>In this post we will be looking into <a href="/blog/games-in-elm/part-0/Pong.html">Pong in Elm</a>: a functional game written in Elm, playable in any modern browser.</p>
+<p>In this post we will be looking into <a href="/edit/examples/Intermediate/Pong.elm">Pong in Elm</a>: a functional game written in Elm, playable in any modern browser.</p>
 <h2 id="functional-game-design">Functional Game Design</h2>
 <p>Making games is historically a very imperative undertaking, so it has long missed the benefits of purely functional programming. FRP makes it possible to program rich user interactions without resorting to traditional imperative idioms.</p>
 <p>By the end of this post we will have written an entire GUI/game without any imperative code. No global mutable state, no flipping pixels, no destructive updates. In fact, Elm disallows all of these things at the language level. So good design and safe coding practices are a requirement, not just self-inforced suggestions.</p>
@@ -182,7 +182,7 @@ within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <s
 <p>We can now define a view of the game (a signal of Elements) that changes as the GameState changes. This is what the users will see.</p>
 <p>And finally, we display the view of the game to the user!</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">main <span class="fu">=</span> lift2 display Window.dimensions gameState</code></pre>
-<p>And that is it! <a href="http://elm-lang.org/misc/Pong.html">Pong in Elm</a>!</p>
+<p>And that is it! <a href="http://elm-lang.org/blog/games-in-elm/part-0/Pong.html">Pong in Elm</a>!</p>
 <h1 id="post-script">Post Script</h1>
 <h2 id="learn-by-doing-programming-challenges">Learn by Doing: Programming Challenges</h2>
 <p>If you want to learn more about making games in Elm, try tackling some of these challenges:</p>
