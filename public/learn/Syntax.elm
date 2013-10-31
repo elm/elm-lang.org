@@ -232,6 +232,17 @@ infixr 0 <|
 infixl 4 <~
 ```
 
+The <| and |> operators are a way to reduce parentheses usage. See
+the [documentation](http://docs.elm-lang.org/library/Basics.elm) for examples.
+
+```haskell
+f <| g x = f (g x)
+
+f x |> g = g (f x)
+```
+
+Hint: The carat points in the direction of the application.
+
 ### Let Expressions
 
 ```haskell
@@ -239,7 +250,7 @@ let n = 42
     (a,b) = (3,4)
     {x,y} = { x=3, y=4 }
     square n = n * n
-in  
+in
     square a + square b
 ```
 
