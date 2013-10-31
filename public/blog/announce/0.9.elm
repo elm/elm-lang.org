@@ -153,11 +153,11 @@ Languages. It is one of the best resources I have found.
 You can now pattern match on literals like numbers, strings, and booleans.
 
 ```haskell
-stripCommas str =
-  case str of
-    []          -> str
-    ',' :: rest -> stripCommas rest
-    c   :: rest ->  c  :: stripCommas rest
+removeZeros numbers =
+  case numbers of
+    []        -> numbers
+    0 :: rest -> removeZeros rest
+    n :: rest -> n :: removeZeros rest
 
 isOrigin pos =
   case pos of
