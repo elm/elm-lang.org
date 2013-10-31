@@ -18,18 +18,17 @@ learning materials for every level of programmer:
 
  * *New to programming* &mdash; focus on the [beginner classes](#beginner-classes)
 
- * *New to functional programming* &mdash; read the 
-   [mini tutorials](#mini-tutorials) tutorials,
-   browse the [syntax reference](/learn/Syntax.elm), and see
-   [these examples](/Examples.elm#compute)
+ * *New to functional programming* &mdash; check out the
+   [mini tutorials](#mini-tutorials), [syntax reference](/learn/Syntax.elm),
+   and [these examples](/Examples.elm#compute)
 
  * *New to FRP* &mdash; read [this intro](/learn/What-is-FRP.elm),
    see [these examples](/Examples.elm#react),
    watch [this video](http://www.ustream.tv/recorded/29330499),
    and read [this paper](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
 
- * *Using Elm* &mdash; see the [intermediate and large examples](/Examples.elm),
-   resources on [making stuff](#making-stuff), [formal semantics](#publications),
+ * *Using Elm* &mdash; see the [intermediate and large examples](/Examples.elm)
+   and resources on [making stuff](#making-stuff), [formal semantics](#publications),
    [release notes](/Install.elm#release-notes),
    and [blog posts](#articles-blog)
 
