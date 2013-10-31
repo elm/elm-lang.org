@@ -55,7 +55,7 @@ for building on top of or retrofitting for your purposes.
  * [Tetris](https://github.com/jcollard/elmtris) &ndash;
    by Joe Collard
 
- * [Breakout](https://github.com/jcollard/elmtris) &ndash;
+ * [Breakout](https://github.com/Dobiasd/Breakout) &ndash;
    by Tobias Hermann
 
  * [Celestia](https://github.com/johnpmayer/celestia) &ndash;
