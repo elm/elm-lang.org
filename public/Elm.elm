@@ -11,12 +11,11 @@ moreInfo = [markdown|
 Elm also brings the benefits of purity and an expressive static type system
 to GUI programming. Elm is fully type inferred, so no type annotations are
 needed to get the benefits of static checks.
-|]
 
-emailList = [markdown|
-Join the [elm-discuss list][list] for questions, announcements, and discussion!
-
-  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
+See the [examples](/Examples.elm) and [learning resources](/Learn.elm)
+to learn more. Join the
+[elm-discuss list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
+for questions, announcements, and discussion. Press a huge button to get started!
 |]
 
 other w = width (w `div` 2) [markdown|
@@ -35,8 +34,8 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
-* First ever [Elm Workshop](/blog/announce/Workshop-2013.elm) on Nov 9 in Budapest
-* [Elm 0.10](/blog/announce/0.10.elm)
+* First ever [Elm Workshop](/blog/announce/Workshop-2013.elm)
+* [Elm 0.10 released](/blog/announce/0.10.elm)
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
 * Elm at [StrangeLoop 2013](https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm)
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
@@ -69,7 +68,7 @@ info w = let content = flow down [ spacer w 20
                                  , spacer w 10
                                  , width w moreInfo
                                  , installButtons w
-                                 , width w emailList
+                                 , spacer w 30
                                  , other w ]
          in  container w (heightOf content) middle content 
 
