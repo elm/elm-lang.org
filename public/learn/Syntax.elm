@@ -217,6 +217,22 @@ squares = map (\n -> n^2) [1..100]
 
 ### Infix Operators
 
+Use [`(<|)`](http://docs.elm-lang.org/library/Basics.elm#<|)
+and [`(|>)`](http://docs.elm-lang.org/library/Basics.elm#|>)
+to reduce parentheses usage. Historical note: borrowed from F#,
+inspired by Unix pipes.
+
+
+```haskell
+f <| x = f x
+x |> f = f x
+
+dot  = scale 2 (move (20,20) (filled blue (circle 10)))
+dot' = circle 10 |> filled blue
+                 |> move (20,20)
+                 |> scale 2
+```
+
 You can create custom infix operators. The default
 [precedence](http://en.wikipedia.org/wiki/Order_of_operations)
 is 9 and the default
@@ -231,17 +247,6 @@ f <| x = f x
 infixr 0 <|
 infixl 4 <~
 ```
-
-The <| and |> operators are a way to reduce parentheses usage. See
-the [documentation](http://docs.elm-lang.org/library/Basics.elm) for examples.
-
-```haskell
-f <| g x = f (g x)
-
-f x |> g = g (f x)
-```
-
-Hint: The carat points in the direction of the application.
 
 ### Let Expressions
 
