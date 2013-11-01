@@ -19,7 +19,7 @@ getErrors first last email remail =
 
 url : String -> String -> String -> String
 url first last email = 
-    "http://elm-lang.org/login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
+    "/login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
 
 -- Signals
 (firstBox , first)  = field "First Name"
