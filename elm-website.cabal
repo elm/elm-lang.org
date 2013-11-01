@@ -1,5 +1,5 @@
 name:                elm-website
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            elm-lang.org web site
 description:         Server and content for the Elm Language web site.
 homepage:            http://elm-lang.org/

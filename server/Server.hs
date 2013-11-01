@@ -49,7 +49,8 @@ main = do
           (serveDirectory' EnableBrowsing [] mime "public/build")
 
 route :: ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
-route empty rest =
+route empty rest = do
+  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   msum [ nullDir >> empty
        , serveDirectory DisableBrowsing [] "resources"
        , dir "try" (ok $ toResponse emptyIDE)
@@ -66,7 +67,6 @@ route empty rest =
 -- | Compile an Elm program that has been POST'd to the server.
 compilePart :: ToMessage a => (String -> a) -> ServerPart Response
 compilePart compile = do
-  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   r <- getDataFn (look "input" `checkRq` checkLength)
   case r of
     Left e -> badRequest $ toResponse $ unlines e
