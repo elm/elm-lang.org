@@ -83,7 +83,7 @@ intermediates =
     , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
     , [ "Plot", "Clock", "Stamps", "Slide" ]
     , [ "Complements", "Tracer", "PascalsTriangle", "FibonacciTiles" ]
-    , [ "Web", "Circles" ]
+    , [ "Web", "Circles", "Form" ]
     ]
 
 addFolder folder lst =
