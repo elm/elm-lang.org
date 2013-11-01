@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module Main where
 
-import Prelude hiding (head, span, id)
+import Prelude hiding (head, span, id, catch)
 import qualified Data.List as List
 import Control.Monad
 import Happstack.Server hiding (body,port)
