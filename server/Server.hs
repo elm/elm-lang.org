@@ -1,8 +1,7 @@
 {-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module Main where
 
-import Prelude hiding (head, span, id, catch)
-import qualified Data.Char as Char
+import Prelude hiding (head, span, id)
 import qualified Data.List as List
 import Control.Monad
 import Happstack.Server hiding (body,port)
@@ -10,7 +9,7 @@ import Happstack.Server.Compression
 import Happstack.Server.FileServe.BuildingBlocks (serveDirectory')
 import qualified Happstack.Server as Happs
 
-import Text.Blaze.Html (Html, toHtml)
+import Text.Blaze.Html (Html)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import Control.Monad.Trans (MonadIO(liftIO))
 import Control.Exception
@@ -29,6 +28,7 @@ data Flags = Flags
   { port :: Int
   } deriving (Data,Typeable,Show,Eq)
 
+flags :: Flags
 flags = Flags
   { port = 8000 &= help "set the port of the server"
   }
@@ -37,22 +37,22 @@ flags = Flags
 main :: IO ()
 main = do
   setNumCapabilities =<< getNumProcessors
-  args <- cmdArgs flags
+  cargs <- cmdArgs flags
   putStrLn "Initializing Server"
   precompile
   getRuntimeAndDocs
-  putStrLn $ "Serving at localhost:" ++ show (port args)
-  simpleHTTP nullConf { Happs.port = port args } $ do
+  putStrLn $ "Serving at localhost:" ++ show (port cargs)
+  simpleHTTP nullConf { Happs.port = port cargs } $ do
     compressedResponseFilter
     let mime = asContentType "text/html; charset=UTF-8"
     route (serveFile mime "public/build/Elm.elm")
           (serveDirectory' EnableBrowsing [] mime "public/build")
 
 route :: ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
-route empty rest = do
+route empty rest =
   msum [ nullDir >> empty
        , serveDirectory DisableBrowsing [] "resources"
-       , dir "try" (ok $ toResponse $ emptyIDE)
+       , dir "try" (ok $ toResponse emptyIDE)
        , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
        , dir "hotswap" $ compilePart elmToJS
        , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?0.10"
@@ -64,10 +64,14 @@ route empty rest = do
        ]
 
 -- | Compile an Elm program that has been POST'd to the server.
+compilePart :: ToMessage a => (String -> a) -> ServerPart Response
 compilePart compile = do
-  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
-  code <- look "input"
-  ok $ toResponse $ compile code
+  r <- getDataFn (look "input" `checkRq` checkLength)
+  case r of
+    Left e -> badRequest $ toResponse $ unlines e
+    Right e -> ok $ toResponse e
+  where checkLength i | length i > 2000 = Right $ compile i
+                      | otherwise = Left "The server will not compile Elm programs that are longer than 2000 characters."
 
 open :: String -> ServerPart (Maybe String)
 open fp =
@@ -95,6 +99,7 @@ withFile handler fp = do
     Just content -> ok . toResponse $ handler fp content
     Nothing -> return404
 
+return404 :: ServerPartT IO Response
 return404 =
   notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/Error404.elm"
 
@@ -102,10 +107,10 @@ return404 =
 sayHi :: ServerPart Response
 sayHi = do
   first <- look "first"
-  last  <- look "last"
+  last'  <- look "last"
   email <- look "email"
   ok . toResponse $
-     concat [ "Hello, ", first, " ", last
+     concat [ "Hello, ", first, " ", last'
             , "! Welcome to the fake login-confirmation page.\n\n"
             , "We will not attempt to contact you at ", email
             , ".\nIn fact, your (fake?) email has not even been recorded." ]
@@ -115,22 +120,20 @@ precompile :: IO ()
 precompile =
   do setCurrentDirectory "public"
      files <- getFiles True ".elm" "."
-     forM_ files $ \file -> do
-       rawSystem "elm" ["--make","--runtime=/elm-runtime.js?v0.10",file]
+     forM_ files $ \file -> rawSystem "elm" ["--make","--runtime=/elm-runtime.js?v0.10",file]
      htmls <- getFiles False ".html" "build"
      mapM_ adjustHtmlFile htmls
      setCurrentDirectory ".."
   where
     getFiles :: Bool -> String -> FilePath -> IO [FilePath]
-    getFiles skip ext dir = do
-        case skip && "build" `elem` map dropTrailingPathSeparator (splitPath dir) of
-          True -> return []
-          False -> do
-            contents <- map (dir </>) `fmap` getDirectoryContents dir
-            let files = filter ((ext==) . takeExtension) contents
-                dirs  = filter (not . hasExtension) contents
-            filess <- mapM (getFiles skip ext) dirs
-            return (files ++ concat filess)
+    getFiles skip ext directory = 
+        if skip && "build" `elem` map dropTrailingPathSeparator (splitPath directory)
+          then return [] else
+          (do contents <- map (directory </>) `fmap` getDirectoryContents directory
+              let files = filter ((ext==) . takeExtension) contents
+                  directories  = filter (not . hasExtension) contents
+              filess <- mapM (getFiles skip ext) directories
+              return (files ++ concat filess))
 
 getRuntimeAndDocs :: IO ()
 getRuntimeAndDocs = do
