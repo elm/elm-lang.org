@@ -65,14 +65,13 @@ route empty rest = do
        ]
 
 -- | Compile an Elm program that has been POST'd to the server.
-compilePart :: ToMessage a => (String -> a) -> ServerPart Response
+--compilePart :: ToMessage a => (String -> a) -> ServerPart Response
 compilePart compile = do
-  r <- getDataFn (look "input" `checkRq` checkLength)
-  case r of
-    Left e -> badRequest $ toResponse $ unlines e
-    Right e -> ok $ toResponse e
-  where checkLength i | length i > 8000 = Right $ compile i
-                      | otherwise = Left "The server will not compile Elm programs that are too long."
+  decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
+  code <- look "input"
+  if length code > 8000
+    then badRequest $ toResponse ("The server will not compile Elm programs that are too long." :: String)
+    else ok $ toResponse $ compile code
 
 open :: String -> ServerPart (Maybe String)
 open fp =
