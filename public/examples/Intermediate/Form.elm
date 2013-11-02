@@ -3,17 +3,13 @@ module Form where
 import Graphics.Input as Input
 import Http
 
--- Helpers
-isEmptyS : String -> Bool
-isEmptyS x = x == ""
-
 getErrors : String -> String -> String -> String -> [String]
 getErrors first last email remail =
   justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-  [ (isEmptyS first  , "First name required.")
-  , (isEmptyS last   , "Last name required.")
-  , (isEmptyS email  , "Must enter your email address.")
-  , (isEmptyS remail , "Must re-enter your email address.")
+  [ (isEmpty first  , "First name required.")
+  , (isEmpty last   , "Last name required.")
+  , (isEmpty email  , "Must enter your email address.")
+  , (isEmpty remail , "Must re-enter your email address.")
   , (email /= remail, "Email addresses do not match.")
   ]
 
@@ -70,11 +66,9 @@ prettyPrint res = case res of
   Http.Failure _ _ -> plainText ""
   Http.Success a -> plainText a
 
-
 inputForm =entry <~ firstBox ~ lastBox ~ emailBox ~ remailBox ~ errors 
 inputBox = lift (container 360 360 topLeft) <| inputForm
 loginResponse = lift prettyPrint <| getLogin sendRequest
 
 main : Signal Element
 main = above <~ inputBox ~ loginResponse
-
