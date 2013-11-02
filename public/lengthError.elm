@@ -16,7 +16,7 @@ msg = [markdown|
 <style type="text/css">p { text-align:justify; }</style>
 
 # 404: Poetry Edition
-# Code is too long to online editor
+# Code is too long for online editor
 
 Time and time again<br/>
 I'm told my poems are<br/>
