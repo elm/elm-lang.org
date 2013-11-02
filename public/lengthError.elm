@@ -16,14 +16,14 @@ msg = [markdown|
 <style type="text/css">p { text-align:justify; }</style>
 
 # 404: Poetry Edition
+# Code is too long to online editor
 
-I shall be telling this with a sigh<br/>
-Somewhere ages and ages hence:<br/>
-Two roads diverged in a wood, and I&mdash;<br/>
-I took the one less traveled by,<br/>
-And that has made all the difference.
+Time and time again<br/>
+I'm told my poems are<br/>
+Too lengthy to read<br/>
+Too hard to understand
 
-<p style="text-align:right;font-style:italic;">Robert Frost</p>
+<p style="text-align:right;font-style:italic;">Kristiana Owens</p>
 |]
 
 scene (w,h) = container w h middle (box <| width 300 msg)
