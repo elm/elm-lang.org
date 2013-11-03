@@ -62,7 +62,7 @@ Designed for [functional reactive programming][frp], Elm makes it easy to create
 |]
 
 info w = let content = flow down [ spacer w 20
-                                 , bigLogo
+                                 , link "/" bigLogo
                                  , width w language
                                  , exampleBlock w
                                  , spacer w 10
