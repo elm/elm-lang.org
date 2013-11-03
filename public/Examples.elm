@@ -64,16 +64,13 @@ for building on top of or retrofitting for your purposes.
 #### Websites
 
  * [TodoFRP](https://github.com/evancz/TodoFRP) &ndash;
-   A [TodoMVC](http://todomvc.com/)-style todo list.
-   It is not feature-complete yet, but it is still a very
-   good resource if you want to create &ldquo;traditional webapps&rdquo;.
+   a [TodoMVC](http://todomvc.com/)-style todo list
 
  * [elm-lang.org](https://github.com/evancz/elm-lang.org) &ndash;
-   Use it as the basis of your own website or run it locally to
-   turn the [online editor](/try) into an *offline* editor.
+   written mostly in Elm, good template for your own site
 
  * [docs.elm-lang.org](https://github.com/evancz/docs.elm-lang.org) &ndash;
-   Another good basis for a website. See the [instant search feature](http://docs.elm-lang.org/).
+   written entirely in Elm. Check out [instant search](http://docs.elm-lang.org/)
    
 |]
 
