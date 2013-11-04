@@ -19,7 +19,7 @@ extra-tmp-files:       public/build
 executable run-elm-website
   main-is:             Server.hs
   other-extensions:    OverloadedStrings
-  ghc-options:         -threaded -O2 -rtsopts "-with-rtsopts=-N -I0"
+  ghc-options:         -threaded -O2 -rtsopts "-with-rtsopts=-N -I4"
   build-depends:       aeson
                      , base
                      , blaze-html
