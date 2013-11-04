@@ -50,7 +50,7 @@ data Color = Blue | Red
 ```
 
 So we have defined the type "Color" and it has two possible values: "Blue"
-and "Red". These values are called type constructors because the allow you
+and "Red". These values are called type constructors because they allow you
 to construct a value of type `Color`.
 
 Now we need a way to interact with these values. The operators we already know
