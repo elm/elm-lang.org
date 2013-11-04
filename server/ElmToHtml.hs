@@ -6,7 +6,6 @@ import Text.Blaze (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Network.HTTP.Base (urlEncode)
 
 import qualified Language.Elm as Elm
 import Utils
@@ -26,8 +25,8 @@ elmToHtml name src =
           \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
       H.body $ do
         let js = H.script ! A.type_ "text/javascript"
-            name = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
-            runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ name ++ ")"
+            elmname = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
+            runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ elmname ++ ")"
         js ! A.src (H.toValue ("/elm-runtime.js" :: String)) $ ""
         case Elm.compile src of
           Right jsSrc -> do
@@ -38,6 +37,7 @@ elmToHtml name src =
               mapM_ (\line -> preEscapedToMarkup (addSpaces line) >> H.br) (lines err)
         googleAnalytics
 
+addSpaces :: String -> String
 addSpaces str =
   case str of
     ' ' : ' ' : rest -> " &nbsp;" ++ addSpaces rest
