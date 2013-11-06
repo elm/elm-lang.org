@@ -35,7 +35,7 @@ step (time,arrows,run) hero =
 
 -- HERO
 delta = lift (\t -> t / 20) (fps 25)
-input = sampleOn delta (lift3 (,,) delta Keyboard.arrows Keyboard.ctrl)
+input = sampleOn delta (lift3 (,,) delta Keyboard.arrows Keyboard.shift)
 
 main  = lift2 display Window.dimensions (foldp step hero input)
 
@@ -47,6 +47,6 @@ display (w,h) {x,y,vx,vy,dir} =
     , let verb = if vx == 0 && vy == 0 then "stand" else "walk"
           src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
       in  move (x,y) (toForm (image 22 28 src))
-    , toForm [markdown|Arrows to move<br/>Ctrl to run|]
+    , toForm [markdown|Arrows to move<br/>Shift to run|]
         |> move (70-areaW/2, 30-areaH/2)
     ]

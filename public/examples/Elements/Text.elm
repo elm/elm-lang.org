@@ -1,7 +1,6 @@
 
 stylePairs =
-    [ (header          , "Header")
-    , (bold            , "Bold")
+    [ (bold            , "Bold")
     , (italic          , "Italicize")
     , (underline       , "Underline")
     , (Text.link "/"   , "Link")

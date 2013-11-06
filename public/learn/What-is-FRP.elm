@@ -1,4 +1,4 @@
-import Website.Skeleton (skeleton)
+import Website.Skeleton (skeleton')
 import open Website.ColorScheme
 
 import JavaScript as JS
@@ -181,7 +181,7 @@ moreOnFRP exs w =
 
 display exs1 exs2 w = flow down [ whatIsFRP exs1 w, moreOnFRP exs2 w, width w why ]
 
-main = lift2 skeleton (lift2 display (box examples1) (box examples2)) Window.width
+main = lift2 (skeleton' 800) (lift2 display (box examples1) (box examples2)) Window.dimensions
 
 
 ---- Setting the title of the page to be prettier ----

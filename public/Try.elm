@@ -17,13 +17,16 @@ msg = [markdown|
 
 # Try Elm
 
-To the left is an online editor for writing and compiling
+This is an online editor for writing and compiling
 <a href="/" target="_top">Elm</a> code. If you
-are unsure how to get started, take a look at some
-<a href="/Examples.elm" target="_top">examples</a>.
+are unsure how to get started, take a look at the
+<a href="/Examples.elm" target="_top">examples</a>
+or <a href="/Learn.elm" target="_top">learning resources</a>.
 |]
 
-scene (w,h) = container w h middle (box <| width 320 msg)
+scene (w,h) = layers [ tiledImage w h "texture.png"
+                     , container w h middle (box <| width 300 msg)
+                     ]
 
 box e =
   let w = widthOf e

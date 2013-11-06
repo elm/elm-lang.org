@@ -1,35 +1,18 @@
+module Website.Tiles (examples) where
 
-module Website.Tiles (tile, toTile, miniTiles) where
+import Graphics.Input as Input
+import open Website.ColorScheme
 
-format (x,y,z) = (x, z ++ y ++ ".elm", "/screenshot/" ++ y ++ ".jpg")
+examples w exs =
+    let block = flow down . intersperse (spacer 10 10) <| map row exs
+    in  container w (heightOf block) middle block
 
-tileSize = 130
+row = flow right . intersperse (spacer 10 124) . map example
 
-toTile info =
-  let (name, ex, pic) = format info
-      x = tileSize
-  in  link ("/edit/examples/" ++ ex) <| flow down
-       [ container x x middle <| image (x-10) (x-10) pic
-       , width x . centered <| toText name
-       ]
+navigation = Input.customButtons ()
 
-groups n lst =
-  case lst of
-    x::xs -> take n lst :: groups n (drop n lst)
-    [] -> []
-
-tile w tiles =
-  flow down . intersperse (spacer 1 14) . map (flow right) <|
-       groups (w `div` tileSize) tiles
-
-
-toMiniTile info =
-  let (name, ex, pic) = format info
-  in  link ("/edit/examples/" ++ ex) <|
-      container 100 100 middle <| image 90 90 pic
-
-
-miniTiles w info =
-  let tiles = map toMiniTile info in
-  flow down . intersperse (spacer 1 14) . map (flow right) <|
-       groups (w `div` 100) tiles
+example name =
+    let btn clr = color clr . container 124 124 middle <|
+                  image 120 120 ("/screenshot/" ++ name ++ ".jpg")
+    in  link ("/edit/examples/Intermediate/" ++ name ++ ".elm") <|
+        navigation.customButton () (btn mediumGrey) (btn accent1) (btn accent3)

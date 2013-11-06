@@ -1,9 +1,10 @@
 body { margin: 0; }
 
-a:link {text-decoration: none; color: rgb(15,102,230);}
-a:visited {text-decoration: none}
+#toggle_link { text-decoration:none; color:rgb(180,180,180); }
+
+a:link, a:visited {text-decoration: none; color: rgb(15,102,230);}
 a:active {text-decoration: none}
-a:hover {text-decoration: underline;color: rgb(234,21,122);}
+a:hover {text-decoration: underline; color: rgb(234,21,122);}
 
 .CodeMirror { height: 100% }
 
@@ -43,13 +44,9 @@ a:hover {text-decoration: underline;color: rgb(234,21,122);}
 }
 
 .type {
-  font-family: monospace; 
-  font-weight: bold; 
   font-size: 13px; 
   color: black;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   height: 15px;
   margin: 0;
   padding: 2px 4px;
@@ -102,7 +99,7 @@ a:hover {text-decoration: underline;color: rgb(234,21,122);}
 }
 
 .doc p, .doc blockquote, .doc ul, .doc ol, .doc dl, .doc li, .doc table, .doc pre {
-  margin: 2px;
+  margin: 8px;
 }
 
 .doc a, .doc a:visited {

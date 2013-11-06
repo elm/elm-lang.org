@@ -17,14 +17,13 @@ step inp ((tx,ty),(x,y)) =
                                  y + (ty-y) * (d/100) ))
 
 -- DISPLAY
-greenGrad = radial (0,0) 10 (7,-5) 30
-              [(0, rgb 167 211 12), (0.9, rgb 1 159 98), (1, rgba 1 159 98 0)]
+grad = radial (0,0) 20 (7,-15) 50
+       [(0, rgb  255 95 152), (0.75, rgb  255 1 136), (1, rgba 255 1 136 0)]
 
 follower (w,h) (target,(x,y)) =
-  layers [ collage w h [ circle 100 |> gradient greenGrad
+  layers [ collage w h [ circle 100 |> gradient grad
                                     |> move (x - toFloat w / 2, toFloat h / 2 - y) ]
          , plainText "Click anywhere and the circle will follow." ]
 
-main = follower <~ Window.dimensions
-                 ~ foldp step ((0,0),(0,0)) input
+main = follower <~ Window.dimensions ~ foldp step ((0,0),(0,0)) input
 

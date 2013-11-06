@@ -1,5 +1,5 @@
 
-main = draw <~ ball
+main = lift draw ball
 
 -- Draw the sky, ball, and ground
 draw ball =
@@ -21,4 +21,4 @@ step time ball =
                           | otherwise -> ball.velocity - gravity * time }
 
 ball = foldp step {height=0, velocity=bounceVelocity}
-                  (inSeconds <~ fps 30)
+                  (lift inSeconds (fps 30))

@@ -8,7 +8,7 @@ title = constant (JS.fromString "JavaScript Integration")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
-main = lift (skeleton intro) Window.width
+main = lift (skeleton intro) Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 

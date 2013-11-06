@@ -55,7 +55,7 @@ of the semantics and types of extensible records. The paper is very well-written
 and quite accessible even if you are new to reading academic literature.
 
  [syntax]: /learn/Syntax.elm#records "Record Syntax"
- [v7]: /blog/announce/version-0.7.elm "Record Announcement"
+ [v7]: /blog/announce/0.7.elm "Record Announcement"
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
 
 
@@ -301,7 +301,7 @@ postPoly w = width w [markdown|
 I suspect that this can be used for some really cool stuff! It should
 make it possible to gain some of the flexibility of first-class modules
 and typeclasses, as described in
-[this announcement](/blog/announce/version-0.7.elm).
+[this announcement](/blog/announce/0.7.elm).
 
 ### Record Types
 
@@ -408,6 +408,6 @@ content w =
     , postPoly w
     ]
 
-main = lift (skeleton (content . min 600)) Window.width
+main = lift (skeleton (content . min 600)) Window.dimensions
 
 

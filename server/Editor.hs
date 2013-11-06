@@ -3,7 +3,6 @@ module Editor (editor,ide,emptyIDE) where
 
 import Data.Monoid (mempty)
 import Text.Blaze.Html
-import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
@@ -24,8 +23,7 @@ emptyIDE = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
 ideBuilder :: String -> String -> String -> String -> Html
 ideBuilder cols title input output =
     H.docTypeHtml $ do
-      H.head $ do
-        H.title . toHtml $ title
+      H.head . H.title . toHtml $ title
       preEscapedToMarkup $ 
          concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
                 , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
@@ -33,6 +31,7 @@ ideBuilder cols title input output =
                 , "</frameset>" ]
 
 -- | list of themes to use with CodeMirror
+themes :: [String]
 themes = [ "ambiance", "blackboard", "cobalt", "eclipse"
          , "elegant", "erlang-dark", "lesser-dark", "monokai", "neat", "night"
          , "rubyblue", "solarized", "twilight", "vibrant-ink", "xq-dark" ]
@@ -50,10 +49,10 @@ editor filePath code =
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
         H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
-        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?v0.9.0.1" $ mempty
+        H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?0.10" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
-           H.div ! A.id "editor_box" $ do
+           H.div ! A.id "editor_box" $
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
            H.div ! A.id "options" $ do
              bar "documentation" docs
@@ -62,12 +61,12 @@ editor filePath code =
         H.script ! A.type_ "text/javascript" $ "initEditor();"
 
 bar :: AttributeValue -> Html -> Html
-bar id body = H.div ! A.id id ! A.class_ "option" $ body
+bar id' body = H.div ! A.id id' ! A.class_ "option" $ body
 
 buttons :: Html
 buttons = H.div ! A.class_ "valign_kids"
                 ! A.style "float:right; padding-right: 6px;"
-                $ "Auto-Swap" >> autoBox >> "     " >> hotSwapButton >> compileButton
+                $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
       where
         hotSwapButton = 
             H.input
@@ -90,24 +89,24 @@ buttons = H.div ! A.class_ "valign_kids"
                  ! A.type_ "checkbox"
                  ! A.id "auto_hot_swap_checkbox"
                  ! A.onchange "setAutoHotSwap(this.checked)"
+                 ! A.style "margin-right:20px;"
                  ! A.title "attempt to hot-swap automatically"
 
 
 options :: Html
 options = H.div ! A.class_ "valign_kids"
-                ! A.style "float:left; padding-left:6px;"
-                $ (docs >> opts)
+                ! A.style "float:left; padding-left:6px; padding-top:2px;"
+                ! A.title "Show documentation and types."
+                $ (docs' >> opts)
     where 
-      docs =
-          H.input
-               ! A.type_ "button"
-               ! A.id "help_button"
-               ! A.value "?"
-               ! A.style "margin-right: 10px;"
-               ! A.onclick "toggleVerbose();"
-               ! A.title "Ctrl+K: open doc in editor\nCtrl+Shift+K: open window/tab with doc"
+      docs' = do
+        H.span "Hints:"
+        H.input ! A.type_ "checkbox"
+                ! A.id "show_type_checkbox"
+                ! A.onchange "showType(this.checked);"
+
       opts = do
-        H.span $ "Options:"
+        H.span ! A.style "padding-left: 12px;" $ "Options:"
         H.input ! A.type_ "checkbox"
                 ! A.id "options_checkbox" 
                 ! A.onchange "showOptions(this.checked);"
@@ -134,15 +133,21 @@ editorOptions = theme >> zoom >> lineNumbers
         H.input ! A.type_ "checkbox"
                 ! A.id "editor_lines"
                 ! A.onchange "showLines(this.checked);"
-        H.span ! A.style "padding-left: 16px;" $ "Show type:"
-        H.input ! A.type_ "checkbox"
-                ! A.id "show_type_checkbox"
-                ! A.onchange "showType(this.checked);"
 
 docs :: Html
 docs = tipe >> desc
     where
-      tipe = H.div ! A.class_ "type" $ ""
+      tipe = H.div ! A.class_ "type" $ message >> more
+
+      message = H.div ! A.style "position:absolute; left:4px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
+
+      more = H.a ! A.id "toggle_link"
+                 ! A.style "display:none; float:right;"
+                 ! A.href "javascript:toggleVerbose();"
+                 ! A.title "Ctrl+H"
+                 $ "more"
+
       desc = H.div ! A.class_ "doc"
                    ! A.style "display:none;"
                    $ ""
+

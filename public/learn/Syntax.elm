@@ -35,7 +35,7 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-This document lists all possible Elm syntax.
+This syntax reference is a minimal introduction to:
 
 - [Comments](#comments)
 - [Literals](#literals)
@@ -44,6 +44,7 @@ This document lists all possible Elm syntax.
 - [Algebraic Data Types](#algebraic-data-types)
 - [Records](#records)
 - [Functions](#functions)
+- [Infix Operators](#infix-operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
 - [Lifting with `(<~)` and `(~)`](#lifting)
@@ -53,9 +54,8 @@ This document lists all possible Elm syntax.
 - [JavaScript FFI](#javascript-ffi)
 - [Things *not* in Elm](#things-not-in-elm)
 
-To learn about the libraries and semantics of Elm, check out the [Documentation][docs].
-
-  [docs]: /Documentation.elm "Documentation"
+Check out the [learning resources](/Learn.elm) for
+tutorials and examples on actually *using* this syntax.
 
 ### Comments
 
@@ -79,33 +79,33 @@ Just add or remove the `}` on the first line and you'll toggle between commented
 
 ### Literals
 
-The following shows all the different boolean literals and operators.
-
 ```haskell
-True && not (True || False)
+-- Boolean
+True  : Bool
+False : Bool
+
+42    : number  -- Int or Float depending on usage
+3.14  : Float
+
+'a'   : Char
+"abc" : String
 ```
 
-Character and string literals are defined as follows:
-
-```haskell
-'a'       -- Char
-"Hello!"  -- String
 ```
 
-A `Number` can be interpreted as an `Int` or a `Float` depending on how it is used.
-
-```haskell
-42        -- Number
-3.14      -- Float
-```
-
-For multi-line strings, use a triple-quoted string:
-
-```
+-- multi-line String
 """
 This is useful for holding JSON or other
 content that has "quotation marks".
 """
+```
+
+Typical manipulation of literals:
+
+```haskell
+True && not (True || False)
+(2 + 4) * (4^2 - 9)
+"abc" ++ "def"
 ```
 
 ### Lists
@@ -113,17 +113,10 @@ content that has "quotation marks".
 Here are four things that are equivalent:
 
 ```haskell
+[1..4]
 [1,2,3,4]
 1 :: [2,3,4]
 1 :: 2 :: 3 :: 4 :: []
-[1..4]
-```
-
-Here are two things that are equivalent:
-
-```haskell
-['a','b','c']
-"abc"
 ```
 
 ### Conditionals
@@ -151,8 +144,8 @@ case maybe of
   Nothing -> []
 
 case xs of
-  []    -> Nothing
-  x::xs -> Just x
+  hd::tl -> Just (hd,tl)
+  []     -> Nothing
 
 case n of
   0 -> 1
@@ -163,22 +156,13 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-If you think you can do a one liner, it might be useful to use the `{;;}`
-separators for your case statement.
-
-```haskell
-case xs of { [] -> True ; _ -> False }
-```
-
-This kind of case-expression is not indentation sensitive.
-
 ### Algebraic Data Types
 
 ```haskell
 data List = Nil | Cons Int List
 ```
 
-Not sure what this means? [Read this.](/learn/Pattern-Matching.elm)
+Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
 
 ### Records
 
@@ -186,7 +170,7 @@ For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
 
   [exp]: /learn/Records.elm "Records in Elm"
-  [v7]:  /blog/announce/version-0.7.elm "Elm version 0.7"
+  [v7]:  /blog/announce/0.7.elm "Elm version 0.7"
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```haskell
@@ -205,7 +189,7 @@ map .x [point,{x=0,y=0}]       -- field access function
         , y <- point.x + 1 }   -- batch update fields
 
 dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\\{x,y} -> (x,y)
+\{x,y} -> (x,y)
 
 lib = { id x = x }             -- polymorphic fields
 (lib.id 42 == 42)
@@ -217,97 +201,109 @@ type Location = { line:Int, column:Int }
 ### Functions
 
 ```haskell
-f x = exp
+square n = n^2
+
+hypotenuse a b = sqrt (square a + square b)
+
+distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
 ```
 
-You can pattern match in the declaration of any function.
+Anonymous functions:
 
 ```haskell
-hypotenuse a b = sqrt (a^2 + b^2)
+square = \n -> n^2
+squares = map (\n -> n^2) [1..100]
 ```
 
-You can also create custom infix operators. They have the highest precedence
-and are right associative. You cannot override built-in operators.
+### Infix Operators
+
+You can create custom infix operators. The default
+[precedence](http://en.wikipedia.org/wiki/Order_of_operations)
+is 9 and the default
+[associativity](http://en.wikipedia.org/wiki/Operator_associativity)
+is left, but you can set your own.
+You cannot override [the built-in operators](http://docs.elm-lang.org/InfixOps.elm) though.
 
 ```haskell
-(a,b) +++ (x,y) = (a + x, b + y)
+f <| x = f x
+(<~) = lift
+
+infixr 0 <|
+infixl 4 <~
 ```
 
-In the case of recursion and mutual recursion, the order of the 
-function definitions does not matter, Elm figures it out.
-In all other cases, assume that definitions
-need to appear before their use.
+Use [`(<|)`](http://docs.elm-lang.org/library/Basics.elm#<|)
+and [`(|>)`](http://docs.elm-lang.org/library/Basics.elm#|>)
+to reduce parentheses usage. They are aliases for function
+application.
+
+```haskell
+f <| x = f x
+x |> f = f x
+
+dot  = scale 2 (move (20,20) (filled blue (circle 10)))
+dot' = circle 10 |> filled blue
+                 |> move (20,20)
+                 |> scale 2
+```
+
+Historical note: this is borrowed from F#, inspired by Unix pipes,
+improving upon Haskell&rsquo;s `($)`.
 
 ### Let Expressions
 
-This lets you reuse code, avoid repeating
-computations, and improve code readability.
-
 ```haskell
-let c = hypotenuse 3 4 in
-  c*c
-
-let c1 = hypotenuse 7 12
-    c2 = hypotenuse 3 4
-in  hypotenuse c1 c2
+let n = 42
+    (a,b) = (3,4)
+    {x,y} = { x=3, y=4 }
+    square n = n * n
+in
+    square a + square b
 ```
 
-Let-expressions are also indentation sensitive, so each definition
-should align with the one above it.
+Let-expressions are indentation sensitive.
+Each definition should align with the one above it.
 
 ### Applying Functions
 
-If we define some function called `append` that puts lists together
-
 ```haskell
+-- alias for appending lists and two lists
 append xs ys = xs ++ ys
-```
+xs = [1,2,3]
+ys = [4,5,6]
 
-The following expressions are equivalent:
+-- All of the following expressions are equivalent:
+a1 = append xs ys
+a2 = (++) xs ys
 
-```haskell
-append [3] [4]
-[3] `append` [4]
-(append [3]) [4]
-```
+b1 = xs `append` ys
+b2 = xs ++ ys
 
-In fact, infix operators can be used as functions, so the next few
-expressions are *also* equivalent:
-
-```haskell
-(++) [3] [4]
-[3] ++ [4]
-((++) [3]) [4]
+c1 = (append xs) ys
+c2 = ((++) xs) ys
 ```
 
 The basic arithmetic infix operators all figure out what type they should have automatically.
 
 ```haskell
-23 + 19    -- Number
-2.0 + 1    -- Float
+23 + 19    : number
+2.0 + 1    : Float
 
-6 * 7      -- Number
-10 * 4.2   -- Float
+6 * 7      : number
+10 * 4.2   : Float
 
-1 `div` 2  -- Int
-1 / 2      -- Float
+1 `div` 2  : Int
+1 / 2      : Float
 ```
 
 There is a special function for creating tuples:
 
 ```haskell
-(,) 1 2              -- (1,2)
-(,,,) 1 True 'a' []  -- (1,True,'a',[])
+(,) 1 2              == (1,2)
+(,,,) 1 True 'a' []  == (1,True,'a',[])
 ```
 
 You can use as many commas as you want.
-
-You can also use anonymous functions:
-
-```haskell
-func = (\\a b -> toFloat a / toFloat b)
-xsMod7 = map (\\n -> n `mod` 7) [1..100]
-```
 
 ### Lifting
 
@@ -341,8 +337,8 @@ lift2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
 scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
-More info can be found [here](/blog/announce/version-0.7.elm#do-you-even-lift)
-and [here](/docs/Signal.elm).
+More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
+and [here](http://docs.elm-lang.org/library/Signal.elm).
 
 ### Modules
 
@@ -414,7 +410,6 @@ take some imperative action:
 
 Elm currently does not support:
 
-- setting the precedence or associativity of infix operators (also will be added)
 - operator sections such as `(+1)`
 - guarded definitions or guarded cases. Use the multi-way if for this.
 - `where` clauses
@@ -424,4 +419,4 @@ Elm currently does not support:
 
 content w = width (min 600 w) intro
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton content) Window.dimensions

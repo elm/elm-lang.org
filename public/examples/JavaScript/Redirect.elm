@@ -1,26 +1,17 @@
+-- This example exports a built-in jsevent called "redirect"
 
-{------------------------------------------------------------------
-
-  This example exports a jsevent called "elm_redirect" which
-  built-in to Elm. You can use this event without writing any
-  JavaScript.
-
-------------------------------------------------------------------}
-
-
-module Redirect where
-
-import JavaScript
-import Input
-
-
-(butn, pressed) = button " Redirect to elm-lang.org "
-
-redirectTo =
-  lift castStringToJSString $
-  keepWhen pressed "" (constant "http://elm-lang.org/")
-
-foreign export jsevent "elm_redirect"
-  redirectTo :: Signal JSString
+import JavaScript as JS
+import Graphics.Input as Input
 
 main = butn
+
+(butn, pressed) = Input.button "Redirect to elm-lang.org"
+
+redirectTo =
+    JS.fromString <~ merges [ constant ""
+                            , (\_ -> "http://elm-lang.org/") <~ pressed
+                            ]
+
+foreign export jsevent "redirect"
+  redirectTo : Signal JS.JSString
+

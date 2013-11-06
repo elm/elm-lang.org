@@ -56,125 +56,98 @@ function adjustEditorBottom() {
   editor.refresh();
 }
 
-function formatType(tipe) {
-    return tipe.replace(/\(Number a\)/g, 'number')
-               .replace(/Number a/g, 'number')
-               .replace(/\(Appendable a\)/g, 'appendable')
-               .replace(/Appendable a/g, 'appendable')
-               .replace(/\(Comparable [ak]\)/g, 'comparable')
-               .replace(/Comparable [ak]/g, 'comparable');
-}
+var elmSyntax = {
+    '='   : 'defining values, pronounced &ldquo;equals&rdquo;',
+    '\\'  : 'anonymous functions, pronounced &ldquo;lambda&rdquo;',
+    ':'   : '<a href="/learn/Getting-started-with-Types.elm" target="_blank">' +
+            'type annotations</a>, pronounced &ldquo;has type&rdquo;',
+    '->'  : { message:['&ldquo;function&rdquo; in type annotations <i>or</i>',
+                       'for control flow in lambdas, cases, and multi-way ifs',
+                      ].join(' '),
+              extra:['<p>When used in a type annotation, an arrow indicates a',
+                     'function and is pronounced &ldquo;to&rdquo;. The type',
+                     '<code>String -> Int</code> indicates a function from',
+                     'strings to integers and is read &ldquo;String to Int&rdquo;.',
+                     'You can think of a type like <code>Int -> Int -> Int</code>',
+                     'as a function that takes two integer arguments and returns an integer.</p>'].join(' ')
+            },
+    '<-'  : 'updating fields in a record, pronounced &ldquo;gets&rdquo;',
+    'as'  : 'aliasing. Can be used on imported modules and pattern complex patterns.',
+    'let' : 'beginning a let expression',
+    'in'  : 'marking the end of a block of definitions, and starting an expression',
+    'if'  : 'beginning an conditional expression',
+    'then': 'separating the conditional from the first branch',
+    'else': 'separating the first and second branch',
+    'case': 'beginning a case expression',
+    'of'  : 'separating the expression to be pattern matched from possible case branches',
+    'type': 'defining type aliases',
+    'data': 'defining <a href="/learn/Pattern-Matching.elm" target="_blank">' +
+            'algebraic data types (ADTs)</a>',
+    '_'   : '<a href="/learn/Pattern-Matching.elm" target="_blank">pattern matching</a>' +
+            ' anything, often called a &ldquo;wildcard&rdquo;',
+    '..'  : 'number interpolation',
+    '|'   : 'separating various things, sometimes pronounced &ldquo;where&rdquo;',
+    'open': 'loading all of a modules values into local scope',
+    'main': 'showing values on screen, must have type <code>Element</code> or <code>Signal Element</code>',
+    'import': 'importing modules',
+    'infix' : 'declaring that a given operator is non-associative',
+    'infixl': 'declaring that a given operator is left-associative',
+    'infixr': 'declaring that a given operator is right-associative',
+    'module': 'declaring a module definition',
+};
 
-function parseDoc(mods) {
-  var markdown = new Showdown.converter();
-  var ds = mods.modules.map(function (m) {
-    var fs = m.values.map(function (f) {
-      return {name: f.name,
-              type: formatType(f.type),
-              module: m.name,
-              desc: markdown.makeHtml(f.desc)};
-    });
-    return fs;
-  });
-
-  var result = {};
-  result.docs = ds.reduce(function (acc, val) { return acc.concat(val); }, []);
-  result.modules = mods.modules;
-  return result;
+function parseDoc(modules) {
+    var markdown = new Showdown.converter();
+    function parseModule(module) {
+        function formatEntry(entry) {
+            return { name: entry.name,
+                     type: entry.raw,
+                     home: module.name,
+                     desc: markdown.makeHtml(entry.comment)
+            };
+        }
+        return [].concat(module.values,
+                         module.datatypes,
+                         module.aliases).map(formatEntry);
+    }
+    return {
+        values: [].concat.apply([], modules.map(parseModule)),
+        modules: modules.map(function(module) {
+            var desc = module.document;
+            var end = desc.indexOf('\n#');
+            if (end === -1) end = desc.indexOf('\n@');
+            if (end !== -1) desc = desc.slice(0,end);
+            module.desc = markdown.makeHtml(desc);
+            return module;
+        })
+    };
 }
 
 function loadDoc() {
-  var req = new XMLHttpRequest();
-  req.onload = function () { elmDocs = parseDoc(JSON.parse(this.responseText)); };
-  req.open('GET', '/docs.json?v0.9', true);
-  req.send();
+    var req = new XMLHttpRequest();
+    req.onload = function () {
+        elmDocs = parseDoc(JSON.parse(this.responseText));
+    };
+    req.open('GET', '/docs.json?v0.10', true);
+    req.send();
 }
 
-function wrapIfOperator(name) {
-  var nonSymbols = /[A-Za-z0-9]/;
-  if (name.match(nonSymbols)) {
-    return name;
-  } else {
-    //  Best bet is an operator that needs () wrapping
-    return '(' + name + ')';
-  }
-}
+function openDocPage() {
+    var pos = editor.getCursor(true);
+    var token = editor.getTokenAt(pos);
+    if (!token.type) return;
+    var result = lookupDocs(token, pos.line);
+    if (!result) return;
+    if (result.isSyntax) return window.open('/learn/Syntax.elm','_blank');
+    if (result.isModule) return window.open(docsHref(result.home), '_blank');
 
-function moduleToHtmlLink(module, anchor, text, hoverText) {
-  var linkText = text || module;
-  var titleText = hoverText || '';
-  var anchorLink = anchor ? '#' + wrapIfOperator(anchor) : '';
-  return '<a href="' + moduleRef(module) + anchorLink + '" target="elm-docs" title="' + titleText + '">' + linkText + '</a>';
-}
-
-function moduleRef (module) {
-  var parts = module.split('.');
-  var ref = null;
-  if (module === 'Syntax') {
-    ref = '/learn/Syntax.elm';
-  } else {
-    ref = '/docs/' + parts.join('/') + '.elm';
-  }
-  return ref;
-}
-
-function lookupDocs(token, line) {
-  var ds = null;
-  if (token.type == 'keyword') {
-    ds = [{
-      name: token.string,
-      type: 'Keyword',
-      module: 'Syntax'
-    }];
-  } else if (token.type == 'qualifier') {
-    var q = getQualifier(token, line);
-    var module = q ? q + '.' + token.string.slice(0, -1) : token.string.slice(0, -1);
-    ds = [{
-      module: module,
-      type: 'Module'
-    }];
-  } else {
-    if (token.string) {
-      ds = elmDocs.docs.filter(function(x) { if (x.name == token.string) return true; });
+    var qualifier = getQualifier(token, pos.line);
+    if (qualifier) {
+        result = result.filter(function(r) { return r.home == qualifier; });
     }
-  }
-  return ds;
-}
-
-function getQualifier (token, line) {
-  var ch = token.start;
-  if (ch > 0) {
-    var t = editor.getTokenAt({line: line, ch: ch - 1});
-    if (t.type == 'qualifier') {
-      var previous = getQualifier(t, line);
-      if (previous) {
-        return previous + '.' + t.string.slice(0, -1);
-      } else {
-        return t.string.slice(0, -1);
-      }
+    if (result.length === 1) {
+        return window.open(docsHref(result[0].home, result[0].name), '_blank');
     }
-  }
-  return null;
-}
-
-function openDocPage () {
-  var current_pos = editor.getCursor(true);
-  var token = editor.getTokenAt(current_pos);
-  var ds = token.type ? lookupDocs(token, current_pos.line) : null;
-  var ref = null;
-  if (ds && ds.length > 0) {
-    if (ds.length > 1) {
-      var q = getQualifier(token, current_pos.line);
-      if (q) {
-        ref = moduleRef(ds.filter(function(o) { if (o.module == q) return true;})[0].module + '#' + wrapIfOperator(ds[0].name));
-      }
-    } else {
-      ref = moduleRef(ds[0].module) + '#' + wrapIfOperator(ds[0].name);
-    }
-  }
-  if (ref) {
-    window.open(ref, 'elm-docs');
-  }
 }
 
 function generateView(content, cssClass) {
@@ -184,54 +157,125 @@ function generateView(content, cssClass) {
     return div;
 }
 
-function getDocForTokenAt (pos) {
-  var doc = null;
-  var token = editor.getTokenAt(pos);
-  var docs = token.type ? lookupDocs(token, pos.line) : null;
-
-  if (docs && docs.length > 0) {
-    if (docs.length > 1) {
-      var q = getQualifier(token, pos.line);
-      if (q) {
-        doc = docs.filter(function(o) { if (o.module == q) return true;})[0];
-      } else {
-          function f(o) {
-              return moduleToHtmlLink(o.module, token.string);
-          }
-          var places = docs.map(f).join(' and ');
-          doc = {error: 'Ambiguous: ' + token.string + ' defined in ' + places };
-      }
-    } else {
-      doc = docs[0];
+function formatType(result) {
+    var annotation = result.type;
+    var firstFive = annotation.slice(0,5);
+    var start = 0;
+    var end = annotation.indexOf(' ')
+    if (firstFive === 'type ' || firstFive === 'data ') {
+        start = 5;
+        end = annotation.indexOf(' ',5);
+        var whitelist = ['Maybe','Either','Response','Order','Action',
+                         'Time','Touch','KeyCode','FieldState'];
+        if (whitelist.indexOf(result.name) === -1) {
+            annotation = annotation.slice(0,end);
+        }
     }
-  }
-  return doc;
+    var name = annotation.slice(start,end);
+    return monospace(annotation.replace(name, docsLink(result)));
 }
 
-function typeAsText (doc) {
-  var result =  '';
-  result += doc.module ? doc.module : '';
-  result += (doc.module && doc.name) ? '.' : '';
-  result += doc.name ? doc.name : '';
-  result = moduleToHtmlLink(doc.module, doc.name, result);
-  result += doc.type ? ' : ' + doc.type : '';
-  return result;
+function docsHref(name, value) {
+    var href = 'http://docs.elm-lang.org/library/' + name.split('.').join('/') + '.elm'
+    if (value) href = href + '#' + value;
+    return href;
+}
+
+function monospace(txt) {
+    return '<span style="font-family:monospace;">' + txt + '</span>';
+}
+
+function docsLink(result) {
+    var value = result.name;
+    var href = docsHref(result.home, value);
+    var text = result.home + (value ? '.' + value : '');
+    return monospace('<a href="' + href + '" target="_blank">' + text + '</a>');
+}
+
+function getQualifier (token, line) {
+    var ch = token.start;
+    if (ch <= 0) return null;
+
+    var t = editor.getTokenAt({line: line, ch: ch - 1});
+    if (t.type !== 'qualifier') return null;
+
+    var previous = getQualifier(t, line);
+    if (previous) return previous + '.' + t.string.slice(0,-1);
+    return t.string.slice(0,-1);
+}
+
+function lookupDocs(token, line) {
+    if (token.type === 'keyword' || token.string === 'main') {
+        return { isSyntax:true, name:token.string };
+    }
+    if (token.type === 'qualifier') {
+        var qualifier = getQualifier(token, line);
+        var name = token.string.slice(0, -1);
+        if (qualifier) {
+            name = qualifier + '.' + name;
+        }
+        var matches = elmDocs.modules.filter(function(m) { return m.name == name; });
+        return matches.length === 0 ? null : { isModule:true, home:name, desc:matches[0].desc };
+    }
+    if (token.string) {
+        var results = elmDocs.values.filter(function(x) { return x.name == token.string; });
+        if (results.length > 0) return results;
+        results = elmDocs.modules.filter(function(m) { return m.name === token.string; });
+        if (results.length === 1) return { isModule:true, home:results[0].name, desc:results[0].desc };
+    }
+    return null;
+}
+
+function messageForTokenAt(pos) {
+    var token = editor.getTokenAt(pos);
+
+    var empty = { message:'', extra:'' };
+    if (!token.type) return empty;
+
+    var results = lookupDocs(token, pos.line);
+    if (results === null) return empty;
+    if (results.isSyntax) {
+        var info = elmSyntax[results.name];
+        var desc = info.message || info;
+        var extra = '<p>See the <a href="/learn/Syntax.elm">syntax reference</a> for more information.</p>';
+        return {
+            message: '<a href="/learn/Syntax.elm">Built-in syntax</a>' + (desc ? ' for ' + desc : ''),
+            extra: (info.extra ? info.extra : '') + extra
+        };
+    }
+    if (results.isModule) {
+        return {
+            message: 'Module ' + docsLink(results),
+            extra: results.desc
+        };
+    }
+    var qualifier = getQualifier(token, pos.line);
+    if (qualifier) {
+        results = results.filter(function(result) { return result.home == qualifier; });
+    }
+
+    if (results.length === 0) return empty;
+    if (results.length === 1) {
+        var value = results[0];
+        return { message:formatType(value),
+                 extra: value.desc ? value.desc : '<p>No additional information.</p>' };
+    }
+
+    return {
+        message: 'You probably want one of these: ' +
+            results.map(docsLink).join(' or '),
+        extra: '<p>This feature is not yet clever enough to figure out which one.</p>'
+    };
 }
 
 function updateDocumentation() {
-  var doc = getDocForTokenAt(editor.getCursor(true));
-  var type = '';
-  var desc = '';
-
-  if (doc !== null) {
-      type = doc.error ? doc.error : typeAsText(doc);
-      desc = doc.desc ? doc.desc : '<p>No description found</p>';
-  }
-  var docs = document.getElementById('documentation').childNodes;
-  docs[0].innerHTML = type;
-  docs[1].innerHTML = desc;
-  docs[1].style.display = mode.verbose && desc ? 'block' : 'none';
-  adjustView(mode);
+    var message = messageForTokenAt(editor.getCursor(true));
+    var boxes = document.getElementById('documentation').childNodes;
+    boxes[0].childNodes[0].innerHTML = message.message;
+    boxes[0].childNodes[1].style.display = message.message ? 'block' : 'none';
+    boxes[1].innerHTML = message.extra;
+    boxes[1].style.display = mode.verbose && message.extra ? 'block' : 'none';
+    adjustView(mode);
 }
 
 var Mode = { OPTIONS:0, TYPES:1, NONE:2 };
@@ -248,6 +292,7 @@ function showOptions(show) {
 
 function showType(show) {
     cookie('showtype', show);
+    document.getElementById('show_type_checkbox').checked = show;
     var newMode = (show ? { mode: Mode.TYPES, verbose: false }
                         : { mode: Mode.NONE });
     if (mode.mode === Mode.OPTIONS) {
@@ -259,6 +304,8 @@ function showType(show) {
 }
 
 function toggleVerbose() {
+    if (!mode.verbose) showType(true);
+    document.getElementById('toggle_link').innerHTML = mode.verbose ? 'more' : 'less';
     mode.verbose = !mode.verbose;
     updateDocumentation();
 }
@@ -272,6 +319,7 @@ function hideStuff() {
     if (mode.hidden) mode = mode.hidden;
     document.getElementById('options_checkbox').checked = false;
     mode.verbose = false;
+    document.getElementById('toggle_link').innerHTML = 'more';
     updateDocumentation();
 }
 
@@ -329,19 +377,19 @@ function setTheme(theme) {
 }
 
 function setZoom() {
-  var editorDiv  = document.getElementsByClassName('CodeMirror')[0],
-      classes    = editorDiv.getAttribute('class').split(' '),
-      input      = document.getElementById('editor_zoom'),
-      zoomLevel  = input.options[input.selectedIndex].innerHTML,
-      zoom       = 'zoom-' + zoomLevel.slice(0,-1),
-      newClasses = [];
-  for (var i = classes.length; i--; )
-    if (!(classes[i].match(/^zoom-/)))
-      newClasses.push(classes[i]);
-  newClasses.push(zoom);
-  editorDiv.setAttribute('class', newClasses.join(' '));
-  editor.refresh();
-  cookie('zoom', zoomLevel);
+    var editorDiv  = document.getElementsByClassName('CodeMirror')[0],
+        classes    = editorDiv.getAttribute('class').split(' '),
+        input      = document.getElementById('editor_zoom'),
+        zoomLevel  = input.options[input.selectedIndex].innerHTML,
+        zoom       = 'zoom-' + zoomLevel.slice(0,-1),
+        newClasses = [];
+    for (var i = classes.length; i--; ) {
+        if (!(classes[i].match(/^zoom-/))) newClasses.push(classes[i]);
+    }
+    newClasses.push(zoom);
+    editorDiv.setAttribute('class', newClasses.join(' '));
+    editor.refresh();
+    cookie('zoom', zoomLevel);
 }
 
 function cookie(name,value) { createCookie(name, value, 5*365); }
@@ -417,38 +465,26 @@ function initAutoHotSwap() {
 }
 
 function initEditor() {
-  // global scope editor
-  editor = CodeMirror.fromTextArea(document.getElementById('input'),
-    { lineNumbers: initLines(),
-      matchBrackets: true,
-      theme: initTheme(),
-      tabMode: 'shift',
-      extraKeys: {'Ctrl-Enter': compile,
-                  'Shift-Ctrl-Enter': hotSwap,
-                  'Ctrl-K': toggleVerbose,
-                  'Shift-Ctrl-K': openDocPage,
-                  'Tab': function(cm) {
-                          var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                          cm.replaceSelection(spaces, "end", "+input");
-                      }
-       }
-    });
-  if (!isBounceInIFrame()) editor.focus();
-  editor.on('cursorActivity', hideStuff);
-  initZoom();
-  initMenu();
-  initAutoHotSwap();
+    // global scope editor
+    editor = CodeMirror.fromTextArea(
+        document.getElementById('input'),
+        { lineNumbers: initLines(),
+          matchBrackets: true,
+          theme: initTheme(),
+          tabMode: 'shift',
+          extraKeys: {
+              'Ctrl-Enter': compile,
+              'Shift-Ctrl-Enter': hotSwap,
+              'Ctrl-H': toggleVerbose,
+              'Tab': function(cm) {
+                  var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                  cm.replaceSelection(spaces, "end", "+input");
+              }
+          }
+        });
+    if (!isBounceInIFrame()) editor.focus();
+    editor.on('cursorActivity', hideStuff);
+    initZoom();
+    initMenu();
+    initAutoHotSwap();
 }
-
-/* jshint browser: true */
-/* jshint devel: true */
-/* jshint undef: true */
-/* jshint unused: true */
-/* jshint unused: true */
-/* global CodeMirror */
-/* global Showdown */
-/* exported initEditor */
-/* exported showOptions */
-/* exported showLines */
-/* exported setTheme */
-/* exported eraseCookie */
