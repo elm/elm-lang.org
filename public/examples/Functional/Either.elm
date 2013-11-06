@@ -9,7 +9,7 @@ The result is normally held in the Right (a pun indicating
 that it is correct).
 
 More info at:
-  http://elm-lang.org/docs/Data/Either.elm
+  http://docs.elm-lang.org/library/Either.elm
 
 -----------------------------------------------------------}
 
