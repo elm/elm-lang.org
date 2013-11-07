@@ -45,6 +45,8 @@ leftCol = [markdown|
 * [Records](/learn/Records.elm)
 * [Documenting Code](/learn/Documentation.elm)
 * [HTML/JS Integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo)
+* [Pattern Matching](/learn/Pattern-Matching.elm)
+* [FRP vs. Events](/learn/FRP-vs-Events.elm)
 
 |]
 
