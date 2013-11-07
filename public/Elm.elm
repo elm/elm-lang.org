@@ -34,10 +34,10 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
+* [Video from StrangeLoop2013](http://www.infoq.com/presentations/elm-reactive-programming)
 * First ever [Elm Workshop](/blog/announce/Workshop-2013.elm)
 * [Elm 0.10 released](/blog/announce/0.10.elm)
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
-* Elm at [StrangeLoop 2013](https://thestrangeloop.com/sessions/functional-reactive-programming-in-elm)
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
 
