@@ -7,7 +7,7 @@ This file defines the `add` and `groupBy` functions which
 can be quite helpful for creating complex dictionaries.
 
 More info at:
-  http://elm-lang.org/docs/Data/Dict.elm
+  http://docs.elm-lang.org/library/Dict.elm
 
 -----------------------------------------------------------}
 
