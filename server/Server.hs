@@ -146,7 +146,7 @@ adjustHtmlFile file =
      let (before,after) =
              length src `seq`
              List.break (List.isInfixOf "<title>") (lines src)
-     removeFile file
+     before `seq` after `seq` removeFile file
      writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after ++ [renderHtml googleAnalytics]))
   where
     style = 
