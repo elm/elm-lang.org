@@ -12,8 +12,8 @@ import Utils
 
 -- | Using a page title and the full source of an Elm program, compile down to
 --   a valid HTML document.
-elmToHtml :: String -> String -> H.Html
-elmToHtml name src =
+elmToHtml :: Elm.Interfaces -> String -> String -> H.Html
+elmToHtml interfaces name src =
   H.docTypeHtml $ do
       H.head $ do
         H.meta ! A.charset "UTF-8"
@@ -28,7 +28,7 @@ elmToHtml name src =
             elmname = "Elm." ++ fromMaybe "Main" (Elm.moduleName src)
             runFullscreen = "var runningElmModule = Elm.fullscreen(" ++ elmname ++ ")"
         js ! A.src (H.toValue ("/elm-runtime.js" :: String)) $ ""
-        case Elm.compile src of
+        case Elm.compile interfaces src of
           Right jsSrc -> do
               js $ preEscapedToMarkup jsSrc
               js $ preEscapedToMarkup runFullscreen
@@ -44,7 +44,7 @@ addSpaces str =
     c : rest -> c : addSpaces rest
     [] -> []
 
-elmToJS :: String -> String
-elmToJS src = case Elm.compile src of
+elmToJS :: Elm.Interfaces -> String -> String
+elmToJS interfaces src = case Elm.compile interfaces src of
                 Right js -> "{ \"success\" : " ++ show js ++ " }"
                 Left err -> "{ \"error\" : " ++ show err ++ " }"
