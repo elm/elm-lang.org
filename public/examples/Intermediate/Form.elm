@@ -1,5 +1,3 @@
-module Form where
-
 import Graphics.Input as Input
 import Http
 import String
@@ -8,10 +6,10 @@ import Window
 getErrors : String -> String -> String -> String -> [String]
 getErrors first last email remail =
   justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-  [ (String.isEmpty first , "First name required.")
-  , (String.isEmpty last  , "Last name required.")
-  , (String.isEmpty email , "Must enter your email address.")
-  , (String.isEmpty remail, "Must re-enter your email address.")
+  [ (first == "", "First name required.")
+  , (last == ""  , "Last name required.")
+  , (email == "" , "Must enter your email address.")
+  , (remail == "", "Must re-enter your email address.")
   , (email /= remail      , "Email addresses do not match.")
   ]
 
@@ -40,7 +38,7 @@ sendable = sampleOn press (lift2 (&&) sendAttempt (lift isEmpty errors))
 fieldWith : String -> Element -> Element
 fieldWith txt fld =
   flow right
-    [ container 120 32 midRight <| plainText txt
+    [ container 200 32 midRight <| plainText txt
     , container 200 32 middle <| size 180 26 fld ]
 
 showErrors : [String] -> Element
@@ -48,15 +46,19 @@ showErrors errs =
   if isEmpty errs then spacer 10 10 else
     flow down <| map (text . Text.color red . toText) errs
 
+formTitle : String -> Element
+formTitle str = width 400 . centered . Text.height 38 <| toText str
+
 userEntry : Element -> Element -> Element -> Element -> [String] -> Element
 userEntry first last email remail errors =
     color (rgb 230 230 230) . flow down <|
-        [ fieldWith "First Name:" first
+        [ formTitle "Example Form"
+        , fieldWith "First Name:" first
         , fieldWith "Last Name:"  last
         , fieldWith "Your Email:" email
         , fieldWith "Re-enter Email:" remail
         , showErrors errors
-        , container 310 40 midRight <| size 60 30 butn
+        , container 390 50 midRight <| size 60 30 butn
         ]
 
 -- HTTP control
@@ -73,14 +75,17 @@ prettyPrint res = case res of
   Http.Failure _ _ -> plainText ""
   Http.Success a -> plainText a
 
+
 inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors 
-inputBox = container 360 360 topLeft <~ inputForm
+boxWidth = widthOf <~ inputForm
+inputBox = let cmaker inForm bWidth = container bWidth 360 topLeft inForm
+  in cmaker <~ inputForm ~ boxWidth
 loginResponse = prettyPrint <~ getLogin sendRequest
 
 scene (w,h) box result =
     flow down [ spacer w 50
-              , container w (max (h-100) (heightOf box)) midTop box
-              , container w 50 middle result ]
+              , container w ((heightOf box)) midTop box
+              , container w (h - heightOf box) midTop result ]
 
 main : Signal Element
 main = lift3 scene Window.dimensions inputBox loginResponse
