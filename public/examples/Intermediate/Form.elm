@@ -3,6 +3,7 @@ module Form where
 import Graphics.Input as Input
 import Http
 import String
+import Window
 
 getErrors : String -> String -> String -> String -> [String]
 getErrors first last email remail =
@@ -76,5 +77,10 @@ inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors
 inputBox = container 360 360 topLeft <~ inputForm
 loginResponse = prettyPrint <~ getLogin sendRequest
 
+scene (w,h) box result =
+    flow down [ spacer w 50
+              , container w (max (h-100) (heightOf box)) midTop box
+              , container w 50 middle result ]
+
 main : Signal Element
-main = above <~ inputBox ~ loginResponse
+main = lift3 scene Window.dimensions inputBox loginResponse
