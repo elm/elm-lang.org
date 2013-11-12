@@ -1,4 +1,4 @@
- 
+
 import Website.Skeleton (skeleton)
 import Website.ColorScheme
 import Window
@@ -213,8 +213,8 @@ Interface since you cannot actually share functions with this API.
 
 ## Converting between Elm and JavaScript values
 
-Elm provides the [`JavaScript`](/docs/JavaScript.elm) and
-[`Json`](/docs/Json.elm) libraries to convert between Elm and
+Elm provides the [`JavaScript`](http://docs.elm-lang.org/library/JavaScript.elm) and
+[`Json`](http://docs.elm-lang.org/library/Json.elm) libraries to convert between Elm and
 JS values. You will need to use this library to
 work with JS values in Elm or to send values to JS.
 

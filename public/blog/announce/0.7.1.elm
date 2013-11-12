@@ -86,9 +86,9 @@ based on the `arrows` and `space` signals.
   style="margin:0px auto; display:block;"></iframe>
 
 This takes only 20 physical lines of code, which you can see and modify
-in the interactive editor [here][src]. 
+in the interactive editor [here][src].
 
- [keys]: /docs/Signal/Keyboard.elm "Keyboard Library"
+ [keys]: http://docs.elm-lang.org/library/Keyboard.elm "Keyboard Library"
  [arrows]: http://en.wikipedia.org/wiki/Arrow_keys "alternative cursor movement keys"
  [wasd]: http://en.wikipedia.org/wiki/Arrow_keys#WASD_keys "wasd"
  [src]: /edit/examples/Intermediate/Turtle.elm "Turtle Source"
@@ -99,7 +99,7 @@ in the interactive editor [here][src].
 These provide the low-level building blocks for detecting gestures. We will
 discuss some ideas for a higher-level API for defining gestures in a moment.
 
- [touch]: /docs/Signal/Touch.elm "Touch Library"
+ [touch]: http://docs.elm-lang.org/library/Touch.elm "Touch Library"
 
 Warning: I do not have any Microsoft touch devices to test on, so I am not
 sure how well this will work there. Please let me know if you have any problems.
@@ -176,13 +176,13 @@ addition to come with this library is actually in the `Signal` library:
 This lets you combine two signals without losing information about
 the original source of the signal.
 
- [either]: /docs/Data/Either.elm "Either"
+ [either]: http://docs.elm-lang.org/library/Either.elm "Either"
 
 
 ## Consistency
 
-I have simplified [the `Maybe` library](/docs/Data/Maybe.elm) a little bit.
-Names are now consistent with the new `Either` library. For example,
+I have simplified [the `Maybe` library](http://docs.elm-lang.org/library/Maybe.elm)
+a little bit. Names are now consistent with the new `Either` library. For example,
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
 

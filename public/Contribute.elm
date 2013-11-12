@@ -72,8 +72,8 @@ These are tools that all Elm programmers will use and appreciate.
    and formatting. Expand this. Generalize it. Be creative!
 
  * **WebGL** &ndash; purely functional 3D graphics. Model it on the API design
-   choices made in Elm's [`Graphics.Collage`](http://elm-lang.org/docs/Graphics/Collage.elm)
-   library.
+   choices made in Elm's
+   [`Graphics.Collage`](http://docs.elm-lang.org/library/Graphics/Collage.elm) library.
 
  * **Parsing** &ndash; make parsing easy in the style of
    Haskell&rsquo;s [Parsec][parsec]. Web programmers have been trying to parse
