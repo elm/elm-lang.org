@@ -20,8 +20,8 @@ For a full listing of Elm's current libraries, see [this page][docs].
 
 Elm now has [dictionaries][Dict] and [sets][Set]!
 
-  [Dict]: /docs/Data/Dict.elm "Dictionary library"
-  [Set]: /docs/Data/Set.elm "Set library"
+  [Dict]: http://docs.elm-lang.org/library/Dict.elm "Dictionary library"
+  [Set]: http://docs.elm-lang.org/library/Set.elm "Set library"
 
 The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
@@ -30,7 +30,7 @@ The Dict and Set libraries could be used from JavaScript. I can make this easier
 This version also introduces the [Automaton][auto] library. This library will
 make it easier to create dynamic components that can be switched in and out of a program.
 
-  [auto]: /docs/Automaton.elm "Automaton Library"
+  [auto]: http://docs.elm-lang.org/library/Automaton.elm "Automaton Library"
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
 takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
@@ -67,8 +67,8 @@ because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
 now they do not have to!
 
-  [send]: /docs/Signal/HTTP.elm "send"
-  [http]: /docs/Signal/HTTP.elm "HTTP docs"
+  [send]: http://docs.elm-lang.org/library/Http.elm "send"
+  [http]: http://docs.elm-lang.org/library/Http.elm "HTTP docs"
   [zips]: /edit/examples/JavaScript/ZipCodes.elm
 
 ### New Functions and Syntax
@@ -82,7 +82,7 @@ now they do not have to!
     * `readFloat : String -> Maybe Float`
 - [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: /docs/Color.elm "Color library"
+  [color]: http://docs.elm-lang.org/library/Color.elm "Color library"
 
 ### Fewer Library Prefixes
 

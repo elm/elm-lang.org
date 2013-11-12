@@ -118,7 +118,7 @@ unsatisfying, but at some point it stops being weird.
 
 List also takes a type as an argument, so we can create `(List Int)` or
 `(List String)` or whatever. The values that have the type `(List Int)`
-would look like this: 
+would look like this:
 
 - `Empty`
 - `Cons 1 Empty`
@@ -204,7 +204,7 @@ We are always in one of these states, and with pattern matching it is
 easy to define what should happen in each case. This data type is actually
 used in the [HTTP library][http].
 
- [http]: /docs/Signal/HTTP.elm "HTTP library"
+ [http]: http://docs.elm-lang.org/library/Http.elm "HTTP library"
 
 We can even model a programming language! In this case, it is one that only
 deals with [Boolean algebra][algebra]:

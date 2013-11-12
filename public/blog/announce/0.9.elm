@@ -83,9 +83,9 @@ Finally, there are a bunch of miscellaneous improvements:
   * [Transparency in collages][alpha] and many bug fixes
   * [`Text.height`][height] use pixels instead of [ems][], after [much debate][]
 
-  [hover]: http://elm-lang.org/docs/Graphics/Input.elm#hoverable
-  [alpha]: http://elm-lang.org/docs/Graphics/Collage.elm#alpha
-  [height]: http://elm-lang.org/docs/Text.elm#height
+  [hover]: http://docs.elm-lang.org/library/Graphics/Input.elm#hoverable
+  [alpha]: http://docs.elm-lang.org/library/Graphics/Collage.elm#alpha
+  [height]: http://docs.elm-lang.org/library/Text.elm#height
   [much debate]: https://groups.google.com/forum/?fromgroups#!searchin/elm-discuss/specifying$20size$20of$20text/elm-discuss/3Iz-HpV1QRg/oHPoqWDgrmEJ
   [ems]: http://en.wikipedia.org/wiki/Em_(typography)
 

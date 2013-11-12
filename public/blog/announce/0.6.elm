@@ -31,9 +31,9 @@ I highly encourage you to at least read on to learn about the new time
 library because it brings a number of fundamentally new capabilities to Elm.
 There is also some cool news at the end!
 
-  [date]: /docs/Date.elm "Date library"
+  [date]: http://docs.elm-lang.org/library/Date.elm "Date library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV Colors"
-  [color]: /docs/Color.elm "Color library"
+  [color]: http://docs.elm-lang.org/library/Color.elm "Color library"
 
 These changes allowed a big rewrite of the [Pong in Elm][pong]
 [source code][code], making things generally much nicer. I also wrote a
@@ -186,7 +186,7 @@ This example can provide the basis for many slick animations.
 
 You can see the entire `Time` library [here].
 
-  [here]: /docs/Signal/Time.elm "Time Library"
+  [here]: http://docs.elm-lang.org/library/Time.elm "Time Library"
 
 ## HSV Colors
 
@@ -206,7 +206,7 @@ For more information on using HSV colors see the
 [Color library documentation][lib] and the [Wikipedia page on HSV colors][hsv].
 
   [rgb]: http://en.wikipedia.org/wiki/RGB_color_model "RGB colors"
-  [lib]: /docs/Color.elm "Color Library"
+  [lib]: http://docs.elm-lang.org/library/Color.elm "Color Library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV colors"
 
 ## Even more Signals
@@ -248,7 +248,7 @@ It is also quite easy to look up the `dayOfWeek` for a particular date. The `Day
 
 I suggest using this to verify the claims of potential savants. See [these docs][date] for information on the rest of the Date library.
 
-  [date]: /docs/Date.elm "Date Library"
+  [date]: http://docs.elm-lang.org/library/Date.elm "Date Library"
 
 ## Miscellaneous Improvements
 
@@ -308,7 +308,7 @@ scene speed t1 t3 str w' =
        , container w (heightOf speed) middle speed
        , width w time1
        , flow right
-          [ container (w - widthOf sprl - 100) (heightOf sprl) middle spiralCode 
+          [ container (w - widthOf sprl - 100) (heightOf sprl) middle spiralCode
           , container (widthOf sprl + 100) (heightOf sprl) middle sprl ]
        , width w time2
        , container w (heightOf sprl3) middle sprl3
@@ -381,7 +381,7 @@ times1 = foldp (+) 0 <| 30 `fpsWhen` Mouse.isDown
 clickSpeed minDelta =
  flow down . map (width 300) <|
       [ centeredText . Text.color accent1 . toText <| "Speed Record"
-      , centeredText . Text.color accent4 . Text.height 3 . bold . toText <| show minDelta 
+      , centeredText . Text.color accent4 . Text.height 3 . bold . toText <| show minDelta
       , centeredText . Text.color accent1 . toText <| "milliseconds"
       ]
 
