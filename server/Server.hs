@@ -65,12 +65,13 @@ route empty rest = do
        ]
 
 -- | Compile an Elm program that has been POST'd to the server.
---compilePart :: ToMessage a => (String -> a) -> ServerPart Response
+compilePart :: ToMessage a => (String -> a) -> ServerPart Response
 compilePart compile = do
   decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   code <- look "input"
   if length code > 4000
-    then notFound =<< serveFile (asContentType "text/html; charset=UTF-8") "public/build/lengthError.elm"
+    then requestEntityTooLarge =<< serveFile (asContentType "text/html; charset=UTF-8")
+                                   "public/build/lengthError.elm"
     else ok $ toResponse $ compile code
 
 open :: String -> ServerPart (Maybe String)
