@@ -27,12 +27,18 @@ url first last email =
 sendAttempt : Signal Bool
 sendAttempt = lift (\c -> c > 0) (count press)
 
+always value signal = lift (\_ -> value) signal
+isClicked = merge (always False (delay 500 press)) (always True press)
+
 errors : Signal [String]
 errors = keepWhen sendAttempt []
                   (lift4 getErrors first last email remail)
 
 sendable : Signal Bool
-sendable = sampleOn press (lift2 (&&) sendAttempt (lift isEmpty errors))
+sendable = ((&&) <~ isClicked ~ (lift isEmpty errors))
+
+showSendable = let errmsg a b = flow right [a, b] in 
+  errmsg <~ (plainText <~ constant "Sending Form: ") ~ (asText <~ sendable)
 
 -- Display
 fieldWith : String -> Element -> Element
@@ -78,14 +84,16 @@ prettyPrint res = case res of
 
 inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors 
 boxWidth = widthOf <~ inputForm
-inputBox = let cmaker inForm bWidth = container bWidth 360 topLeft inForm
-  in cmaker <~ inputForm ~ boxWidth
+inputBox = let cmaker inForm bWidth bHeight = container bWidth bHeight topLeft inForm
+  in cmaker <~ inputForm ~ (widthOf <~ inputForm) ~ (heightOf <~ inputForm)
 loginResponse = prettyPrint <~ getLogin sendRequest
 
-scene (w,h) box result =
+scene (w,h) box result err =
     flow down [ spacer w 50
               , container w ((heightOf box)) midTop box
-              , container w (h - heightOf box) midTop result ]
+              , container w 50 middle err
+              , container w (h - heightOf box) midTop result
+              ]
 
 main : Signal Element
-main = lift3 scene Window.dimensions inputBox loginResponse
+main = scene <~ Window.dimensions ~ inputBox ~ loginResponse ~ showSendable
