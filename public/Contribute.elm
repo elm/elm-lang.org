@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import Window
 import JavaScript as JS
@@ -50,9 +49,12 @@ Pong](/blog/games-in-elm/part-0/Making-Pong.html). Some cool things might be:
     [this](/examples/Intermediate/Physics.elm). Interactive presentations
     about programming, physics, chemistry, and engineering are super easy in Elm!
 
-  * **Games** &ndash; such as Sudoku, Breakout, a
-    [side-scroller](/examples/Intermediate/Mario.elm),
-    [an RPG](/examples/Intermediate/Walk.elm), a maze, space invaders, etc.
+  * **Games** &ndash; such as Sudoku,
+    [Breakout](https://github.com/Dobiasd/Breakout#breakout--play-it),
+    a [side-scroller](/examples/Intermediate/Mario.elm),
+    [an RPG](/examples/Intermediate/Walk.elm),
+    a [maze](https://github.com/Dobiasd/Maze#maze--play-it),
+    space invaders, etc.
 
   * **Data Visualization** &ndash; like [this pie
     chart](http://www.share-elm.com/sprout/524bb079e4b0d6a98b152be8). See what
@@ -70,8 +72,8 @@ These are tools that all Elm programmers will use and appreciate.
    and formatting. Expand this. Generalize it. Be creative!
 
  * **WebGL** &ndash; purely functional 3D graphics. Model it on the API design
-   choices made in Elm's [`Graphics.Collage`](http://elm-lang.org/docs/Graphics/Collage.elm)
-   library.
+   choices made in Elm's
+   [`Graphics.Collage`](http://docs.elm-lang.org/library/Graphics/Collage.elm) library.
 
  * **Parsing** &ndash; make parsing easy in the style of
    Haskell&rsquo;s [Parsec][parsec]. Web programmers have been trying to parse

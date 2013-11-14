@@ -87,7 +87,7 @@ easier to convince your boss that it is okay to use Elm in an existing project.
 The description of [how to embed Elm code](/learn/JavaScript-Integration.elm)
 explains all of the details of the API.
 
-The following video is a short demo of how to embed Elm in a `<div>`. 
+The following video is a short demo of how to embed Elm in a `<div>`.
 
 <div style="position:relative; height:350px;">
 <iframe width="600" height="350"
@@ -143,8 +143,8 @@ of type-classes, but that is for another day.
 
 ## Dynamic Inputs
 
-The new [`Graphics.Input` library](/docs/Graphics/Input.elm) introduces
-text boxes, buttons, and checkboxes that can be created dynamically and
+The new [`Graphics.Input` library](http://docs.elm-lang.org/library/Graphics/Input.elm)
+introduces text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
 I am working on writing a walkthrough to explain how these new features work
@@ -199,8 +199,8 @@ circle : Float -> Shape
 toForm : Element -> Form
 ```
 You can see the full API in the
-[`Graphics.Collage` library](/docs/Graphics/Collage.elm). For now we will
-look at some smaller examples and uses.
+[`Graphics.Collage` library](http://docs.elm-lang.org/library/Graphics/Collage.elm).
+For now we will look at some smaller examples and uses.
 
 The following example creates four colorful dots. It shows a basic
 case in which having the position default to the origin is quite convenient.
@@ -295,11 +295,11 @@ That system happens to be radians, but now you do not *need*
 to remember that.
 
 The `groupTransform` function works just like `group` except that
-it applies a matrix transformation to the flattened `Form`. 
+it applies a matrix transformation to the flattened `Form`.
 This allows you to build up a traditional
 [scene graph](http://en.wikipedia.org/wiki/Scene_graph)
 and do fancier transformations like reflections and skews with
-the new [`Matrix2D` library](/docs/Matrix2D.elm).
+the new [`Matrix2D` library](http://docs.elm-lang.org/library/Transform2D.elm).
 
 
 ## Faster currying and data structures
@@ -333,7 +333,7 @@ editor. With `ctrl-shift-k`, you can jump directly to the docs for that function
 It is simple to disable this feature if you want, but I find it is usually
 quite handy.
 
-This feature was conceived, designed, and implemented by Mads. 
+This feature was conceived, designed, and implemented by Mads.
 I think this is one of the coolest things in the editor, and it is
 another step towards getting extremely fast feedback for Elm development.
 
@@ -354,7 +354,7 @@ import Dict
 
 -- Import Dict and load its values into local scope.
 -- You can just use empty, insert, etc. without any prefix.
-import open Dict   
+import open Dict
 
 -- Import Dict and load certain values into local scope.
 -- This lets you say empty and Dict.empty.
@@ -374,14 +374,15 @@ This release also fixes a bug in detecting cyclic module dependencies.
 #### Objects and WebSockets
 
 You can convert between JS objects and Elm records with the
-[`JavaScript.Experimental` library](/docs/JavaScript/Experimental.elm).
+[`JavaScript.Experimental` library](http://docs.elm-lang.org/library/JavaScript/Experimental.elm).
 As the name suggests, the approach used by this library is experimental!
 Please let me know what you think of it on the [mailing
 list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
-[`WebSocket` library](/docs/WebSocket.elm). This API may change to accomadate
-more usage scenarios. Please let me know how you want to use it!
+[`WebSocket` library](http://docs.elm-lang.org/library/WebSocket.elm).
+This API may change to accomadate more usage scenarios. Please let me
+know how you want to use it!
 
 #### Application Operators
 

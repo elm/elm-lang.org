@@ -42,12 +42,12 @@ to &ldquo;lift&rdquo; a normal function onto a signal. Once lifted, a function i
 automatically whenever the signal updates. So if the function produces static graphics,
 [lifting it onto a signal produces an animation][example]!
 
-  [example]: /edit/examples/Reactive/Clock.elm "animation"
+  [example]: /edit/examples/Intermediate/Clock.elm "animation"
 
 These examples are just the basics of FRP. There are tons of other
-[interactive examples](/examples/Basic.elm) that allow you to play around
+[interactive examples](/Examples.elm) that allow you to play around
 with FRP in [Elm](/). More information on how to use signals can be found
-[here](/docs/Signal.elm).
+[here](http://docs.elm-lang.org/library/Signal.elm).
 
 |]
 
@@ -143,7 +143,7 @@ examples2 =
      ]
 
 box exs =
-  let putInBox exs = 
+  let putInBox exs =
         let eBox  = color white <| flow down exs
             eBox' = flow right [ color accent2 <| spacer 2 (heightOf eBox)
                                , eBox
