@@ -37,6 +37,7 @@ flags = Flags
 main :: IO ()
 main = do
   setNumCapabilities =<< getNumProcessors
+  interfaces <- Elm.interfaces
   cargs <- cmdArgs flags
   putStrLn "Initializing Server"
   precompile
@@ -45,17 +46,21 @@ main = do
   simpleHTTP nullConf { Happs.port = port cargs } $ do
     compressedResponseFilter
     let mime = asContentType "text/html; charset=UTF-8"
-    route (serveFile mime "public/build/Elm.elm")
+    route interfaces
+          (serveFile mime "public/build/Elm.elm")
           (serveDirectory' EnableBrowsing [] mime "public/build")
 
-route :: ServerPartT IO Response -> ServerPartT IO Response -> ServerPartT IO Response
-route empty rest = do
+route :: Elm.Interfaces ->
+         ServerPartT IO Response ->
+         ServerPartT IO Response ->
+         ServerPartT IO Response
+route interfaces empty rest = do
   decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   msum [ nullDir >> empty
        , serveDirectory DisableBrowsing [] "resources"
        , dir "try" (ok $ toResponse emptyIDE)
-       , dir "compile" $ compilePart (elmToHtml "Compiled Elm")
-       , dir "hotswap" $ compilePart elmToJS
+       , dir "compile" $ compilePart (elmToHtml interfaces "Compiled Elm")
+       , dir "hotswap" $ compilePart (elmToJS interfaces)
        , dir "jsondocs" $ serveFile (asContentType "text/json") "resources/docs.json?0.10"
        , dir "edit" serveEditor
        , dir "code" . uriRest $ withFile editor
@@ -126,7 +131,7 @@ precompile =
      setCurrentDirectory ".."
   where
     getFiles :: Bool -> String -> FilePath -> IO [FilePath]
-    getFiles skip ext directory = 
+    getFiles skip ext directory =
         if skip && "build" `elem` map dropTrailingPathSeparator (splitPath directory)
           then return [] else
           (do contents <- map (directory </>) `fmap` getDirectoryContents directory
@@ -149,7 +154,7 @@ adjustHtmlFile file =
      removeFile file
      writeFile (replaceExtension file "elm") (unlines (before ++ [style] ++ after ++ [renderHtml googleAnalytics]))
   where
-    style = 
+    style =
         unlines . map ("    "++) $
         [ "<style type=\"text/css\">"
         , "  a:link {text-decoration: none; color: rgb(15,102,230);}"
