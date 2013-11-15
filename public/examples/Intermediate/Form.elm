@@ -6,12 +6,12 @@ import Window
 getErrors : String -> String -> String -> String -> [String]
 getErrors first last email remail =
   justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-  [ (first == "", "First name required.")
-  , (last == ""  , "Last name required.")
-  , (email == "" , "Must enter your email address.")
-  , (remail == "", "Must re-enter your email address.")
-  , (email /= remail      , "Email addresses do not match.")
-  ]
+    [ (first == ""    , "First name required.")
+    , (last == ""     , "Last name required.")
+    , (email == ""    , "Must enter your email address.")
+    , (remail == ""   , "Must re-enter your email address.")
+    , (email /= remail, "Email addresses do not match.")
+    ]
 
 url : String -> String -> String -> String
 url first last email = 
@@ -28,17 +28,14 @@ sendAttempt : Signal Bool
 sendAttempt = lift (\c -> c > 0) (count press)
 
 always value signal = lift (\_ -> value) signal
-isClicked = merge (always False (delay 500 press)) (always True press)
+isClicked = merge (always False (delay 0 press)) (always True press)
 
 errors : Signal [String]
 errors = keepWhen sendAttempt []
                   (lift4 getErrors first last email remail)
 
 sendable : Signal Bool
-sendable = ((&&) <~ isClicked ~ (lift isEmpty errors))
-
-showSendable = let errmsg a b = flow right [a, b] in 
-  errmsg <~ (plainText <~ constant "Sending Form: ") ~ (asText <~ sendable)
+sendable = lift2 (&&) isClicked (lift isEmpty errors)
 
 -- Display
 fieldWith : String -> Element -> Element
@@ -57,15 +54,15 @@ formTitle str = width 400 . centered . Text.height 38 <| toText str
 
 userEntry : Element -> Element -> Element -> Element -> [String] -> Element
 userEntry first last email remail errors =
-    color (rgb 230 230 230) . flow down <|
-        [ formTitle "Example Form"
-        , fieldWith "First Name:" first
-        , fieldWith "Last Name:"  last
-        , fieldWith "Your Email:" email
-        , fieldWith "Re-enter Email:" remail
-        , showErrors errors
-        , container 390 50 midRight <| size 60 30 butn
-        ]
+  color (rgb 230 230 230) . flow down <|
+    [ formTitle "Example Form"
+    , fieldWith "First Name:" first
+    , fieldWith "Last Name:"  last
+    , fieldWith "Your Email:" email
+    , fieldWith "Re-enter Email:" remail
+    , showErrors errors
+    , container 390 50 midRight <| size 60 30 butn
+    ]
 
 -- HTTP control
 sendRequest : Signal String
@@ -81,19 +78,24 @@ prettyPrint res = case res of
   Http.Failure _ _ -> plainText ""
   Http.Success a -> plainText a
 
+inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors
 
-inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors 
-boxWidth = widthOf <~ inputForm
-inputBox = let cmaker inForm bWidth bHeight = container bWidth bHeight topLeft inForm
-  in cmaker <~ inputForm ~ (widthOf <~ inputForm) ~ (heightOf <~ inputForm)
-loginResponse = prettyPrint <~ getLogin sendRequest
+inputBox = 
+  let
+    cmaker inForm bWidth bHeight = container bWidth bHeight topLeft inForm
+    w = lift widthOf inputForm
+    h = lift heightOf inputForm
+  in 
+    lift3 cmaker inputForm w h
+    
+loginResponse = lift prettyPrint (getLogin sendRequest)
 
-scene (w,h) box result err =
-    flow down [ spacer w 50
-              , container w ((heightOf box)) midTop box
-              , container w 50 middle err
-              , container w (h - heightOf box) midTop result
-              ]
+scene (w,h) box result =
+  flow down 
+    [ spacer w 50
+    , container w ((heightOf box)) midTop box
+    , container w (h - heightOf box) midTop result
+    ]
 
 main : Signal Element
-main = scene <~ Window.dimensions ~ inputBox ~ loginResponse ~ showSendable
+main = lift3 scene Window.dimensions inputBox loginResponse
