@@ -1,4 +1,3 @@
-
 {----------------------------------------------------------------
 
 Overview:
@@ -6,9 +5,9 @@ Overview:
   They can be passed as arguments and stored in data structures
   in exactly the same way as numbers or characters.
 
-  It is possible 'anonymous' functions, functions that are not
-  bound to any variable name. This often leads to more concise
-  and clearer code.
+  It is possible to create 'anonymous' functions, functions that
+  are not bound to any variable name. This often leads to more
+  concise and clearer code.
 
 ----------------------------------------------------------------}
 

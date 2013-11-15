@@ -112,7 +112,7 @@ role in our programs?
 Well we often want to say, &ldquo;When this value is ready, take this action.&rdquo;
 This is a time-dependent relationship. We depend on a value as it changes over time.
 We also want to say, &ldquo;While this is happening, that can happen too.&rdquo;
-This is a time-dependent relationship too. These computations can happen concurrently. 
+This is a time-dependent relationship too. These computations can happen concurrently.
 These time relationships are not covered by traditional control structures,
 so we use the modern `goto` to work around it.
 
@@ -246,7 +246,7 @@ function getPhoto(tag, handlerCallback) {
         });
     });
 }
-    
+
 getPhoto('tokyo', drawOnScreen);
 ```
 
@@ -413,7 +413,7 @@ getOneFrom photoList =
           in  case photoRecord.photos.photo of
                 h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
                 []   -> Http.get ""
-                        
+
 -- Take some size options and choose one, resulting in a URL.
 sizesToSource sizeOptions =
     case toJson sizeOptions of
@@ -442,7 +442,7 @@ time-sensitive [sampling][sample] and [filtering][filter], and [asynchrony][http
 This makes it much easier to deal with complicated time-dependent interactions,
 a task that is extremely common when designing user interfaces.
 
-  [signal]: /docs/Signal/Signal.elm "Signal Docs"
+  [signal]: http://docs.elm-lang.org/library/Signal.elm "Signal Docs"
   [stamp]: /edit/examples/Intermediate/Stamps.elm "Stamps"
   [clock]: /edit/examples/Intermediate/Clock.elm "Clock"
   [sample]: /edit/examples/Reactive/SampleOn.elm "sampleOn"

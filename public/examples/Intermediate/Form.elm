@@ -1,65 +1,91 @@
+import Graphics.Input as Input
+import Http
+import String
+import Window
 
-module Form where
-
-import JavaScript
-
-
--- Helpers
-
-isEmpty xs = case xs of { [] -> True ; _ -> False }
-
+getErrors : String -> String -> String -> String -> [String]
 getErrors first last email remail =
-  Maybe.justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-  [ (isEmpty first  , "First name required.")
-  , (isEmpty last   , "Last name required.")
-  , (isEmpty email  , "Must enter your email address.")
-  , (isEmpty remail , "Must re-enter your email address.")
-  , (email /= remail, "Email addresses do not match.")
+  justs <| map (\(err,msg) -> if err then Just msg else Nothing)
+  [ (first == "", "First name required.")
+  , (last == ""  , "Last name required.")
+  , (email == "" , "Must enter your email address.")
+  , (remail == "", "Must re-enter your email address.")
+  , (email /= remail      , "Email addresses do not match.")
   ]
 
-url first last email =
-  "login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
-
+url : String -> String -> String -> String
+url first last email = 
+    "/login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
 
 -- Signals
-
-(firstBox , first)  = Input.textField "First Name"
-(lastBox  , last)   = Input.textField "Last Name"
-(emailBox , email)  = Input.textField "Your Email"
-(remailBox, remail) = Input.textField "Re-enter Email"
+(firstBox , first)  = Input.field "First Name"
+(lastBox  , last)   = Input.field "Last Name"
+(emailBox , email)  = Input.field "Your Email"
+(remailBox, remail) = Input.field "Re-enter Email"
 (butn     , press)  = Input.button "Submit"
 
-pressCount = countIf id press
-errors = lift4 getErrors first last email remail
-sendable = lift2 (&&) press (lift isEmpty errors)
+sendAttempt : Signal Bool
+sendAttempt = lift (\c -> c > 0) (count press)
 
-redirectTo = lift castStringToJSString
-                  (keepWhen sendable "" (lift3 url first last email))
+errors : Signal [String]
+errors = keepWhen sendAttempt []
+                  (lift4 getErrors first last email remail)
 
-foreign export jsevent "elm_redirect"
-  redirectTo : Signal JSString
-
+sendable : Signal Bool
+sendable = sampleOn press (lift2 (&&) sendAttempt (lift isEmpty errors))
 
 -- Display
-
-field txt fld =
+fieldWith : String -> Element -> Element
+fieldWith txt fld =
   flow right
-    [ container 120 32 midRight <| plainText txt
+    [ container 200 32 midRight <| plainText txt
     , container 200 32 middle <| size 180 26 fld ]
 
-showErrors presses errs =
-  if presses == 0 || isEmpty errs then spacer 10 10 else
+showErrors : [String] -> Element
+showErrors errs =
+  if isEmpty errs then spacer 10 10 else
     flow down <| map (text . Text.color red . toText) errs
 
-form presses errs =
-  let entry = color (rgb 230 230 230) . flow down <|
-               [ field "First Name:"     firstBox
-               , field "Last Name:"      lastBox
-               , field "Your Email:"     emailBox
-               , field "Re-enter Email:" remailBox
-               , showErrors presses errs
-               , container 310 40 midRight <| size 60 30 butn
-               ]
-  in  container (widthOf entry + 60) (heightOf entry + 60) middle entry 
+formTitle : String -> Element
+formTitle str = width 400 . centered . Text.height 38 <| toText str
 
-main = lift2 form pressCount errors
+userEntry : Element -> Element -> Element -> Element -> [String] -> Element
+userEntry first last email remail errors =
+    color (rgb 230 230 230) . flow down <|
+        [ formTitle "Example Form"
+        , fieldWith "First Name:" first
+        , fieldWith "Last Name:"  last
+        , fieldWith "Your Email:" email
+        , fieldWith "Re-enter Email:" remail
+        , showErrors errors
+        , container 390 50 midRight <| size 60 30 butn
+        ]
+
+-- HTTP control
+sendRequest : Signal String
+sendRequest = keepWhen sendable "" <| lift3 url first last email
+
+getLogin : Signal String -> Signal (Http.Response String)
+getLogin req = Http.send <| lift (\r -> Http.post r "") req
+
+-- HTTP printing  
+prettyPrint : Http.Response String -> Element
+prettyPrint res = case res of
+  Http.Waiting -> plainText ""
+  Http.Failure _ _ -> plainText ""
+  Http.Success a -> plainText a
+
+
+inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors 
+boxWidth = widthOf <~ inputForm
+inputBox = let cmaker inForm bWidth = container bWidth 360 topLeft inForm
+  in cmaker <~ inputForm ~ boxWidth
+loginResponse = prettyPrint <~ getLogin sendRequest
+
+scene (w,h) box result =
+    flow down [ spacer w 50
+              , container w ((heightOf box)) midTop box
+              , container w (h - heightOf box) midTop result ]
+
+main : Signal Element
+main = lift3 scene Window.dimensions inputBox loginResponse

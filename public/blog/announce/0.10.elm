@@ -233,7 +233,7 @@ this feature was how simple it was to implement with FRP and Elm.
 is available if you want to look into instant search, use the site as a starting
 point for your own project, or whatever else.
 Also, huge thanks to [Max New](https://github.com/maxsnew),
-[Max Goldstien](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
+[Max Goldstein](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
 for helping convert the standard libraries to the new docs format!
 
 ## Improvements and Fixes
@@ -252,7 +252,7 @@ most significant part of this release:
 
 * Add <span style="font-family:monospace;">
   ([Random.floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float])</span><br/>
-  Thanks to [Max Goldstien](https://github.com/mgold)!
+  Thanks to [Max Goldstein](https://github.com/mgold)!
 
 * Fix the `remove` function in [the `Dict`
   library](http://docs.elm-lang.org/library/Dict.elm) based on [Matt Might's
