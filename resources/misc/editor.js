@@ -1,6 +1,10 @@
 var editor = null;
 var elmDocs = null;
 
+window.onbeforeunload = function(e) {
+    return 'You will lose any changes you have made to your Elm program if you leave this page.';
+};
+
 function compile() {
     var form = document.getElementById('inputForm');
     form.submit();
