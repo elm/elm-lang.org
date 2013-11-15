@@ -101,7 +101,7 @@ The compiler code lives [here][compiler], and is roughly divided into sections b
 directories. If you want to make syntactic or semantic changes, talk to [Evan][evan] early on
 to make sure that your ideas fit with the long term vision of Elm.
 
- [compiler]: https://github.com/evancz/Elm/tree/master/elm "elm compiler"
+ [compiler]: https://github.com/evancz/Elm "elm compiler"
  [libs]: https://github.com/evancz/Elm/tree/master/core-elm "libraries"
  [infer]: http://web.cecs.pdx.edu/~mpj/thih/TypingHaskellInHaskell.html "Typing Haskell"
  [evan]: https://github.com/evancz "Evan"
@@ -110,4 +110,3 @@ to make sure that your ideas fit with the long term vision of Elm.
 |]
 
 main = lift (skeleton blog) Window.dimensions
-
