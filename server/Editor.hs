@@ -24,7 +24,7 @@ ideBuilder :: String -> String -> String -> String -> Html
 ideBuilder cols title input output =
     H.docTypeHtml $ do
       H.head . H.title . toHtml $ title
-      preEscapedToMarkup $ 
+      preEscapedToMarkup $
          concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
                 , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
                 , "  <frame name=\"output\" src=\"", output, "\" />\n"
@@ -51,7 +51,7 @@ editor filePath code =
         H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
         H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js?0.10" $ mempty
       H.body $ do
-        H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
+        H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" ! A.enctype "multipart/form-data" $ do
            H.div ! A.id "editor_box" $
              H.textarea ! A.name "input" ! A.id "input" $ toHtml ('\n':code)
            H.div ! A.id "options" $ do
@@ -68,7 +68,7 @@ buttons = H.div ! A.class_ "valign_kids"
                 ! A.style "float:right; padding-right: 6px;"
                 $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
       where
-        hotSwapButton = 
+        hotSwapButton =
             H.input
                  ! A.type_ "button"
                  ! A.id "hot_swap_button"
@@ -76,7 +76,7 @@ buttons = H.div ! A.class_ "valign_kids"
                  ! A.onclick "hotSwap()"
                  ! A.title "Ctrl-Shift-Enter"
 
-        compileButton = 
+        compileButton =
             H.input
                  ! A.type_ "button"
                  ! A.id "compile_button"
@@ -98,7 +98,7 @@ options = H.div ! A.class_ "valign_kids"
                 ! A.style "float:left; padding-left:6px; padding-top:2px;"
                 ! A.title "Show documentation and types."
                 $ (docs' >> opts)
-    where 
+    where
       docs' = do
         H.span "Hints:"
         H.input ! A.type_ "checkbox"
@@ -108,7 +108,7 @@ options = H.div ! A.class_ "valign_kids"
       opts = do
         H.span ! A.style "padding-left: 12px;" $ "Options:"
         H.input ! A.type_ "checkbox"
-                ! A.id "options_checkbox" 
+                ! A.id "options_checkbox"
                 ! A.onchange "showOptions(this.checked);"
 
 editorOptions :: Html
@@ -122,7 +122,7 @@ editorOptions = theme >> zoom >> lineNumbers
           H.select ! A.id "editor_theme"
                    ! A.onchange "setTheme(this.value)"
                    $ mapM_ optionFor themes
-              
+
       zoom =
           H.select ! A.id "editor_zoom"
                    ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"

@@ -74,10 +74,7 @@ compilePart :: ToMessage a => (String -> a) -> ServerPart Response
 compilePart compile = do
   decodeBody $ defaultBodyPolicy "/tmp/" 0 10000 1000
   code <- look "input"
-  if length code > 4000
-    then requestEntityTooLarge =<< serveFile (asContentType "text/html; charset=UTF-8")
-                                   "public/build/lengthError.elm"
-    else ok $ toResponse $ compile code
+  ok $ toResponse $ compile code
 
 open :: String -> ServerPart (Maybe String)
 open fp =
