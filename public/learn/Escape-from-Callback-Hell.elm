@@ -484,17 +484,12 @@ box w e = container w 40 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
-dropTil str =
-    case String.uncons str of
-      Just (hd,tl) -> if hd == '[' then tl else dropTil tl
-      _ -> str
-take n str =
-    if n < 1 then str else
-    case String.uncons str of
-      Just (hd,tl) -> String.cons hd (take (n-1) tl)
-      Nothing -> ""
 
-format r = String.map (\c -> if c == '"' then '\'' else c) (take 19 (dropTil r))
+trim str = case String.indexes "[" str of
+             i::_ -> String.dropLeft (i+1) str
+             _ -> str
+
+format r = String.map (\c -> if c == '"' then '\'' else c) (String.left 19 (trim r))
 showResponse response =
   code <| case response of
             Http.Success r -> "Success \"... " ++ format r ++ " ...\""
