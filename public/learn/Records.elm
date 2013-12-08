@@ -71,9 +71,6 @@ The structure of the following document is as follows:
 - [Polymorphic Fields](#polymorphic-fields)
 - [Record Types](#record-types)
 
-Then we will use [a larger example](#records-for-games) to compare Elm&rsquo;s
-record system to using Objects in JavaScript or records in GHC Haskell.
-
 ### Comparison of Records and Objects
 
 Records in Elm are quite similar to objects in JavaScript. The major differences
