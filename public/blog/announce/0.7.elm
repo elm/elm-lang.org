@@ -172,10 +172,9 @@ programming. Objects can be represented as a recursive record system! I
 specifically left out a keyword like `this` or `self` that would permit this
 sort of recursion though. I consider it extremely bad practice to mix your data
 and your logic, and as far as I can tell, that is the sole purpose of `this`
-and `self`. For more on this connection, check out [this][a] and [this][b].
+and `self`. For more on this connection, check out [this][a].
 
  [a]: /learn/Records.elm#comparison-of-records-and-objects
- [b]: /learn/Records.elm#records-for-games
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
  [same]: http://www.cse.unsw.edu.au/~chak/papers/modules-classes.pdf "Constructive Comparison"
  [unify]: http://www.mpi-sws.org/~dreyer/papers/mtc/main-long.pdf "Modular Type Classes"
