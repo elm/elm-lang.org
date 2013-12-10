@@ -36,13 +36,18 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Announcing Elm REPL
+<h1><div style="text-align:center">Elm REPL
 <div style="font-size:0.5em;font-weight:normal">*An old kind of REPL*</div></div>
 </h1>
 
 [The `elm-repl` command line tool](https://github.com/evancz/elm-repl#elm-repl)
-is now available on Hackage. After you install [node.js](http://nodejs.org/download/)
-to actually evaluate things, you can install the REPL with:
+is now available. Like any proper
+[REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop),
+it lets you interact with functions and expressions burried deep inside
+large project with many modules.
+
+After you install [node.js](http://nodejs.org/download/),
+you can install the REPL with:
 
 ```bash
 cabal update ; cabal install elm-repl
@@ -50,6 +55,13 @@ cabal update ; cabal install elm-repl
 
 From there, just run `elm-repl` and start writing Elm expressions, definitions,
 ADTs, and module imports.
+
+It is just for the command line now, but I&rsquo;d *love* to see `elm-repl`
+integrated into editors. Modes for [emacs](https://github.com/jcollard/elm-mode),
+[vim](https://github.com/lambdatoast/elm.vim), and
+[Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage) are still
+maturing and improving, so if you are interested in working on any of these,
+please get in contact with the authors. This is a great way to contribute to Elm!
 
 ## Usage
 
@@ -122,18 +134,6 @@ are working on a module called `Graph`:
 
 This means you can dig into large projects you are working on
 and see how a specific function behaves.
-
-## What&rsquo;s next?
-
-I hope that `elm-repl` will soon be integrated into your favorite IDE.
-Projects in various stages of maturity have sprung up for
-[emacs](https://github.com/jcollard/elm-mode), [vim](https://github.com/lambdatoast/elm.vim),
-and [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage).
-If you are interested in working on any of these
-projects, please get in contact with the authors. This is a great way
-to contribute to Elm!
-
-I look forward to the day that the REPL and hot-swapping work in emacs.
 
 ## What happened to &ldquo;A New Kind of REPL&rdquo;?
 
