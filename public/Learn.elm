@@ -84,6 +84,7 @@ papers = [markdown|
 
 #### Articles / Blog
 
+ * [Elm REPL](/blog/announce/Elm-Repl.elm)
  * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)

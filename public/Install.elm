@@ -15,7 +15,8 @@ To build from source or [contribute](/Contribute.elm), fork the
 compiler/server [on github](https://github.com/evancz/Elm).
 This website is also [available](https://github.com/evancz/elm-lang.org)
 with [setup instructions][instruct]. It can be the basis for your own website
-or let you use the interactive editor locally.
+or let you use the interactive editor locally. Use [`elm-repl`](https://github.com/evancz/elm-repl)
+to interact with specific functions in a multi-module project.
 
  [instruct]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "install"
 
