@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import open Website.ColorScheme
 import Window
@@ -174,7 +173,7 @@ Thank you to Joe Collard for [explaining to me why he needed a
 REPL][repl-request].
 Once I fully understood the problem, I had to do it. It was like a happier version
 of [The Tell-Tale Heart](http://en.wikipedia.org/wiki/The_Tell-Tale_Heart).
-Thank you to [Tom Berek](https://github.com/tomberek) for figuring out
+Thank you to [Thomas Bereknyei](https://github.com/tomberek) for figuring out
 how to catch `Ctrl-c` presses in a platform independent way. Thanks to
 the [haskeline](http://hackage.haskell.org/package/haskeline) project
 which provided lots of great infrastructure for this project.
