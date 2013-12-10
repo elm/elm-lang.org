@@ -13,11 +13,10 @@ intro = [markdown|
 <style type="text/css">
 p { text-align: justify }
 h2,h3,h4 { padding-top: 0.5em; }
-pre {
- background-color: rgb(245,245,245);
- margin: 0 30px;
- padding: 4px 10px;
- border-left: solid 2px rgb(96,181,204);
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
 }
 </style>
 

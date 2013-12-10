@@ -8,6 +8,13 @@ foreign export jsevent "title"
   title : Signal JS.JSString
 
 blog = [markdown|
+<style>
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+</style>
 
 # Elm 0.4: Graphics Upgrade
 

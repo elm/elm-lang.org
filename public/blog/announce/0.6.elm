@@ -13,7 +13,14 @@ main = lift (skeleton intro) Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
-<style>p { text-align: justify }</style>
+<style>
+p { text-align: justify }
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+</style>
 
 # Elm 0.6 &ndash; Time, Dates, and Syntax
 

@@ -17,18 +17,11 @@ intro = [markdown|
 
 <style type="text/css">
 p { text-align: justify }
-pre {
- background-color: rgb(245,245,245);
- margin: 0 30px;
- padding: 4px 10px;
- border-left: solid 2px rgb(96,181,204);
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
 }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
 code > span.kw { color: #204a87; font-weight: bold; }
 code > span.dt { color: #204a87; }
 code > span.dv { color: #0000cf; }
