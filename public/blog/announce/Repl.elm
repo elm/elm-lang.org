@@ -40,7 +40,7 @@ code > span.er { font-weight: bold; }
 <div style="font-size:0.5em;font-weight:normal">*An old kind of REPL*</div></div>
 </h1>
 
-[The `elm-repl` command line tool](https://github.com/evancz/elm-repl#elm-repl)
+The first release of [`elm-repl`](https://github.com/evancz/elm-repl#elm-repl)
 is now available. Like any proper
 [REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop),
 it lets you interact with functions and expressions buried deep inside a
