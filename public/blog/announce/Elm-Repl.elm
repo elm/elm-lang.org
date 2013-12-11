@@ -43,7 +43,7 @@ code > span.er { font-weight: bold; }
 [The `elm-repl` command line tool](https://github.com/evancz/elm-repl#elm-repl)
 is now available. Like any proper
 [REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop),
-it lets you interact with functions and expressions burried deep inside
+it lets you interact with functions and expressions buried deep inside a
 large project with many modules.
 
 After you install [node.js](http://nodejs.org/download/),
