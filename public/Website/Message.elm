@@ -14,7 +14,7 @@ topBar k n =
         accentCycle = concatMap (\_ -> accents) [ 0 .. k `div` 5 ]
     in  flow right <| zipWith (\c w -> color c <| spacer w 5) accentCycle ws
 
-scene msg (w,h) = layers [ tiledImage w h "texture.png"
+scene msg (w,h) = layers [ tiledImage w h "/texture.png"
                          , container w h middle (box <| width 300 msg)
                          ]
 

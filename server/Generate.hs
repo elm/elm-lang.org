@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module ElmToHtml (elmToHtml, elmToJS) where
+module Generate (html, js) where
 
 import Data.Maybe (fromMaybe)
 import Text.Blaze (preEscapedToMarkup)
@@ -12,8 +12,8 @@ import Utils
 
 -- | Using a page title and the full source of an Elm program, compile down to
 --   a valid HTML document.
-elmToHtml :: String -> String -> H.Html
-elmToHtml name src =
+html :: String -> String -> H.Html
+html name src =
   H.docTypeHtml $ do
       H.head $ do
         H.meta ! A.charset "UTF-8"
@@ -44,7 +44,7 @@ addSpaces str =
     c : rest -> c : addSpaces rest
     [] -> []
 
-elmToJS :: String -> String
-elmToJS src = case Elm.compile src of
-                Right js -> "{ \"success\" : " ++ show js ++ " }"
-                Left err -> "{ \"error\" : " ++ show err ++ " }"
+js :: String -> String
+js src = case Elm.compile src of
+           Right js -> "{ \"success\" : " ++ show js ++ " }"
+           Left err -> "{ \"error\" : " ++ show err ++ " }"

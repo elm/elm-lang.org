@@ -28,13 +28,14 @@ executable run-elm-website
                      , containers
                      , cmdargs
                      , directory
-                     , Elm >= 0.10
+                     , Elm >= 0.10.0.2
                      , filepath
-                     , happstack-server
+                     , snap-core
+                     , snap-server
                      , HTTP
                      , mtl
-                     , parsec
                      , process
+                     , unordered-containers
 
   hs-source-dirs:      server
   default-language:    Haskell2010
