@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Editor (editor,ide,emptyIDE) where
+module Editor (editor,ide,empty) where
 
 import Data.Monoid (mempty)
 import Text.Blaze.Html
@@ -17,8 +17,8 @@ ide cols fileName code =
                ("/compile?input=" ++ urlEncode code)
 
 -- | Display an editor and the compiled result side-by-side.
-emptyIDE :: Html
-emptyIDE = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
+empty :: Html
+empty = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
 
 ideBuilder :: String -> String -> String -> String -> Html
 ideBuilder cols title input output =
