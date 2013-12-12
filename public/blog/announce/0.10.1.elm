@@ -131,7 +131,7 @@ fibs = cons 0 <| \() ->
        cons 1 <| \() -> zipWith (+) fibs (tail fibs)
 ```
 
-That's neat, but the real goal of streams is to model &ldquo;pure&rdquo; signals,
+One of the immediate uses for this new power is to model &ldquo;pure&rdquo; signals,
 signals that are not influenced by the outside world. For example, you could make
 an infinite stream of randomly generated numbers using
 Joe Collard's [`elm-random` library](https://github.com/jcollard/elm-random).
