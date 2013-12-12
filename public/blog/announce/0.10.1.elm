@@ -41,8 +41,8 @@ code > span.er { font-weight: bold; }
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Library Laziness and Library Improvements*</div></div>
 </h1>
 
-This incremental release focuses on mostly on libraries. The improvements and
-additions include:
+This incremental release focuses on mostly on libraries. The library
+improvements and additions include:
 
   * [`Lazy`](http://docs.elm-lang.org/library/Lazy.elm) &mdash;
     core tools for creating efficient lazy data structures
@@ -59,8 +59,9 @@ additions include:
 
 There are also many miscellaneous fixes and improvements. Most notably,
 infinite types lead to *much* nicer error messages, type errors should
-be a bit easier to read, and stale intermediate files are detected
-automatically.
+be a bit easier to read, and stale intermediate files are detected automatically.
+You can install 0.10.1 with [these instructions](http://elm-lang.org/Install.elm)
+or upgrade with `cabal update ; cabal install elm`.
 
 Overall, this release is intended to get Elm nice and stable for 0.11.
 The next big release should include a way to easily share libraries, so
