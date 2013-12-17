@@ -51,7 +51,7 @@ tabs = map tab paths
 paths =
   [ ("Learn"    , "/Learn.elm")
   , ("Examples" , "/Examples.elm")
-  , ("Docs"     , "http://docs.elm-lang.org")
+  , ("Libraries", "/Libraries.elm")
   , ("Install"  , "/Install.elm")
   ]
 
