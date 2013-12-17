@@ -7,7 +7,7 @@ import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
-import qualified Language.Elm as Elm
+import qualified Elm.Internal.Utils as Elm
 import Utils
 
 -- | Using a page title and the full source of an Elm program, compile down to
