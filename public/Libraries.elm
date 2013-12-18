@@ -29,7 +29,6 @@ graphics = ("Graphics",
 
 signals = ("Interaction",
   [ "Signal"
-  , "Automaton"
   ])
 userInput = ("User Input",
   [ "Mouse"
