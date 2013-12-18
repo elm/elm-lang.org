@@ -50,9 +50,6 @@ ffi = ("JavaScript",
   ])
 
 intro = [markdown|
-<style>
-h1,h2,h3 { font-weight: normal; }
-</style>
 
 # Libraries
 
@@ -62,9 +59,6 @@ of the Elm compiler and make it easy to get productive with Elm.
 |]
 
 outro = [markdown|
-<style>
-h1,h2,h3 { font-weight: normal; }
-</style>
 
 ## Community Libraries
 
