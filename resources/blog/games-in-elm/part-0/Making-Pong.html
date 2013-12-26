@@ -36,7 +36,7 @@ code > span.er { font-weight: bold; }
 <div style="width:600px;margin:0 auto;">
 <p style="text-align:right"><a href="/">Home</a></p>
 <h1 id="making-games-in-elm-part-0-pong">Making Pong</h1>
-<p>This posthas two major goals:</p>
+<p>This post has two major goals:</p>
 <ol style="list-style-type: decimal">
 <li>Get you thinking about <a href="/learn/What-is-FRP.elm" title="Functional Reactive Programming">Functional Reactive Programming</a> (FRP) for games.</li>
 <li>Teach you how to make games with Elm.</li>
@@ -44,7 +44,7 @@ code > span.er { font-weight: bold; }
 <p>In this post we will be looking into <a href="/edit/examples/Intermediate/Pong.elm">Pong in Elm</a>: a functional game written in Elm, playable in any modern browser.</p>
 <h2 id="functional-game-design">Functional Game Design</h2>
 <p>Making games is historically a very imperative undertaking, so it has long missed the benefits of purely functional programming. FRP makes it possible to program rich user interactions without resorting to traditional imperative idioms.</p>
-<p>By the end of this post we will have written an entire GUI/game without any imperative code. No global mutable state, no flipping pixels, no destructive updates. In fact, Elm disallows all of these things at the language level. So good design and safe coding practices are a requirement, not just self-inforced suggestions.</p>
+<p>By the end of this post we will have written an entire GUI/game without any imperative code. No global mutable state, no flipping pixels, no destructive updates. In fact, Elm disallows all of these things at the language level. So good design and safe coding practices are a requirement, not just self-enforced suggestions.</p>
 <p>Imperative programs allow you to reach into objects and data structures whenever you want, so it is not a huge deal if your code is somewhat disorganized. With functional game design, we must be more careful about how our programs are structured. In fact in Elm, all games will share the same underlying structure.</p>
 <p>The structure of Elm games breaks into three major parts: modeling the game, updating the game, and viewing the game. It may be helpful to think of it as a functional variation on the Model-View-Controller paradigm.</p>
 <p>To make this more concrete, lets see how Pong needs to be structured:</p>
@@ -110,7 +110,7 @@ halfHeight <span class="fu">=</span> gameHeight <span class="fu">/</span> <span 
 <p>Our <code>GameState</code> data structure holds all of the information needed to represent the game at any moment. In this section we will define a 'step function' that steps from <code>GameState</code> to <code>GameState</code>, moving the game forward as new inputs come in.</p>
 <p>You can think of our game as a finite state machine. Here we are defining a transition function that takes an input and a state, and then steps to the <em>next</em> state. If you are not familiar with finite state machines, do not worry about this analogy!</p>
 <h2 id="stepping-from-state-to-state">Stepping from State to State</h2>
-<p>To make our step function more managable, we can break it up into smaller components.</p>
+<p>To make our step function more manageable, we can break it up into smaller components.</p>
 <p>First, we define a step function for updating the position of paddles. It only depends on our timestep and a desired direction (given by keyboard input).</p>
 <p>We use the <code>clamp</code> function to keep the paddle within the boundaries of the game. The distance moved is determined in part by <code>delta</code>, the time since the last update. This will make the motion of the paddles look smooth even if updates happen irregularly.</p>
 <pre class="sourceCode literate haskell"><code class="sourceCode haskell">stepPaddle delta dir (<span class="dt">Paddle</span> y) <span class="fu">=</span>
@@ -190,7 +190,7 @@ within epsilon n x <span class="fu">=</span> x <span class="fu">&gt;</span> n <s
 <li>Make the Pong field look nicer. Add a line (or dotted line) at mid-field.</li>
 <li>Add the ability to pause the game during game play.</li>
 <li>Add the ability to reset the game (besides refreshing the page!)</li>
-<li>Make ball collisions more complicated. Possiblities:
+<li>Make ball collisions more complicated. Possibilities:
 <ul>
 <li>When the ball hits the corner of a paddle, it changes direction.</li>
 <li>If the ball hits a moving paddle, it adds spin to the ball, making it rebound in a different direction.</li>
