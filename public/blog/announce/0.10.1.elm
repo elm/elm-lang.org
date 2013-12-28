@@ -38,16 +38,14 @@ code > span.er { font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.10.1
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Library Laziness and Library Improvements*</div></div>
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*All about Libraries*</div></div>
 </h1>
 
-This incremental release focuses on mostly on libraries. The library
-improvements and additions include:
+This incremental release gets the compiler ready for easily sharing
+libraries. A home for community libraries and a tool for easily downloading
+and uploading libraries will be announced soon!
+Otherwise, this release focuses on improving Elm's standard libraries:
 
-  * [`Lazy`](http://docs.elm-lang.org/library/Lazy.elm) &mdash;
-    core tools for creating efficient lazy data structures
-  * [`Lazy.Stream`](http://docs.elm-lang.org/library/Lazy/Stream.elm) &mdash;
-    infinite streams to model &ldquo;pure&rdquo; signals
   * [`List`](http://docs.elm-lang.org/library/List.elm) &mdash;
     add general sorting functions
   * [`Transform2D`](http://docs.elm-lang.org/library/Transform2D.elm) &mdash;
@@ -62,99 +60,6 @@ infinite types lead to *much* nicer error messages, type errors should
 be a bit easier to read, and stale intermediate files are detected automatically.
 You can install 0.10.1 with [these instructions](http://elm-lang.org/Install.elm)
 or upgrade with `cabal update ; cabal install elm`.
-
-Overall, this release is intended to get Elm nice and stable for 0.11.
-The next big release should include a way to easily share libraries, so
-keep an eye out for the Elm Public Library and start getting *your* libraries
-ready for release!
-
-## Library Laziness
-
-It is now possible to create efficient lazy data structures thanks to Max
-New&rsquo;s [`Lazy` library](http://docs.elm-lang.org/library/Lazy.elm).
-The key functions in `Lazy` are `lazy` and `force`. The `lazy` function
-lets you delay evaluation of an arbitrary value by putting it in a
-[thunk](http://en.wikipedia.org/wiki/Thunk_(functional_programming)).
-
-```haskell
-lazy : (() -> a) -> Lazy a
-
-lazySum : Lazy Int
-lazySum = lazy (\() -> sum [1..999999])
-```
-
-This is a way of saying we want to sum a whole boatload of numbers *eventually*.
-Not now, but maybe we'll want it later. If that ever happens, we use `force`:
-
-```haskell
-force : Lazy a -> a
-
-sum1 : Int
-sum1 = force lazySum
-
-sum2 : Int
-sum2 = force lazySum
-```
-
-The first time we `force` our `lazySum` we are going to finally add
-those million integers together. It may take a bit of time to get through
-them all, but the cool thing about `force` is that it saves its work.
-When we call `force` on `lazySum` the second time, the work
-is already done and it is super quick to get the result.
-More generally, this means something with type `Lazy a` will be
-evaluated exactly one time.
-
-These primitives&mdash;along with helpers like `map`, `apply`, and
-`bind`&mdash;provide the fundamental mechanisms to start creating
-efficient lazy data structures.
-
-### Infinite Streams
-
-The first example of a lazy data structure in Elm is the
-[`Lazy.Stream`](http://docs.elm-lang.org/library/Lazy/Stream.elm) library,
-which allows you to work with infinite streams of values. These can be used
-to model &ldquo;pure&rdquo; signals, but we'll get to that soon enough!
-A basic usage would be creating an infinite stream of ones:
-
-```haskell
--- building Streams
-cons : a -> (() -> Stream a) -> Stream a
-
-ones : Stream Int
-ones = cons 1 (\() -> ones)
-```
-
-That's not too crazy, but you can do some pretty mind-bending things when you
-have infinite streams, like efficiently defining the complete fibonacci sequence:
-
-```haskell
-fibs = cons 0 <| \() ->
-       cons 1 <| \() -> zipWith (+) fibs (tail fibs)
-```
-
-One of the immediate uses for this new power is to model &ldquo;pure&rdquo; signals,
-signals that are not influenced by the outside world. For example, you could make
-an infinite stream of randomly generated numbers using
-Joe Collard's [`elm-random` library](https://github.com/jcollard/elm-random).
-From there you can use it however you want, even turning it into a signal with
-`Stream.sampleOn`:
-
-```haskell
-randoms : Stream Float
-
-Stream.sampleOn : Signal a -> Stream b -> Signal b
-
-clickRandoms : Signal Float
-clickRandoms = Stream.sampleOn Mouse.clicks randoms
-```
-
-One important property of these streams is that, although the stream itself
-is lazy, the values *in* the stream are not. A stream of lazy values would
-have type `Stream (Lazy a)`. This makes it pretty easy to see exactly how
-lazy something is so you can use laziness only when you actually want it.
-
-Max New&mdash;who created both `Lazy` and `Lazy.Stream`&mdash;is working on
-a more complete post on lazy streams, so keep an eye out!
 
 ## Sorting
 
@@ -194,8 +99,8 @@ flippedComparison a b =
        GT -> LT
 ```
 
-Big thank you to Max Goldstein for suggesting and implementing this and to
-Max New for coming up with really nice names for both functions. I
+Big thank you to Max Goldstein for suggesting and implementing this and
+to Max New for coming up with really nice names for both functions. I
 am far too excited about the `sortBy` function.
 
 ## Transform2D, Bitwise, and Regex
@@ -225,14 +130,6 @@ expressions](http://www.amazon.com/Introduction-Theory-Computation-Michael-Sipse
   Leitgeb who made persuasive arguments and collected data when I was being
   frustratingly conservative.)
 
-Thank you again to everyone who contributed to this release! Thank you to anyone who
-has put up with my handwringing over function names, I cannot help it.
-I really want to get them all right this time around! And thank you to
-everyone who attended or spoke at the [Elm Workshop](/blog/announce/Workshop-2013.elm)
-in Budapest! I had a lot of fun and the talks and projects were great. I came away
-with some very good ideas about how to improve the Elm runtime, and more immediately,
-seeing everyones work was really inspiring and really helped me pick up the pace on
-creating a tool for sharing libraries!
-
+Thank you again to everyone who contributed to this release!
 
 |]
