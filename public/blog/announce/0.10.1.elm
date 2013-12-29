@@ -37,14 +37,17 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.10.1
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*All about Libraries*</div></div>
+<h1><div style="text-align:center">Elm 0.10.1 and REPL 0.2
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Tools and Libraries*</div></div>
 </h1>
 
-This incremental release gets the compiler ready for easily sharing
-libraries. A home for community libraries and a tool for easily downloading
-and uploading libraries will be announced soon!
-Otherwise, this release focuses on improving Elm's standard libraries:
+A lot of work is going into tooling right now, so this incremental release
+mainly gets the compiler in shape for integrating with other projects.
+This release coincides with [a much improved version of
+`elm-repl`](https://github.com/evancz/elm-repl/blob/master/changelog.txt#L1-L12)
+(install with `cabal install elm-repl`) and sets things up for easily sharing
+Elm libraries (announcement coming soon!). Besides that stuff, this release
+focuses on improving Elm's standard libraries. Additions and improvements include:
 
   * [`List`](http://docs.elm-lang.org/library/List.elm) &mdash;
     add general sorting functions
@@ -59,7 +62,9 @@ There are also many miscellaneous fixes and improvements. Most notably,
 infinite types lead to *much* nicer error messages, type errors should
 be a bit easier to read, and stale intermediate files are detected automatically.
 You can install 0.10.1 with [these instructions](http://elm-lang.org/Install.elm)
-or upgrade with `cabal update ; cabal install elm`.
+or upgrade with:
+
+    cabal update ; cabal install elm
 
 ## Sorting
 
