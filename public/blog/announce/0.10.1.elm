@@ -37,7 +37,7 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.10.1 and REPL 0.2
+<h1><div style="text-align:center">Elm 0.10.1
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Tools and Libraries*</div></div>
 </h1>
 
@@ -51,13 +51,13 @@ mainly gets the compiler in shape for:
 Besides that stuff, this release focuses on improving Elm's standard libraries.
 New and improved libraries include:
 
-  * [`List`](http://docs.elm-lang.org/library/List.elm) &mdash;
+  * [`List`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List.elm) &mdash;
     add general sorting functions
-  * [`Transform2D`](http://docs.elm-lang.org/library/Transform2D.elm) &mdash;
+  * [`Transform2D`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Transform2D.elm) &mdash;
     greatly expanded API
-  * [`Bitwise`](http://docs.elm-lang.org/library/Bitwise.elm) &mdash;
+  * [`Bitwise`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Bitwise.elm) &mdash;
     for your bitwise operation needs
-  * [`Regex`](http://docs.elm-lang.org/library/Regex.elm) &mdash;
+  * [`Regex`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Regex.elm) &mdash;
     for when parser combinators are too much
 
 There are also many miscellaneous fixes and improvements. Most notably,
