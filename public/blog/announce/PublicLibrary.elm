@@ -4,7 +4,7 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.10.1")
+title = constant (JS.fromString "Elm Public Library")
 foreign export jsevent "title"
   title : Signal JS.JSString
 
@@ -57,18 +57,37 @@ in your projects.
 
 ## Installing Libraries
 
+You can install any library from [the catalog](http://library.elm-lang.org/catalog).
+Each library is named `user/project` which currently maps directly to the name of
+a GitHub repo. Say you want to install the Automaton library&mdash;`evancz/automaton`&mdash;that
+recently got split out of the standard libraries. Run the following command from the root
+of your project.
+
     elm-get install evancz/automaton
+
+This will download the latest version of the library into your project. It will then
+ask if you want to add this dependency to your `elm_dependenies.json` file. This file
+is a specification for your project that helps the compiler and other tools know exactly
+which dependencies your project needs.
+
+If you want to download a specific version of a library, you can add that as an additional
+command line argument:
+
+    elm-get install evancz/automaton 0.1
+
+This can be useful if you want an old version of a library for some reason.
 
 ## Publishing Libraries
 
 The first step of publishing a library is writing one in the first place!
 Writing good libraries is hard, so definitely take a look at [the API design
-guidelines]() before getting started. The guidelines are a set of
-best-practices that hopefully will help people create great libraries.
+guidelines](/DesignGuidelines.html) before getting started. The guidelines are
+a set of best-practices that hopefully will help people create great libraries.
 
 Okay, once you have written a library, it is time to share it with the world.
 This section will go through how I published the `evancz/automaton` library,
-showing how to use `elm-get`.
+covering some background information about how the Public Library works and
+then showing how to use `elm-get`.
 
 The Public Library is backed by GitHub. Every registered project
 is tied to a specific repo on GitHub. This means you can star projects you
@@ -82,12 +101,25 @@ version 0.1 of your library. This ensures that each release is always
 tied to a specific commit.
 
 To make a release you must describe your project in the `elm_dependencies.json` file.
+This is a full specification of all of the metadata necessary to describe your project.
+For `evancz/automaton`, the file [looks like this](https://github.com/evancz/automaton/blob/master/elm_dependencies.json)
+and can be used as a template for other projects. The `elm-get` tool will try to help
+with writing this file if it notices any mistakes.
 
 You must also document the libraries you wish to expose publicly. The
 documentation format is described [here]().
 
 As of today, published libraries cannot have 3rd party dependencies.
 More on why in the next section.
+
+Now that all of that is in order, you can publish by running the following
+command in the root directory of your project:
+
+    elm-get publish
+
+Your library should appear in [the catalog](http://library.elm-lang.org/catalog) immediately.
+If you want to make a modification or remove something, please open [an
+issue](https://github.com/evancz/elm-get/issues) and I will make the changes.
 
 ## Current Limitations and Future Plans
 
