@@ -42,12 +42,14 @@ code > span.er { font-weight: bold; }
 </h1>
 
 A lot of work is going into tooling right now, so this incremental release
-mainly gets the compiler in shape for integrating with other projects.
-This release coincides with [a much improved version of
-`elm-repl`](https://github.com/evancz/elm-repl/blob/master/changelog.txt#L1-L12)
-(install with `cabal install elm-repl`) and sets things up for easily sharing
-Elm libraries (announcement coming soon!). Besides that stuff, this release
-focuses on improving Elm's standard libraries. Additions and improvements include:
+mainly gets the compiler in shape for:
+
+  * [A greatly improved version of `elm-repl`](https://github.com/evancz/elm-repl/blob/master/changelog.txt#L1-L12)
+    (`cabal install elm-repl`)
+  * Easily sharing Elm libraries (announcement coming soon!)
+
+Besides that stuff, this release focuses on improving Elm's standard libraries.
+New and improved libraries include:
 
   * [`List`](http://docs.elm-lang.org/library/List.elm) &mdash;
     add general sorting functions
@@ -65,6 +67,9 @@ You can install 0.10.1 with [these instructions](http://elm-lang.org/Install.elm
 or upgrade with:
 
     cabal update ; cabal install elm
+
+The rest of this post covers the improvements directly related to the compiler
+and core libraries.
 
 ## Sorting
 
