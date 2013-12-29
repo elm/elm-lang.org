@@ -23,7 +23,7 @@ import System.Process
 import System.Directory
 import GHC.Conc
 
-import qualified Language.Elm as Elm
+import qualified Elm.Internal.Paths as Elm
 import qualified Generate
 import qualified Editor
 import Utils
@@ -162,8 +162,8 @@ precompile =
 
 getRuntimeAndDocs :: IO ()
 getRuntimeAndDocs = do
-  writeFile "resources/elm-runtime.js" =<< readFile =<< Elm.runtime
-  writeFile "resources/docs.json" =<< readFile =<< Elm.docs
+  writeFile "resources/elm-runtime.js" =<< readFile Elm.runtime
+  writeFile "resources/docs.json" =<< readFile Elm.docs
 
 adjustHtmlFile :: FilePath -> IO ()
 adjustHtmlFile file =
