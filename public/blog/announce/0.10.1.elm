@@ -104,13 +104,14 @@ values with a custom comparison function:
 ```haskell
 sortWith : (a -> a -> Order) -> [a] -> [a]
 
-sortWith flippedComparison [1..5] == [5,4,3,2,1]
+sortWith (flip compare) [1..5] == [5,4,3,2,1]
+sortWith personCompare [chuck,alice,bob] == [alice,bob,chuck]
 
-flippedComparison a b =
-     case compare a b of
-       LT -> GT
-       EQ -> EQ
-       GT -> LT
+-- compare by name, but fall back to comparing by height to break ties
+personCompare a b =
+    case compare a.name b.name of
+      EQ -> compare a.height b.height
+      order -> order
 ```
 
 Big thank you to [Max Goldstein](https://github.com/mgold) for suggesting
