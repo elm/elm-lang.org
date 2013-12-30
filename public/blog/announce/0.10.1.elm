@@ -73,8 +73,9 @@ and core libraries.
 
 ## Sorting
 
-The list library just got two new functions: `sortBy` and
-`sortWith`. First, `sortBy` lets you sort values by a derived property:
+In addition to a standard `sort` for any comparable values, the list library
+can now do some more flexible sorting with `sortBy` and `sortWith`. First,
+`sortBy` lets you sort values by a derived property:
 
 ```haskell
 sortBy : (a -> comparable) -> [a] -> [a]
@@ -109,13 +110,15 @@ flippedComparison a b =
        GT -> LT
 ```
 
-Big thank you to Max Goldstein for suggesting and implementing this and
-to Max New for coming up with really nice names for both functions. I
-am far too excited about the `sortBy` function.
+Big thank you to [Max Goldstein](https://github.com/mgold) for suggesting
+and implementing this and to [Max New](https://github.com/maxsnew) for
+coming up with really nice names for both functions. I am far too excited
+about the `sortBy` function.
 
 ## Transform2D, Bitwise, and Regex
 
-`Transform2D` was significantly fleshed out by Michael Søndergaard (Thank you!).
+`Transform2D` was significantly fleshed out by [Michael
+Søndergaard](https://github.com/Sheeo) (Thank you!).
 Using `groupTransform` should be quite a bit more pleasant now.
 
 I added the `Bitwise` library for low-level bit manipulations of integers.
