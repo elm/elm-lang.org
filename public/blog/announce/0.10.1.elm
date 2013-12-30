@@ -73,9 +73,12 @@ and core libraries.
 
 ## Sorting
 
-In addition to a standard `sort` for any comparable values, the list library
-can now do some more flexible sorting with `sortBy` and `sortWith`. First,
-`sortBy` lets you sort values by a derived property:
+In addition to a standard `sort` for any comparable values,
+[the list library](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List)
+can now do some more flexible sorting with
+[`sortBy`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#sortBy) and
+[`sortWith`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#sortWith).
+First, `sortBy` lets you sort values by a derived property:
 
 ```haskell
 sortBy : (a -> comparable) -> [a] -> [a]
