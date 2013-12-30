@@ -117,15 +117,17 @@ about the `sortBy` function.
 
 ## Transform2D, Bitwise, and Regex
 
-`Transform2D` was significantly fleshed out by [Michael
-Søndergaard](https://github.com/Sheeo) (Thank you!).
-Using `groupTransform` should be quite a bit more pleasant now.
+[`Transform2D`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Transform2D.elm)
+was significantly fleshed out by [Michael Søndergaard](https://github.com/Sheeo)
+(Thank you!). Using `groupTransform` should be quite a bit more pleasant now.
 
-I added the `Bitwise` library for low-level bit manipulations of integers.
-This may come in handy if you are writing a random number generator, as [Joe
-Collard is](https://github.com/jcollard/elm-random).
+I added the [`Bitwise`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Bitwise.elm)
+library for low-level bit manipulations of integers.
+This may come in handy if you are writing a random number generator,
+as [Joe Collard is](https://github.com/jcollard/elm-random).
 
-I also added the `Regex` library for searching through strings. It seemed like
+I also added the [`Regex`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Regex.elm)
+library for searching through strings. It seemed like
 a logical step after Elm [got a proper string representation in
 0.10](/blog/announce/0.10.elm). Note: I decided to call it `Regex` rather
 than `RegExp` to distinguish between the [monstrosity that is
