@@ -107,7 +107,7 @@ sortWith : (a -> a -> Order) -> [a] -> [a]
 sortWith (flip compare) [1..5] == [5,4,3,2,1]
 sortWith personCompare [chuck,alice,bob] == [alice,bob,chuck]
 
--- compare by name, but fall back to comparing by height to break ties
+-- compare by name first, compare by height to break ties
 personCompare a b =
     case compare a.name b.name of
       EQ -> compare a.height b.height
