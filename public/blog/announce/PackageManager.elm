@@ -140,8 +140,8 @@ There is still a lot of work to do on
 and [the Elm Public Library](http://library.elm-lang.org/), so the roadmap
 breaks up into fairly distinct topics.
 
-**Versioning:** There are some checks on versioning. Right now, it ensures that
-you are always publishing higher numbers. Eventually, I'd like to enforce [semantic
+**Versioning:** Right now, `elm-get` ensures that you are always publishing
+higher numbers. Eventually, I'd like to automatically enforce [semantic
 versioning](http://semver.org/) by actually comparing APIs between versions and
 finding type changes and additional values.
 
@@ -150,8 +150,7 @@ standard library. That simplifies my task for now, getting this release out earl
 The first batch of libraries won't have other dependencies anyway. (Thank you Mads
 for this idea!) Lifting this restriction is the highest priority for this project,
 and the ultimate goal is to allow multiple versions of a library in the same project
-(trying to avoid [cabal hell][cabal]). I *suspect* breaking changes will be necessary
-as I pursue this goal and see what is needed for Elm.
+(trying to avoid [cabal hell][cabal]).
 
  [cabal]: http://coldwa.st/e/blog/2013-08-20-Cabal-sandbox.html#what-are-sandboxes-and-why-are-they-needed
 
@@ -159,10 +158,9 @@ as I pursue this goal and see what is needed for Elm.
 on `evancz/automaton` version 0.1, they always share that code
 ([like Nix](http://nixos.org/nix/),
 [unlike in npm](https://github.com/Gozala/method/wiki/Known-Issues#dedup-by-default)).
-It may be possible to increase sharing of libraries in an semi-automated way. One could
-look at all of the functions you use from a library and then find all of the versions of that
-library where those specific functions exist and have the same type. This could give
-an estimated maximal dependency range. Unfortunately, the meaning of a function may
+It may be possible to increase sharing of libraries in an semi-automated way. One
+could estimate a maximal dependency range by finding all versions of a library
+whose types match the ones used in someone's project. The meaning of a function may
 change even if its type does not, but this at least trims down the possibilies. Pairing
 this strategy with the test suite for a library could further trim things down.
 
