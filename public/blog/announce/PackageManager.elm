@@ -158,11 +158,12 @@ and the ultimate goal is to allow multiple versions of a library in the same pro
 on `evancz/automaton` version 0.1, they always share that code
 ([like Nix](http://nixos.org/nix/),
 [unlike in npm](https://github.com/Gozala/method/wiki/Known-Issues#dedup-by-default)).
-It may be possible to increase sharing of libraries in an semi-automated way. One
-could estimate a maximal dependency range by finding all versions of a library
-whose types match the ones used in someone's project. The meaning of a function may
-change even if its type does not, but this at least trims down the possibilies. Pairing
-this strategy with the test suite for a library could further trim things down.
+To further increase sharing, it is possible to estimate a maximal
+dependency ranges. If your project uses functions `List.map` and
+`List.foldl`, the maximal dependency range would be all versions of `List` where
+the types of `map` and `foldl` are unchanged. Unfortunately, the *meaning*
+of a function may change even if its type does not, so this is an estimate at best.
+Pairing this strategy with the test suite for a library could further trim things down.
 
 **Data for users and authors:** I think there is tons of data that package
 managers usually do not track, yet could be very valuable for users. Ideas
