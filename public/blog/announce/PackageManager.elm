@@ -50,9 +50,11 @@ use community libraries. This comes in two parts:
   2. [`elm-get` command line tool](https://github.com/evancz/elm-get#elm-get)
      for installing and publishing libraries
 
-Once you install `elm-get` with `cabal install elm-get`, you will be all
-set to start using any library in [the catalog](http://library.elm-lang.org/catalog)
-in your projects!
+[The recent 0.10.1 compiler release](/blog/announce/0.10.1.elm) introduced
+integration with `elm-get` to make things easy to use. So once you [install
+`elm-get`](https://github.com/evancz/elm-get#install) with `cabal install elm-get`,
+you will be all set to start using any library in
+[the catalog](http://library.elm-lang.org/catalog) in your projects!
 
 For more information on how to use `elm-get` see [the usage
 instructions](https://github.com/evancz/elm-get#elm-get). The rest of this post
