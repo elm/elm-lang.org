@@ -123,17 +123,20 @@ all libraries. To make this easy, there needs to be some central site to host
 everything. Once you have a tool to upload metadata about packages, relying
 on something else to work out dependencies seems much less attractive. Users
 have an extra program to install and learn, it may have many irrelevant or
-problematic features, and there are extra steps to publish things. With the
-specific needs of each language and the fact that dependency management is
-unsolved to a certain extent, it made a lot of sense that this is a problem
+problematic features, and there are extra steps to publish things.
+
+With the specific needs of each language and the fact that dependency management
+is unsolved to a certain extent, it made a lot of sense that this is a problem
 that new languages tend to tackle for themselves. I was not pleased to reach
-this conclusion, but on close inspection, it seems like the only way that works
+this conclusion, but after close inspection, it seems like the only way that works
 for the *users* of a language.
 
-Those goals bring us to the roadmap for [`elm-get`](https://github.com/evancz/elm-get#elm-get)
-and [the Elm Public Library](http://library.elm-lang.org/).
-
 ## Roadmap
+
+There is still a lot of work to do on
+[`elm-get`](https://github.com/evancz/elm-get#elm-get)
+and [the Elm Public Library](http://library.elm-lang.org/), so the roadmap
+breaks up into fairly distinct topics.
 
 **Versioning:** There are some checks on versioning. Right now, it ensures that
 you are always publishing higher numbers. Eventually, I'd like to enforce [semantic
@@ -161,26 +164,27 @@ an estimated maximal dependency range. Unfortunately, the meaning of a function 
 change even if its type does not, but this at least trims down the possibilies. Pairing
 this strategy with the test suite for a library could further trim things down.
 
-**Rating / evaluating libraries:** All libraries need to live on github right now, so
-their star system and issue tracker can be good resources on how many people use a
-library and what problems may come up. It'll also be pretty clear who is responsible
-for libraries. I think this may be a good marker. Library authors get more recognition,
-users can figure out who they trust to make solid libraries and good APIs, etc.
-I really want to provide more usage data than this though. Some possibly crazy
-ideas include: tracking *unique* downloads, tracking version usage so you know
+**Data for users and authors:** I think there is tons of data that package
+managers usually do not track, yet could be very valuable for users. Ideas
+include: tracking *unique* downloads, tracking version usage so you know
 if people are upgrading or not, tracking function usage so you know the true
 impact of a breaking change. It is unclear if any of this is a good idea for a
-bunch of reasons, but I imagine it'd help library authors do a better job.
+variety of reasons, but I imagine it'd help library authors do a better job.
 
-**Extensions:** All of the info used to run this is just JSON data. It is currently
-possible to download any of it from the site directly, giving you access to [a list
-of every library](http://library.elm-lang.org/libraries.json) and [docs for each
+**Extensions:** All of the info used to run the Public Library is just JSON data.
+It is currently possible to download any of it from the site directly, giving you
+access to [a list of every uploaded library](http://library.elm-lang.org/libraries.json)
+and [docs for each version of each
 library](http://library.elm-lang.org/catalog/evancz-automaton/0.1/docs.json).
 This is great if you want to work on search tool like
 [Hayoo](http://holumbus.fh-wedel.de/hayoo/hayoo.html) or
-[Hoogle](http://www.haskell.org/hoogle/) for Elm (Elm Library Search? Elmoogle?)
-or try to work on a strategy for estimating maximal dependency ranges based on
+[Hoogle](http://www.haskell.org/hoogle/), implement autocomplete in an editor,
+or estimate maximal dependency ranges based on
 [`elm-doc` data](http://library.elm-lang.org/catalog/evancz-automaton/0.1/docs.json).
+
+There is a ton of work, so check out [the repo](https://github.com/evancz/elm-get)
+if you are interested in contributing! I am slowly becoming better at managing
+projects and I am doing my best to make it easy and fun to contribute.
 
 # Thank you
 
