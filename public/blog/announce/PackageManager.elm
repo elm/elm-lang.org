@@ -125,10 +125,7 @@ Nix does not work on Windows, and its expressiveness makes it quite complex
 for the simple set of things that Elm needs. npm would make discoverability
 really tough. And crucially, neither provide a way to have nicely formatted
 documentation for all libraries. No matter what option I chose, I would still
-need a way to upload metadata to a central repo. At that point, relying
-on something to work out dependencies seems much less attractive. Users
-have an extra program to install and learn, it may have many irrelevant or
-problematic features, and there are extra steps to publish things.
+need a way to upload metadata to a central repo.
 
 I decided to take a route similar to Go and OCaml. The [Elm Public
 Library](http://library.elm-lang.org/) is backed by GitHub, which
