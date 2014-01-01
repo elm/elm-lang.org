@@ -125,9 +125,11 @@ Nix does not work on Windows, and its expressiveness makes it quite complex
 for the simple set of things that Elm needs. npm would make discoverability
 really tough. And crucially, neither provide a way to have nicely formatted
 documentation for all libraries. So no matter what option I chose, I would
-still need a way to upload metadata to a central repo.
+still need a way to upload metadata to a central repo to have
+[a catalog](http://library.elm-lang.org/catalog) with documentation.
 
-I decided to take a route similar to Go and OCaml. The [Elm Public
+I decided to take a route inspired by Go and [OCaml](http://opam.ocaml.org/)
+(of course without the versioning issues with `go get`). The [Elm Public
 Library](http://library.elm-lang.org/) is backed by GitHub, which
 covers a decent amount of functionality, but leaves the more language
 specific tasks to me. This makes it easy to display documentation,
@@ -138,7 +140,8 @@ possible.
 I would be very happy if there was a way for me to do less work and
 still provide users with a great experience, but after researching
 and looking at the concrete details of different alternatives,
-I think the route I chose is ultimately best for the *users* of a language.
+I think the route I chose is ultimately best for the *users* of a language
+and minimizes the amount of work needed.
 
 ## Roadmap
 
