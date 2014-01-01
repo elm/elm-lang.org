@@ -120,18 +120,28 @@ choosing an approach. I wanted package management in Elm to:
    general autocomplete in editors. But most importantly, it should make
    every effort to avoid dependency hell!
 
-The deciding factor was that I want to have nicely formatted documentation for
-all libraries. To make this easy, there needs to be some central site to host
-everything. Once you have a tool to upload metadata about packages, relying
-on something else to work out dependencies seems much less attractive. Users
+No available option was a great fit for this, specifically on the third goal.
+Nix does not work on Windows, and its expressiveness makes it quite complex
+for the simple set of things that Elm needs. npm would make discoverability
+really tough. And crucially, neither provide a way to have nicely formatted
+documentation for all libraries. No matter what option I chose, I would still
+need a way to upload metadata to a central repo. At that point, relying
+on something to work out dependencies seems much less attractive. Users
 have an extra program to install and learn, it may have many irrelevant or
 problematic features, and there are extra steps to publish things.
 
-With the specific needs of each language and the fact that dependency management
-is unsolved to a certain extent, it made a lot of sense that this is a problem
-that new languages tend to tackle for themselves. I was not pleased to reach
-this conclusion, but after close inspection, it seems like the only way that works
-for the *users* of a language.
+I decided to take a route similar to Go and OCaml. The [Elm Public
+Library](http://library.elm-lang.org/) is backed by GitHub, which
+covers a decent amount of functionality, but leaves the more language
+specific tasks to me. This makes it easy to display documentation,
+work on discoverability, and integrate with the compiler and tools
+in a way that is best for Elm while still offloading as much work as
+possible.
+
+I would be very happy if there was a way for me to do less work and
+still provide users with a great experience, but after researching
+and looking at the concrete details of different alternatives,
+I think the route I chose is ultimately best for the *users* of a language.
 
 ## Roadmap
 
