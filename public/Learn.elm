@@ -84,6 +84,7 @@ papers = [markdown|
 
 #### Articles / Blog
 
+ * [Elm package manager](/blog/announce/PackageManager.elm)
  * [Elm REPL](/blog/announce/Repl.elm)
  * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)

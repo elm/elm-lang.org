@@ -37,7 +37,7 @@ code > span.fu { color: #000000; }
 code > span.er { font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.10.1 and REPL 0.2
+<h1><div style="text-align:center">Elm 0.10.1
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Tools and Libraries*</div></div>
 </h1>
 
@@ -51,13 +51,13 @@ mainly gets the compiler in shape for:
 Besides that stuff, this release focuses on improving Elm's standard libraries.
 New and improved libraries include:
 
-  * [`List`](http://docs.elm-lang.org/library/List.elm) &mdash;
+  * [`List`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List) &mdash;
     add general sorting functions
-  * [`Transform2D`](http://docs.elm-lang.org/library/Transform2D.elm) &mdash;
+  * [`Transform2D`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Transform2D) &mdash;
     greatly expanded API
-  * [`Bitwise`](http://docs.elm-lang.org/library/Bitwise.elm) &mdash;
+  * [`Bitwise`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Bitwise) &mdash;
     for your bitwise operation needs
-  * [`Regex`](http://docs.elm-lang.org/library/Regex.elm) &mdash;
+  * [`Regex`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Regex) &mdash;
     for when parser combinators are too much
 
 There are also many miscellaneous fixes and improvements. Most notably,
@@ -73,8 +73,12 @@ and core libraries.
 
 ## Sorting
 
-The list library just got two new functions: `sortBy` and
-`sortWith`. First, `sortBy` lets you sort values by a derived property:
+In addition to a standard `sort` for any comparable values,
+[the list library](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List)
+can now do some more flexible sorting with
+[`sortBy`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#sortBy) and
+[`sortWith`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#sortWith).
+First, `sortBy` lets you sort values by a derived property:
 
 ```haskell
 sortBy : (a -> comparable) -> [a] -> [a]
@@ -100,29 +104,34 @@ values with a custom comparison function:
 ```haskell
 sortWith : (a -> a -> Order) -> [a] -> [a]
 
-sortWith flippedComparison [1..5] == [5,4,3,2,1]
+sortWith (flip compare) [1..5] == [5,4,3,2,1]
+sortWith personCompare [chuck,alice,bob] == [alice,bob,chuck]
 
-flippedComparison a b =
-     case compare a b of
-       LT -> GT
-       EQ -> EQ
-       GT -> LT
+-- compare by name first, compare by height to break ties
+personCompare a b =
+    case compare a.name b.name of
+      EQ -> compare a.height b.height
+      order -> order
 ```
 
-Big thank you to Max Goldstein for suggesting and implementing this and
-to Max New for coming up with really nice names for both functions. I
-am far too excited about the `sortBy` function.
+Big thank you to [Max Goldstein](https://github.com/mgold) for suggesting
+and implementing this and to [Max New](https://github.com/maxsnew) for
+coming up with really nice names for both functions. I am far too excited
+about the `sortBy` function.
 
 ## Transform2D, Bitwise, and Regex
 
-`Transform2D` was significantly fleshed out by Michael Søndergaard (Thank you!).
-Using `groupTransform` should be quite a bit more pleasant now.
+[`Transform2D`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Transform2D)
+was significantly fleshed out by [Michael Søndergaard](https://github.com/Sheeo)
+(Thank you!). Using `groupTransform` should be quite a bit more pleasant now.
 
-I added the `Bitwise` library for low-level bit manipulations of integers.
-This may come in handy if you are writing a random number generator, as [Joe
-Collard is](https://github.com/jcollard/elm-random).
+I added the [`Bitwise`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Bitwise)
+library for low-level bit manipulations of integers.
+This may come in handy if you are writing a random number generator,
+as [Joe Collard is](https://github.com/jcollard/elm-random).
 
-I also added the `Regex` library for searching through strings. It seemed like
+I also added the [`Regex`](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Regex)
+library for searching through strings. It seemed like
 a logical step after Elm [got a proper string representation in
 0.10](/blog/announce/0.10.elm). Note: I decided to call it `Regex` rather
 than `RegExp` to distinguish between the [monstrosity that is

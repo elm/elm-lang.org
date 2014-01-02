@@ -38,6 +38,7 @@ report an issue to Elm's [source repository][3].
 
 #### Release Notes
 
+* <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>Library Improvements
 * <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
 * <code>[0.9][9]    &nbsp;&nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; </code>Fast and reliable type inference
 * <code>[0.8][8]    &nbsp;&nbsp;&nbsp; May &nbsp; &nbsp; &nbsp; </code>HTML/JS integration
@@ -62,5 +63,6 @@ report an issue to Elm's [source repository][3].
   [8]:  /blog/announce/0.8.elm "HTML/JS integration"
   [9]:  /blog/announce/0.9.elm "type inference"
   [10]: /blog/announce/0.10.elm "native strings"
+  [101]: /blog/announce/0.10.1.elm "library improvements"
 
 |]

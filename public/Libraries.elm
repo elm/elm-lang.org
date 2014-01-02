@@ -69,7 +69,7 @@ Check out [library.elm-lang.org](http://library.elm-lang.org) to discover
 deslash c = if c == '.' then '-' else c
 
 linkify name =
-    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.10.0.2/" ++ String.map deslash name
+    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/" ++ String.map deslash name
     in  Text.toText "  " ++ Text.link path (Text.toText name)
 
 linkList (name, pairs) = 
