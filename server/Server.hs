@@ -74,12 +74,12 @@ hotswap = maybe error404 serve =<< getParam "input"
     where
       serve code =
           do setContentType "application/javascript" <$> getResponse
-             writeBS . BSC.pack . Generate.js $ BSC.unpack code
+             writeBS <=< fmap BSC.pack . liftIO .  Generate.js $ BSC.unpack code
 
 compile :: Snap ()
 compile = maybe error404 serve =<< getParam "input"
     where
-      serve = serveHtml . Generate.html "Compiled Elm" . BSC.unpack
+      serve = serveHtml <=< (liftIO . Generate.html "Compiled Elm" . BSC.unpack)
 
 edit :: Snap ()
 edit = do
