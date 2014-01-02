@@ -79,7 +79,7 @@ hotswap = maybe error404 serve =<< getParam "input"
 compile :: Snap ()
 compile = maybe error404 serve =<< getParam "input"
     where
-      serve = serveHtml . Generate.html "Compiled Elm" . BSC.unpack
+      serve = serveHtml <=< (liftIO . Generate.html "Compiled Elm" . BSC.unpack)
 
 edit :: Snap ()
 edit = do
