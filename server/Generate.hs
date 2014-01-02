@@ -2,7 +2,6 @@
 module Generate (html, js) where
 
 import Control.Exception
-import Control.Monad    (join)
 import Data.Functor     ((<$>))
 import Data.Maybe       (fromMaybe)
 import Text.Blaze       (preEscapedToMarkup)
@@ -51,17 +50,16 @@ addSpaces str =
     c : rest -> c : addSpaces rest
     [] -> []
 
-js :: String -> String
-js src = case Elm.compile src of
-           Right js -> "{ \"success\" : " ++ show js ++ " }"
-           Left err -> "{ \"error\" : " ++ show err ++ " }"
+js :: String -> IO String
+js = fmap (either (wrap "error") (wrap "success")) . safeCompile
+  where wrap typ msg = "{ " ++ show typ ++ " : " ++ show msg ++ " }"
 
 catchBugs :: a -> IO (Either String a)
 catchBugs inp = (Right <$> evaluate inp) `catches` handlers
   where handlers = [ Handler (return . Left . show :: SomeException -> IO (Either String b)) ]
 
 safeCompile :: String -> IO (Either String String)
-safeCompile inp = either explain id <$> (catchBugs . Elm.compile $ inp)
+safeCompile = fmap (either explain id) . catchBugs . Elm.compile
   where explain problem = Left . unlines $ [
           "Elm compiler bug found!"
           , "Please report this as an issue at https://github.com/evancz/Elm/issues including your elm code and the following error message:"
