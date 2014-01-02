@@ -2,10 +2,6 @@ import Website.Skeleton (skeleton)
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Contribute to Elm")
-foreign export jsevent "elm_title"
-  title : Signal JS.JSString
-
 blog w = width w [markdown|
 
 # Contribute
