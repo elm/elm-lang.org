@@ -26,7 +26,8 @@ fromHaskell = [markdown|
 * The order of foldl's arguments is deliberately different from Haskell's to improve composability in Elm.
 * The meanings of `(:)` and `(::)` are swapped. `(:)` is “has type” and `(::)` is cons. This is the same as ML.
 * Graphics.Collage uses Cartesian coordinates with the origin at the center of the canvas, instead of having (0,0) at top-left corner. Positive y is up.
-* Elm is not lazy
+* Elm is not lazy.
+* Signals are not monads. There is no function `join : Signal (Signal a) -> Signal a`. This is done for performance reasons.
 
 |]
 
