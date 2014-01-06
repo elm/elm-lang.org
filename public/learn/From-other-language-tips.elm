@@ -26,6 +26,7 @@ fromHaskell = [markdown|
 * The order of foldl's arguments is deliberately different from Haskell's to improve composability in Elm.
 * The meanings of (:) and (::) are swapped. (:) is “has type” and (::) is cons. This is the same as ML.
 * Graphics.Collage uses Cartesian coordinates with the origin at the center of the viewport, instead of having (0,0) at top-left corner. Positive y is up.
+* Elm is not lazy
 
 |]
 
@@ -39,7 +40,6 @@ fromJS = [markdown|
 * Lists use square brackets like arrays, but all items must be of the same type. They are implemented as singly-linked linked lists.
 * Tuples such as (3, True) may mix types but must be of a known, fixed length.
 * Anonymous functions are written (\var1 var2 -> expression).
-* Like JavaScript, functions may be passed as arguments to other functions. However, if you find yourself writing callbacks, you're not thinking in Elm.
 * Function application happens before any infix operation.
 
 |]
