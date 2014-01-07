@@ -27,6 +27,8 @@ learning materials for every level of programmer:
    watch [this video](http://www.ustream.tv/recorded/29330499),
    and read [this paper](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
 
+ * *Coming to Elm from another programming language?* &mdash; see these [Tips](/learn/From-other-language-tips.elm)
+
  * *Using Elm* &mdash; see the [intermediate and large examples](/Examples.elm)
    and resources on [making stuff](#making-stuff), [formal semantics](#publications),
    [release notes](/Install.elm#release-notes),
