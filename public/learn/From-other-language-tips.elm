@@ -28,21 +28,22 @@ fromHaskell = [markdown|
   upon the best of existing languages and research.
 * Instead of using `($)` for function application, Elm uses the `(<|)` and `(|>)` operators for
   forward and backward application: `(f <| x) == f x == (x |> f)`. Borrowed from F#, the goal is
-  to make the symbol reflect its meaning of "give this argument to that function".
+  to make the symbol reflect its meaning.
 * The order of arguments for [foldl](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#foldl)
   is deliberately different from Haskell's [to improve composability](http://library.elm-lang.org/DesignGuidelines.html#the-data-structure-is-always-the-last-argument).
-* The meanings of `(:)` and `(::)` are swapped, `(:)` is “has type” and `(::)` is cons.
-  This follows in the tradition of ML, Standard ML, and OCaml. It also matches the prevailing
-  trend in more recent languages such as F#, Agda, Rust, etc. to use the single colon mean "has type"
-  because it is much more common case than consing.
+* The meanings of `(:)` and `(::)` are swapped. `(:)` is “has type” and `(::)` is cons in Elm.
+  This matches ML, Standard ML, OCaml, F#, Agda, Rust, etc. and is based on the fact that type
+  annotations are much more common than consing.
 * [Graphics.Collage](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Graphics-Collage)
   uses Cartesian coordinates, so positive y is up and the origin at the center of the canvas.
 * [Elm is not lazy](http://www.testblogpleaseignore.com/2012/06/22/the-trouble-with-frp-and-laziness/).
-* Signals are not monads. There is no function `join : Signal (Signal a) -> Signal a`. As of 2013,
-  pure monadic FRP still has extremely serious unsolved theoretical problems. The short version is that
-  memory usage must grow linearly with time to maintain referential transparency. You can read more
+* Signals are not monads. There is no function `join : Signal (Signal a) -> Signal a`.
+  Pure monadic FRP has theoretical problems regarding performance, requiring
+  memory usage to grow linearly with time to maintain referential transparency. You can read more
   about these concerns in [my thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
   or the closely related [PLDI paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
+  [Arrowized FRP](http://library.elm-lang.org/catalog/evancz-automaton/0.1/) provides much of the flexibility
+  of Monadic FRP without the performance issues.
 |]
 
 fromJS = [markdown|
@@ -57,7 +58,7 @@ fromJS = [markdown|
 * Lists use square brackets like arrays, but all items must be of the same type.
   They are implemented as singly-linked linked lists.
 * Tuples such as `(3, True)` may mix types but must be of a known, fixed length.
-* Anonymous functions are written `(\arg1 arg2 -> expression)`.
+* Anonymous functions are written `(\a b c -> expression)`
 * Function application happens before any infix operation.
 
 |]
