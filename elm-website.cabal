@@ -35,6 +35,7 @@ executable run-elm-website
                      , HTTP
                      , mtl
                      , process
+                     , text == 0.11.*
                      , unordered-containers
 
   hs-source-dirs:      server
