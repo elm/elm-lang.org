@@ -196,7 +196,7 @@ CodeMirror.defineMode("elm", function() {
           "as", "case", "class", "data", "default", "deriving", "do", "else", "export", "foreign",
           "hiding", "jsevent", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let",
           "module", "newtype", "of", "open", "then", "type", "where", "_",
-          "..", "|", ":", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB"
+          "..", "|", ":", "=", "\\", "\"", "->", "<-", "\u2192", "\u03BB", "port"
       ];
 
       for (var i = keywords.length; i--;) {
