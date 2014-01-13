@@ -4,9 +4,8 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-pageTitle = constant (JS.fromString "Interactive Programming in Elm")
-foreign export jsevent "title"
-  pageTitle : Signal JS.JSString
+port title : String
+port title = "Interactive Programming in Elm"
 
 main = lift (skeleton everything) Window.width
 
@@ -18,7 +17,7 @@ everything wid =
           container w (heightOf words) middle words
   in
   flow down
-  [ width w title
+  [ width w pageTitle
   , section intro
   , width w video1
   , section segue
@@ -28,7 +27,7 @@ everything wid =
   , section rest2
   ]
 
-title = [markdown|
+pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Interactive Programming</div>

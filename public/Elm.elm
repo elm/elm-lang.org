@@ -75,6 +75,5 @@ info w = let content = flow down [ spacer w 20
 
 main = homeSkeleton info <~ Window.dimensions
 
-title = constant (JS.fromString "Elm - functional web programming")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "Elm - functional web programming"

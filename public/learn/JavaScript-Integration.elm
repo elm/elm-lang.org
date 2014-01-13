@@ -4,9 +4,8 @@ import Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "JavaScript Integration")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "JavaScript Integration"
 
 main = lift (skeleton intro) Window.dimensions
 

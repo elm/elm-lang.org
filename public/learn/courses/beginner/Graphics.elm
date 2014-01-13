@@ -2,9 +2,8 @@ import Website.Blog (skeleton)
 import Window
 import JavaScript as JS
 
-titles = constant (JS.fromString "Intro to Graphics")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+port title : String
+port title = "Intro to Graphics"
 
 main = lift (skeleton everything) Window.width
 
@@ -16,13 +15,13 @@ everything wid =
           container w (heightOf words) middle words
   in
   flow down
-  [ width w title
+  [ width w pageTitle
   , section preface
   , width w video
   , section intro
   ]
 
-title = [markdown|
+pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Introduction to Graphics</div>

@@ -3,9 +3,8 @@ import JavaScript as JS
 import Website.Skeleton (skeleton)
 import Window
 
-title = constant (JS.fromString "The Libraries You Need: Elm 0.5")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "The Libraries You Need: Elm 0.5"
 
 blog w = width (min 600 w) [markdown|
 

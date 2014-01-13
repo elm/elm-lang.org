@@ -5,9 +5,8 @@ import Window
 import JavaScript as JS
 import Graphics.Input as Input
 
-title = constant (JS.fromString "Upgrade Time: Elm 0.6")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "Upgrade Time: Elm 0.6"
 
 main = lift (skeleton intro) Window.dimensions
 

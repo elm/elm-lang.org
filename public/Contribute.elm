@@ -2,6 +2,9 @@ import Website.Skeleton (skeleton)
 import Window
 import JavaScript as JS
 
+port title : String
+port title = "Contribute to Elm"
+
 blog w = width w [markdown|
 
 # Contribute

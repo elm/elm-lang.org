@@ -3,9 +3,8 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm REPL")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "Elm REPL"
 
 main = lift (skeleton everything) Window.dimensions
 

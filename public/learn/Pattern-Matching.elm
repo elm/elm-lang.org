@@ -240,6 +240,5 @@ main = lift (skeleton (what . min 600)) Window.dimensions
 
 ---- Setting the title of the page to be prettier ----
 
-titles = constant (JS.fromString "What is Pattern Matching?")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+port title : String
+port title = "What is Pattern Matching?"
