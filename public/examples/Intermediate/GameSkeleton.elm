@@ -17,7 +17,7 @@ type UserInput = {}
 userInput : Signal UserInput
 userInput = constant {}
 
-data Input = Input Float UserInput
+type Input = { timeDelta:Float, userInput:UserInput }
 
 
 
@@ -55,7 +55,7 @@ Task: redefine `stepGame` to use the UserInput and GameState
 ------------------------------------------------------------------------------}
 
 stepGame : Input -> GameState -> GameState
-stepGame (Input delta userInput) gameState = gameState
+stepGame {timeDelta,userInput} gameState = gameState
 
 
 
@@ -78,7 +78,7 @@ The following code puts it all together and shows it on screen.
 
 ------------------------------------------------------------------------------}
 
-delta = fps 45
+delta = fps 30
 input = sampleOn delta (lift2 Input delta userInput)
 
 gameState = foldp stepGame defaultGame input
