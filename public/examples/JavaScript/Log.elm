@@ -13,6 +13,5 @@ main = field
 
 (field, message) = Input.field ""
 
-messages = JS.fromString <~ message
-foreign export jsevent "log"
-  messages : Signal JS.JSString
+port log : Signal String
+port log = message

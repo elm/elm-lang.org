@@ -7,11 +7,8 @@ main = butn
 
 (butn, pressed) = Input.button "Redirect to elm-lang.org"
 
-redirectTo =
-    JS.fromString <~ merges [ constant ""
-                            , (\_ -> "http://elm-lang.org/") <~ pressed
-                            ]
-
-foreign export jsevent "redirect"
-  redirectTo : Signal JS.JSString
+port redirect : Signal String
+port redirect =
+    merge (constant "")
+          ((\_ -> "http://elm-lang.org/") <~ pressed)
 

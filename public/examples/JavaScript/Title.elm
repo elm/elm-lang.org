@@ -11,9 +11,8 @@ import Graphics.Input as Input
 
 (field, input) = Input.field ""
 
-title = JS.fromString <~ input
-foreign export jsevent "elm_title"
-  title : Signal JS.JSString
+port title : Signal String
+port title = input
 
 scene fld =
     plainText "Change this page's title to: " `beside` fld
