@@ -9,18 +9,11 @@ intro = [markdown|
 
 <style type="text/css">
 h3 { padding-top: 1em; }
-pre {
- background-color: rgb(245,245,245);
- margin: 0 30px;
- padding: 4px 10px;
- border-left: solid 2px rgb(96,181,204);
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
 }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
 code > span.kw { color: #204a87; font-weight: bold; }
 code > span.dt { color: #204a87; }
 code > span.dv { color: #0000cf; }
@@ -89,9 +82,6 @@ False : Bool
 
 'a'   : Char
 "abc" : String
-```
-
-```
 
 -- multi-line String
 """
@@ -382,29 +372,24 @@ origin = { x=0, y=0 }
 ### JavaScript FFI
 
 ```haskell
-foreign import jsevent "eventName"
-    (expr)
-    signalName : Signal jsType
+port incomingString : Signal String
+
+port outgoingFloat : Signal Float
+port outgoingFloat = every second
 ```
 
-The `expr` can be any Elm expression. It is the initial value of the
-signal `signalName`. As events with name `eventName` occur, signal
-`signalName` will get updated. The type `jsType` must be a JavaScript
-type such as `JSNumber` or `JSString`.
+Elm has some built-in port handlers that automatically take some
+imperative action:
 
-```haskell
-foreign export jsevent "eventName"
-   signalName : Signal jsType
-```
+ * `title` sets the page title, ignoring empty strings
+ * `log` logs messages to the developer console
+ * `redirect` redirects to a different page, ignoring empty strings
 
-The rules are the same for `export` except you do not need an initial value.
+Experimental port handlers:
 
-Elm has four built-in event handlers that take a `JSString` and automatically
-take some imperative action:
-
-* `"title"` which sets the page title, ignoring empty strings.
-* `"log"` which logs messages in the developer console.
-* `"redirect"` which redirects to a different page, ignoring empty strings.
+ * `favicon` sets the pages favicon
+ * `stdout` logs to stdout in node.js and to console in browser
+ * `stderr` logs to stderr in node.js and to console in browser
 
 ### Things *not* in Elm
 
