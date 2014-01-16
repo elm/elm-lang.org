@@ -43,8 +43,8 @@ leftCol = [markdown|
 * [Types](/learn/Getting-started-with-Types.elm)
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
-* [Documenting Code](/learn/Documentation.elm)
-* [HTML/JS Integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo)
+* [Embed in HTML](/learn/Embed-in-HTML.elm)
+* [Ports: Talk to JS](/learn/Ports.elm)
 
 |]
 
