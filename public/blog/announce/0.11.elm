@@ -231,9 +231,10 @@ out concrete steps that will help me improve at this.
 ## Thank you!
 
 Thank you to [Max New](https://github.com/maxsnew) for fixing a bad corner
-case with the `--make` flag and adding autocompletion to Elm REPL. Thank
+case with the `--make` flag and adding autocompletion to [Elm
+REPL](https://github.com/evancz/elm-repl#elm-repl). Thank
 you to [Joe Collard](https://github.com/jcollard/) for continuing to improve
-[elm-mode](https://github.com/jcollard/elm-mode) for emacs, now [with elm-repl
+[elm-mode](https://github.com/jcollard/elm-mode) for emacs, now [with REPL
 integration](https://groups.google.com/forum/#!searchin/elm-discuss/elm-mode/elm-discuss/t82zCnn89Ps/5gLkvG9iE3EJ)
 and super easy to install from [MELPA](http://melpa.milkbox.net/).
 
