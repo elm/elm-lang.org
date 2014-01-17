@@ -98,12 +98,13 @@ All ports are declared with the `port` keyword. Incoming ports are just a
 name and a type annotation. In the example above, the `prices` port is
 a signal of floats that will be sent in from JS. Outgoing ports require
 a name, type annotation, and *definition*. A definition indicates that
-the value should be sent *out* to JS. So the example above outlines a very
-simplistic investment strategy:
+the value should be sent out to JS. So the example above outlines a very
+simple investment strategy:
 
- 1. Look at incoming stock prices.
+ 1. Get incoming stock prices.
  2. Ignore those stock prices.
  3. Buy [Berkshire Hathaway class A shares](https://www.google.com/finance?q=NYSE:BRK.A).
+ 4. Profit.
 
 Now all that you need to do is initialize this winning investment strategy
 from JS:
@@ -112,17 +113,14 @@ from JS:
 // initialize the component, specifying all incoming ports
 var advisor = Elm.worker(Elm.FinancialAdvisor, { prices:100 });
 
+// set up code to follow to the advisor's orders
+function buy(stock) { /* buy that stock */ }
+advisor.ports.orders.subscribe(buy);
+
 // send some prices to the component
 advisor.ports.prices.send(103);
 advisor.ports.prices.send(94);
 advisor.ports.prices.send(99);
-
-function buy(stockTicker) {
-    // create a function to act on buy orders
-}
-
-// act on the latest financial advice
-advisor.ports.orders.subscribe(buy);
 
 // decide that this is not a good investment strategy
 advisor.ports.orders.unsubscribe(buy);
@@ -131,7 +129,7 @@ advisor.ports.orders.unsubscribe(buy);
 One could make this component more sophisticated by actually doing some
 analysis of the incoming prices to guide the buy orders. That might be
 tough to do well, but at least sending values between Elm and JavaScript
-is easy now!
+is pretty easy now!
 
 ## Customs and Border Protection
 
@@ -156,8 +154,8 @@ and the following Elm types:
 
 All conversions are symmetric and type safe. If someone tries to give a
 badly typed value to Elm it will throw an error in JS immediately. By having
-a strict border check like this, the Elm can continue to guarantee that
-you will never have type errors at runtime.
+a border check like this, Elm code can continue to guarantee that you will
+never have type errors at runtime.
 
 Outgoing ports let you export all of the values listed above with
 one important addition: first-order functions!
@@ -183,15 +181,7 @@ Before this release, talking to JS was pretty intense and unweildy. It required
 lots of keywords, felt clunky, and was limited to signals. It was technically
 possible to use Elm in a component model, but it just felt onerous.
 So the biggest goal for this API was to make it easy and fun to
-communicate between Elm and JS.
-
-This syntax for ports was chosen after tons of iterations and brainstorms
-on syntax. Seriously, we tried *a lot* of different syntax, and I think
-this one is uniquely light without giving up too much clarity.
-
-The underlying idea was inspired by message-passing concurrency and
-[flow-based programming](http://en.wikipedia.org/wiki/Flow-based_programming).
-I think these concepts give a good context for thinking about and using ports:
+communicate between Elm and JS. The two biggest inspirations for ports were:
 
 * **Message-passing concurrency**:
   [Concurrent ML](http://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
@@ -210,7 +200,19 @@ I think these concepts give a good context for thinking about and using ports:
   make the core concepts of a “component model” extremely clear and have the *potential*
   to be beautiful. This is also where I got the term “port”.
 
-So although ports let you import and export non-signal values (which can be super handy
-at times), the primary intent of ports is to deal with signals.
+I think these concepts give a good context for thinking about and using ports.
+Although ports let you import and export non-signal values, the primary intent
+of ports is to communicate via events and promote a “component model” for using
+Elm.
+
+## Thank you
+
+Ports went through tons of iterations and brainstorms. At every phase of
+these discussions, people had great comments and guidance and ideas.
+We also tried *a lot* of different syntax, perhaps a tiring amount, so
+thanks to everyone who contributed to these discussions!
+
+This release also 
+
 
 |]
