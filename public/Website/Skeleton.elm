@@ -19,7 +19,7 @@ flexSkeleton isNormal inner bodyFunc (w,h) =
     flow down [ topBar isNormal inner w
               , container w (max (h-extraHeight) (heightOf content)) midTop content
               , container w footerHeight (midBottomAt (relative 0.5) (absolute 10)) . Text.centered <|
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2013 ") ++
+                Text.color (rgb 145 145 145) (toText "&copy; 2011-2014 ") ++
                 Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
               ]
 
