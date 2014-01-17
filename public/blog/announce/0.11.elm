@@ -205,14 +205,45 @@ Although ports let you import and export non-signal values, the primary intent
 of ports is to communicate via events and promote a “component model” for using
 Elm.
 
-## Thank you
+## Other News
 
-Ports went through tons of iterations and brainstorms. At every phase of
-these discussions, people had great comments and guidance and ideas.
-We also tried *a lot* of different syntax, perhaps a tiring amount, so
-thanks to everyone who contributed to these discussions!
+I have been struggling to keep up with pull requests (great news!),
+so it is more important than ever to develop good guidelines and strategies
+for making it fun and easy to contribute to Elm. We are only beginnig
+to address these issues, but this release makes good progress:
 
-This release also 
+Huge thank you to [Max New](https://github.com/maxsnew)
+setting up tests for the compiler! I think regressions were quite
+rare, but with more contributors, having a good test suite is becoming
+more and more important. Thank you to [Justin Leitgeb](https://github.com/jsl)
+for making early contributions in this direction and getting Elm set
+up with Travis CI. And thank you to Laszlo and Spiros for generally
+giving me a hard time about testing!
 
+We also started using the `-W` flag to catch a reasonable subset of silly
+mistakes. A proper style guide is still needed, but this is a decent first
+step.
+
+Thank you as well to [John P. Mayer](https://github.com/johnpmayer) for
+helping me learn more about community management strategies and planning
+out concrete steps that will help me improve at this.
+
+## Thank you!
+
+Thank you to [Max New](https://github.com/maxsnew) for fixing a bad corner
+case with the `--make` flag and adding autocompletion to Elm REPL. Thank
+you to [Joe Collard](https://github.com/jcollard/) for continuing to improve
+[elm-mode](https://github.com/jcollard/elm-mode) for emacs, now [with elm-repl
+integration](https://groups.google.com/forum/#!searchin/elm-discuss/elm-mode/elm-discuss/t82zCnn89Ps/5gLkvG9iE3EJ)
+and super easy to install from [MELPA](http://melpa.milkbox.net/).
+
+Thank you to [Joseph Hager](https://github.com/ajhager) and
+[John P. Mayer](https://github.com/johnpmayer) for some nice bug fixes.
+
+Finally, ports went through tons of iterations and brainstorms. At
+every phase of these discussions, people had great comments and
+guidance and ideas. We also tried *a lot* of different syntax, so
+thanks to everyone who contributed to these discussions! It was very
+helpful in making these decisions quickly.
 
 |]
