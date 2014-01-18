@@ -161,9 +161,12 @@ one important addition: first-order functions!
 If you wrote a nice parser or library in Elm, you can use those functions
 directly in JS. The mapping between Elm and JS function looks like this:
 
-    add x y = x + y
-
-    function add(x,y) { return x + y; }
+```haskell
+add x y = x + y
+```
+```javascript
+function add(x,y) { return x + y; }
+```
 
 You lose currying on the JS side, but the goal of this whole feature is to
 produce *colloquial* values in both Elm and JS. One important restriction on
@@ -183,10 +186,10 @@ communicate between Elm and JS. The two biggest inspirations for ports were:
 
 * **Message-passing concurrency**:
   [Concurrent ML](http://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
-  (CML) was extremely influential in [the theoretical work underlying
+  was extremely influential in [the theoretical work underlying
   Elm](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf).
-  The key abstraction from CML is the *channels* which allow messages to be passed
-  between components that run concurrently know nothing about each other (similar
+  The key abstraction from Concurrent ML is the *channels* which allow messages to
+  be passed between components that run concurrently know nothing about each other (similar
   to Go and Erlang). I cannot say enough good things about this style of
   programming. Message-passing is the essense of ports and the component model,
   and I really hope it becomes more known and accepted in the JS community.
