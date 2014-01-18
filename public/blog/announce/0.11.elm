@@ -137,7 +137,7 @@ Ports must be careful about what values are allowed through.
 Elm is statically typed, so each port is fitted with some
 border protection code that ensures that type errors are kept
 out. Ports also do some conversions so that you get nice
-colloqial data structures in both Elm and JS.
+colloquial data structures in both Elm and JS.
 
 The particular types that can be sent in and out of ports is
 actually quite flexible. It covers pretty much [all valid JSON values](http://www.json.org/). Incoming
@@ -168,7 +168,7 @@ The mapping between Elm and JS function looks like this:
     function add(x,y) { return x + y; }
 
 You lose currying on the JS side, but the goal of this whole feature is to
-produce *colloqial* values in both Elm and JS. One important restriction on
+produce *colloquial* values in both Elm and JS. One important restriction on
 exporting functions is that they must be *first-order* functions. Things
 like `map` and `foldl` cannot be exported because the Elm compiler may
 eventually perform optimizations that assume purity, and higher-order
@@ -177,7 +177,7 @@ in an unexpected order. (Thanks to Max New for pointing this out!)
 
 ## Design goals and inspiration for Ports
 
-Before this release, talking to JS was pretty intense and unweildy. It required
+Before this release, talking to JS was pretty intense and unwieldy. It required
 lots of keywords, felt clunky, and was limited to signals. It was technically
 possible to use Elm in a component model, but it just felt onerous.
 So the biggest goal for this API was to make it easy and fun to
@@ -209,7 +209,7 @@ Elm.
 
 I have been struggling to keep up with pull requests (great news!),
 so it is more important than ever to develop good guidelines and strategies
-for making it fun and easy to contribute to Elm. We are only beginnig
+for making it fun and easy to contribute to Elm. We are only beginning
 to address these issues, but this release makes good progress:
 
 Huge thank you to [Max New](https://github.com/maxsnew)
