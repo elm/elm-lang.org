@@ -18,18 +18,17 @@ pre { background-color: white;
       border: 1px solid rgb(216, 221, 225);
       border-radius: 4px;
 }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 # Ports: Communicate with JS
@@ -37,7 +36,7 @@ code > span.er { font-weight: bold; }
 This idea comes from a “component model” for using Elm in production systems.
 Realistically, folks are not going to go all Elm all at once. A component model
 means you write small UI widgets or signal processing units in Elm and [embed them
-in a larger system](/learn/Embde-in-HTML.elm) that uses lots of different things.
+in a larger system](/learn/Embed-in-HTML.elm) that uses lots of different things.
 Ports are a nice way of making these components simple and composable.
 
 ## Ports in Elm
@@ -49,12 +48,12 @@ through. For example:
 ```haskell
 module Chat where
 
--- Bring in a signals of messages typed by your chat parter
+-- incoming messages typed by your chat parter
 port messageIn : Signal String
 
 myTextInput = ...
 
--- Send out a signal of messages typed in by you
+-- outgoing messages typed in by you
 port messageOut : Signal String
 port messageOut = myTextInput
 ```
@@ -75,32 +74,28 @@ var chat = Elm.embed(Elm.Chat, div, { messagesIn: "" });
 ```
 
 The last argument to `Elm.embed` is an object that has a field for each incoming port.
-If you do not provide all ports declared in the module, it will throw an error. If you
-provide extra ports, it will throw an error. Each port also has a known type in Elm,
-so Elm will perform validation on incoming values and throw an error if a value of the
-wrong type is given.
+It works the same for `Elm.fullscreen` and `Elm.worker`.
 
-If you have a bunch of ports coming in, it’d look more like this:
-
-```javascript
-var chat = Elm.embed(Elm.Chat, div, {
-    messagesIn: "",
-    userID: 12345,
-    userName: "Tom"
-});
-```
+If you do not provide every port declared in the module, it will throw a JS error.
+If you provide *extra* ports, it will throw a JS error. Each port also has a
+known type in Elm, so Elm will perform validation on incoming values and throw
+an error if a value of the wrong type is given.
 
 Notice that when you initialize an Elm module, you get an object back.
 The most important field in this object is `chat.ports` which contains
 all of the incoming and outgoing ports that you may need to interact with.
 
-## Sending messages to Elm
+#### Sending messages to Elm
 
 ```javascript
-chat.ports.messageIn.send("hey, what's up?");
+chat.ports.messageIn.send("hey");
+chat.ports.messageIn.send("what's up?");
 ```
 
-## Receiving messages from Elm
+These incoming signals are typed, so a JS error will be thrown if you provide
+an invalid value.
+
+#### Receiving messages from Elm
 
 ```javascript
 function logger(x) { console.log(x); }
@@ -111,5 +106,49 @@ chat.ports.messageOut.subscribe(logger);
 // detach the logger
 chat.ports.messageOut.unsubscribe(logger);
 ```
+
+## Customs and Border Protection
+
+Ports must be careful about what values are allowed through.
+Elm is statically typed, so each port is fitted with some
+border protection code that ensures that type errors are kept
+out. Ports also do some conversions so that you get nice
+colloquial data structures in both Elm and JS.
+
+The particular types that can be sent in and out of ports is
+actually quite flexible. It covers pretty much [all valid JSON
+values](http://www.json.org/). Incoming ports can handle [JS
+values](http://library.elm-lang.org/catalog/evancz-Elm/0.11/JavaScript)
+and the following Elm types:
+
+  * **Booleans and Strings** &ndash; both exist in Elm and JS!
+  * **Numbers** &ndash; Elm ints and floats correspond to JS numbers
+  * **Lists**   &ndash; correspond to JS arrays
+  * **Tuples**  &ndash; correspond to fixed-length, mixed-type JS arrays
+  * **Records** &ndash; correspond to JavaScript objects
+  * **Signals** &ndash; correspond to event streams in JS
+  * **Maybes**  &ndash; `Nothing` and `Just 42` correspond to `null` and `42` in JS
+
+All conversions are symmetric and type safe. If someone tries to give a
+badly typed value to Elm it will throw an error in JS immediately. By having
+a border check like this, Elm code can continue to guarantee that you will
+never have type errors at runtime.
+
+Outgoing ports let you export all of the values listed above with
+one important addition: first-order functions!
+If you wrote a nice parser or library in Elm, you can use those functions
+directly in JS. The mapping between Elm and JS function looks like this:
+
+    add x y = x + y
+
+    function add(x,y) { return x + y; }
+
+You lose currying on the JS side, but the goal of this whole feature is to
+produce *colloquial* values in both Elm and JS. One important restriction on
+exporting functions is that they must be *first-order* functions. Things
+like `map` and `foldl` cannot be exported because the Elm compiler may
+eventually perform optimizations that assume purity, and higher-order
+functions allow you to introduce impure functions which *could* be executed
+in an unexpected order.
 
 |]

@@ -372,10 +372,33 @@ origin = { x=0, y=0 }
 ### JavaScript FFI
 
 ```haskell
-port incomingString : Signal String
+-- incoming values
+port userID : String
+port prices : Signal Float
 
-port outgoingFloat : Signal Float
-port outgoingFloat = every second
+-- outgoing values
+port time : Signal Float
+port time = every second
+
+port increment : Int -> Int
+port increment = \n -> n + 1
+```
+
+From JS, you talk to these ports like this:
+
+```javascript
+var example = Elm.worker(Elm.Example, {
+  userID:"abc123",
+  prices:11
+});
+
+example.ports.prices.send(42);
+example.ports.prices.send(13);
+
+example.ports.time.subscribe(callback);
+example.ports.time.unsubscribe(callback);
+
+example.ports.increment(41) === 42;
 ```
 
 Elm has some built-in port handlers that automatically take some

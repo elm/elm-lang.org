@@ -22,18 +22,17 @@ pre { background-color: white;
       border: 1px solid rgb(216, 221, 225);
       border-radius: 4px;
 }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">Elm 0.11 &ndash; Ports
@@ -43,7 +42,7 @@ code > span.er { font-weight: bold; }
 The key idea for this release comes from a “component model” for using Elm in
 production systems. A “component model” means you write small UI widgets or
 processing units in Elm and [embed them in a traditional
-project](/learn/Embde-in-HTML.elm) written in JS. So you can try
+project](/learn/Embed-in-HTML.elm) written in JS. So you can try
 Elm out on a specific problem and see if it works for you.
 
 <img src="/imgs/embed.png" alt="Component Model"
@@ -91,7 +90,7 @@ port prices : Signal Float
 
 -- outgoing signal of buy orders
 port orders : Signal String
-port orders = constant "BRK.A"
+port orders = always "BRK.A" <~ prices
 ```
 
 All ports are declared with the `port` keyword. Incoming ports are just a
@@ -160,8 +159,7 @@ never have type errors at runtime.
 Outgoing ports let you export all of the values listed above with
 one important addition: first-order functions!
 If you wrote a nice parser or library in Elm, you can use those functions
-directly in JS, whether that is in a browser or in [node.js](http://nodejs.org/).
-The mapping between Elm and JS function looks like this:
+directly in JS. The mapping between Elm and JS function looks like this:
 
     add x y = x + y
 
@@ -185,13 +183,13 @@ communicate between Elm and JS. The two biggest inspirations for ports were:
 
 * **Message-passing concurrency**:
   [Concurrent ML](http://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
-  was extremely influential in [the theoretical work underlying
-  Elm](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf),
-  and their key abstraction is *channels* which allow messages to be passed between
-  components that run concurrently know nothing about each other. A similar model is
-  used in Go and Erlang. I cannot say enough good things about this style of
-  programming, and I really hope it becomes more known and accepted in the JS
-  community.
+  (CML) was extremely influential in [the theoretical work underlying
+  Elm](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf).
+  The key abstraction from CML is the *channels* which allow messages to be passed
+  between components that run concurrently know nothing about each other (similar
+  to Go and Erlang). I cannot say enough good things about this style of
+  programming. Message-passing is the essense of ports and the component model,
+  and I really hope it becomes more known and accepted in the JS community.
 
 * **Flow-based Programming**: I was mostly inspired by the strong visual language
   of [flow-based programming](http://en.wikipedia.org/wiki/Flow-based_programming).
@@ -207,13 +205,13 @@ Elm.
 
 ## Other News
 
-I have been struggling to keep up with pull requests (great news!),
-so it is more important than ever to develop good guidelines and strategies
-for making it fun and easy to contribute to Elm. We are only beginning
-to address these issues, but this release makes good progress:
+With more pull requests coming in, it is more important than ever to
+develop good guidelines and strategies for making it fun and easy to
+contribute to Elm. We are only beginning to address these issues, but
+this release makes good progress:
 
 Huge thank you to [Max New](https://github.com/maxsnew)
-setting up tests for the compiler! I think regressions were quite
+setting up tests for the compiler! Regressions were always extremely
 rare, but with more contributors, having a good test suite is becoming
 more and more important. Thank you to [Justin Leitgeb](https://github.com/jsl)
 for making early contributions in this direction and getting Elm set
@@ -223,10 +221,6 @@ giving me a hard time about testing!
 We also started using the `-W` flag to catch a reasonable subset of silly
 mistakes. A proper style guide is still needed, but this is a decent first
 step.
-
-Thank you as well to [John P. Mayer](https://github.com/johnpmayer) for
-helping me learn more about community management strategies and planning
-out concrete steps that will help me improve at this.
 
 ## Thank you!
 
