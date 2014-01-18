@@ -92,7 +92,8 @@ The version that has no graphics is useful for:
  * Writing logic in Elm but handling graphics with something else.
  * Using Elm with [node.js](http://nodejs.org/).
 
-Read more about [ports](/learn/Ports.elm) to see how to do this in
-more detail.
+Furthermore, all of these Elm components can communicate with JavaScript
+via &ldquo;ports&rdquo;. [Read more about ports](/learn/Ports.elm) to see
+how to do this in more detail.
 
 |]
