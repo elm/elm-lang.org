@@ -4,7 +4,7 @@ import Graphics.Input as Input
 
 lissajous m n t = (cos (m*t), sin (n*t))
 
-points = [ ("r = cos(4θ)", polarGraph (\t -> cos (4*t)) piRange)
+points = [ ("r = cos(4t)", polarGraph (\t -> cos (4*t)) piRange)
          , ("Lissajous"  , map (lissajous 3 2) piRange)
          , ("Circle"     , map (\t -> (cos t, sin t)) piRange)
          , ("x^2"        , graph (\x -> x*x) range)
