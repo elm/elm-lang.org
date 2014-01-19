@@ -42,7 +42,7 @@ Ports are a nice way of making these components simple and composable.
 ## Ports in Elm
 
 Ports are unified way to send information to and from an Elm program. Ports are
-geared towards communicating via signals, but the also allow non-signal values
+geared towards communicating via signals, but they also allow non-signal values
 through. For example:
 
 ```haskell
@@ -106,6 +106,9 @@ chat.ports.messageOut.subscribe(logger);
 // detach the logger
 chat.ports.messageOut.unsubscribe(logger);
 ```
+
+You may subscribe many different functions. Each will be called
+once for every outgoing event.
 
 ## Customs and Border Protection
 
