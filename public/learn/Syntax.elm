@@ -401,6 +401,8 @@ example.ports.time.unsubscribe(callback);
 example.ports.increment(41) === 42;
 ```
 
+More example uses can be found [here](https://gist.github.com/evancz/8521339).
+
 Elm has some built-in port handlers that automatically take some
 imperative action:
 

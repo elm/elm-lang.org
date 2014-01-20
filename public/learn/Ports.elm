@@ -39,6 +39,10 @@ means you write small UI widgets or signal processing units in Elm and [embed th
 in a larger system](/learn/Embed-in-HTML.elm) that uses lots of different things.
 Ports are a nice way of making these components simple and composable.
 
+This is [a small example](https://gist.github.com/evancz/8521339)
+that covers a lot of the ports API, but this document will explain
+the specifics of what you can and cannot do with ports.
+
 ## Ports in Elm
 
 Ports are unified way to send information to and from an Elm program. Ports are

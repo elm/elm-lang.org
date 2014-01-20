@@ -50,11 +50,13 @@ Elm out on a specific problem and see if it works for you.
 
 To make this “component model” possible, Elm 0.11 introduces
 [ports](/learn/Ports.elm) which make it easy to
-communicate between Elm and JavaScript. Check out the documents on
-[how to embed Elm in HTML](/learn/Embed-in-HTML.elm) and [how to
-communicate between Elm and JS](/learn/Ports.elm) to learn the specifics
-of these new features. This post will focus on why ports are extremely
-important for Elm and how to understand and use ports effectively.
+communicate between Elm and JavaScript. Check out
+[how to embed Elm in HTML](/learn/Embed-in-HTML.elm), [how to
+communicate between Elm and JS](/learn/Ports.elm), and
+[this example usage](https://gist.github.com/evancz/8521339)
+to learn the specifics of these new features. This post will focus
+on why ports are extremely important for Elm and how to understand
+and use ports effectively.
 
 ## Importance of the “component model”
 
@@ -129,6 +131,9 @@ One could make this component more sophisticated by actually doing some
 analysis of the incoming prices to guide the buy orders. That might be
 tough to do well, but at least sending values between Elm and JavaScript
 is pretty easy now!
+
+More example uses of ports can be found in [this document](/learn/Ports.elm)
+and [this example](https://gist.github.com/evancz/8521339).
 
 ## Customs and Border Protection
 
