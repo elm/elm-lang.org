@@ -194,6 +194,10 @@ reactive = addFolder "Reactive/"
   , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
                ])
+  , ("Ports",  [ ("Logging","Log")
+               , ("Set Title","Title")
+               , ("Redirect","Redirect")
+               ])
   ]
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
