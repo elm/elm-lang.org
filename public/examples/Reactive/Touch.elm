@@ -1,5 +1,5 @@
--- Try this out on an iOS or Android device. For best results
--- use the "In Tab" compile option.
+-- Try this out on an iOS or Android device by removing "edit"
+-- from the URL: http://elm-lang.org/examples/Reactive/Touch.elm
 
 import Touch
 import Window
