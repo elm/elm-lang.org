@@ -2,6 +2,9 @@
 import Mouse
 import Window
 
+main = lift2 scene Window.dimensions clickLocations
+
+-- for a good time, remove "sampleOn Mouse.clicks" ;)
 clickLocations = foldp (::) [] (sampleOn Mouse.clicks Mouse.position)
 
 scene (w,h) locs =
@@ -11,5 +14,3 @@ scene (w,h) locs =
                     |> rotate (toFloat x)
   in  layers [ collage w h (map drawPentagon locs)
              , plainText "Click to stamp a pentagon." ]
-
-main = lift2 scene Window.dimensions clickLocations
