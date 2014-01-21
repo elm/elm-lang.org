@@ -75,8 +75,8 @@ The key components of these stories are:
 It is not about being theoretically better, it is about being demonstrably
 better. Getting a foothold requires running small experiments and finding
 problems that are particularly well-suited to purity, immutability,
-reactivity, type-safety, etc. I think there is still more to improve in
-Elm, but the “component model” at least makes this kind of story *possible*.
+reactivity, type-safety, etc. The component model makes this kind of
+story possible for Elm.
 
 ## Introduction to Ports
 
