@@ -42,7 +42,7 @@ code > span.er { color: #D30102; font-weight: bold; }
 The key idea for this release comes from a “component model” for using Elm in
 production systems. A “component model” means you write small UI widgets or
 processing units in Elm and [embed them in a traditional
-project](/learn/Embed-in-HTML.elm) written in JS. So you can try
+project](/learn/Components.elm) written in JS. So you can try
 Elm out on a specific problem and see if it works for you.
 
 <img src="/imgs/embed.png" alt="Component Model"
@@ -51,7 +51,7 @@ Elm out on a specific problem and see if it works for you.
 To make this “component model” possible, Elm 0.11 introduces
 [ports](/learn/Ports.elm) which make it easy to
 communicate between Elm and JavaScript. Check out
-[how to embed Elm in HTML](/learn/Embed-in-HTML.elm) and
+[how to embed Elm in HTML](/learn/Components.elm) and
 [how to communicate between Elm and JS](/learn/Ports.elm)
 to learn the specifics of these new features. This post will focus
 on why ports are extremely important for Elm and how to understand

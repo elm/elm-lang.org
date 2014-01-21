@@ -36,7 +36,7 @@ code > span.er { color: #D30102; font-weight: bold; }
 This idea comes from a “component model” for using Elm in production systems.
 Realistically, folks are not going to go all Elm all at once. A component model
 means you write small UI widgets or signal processing units in Elm and [embed them
-in a larger system](/learn/Embed-in-HTML.elm) that uses lots of different things.
+in a larger system](/learn/Components.elm) that uses lots of different things.
 Ports are a nice way of making these components simple and composable.
 
 [This example](https://github.com/evancz/elm-html-and-js) and
@@ -71,7 +71,7 @@ is sending the values of `myTextInput` out to JavaScript.
 
 ## Initializing a component with ports
 
-You should already know [how to initialize an Elm module in JS](/learn/Embed-in-HTML.elm).
+You should already know [how to initialize an Elm module in JS](/learn/Components.elm).
 When a module has incoming ports, you must provide a value for each one:
 
 ```javascript

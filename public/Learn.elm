@@ -45,7 +45,7 @@ leftCol = [markdown|
 * [Types](/learn/Getting-started-with-Types.elm)
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
-* [Components: Embed in HTML](/learn/Embed-in-HTML.elm)
+* [Components: Embed in HTML](/learn/Components.elm)
 * [Ports: Talk to JS](/learn/Ports.elm)
 
 |]
