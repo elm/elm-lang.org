@@ -176,7 +176,7 @@ function formatType(result) {
 }
 
 function docsHref(name, value) {
-    var href = 'http://docs.elm-lang.org/library/' + name.split('.').join('/') + '.elm'
+    var href = 'http://library.elm-lang.org/catalog/evancz-Elm/0.11/' + name.split('.').join('-');
     if (value) href = href + '#' + value;
     return href;
 }
