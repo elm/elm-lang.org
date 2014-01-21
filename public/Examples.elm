@@ -27,7 +27,7 @@ that will help you grow from beginner to expert:
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 See the [learning resources](/Learn.elm) if you want to learn the fundamentals
-of the language *not* by example. The [library documentation](http://docs.elm-lang.org)
+of the language *not* by example. The [library documentation](/Libraries.elm)
 is a very information dense resource once you become familiar with Elm.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
@@ -193,6 +193,10 @@ reactive = addFolder "Reactive/"
   , ("Random", [ ("Randomize", "Randomize") ])
   , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
+               ])
+  , ("Ports",  [ ("Logging","Log")
+               , ("Set Title","Title")
+               , ("Redirect","Redirect")
                ])
   ]
 

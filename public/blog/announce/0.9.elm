@@ -3,9 +3,8 @@ import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
-title = constant (JS.fromString "Elm 0.9 - Fix the type-checker")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "Elm 0.9 - Fix the type-checker"
 
 main = lift (skeleton everything) Window.dimensions
 

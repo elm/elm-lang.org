@@ -1,6 +1,11 @@
--- Try this out on an iOS or Android device. For best results
--- use the "In Tab" compile option.
 
 import Touch
 
-main = lift (flow down . map asText) Touch.touches
+main = lift (above msg . flow down . map asText) Touch.touches
+
+msg = [markdown|
+
+<a href="/examples/Reactive/Touches.elm" target="_top">Try it fullscreen</a>
+if you are on iOS or Android.
+
+|]

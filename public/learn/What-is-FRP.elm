@@ -186,6 +186,5 @@ main = lift2 (skeleton' 800) (lift2 display (box examples1) (box examples2)) Win
 
 ---- Setting the title of the page to be prettier ----
 
-titles = constant (JS.fromString "What is FRP?")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+port title : String
+port title = "What is FRP?"

@@ -7,18 +7,11 @@ import JavaScript as JS
 what w = width w [markdown|
 
 <style type="text/css">
-pre {
- background-color: rgb(245,245,245);
- margin: 0 30px;
- padding: 4px 10px;
- border-left: solid 2px rgb(96,181,204);
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
 }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: #f8f8f8; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: #f8f8f8; }
 code > span.kw { color: #204a87; font-weight: bold; }
 code > span.dt { color: #204a87; }
 code > span.dv { color: #0000cf; }
@@ -240,6 +233,5 @@ main = lift (skeleton (what . min 600)) Window.dimensions
 
 ---- Setting the title of the page to be prettier ----
 
-titles = constant (JS.fromString "What is Pattern Matching?")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+port title : String
+port title = "What is Pattern Matching?"

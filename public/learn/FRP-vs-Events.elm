@@ -77,6 +77,6 @@ main = lift (skeleton (\w -> width w content)) Window.dimensions
 
 ---- Setting the title of the page to be prettier ----
 
-titles = lift JS.fromString (constant "FRP vs Events")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+
+port title : String
+port title = "FRP vs Events"

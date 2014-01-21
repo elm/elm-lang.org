@@ -529,6 +529,7 @@ everything = content <~ inputField
 
 main = lift2 (\e (w,h) -> skeleton' 800 e (w,h)) everything Window.dimensions
 
-titles = constant (JS.fromString "Escape from Callback Hell")
-foreign export jsevent "title"
-  titles : Signal JS.JSString
+port title : String
+port title = "Escape from Callback Hell"
+
+  

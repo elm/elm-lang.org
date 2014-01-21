@@ -3,9 +3,8 @@ import JavaScript as JS
 import Website.Skeleton (skeleton)
 import Window
 
-title = constant (JS.fromString "Elm and Prezi")
-foreign export jsevent "title"
-  title : Signal JS.JSString
+port title : String
+port title = "Elm and Prezi"
 
 main = lift (skeleton intro) Window.dimensions
 

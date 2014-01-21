@@ -1,6 +1,5 @@
 -- by Joe Collard, http://people.cs.umass.edu/~jcollard/
 
-import Automaton
 import Graphics.Collage
 
 -- parameters
@@ -53,10 +52,8 @@ drawing time =
   in  collage areaSize areaSize pixels
 
 -- Each time step, the time increases by one
-theState = Automaton.state 0 (\a b -> b + 1)
-
 -- Step every rate milliseconds
-stateSignal = Automaton.run theState 0 <| every <| rate*millisecond
+stateSignal = foldp (\a b -> b + 1) 0 <| every <| rate*millisecond
 
 main = drawing <~ stateSignal
 
