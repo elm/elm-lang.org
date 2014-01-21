@@ -31,7 +31,7 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-# Components: Embed Elm in HTML
+# Components: Embed in HTML
 
 Elm can be embedded directly in a `<div>`. This lets you easily integrate
 Elm into a larger JS project. An embedded Elm program is called a

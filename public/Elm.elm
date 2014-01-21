@@ -34,7 +34,7 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
-* [Drastically improved FFI in 0.11](/blog/announce/0.11.elm)
+* [Drastically improved FFI](/blog/announce/0.11.elm) in 0.11
 * [Package manager released!](/blog/announce/PackageManager.elm)
 * First release of [Elm REPL](/blog/announce/Repl.elm)
 * [Video from StrangeLoop2013](http://www.infoq.com/presentations/elm-reactive-programming)
