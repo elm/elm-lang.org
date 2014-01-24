@@ -23,7 +23,7 @@ that will help you grow from beginner to expert:
 
  * [Basics](#basics) &mdash; small programs focused on showing one concept
  * [Intermediate](#intermediate) &mdash; larger examples that combine basic concepts
- * [Big Projects](#big-projects) &mdash; bigger things written in Elm
+ * [Big Projects](#big-projects) &mdash; websites and games written in Elm
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 See the [learning resources](/Learn.elm) if you want to learn the fundamentals
@@ -46,8 +46,8 @@ projects = [markdown|
 
 ## Big Projects
 
-These are all larger projects created with Elm. They are all good starting
-points for building on top of or retrofitting for your purposes.
+These are all larger projects created with Elm. Fork them and use them
+as templates for your own project!
 
 #### Websites
 
