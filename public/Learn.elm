@@ -13,9 +13,9 @@ h5 { margin-bottom: 0.5em; }
 
 The [syntax reference](/learn/Syntax.elm) is a good place to start.
 The [examples page](/Examples.elm) is intended to help you learn by
-example, slowly building up skills. From there, this page provides
-much more documentation. See [the roadmap](/learn/Roadmap.elm) for
-advice on how to learn Elm based on your background.
+example, slowly building up skills. This page provides more in-depth
+documentation. For advice on how to learn Elm based on your
+background, see [the learning roadmap](/learn/Roadmap.elm).
 
 |]
 
