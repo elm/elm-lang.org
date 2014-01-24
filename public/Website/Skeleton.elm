@@ -7,20 +7,31 @@ skeleton = flexSkeleton True 526
 skeleton' = flexSkeleton True
 homeSkeleton = flexSkeleton False 526
 
-topBarHeight = 34
+topBarHeight = 42
 topBarPadding = 2
-footerHeight = 40
+footerHeight = 120
 
 extraHeight = topBarHeight + topBarPadding + footerHeight
+
+wordLink words1 href words2 words3 =
+    toText words1 ++ Text.link href (toText words2) ++ toText words3
+
+footerPosition = midBottomAt (relative 0.5) (absolute 10)
+footerWords =
+  Text.color (rgb 145 145 145) <|
+    wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
+    wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
+
 
 flexSkeleton isNormal inner bodyFunc (w,h) =
     let content = bodyFunc (min inner w) in
     color C.lightGrey <|
     flow down [ topBar isNormal inner w
               , container w (max (h-extraHeight) (heightOf content)) midTop content
-              , container w footerHeight (midBottomAt (relative 0.5) (absolute 10)) . Text.centered <|
-                Text.color (rgb 145 145 145) (toText "&copy; 2011-2014 ") ++
-                Text.link "https://github.com/evancz" (toText "Evan Czaplicki")
+              , container w footerHeight midBottom . flow down <|
+                [ container w 2 middle . color C.mediumGrey <| spacer (inner+80) 1
+                , container w 50 middle <| centered footerWords
+                ]
               ]
 
 topBar isNormal inner w =
@@ -28,7 +39,7 @@ topBar isNormal inner w =
         left = if isNormal then logo leftWidth else spacer leftWidth 30
     in  flow down
         [ container w topBarHeight middle . flow right <| left :: tabs
-        , container w topBarPadding midTop <| color C.mediumGrey (spacer 800 1)
+        , container w topBarPadding midTop <| color C.mediumGrey (spacer (inner+80) 1)
         ]
 
 logo w =
