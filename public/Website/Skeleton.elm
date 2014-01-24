@@ -13,16 +13,6 @@ footerHeight = 120
 
 extraHeight = topBarHeight + topBarPadding + footerHeight
 
-wordLink words1 href words2 words3 =
-    toText words1 ++ Text.link href (toText words2) ++ toText words3
-
-footerPosition = midBottomAt (relative 0.5) (absolute 10)
-footerWords =
-  Text.color (rgb 145 145 145) <|
-    wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
-    wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
-
-
 flexSkeleton isNormal inner bodyFunc (w,h) =
     let content = bodyFunc (min inner w) in
     color C.lightGrey <|
@@ -69,6 +59,15 @@ paths =
 tab (name, href) =
     let words = text . Text.link href <| toText name
     in  container (widthOf words + 20) topBarHeight midRight words
+
+footerPosition = midBottomAt (relative 0.5) (absolute 10)
+footerWords =
+  let wordLink words1 href words2 words3 =
+          toText words1 ++ Text.link href (toText words2) ++ toText words3
+  in
+     Text.color (rgb 145 145 145) <|
+       wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
+       wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
 install = Input.customButtons ()
 
