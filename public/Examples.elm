@@ -21,9 +21,9 @@ This page will help you *learn by example* as you read and modify
 Elm code in the [online editor](/try). It is split into sections
 that will help you grow from beginner to expert:
 
- * [Basics](#basics) &ndash; small programs focused on showing one concept
- * [Intermediate](#intermediate) &ndash; larger examples that combine basic concepts
- * [Open Source Projects](#open-source-projects) &ndash; bigger things written in Elm
+ * [Basics](#basics) &mdash; small programs focused on showing one concept
+ * [Intermediate](#intermediate) &mdash; larger examples that combine basic concepts
+ * [Big Projects](#big-projects) &mdash; bigger things written in Elm
 
 Remember to check the [Elm syntax reference][syntax] when you see new syntax!
 See the [learning resources](/Learn.elm) if you want to learn the fundamentals
@@ -44,37 +44,31 @@ intermediate = [markdown|
 
 projects = [markdown|
 
-## Open Source Projects
+## Big Projects
 
-These are all larger projects created with Elm. I hesitate to call them
-&ldquo;example&rdquo; projects, but they are all good starting points
-for building on top of or retrofitting for your purposes.
-
-#### Games
-
- * [Tetris](https://github.com/jcollard/elmtris) &ndash;
-   by Joe Collard
-
- * [Breakout](https://github.com/Dobiasd/Breakout#breakout--play-it) &ndash;
-   by Tobias Hermann
-
- * [Maze](https://github.com/Dobiasd/Maze#maze--play-it) &ndash;
-   by Tobias Hermann
-
- * [Celestia](https://github.com/johnpmayer/celestia) &ndash;
-   modular spaceship game by John P. Mayer Jr
+These are all larger projects created with Elm. They are all good starting
+points for building on top of or retrofitting for your purposes.
 
 #### Websites
 
- * [TodoFRP](https://github.com/evancz/TodoFRP) &ndash;
-   a [TodoMVC](http://todomvc.com/)-style todo list
-
- * [elm-lang.org](https://github.com/evancz/elm-lang.org) &ndash;
-   written mostly in Elm, good template for your own site
-
- * [docs.elm-lang.org](https://github.com/evancz/docs.elm-lang.org) &ndash;
-   written entirely in Elm. Check out [instant search](http://docs.elm-lang.org/)
+ * [TodoFRP](https://github.com/evancz/TodoFRP) &mdash;
+   todo list modelled on [TodoMVC](http://todomvc.com/)
+ * [elm-lang.org](https://github.com/evancz/elm-lang.org) &mdash;
+   good template for your own website
+ * [library.elm-lang.org](https://github.com/evancz/elm-get) &mdash;
+   pretty and easily implements [contextual search](http://library.elm-lang.org)
    
+#### Games
+
+ * [Tetris](https://github.com/jcollard/elmtris) &mdash;
+   by Joe Collard
+ * [Breakout](https://github.com/Dobiasd/Breakout#breakout--play-it) &mdash;
+   by Tobias Hermann
+ * [Maze](https://github.com/Dobiasd/Maze#maze--play-it) &mdash;
+   by Tobias Hermann
+ * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
+   modular spaceship game by John P. Mayer Jr
+
 |]
 
 
