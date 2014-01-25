@@ -60,7 +60,6 @@ tab (name, href) =
     let words = text . Text.link href <| toText name
     in  container (widthOf words + 20) topBarHeight midRight words
 
-footerPosition = midBottomAt (relative 0.5) (absolute 10)
 footerWords =
   let wordLink words1 href words2 words3 =
           toText words1 ++ Text.link href (toText words2) ++ toText words3
