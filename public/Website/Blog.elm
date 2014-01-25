@@ -45,7 +45,13 @@ skeleton bodyFunc outer =
        [ heading outer
        , spacer outer 10
        , container outer (heightOf body) middle body
-       , container outer 50 midBottom . Text.centered <|
-         Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
-             Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
+       , container outer 50 middle <| centered footerWords
        ]
+
+footerWords =
+  let wordLink words1 href words2 words3 =
+          toText words1 ++ Text.link href (toText words2) ++ toText words3
+  in
+     Text.color (rgb 145 145 145) <|
+       wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
+       wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
