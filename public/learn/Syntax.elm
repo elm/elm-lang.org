@@ -334,11 +334,17 @@ and [here](http://docs.elm-lang.org/library/Signal.elm).
 ```haskell
 module MyModule where
 
-import List
-import open List
-import List as L
-import List (map,foldl,foldr)
+-- qualified imports
+import List               -- List.map, List.foldl
+import List as L          -- L.map, L.foldl
+
+-- open imports
+import open List          -- map, foldl, concat, ...
+import List (map,foldl)   -- map, foldl
 ```
+
+Qualified imports are preferred. Module names must match their file name,
+so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
 ### Type Annotations
 
