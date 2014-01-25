@@ -6,7 +6,7 @@ import Window
 
 -- Inputs
 
-type Input = { space:Bool, dirL:Int, dirR:Int, delta:Time }
+type Input = { space:Bool, dir1:Int, dir2:Int, delta:Time }
 
 delta = inSeconds <~ fps 35
 
@@ -25,7 +25,7 @@ data State = Play | Pause
 
 type Ball = { x:Float, y:Float, vx:Float, vy:Float }
 type Player = { x:Float, y:Float, vx:Float, vy:Float, score:Int }
-type Game = { state:State, ball:Ball, playerL:Player, playerR:Player }
+type Game = { state:State, ball:Ball, player1:Player, player2:Player }
 
 player : Float -> Player
 player x = { x=x, y=0, vx=0, vy=0, score=0 }
@@ -34,8 +34,8 @@ defaultGame : Game
 defaultGame =
   { state   = Pause,
     ball    = { x=0, y=0, vx=200, vy=200 },
-    playerL = player (20-halfWidth) ,
-    playerR = player (halfWidth-20) }
+    player1 = player (20-halfWidth) ,
+    player2 = player (halfWidth-20) }
 
 
 -- Updates
@@ -66,17 +66,16 @@ stepPlyr t dir points player =
                 , score <- player.score + points }
 
 stepGame : Input -> Game -> Game
-stepGame {space,dirL,dirR,delta} ({state,ball,playerL,playerR} as game) =
-  let scoreL : Int
-      scoreL = if ball.x >  halfWidth then 1 else 0
-      scoreR = if ball.x < -halfWidth then 1 else 0
+stepGame {space,dir1,dir2,delta} ({state,ball,player1,player2} as game) =
+  let score1 = if ball.x >  halfWidth then 1 else 0
+      score2 = if ball.x < -halfWidth then 1 else 0
   in  {game| state   <- if | space            -> Play
-                           | scoreL /= scoreR -> Pause
+                           | score1 /= score2 -> Pause
                            | otherwise        -> state
            , ball    <- if state == Pause then ball else
-                            stepBall delta ball playerL playerR
-           , playerL <- stepPlyr delta dirL scoreL playerL
-           , playerR <- stepPlyr delta dirR scoreR playerR }
+                            stepBall delta ball player1 player2
+           , player1 <- stepPlyr delta dir1 score1 player1
+           , player2 <- stepPlyr delta dir2 score2 player2 }
 
 gameState = foldp stepGame defaultGame input
 
@@ -87,20 +86,19 @@ pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
 txt f = text . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
-make obj shape = shape |> filled white
-                       |> move (obj.x,obj.y)
-make' obj shape = shape |> filled white
-                       |> move (obj.x,obj.y)
+make obj shape =
+    shape |> filled white
+          |> move (obj.x,obj.y)
 
 display : (Int,Int) -> Game -> Element
-display (w,h) {state,ball,playerL,playerR} =
+display (w,h) {state,ball,player1,player2} =
   let scores : Element
-      scores = txt (Text.height 50) (show playerL.score ++ "  " ++ show playerR.score)
+      scores = txt (Text.height 50) (show player1.score ++ "  " ++ show player2.score)
   in container w h middle <| collage gameWidth gameHeight
        [ rect gameWidth gameHeight |> filled pongGreen
-       , oval 15 15 |> make' ball
-       , rect 10 40 |> make playerL
-       , rect 10 40 |> make playerR
+       , oval 15 15 |> make ball
+       , rect 10 40 |> make player1
+       , rect 10 40 |> make player2
        , toForm scores |> move (0, gameHeight/2 - 40)
        , toForm (if state == Play then spacer 1 1 else txt id msg)
            |> move (0, 40 - gameHeight/2)
