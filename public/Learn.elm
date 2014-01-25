@@ -48,7 +48,7 @@ rightCol = [markdown|
 
 * [Website skeleton](https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
 * [Game skeleton](https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
-* [Making Pong](/blog/games-in-elm/part-0/Making-Pong.html)
+* [Making Pong](/blog/Pong.elm)
 
 |]
 
@@ -84,7 +84,7 @@ papers = [markdown|
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
  * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
- * [Making Pong](/blog/games-in-elm/part-0/Making-Pong.html)
+ * [Making Pong](/blog/Pong.elm)
 
 
 |]

@@ -1,5 +1,5 @@
 -- See this document for more information on making Pong:
--- http://elm-lang.org/blog/games-in-elm/part-0/Making-Pong.html
+-- http://elm-lang.org/blog/Pong.elm
 
 import Keyboard
 import Window

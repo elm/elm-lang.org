@@ -46,8 +46,8 @@ These changes allowed a big rewrite of the [Pong in Elm][pong]
 examples to illustrate the benefits of Elm 0.6 in this post and in two
 larger examples ([sliding circle][slide], [color wheel][wheel]).
 
-  [pong]: /blog/games-in-elm/part-0/Pong.html "Pong in Elm"
-  [code]: https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong "Source for Pong"
+  [pong]:  /blog/Pong.elm
+  [code]:  /edit/examples/Intermediate/Pong.elm
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"
 
