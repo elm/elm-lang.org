@@ -1,8 +1,6 @@
 
 import Website.Blog (skeleton)
-import open Website.ColorScheme
 import Window
-import JavaScript as JS
 
 port title : String
 port title = "Interactive Programming in Elm"
