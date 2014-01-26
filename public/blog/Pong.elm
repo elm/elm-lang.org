@@ -171,17 +171,18 @@ velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
 share some code later on.
 
 ```haskell
-type Ball = { x:Float, y:Float, vx:Float vy:Float }
+type Object a = { a | x:Float, y:Float, vx:Float vy:Float }
 
-type Player = { x:Float, y:Float, vx:Float, vy:Float, score:Int }
+type Ball = Object {}
+
+type Player = Object { score:Int }
 ```
 
-<span style="color:rgb(145,145,145)">*If you are interested in structural
-typing, try rewriting the `Ball` and `Paddle` type aliases so that they are
-both built from a `Object a` type.*</span>
+Both `Ball` and `Player` have a position and velocity, but notice that a
+`Player` has one extra field for representing the player&rsquo;s score.
 
 We also want to be able to pause the game between volleys so the user can take
-a break. We do this with an [algebraic data type](/learn/Patter-Matching.elm)
+a break. We do this with an [algebraic data type](/learn/Pattern-Matching.elm)
 which we can later extend if we want more game states for speeding up gameplay
 or whatever else.
 
@@ -193,7 +194,7 @@ We now have a way to model balls, players, and the game state, so we just need
 to put it together. We define a `Game` that includes all of these things and
 then create a default game state.
 
-```
+```haskell
 type Game = { state:State, ball:Ball, player1:Player, player2:Player }
 
 player : Float -> Player
@@ -217,18 +218,15 @@ Our `Game` data structure holds all of the information needed to represent the
 game at any moment. In this section we will define a *step function* that steps
 from `Game` to `Game`, moving the game forward as new inputs come in.
 
-You can think of our game as a state machine. Here we are defining a transition
-function that takes an input and a state, and then steps to the next state.
 To make our step function more managable, we can break it up into smaller
 functions. This next chunk of code defines steppers for balls and paddles.
-There are a decent number of helper functions needed, but the key parts are
-                                        `stepBall` and `stepPlyr`.
+There are some not-so-interesting helper functions here, so mostly focus on
+`stepObj` which uses structural typing to share code between `stepBall` and
+`stepPlyr`. It lets us just focus on how the velocity changes for balls and
+players:
 
 ```haskell
--- Notice that we can use this for ANY record that has a
--- position and velocity, things like balls and paddles!
-stepObj : Time -> { a | x:Float, y:Float, vx:Float, vy:Float }
-               -> { a | x:Float, y:Float, vx:Float, vy:Float }
+stepObj : Time -> Object a -> Object a
 stepObj t ({x,y,vx,vy} as obj) =
     { obj | x <- x + vx*t, y <- y + vy*t }
 
@@ -292,32 +290,33 @@ This models the state of the game over time.
 # View
 
 ```haskell
-display : (Int,Int) -> Game -> Element
-display (w,h) {state,ball,player1,player2} =
-  let scores : Element
-      scores = txt (Text.height 50) <|
-               show player1.score ++ "  " ++ show player2.score
-  in 
-      container w h middle <| collage gameWidth gameHeight
-       [ rect gameWidth gameHeight |> filled pongGreen
-       , oval 15 15 |> make ball
-       , rect 10 40 |> make player1
-       , rect 10 40 |> make player2
-       , toForm scores |> move (0, gameHeight/2 - 40)
-       , toForm (if state == Play then spacer 1 1 else txt id msg)
-           |> move (0, 40 - gameHeight/2)
-       ]
-
 -- helper values and functions
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
 txt f = text . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 
--- turn any object with a position into a white form
-make : { a | x:Float, y:Float } -> Shape -> Form
-make obj shape = shape |> filled white
+displayObj : Object a -> Shape -> Form
+displayObj obj shape = shape |> filled white
                        |> move (obj.x,obj.y)
+
+display : (Int,Int) -> Game -> Element
+display (w,h) {state,ball,player1,player2} =
+  let scores : Element
+      scores = txt (Text.height 50) <|
+               show player1.score ++ "  " ++ show player2.score
+  in 
+      container w h middle <|
+      collage gameWidth gameHeight
+       [ filled pongGreen   (rect gameWidth gameHeight)
+       , displayObj ball    (oval 15 15)
+       , displayObj player1 (rect 10 40)
+       , displayObj player2 (rect 10 40)
+       , toForm scores
+           |> move (0, gameHeight/2 - 40)
+       , toForm (if state == Play then spacer 1 1 else txt id msg)
+           |> move (0, 40 - gameHeight/2)
+       ]
 ```
 
 ```haskell
