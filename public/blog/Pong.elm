@@ -155,18 +155,45 @@ needed for your game, you have already done a lot of planning about how
 everything else will work. Do not be afraid to spend a lot of time thinking
 about this!
 
-In Pong we need to think about ...
+The most basic thing we need to model is the &ldquo;pong court&rdquo;. This
+just comes down to the dimensions of the court to know when the ball should
+bounce and where the paddles should stop. We will also define halfway points
+which are commonly used. 
 
 ```haskell
 (gameWidth,gameHeight) = (600,400)
 (halfWidth,halfHeight) = (300,200)
+```
 
-data State = Play | Pause
+Now that we have a court, we need a ball and paddles. We will define these data
+structures so that they share a lot of structure. Both have a position and
+velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
+share some code later on.
 
+```haskell
 type Ball = { x:Float, y:Float, vx:Float vy:Float }
 
 type Player = { x:Float, y:Float, vx:Float, vy:Float, score:Int }
+```
 
+<span style="color:rgb(145,145,145)">*If you are interested in structural
+typing, try rewriting the `Ball` and `Paddle` type aliases so that they are
+both built from a `Object a` type.*</span>
+
+We also want to be able to pause the game between volleys so the user can take
+a break. We do this with an [algebraic data type](/learn/Patter-Matching.elm)
+which we can later extend if we want more game states for speeding up gameplay
+or whatever else.
+
+```haskell
+data State = Play | Pause
+```
+
+We now have a way to model balls, players, and the game state, so we just need
+to put it together. We define a `Game` that includes all of these things and
+then create a default game state.
+
+```
 type Game = { state:State, ball:Ball, player1:Player, player2:Player }
 
 player : Float -> Player
@@ -181,16 +208,38 @@ defaultGame =
   }
 ```
 
+The `defaultGame` is the starting state, so we pause the game, place the ball
+in the middle of the screen, and put the paddles on either side of the court.
+
 # Update
 
+Our `Game` data structure holds all of the information needed to represent the
+game at any moment. In this section we will define a *step function* that steps
+from `Game` to `Game`, moving the game forward as new inputs come in.
+
+You can think of our game as a state machine. Here we are defining a transition
+function that takes an input and a state, and then steps to the next state.
+To make our step function more managable, we can break it up into smaller
+functions. This next chunk of code defines steppers for balls and paddles.
+There are a decent number of helper functions needed, but the key parts are
+                                        `stepBall` and `stepPlyr`.
+
 ```haskell
+-- Notice that we can use this for ANY record that has a
+-- position and velocity, things like balls and paddles!
+stepObj : Time -> { a | x:Float, y:Float, vx:Float, vy:Float }
+               -> { a | x:Float, y:Float, vx:Float, vy:Float }
 stepObj t ({x,y,vx,vy} as obj) =
     { obj | x <- x + vx*t, y <- y + vy*t }
 
+near : Float -> Float -> Float -> Bool
 near k c n = n >= k-c && n <= k+c
+
+within : 
 within ball paddle = (ball.x |> near paddle.x 8)
                   && (ball.y |> near paddle.y 20)
 
+stepV : Float -> Bool -> Bool -> Float
 stepV v lowerCollision upperCollision =
   if | lowerCollision -> abs v
      | upperCollision -> 0 - abs v
@@ -200,16 +249,22 @@ stepBall : Time -> Ball -> Player -> Player -> Ball
 stepBall t ({x,y,vx,vy} as ball) p1 p2 =
   if not (ball.x |> near 0 halfWidth)
   then { ball | x <- 0, y <- 0 }
-  else stepObj t { ball | vx <- stepV vx (ball `within` p1) (ball `within` p2)
-                        , vy <- stepV vy (y < 7-halfHeight) (y > halfHeight-7)
-                 }
+  else stepObj t { ball |
+                     vx <- stepV vx (ball `within` p1) (ball `within` p2) ,
+                     vy <- stepV vy (y < 7-halfHeight) (y > halfHeight-7) }
 
 stepPlyr : Time -> Int -> Int -> Player -> Player
 stepPlyr t dir points player =
   let player1 = stepObj  t { player | vy <- toFloat dir * 200 }
   in  { player1 | y <- clamp (22-halfHeight) (halfHeight-22) player1.y
                 , score <- player.score + points }
+```
 
+Now that we have the `stepBall` and `stepPlyr` helper functions, we can define
+a step function for the entire game. Here we are stepping our game forward based
+on inputs from the world.
+
+```haskell
 stepGame : Input -> Game -> Game
 stepGame {space,dirL,dirR,delta} ({state,ball,player1,player2} as game) =
   let scoreL : Int
@@ -222,9 +277,17 @@ stepGame {space,dirL,dirR,delta} ({state,ball,player1,player2} as game) =
                             stepBall delta ball player1 player2
            , player1 <- stepPlyr delta dirL scoreL player1
            , player2 <- stepPlyr delta dirR scoreR player2 }
+```
 
+Finally we put together the inputs, the default game, and the step function to
+define `gameState`.
+
+```haskell
+gameState : Signal Game
 gameState = foldp stepGame defaultGame input
 ```
+
+This models the state of the game over time.
 
 # View
 
