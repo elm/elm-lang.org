@@ -40,14 +40,13 @@ This post has two major goals:
 In this post we will be looking into [Pong in Elm](/edit/examples/Intermediate/Pong.elm):
 a functional game written in Elm, playable in any modern browser.
 
-### Functional Game Design
+## Functional Game Design
 
 Making games is historically a very imperative undertaking, so it has long
 missed the benefits of purely functional programming. FRP makes it possible
-to program rich user interactions without resorting to traditional imperative
-idioms.
+to program rich user interactions without traditional imperative idioms.
 
-By the end of this post we will have written an entire GUI/game without any
+By the end of this post we will have written Pong without any
 imperative code. No global mutable state, no flipping pixels, no destructive
 updates. In fact, Elm disallows all of these things at the language level.
 So good design and safe coding practices are a requirement, not just
@@ -59,48 +58,46 @@ disorganized. With functional game design, we must be more careful about how
 our programs are structured. In fact in Elm, all games will share the same
 underlying structure.
 
-The structure of Elm games breaks into three major parts: modeling the game,
-updating the game, and viewing the game. It may be helpful to think of it as a
-functional variation on the Model-View-Controller paradigm.
+The structure of Elm games breaks into four major parts: modeling inputs,
+modeling the game, updating the game, and viewing the game. It may be helpful
+to think of it as a functional variation on the Model-View-Controller paradigm.
 
 To make this more concrete, lets see how Pong needs to be structured:
 
- 1. **Model:** First we need to define Pong. We do this by modelling Pong with
-    simple data structures. We need two categories of model:
+ 1. **Inputs:** This is all of the stuff coming in from &ldquo;the world&rdquo;.
+    For Pong, this is keyboard input from users and the passage of time.
 
-      * Inputs to the game. For Pong, this is keyboard input from users and
-        clock-ticks from the frame rate manager.
+ 2. **Model:** The model holds all of the information we will need to update the
+    game and render it on screen. For Pong we need to model things like paddles,
+    a ball, scores, and the &ldquo;pong court&rdquo; itself which interacts with
+    the paddles and ball. (It seems that there is no way to refer to a
+    &ldquo;pong court&rdquo; that does not sound silly.)
 
-      * A model of the game itself: paddles, ball, score, etc. Without a model
-        of the game we would have nothing to update or display! These models
-        are the basis for the next two sections. They hold all of the
-        information about Pong that we will need.
-
- 2. **Update:** When new inputs come in, we need to update the game. Without
+ 3. **Update:** When new inputs come in, we need to update the game. Without
     updates, this version of Pong would be very very boring! This section
-    defines a number of 'step functions' that step the game forward based on
+    defines a number of *step functions* that step the game forward based on
     our inputs. By separating this from the model and display code, we can
     change how the game works (how it steps forward) without changing anything
     else: the underlying model and the display code need not be touched.
 
- 3. **View:** Finally, we need a display function that defines the user's view of
-    the game. This code is completely separate from the game logic, so it can
-    be modified without affecting any other part of the program. We can also
-    define many different views of the same underlying model. In Pong there is
-    not much need for this, but as your model becomes more complex this may be
-    very useful!
+ 4. **View:** Finally, we need a display function that defines the user&rsquo;s
+    view of the game. This code is completely separate from the game logic, so
+    it can be modified without affecting any other part of the program. We can
+    also define many different views of the same underlying model. In Pong
+    there is not much need for this, but as your model becomes more complex
+    this may be very useful!
 
 If you would like to make a game or larger application in Elm, use this
 structure! I provide both [the source code for Pong][src] and [an empty
 skeleton for game creation][skeleton] which can both be a starting point for
 playing around with your own ideas.
 
- [src]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/Pong.elm
+ [src]: /edit/examples/Intermediate/Pong.elm
  [skeleton]: https://github.com/evancz/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm
 
 Let&rsquo;s get into the code!
 
-## Inputs
+# Inputs
 
 This game has two primary inputs: the passage of time and key presses.
 With the keyboard, we to keep track of:
@@ -129,8 +126,7 @@ delta = inSeconds <~ fps 35
 ```
 
 Now we put that together with the [keyboard][] inputs to make a signal representing
-all inputs. Notice that we sample on time deltas so that keyboard events do not
-cause extra updates.
+all inputs.
 
  [keyboard]: http://library.elm-lang.org/catalog/evancz-Elm/0.11/Keyboard
 
@@ -142,23 +138,24 @@ input = sampleOn delta <| Input <~ Keyboard.space
                                  ~ delta
 ```
 
-## Model
+Notice that we sample on time deltas so that keyboard events do not
+cause extra updates. We want 35 frames per second, not 35 plus the
+number of key presses.
+
+# Model
 
 Here we will define the data structures that will be used throughout the rest
 of the program. This is the foundation of our game, so changes here will likely
-cause changes everywhere else.
+cause changes in both the update and view code.
 
 These models are a rough specification for your game. They force you to ask:
 Which features do I want? What information do I need for those features? How
 do I represent that information? Once you have figured out the core information
 needed for your game, you have already done a lot of planning about how
-everything else will work.
+everything else will work. Do not be afraid to spend a lot of time thinking
+about this!
 
-Do not be afraid to spend a lot of time thinking about this!
-
-### Modelling Pong / a State Machine
-
-Pong has two obvious components: the ball and two paddles.
+In Pong we need to think about ...
 
 ```haskell
 (gameWidth,gameHeight) = (600,400)
@@ -184,7 +181,7 @@ defaultGame =
   }
 ```
 
-## Update
+# Update
 
 ```haskell
 stepObj t ({x,y,vx,vy} as obj) =
@@ -229,7 +226,7 @@ stepGame {space,dirL,dirR,delta} ({state,ball,player1,player2} as game) =
 gameState = foldp stepGame defaultGame input
 ```
 
-## View
+# View
 
 ```haskell
 display : (Int,Int) -> Game -> Element
@@ -264,14 +261,21 @@ make obj shape = shape |> filled white
 main = lift2 display Window.dimensions gameState
 ```
 
-And that is it! [Pong in Elm](/edit/examples/Intermediate/Pong.elm)
+And that is it: [Pong in Elm](/edit/examples/Intermediate/Pong.elm)!
 
-## Post Script
+<br/>
 
-### Learn by Doing: Programming Challenges
+# Further Reading and Exercises
 
-If you want to learn more about making games in Elm, try tackling some of
-these challenges:
+If you want to read more about FRP for games, see [this paper][afrp]. Note that
+it is specific to Arrowized FRP, which is supported by Elm&rsquo;s
+[Automaton][automaton] library.
+
+ [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf
+ [automaton]: http://library.elm-lang.org/catalog/evancz-automaton/0.1.0.1
+
+Learning by doing is a great way to improve your skills, so if you want to
+learn more about making games in Elm, try tackling some of these challenges:
 
  * Make the Pong field look nicer. Add a line (or dotted line) at mid-field.
 
@@ -292,14 +296,5 @@ these challenges:
    paddle at the same y height as the ball, but this is not very fun to play
    against. Maybe try an AI that is not so smart to make things more
    interesting.
-
-### Further Reading
-
-If you want to read more about FRP for games, see [this paper][afrp]. Note that
-it is specific to Arrowized FRP, which is supported by Elm&rsquo;s
-[Automaton][automaton] library.
-
- [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf
- [automaton]: http://library.elm-lang.org/catalog/evancz-automaton/0.1.0.1
 
 |]
