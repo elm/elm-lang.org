@@ -33,8 +33,8 @@ buttons = flow right . map button <|
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
- let logo = text . typeface "futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial" . Text.color lightGrey . Text.height 24 <| toText "elm"
- in  link "/" <| container w 30 middle logo
+ let logo = text . typeface "futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial" . Text.color lightGrey . Text.height 30 <| toText "elm"
+ in  link "/" <| container w 36 middle logo
 
 heading outer =
   topBar 10 outer
