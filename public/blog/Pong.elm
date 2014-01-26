@@ -64,28 +64,29 @@ to think of it as a functional variation on the Model-View-Controller paradigm.
 
 To make this more concrete, lets see how Pong needs to be structured:
 
- 1. **Inputs:** This is all of the stuff coming in from &ldquo;the world&rdquo;.
-    For Pong, this is keyboard input from users and the passage of time.
+ 1. [**Inputs**](#inputs) &mdash; This is all of the stuff coming in from
+    &ldquo;the world&rdquo;. For Pong, this is keyboard input from users and
+    the passage of time.
 
- 2. **Model:** The model holds all of the information we will need to update the
-    game and render it on screen. For Pong we need to model things like paddles,
-    a ball, scores, and the &ldquo;pong court&rdquo; itself which interacts with
-    the paddles and ball. (It seems that there is no way to refer to a
-    &ldquo;pong court&rdquo; that does not sound silly.)
+ 2. [**Model**](#model) &mdash; The model holds all of the information we will
+    need to update the game and render it on screen. For Pong we need to model
+    things like paddles, a ball, scores, and the &ldquo;pong court&rdquo;
+    itself which interacts with the paddles and ball. (It seems that there is
+    no way to refer to a &ldquo;pong court&rdquo; that does not sound silly.)
 
- 3. **Update:** When new inputs come in, we need to update the game. Without
-    updates, this version of Pong would be very very boring! This section
-    defines a number of *step functions* that step the game forward based on
-    our inputs. By separating this from the model and display code, we can
-    change how the game works (how it steps forward) without changing anything
-    else: the underlying model and the display code need not be touched.
+ 3. [**Update**](#update) &mdash; When new inputs come in, we need to update
+    the game. Without updates, this version of Pong would be very very boring!
+    This section defines a number of *step functions* that step the game forward
+    based on our inputs. By separating this from the model and display code,
+    we can change how the game works (how it steps forward) without changing
+    anything else: the underlying model and the display code need not be touched.
 
- 4. **View:** Finally, we need a display function that defines the user&rsquo;s
-    view of the game. This code is completely separate from the game logic, so
-    it can be modified without affecting any other part of the program. We can
-    also define many different views of the same underlying model. In Pong
-    there is not much need for this, but as your model becomes more complex
-    this may be very useful!
+ 4. [**View**](#view) &mdash; Finally, we need a display function that defines
+    the user&rsquo;s view of the game. This code is completely separate from
+    the game logic, so it can be modified without affecting any other part of
+    the program. We can also define many different views of the same underlying
+    model. In Pong there is not much need for this, but as your model becomes
+    more complex this may be very useful!
 
 If you would like to make a game or larger application in Elm, use this
 structure! I provide both [the source code for Pong][src] and [an empty
@@ -219,43 +220,61 @@ game at any moment. In this section we will define a *step function* that steps
 from `Game` to `Game`, moving the game forward as new inputs come in.
 
 To make our step function more managable, we can break it up into smaller
-functions. This next chunk of code defines steppers for balls and paddles.
-There are some not-so-interesting helper functions here, so mostly focus on
-`stepObj` which uses structural typing to share code between `stepBall` and
-`stepPlyr`. It lets us just focus on how the velocity changes for balls and
-players:
+functions. This next chunk of code defines some not-so-interesting helper
+functions: `near` and `within` for detecting collisions and `stepV` for safely
+stepping velocity.
 
 ```haskell
-stepObj : Time -> Object a -> Object a
-stepObj t ({x,y,vx,vy} as obj) =
-    { obj | x <- x + vx*t, y <- y + vy*t }
-
+-- are n and m near each other?
+-- specifically are they within c of each other?
 near : Float -> Float -> Float -> Bool
-near k c n = n >= k-c && n <= k+c
+near n c m = m >= n-c && m <= n+c
 
-within : 
-within ball paddle = (ball.x |> near paddle.x 8)
-                  && (ball.y |> near paddle.y 20)
+-- is the ball within a paddle?
+within : Ball -> Player -> Bool
+within ball player =
+    (ball.x |> near player.x 8) && (ball.y |> near player.y 20)
 
+-- change the direction of a velocity based on collisions
 stepV : Float -> Bool -> Bool -> Float
 stepV v lowerCollision upperCollision =
   if | lowerCollision -> abs v
      | upperCollision -> 0 - abs v
      | otherwise      -> v
+```
 
+Okay, now that we have the boring functions, we can define step functions
+for balls and paddles. Notice that `stepObj` which uses structural typing to
+share code between `stepBall` and `stepPlyr`. `stepObj` changes an objects
+position based on its velocity, so `stepBall` and `stepPlyr` can just focus
+on how their velocities change.
+
+```haskell
+-- step the position of an object based on its velocity and a timestep
+stepObj : Time -> Object a -> Object a
+stepObj t ({x,y,vx,vy} as obj) =
+    { obj | x <- x + vx * t
+          , y <- y + vy * t }
+
+-- move a ball forward, detecting collisions with either paddle
 stepBall : Time -> Ball -> Player -> Player -> Ball
-stepBall t ({x,y,vx,vy} as ball) p1 p2 =
+stepBall t ({x,y,vx,vy} as ball) player1 player2 =
   if not (ball.x |> near 0 halfWidth)
   then { ball | x <- 0, y <- 0 }
-  else stepObj t { ball |
-                     vx <- stepV vx (ball `within` p1) (ball `within` p2) ,
-                     vy <- stepV vy (y < 7-halfHeight) (y > halfHeight-7) }
+  else
+    let vx' = stepV vx (ball `within` player1) (ball `within` player2)
+        vy' = stepV vy (y < 7-halfHeight) (y > halfHeight-7)
+    in
+        stepObj t { ball | vx <- vx', vy <- vy' }
 
+-- step a player forward, making sure it does not fly off the court
 stepPlyr : Time -> Int -> Int -> Player -> Player
 stepPlyr t dir points player =
-  let player1 = stepObj  t { player | vy <- toFloat dir * 200 }
-  in  { player1 | y <- clamp (22-halfHeight) (halfHeight-22) player1.y
-                , score <- player.score + points }
+  let player' = stepObj t { player | vy <- toFloat dir * 200 }
+      y'      = clamp (22-halfHeight) (halfHeight-22) player'.y
+      score'  = player.score + points
+  in
+      { player' | y <- y', score <- score' }
 ```
 
 Now that we have the `stepBall` and `stepPlyr` helper functions, we can define
@@ -264,17 +283,25 @@ on inputs from the world.
 
 ```haskell
 stepGame : Input -> Game -> Game
-stepGame {space,dirL,dirR,delta} ({state,ball,player1,player2} as game) =
-  let scoreL : Int
-      scoreL = if ball.x >  halfWidth then 1 else 0
-      scoreR = if ball.x < -halfWidth then 1 else 0
-  in  {game| state   <- if | space            -> Play
-                           | scoreL /= scoreR -> Pause
-                           | otherwise        -> state
-           , ball    <- if state == Pause then ball else
-                            stepBall delta ball player1 player2
-           , player1 <- stepPlyr delta dirL scoreL player1
-           , player2 <- stepPlyr delta dirR scoreR player2 }
+stepGame {space,paddle1,paddle2,delta}
+         ({state,ball,player1,player2} as game) =
+  let score1 = if ball.x >  halfWidth then 1 else 0
+      score2 = if ball.x < -halfWidth then 1 else 0
+
+      state' = if | space            -> Play
+                  | score1 /= score2 -> Pause
+                  | otherwise        -> state
+
+      ball' = if state == Pause then ball else
+                  stepBall delta ball player1 player2
+
+      player1' = stepPlyr delta paddle1 score1 player1
+      player2' = stepPlyr delta paddle2 score2 player2
+  in
+      { game | state   <- state'
+             , ball    <- ball'
+             , player1 <- player1'
+             , player2 <- player2' }
 ```
 
 Finally we put together the inputs, the default game, and the step function to
@@ -289,17 +316,29 @@ This models the state of the game over time.
 
 # View
 
+The view is totally independent of how the game updates, it is only based on
+the model. This means we can change how the game looks without changing any of
+*the update logic* of the game.
+
+You can be as fancy and elaborate as you want in the view, but I will try to
+keep our display fairly simple! The most interesting thing about this code is
+that the `displayObj` function allows us to share some code for rendering balls
+and players. The rest of the code is more about drawing the pong court and
+displaying scores and instructions nicely.
+
 ```haskell
--- helper values and functions
+-- helper values
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
 txt f = text . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 
+-- shared function for rendering objects
 displayObj : Object a -> Shape -> Form
-displayObj obj shape = shape |> filled white
-                       |> move (obj.x,obj.y)
+displayObj obj shape =
+    move (obj.x,obj.y) (filled white shape)
 
+-- display a game state
 display : (Int,Int) -> Game -> Element
 display (w,h) {state,ball,player1,player2} =
   let scores : Element
@@ -319,11 +358,14 @@ display (w,h) {state,ball,player1,player2} =
        ]
 ```
 
+Now that we have a way to display a particular game state, we just
+apply it to our `gameState` that changes over time.
+
 ```haskell
 main = lift2 display Window.dimensions gameState
 ```
 
-And that is it: [Pong in Elm](/edit/examples/Intermediate/Pong.elm)!
+And that is it, [Pong in Elm](/edit/examples/Intermediate/Pong.elm)!
 
 <br/>
 
