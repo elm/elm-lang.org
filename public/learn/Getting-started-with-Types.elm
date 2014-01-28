@@ -68,7 +68,7 @@ for integers. The same works for all types of primitive values:
 ```haskell
 True    : Bool      -- True is a boolean value
 3.1415  : Float     -- pi is a floating point number
-'$'     : Char      -- '$' is a character
+'x'     : Char      -- 'x' is a character
 "Alice" : String    -- "Alice" is a string of characters
 ```
 
@@ -115,26 +115,8 @@ names : [String]
 names = ["Alice", "Bob", "Chuck"]
 ```
 
-One fun fact is that a list of `Char` is the same as a `String`. So both of 
-the following are true:
-
-```haskell
-adam : String
-adam = ['A','d','a','m']
-
-steve : [Char]
-steve = "Steve"
-```
-
-The `String` type is actually a *type alias*, a convenient name for a more
-complex type. If you want to define your own type aliases, you can use the
-following syntax:
-
-```haskell
-type String = [Char]
-```
-
-This often makes types more readable, so we will see type aliases again soon!
+Again, the key thing is that all elements of the list have exactly the
+same type.
 
 ### Tuples
 
@@ -186,7 +168,7 @@ books = [ book1, book2 ]
 In the tuple version of the book, it was unclear from the type
 which `String` was the title and which was the author. You would have to
 read some code or do some experiment to figure it out. With records, it is
-totally clear and extracting a title is as simple as saying `(book2.title)`.
+totally clear and extracting a title is as simple as saying `book2.title`.
 
 ## Types for Functions
 
@@ -202,10 +184,7 @@ not b = if b then False else True
 ```
 
 So `not` is a function that takes in a boolean and gives back a boolean.
-This would probably be read as &ldquo;`not` has type `Bool` to `Bool`&rdquo;,
-but no one would say that out loud. At some point, types become more like
-mathematical statements, and their conciseness makes them more suitable for
-reading than speaking.
+This would be read as &ldquo;`not` has type `Bool` to `Bool`&rdquo;.
 
 Another example is the `length` function which figures out the length of a list.
 
@@ -222,24 +201,23 @@ of the values in the list, it can work on any kind of list!
 
 People will say that `length` is a *polymorphic function*. If you pretend you
 know greek, you can think of it as a function with &ldquo;many forms&rdquo;.
-This is all just code words for a type that has type variables in it
+This is all just code words for a type that has *type variables* in it
 (the lower case ones).
 
 Functions can have multiple arguments. For example, the `drop` function
 takes in a number of elements to drop and a list. It then returns the
 shortened list. For example, it is true that
-`(drop 3 "prehistoric" == "historic")`. The type of `drop` is:
+`(drop 2 [1,2,3,4] == [3,4])`. The type of `drop` is:
 
 ```haskell
 drop : Int -> [a] -> [a]
 ```
 
 When you see multiple arrows, you can think of a bunch of argument types
-ending with the return type. Notice that we use the same type variable
-for the input and output lists. That means that the type of list we give must
-be the same as the type of list that we get out. You cannot say
-`(drop 1 [1,2,3])` and end up with a list of booleans, you have to get out
-a list of integers!
+ending with the return type. So you can think of `drop` as a function that
+takes two arguments and returns a list. Notice that we use the same type variable
+for the input list `[a]` and the output list `[a]`. That means if you give
+an integer list `[Int]`, you must get back an integer list `[Int]`!
 
 ### Higher-order Functions
 
@@ -248,13 +226,14 @@ common examples of this is the `map` function. It applies a function to every
 element of a list.
 
 ```haskell
-map not [True,False] == [False,True]
+map not [True,False]   -- returns [False,True]
 
-map length ["tree","france"] == [4,6]
+map round [4.2,7.9]    -- returns [4,8]
 ```
 
 In the first example, all of the boolean values in the list become *not* that
-value. In the second example, all of the strings become their length.
+value. In the second example, all of the floating point numbers are rounded to
+the nearest integer.
 
 The `map` function has the following type:
 
@@ -262,15 +241,15 @@ The `map` function has the following type:
 map : (a -> b) -> [a] -> [b]
 ```
 
-The first argument is actually a function! When you see a function in parentheses
-it is a sure sign that one of the arguments is a function. The second argument
-is a list, and the output is a transformed list.
+The first argument is a function from `a`&rsquo;s to `b`&rsquo;s, the second
+argument is a list of `a`&rsquo;s, and the return value is a transformed list
+of `b`&rsquo;s.
 
-Remember from the previous section the types of `not` and `length`?
+The types of `not` and `round` are:
 
 ```haskell
 not : Bool -> Bool
-length : [a] -> Int
+round : Float -> Int
 ```
 
 The `map` function can be specialized for each case. When `map` is used
@@ -283,22 +262,13 @@ nots : [Bool] -> [Bool]
 nots bools = map not bools
 ```
 
-And when it is used with `length` it is specialized to have the type:
+And when it is used with `round` it is specialized to have the type:
 
 ```haskell
--- map : ([a] -> Int) -> [[a]] -> [Int]
+-- map : (Float -> Int) -> [Float] -> [Int]
 
-lengths : [[a]] -> [Int]
-lengths xs = map length xs
-```
-
-This gets specialized again when we give it a list of strings resulting in
-
-```haskell
--- map : (String -> Int) -> [String] -> [Int]
-
-stringLengths : [Int]
-stringLengths = map length ["tree","france"]
+rounds : [Float] -> [Int]
+rounds floats = map length floats
 ```
 
 These are some of the &ldquo;many forms&rdquo; of the `map` function. The type
