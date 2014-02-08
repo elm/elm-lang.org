@@ -68,29 +68,22 @@ p, li {
 h1, h2, h3, h4 {
   font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
 }
-pre {
-  margin: 0 30px;
-  padding: 4px 10px;
-  border: solid 1px rgb(235,235,235);
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
 }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; background-color: white; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-pre, code { background-color: white; }
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 <span id="words"></span><br/>
