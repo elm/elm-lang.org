@@ -1,4 +1,4 @@
-# elm-lang.org: a template for creating websites in Elm
+# Template for creating websites in Elm
 
 This project contains all of the source files used to create
 [elm-lang.org](http://elm-lang.org/), the home-page of the Elm programming
@@ -15,11 +15,14 @@ file, so you only need to think about the content.
 First make sure that you have the Elm compiler installed
 ([directions](https://github.com/evancz/Elm#elm)).
 
-Then follow these steps to get this all running on your local machine:
+Then follow these steps to get the website running locally:
 
-- Clone this project
-- Run `cabal install --bindir=.`
-- Run `./run-elm-website` to start the server
+```bash
+git clone https://github.com/evancz/elm-lang.org.git
+cd elm-lang.org
+cabal install --bindir=.`
+./run-elm-website
+```
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
 [localhost:8000/](http://localhost:8000/).
