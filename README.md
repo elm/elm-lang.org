@@ -1,12 +1,11 @@
 # Template for creating websites in Elm
 
 This project contains all of the source files used to create
-[elm-lang.org](http://elm-lang.org/), the home-page of the Elm programming
-language.
+[elm-lang.org](http://elm-lang.org/). It provides a server and general
+structure for creating *your own* Elm website. The server lets you mix
+Elm, images, videos, HTML/CSS/JS, and whatever else you need.
 
-The project provides a server and general structure for creating your own Elm website.
-It lets you mix Elm, images, videos, HTML/CSS/JS, and whatever else you need. You
-can also use it to run [elm-lang.org/try](http://elm-lang.org/try) locally.
+You can also use this to run [elm-lang.org/try](http://elm-lang.org/try) locally.
 
 ### Set up
 
