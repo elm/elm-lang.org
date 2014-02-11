@@ -1,4 +1,4 @@
-# Template for creating websites in Elm
+# Template for creating Elm websites
 
 This project contains all of the source files used to create
 [elm-lang.org](http://elm-lang.org/). It provides a server and general
