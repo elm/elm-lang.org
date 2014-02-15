@@ -17,7 +17,7 @@ Then follow these steps to get the website running locally:
 ```bash
 git clone https://github.com/evancz/elm-lang.org.git
 cd elm-lang.org
-cabal install --bindir=.`
+cabal install --bindir=.
 ./run-elm-website
 ```
 
