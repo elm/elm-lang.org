@@ -1,8 +1,11 @@
 
 import Graphics.Input as Input
 
-main = let (field, password) = Input.password "Password"
-       in  lift2 display field password
+main = lift display content
 
-display field password =
-  field `above` plainText ("Your password is: " ++ password)
+(content, portal) = Input.input Input.noContent
+
+display content =
+  flow down [ Input.password portal id "Password" content
+            , plainText ("Your password is: " ++ content.string)
+            ]
