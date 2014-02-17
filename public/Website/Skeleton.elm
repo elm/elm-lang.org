@@ -68,7 +68,7 @@ footerWords =
        wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
-install = Input.customButtons ()
+(_, inputPortal) = Input.input ()
 
 installButtons w =
   let href = "https://github.com/evancz/Elm/blob/master/README.md#install"
@@ -81,7 +81,7 @@ box words c1 c2 =
     text . Text.height 30 . Text.color charcoal <| toText words
 
 button words =
-    install.customButton ()
+    Input.customButton inputPortal ()
         (box words lightGrey grey)
         (box words lightGrey darkGrey)
         (box words grey blue)

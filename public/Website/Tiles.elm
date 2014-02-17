@@ -9,10 +9,10 @@ examples w exs =
 
 row = flow right . intersperse (spacer 10 124) . map example
 
-navigation = Input.customButtons ()
+(_, portal) = Input.input ()
 
 example name =
     let btn clr = color clr . container 124 124 middle <|
                   image 120 120 ("/screenshot/" ++ name ++ ".jpg")
     in  link ("/edit/examples/Intermediate/" ++ name ++ ".elm") <|
-        navigation.customButton () (btn mediumGrey) (btn accent1) (btn accent3)
+        Input.customButton portal () (btn mediumGrey) (btn accent1) (btn accent3)
