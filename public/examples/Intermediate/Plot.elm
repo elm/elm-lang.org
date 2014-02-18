@@ -2,19 +2,22 @@ import Graphics.Input as Input
 
 ----  Put it all on screen  ----
 
-(style, stylePortal) = Input.input Line
-(points, pointsPortal) = Input.input (snd (head pointOptions))
+style : Input.Input Style
+style = Input.input Line
+
+points : Input.Input [(Float,Float)]
+points = Input.input (snd (head pointOptions))
 
 main : Signal Element
-main = lift2 scene style points
+main = lift2 scene style.signal points.signal
 
 scene : Style -> [(Float,Float)] -> Element
-scene style points =
+scene currentStyle currentPoints =
   flow down
-    [ plot style 400 400 points
+    [ plot currentStyle 400 400 currentPoints
     , flow right [ plainText "Options: "
-                 , Input.dropDown pointsPortal pointOptions
-                 , Input.dropDown stylePortal styleOptions
+                 , Input.dropDown points.handle pointOptions
+                 , Input.dropDown style.handle styleOptions
                  ]
     ]
 
