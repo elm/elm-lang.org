@@ -1,12 +1,15 @@
 
 import Graphics.Input as Input
 
-main = lift display checked
+main : Signal Element
+main = lift display check.signal
 
-(checked, portal) = Input.input True
+check : Input.Input Bool
+check = Input.input True
 
+display : Bool -> Element
 display checked =
-  flow right [ container 30 30 middle <| Input.checkbox portal id checked
+  flow right [ container 30 30 middle <| Input.checkbox check.handle id checked
              , container 50 30 middle <| asText checked
              ]
 

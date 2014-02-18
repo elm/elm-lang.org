@@ -7,13 +7,14 @@ import Graphics.Input as Input
 main : Signal Element
 main =
   let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
-      output content url response =
-          flow down [ Input.field portal id "Zip Code" content
+      output fieldContent url response =
+          flow down [ Input.field content.handle id "Zip Code" fieldContent
                     , Maybe.maybe msg (always (display response)) url
                     ]
-  in lift3 output content url responses
+  in lift3 output content.signal url responses
 
-(content, portal) = Input.input Input.noContent
+content : Input.Input Input.FieldContent
+content = Input.input Input.noContent
 
 -- Display a response
 
@@ -30,7 +31,7 @@ responses : Signal (Http.Response String)
 responses = Http.sendGet (Maybe.maybe "" id <~ url)
 
 url : Signal (Maybe String)
-url = lift (\c -> toUrl c.string) content
+url = lift (\c -> toUrl c.string) content.signal
 
 toUrl : String -> Maybe String
 toUrl s =

@@ -1,16 +1,17 @@
 
-import Graphics.Input as Input
+import Graphics.Input (Input, input, dropDown)
 
 main : Signal Element
-main = lift display choice
+main = lift display style.signal
 
-(choice, portal) = Input.input id
+style : Input (Text -> Text)
+style = input id
 
 display : (Text -> Text) -> Element
-display style =
+display transform =
   let msg = toText "Choose a style for the following text: " in
-  flow down [ text (msg ++ style (toText "Hello, World!"))
-            , Input.dropDown portal options
+  flow down [ text (msg ++ transform (toText "Hello, World!"))
+            , dropDown style.handle options
             ]
 
 options : [(String, Text -> Text)]

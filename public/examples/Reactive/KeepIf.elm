@@ -2,7 +2,9 @@ import Char
 import String
 import Graphics.Input as Input
 
-(field, input) = Input.field "numbers"
+(field, input) = Input.input ""
+
+ "numbers"
 
 scene field inp = field `above` plainText ("Last input of all digits: " ++ inp)
 

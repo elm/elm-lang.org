@@ -1,11 +1,13 @@
 
-import Graphics.Input as Input
+import Graphics.Input (Input, input, FieldContent, noContent, password)
 
-main = lift display content
+main : Signal Element
+main = lift display content.signal
 
-(content, portal) = Input.input Input.noContent
+content : Input FieldContent
+content = input noContent
 
-display content =
-  flow down [ Input.password portal id "Password" content
-            , plainText ("Your password is: " ++ content.string)
+display fieldContent =
+  flow down [ password content.handle id "Password" fieldContent
+            , plainText ("Your password is: " ++ fieldContent.string)
             ]

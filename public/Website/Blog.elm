@@ -17,14 +17,14 @@ topBar k n =
         boxes = box :: title :: map (\_ -> box) [1..8]
     in  flow right <| addColors (zipWith (<|) boxes ws)
 
-(_, portal) = Input.input ""
+click = Input.input ""
 
 button (name, href, clr) =
  let btn alpha =
          flow down [ color (rgba 200 200 200 alpha) . container 100 24 middle .
                      width 100 . centered . Text.color black <| toText name
                    , color clr (spacer 100 2) ]
- in  link href <| Input.customButton portal href (btn 0) (btn 0.1) (btn 0.2)
+ in  link href <| Input.customButton click.handle href (btn 0) (btn 0.1) (btn 0.2)
 
 buttons = flow right . map button <|
   [ ("About"   , "/About.elm"        , accent1)

@@ -1,8 +1,10 @@
 import String
-import Graphics.Input as Input
+import Graphics.Input (Input, input, FieldContent, noContent, field)
 
-(content, portal) = Input.input Input.noContent
+content : Input FieldContent
+content = input noContent
 
+main : Signal Element
 main = lift2 above
-         (Input.field portal id "Type here!" <~ content)
-         (plainText . String.reverse . .string <~ content)
+         (field content.handle id "Type here!" <~ content.signal)
+         (plainText . String.reverse . .string <~ content.signal)
