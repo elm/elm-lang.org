@@ -47,7 +47,7 @@ automatically whenever the signal updates. So if the function produces static gr
 These examples are just the basics of FRP. There are tons of other
 [interactive examples](/Examples.elm) that allow you to play around
 with FRP in [Elm](/). More information on how to use signals can be found
-[here](http://docs.elm-lang.org/library/Signal.elm).
+[here](http://library.elm-lang.org/catalog/evancz-Elm/0.11/Signal).
 
 |]
 
@@ -67,7 +67,7 @@ complex2 = [markdown|<br/>
 
 The first example shows how you combine two different signals. In this case we finding out
 the x-coordinate of the mouse as a percentage of screen width. So we can know that the mouse
-is 75% of the way accross the screen.
+is 75% of the way across the screen.
 
 The second example produces a signal of click locations. The `sampleOn` function allows you
 to &ldquo;sample&rdquo; a signal whenever a particular signal updates.
