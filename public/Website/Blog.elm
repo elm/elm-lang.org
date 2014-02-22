@@ -2,7 +2,7 @@
 module Website.Blog where
 
 import JavaScript as JS
-import open Website.ColorScheme
+import Website.ColorScheme (..)
 import Graphics.Input as Input
 
 accents = [accent0,accent1,accent2,accent3,accent4]

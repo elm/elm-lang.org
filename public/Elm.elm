@@ -1,5 +1,4 @@
 import Website.Skeleton (homeSkeleton, bigLogo, installButtons)
-import open Website.ColorScheme
 import Website.Tiles (examples)
 
 import Text

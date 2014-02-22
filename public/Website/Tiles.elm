@@ -1,7 +1,7 @@
 module Website.Tiles (examples) where
 
 import Graphics.Input as Input
-import open Website.ColorScheme
+import Website.ColorScheme (..)
 
 examples w exs =
     let block = flow down . intersperse (spacer 10 10) <| map row exs
