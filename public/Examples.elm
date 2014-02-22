@@ -186,6 +186,7 @@ reactive = addFolder "Reactive/"
   , ("Random", [ ("Randomize", "Randomize") ])
   , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
+               , ("KeepIf", "KeepIf")
                ])
   , ("Ports",  [ ("Logging","Log")
                , ("Set Title","Title")
