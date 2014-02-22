@@ -55,12 +55,8 @@ intro = [markdown|
 The Standard Libraries, listed below, come with the latest release
 of the Elm compiler and make it easy to get productive with Elm.
 
-|]
-
-outro = [markdown|
-
-## Community Libraries
-
+See the [syntax reference](/learn/Syntax.elm) and [other learning
+resources](/Learn.elm) to learn more about the language itself.
 Check out [library.elm-lang.org](http://library.elm-lang.org) to discover
 3rd party libraries and browse their documentation.
 
@@ -87,10 +83,8 @@ col3 = [ graphics, ffi ]
 content w =
   flow down
   [ width w intro
-  , spacer w 10
+  , spacer w 20
   , threeCol w col1 col2 col3
-  , spacer w 10
-  , width w outro
   ]
 
 main = lift (skeleton content) Window.dimensions

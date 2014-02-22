@@ -2,7 +2,7 @@
 module Website.Blog where
 
 import JavaScript as JS
-import open Website.ColorScheme
+import Website.ColorScheme (..)
 import Graphics.Input as Input
 
 accents = [accent0,accent1,accent2,accent3,accent4]
@@ -17,14 +17,14 @@ topBar k n =
         boxes = box :: title :: map (\_ -> box) [1..8]
     in  flow right <| addColors (zipWith (<|) boxes ws)
 
-navigation = Input.customButtons ""
+click = Input.input ""
 
 button (name, href, clr) =
  let btn alpha =
          flow down [ color (rgba 200 200 200 alpha) . container 100 24 middle .
                      width 100 . centered . Text.color black <| toText name
                    , color clr (spacer 100 2) ]
- in  link href <| navigation.customButton href (btn 0) (btn 0.1) (btn 0.2)
+ in  link href <| Input.customButton click.handle href (btn 0) (btn 0.1) (btn 0.2)
 
 buttons = flow right . map button <|
   [ ("About"   , "/About.elm"        , accent1)
@@ -33,8 +33,8 @@ buttons = flow right . map button <|
   , ("Download", "/Download.elm"     , accent4) ]
 
 title w =
- let logo = text . typeface "futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial" . Text.color lightGrey . Text.height 24 <| toText "elm"
- in  link "/" <| container w 30 middle logo
+ let logo = text . typeface "futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial" . Text.color lightGrey . Text.height 30 <| toText "elm"
+ in  link "/" <| container w 36 middle logo
 
 heading outer =
   topBar 10 outer
@@ -45,7 +45,13 @@ skeleton bodyFunc outer =
        [ heading outer
        , spacer outer 10
        , container outer (heightOf body) middle body
-       , container outer 50 midBottom . Text.centered <|
-         Text.color (rgb 145 145 145) (Text.toText "&copy; 2011-2013 ") ++
-             Text.link "https://github.com/evancz" (Text.toText "Evan Czaplicki")
+       , container outer 50 middle <| centered footerWords
        ]
+
+footerWords =
+  let wordLink words1 href words2 words3 =
+          toText words1 ++ Text.link href (toText words2) ++ toText words3
+  in
+     Text.color (rgb 145 145 145) <|
+       wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
+       wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"

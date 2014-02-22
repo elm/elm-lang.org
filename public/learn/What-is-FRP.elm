@@ -1,5 +1,5 @@
 import Website.Skeleton (skeleton')
-import open Website.ColorScheme
+import Website.ColorScheme (..)
 
 import JavaScript as JS
 import Mouse

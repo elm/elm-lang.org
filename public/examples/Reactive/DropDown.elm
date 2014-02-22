@@ -1,14 +1,22 @@
 
-import Graphics.Input as Input
+import Graphics.Input (Input, input, dropDown)
 
-component : Element -> (Text -> Text) -> Element
-component dropDown style =
-  let msg = toText "Choose a style for the following text: " ++
-            style (toText "Hello, World!")
-  in text msg `above` dropDown
+main : Signal Element
+main = lift display style.signal
 
-choices : [(String, Text -> Text)]
-choices = [ ("underline", underline)
+style : Input (Text -> Text)
+style = input id
+
+display : (Text -> Text) -> Element
+display transform =
+  let msg = toText "Choose a style for the following text: " in
+  flow down [ text (msg ++ transform (toText "Hello, World!"))
+            , dropDown style.handle options
+            ]
+
+options : [(String, Text -> Text)]
+options = [ ("plain"    , id)
+          , ("underline", underline)
           , ("italic"   , italic)
           , ("bold"     , bold)
           , ("red"      , Text.color red)
@@ -16,8 +24,3 @@ choices = [ ("underline", underline)
           , ("Georgia"  , typeface "georgia, palatino, serif")
           ]
 
--- Input.dropDown : [(String,a)] -> (Element, Signal a)
-
-(drop,choice) = Input.dropDown choices
-
-main = lift2 component drop choice

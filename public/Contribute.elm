@@ -42,7 +42,7 @@ is vital to a programming language. This is an easy an important way to help.
 
 Build demos for the world to see. Blog about it. Tell people how you did it and
 why that is cool. To get started with this, see [how to make
-Pong](/blog/games-in-elm/part-0/Making-Pong.html). Some cool things might be:
+Pong](/blog/Pong.elm). Some cool things might be:
 
   * **Diagrams** &ndash; like [this](/learn/What-is-FRP.elm) and
     [this](/examples/Intermediate/Physics.elm). Interactive presentations

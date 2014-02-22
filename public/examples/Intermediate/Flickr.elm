@@ -1,4 +1,4 @@
-import Graphics.Input as Input
+import Graphics.Input (Input, input, FieldContent, noContent, field)
 import Http
 import JavaScript.Experimental as JS
 import Json
@@ -10,41 +10,42 @@ import Window
 --     http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
 
 
--- Asynchronously get a photo with a given tag. Makes two
--- asynchronous HTTP requests to Flickr, resulting in
--- the URL of an image.
-
+{-| Asynchronously get a photo with a given tag. Makes two
+asynchronous HTTP requests to Flickr, resulting in the URL
+of an image.
+-}
 getSources : Signal String -> Signal (Maybe String)
 getSources tag = let photos = Http.send (lift getTag tag)
                      sizes  = Http.send (lift getOneFrom photos)
                  in  lift sizesToSource sizes
 
--- Create a text input box and a signal of tags, as seen in
--- "Escape from Callback Hell".
+{-| Create an input for tags -}
+tag : Input FieldContent
+tag = input noContent
 
-(tagInput, tags) = Input.field "Flickr Instant Search"
 
-
--- Put our text input and images together. Takes in the
--- dimensions of the browser and an image. Results in a
--- Search box and large image result that fills the screen.
-
-scene : (Int,Int) -> Element -> Maybe String -> Element
-scene (w,h) tagInput imgSrc =
+{-| Put our text input and images together. Takes in the
+dimensions of the browser and an image. Results in a search
+box and large image result that fills the screen.
+-}
+scene : (Int,Int) -> FieldContent -> Maybe String -> Element
+scene (w,h) searchContent imgSrc =
     flow down
-      [ container w 100 middle tagInput,
-        case imgSrc of
+      [ container w 100 middle <|
+          field tag.handle id "Flickr Instant Search" searchContent
+      , case imgSrc of
           Just src -> fittedImage w (h-100) src
           Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")
       ]
 
 
--- Pass in the current dimensions and image. All inputs are
--- signals and will update automatically.
-
-main = lift3 scene Window.dimensions tagInput (getSources (dropRepeats tags))
-
-
+{-| Pass in the current dimensions and image. All inputs are
+signals and will update automatically.
+-}
+main : Signal Element
+main = scene <~ Window.dimensions
+              ~ tag.signal
+              ~ getSources (.string <~ dropRepeats tag.signal)
 
 
 

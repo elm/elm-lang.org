@@ -31,14 +31,17 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-# How to embed Elm in HTML
+# Components: Embed in HTML
 
 Elm can be embedded directly in a `<div>`. This lets you easily integrate
-Elm into a larger JS project. This page tells you how. All of the following
-code is available [here](https://gist.github.com/evancz/8456627).
+Elm into a larger JS project. An embedded Elm program is called a
+&ldquo;component&rdquo;. This document shows how to embed Elm in HTML, and
+all of the following code [is available](https://gist.github.com/evancz/8456627).
 
-Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm)
-that lets you [stamp shapes by clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm).
+Say you have a simple program
+[`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm)
+that lets you [stamp shapes by
+clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm).
 Compiling it with
 
     elm --only-js Stamper.elm

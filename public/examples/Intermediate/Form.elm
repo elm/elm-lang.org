@@ -1,48 +1,49 @@
+import Graphics.Input (input, FieldContent, noContent)
 import Graphics.Input as Input
 import Http
 import String
 import Window
 
-getErrors : String -> String -> String -> String -> [String]
+getErrors : FieldContent -> FieldContent -> FieldContent -> FieldContent -> [String]
 getErrors first last email remail =
-  justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-    [ (first == ""    , "First name required.")
-    , (last == ""     , "Last name required.")
-    , (email == ""    , "Must enter your email address.")
-    , (remail == ""   , "Must re-enter your email address.")
-    , (email /= remail, "Email addresses do not match.")
-    ]
+  let empty content = String.isEmpty content.string
+      checks = [ (empty first , "First name required.")
+               , (empty last  , "Last name required.")
+               , (empty email , "Must enter your email address.")
+               , (empty remail, "Must re-enter your email address.")
+               , (email.string /= remail.string, "Email addresses do not match.")
+               ]
+      activeError (err,msg) = if err then Just msg else Nothing
+  in
+      justs <| map activeError checks
 
-url : String -> String -> String -> String
-url first last email = 
-    "/login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
 
--- Signals
-(firstBox , first)  = Input.field "First Name"
-(lastBox  , last)   = Input.field "Last Name"
-(emailBox , email)  = Input.field "Your Email"
-(remailBox, remail) = Input.field "Re-enter Email"
-(butn     , press)  = Input.button "Submit"
+-- Signals and Inputs
+first  = input noContent
+last   = input noContent
+email  = input noContent
+remail = input noContent
+submit = input ()
 
-sendAttempt : Signal Bool
-sendAttempt = lift (\c -> c > 0) (count press)
-
-always value signal = lift (\_ -> value) signal
-isClicked = merge (always False (delay 0 press)) (always True press)
+hasAttempted : Signal Bool
+hasAttempted =
+  let isPositive c = c > 0
+  in  isPositive <~ count submit.signal
 
 errors : Signal [String]
-errors = keepWhen sendAttempt []
-                  (lift4 getErrors first last email remail)
+errors = keepWhen hasAttempted []
+         (lift4 getErrors first.signal last.signal email.signal remail.signal)
 
 sendable : Signal Bool
-sendable = lift2 (&&) isClicked (lift isEmpty errors)
+sendable = sampleOn submit.signal (isEmpty <~ errors)
 
 -- Display
-fieldWith : String -> Element -> Element
-fieldWith txt fld =
+field : String -> Input.Handle FieldContent -> FieldContent -> Element
+field label handle content =
   flow right
-    [ container 200 32 midRight <| plainText txt
-    , container 200 32 middle <| size 180 26 fld ]
+    [ container 200 32 midRight <| plainText label
+    , container 200 32 middle <| size 180 26 <| Input.field handle id "" content
+    ]
 
 showErrors : [String] -> Element
 showErrors errs =
@@ -52,33 +53,38 @@ showErrors errs =
 formTitle : String -> Element
 formTitle str = width 400 . centered . Text.height 38 <| toText str
 
-userEntry : Element -> Element -> Element -> Element -> [String] -> Element
-userEntry first last email remail errors =
+userEntry : FieldContent -> FieldContent -> FieldContent -> FieldContent -> [String] -> Element
+userEntry first' last' email' remail' errors =
   color (rgb 230 230 230) . flow down <|
     [ formTitle "Example Form"
-    , fieldWith "First Name:" first
-    , fieldWith "Last Name:"  last
-    , fieldWith "Your Email:" email
-    , fieldWith "Re-enter Email:" remail
+    , field "First Name:"     first.handle  first'
+    , field "Last Name:"      last.handle   last'
+    , field "Your Email:"     email.handle  email'
+    , field "Re-enter Email:" remail.handle remail'
     , showErrors errors
-    , container 390 50 midRight <| size 60 30 butn
+    , container 390 50 midRight <| size 60 30 <| Input.button submit.handle () "Submit"
     ]
 
 -- HTTP control
 sendRequest : Signal String
-sendRequest = keepWhen sendable "" <| lift3 url first last email
+sendRequest = keepWhen sendable "" <| lift3 url first.signal last.signal email.signal
+
+url : FieldContent -> FieldContent -> FieldContent -> String
+url first last email = 
+    "/login?first=" ++ first.string ++ "&last=" ++ last.string ++ "&email="++ email.string
 
 getLogin : Signal String -> Signal (Http.Response String)
 getLogin req = Http.send <| lift (\r -> Http.post r "") req
 
 -- HTTP printing  
 prettyPrint : Http.Response String -> Element
-prettyPrint res = case res of
-  Http.Waiting -> plainText ""
-  Http.Failure _ _ -> plainText ""
-  Http.Success a -> plainText a
+prettyPrint res =
+  case res of
+    Http.Success str -> plainText str
+    Http.Waiting     -> spacer 0 0
+    Http.Failure _ _ -> spacer 0 0
 
-inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors
+inputForm = lift5 userEntry first.signal last.signal email.signal remail.signal errors
 
 inputBox = 
   let
