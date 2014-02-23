@@ -13,10 +13,12 @@ More info at:
 
 -----------------------------------------------------------}
 
-import open Either
+import Either (..)
 
+names : [Either String Int]
 names = [ Left "Alice", Right 43, Left "Bob", Right 29, Right 7 ]
 
+main : Element
 main =
   flow down
     [ asText names,
