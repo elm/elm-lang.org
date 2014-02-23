@@ -3,32 +3,37 @@ import Keyboard
 areaSize = 400
 squareSize = 40
 
-desired = 50
-timestep = fps desired
+main : Signal Element
+main = display <~ position
 
-delta = let bothZero (x,y) = x == 0 && y == 0
-            scale s {x,y} = (x*s/10, -y*s/10)
-            scaledDir = lift2 scale timestep Keyboard.arrows
-        in  dropIf bothZero (0,0) <| sampleOn timestep scaledDir
+delta : Signal Float
+delta = fps 30
 
-position = let add (a,b) (c,d) = (a+c, b+d)
-           in  foldp add (0,0) delta
+input : Signal (Float, (Float,Float))
+input =
+    let vectors = toVector <~ Keyboard.arrows
+    in  sampleOn delta (lift2 (,) delta vectors)
 
+toVector : { x:Int, y:Int } -> (Float,Float)
+toVector {x,y} =
+    if x /= 0 && y /= 0
+      then (x / sqrt 2, y / sqrt 2)
+      else (x,y)
 
--- Display moving square and FPS on screen.
-screen xy actual =
-  flow down [ collage areaSize areaSize
-                [ rect areaSize areaSize
-                    |> outlined (solid grey)
-                    |> move (areaSize/2, areaSize/2)
-                , rect squareSize squareSize
-                    |> outlined (solid black)
-                    |> move xy ]
-            , plainText "Move the square around with the arrow keys."
-            , plainText <| "Actual frames per second: " ++ show actual
-            , plainText <| "Desired frames per second: " ++ show desired
-            ]
+position : Signal (Float,Float)
+position = foldp update (0,0) input
 
-averageFPS = lift (truncate . (/) second) (average 40 timestep)
+update : (Float, (Float,Float)) -> (Float,Float) -> (Float,Float)
+update (dt,(vx,vy)) (x,y) =
+    (x + dt * vx / 10, y + dt * vy / 10)
 
-main = lift2 screen position averageFPS
+display : (Float,Float) -> Element
+display xy =
+    collage (round areaSize) (round areaSize)
+      [ rect areaSize areaSize
+          |> filled grey
+      , rect squareSize squareSize
+          |> outlined (solid black)
+          |> move xy
+      ]
+
