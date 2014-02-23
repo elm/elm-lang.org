@@ -1,15 +1,12 @@
+import Graphics.Input as I
 
-import Website.ColorScheme
+button : I.Input Int
+button = I.input 0
 
-button str =
-  let style = text . Text.height 2 . bold . Text.color mediumGrey . toText
-  in  color lightGrey <| container 50 50 middle (style str)
-
-(lButton, lclkd) = Mouse.isClickedOn (button "&larr;")
-(rButton, rclkd) = Mouse.isClickedOn (button "&rarr;")
-
-target = lift2 (-) (countIf id rclkd) (countIf id lclkd)
-
+arrow : String -> Element
+arrow str =
+  let style = text . Text.height 2 . bold . toText
+  in  container 50 50 middle (style str)
 
 step inp (target,angle) =
     case inp of
