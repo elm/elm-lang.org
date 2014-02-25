@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
 import Website.Tiles (examples)
@@ -68,6 +67,8 @@ as templates for your own project!
    by Tobias Hermann
  * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
    modular spaceship game by John P. Mayer Jr
+ * [Traffic](http://www.warski.org/traffic/) &mdash;
+   simple traffic simulator by Adam Warski
 
 |]
 
