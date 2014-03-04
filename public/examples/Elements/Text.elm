@@ -1,15 +1,19 @@
 
+main : Element
+main = flow down <| map pairToElement stylePairs
+
+stylePairs : [(String, Text -> Text)]
 stylePairs =
-    [ (bold            , "Bold")
-    , (italic          , "Italicize")
-    , (underline       , "Underline")
-    , (Text.link "/"   , "Link")
-    , (typeface "serif", "Typeface")
-    , (Text.color red  , "Color")
-    , (strikeThrough   , "Strike Through")
-    , (overline        , "Overline")
+    [ ("Bold"     , bold)
+    , ("Italicize", italic)
+    , ("Underline", line Under)
+    , ("Link"     , Text.link "/")
+    , ("Typeface" , typeface ["serif"])
+    , ("Color"    , Text.color red)
+    , ("Strikeout", line Through)
+    , ("Overline" , line Over)
     ]
 
-pairToElement (style,name) = text (style (toText name))
-
-main = flow down <| map pairToElement stylePairs
+pairToElement : (String, Text -> Text) -> Element
+pairToElement (name, style) =
+    leftAligned (style (toText name))

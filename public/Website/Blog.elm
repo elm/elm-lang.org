@@ -22,7 +22,7 @@ click = Input.input ""
 button (name, href, clr) =
  let btn alpha =
          flow down [ color (rgba 200 200 200 alpha) . container 100 24 middle .
-                     width 100 . centered . Text.color black <| toText name
+                     width 100 . leftAligned . Text.color black <| toText name
                    , color clr (spacer 100 2) ]
  in  link href <| Input.customButton click.handle href (btn 0) (btn 0.1) (btn 0.2)
 
@@ -32,9 +32,18 @@ buttons = flow right . map button <|
   , ("Docs"    , "/Documentation.elm", accent3)
   , ("Download", "/Download.elm"     , accent4) ]
 
+faces : [String]
+faces = [ "futura", "century gothic", "twentieth century"
+        , "calibri", "verdana", "helvetica", "arial"
+        ]
+
+logo : Element
+logo =
+    leftAligned . typeface faces . Text.color lightGrey . Text.height 30 <| toText "elm"
+
+title : Int -> Element
 title w =
- let logo = text . typeface "futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial" . Text.color lightGrey . Text.height 30 <| toText "elm"
- in  link "/" <| container w 36 middle logo
+    link "/" <| container w 36 middle logo
 
 heading outer =
   topBar 10 outer

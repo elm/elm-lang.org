@@ -5,7 +5,7 @@ button = I.input 0
 
 arrow : String -> Element
 arrow str =
-  let style = text . Text.height 2 . bold . toText
+  let style = leftAligned . Text.height 2 . bold . toText
   in  container 50 50 middle (style str)
 
 step inp (target,angle) =
@@ -24,7 +24,7 @@ follower angle =
                 if a < 30 then 10 + (30-a) / 3 else 10
       toDot t = filled (toClr t) <| circle (toRds t) (toPos t)
   in  layers [ collage 300 300 <| map (toDot . ((*) 30)) [0..11]
-             , container 300 300 middle . text . Text.height 2 . toText <|
+             , container 300 300 middle . leftAligned . Text.height 2 . toText <|
                show (round angle `mod` 360) ++ "&deg;" ]
 
 

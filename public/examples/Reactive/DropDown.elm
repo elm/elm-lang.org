@@ -10,17 +10,17 @@ style = input id
 display : (Text -> Text) -> Element
 display transform =
   let msg = toText "Choose a style for the following text: " in
-  flow down [ text (msg ++ transform (toText "Hello, World!"))
+  flow down [ leftAligned (msg ++ transform (toText "Hello, World!"))
             , dropDown style.handle options
             ]
 
 options : [(String, Text -> Text)]
 options = [ ("plain"    , id)
-          , ("underline", underline)
+          , ("underline", line Under)
           , ("italic"   , italic)
           , ("bold"     , bold)
           , ("red"      , Text.color red)
           , ("monospace", monospace)
-          , ("Georgia"  , typeface "georgia, palatino, serif")
+          , ("Georgia"  , typeface ["georgia", "palatino", "serif"])
           ]
 

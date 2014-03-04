@@ -18,6 +18,7 @@ Finally, we will see these functions in action with some examples.
 
 data Expr = T | F | Not Expr | And Expr Expr | Or Expr Expr
 
+eval : Expr -> Bool
 eval expr =
   case expr of
     T -> True
@@ -31,7 +32,9 @@ e2 = And T F
 e3 = Or e1 e2
 e4 = And (Not e2) e1
 
+main : Element
 main = flow down <| map display [ e1, e2, e3, e4 ]
 
+display : Expr -> Element
 display e =
-  text . monospace . toText <| show (eval e) ++ " &lArr; " ++ show e
+  leftAligned . monospace . toText <| show (eval e) ++ " &lArr; " ++ show e

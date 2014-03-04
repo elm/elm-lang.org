@@ -69,7 +69,7 @@ linkify name =
     in  Text.toText "  " ++ Text.link path (Text.toText name)
 
 linkList (name, pairs) = 
-  flow down . intersperse (spacer 2 4) . map Text.text <|
+  flow down . intersperse (spacer 2 4) . map Text.leftAligned <|
   Text.height 18 (Text.toText name) :: map linkify pairs
 
 makeCol w = width w . flow down . intersperse (spacer 10 20) . map linkList

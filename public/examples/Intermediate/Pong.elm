@@ -84,7 +84,7 @@ gameState = foldp stepGame defaultGame input
 
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
-txt f = text . f . monospace . Text.color textGreen . toText
+txt f = leftAligned . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 make obj shape =
     shape |> filled white

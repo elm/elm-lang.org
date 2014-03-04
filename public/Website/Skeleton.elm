@@ -33,7 +33,7 @@ topBar isNormal inner w =
         ]
 
 logo w =
-    let name = text . Text.height 24 <| toText "elm" in
+    let name = leftAligned . Text.height 24 <| toText "elm" in
     container w topBarHeight midLeft . link "/" <|
     flow right [ image 30 30 "/logo.png"
                , spacer 4 30
@@ -41,7 +41,7 @@ logo w =
                ]
 
 bigLogo =
-    let name = text . Text.height 60 <| toText "elm" in
+    let name = leftAligned . Text.height 60 <| toText "elm" in
     flow right [ image 80 80 "/logo.png"
                , spacer 10 80
                , container (widthOf name) 80 middle name
@@ -57,7 +57,7 @@ paths =
   ]
 
 tab (name, href) =
-    let words = text . Text.link href <| toText name
+    let words = leftAligned . Text.link href <| toText name
     in  container (widthOf words + 20) topBarHeight midRight words
 
 footerWords =
@@ -79,7 +79,7 @@ installButtons w =
 box words c1 c2 =
     color c2 . container 180 50 middle .
     color c1 . container 178 48 middle .
-    text . Text.height 30 . Text.color charcoal <| toText words
+    leftAligned . Text.height 30 . Text.color charcoal <| toText words
 
 button words =
     Input.customButton click.handle ()
