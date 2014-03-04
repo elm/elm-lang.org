@@ -1,10 +1,11 @@
-import Graphics.Input (input, FieldContent, noContent)
+import Graphics.Input (input)
+import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
 import String
 import Window
 
-getErrors : FieldContent -> FieldContent -> FieldContent -> FieldContent -> [String]
+getErrors : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String]
 getErrors first last email remail =
   let empty content = String.isEmpty content.string
       checks = [ (empty first , "First name required.")
@@ -19,10 +20,10 @@ getErrors first last email remail =
 
 
 -- Signals and Inputs
-first  = input noContent
-last   = input noContent
-email  = input noContent
-remail = input noContent
+first  = input Field.noContent
+last   = input Field.noContent
+email  = input Field.noContent
+remail = input Field.noContent
 submit = input ()
 
 hasAttempted : Signal Bool
@@ -38,22 +39,22 @@ sendable : Signal Bool
 sendable = sampleOn submit.signal (isEmpty <~ errors)
 
 -- Display
-field : String -> Input.Handle FieldContent -> FieldContent -> Element
+field : String -> Input.Handle Field.Content -> Field.Content -> Element
 field label handle content =
   flow right
     [ container 200 32 midRight <| plainText label
-    , container 200 32 middle <| size 180 26 <| Input.field handle id "" content
+    , container 200 32 middle <| size 180 26 <| Field.field handle id Field.defaultStyle "" content
     ]
 
 showErrors : [String] -> Element
 showErrors errs =
   if isEmpty errs then spacer 10 10 else
-    flow down <| map (text . Text.color red . toText) errs
+    flow down <| map (leftAligned . Text.color red . toText) errs
 
 formTitle : String -> Element
 formTitle str = width 400 . centered . Text.height 38 <| toText str
 
-userEntry : FieldContent -> FieldContent -> FieldContent -> FieldContent -> [String] -> Element
+userEntry : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String] -> Element
 userEntry first' last' email' remail' errors =
   color (rgb 230 230 230) . flow down <|
     [ formTitle "Example Form"
@@ -69,7 +70,7 @@ userEntry first' last' email' remail' errors =
 sendRequest : Signal String
 sendRequest = keepWhen sendable "" <| lift3 url first.signal last.signal email.signal
 
-url : FieldContent -> FieldContent -> FieldContent -> String
+url : Field.Content -> Field.Content -> Field.Content -> String
 url first last email = 
     "/login?first=" ++ first.string ++ "&last=" ++ last.string ++ "&email="++ email.string
 

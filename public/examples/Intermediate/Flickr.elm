@@ -1,4 +1,5 @@
-import Graphics.Input (Input, input, FieldContent, noContent, field)
+import Graphics.Input (Input, input)
+import Graphics.Input.Field as Field
 import Http
 import JavaScript.Experimental as JS
 import Json
@@ -20,19 +21,19 @@ getSources tag = let photos = Http.send (lift getTag tag)
                  in  lift sizesToSource sizes
 
 {-| Create an input for tags -}
-tag : Input FieldContent
-tag = input noContent
+tag : Input Field.Content
+tag = input Field.noContent
 
 
 {-| Put our text input and images together. Takes in the
 dimensions of the browser and an image. Results in a search
 box and large image result that fills the screen.
 -}
-scene : (Int,Int) -> FieldContent -> Maybe String -> Element
+scene : (Int,Int) -> Field.Content -> Maybe String -> Element
 scene (w,h) searchContent imgSrc =
     flow down
       [ container w 100 middle <|
-          field tag.handle id "Flickr Instant Search" searchContent
+          Field.field tag.handle id Field.defaultStyle "Flickr Instant Search" searchContent
       , case imgSrc of
           Just src -> fittedImage w (h-100) src
           Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")

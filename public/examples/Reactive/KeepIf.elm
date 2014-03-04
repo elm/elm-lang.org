@@ -1,13 +1,14 @@
 import Char (isDigit)
 import String (all)
-import Graphics.Input (Input, input, FieldContent, noContent, field)
+import Graphics.Input (Input, input)
+import Graphics.Input.Field as Field
 
 main : Signal Element
-main = scene <~ keepIf (\c -> all isDigit c.string) noContent content.signal
+main = display <~ keepIf (all isDigit . .string) Field.noContent numbers.signal
 
-content : Input FieldContent
-content = input noContent
+numbers : Input Field.Content
+numbers = input Field.noContent
 
-scene : FieldContent -> Element
-scene fieldContent =
-    field content.handle id "Only numbers!" fieldContent
+display : Field.Content -> Element
+display content =
+    Field.field numbers.handle id Field.defaultStyle "Only numbers!" content
