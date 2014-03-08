@@ -14,18 +14,19 @@ h5 { margin-bottom: 0.5em; }
 The [syntax reference](/learn/Syntax.elm) is a good place to start.
 The [examples page](/Examples.elm) is intended to help you learn by
 example, slowly building up skills. This page provides more in-depth
-documentation. For advice on how to learn Elm based on your
-background, see [the learning roadmap](/learn/Roadmap.elm).
+documentation.
 
 |]
 
 leftCol = [markdown|
 
-#### Syntax
+#### General Resources
 
 * [Syntax reference](/learn/Syntax.elm)
+* [Learning roadmap](/learn/Roadmap.elm)
+* [FAQ by language](/learn/FAQ.elm)
 
-#### Features
+#### Topic Tutorials
 
 * [FRP](/learn/What-is-FRP.elm)
 * [Types](/learn/Getting-started-with-Types.elm)
