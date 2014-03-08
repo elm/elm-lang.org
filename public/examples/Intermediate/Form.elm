@@ -43,7 +43,7 @@ field : String -> Input.Handle Field.Content -> Field.Content -> Element
 field label handle content =
   flow right
     [ container 200 32 midRight <| plainText label
-    , container 200 32 middle <| size 180 26 <| Field.field handle id Field.defaultStyle "" content
+    , container 200 32 middle <| size 180 26 <| Field.field Field.defaultStyle handle id "" content
     ]
 
 showErrors : [String] -> Element

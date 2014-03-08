@@ -11,4 +11,4 @@ numbers = input Field.noContent
 
 display : Field.Content -> Element
 display content =
-    Field.field numbers.handle id Field.defaultStyle "Only numbers!" content
+    Field.field Field.defaultStyle numbers.handle id "Only numbers!" content

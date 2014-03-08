@@ -4,8 +4,8 @@ import Graphics.Input.Field (Content, noContent, field, defaultStyle, Forward, B
 
 main : Signal Element
 main = lift2 above
-         (field content.handle id defaultStyle "Forward" <~ content.signal)
-         (field content.handle reverse defaultStyle "Backward" . reverse <~ content.signal)
+         (field defaultStyle content.handle id "Forward" <~ content.signal)
+         (field defaultStyle content.handle reverse "Backward" . reverse <~ content.signal)
 
 content : Input Content
 content = input noContent
