@@ -1,14 +1,26 @@
-import String
 import Graphics.Input (Input, input)
 import Graphics.Input.Field (Content, noContent, field, defaultStyle, Forward, Backward)
+import String
+import Window
 
 main : Signal Element
-main = lift2 above
-         (field defaultStyle content.handle id "Forward" <~ content.signal)
-         (field defaultStyle content.handle reverse "Backward" . reverse <~ content.signal)
+main = display <~ Window.dimensions ~ content.signal
 
 content : Input Content
 content = input noContent
+
+display : (Int,Int) -> Content -> Element
+display (w,h) fieldContent =
+    color lightOrange <| container w h middle <| flow down
+    [ container 300 60 middle <| plainText "Type in either field to reverse text:"
+    , myField id "Forward" fieldContent
+    , myField reverse "Backward" (reverse fieldContent)
+    ]
+
+myField : (Content -> Content) -> String -> Content -> Element
+myField handler placeHolder fieldContent =
+    container 300 50 middle <|
+    field defaultStyle content.handle handler placeHolder fieldContent
 
 reverse : Content -> Content
 reverse content =
