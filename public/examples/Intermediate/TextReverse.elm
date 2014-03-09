@@ -11,10 +11,12 @@ content = input noContent
 
 display : (Int,Int) -> Content -> Element
 display (w,h) fieldContent =
+    let txt = container 300 60 middle . width 300 . centered . toText in
     color lightOrange <| container w h middle <| flow down
-    [ container 300 60 middle <| plainText "Type in either field to reverse text:"
+    [ txt "Type in either field to reverse text:"
     , myField id "Forward" fieldContent
     , myField reverse "Backward" (reverse fieldContent)
+    , txt "Lookup palindromes and emordnilaps to try to make sentences!"
     ]
 
 myField : (Content -> Content) -> String -> Content -> Element
