@@ -57,7 +57,7 @@ getLogin req = Http.send <| lift (\r -> Http.post r "") req
 -- Display
 scene : (Int,Int) -> Element -> Element
 scene (w,h) form =
-    color lightBlue . flow down <|
+    color charcoal . flow down <|
       [ spacer w 50
       , container w (h-50) midTop form
       ]
