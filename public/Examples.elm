@@ -74,10 +74,10 @@ as templates for your own project!
 
 intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
-    , [ "TextReverse", "Form", "Flickr", "SlideShow" ]
-    , [ "Physics", "Plot", "PieChart", "Clock" ]
-    , [ "Tracer", "Complements", "Slide", "Stamps" ]
-    , [  "PascalsTriangle", "Web", "FibonacciTiles" ]
+    , [ "TextReverse", "Calculator", "Form", "Flickr" ]
+    , [ "Physics", "Plot", "PieChart", "SlideShow" ]
+    , [ "Clock", "Tracer", "Slide", "Stamps" ]
+    , [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
     ]
 
 addFolder folder lst =

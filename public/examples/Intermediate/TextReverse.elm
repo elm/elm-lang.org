@@ -11,8 +11,8 @@ content = input noContent
 
 display : (Int,Int) -> Content -> Element
 display (w,h) fieldContent =
-    let txt = container 300 60 middle . width 300 . centered . toText in
-    color lightOrange <| container w h middle <| flow down
+    let txt = container 300 60 middle . width 300 . centered . Text.color greya . toText in
+    color charcoal <| container w h middle <| flow down
     [ txt "Type in either field to reverse text:"
     , myField id "Forward" fieldContent
     , myField reverse "Backward" (reverse fieldContent)
