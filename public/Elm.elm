@@ -44,8 +44,8 @@ other w = width (w `div` 2) [markdown|
 |]
 
 exampleBlock w =
-    examples w [ [ "Mario", "Walk", "Pong", "SlideShow" ]
-               , [ "Physics", "PieChart", "Clock", "Plot" ]
+    examples w [ [ "Mario", "TextReverse", "Calculator", "Pong" ]
+               , [ "Clock", "PieChart", "Plot", "Walk" ]
                ]
 
 language = [markdown|
