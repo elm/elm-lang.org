@@ -22,12 +22,12 @@ to interact with specific functions in a multi-module project.
 
  [instruct]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "install"
 
-If you run into problems, email the [mailing list][2], ask
+If you run into problems, email the [mailing list][1], ask
 questions [on IRC](http://webchat.freenode.net/?channels=elm), or
-report an issue to Elm's [source repository][3].
+report an issue to Elm's [source repository][2].
 
-  [2]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
-  [3]: https://github.com/evancz/Elm "source repository"
+  [1]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
+  [2]: https://github.com/evancz/Elm "source repository"
 
 #### Syntax Highlighting
 
