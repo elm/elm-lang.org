@@ -5,7 +5,7 @@ import JavaScript as JS
 import Graphics.Input (Input, input, checkbox)
 
 port title : String
-port title = "UI in Elm 0.12"
+port title = "Mysteriously well-architected code"
 
 main = skeleton <~ lift everything check.signal ~ Window.dimensions
 
@@ -44,8 +44,8 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">UI in Elm 0.12
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Mysteriously well-architected code*</div></div>
+<h1><div style="text-align:center">Mysteriously well-architected code
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*The structure of Elm programs and what it means for text input*</div></div>
 </h1>
 
 [The 0.12 release of Elm](/blog/announce/0.12.elm) introduced an entirely new
@@ -54,8 +54,6 @@ check boxes should finally be a pleasant experience in Elm. This post explains:
 
   1. The thinking and motivation behind the API.
   2. How to actually use the API in real life!
-
-We will walk through some smaller examples, 
 
 ## Mysteriously well-architected code
 
