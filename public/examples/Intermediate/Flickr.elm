@@ -5,11 +5,7 @@ import JavaScript.Experimental as JS
 import Json
 import Window
 
-{------------------------  Core Logic  ------------------------}
-
--- This is the core logic of the Elm program described here:
---     http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
-
+----  Core Logic  ----
 
 {-| Asynchronously get a photo with a given tag. Makes two
 asynchronous HTTP requests to Flickr, resulting in the URL
@@ -23,7 +19,6 @@ getSources tag = let photos = Http.send (lift getTag tag)
 {-| Create an input for tags -}
 tag : Input Field.Content
 tag = input Field.noContent
-
 
 {-| Put our text input and images together. Takes in the
 dimensions of the browser and an image. Results in a search
@@ -39,7 +34,6 @@ scene (w,h) searchContent imgSrc =
           Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")
       ]
 
-
 {-| Pass in the current dimensions and image. All inputs are
 signals and will update automatically.
 -}
@@ -49,34 +43,29 @@ main = scene <~ Window.dimensions
               ~ getSources (.string <~ dropRepeats tag.signal)
 
 
+----  Helper Functions  ----
 
-{---------------------  Helper Functions  ---------------------}
-
--- These are the functions that are needed in any
--- implementation, regardless of how you make your HTTP
--- requests and whether you are using JavaScript or Elm.
--- See "Escape from Callback Hell" for a more detailed
--- description of these functions.
-
-
--- The standard parts of a Flickr API request.
+{-| The standard parts of a Flickr API request. -}
+flickrRequest : String -> String
 flickrRequest args =
   "http://api.flickr.com/services/rest/?format=json" ++
   "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
 
 
--- Turn a tag into an HTTP GET request.
+{-| Turn a tag into an HTTP GET request. -}
 getTag : String -> Http.Request String
 getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
+toJson : Http.Response String -> Maybe Json.JsonValue
 toJson response =
     case response of
       Http.Success str -> Json.fromString str
       _ -> Nothing
 
--- Take a list of photos and choose one, resulting in a request.
+{-| Take a list of photos and choose one, resulting in a request. -}
+getOneFrom : Http.Response String -> Http.Request String
 getOneFrom photoList =
     case toJson photoList of
       Nothing -> Http.get ""
@@ -87,7 +76,7 @@ getOneFrom photoList =
                 []   -> Http.get ""
 
                         
--- Take some size options and choose one, resulting in a URL.
+{-| Take some size options and choose one, resulting in a URL. -}
 sizesToSource : Http.Response String -> Maybe String
 sizesToSource sizeOptions =
     case toJson sizeOptions of
