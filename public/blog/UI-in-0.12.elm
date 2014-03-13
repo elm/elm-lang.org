@@ -5,7 +5,7 @@ import JavaScript as JS
 import Graphics.Input (Input, input, checkbox)
 
 port title : String
-port title = "Elm 0.12 - Ports"
+port title = "UI in Elm 0.12"
 
 main = skeleton <~ lift everything check.signal ~ Window.dimensions
 
@@ -44,9 +44,13 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.11.2
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Simplifying User Input*</div></div>
+<h1><div style="text-align:center">UI in Elm 0.12
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Accidentally writing well-architected code*</div></div>
 </h1>
+
+[The 0.12 release of Elm](/blog/announce/0.12.elm) introduced an entirely new API
+for user input. This post explains the thinking and motivation behind its design
+and how to actually use the API to do real things!
 
 ## Accidentally well-architected code
 
@@ -65,7 +69,7 @@ This diagram shows how values would flow through each of these four parts:
 
 <img src="/imud.png" style="display:block; margin:auto;" width="510" height="200">
 
-The key take away here is not that this is a good archetecture for designing a
+The key take away here is not that this is a good architecture for designing a
 GUI or that you should always try to split your projects into these parts. I
 mean, those are true things, but the important take away is that **the design of
 FRP in Elm *forces* you to to write code with this architecture**. I often find
