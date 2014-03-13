@@ -3,8 +3,13 @@ module Website.Skeleton (skeleton, skeleton', homeSkeleton, installButtons, bigL
 import Website.ColorScheme as C
 import Graphics.Input as Input
 
+skeleton : (Int -> Element) -> (Int,Int) -> Element
 skeleton = flexSkeleton True 526
+
+skeleton' : Int -> (Int -> Element) -> (Int,Int) -> Element
 skeleton' = flexSkeleton True
+
+homeSkeleton : (Int -> Element) -> (Int,Int) -> Element
 homeSkeleton = flexSkeleton False 526
 
 topBarHeight = 42
@@ -13,6 +18,7 @@ footerHeight = 120
 
 extraHeight = topBarHeight + topBarPadding + footerHeight
 
+flexSkeleton : Bool -> Int -> (Int -> Element) -> (Int,Int) -> Element
 flexSkeleton isNormal inner bodyFunc (w,h) =
     let content = bodyFunc (min inner w) in
     color C.lightGrey <|
