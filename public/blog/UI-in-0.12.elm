@@ -45,66 +45,124 @@ code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 <h1><div style="text-align:center">UI in Elm 0.12
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Accidentally writing well-architected code*</div></div>
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Mysteriously well-architected code*</div></div>
 </h1>
 
-[The 0.12 release of Elm](/blog/announce/0.12.elm) introduced an entirely new API
-for user input. This post explains the thinking and motivation behind its design
-and how to actually use the API to do real things!
+[The 0.12 release of Elm](/blog/announce/0.12.elm) introduced an entirely new
+API for user input. Creating traditional forms with buttons, text fields, and
+check boxes should finally be a pleasant experience in Elm. This post explains:
 
-## Accidentally well-architected code
+  1. The thinking and motivation behind the API.
+  2. How to actually use the API in real life!
 
-Due to the design of FRP in Elm, Elm programs *always* break into four distinct
-parts:
+We will walk through some smaller examples, 
 
-  1. Input &mdash; events from “the world” (keyboard, mouse, touch, time, etc.)
+## Mysteriously well-architected code
 
-  2. Model &mdash; a full representation of our Elm component.
+I often find myself at the end of a messy hacking / prototyping session with
+Elm code that is mysteriously well-architected. I know I did not plan ahead or
+have a deep understanding of how the different parts of my program would
+eventually fit together, yet the input, model, update, and display are all
+neatly separated in my rough draft. Okay, but I designed the language so surely
+it is no surprise if my Elm code turns out nice, right?
 
-  3. Update &mdash; functions for updating our model based on inputs.
+I really took note of &ldquo;mysteriously well-architected code&rdquo; when I
+observed it during my week at [Hacker School](https://www.hackerschool.com/).
+Students who had never programmed in *any* functional language before were picking
+up Elm and writing things like [Vessel](http://slawrence.github.io/vessel/),
+and the craziest part was that [the code](https://github.com/slawrence/vessel)
+always looked great! These are students learning new syntax, how to understand
+types and type inference, figuring out a bunch of libraries, thinking of how
+their program should work, and somehow their code always came out well-architected.
+They all modelled the problem, created a way to update the model based on inputs,
+and had a section of code for display. All neatly separated!
 
-  4. Display &mdash; functions describing the user’s view of the model.
+I knew that Elm's version of FRP strongly influenced the structure of Elm
+programs, but at this point I began to suspect that it actually *forces* people
+to write well-architected code. Regardless of skill level, experience, or
+knowledge of FRP, the code just comes out well-architected.
 
-This diagram shows how values would flow through each of these four parts:
+## How can this be?
+
+FRP in Elm is somewhat unique in that all signal graphs are static. This
+is the same property that made it really simple to implement [hot-swapping in
+Elm](/blog/Interactive-Programming.elm). [My
+thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
+is a pretty accessible way to figure out what the hell &ldquo;all signal graphs
+are static&rdquo; means *exactly*, but I am about to explain the &ldquo;mysteriously
+well-architected code&rdquo; in a way that does not require that kind of background.
+
+Due to the design of FRP in Elm, time-dependencies are always explicit *in your
+source code*. As a rough example, consider that position and velocity of
+[Mario](/edit/examples/Intermediate/Mario.elm) depends on time passing and
+arrow keys. In Elm, you say &ldquo;Mario is what you get when you combine time
+and key presses in this exact way&rdquo;. Describing Mario in Elm *requires*
+you to make the dependencies explicit! As a result, Elm programs always break
+into four distinct parts:
+
+  1. Input &mdash; events from “the world”: mouse, touch, time, etc.
+
+  2. Model &mdash; a full representation of the state in the program
+
+  3. Update &mdash; functions for updating our model based on inputs
+
+  4. Display &mdash; functions describing the user’s view of the model
+
+So at a very high level you can think of an Elm program as having this structure:
 
 <img src="/imud.png" style="display:block; margin:auto;" width="510" height="200">
 
-The key take away here is not that this is a good architecture for designing a
-GUI or that you should always try to split your projects into these parts. I
-mean, those are true things, but the important take away is that **the design of
-FRP in Elm *forces* you to to write code with this architecture**. I often find
-myself at the end of a messy hacking / prototyping session with Elm code that
-is mysteriously well-architected. I know I did not plan ahead or have a deep
-understanding of how the different parts of my program would eventually fit
-together, yet the input, model, update, and display are all neatly separated in
-my rough draft. This ultimately comes down to the specific design choices made
-in Elm's formulation of FRP. The fact that programs tend to be easy and pleasant
-to write makes the &ldquo;accidentally well-architected&rdquo; property one of
-the most important parts of Elm. You are not paying more in pain or frustration
-to get a better result.
+The Elm runtime sends events from the world to your inputs, you use those events
+to update your model, you describe how that should get displayed, and the Elm runtime
+takes care of showing it on screen. This is just the structure of Elm programs, so
+anything you write will come out with this architecture!
 
-I bring this up specifically because I wanted to keep &ldquo;accidentally
-well-architected&rdquo; property when introducing typical user input elements
-like buttons, checkboxes, and text fields. As people who have used MVC
-frameworks will know, UI elements seem to inherently ruin our nice separation
-of concerns: by introducing a text field, we suddenly have inputs and model in
-our view! Until now, UI elements in Elm have used a rather convoluted and
-confusing API to keep the clean division between inputs, model, update, and
-display. This release finally introduces UI elements that are easy to use *and* 
-keep the &ldquo;accidentally well-architected&rdquo; property of Elm!
+## What's this got to do with UI?
 
-## Making inputs explicit
+I bring this up specifically because UI elements like text fields and checkboxes
+seem to inherently ruin our nice separation of concerns. The traditional concept
+of a text field holds state and can trigger events. It *requires* that we have
+inputs and model in our display! This is why the Controller in
+[Model-View-Controler][mvc] (MVC) can easily turn into a crazy tangled mess.
 
-With a traditional text field, it is both a UI element *and* an input to your
-program. It is defined to be both a visual and interactive. These text fields
-also hold state in the view. The fact that text fields exist in this form in
-JS guarantees that your input, update, and view code will become intermingled.
-The API itself strongly encourages you to write messy code.
+  [mvc]: http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 
-This release introduces the concept of an `Input`. When I type in a text field
-or click a button, that event will always be sent to an explicitly defined
-`Input`. By making inputs explicit, we decouple our input and view. We'll look
-at the API itself and then see it used in an example:
+The primary goal of Elm 0.12 was to figure out how to solve this problem.
+An Elm program must cleanly separate input, model, update, and view, so **how
+can we create a library for UI elements that respects this structure *and* is
+pleasant to use?** The earlier version respected the structure of Elm programs,
+but no one could figure out how the hell it worked.
+
+The new approach is based on the idea that **UI elements and inputs are
+separate things and should have separate representations**. A slightly more
+precise way to say this is that:
+
+  * All inputs must be defined explicitly. If you have a bunch of checkboxes,
+    they will report to an input.
+
+  * All functions to create UI elements are [pure functions][pure]. They display
+    part of the model on screen and nothing more. If you want to change the
+    content of a text field, that needs to happen in your model.
+
+  [pure]: http://en.wikipedia.org/wiki/Pure_function
+
+Separating UI into these two distinct concepts lets us keep the nice structure
+of Elm programs. The rest of this post will be going into the particulars of
+how the API works and showing some examples of its use, but if you prefer to
+just read code you can jump right into it with some simple examples
+([text fields](/edit/examples/Reactive/TextField.elm),
+[passwords](/edit/examples/Reactive/Password.elm),
+[checkboxes](/edit/examples/Reactive/CheckBox.elm),
+[drop downs](/edit/examples/Reactive/DropDown.elm),
+[fields + HTTP](/edit/examples/Reactive/ZipCodes.elm),
+[filtered fields](/edit/examples/Reactive/KeepIf.elm))
+or some more advanced examples
+([field reversal](/edit/examples/Intermediate/TextReverse.elm),
+[calculator](/edit/examples/Intermediate/Calculator.elm),
+[sign-up form](/edit/examples/Intermediate/Form.elm),
+[todo list](https://github.com/evancz/TodoFRP)).
+
+## Inputs
 
 ```haskell
 type Input a = { handle : Handle a, signal : Signal a }
@@ -122,7 +180,12 @@ numbers = input 42
 ```
 
 The argument to `input` serves as the default value of the `Input`&rsquo;s
-`signal`, so the initial value of `numbers.signal` is 42. To make this more
+`signal`, so the initial value of `numbers.signal` is 42.
+
+
+
+
+To make this more
 concrete, let's see an example of synced checkboxes:
 
 |]
