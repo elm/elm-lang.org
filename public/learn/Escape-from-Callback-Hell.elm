@@ -8,7 +8,7 @@ import Graphics.Input as Input
 import Http
 import Json
 import String
-import open Maybe
+import Maybe (..)
 
 intro = [markdown|
 
@@ -470,7 +470,10 @@ if you do not have any experience reading academic papers. You can also email
 
 |]
 
-(inputField, tags) = Input.field "Tag"
+tags : Input.Input Field.Content
+tags = Input.input Field.noContent
+
+-- (inputField, tags) = Input.field "Tag"
 
 code = centered . monospace . toText
 box w e = container w 40 middle e
