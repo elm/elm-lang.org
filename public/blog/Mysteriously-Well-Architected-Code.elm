@@ -166,15 +166,39 @@ of Elm programs. The rest of this post will be going into how the API works and
 showing some examples of its use. At the end of the post I will link to a ton of
 examples.
 
-## Inputs
+## Separating inputs and UI elements
+
+Elm forces you to separate your program into input, model, update, and display.
+The trick to making text fields and buttons fit this model is figuring out a
+way to for the display to communicate with the input:
+
+<img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="450">
+
+The arrow from Display to the monitor indicates that Elm's runtime is
+taking an `Element` from your program and showing it on screen. This happens in
+every Elm program. The arrow from the monitor to the Input is the special part!
+When you click on a button or type into a text field, the Elm runtime generates
+events that flow to a particular Input. The key trick is to explicitly
+define the input, the UI element, and crucially *a way for UI elements to refer
+to specific inputs*. The next two subsections describe how these three parts
+fit together.
+
+### Inputs
+
+The first thing we do when making an interactive UI element is to create an input:
 
 ```haskell
-type Input a = { handle : Handle a, signal : Signal a }
+type Input a = { signal : Signal a, handle : Handle a }
 ```
 
-An `Input` has two distinct parts. The first is a `handle` that UI elements can
-refer to. The second is a `signal` of events coming from those UI elements. We
-create an `Input` with the `input` function, like this:
+An `Input` has two distinct parts. One is a `signal` of events coming from UI
+elements. This signal will be used to update our model. The more subtle part
+of an `Input` is the `handle`. This is simply a way for UI elements to refer to
+a specific input. This is the arrow from the monitor to the Input. It tells the
+Elm runtime where to send events when the user clicks on a check box or a drop
+down menu.
+
+You create an `Input` with the `input` function, like this:
 
 ```haskell
 input : a -> Input a
@@ -183,10 +207,12 @@ numbers : Input Int
 numbers = input 42
 ```
 
-The argument to `input` serves as the default value of the `Input`&rsquo;s
-`signal`, so the initial value of `numbers.signal` is 42.
+The argument to `input` serves as the default value of the input&rsquo;s
+`signal`. So when we create the `numbers` input, we get a signal called
+`numbers.signal` with the initial value 42 and a handle called `numers.handle`
+that any UI element can refer to to send values to `numbers.signal`.
 
-## UI Elements
+### UI Elements
 
 There are a bunch of UI elements available in [`Graphics.Input`][gi] and
 [`Graphics.Input.Field`][gif] but we will focus on checkboxes which do a
@@ -205,33 +231,34 @@ checkbox handle processingFunction checked = ...
 
 The three arguments work like this:
 
-  1. The first argument is a `Handle`. Clicking on a checkbox generates an event, and
-  the handle specifies which `Input` these events should be sent to. The generated
-  event is a boolean value that represents what the user *wants* the checkbox to
-  be. An unchecked box generates a `True` event, and a checked box generates a
-  `False` event.
+  1. Clicking on a checkbox generates an event, and the handle specifies which
+     `Input` these events should be sent to. The generated event is a boolean
+     value that represents what the user *wants* the checkbox to be. Clicking an
+     unchecked box generates a `True` event, and clicking a checked box generates
+     a `False` event.
 
-  2. The second argument of `checkbox` processes this event before sending it along
-  to the `Input` specified with the first argument. This processing function lets
-  us add extra information to the boolean value, such as an ID to indicate which
-  checkbox has been clicked. In simple cases, you usually do not need to add extra
-  information and can use `id` as your processing function.
+  2. A way to process each event before sending it along to the `Input`
+     specified by the handle. This processing function lets us add
+     extra information to the event. A common thing to add is an ID to indicate
+     which checkbox has been clicked, so when there are four check boxes
+     reporting to the same `Input` we can send events like `(True, 1)` to
+     indicate that the first box wants to be checked. Adding extra information
+     is not always necessary, so a common processing function is `id` which
+     passes the boolean value to the specified `Input` unmodified.
 
-  3. The third argument is the actual state of the checkbox: whether it is checked or
-  not. This means `checkbox` is a pure function! Whether it is checked or not is an
-  argument, so that information must live in your model. The display is no more
-  than a data structure that we show on screen.
+  3. The third argument is the actual state of the checkbox: whether it is
+     checked or not. This means `checkbox` is a pure function! Whether it is
+     checked or not is an argument, so that information must live in your
+     model. The display is no more than a data structure that we show on screen.
 
-This may not all be totally clear yet, but it should start to make more sense as
-we see how inputs and UI elements fit together. I think this is most clear when
-you see it in a diagram:
-
-<img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="510">
-
-The arrow coming from Display is the static image to show on screen. When you click on
-a button or type into a text field, Elm generates events that flow to the Input.
+Breaking the concept of a checkbox into an `Input`, a `Handle`, and a `checkbox`
+makes the flow of events very explicit. I think these functions become much
+clearer when you actually see them used!
 
 ## Two Small Examples
+
+Our first example is a set of three synced checkboxes. Changing one of them
+will change the two others:
 
 |]
 
