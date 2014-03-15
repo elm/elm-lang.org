@@ -12,25 +12,28 @@ main = skeleton <~ lift everything check.signal ~ Window.width
 check : Input Bool
 check = input False
 
+section : Int -> Int -> Element -> Element
+section outer inner txt =
+    let content = width inner txt
+    in  container outer (heightOf content) middle content
+
 everything : Bool -> Int -> Element
-everything checked wid =
-  let w  = truncate (toFloat wid * 0.8)
-      w' = min 600 w
-      section txt = let words = width w' txt
-                    in  container w (heightOf words) middle words
+everything checked w =
+  let outer = truncate (toFloat w * 0.8)
+      inner = min 600 outer
       box = checkbox check.handle id checked
   in  flow down
-      [ width w pageTitle
-      , section intro
-      , container w 50 middle <| flow right [ box, box, box ]
-      , section rest
+      [ width outer pageTitle
+      , section outer inner intro
+      , container outer 50 middle <| flow right [ box, box, box ]
+      , section outer inner rest
       ]
 
 pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
-<div style="font-size: 4em;">Mysteriously Well-Architected</div>
-<div style="font-size: 1.5em;">The structure of Elm programs and what it means for text input</div>
+<div style="font-size: 4em;">Better than MVC</div>
+<div style="font-size: 1.5em;">How FRP in Elm improves upon MVC</div>
 </div>
 |]
 
@@ -60,76 +63,71 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-<br/>I often find myself at the end of a messy hacking / prototyping session with
-Elm code that is mysteriously well-architected. I know I did not plan ahead or
-have a deep understanding of how the different parts of my program would
-eventually fit together, yet the input, model, update, and display are all
-neatly separated in my rough draft. Okay, but I designed the language so surely
-that explains it, right?
-
-It turns out that the core design choices behind FRP in Elm quitely guide you
-towards well-architected programs. Weirdly, this is something I have learned
-from Elm, not something I planned! This post is first going to describe the
-architecture that emerges from Elm programs. I think it is a great architecture
-for any GUI application, so the general idea can be useful in JavaScript,
-TypeScript, ClojureScript, and whatever else you are using to make UIs.
-
-From there we will dive into how this architecture guided the recent redesign of
-user input in [Elm 0.12](/blog/announce/0.12.elm). This overhaul has made UI
-elements like text fields and buttons significantly easier to use in Elm. I am
-really happy with how the new API came out and suspect the overarching design
-may be useful for other languages or GUI frameworks.
-
-## Mysteriously well-architected code
-
-I really took note of &ldquo;mysteriously well-architected code&rdquo; when I
-observed it during my week at [Hacker School](https://www.hackerschool.com/).
+<br/>
+During my week as a resident at [Hacker School](https://www.hackerschool.com/)
+I saw a shocking amount of well-architected Elm code.
 Students who had never programmed in *any* functional language before were picking
-up Elm and writing things like [Vessel](http://slawrence.github.io/vessel/),
-and the craziest part was that [the code](https://github.com/slawrence/vessel)
-always looked great! These are students learning new syntax, how to understand
-types and type inference, figuring out a bunch of libraries, thinking of how
-their program should work, and somehow their code always came out well-architected.
-They all modelled the problem, created a way to update the model based on inputs,
-and had a section of code for display. All neatly separated!
+up Elm and writing things like [Vessel](http://slawrence.github.io/vessel/).
+I was very impressed that they were able to accomplish so much in just one
+week, but the craziest part was that [the code](https://github.com/slawrence/vessel)
+always looked great! I mean, these students were very talented, but it did not quite make
+sense. These are students learning new syntax, how to understand
+[types](/learn/Getting-started-with-Types.elm) and type
+inference, figuring out a bunch of libraries, thinking of how their program should
+work, and somehow their code *always* came out well-architected.
 
-I knew that Elm's formulation of FRP strongly influenced the structure of Elm
-programs, but at this point I began to suspect that it actually *forces* people
-to write well-architected code. Regardless of skill level, experience, or
-knowledge of FRP, the code just comes out well-architected.
+It turns out that Elm's style of [Functional Reactive Programming](/learn/What-is-FRP.elm)
+(FRP) strongly influences the structure of Elm programs. In fact, it *forces*
+you to write well-architected code. The most interesting thing is that this
+architecture is a fairly substantial improvement over the traditional
+[Model-View-Controller][mvc] (MVC) approach. FRP in Elm blah blah blah.
 
-## How can this be?
+  [mvc]: http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 
-One key property of FRP in Elm is that all signal graphs are static. This
-is the same property that made it really simple to implement [hot-swapping in
-Elm](/blog/Interactive-Programming.elm). [My
-thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
-is a pretty accessible way to figure out what the hell &ldquo;all signal graphs
-are static&rdquo; means *exactly*, but I am about to explain the &ldquo;mysteriously
-well-architected code&rdquo; in a way that does not require that kind of background.
+## A better way than MVC
 
-Due to the design of FRP in Elm, time-dependencies are always explicit *in your
-source code*. Another way to say this is that the structure your application will
-manifest itself the structure of your code. As a rough example, consider that
-position and velocity of [Mario](/edit/examples/Intermediate/Mario.elm) depends
-on time passing and arrow keys. In Elm, you say &ldquo;Mario is what you get
-when you combine time and key presses in this exact way&rdquo;. Describing
-Mario *requires* you to make these dependencies explicit! As a result, Elm
-programs always break into four distinct parts:
-
-  1. Input &mdash; events from “the world”. Mouse, touch, time, etc.
-  2. Model &mdash; a full representation of the state in the program
-  3. Update &mdash; functions for updating our model based on inputs
-  4. Display &mdash; functions to display the model to “the world”
-
-So at a very high level you can think of an Elm program as having this structure:
+At a very high level, all Elm program have the following architecture:
 
 <img src="/imud.png" style="display:block; margin:auto;" width="600" height="240">
 
-The Elm runtime sends events from the world to your inputs, you use those events
-to update your model, you describe how that should get displayed, and the Elm runtime
-takes care of showing it on screen. This is just the structure of Elm programs, so
-anything you write will come out with this architecture!
+An **Input** is a stream of events coming into your program. Inputs are things
+like mouse position, key presses, touches, button presses, etc. Any events you
+need to describe how your program works. Notice that inputs are completely
+separate from the Display! In Elm, you must make all inputs explicit.
+
+The **Model** is a full representation of the current state of the program.
+It is an immutable data structure&mdash;often a [record](/learn/Records.elm)&mdash;that
+holds all information relevant to your application. There is no cheating with
+your model in Elm. If there is information you need, you cannot sneak it into
+your display!
+
+The **Update** is a way to update your Model as new Input comes in. In Elm
+it is just a collection of [pure functions](http://en.wikipedia.org/wiki/Pure_function)
+that transform your model. As is typical in functional languages, this tends to
+break up into [small, orthogonal functions](/edit/examples/Intermediate/Mario.elm).
+This means the Update code is very easy to unit test or load up into a REPL and
+play with.
+
+The **Display** is a set of pure functions that convert a Model into something
+you can show on screen. The display code *only* cares about the model:
+&ldquo;how do I show this information on screen?&rdquo;
+
+These four parts give you a very clear separation of concerns. Perhaps the most
+interesting thing about this architecture is that it *emerges* from Elm's
+formulation of FRP. This was not something I set out to design, but rather the
+inevitable result of purity, immutability, and Elm's style of FRP.
+
+<span style="color:grey;">
+Technical Note: A key property of FRP in Elm is that
+all signal graphs are static. This property is not very common in FRP systems,
+but it is the core reason that Elm code comes out well-architected every time.
+This property also makes it [really simple to implement
+hot-swapping](/blog/Interactive-Programming.elm) in Elm. [My
+thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
+is a pretty accessible way to dig into this in more detail.
+</span>
+
+
 
 ## What's this got to do with UI?
 
@@ -176,7 +174,7 @@ way to for the display to communicate with the input:
 
 The arrow from Display to the monitor indicates that Elm's runtime is
 taking an `Element` from your program and showing it on screen. This happens in
-every Elm program. The arrow from the monitor to the Input is the special part!
+every Elm program. The arrow from the monitor to the Input is the special part.
 When you click on a button or type into a text field, the Elm runtime generates
 events that flow to a particular Input. The key trick is to explicitly
 define the input, the UI element, and crucially *a way for UI elements to refer
@@ -294,23 +292,48 @@ import Input (Input, input, checkbox)
 check : Input Bool
 check = input False
 
+displayBoxes : Bool -> Element
+displayBoxes isChecked =
+    let box = checkbox check.handle id isChecked
+    in  flow right [ box, box, box ]
+
 main : Signal Element
 main = displayBoxes <~ check.signal
-
-displayBoxes : Bool -> Element
-displayBoxes checked =
-    let box = checkbox check.handle id checked
-    in  flow right [ box, box, box ]
 ```
 
 In this example, we first create the `check` input for checkboxes to report to.
 We have given the `input` function `False`, so the default value of `check.signal`
-is `False`. In `main` we display the current value of `check.signal` with
+is `False` and the checkboxes will be unchecked at first.
+
+Next we set up the `displayBoxes` function which shows three check boxes that
+are checked or unchecked depending on whether the `isChecked` argument is true
+or false. Notice that when we create the `checkbox` we tell it to report to the
+`check` input. We give `id` as the processing function, so we pass the events
+directly to `check.signal` unchanged.
+
+Finally, in `main` we display the current value of `check.signal` with
 `displayBoxes`.
 
-Synced checkboxes are nice for an introductory example, but it is simple specifically
-because the model and update are very trivial. This section will show another example
-that is a bit more complicated.
+Synced checkboxes are nice for an introductory example, but it is simple because
+it really only has an input and a display section. There is not a lot to model
+or update. In the next example we will have three checkboxes that change
+independently. This means we will need to model the state of these boxes and
+write code to update the model when new events come in.
+
+```haskell
+import Input (Input, input, checkbox)
+
+check : Input (Int, Bool)
+check = input False
+
+displayBoxes : Bool -> Element
+displayBoxes isChecked =
+    let box = checkbox check.handle id isChecked
+    in  flow right [ box, box, box ]
+
+main : Signal Element
+main = displayBoxes <~ check.signal
+```
 
 ## More Examples
 
