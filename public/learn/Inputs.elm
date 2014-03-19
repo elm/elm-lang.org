@@ -4,7 +4,7 @@ import Window
 import JavaScript as JS
 
 port title : String
-port title = "Elm 0.11 - Ports"
+port title = "Inputs - Interactive UI Elements"
 
 main = lift (skeleton everything) Window.dimensions
 
@@ -34,87 +34,9 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Elm 0.12
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Purely functional user input*</div></div>
+<h1><div style="text-align:center">Inputs - Interactive UI Elements
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Using text fields, drop downs, buttons, etc.*</div></div>
 </h1>
-
-For the past few months I have been slowly but surely pushing Elm to be an
-industry-ready language. I released [the REPL](/blog/announce/Repl.elm), the
-[package manager](/blog/announce/PackageManager.elm), and made [huge
-improvements to JS interop](/blog/announce/0.11.elm). This release makes the
-next step by making it easy to work with input elements like text fields and
-checkboxes.
-
-Working with input elements has long been pretty tricky in Elm. After
-conferences I always get questions along the lines of, &ldquo;that
-[Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
-I use this approach for the web forms and dashboards I write every day at
-work?&rdquo; As of today, the answer is yes! Elm 0.12 completely overhauls the
-`Graphics.Input` library and introduces the `Graphics.Input.Field` library to
-make it easy to create and style inputs.
-
-This release also expands and improves Elm's core libraries quite dramatically.
-
-  * Overhaul `Graphics.Input` library (inspired by @seliopou and Jeff Smits)
-  * Overhaul `Text` library to accomodate new `Graphics.Input.Field`
-    library and make the API more consistent overall
-  * Add `Graphics.Input.Field` for customizable text fields
-
-# Practical Libraries
-
-This release introduces the
-[`Trampoline`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Trampoline) and
-[`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Debug) libraries.
-Both are very practical libraries to make development a bit easier. The `Trampoline`
-library helps you get around JavaScript's lack of tail call elimination in a fully
-general way. The `Debug` library allows you to log to the console. It is intended
-solely for debugging!
-
-
-  * Add `Trampoline` library () 
-  * Add `Debug` library (inspired by @timthelion)
-
-This release also 
-  * Overhaul `Regex` library (inspired by Attila Gazso)
-
-Thanks to [Max New](http://github.com/maxsnew) and [Tim Hobbs](timthelion)
-for designing and advocating the `Trampoline` library. Thanks again to Tim
-who motivated the `Debug` library, initially providing a more comprehensive
-approach.
-
-# IDE-oriented changes
-
-All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
-generate a JSON file filled with types, documentation, and precedence/associativity
-for all exported values ([like
-this](http://library.elm-lang.org/catalog/evancz-Elm/0.12/docs.json)). The goals
-is to make it really easy to work with library metadata to create tools like
-Elmoogle and auto-complete in IDEs. This release improves the format for types,
-making them much easier to work with.
-
-Another change that considered IDE support was to get rid of the `open` keyword
-in module imports. Now if you want to import everything from the `List` module
-into local scope you use this syntax:
-
-```haskell
-import List (..)
-```
-
-This is the least prefered method of importing values of [the four
-possiblities](/learn/Syntax.elm#modules). It is convenient for quickly
-prototyping or hacking something together, but it does not scale well. Imagine
-you do [26 imports like this][imports], bringing tons of functions into local
-scope. When I want to find the definition of [`isFunPtrTy`][function] I have no
-easy way to know which of those 26 modules it came from!
-
- [imports]: https://github.com/ghc/ghc/blob/master/compiler/typecheck/TcForeign.lhs#L33-L60
- [function]: https://github.com/ghc/ghc/blob/master/compiler/typecheck/TcForeign.lhs#L326
-
-So use this new syntax with care. I hope the ellipsis in `import List (..)` will
-entice you to fill in the particular values you are using. As IDE support for
-Elm improves, it will become possible to automate this dependency finding, so
-my eventual hope is that `import List (..)` can be removed entirely.
-
 
 The traditional concept of a text field holds state and can trigger events.
 Combining so many aspects of a program into this single abstraction tends to
