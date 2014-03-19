@@ -339,7 +339,7 @@ import List               -- List.map, List.foldl
 import List as L          -- L.map, L.foldl
 
 -- open imports
-import open List          -- map, foldl, concat, ...
+import List (..)          -- map, foldl, concat, ...
 import List (map,foldl)   -- map, foldl
 ```
 
