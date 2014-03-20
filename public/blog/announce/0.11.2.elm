@@ -53,7 +53,7 @@ I use this approach for the web forms and dashboards I write every day at
 work?&rdquo; As of today, the answer is a definite yes! Elm 0.11.2 makes it easy
 to create and style inputs in a purely functional way.
 
-<EXAMPLES HERE>
+EXAMPLES HERE
 
 Normally Elm release notes dive into the new features. In this case, the new
 APIs are important enough that [the tutorial on user input](/learn/Inputs.elm)
@@ -98,7 +98,7 @@ just going to list all of the new stuff:
 
   * Add the [`Graphics.Input.Field`][gif] for customizable text fields.
   * Add the [`Trampoline`][trampoline] library (thanks to [Max
-    New](http://github.com/maxsnew) and [Tim Hobbs](https://github.com/timthelion).
+    New](http://github.com/maxsnew) and [Tim Hobbs](https://github.com/timthelion)).
     This helps you get around JavaScript's lack of tail call elimination in a fully general way.
   * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Debug)
     library (inspired by [Tim Hobbs](https://github.com/timthelion)) which lets
@@ -113,7 +113,7 @@ just going to list all of the new stuff:
   * Fix bugs in `Bitwise` the library.
   * Fix bug when exporting records of `Maybe` values through ports (thanks to [Max New](https://github.com/maxsnew))
 
-## Notes about replacing `open`
+## Notes on replacing `open`
 
 The `open` keyword is gone now. If you want to import everything from the `List`
 module into local scope you use this syntax:
@@ -122,13 +122,12 @@ module into local scope you use this syntax:
 import List (..)
 ```
 
-So there is nicer syntax, but this is the least prefered method of
-importing values of [the four possiblities](/learn/Syntax.elm#modules). It is
-convenient for quickly prototyping or hacking something together, but it does
-not scale well. Imagine you do [26 imports like this][imports], bringing tons
-of functions into local scope. When I want to find the definition of
-[`isFunPtrTy`][function] I have no easy way to know which of those 26 modules
-it came from!
+So there is nicer syntax, but this is still the least prefered way to import of
+[the four possiblities](/learn/Syntax.elm#modules). It is convenient for quickly
+prototyping or hacking something together, but it does not scale well. Imagine
+you do [26 imports like this][imports], bringing tons of functions into local
+scope. When I want to find the definition of [`isFunPtrTy`][function] I have no
+easy way to know which of those 26 modules it came from!
 
  [imports]: https://github.com/ghc/ghc/blob/master/compiler/typecheck/TcForeign.lhs#L33-L60
  [function]: https://github.com/ghc/ghc/blob/master/compiler/typecheck/TcForeign.lhs#L326
@@ -136,7 +135,7 @@ it came from!
 So use this new syntax with care. I hope the ellipsis in `import List (..)` will
 entice you to fill in the particular values you are using. As IDE support for
 Elm improves, it will become possible to automate this dependency finding, so
-my eventual hope is that `import List (..)` can be removed entirely.
+perhaps `import List (..)` can be removed entirely someday.
 
 ## Machine-readable types
 
@@ -147,6 +146,29 @@ this](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/docs.json)). The goa
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.
+
+Here is a sample of the documentation for `unzip` with some sections elided:
+
+```json
+{ "name": "unzip"
+, "comment": "Decompose a list of tuples."
+, "raw": "unzip : [(a,b)] -> ([a],[b])"
+, "type":
+    { "tag": "function"
+    , "args": [ ... ]
+    , "result":
+        { "tag": "adt"
+        , "name": "_Tuple2"
+        , "args": [ ... ]
+        }
+    }
+}
+```
+
+Notice that every type has a `tag` that describes its structure. A `function`
+always has a list of `args` and a `result`. An `adt` always has a `name` and a
+list of `args`. A `variable` always has a `name`. The reasons for this design
+are discussed [in this thread](https://groups.google.com/forum/#!searchin/elm-discuss/types$20json/elm-discuss/pjNJRPaXKBo/dTOZJ2hVgr8J).
 
 <br/>
 
