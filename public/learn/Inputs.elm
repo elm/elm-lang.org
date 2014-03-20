@@ -74,8 +74,9 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-Here is the code we need to make that happen. You can play with it in [the
-online editor](/try). (Try adding more boxes!)
+Here is the code we need to make that happen. Don't worry about the details too
+much yet. This is more to get a feel for the API so we know what we are working
+towards when we dive into the details:
 
 ```haskell
 import Graphics.Input (Input, input, checkbox)
@@ -93,10 +94,11 @@ main = displayBoxes <~ check.signal
 ```
 
 The key things to notice before we go into the API itself is the `Input` named
-`check`. It is used twice in the rest of the code:
+`check`. All UI events are going to flow through `check`. It is used twice in
+the rest of the code:
 
-  1. In `displayBoxes` we create a single `box` that we display three times.
-     When we define `box` we refer to `check.handle` which means that all
+  1. In `displayBoxes` we create a `box` that we display three times.
+     The definition of `box` refers to `check.handle` which means that all
      `checkbox` events are going to be sent to the `check` input.
 
   2. In `main` we pipe all of the events from the `check` input to our display.
@@ -127,22 +129,27 @@ You create an `Input` with the `input` function, like this:
 ```haskell
 input : a -> Input a
 
-numbers : Input Int
-numbers = input 42
+check : Input Bool
+check = input False
 ```
 
 The argument to `input` serves as the default value of the input&rsquo;s
-`signal`. So when we create the `numbers` input, we get a signal called
-`numbers.signal` with the initial value 42 and a handle called `numers.handle`
-that any UI element can refer to to send values to `numbers.signal`.
+`signal`. So when we create the `check` input we get:
 
-## UI Elements
+  1. A signal called `check.signal` with the initial value `False`.
+  2. A handle called `check.handle`. Any UI element can refer to `check.handle`
+     which would send events to `check.signal`.
 
-There are a bunch of UI elements available in [`Graphics.Input`][gi] and
-[`Graphics.Input.Field`][gif] but we will focus on checkboxes which do a
-great job illustrating the general pattern of UI elements in Elm. [The
-`checkbox` function][box] creates checkboxes for everyone to click on, and it
-has this type:
+Now that we have a way to manage UI events, we need to actually create the
+interactive UI elements.
+
+## Interactive UI Elements
+
+There are a bunch of interactive UI elements available in [`Graphics.Input`][gi]
+and [`Graphics.Input.Field`][gif] from traditional buttons and drop downs to
+functions that can make any `Element` clickable or hoverable. We will focus on
+[the `checkbox` function][box] which does a great job illustrating the general
+pattern used by interactive UI elements in Elm:
 
   [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
   [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
@@ -167,8 +174,9 @@ The three arguments work like this:
      which checkbox has been clicked, so when there are four check boxes
      reporting to the same `Input` we can send events like `(True, 1)` to
      indicate that the first box wants to be checked. Adding extra information
-     is not always necessary, so a common processing function is `id` which
-     passes the boolean value to the specified `Input` unmodified.
+     is not always necessary, as in our synced checkbox example, so a common
+     processing function is `id` which passes the boolean value to the
+     specified `Input` unmodified.
 
   3. The third argument is the actual state of the checkbox: whether it is
      checked or not. This means `checkbox` is a [pure function][pure]! Whether
@@ -178,8 +186,9 @@ The three arguments work like this:
   [pure]: http://en.wikipedia.org/wiki/Pure_function
 
 Breaking the concept of a checkbox into an `Input`, a `Handle`, and a `checkbox`
-makes the flow of events very explicit. I think these functions become much
-clearer when you actually see them used!
+makes the flow of events very explicit. This same pattern is used by all
+interactive UI elements, so you will see this again and again as you look at
+more examples.
 
 ## Tons of Examples
 
@@ -202,47 +211,21 @@ And then take a look at some more complex examples:
   * [Sign-up Form](/edit/examples/Intermediate/Form.elm)
   * [Todo List](https://github.com/evancz/TodoFRP)
 
-The APIs for UI elements are brand new, so I hope to see some libraries to
-spring up in the [Elm Public Library](library.elm-lang.org) to factor out
-common patterns like form-validation, password verification, credit-card
+I suspect a lot of this code could be shortened, and I hope to see some
+libraries spring up in the [Elm Public Library](library.elm-lang.org) to factor
+out common patterns like form-validation, password verification, credit-card
 entry, etc.
 
 ## Thank you!
 
 Huge thank you to [Spiros Eliopoulos](https://github.com/seliopou) whose work
 on [elm-d3](https://github.com/seliopou/elm-d3) led inspired the `signal` field
-of an `Input`. Another huge thank you to [Jeff Smitts](https://github.com/Apanatshka) for talking through
-Spiros's idea with me and inspiring the `handle` field of an `Input`. Finally
-thanks to everyone on [the mailing list][list] for discussing and reviewing
-APIs, docs, and examples as the new UI elements library came together!
+of an `Input`. Another huge thank you to [Jeff Smitts](https://github.com/Apanatshka)
+for talking through Spiros's idea with me and inspiring the `handle` field of
+an `Input`. Finally thanks to everyone on [the mailing list][list] for
+discussing and reviewing APIs, docs, and examples as the new UI elements library
+came together!
 
   [list]: https://groups.google.com/forum/#!forum/elm-discuss
-
-## Misc
-
-The traditional concept of a text field holds state and can trigger events.
-Combining so many aspects of a program into this single abstraction tends to
-lead to messy callback-riden code.
-
-
-Separating UI into these two distinct concepts lets us keep the nice structure
-of Elm programs. The rest of this post will be going into how the API works and
-showing some examples of its use. At the end of the post I will link to a ton of
-examples.
-
-## Structure of UI code
-
-Elm forces you to separate your program into input, model, update, and display.
-The trick to making text fields and buttons fit this model is figuring out a
-way to for the display to communicate with the input:
-
-<img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="450">
-
-The arrow from Display to the monitor indicates that Elm's runtime is
-taking an `Element` from your program and showing it on screen.
-
-The arrow from the monitor to the Input is the special part. When you click on
-a button or type into a text field, the Elm runtime generates events that flow
-to a particular Input.
 
 |]
