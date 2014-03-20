@@ -3,6 +3,18 @@ import String
 import Graphics.Input as Input
 import Window
 
+main : Signal Element
+main = calculator <~ Window.dimensions ~ foldp step (Start zero) commands.signal
+
+
+-- INPUTS
+
+commands : Input.Input Command
+commands = Input.input Clear
+
+
+-- MODEL
+
 data Command
     = Digit String
     | Decimal
@@ -15,14 +27,57 @@ data Command
     | Percentage
     | Clear
 
-commands : Input.Input Command
-commands = Input.input Clear
+data State
+    = Start Number
+    | Operator Float (Float -> Float -> Float) Number
 
+type Number = { negative : Bool, string : String, percentage : Int }
+
+mkNumber : String -> Number
+mkNumber n = { negative = False, string = n, percentage = 0 }
+
+zero : Number
+zero = { negative = False, string = "", percentage = 0 }
+
+numberToFloat : Number -> Float
+numberToFloat number =
+    let neg = if number.negative then -1 else 1
+        exp = 100 ^ toFloat number.percentage
+    in  maybe 0 id (String.toFloat number.string) * neg / exp
+
+
+-- DISPLAY
+
+buttonSize : number
 buttonSize = 80
 
-txt p clr string =
-    leftAligned . Text.height (p * buttonSize) .
-    typeface ["Helvetica Neue","Sans-serif"] . Text.color clr <| toText string
+calculator : (Int,Int) -> State -> Element
+calculator (w,h) state =
+    let pos = bottomRightAt (absolute 10) (absolute 10)
+    in  color darkCharcoal . container w h middle <|
+        flow down [ color black . container (4*buttonSize) (buttonSize+40) pos <|
+                    txt 0.6 white (show (displayNumber state))
+                  , buttons
+                  ]
+
+displayNumber : State -> Float
+displayNumber state =
+    case state of
+      Start n -> numberToFloat n
+      Operator n op m -> if m == zero then n else numberToFloat m
+
+buttons : Element
+buttons =
+    flow down
+    [ flow right [ topOp Clear "C", topOp Negate "&plusmn;"
+                 , topOp Percentage "%", rightOp Divide "&divide;" ]
+    , flow right [ number "1", number "2", number "3", rightOp Multiply "&times;" ]
+    , flow right [ number "4", number "5", number "6", rightOp Subtract "&minus;" ]
+    , flow right [ number "7", number "8", number "9", rightOp Add "+" ]
+    , flow right [ lightButton (2*buttonSize) buttonSize (Digit "0") "0"
+                 , lightButton buttonSize buttonSize Decimal "."
+                 , rightOp Equals "=" ]
+    ]
 
 button : Color -> Color -> Int -> Int -> Command -> String -> Element
 button background foreground w h command name =
@@ -50,54 +105,13 @@ rightOp : Command -> String -> Element
 rightOp command name =
     button lightOrange white buttonSize buttonSize command name
 
-buttons : Element
-buttons =
-    flow down
-    [ flow right [ topOp Clear "C", topOp Negate "&plusmn;"
-                 , topOp Percentage "%", rightOp Divide "&divide;" ]
-    , flow right [ number "1", number "2", number "3", rightOp Multiply "&times;" ]
-    , flow right [ number "4", number "5", number "6", rightOp Subtract "&minus;" ]
-    , flow right [ number "7", number "8", number "9", rightOp Add "+" ]
-    , flow right [ lightButton (2*buttonSize) buttonSize (Digit "0") "0"
-                 , lightButton buttonSize buttonSize Decimal "."
-                 , rightOp Equals "=" ]
-    ]
+txt : Float -> Color -> String -> Element
+txt p clr string =
+    leftAligned . Text.height (p * buttonSize) .
+    typeface ["Helvetica Neue","Sans-serif"] . Text.color clr <| toText string
 
-displayNumber : State -> Float
-displayNumber state =
-    case state of
-      Start n -> numberToFloat n
-      Operator n op m -> if m == zero then n else numberToFloat m
 
-calculator : (Int,Int) -> State -> Element
-calculator (w,h) state =
-    let pos = bottomRightAt (absolute 10) (absolute 10)
-    in  color darkCharcoal . container w h middle <|
-        flow down [ color black . container (4*buttonSize) (buttonSize+40) pos <|
-                    txt 0.6 white (show (displayNumber state))
-                  , buttons
-                  ]
-
-main : Signal Element
-main = calculator <~ Window.dimensions ~ foldp step (Start zero) commands.signal
-
-data State
-    = Start Number
-    | Operator Float (Float -> Float -> Float) Number
-
-type Number = { negative : Bool, string : String, percentage : Int }
-
-mkNumber : String -> Number
-mkNumber n =
-    { negative = False, string = n, percentage = 0 }
-
-zero : Number
-zero = { negative = False, string = "", percentage = 0 }
-
-numberToFloat : Number -> Float
-numberToFloat number =
-    let neg = if number.negative then -1 else 1
-    in  maybe 0 id (String.toFloat number.string) * neg / (100 ^ toFloat number.percentage)
+-- UPDATE
 
 step : Command -> State -> State
 step command state =
