@@ -50,7 +50,7 @@ Working with input elements has long been pretty tricky in Elm. After
 questions along the lines of, &ldquo;that
 [Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
 I use this approach for the web forms and dashboards I write every day at
-work?&rdquo; As of today, the answer is a definite yes! Elm 0.12 makes it easy
+work?&rdquo; As of today, the answer is a definite yes! Elm 0.11.2 makes it easy
 to create and style inputs in a purely functional way.
 
 <EXAMPLES HERE>
@@ -76,9 +76,9 @@ important among them is the new [`Trampoline`][trampoline] library which
 is really cool and deserves a post of its own, but to keep things brief I am
 just going to list all of the new stuff:
 
- [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
- [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
- [trampoline]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Trampoline
+ [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input
+ [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input-Field
+ [trampoline]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Trampoline
 
 #### Breaking Changes:
 
@@ -100,7 +100,7 @@ just going to list all of the new stuff:
   * Add the [`Trampoline`][trampoline] library (thanks to [Max
     New](http://github.com/maxsnew) and [Tim Hobbs](https://github.com/timthelion).
     This helps you get around JavaScript's lack of tail call elimination in a fully general way.
-  * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Debug)
+  * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Debug)
     library (inspired by [Tim Hobbs](https://github.com/timthelion)) which lets
     you log values to the developer console. This is intended specifically for
     debugging!
@@ -143,7 +143,7 @@ my eventual hope is that `import List (..)` can be removed entirely.
 All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://library.elm-lang.org/catalog/evancz-Elm/0.12/docs.json)). The goals
+this](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/docs.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.
