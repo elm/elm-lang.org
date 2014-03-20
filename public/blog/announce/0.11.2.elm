@@ -33,15 +33,11 @@ p { text-align: justify }
 The past few months have focused on making Elm great for industrial use. You
 can see this in recent releases like the [REPL](/blog/announce/Repl.elm), the
 [package manager](/blog/announce/PackageManager.elm), and the [drastically
-improved JS interop](/blog/announce/0.11.elm). This release makes the
-next step, making it easy to work with input elements like text fields and
-checkboxes.
-
-Working with input elements has long been pretty tricky in Elm. After
-[conferences](http://elm-lang.org/Learn.elm#conference-videos) I always get
-questions along the lines of, &ldquo;that
+improved JS interop](/blog/announce/0.11.elm). But working with input elements
+has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-videos)
+I always get questions along the lines of, &ldquo;that
 [Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
-I use this approach for the web forms and dashboards I write every day at
+I use this approach for the forms, widgets, and dashboards I write every day at
 work?&rdquo; As of today, the answer is a definite yes! Elm 0.11.2 makes it easy
 to create interactive UI elements in a purely functional way, from buttons and
 fields to clickable and hoverable elements.
