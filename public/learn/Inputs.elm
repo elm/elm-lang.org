@@ -45,7 +45,7 @@ and then dive into how it works.
 
  [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input
 
-## A Simple Example
+## A Minimal Example
 
 We are going to make three synced checkboxes. Changing one of them will change
 the two others:
@@ -92,46 +92,22 @@ main : Signal Element
 main = displayBoxes <~ check.signal
 ```
 
-In this example, we first create the `check` input for checkboxes to report to.
-We have given the `input` function `False`, so the default value of `check.signal`
-is `False` and the checkboxes will be unchecked at first.
+The key things to notice before we go into the API itself is the `Input` named
+`check`. It is used twice in the rest of the code:
 
-Next we set up the `displayBoxes` function which shows three check boxes that
-are checked or unchecked depending on whether the `isChecked` argument is true
-or false. Notice that when we create the `checkbox` we tell it to report to the
-`check` input. We give `id` as the processing function, so we pass the events
-directly to `check.signal` unchanged.
+  1. In `displayBoxes` we create a single `box` that we display three times.
+     When we define `box` we refer to `check.handle` which means that all
+     `checkbox` events are going to be sent to the `check` input.
 
-Finally, in `main` we display the current value of `check.signal` with
-`displayBoxes`.
+  2. In `main` we pipe all of the events from the `check` input to our display.
+     As the user toggles between true and false, these events will guide what
+     we actually display on screen.
 
-The traditional concept of a text field holds state and can trigger events.
-Combining so many aspects of a program into this single abstraction tends to
-lead to messy callback-riden code.
+This is a very high level view of how things work, but it illustrates the
+typical structure of interactive UI elements in Elm. Let's look at the API
+in more detail.
 
-  [pure]: http://en.wikipedia.org/wiki/Pure_function
-
-Separating UI into these two distinct concepts lets us keep the nice structure
-of Elm programs. The rest of this post will be going into how the API works and
-showing some examples of its use. At the end of the post I will link to a ton of
-examples.
-
-## Structure of UI code
-
-Elm forces you to separate your program into input, model, update, and display.
-The trick to making text fields and buttons fit this model is figuring out a
-way to for the display to communicate with the input:
-
-<img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="450">
-
-The arrow from Display to the monitor indicates that Elm's runtime is
-taking an `Element` from your program and showing it on screen.
-
-The arrow from the monitor to the Input is the special part. When you click on
-a button or type into a text field, the Elm runtime generates events that flow
-to a particular Input.
-
-### Inputs
+## Inputs
 
 The first thing we do when making an interactive UI element is to create an input:
 
@@ -140,10 +116,11 @@ type Input a = { signal : Signal a, handle : Handle a }
 ```
 
 An `Input` has two distinct parts. One is a `signal` of events coming from UI
-elements. This signal will be used to update our model. The more subtle part
-of an `Input` is the `handle`. This is how UI elements refer to a specific input.
-This is the arrow from the monitor to the Input. It tells the Elm runtime where
-to send events when the user clicks on a check box or a drop down menu.
+elements. In our synced checkbox example, these are boolean values indicating
+whether the box should be checked or not. The more subtle part of an `Input` is
+the `handle`. All interactive UI elements will latch on to a handle and report
+their events to the corresponding `Input`. The handle lets us get events from
+the UI back into our program without any messy callbacks or event-listeners.
 
 You create an `Input` with the `input` function, like this:
 
@@ -159,7 +136,7 @@ The argument to `input` serves as the default value of the input&rsquo;s
 `numbers.signal` with the initial value 42 and a handle called `numers.handle`
 that any UI element can refer to to send values to `numbers.signal`.
 
-### UI Elements
+## UI Elements
 
 There are a bunch of UI elements available in [`Graphics.Input`][gi] and
 [`Graphics.Input.Field`][gif] but we will focus on checkboxes which do a
@@ -197,6 +174,8 @@ The three arguments work like this:
      checked or not. This means `checkbox` is a [pure function][pure]! Whether
      it is checked or not is an argument, so that information must live in the
      model, not in the view!
+
+  [pure]: http://en.wikipedia.org/wiki/Pure_function
 
 Breaking the concept of a checkbox into an `Input`, a `Handle`, and a `checkbox`
 makes the flow of events very explicit. I think these functions become much
@@ -238,5 +217,32 @@ thanks to everyone on [the mailing list][list] for discussing and reviewing
 APIs, docs, and examples as the new UI elements library came together!
 
   [list]: https://groups.google.com/forum/#!forum/elm-discuss
+
+## Misc
+
+The traditional concept of a text field holds state and can trigger events.
+Combining so many aspects of a program into this single abstraction tends to
+lead to messy callback-riden code.
+
+
+Separating UI into these two distinct concepts lets us keep the nice structure
+of Elm programs. The rest of this post will be going into how the API works and
+showing some examples of its use. At the end of the post I will link to a ton of
+examples.
+
+## Structure of UI code
+
+Elm forces you to separate your program into input, model, update, and display.
+The trick to making text fields and buttons fit this model is figuring out a
+way to for the display to communicate with the input:
+
+<img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="450">
+
+The arrow from Display to the monitor indicates that Elm's runtime is
+taking an `Element` from your program and showing it on screen.
+
+The arrow from the monitor to the Input is the special part. When you click on
+a button or type into a text field, the Elm runtime generates events that flow
+to a particular Input.
 
 |]
