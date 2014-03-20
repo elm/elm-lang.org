@@ -1,18 +1,58 @@
-
+import Graphics.Input (Input, input, checkbox)
 import Website.Skeleton (skeleton)
 import Window
 import JavaScript as JS
 
 port title : String
-port title = "Inputs - Interactive UI Elements"
+port title = "Interactive UI Elements"
 
-main = lift (skeleton everything) Window.dimensions
+main = skeleton <~ (everything <~ check.signal)
+                 ~ Window.dimensions
 
-everything wid =
+check : Input Bool
+check = input False
+
+everything : Bool -> Int -> Element
+everything isChecked wid =
     let w = min 600 wid
-    in  width w intro
+        box = checkbox check.handle id isChecked
+    in  flow down
+        [ width w intro
+        , container w 30 middle <| flow right [ box, box, box ]
+        , width w rest
+        ]
 
 intro = [markdown|
+
+<style type="text/css">
+p { text-align: justify }
+</style>
+
+<h1><div style="text-align:center">Interactive UI Elements
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Using text fields, drop downs, buttons, etc.*</div></div>
+</h1>
+
+Many UI elements are interactive. You can click on them, hover above them, type
+into them. In Elm you handle all of these interactions with the
+[`Graphics.Input`][gi] library.
+
+At the core of this library is the concept of an `Input`. An `Input` is like a
+[port](/learn/Ports.elm) that receives all of its events from the UI. When the
+user clicks a button, the event goes to an `Input`. When the user types into a
+field, the event goes to an `Input`. I think the best way to really understand
+this approach is to see it in action! In this post we will start with an example
+and then dive into how it works.
+
+ [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input
+
+## A Simple Example
+
+We are going to make three synced checkboxes. Changing one of them will change
+the two others:
+
+|]
+
+rest = [markdown|
 
 <style type="text/css">
 p { text-align: justify }
@@ -34,24 +74,40 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-<h1><div style="text-align:center">Inputs - Interactive UI Elements
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Using text fields, drop downs, buttons, etc.*</div></div>
-</h1>
+Here is the code we need to make that happen. You can play with it in [the
+online editor](/try). (Try adding more boxes!)
+
+```haskell
+import Graphics.Input (Input, input, checkbox)
+
+check : Input Bool
+check = input False
+
+displayBoxes : Bool -> Element
+displayBoxes isChecked =
+    let box = checkbox check.handle id isChecked
+    in  flow right [ box, box, box ]
+
+main : Signal Element
+main = displayBoxes <~ check.signal
+```
+
+In this example, we first create the `check` input for checkboxes to report to.
+We have given the `input` function `False`, so the default value of `check.signal`
+is `False` and the checkboxes will be unchecked at first.
+
+Next we set up the `displayBoxes` function which shows three check boxes that
+are checked or unchecked depending on whether the `isChecked` argument is true
+or false. Notice that when we create the `checkbox` we tell it to report to the
+`check` input. We give `id` as the processing function, so we pass the events
+directly to `check.signal` unchanged.
+
+Finally, in `main` we display the current value of `check.signal` with
+`displayBoxes`.
 
 The traditional concept of a text field holds state and can trigger events.
 Combining so many aspects of a program into this single abstraction tends to
 lead to messy callback-riden code.
-
-The new approach is based on the idea that **UI elements and inputs are
-separate things and should have separate representations**. A slightly more
-precise way to say this is that:
-
-  * All inputs must be defined explicitly. If you have a bunch of checkboxes,
-    they will report to a separately defined input.
-
-  * All functions to create UI elements are [pure functions][pure]. They display
-    part of the model on screen and nothing more. If you want to change the
-    content of a text field, that needs to happen in your model.
 
   [pure]: http://en.wikipedia.org/wiki/Pure_function
 
@@ -60,7 +116,7 @@ of Elm programs. The rest of this post will be going into how the API works and
 showing some examples of its use. At the end of the post I will link to a ton of
 examples.
 
-## Separating inputs and UI elements
+## Structure of UI code
 
 Elm forces you to separate your program into input, model, update, and display.
 The trick to making text fields and buttons fit this model is figuring out a
@@ -69,15 +125,11 @@ way to for the display to communicate with the input:
 <img src="/imud-computer.png" style="display:block; margin:auto;" width="460" height="450">
 
 The arrow from Display to the monitor indicates that Elm's runtime is
-taking an `Element` from your program and showing it on screen. With MVC you
-would be manually mutating the view in your controller.
+taking an `Element` from your program and showing it on screen.
 
 The arrow from the monitor to the Input is the special part. When you click on
 a button or type into a text field, the Elm runtime generates events that flow
-to a particular Input. Again, with MVC you would be doing this manually in the
-controller. The key trick to make it possible for the Elm runtime to fully
-manage this is to explicitly define Inputs. The next two subsections
-describe how this works in detail.
+to a particular Input.
 
 ### Inputs
 
@@ -142,74 +194,13 @@ The three arguments work like this:
      passes the boolean value to the specified `Input` unmodified.
 
   3. The third argument is the actual state of the checkbox: whether it is
-     checked or not. This means `checkbox` is a pure function! Whether it is
-     checked or not is an argument, so that information must live in your
-     model. The display is no more than a data structure that we show on screen.
+     checked or not. This means `checkbox` is a [pure function][pure]! Whether
+     it is checked or not is an argument, so that information must live in the
+     model, not in the view!
 
 Breaking the concept of a checkbox into an `Input`, a `Handle`, and a `checkbox`
 makes the flow of events very explicit. I think these functions become much
 clearer when you actually see them used!
-
-## A Simple Example
-
-Our first example is a set of three synced checkboxes. Changing one of them
-will change the two others:
-
-|]
-
-rest = [markdown|
-
-<style type="text/css">
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
-
-Here is the code we need to make that happen! It is also available on
-[share-elm](http://share-elm.com/sprout/53210898e4b0f7cc0dd4e6bd) so you
-can play with it yourself.
-
-```haskell
-import Input (Input, input, checkbox)
-
-check : Input Bool
-check = input False
-
-displayBoxes : Bool -> Element
-displayBoxes isChecked =
-    let box = checkbox check.handle id isChecked
-    in  flow right [ box, box, box ]
-
-main : Signal Element
-main = displayBoxes <~ check.signal
-```
-
-In this example, we first create the `check` input for checkboxes to report to.
-We have given the `input` function `False`, so the default value of `check.signal`
-is `False` and the checkboxes will be unchecked at first.
-
-Next we set up the `displayBoxes` function which shows three check boxes that
-are checked or unchecked depending on whether the `isChecked` argument is true
-or false. Notice that when we create the `checkbox` we tell it to report to the
-`check` input. We give `id` as the processing function, so we pass the events
-directly to `check.signal` unchanged.
-
-Finally, in `main` we display the current value of `check.signal` with
-`displayBoxes`.
 
 ## Tons of Examples
 
