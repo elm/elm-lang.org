@@ -151,8 +151,8 @@ functions that can make any `Element` clickable or hoverable. We will focus on
 [the `checkbox` function][box] which does a great job illustrating the general
 pattern used by interactive UI elements in Elm:
 
-  [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
-  [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
+  [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input
+  [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input-Field
   [box]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input#checkbox
 
 ```haskell
