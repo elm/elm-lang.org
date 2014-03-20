@@ -5,7 +5,7 @@ import Window
 import JavaScript as JS
 
 port title : String
-port title = "Elm 0.11.2 - UI inputs"
+port title = "Elm 0.11.2 - Interactive UI"
 
 main = lift (skeleton everything) Window.dimensions
 
@@ -26,8 +26,8 @@ intro = [markdown|
 p { text-align: justify }
 </style>
 
-<h1><div style="text-align:center">Elm 0.11.2
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Making interactive UI elements easy and pure*</div></div>
+<h1><div style="text-align:center">Elm 0.11.2 - Interactive UI
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Making text fields and buttons easy and pure*</div></div>
 </h1>
 
 The past few months have focused on making Elm great for industrial use. You
@@ -67,8 +67,9 @@ code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 Normally Elm release notes dive into the new features. In this case, the new
-APIs are important enough that [the tutorial on user input](/learn/Inputs.elm)
-made it as an entire post on the [Learn](/Learn.elm) page of [elm-lang.org](/).
+APIs are important enough that [the tutorial on interactive UI
+elements](/learn/Interactive-UI-Elements.elm) made it as an entire post on the
+[Learn](/Learn.elm) page.
 That post has tons of [interactive examples](/learn/Inputs.elm#tons-of-examples)
 ranging from creation of text fields and drop downs to validated forms,
 calculators, and todo lists. Definitely check it out to see how you can start
