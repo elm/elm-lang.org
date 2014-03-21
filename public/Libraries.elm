@@ -58,7 +58,7 @@ intro = [markdown|
 The Standard Libraries, listed below, come with the latest release of the Elm
 compiler and make it easy to get productive with Elm. Search for
 functions like `map` or `fold` in the standard library
-[by filtering](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/).
+[by filtering](http://library.elm-lang.org/catalog/evancz-Elm/0.12/).
 
 See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
@@ -70,7 +70,7 @@ Check out [library.elm-lang.org](http://library.elm-lang.org) to discover
 deslash c = if c == '.' then '-' else c
 
 linkify name =
-    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/" ++ String.map deslash name
+    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.12/" ++ String.map deslash name
     in  Text.toText "  " ++ Text.link path (Text.toText name)
 
 linkList (name, pairs) = 

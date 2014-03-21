@@ -5,7 +5,7 @@ import Window
 import JavaScript as JS
 
 port title : String
-port title = "Elm 0.11.2 - Interactive UI"
+port title = "Elm 0.12 - Interactive UI"
 
 main = lift (skeleton everything) Window.dimensions
 
@@ -26,7 +26,7 @@ intro = [markdown|
 p { text-align: justify }
 </style>
 
-<h1><div style="text-align:center">Elm 0.11.2 - Interactive UI
+<h1><div style="text-align:center">Elm 0.12 - Interactive UI
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Making text fields and buttons easy and pure*</div></div>
 </h1>
 
@@ -38,7 +38,7 @@ has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-vi
 I always get questions along the lines of, &ldquo;that
 [Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
 I use this approach for the forms, widgets, and dashboards I write every day at
-work?&rdquo; As of today, the answer is a definite yes! Elm 0.11.2 makes it easy
+work?&rdquo; As of today, the answer is a definite yes! Elm 0.12 makes it easy
 to create interactive UI elements in a purely functional way, from buttons and
 fields to clickable and hoverable elements.
 
@@ -88,11 +88,11 @@ important among them is the new [`Trampoline`][trampoline] library which
 is really cool and deserves a post of its own, but to keep things brief I am
 just going to list all of the new stuff:
 
- [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input
- [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Graphics-Input-Field
- [text]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Text
- [regex]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Regex
- [trampoline]: http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Trampoline
+ [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
+ [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
+ [text]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Text
+ [regex]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Regex
+ [trampoline]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Trampoline
 
 #### Breaking Changes:
 
@@ -135,7 +135,7 @@ just going to list all of the new stuff:
     the great design and implementation!
     </span>
 
-  * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/Debug)
+  * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Debug)
     library which lets you log values to the developer console. This is intended
     specifically for debugging!
     <span style="opacity:0.3;">
@@ -206,7 +206,7 @@ perhaps `import List (..)` can be removed entirely someday.
 All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://library.elm-lang.org/catalog/evancz-Elm/0.11.2/docs.json)). The goals
+this](http://library.elm-lang.org/catalog/evancz-Elm/0.12/docs.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.

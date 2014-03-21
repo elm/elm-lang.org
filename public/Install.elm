@@ -38,7 +38,7 @@ report an issue to Elm's [source repository][2].
 
 #### Release Notes
 
-* <code>[0.11.2][112]            &nbsp;Mar &nbsp; &nbsp; &nbsp; </code>Easy user input
+* <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
 * <code>[0.11][11]        &nbsp;&nbsp; Jan 2014&nbsp; </code>Ports: drastically improved FFI
 * <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>`elm-get` integration
 * <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
@@ -67,6 +67,6 @@ report an issue to Elm's [source repository][2].
   [10]: /blog/announce/0.10.elm "native strings"
   [101]: /blog/announce/0.10.1.elm "elm-get integration"
   [11]: /blog/announce/0.11.elm "ports"
-  [112]: /blog/announce/0.11.2.elm "user input"
+  [12]: /blog/announce/0.12.elm "user input"
 
 |]
