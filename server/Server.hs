@@ -1,9 +1,9 @@
+{-# OPTIONS_GHC -W #-}
 {-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module Main where
 
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BSC
-import qualified Data.List as List
 import qualified Data.HashMap.Strict as Map
 import Control.Applicative
 import Control.Monad.Error
@@ -26,7 +26,6 @@ import GHC.Conc
 import qualified Elm.Internal.Paths as Elm
 import qualified Generate
 import qualified Editor
-import Utils
 
 data Flags = Flags
   { port :: Int
@@ -64,7 +63,10 @@ error404 =
     do modifyResponse $ setResponseStatus 404 "Not found"
        serveElm "public/build/Error404.elm"
 
+serveElm :: FilePath -> Snap ()
 serveElm = serveFileAs "text/html; charset=UTF-8"
+
+serveHtml :: MonadSnap m => H.Html -> m ()
 serveHtml html =
     do setContentType "text/html" <$> getResponse
        writeLBS (BlazeBS.renderHtml html)
