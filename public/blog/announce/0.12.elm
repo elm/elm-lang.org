@@ -70,7 +70,7 @@ Normally Elm release notes dive into the new features. In this case, the new
 APIs are important enough that [the tutorial on interactive UI
 elements](/learn/Interactive-UI-Elements.elm) made it as an entire post on the
 [Learn](/Learn.elm) page.
-That post has tons of [interactive examples](/learn/Inputs.elm#tons-of-examples)
+That post has tons of [interactive examples](/learn/Interactive-UI-Elements.elm#tons-of-examples)
 ranging from creation of text fields and drop downs to validated forms,
 calculators, and todo lists. Definitely check it out to see how you can start
 making "traditional web apps" with Elm.
@@ -97,7 +97,7 @@ just going to list all of the new stuff:
 #### Breaking Changes:
 
   * Overhaul the [`Graphics.Input`][gi] library, making interactive UI elements
-    easy as described [here](/learn/Inputs.elm).
+    easy as described [here](/learn/Interactive-UI-Elements.elm).
     <span style="opacity:0.3;">
     Inspired by [Spiros Eliopoulos](http://github.com/seliopou) and
     [Jeff Smits](https://github.com/Apanatshka).
