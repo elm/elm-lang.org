@@ -55,7 +55,7 @@ as templates for your own project!
    todo list modelled on [TodoMVC](http://todomvc.com/)
  * [elm-lang.org](https://github.com/evancz/elm-lang.org) &mdash;
    good template for your own website
- * [library.elm-lang.org](https://github.com/elm-lang/elm-get) &mdash;
+ * [library.elm-lang.org](https://github.com/evancz/elm-get) &mdash;
    pretty and easily implements [contextual search](http://library.elm-lang.org)
    
 #### Games
