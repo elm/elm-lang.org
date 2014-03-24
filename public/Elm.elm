@@ -33,6 +33,7 @@ other w = width (w `div` 2) [markdown|
 
 #### News
 
+* [Easy user input](/blog/announce/0.12.elm) with 0.12
 * [Great JS interop](/blog/announce/0.11.elm) in 0.11
 * [Package manager released!](/blog/announce/PackageManager.elm)
 * First release of [Elm REPL](/blog/announce/Repl.elm)
