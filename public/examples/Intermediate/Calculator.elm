@@ -56,9 +56,16 @@ calculator (w,h) state =
     let pos = bottomRightAt (absolute 10) (absolute 10)
     in  color darkCharcoal . container w h middle <|
         flow down [ color black . container (4*buttonSize) (buttonSize+40) pos <|
-                    txt 0.6 white (show (displayNumber state))
+                    screen 0.6 (show (displayNumber state))
                   , buttons
                   ]
+
+screen : Float -> String -> Element
+screen size text =
+  let number = txt size white text in
+  if widthOf number > 4*buttonSize - 20
+      then screen (size-0.02) text
+      else number
 
 displayNumber : State -> Float
 displayNumber state =
