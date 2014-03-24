@@ -3,8 +3,13 @@ module Website.Skeleton (skeleton, skeleton', homeSkeleton, installButtons, bigL
 import Website.ColorScheme as C
 import Graphics.Input as Input
 
+skeleton : (Int -> Element) -> (Int,Int) -> Element
 skeleton = flexSkeleton True 526
+
+skeleton' : Int -> (Int -> Element) -> (Int,Int) -> Element
 skeleton' = flexSkeleton True
+
+homeSkeleton : (Int -> Element) -> (Int,Int) -> Element
 homeSkeleton = flexSkeleton False 526
 
 topBarHeight = 42
@@ -13,6 +18,7 @@ footerHeight = 120
 
 extraHeight = topBarHeight + topBarPadding + footerHeight
 
+flexSkeleton : Bool -> Int -> (Int -> Element) -> (Int,Int) -> Element
 flexSkeleton isNormal inner bodyFunc (w,h) =
     let content = bodyFunc (min inner w) in
     color C.lightGrey <|
@@ -33,7 +39,7 @@ topBar isNormal inner w =
         ]
 
 logo w =
-    let name = text . Text.height 24 <| toText "elm" in
+    let name = leftAligned . Text.height 24 <| toText "elm" in
     container w topBarHeight midLeft . link "/" <|
     flow right [ image 30 30 "/logo.png"
                , spacer 4 30
@@ -41,7 +47,7 @@ logo w =
                ]
 
 bigLogo =
-    let name = text . Text.height 60 <| toText "elm" in
+    let name = leftAligned . Text.height 60 <| toText "elm" in
     flow right [ image 80 80 "/logo.png"
                , spacer 10 80
                , container (widthOf name) 80 middle name
@@ -57,7 +63,7 @@ paths =
   ]
 
 tab (name, href) =
-    let words = text . Text.link href <| toText name
+    let words = leftAligned . Text.link href <| toText name
     in  container (widthOf words + 20) topBarHeight midRight words
 
 footerWords =
@@ -68,7 +74,8 @@ footerWords =
        wordLink "written in Elm and " "https://github.com/evancz/elm-lang.org" "open source" "" ++
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
-install = Input.customButtons ()
+click : Input.Input ()
+click = Input.input ()
 
 installButtons w =
   let href = "https://github.com/evancz/Elm/blob/master/README.md#install"
@@ -78,10 +85,10 @@ installButtons w =
 box words c1 c2 =
     color c2 . container 180 50 middle .
     color c1 . container 178 48 middle .
-    text . Text.height 30 . Text.color charcoal <| toText words
+    leftAligned . Text.height 30 . Text.color charcoal <| toText words
 
 button words =
-    install.customButton ()
+    Input.customButton click.handle ()
         (box words lightGrey grey)
         (box words lightGrey darkGrey)
         (box words grey blue)

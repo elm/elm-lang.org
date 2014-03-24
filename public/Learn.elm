@@ -14,25 +14,27 @@ h5 { margin-bottom: 0.5em; }
 The [syntax reference](/learn/Syntax.elm) is a good place to start.
 The [examples page](/Examples.elm) is intended to help you learn by
 example, slowly building up skills. This page provides more in-depth
-documentation. For advice on how to learn Elm based on your
-background, see [the learning roadmap](/learn/Roadmap.elm).
+documentation.
 
 |]
 
 leftCol = [markdown|
 
-#### Syntax
+#### General Resources
 
 * [Syntax reference](/learn/Syntax.elm)
+* [Learning roadmap](/learn/Roadmap.elm)
+* [FAQ by language](/learn/FAQ.elm)
 
-#### Features
+#### Topic Tutorials
 
 * [FRP](/learn/What-is-FRP.elm)
 * [Types](/learn/Getting-started-with-Types.elm)
 * [Algebraic Data Types](/learn/Pattern-Matching.elm)
 * [Records](/learn/Records.elm)
-* [Components: Embed in HTML](/learn/Components.elm)
-* [Ports: Talk to JS](/learn/Ports.elm)
+* [Interactive UI Elements](/learn/Interactive-UI-Elements.elm)
+* [Embed in HTML](/learn/Components.elm)
+* [Interop with JS](/learn/Ports.elm)
 
 |]
 
@@ -83,11 +85,12 @@ papers = [markdown|
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
- * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
  * [Making Pong](/blog/Pong.elm)
 
 
 |]
+
+--  * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
 
 content w =
   let hwidth = if w < 800 then w `div` 2 - 20 else 380 in

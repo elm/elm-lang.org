@@ -1,8 +1,15 @@
 
-import Graphics.Input as Input
+import Graphics.Input (Input, input)
+import Graphics.Input.Field as Field
 
-main = let (field, password) = Input.password "Password"
-       in  lift2 display field password
+main : Signal Element
+main = lift display password.signal
 
-display field password =
-  field `above` plainText ("Your password is: " ++ password)
+password : Input Field.Content
+password = input Field.noContent
+
+display : Field.Content -> Element
+display content =
+  flow down [ Field.password Field.defaultStyle password.handle id "Password" content
+            , plainText ("Your password is: " ++ content.string)
+            ]

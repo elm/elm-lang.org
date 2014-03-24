@@ -12,9 +12,13 @@ This example also includes some challenge problems :)
 
 data Tree a = Node a (Tree a) (Tree a) | Empty
 
+empty : Tree a
 empty = Empty
+
+singleton : a -> Tree a
 singleton v = Node v Empty Empty
 
+insert : comparable -> Tree comparable -> Tree comparable
 insert x tree =
   case tree of
     Empty -> singleton x
@@ -23,13 +27,16 @@ insert x tree =
       if x <  y then Node y (insert x left) right
                 else Node y left (insert x right)
 
+fromList : [comparable] -> Tree comparable
 fromList xs = foldl insert empty xs
 
+depth : Tree a -> Int
 depth tree =
   case tree of
     Node v left right -> 1 + max (depth left) (depth right)
     Empty -> 0
 
+map : (a -> b) -> Tree a -> Tree b
 map f tree =
   case tree of
     Node v left right -> Node (f v) (map f left) (map f right)
@@ -38,13 +45,15 @@ map f tree =
 t1 = fromList [1,2,3]
 t2 = fromList [2,1,3]
 
+main : Element
 main = flow down [ display "depth" depth t1
                  , display "depth" depth t2
                  , display "map ((+)1)" (map ((+)1)) t2
                  ]
 
+display : String -> (Tree a -> b) -> Tree a -> Element
 display name f v =
-  text . monospace . toText <|
+  leftAligned . monospace . toText <|
   concat [ name, " (", show v, ") &rArr;\n    ", show (f v), "\n " ]
 
 {-----------------------------------------------------------------

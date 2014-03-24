@@ -1,101 +1,92 @@
+import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
 import String
 import Window
 
-getErrors : String -> String -> String -> String -> [String]
-getErrors first last email remail =
-  justs <| map (\(err,msg) -> if err then Just msg else Nothing)
-    [ (first == ""    , "First name required.")
-    , (last == ""     , "Last name required.")
-    , (email == ""    , "Must enter your email address.")
-    , (remail == ""   , "Must re-enter your email address.")
-    , (email /= remail, "Email addresses do not match.")
-    ]
+main : Signal Element
+main = scene <~ Window.dimensions
+              ~ lift5 form first.signal last.signal email.signal remail.signal errors
 
-url : String -> String -> String -> String
-url first last email = 
-    "/login?first=" ++ first ++ "&last=" ++ last ++ "&email="++ email
+-- Signals and Inputs
+first  = Input.input Field.noContent
+last   = Input.input Field.noContent
+email  = Input.input Field.noContent
+remail = Input.input Field.noContent
+submit = Input.input ()
 
--- Signals
-(firstBox , first)  = Input.field "First Name"
-(lastBox  , last)   = Input.field "Last Name"
-(emailBox , email)  = Input.field "Your Email"
-(remailBox, remail) = Input.field "Re-enter Email"
-(butn     , press)  = Input.button "Submit"
-
-sendAttempt : Signal Bool
-sendAttempt = lift (\c -> c > 0) (count press)
-
-always value signal = lift (\_ -> value) signal
-isClicked = merge (always False (delay 0 press)) (always True press)
-
-errors : Signal [String]
-errors = keepWhen sendAttempt []
-                  (lift4 getErrors first last email remail)
+hasAttempted : Signal Bool
+hasAttempted =
+    let isPositive c = c > 0
+    in  isPositive <~ count submit.signal
 
 sendable : Signal Bool
-sendable = lift2 (&&) isClicked (lift isEmpty errors)
+sendable = keepWhen hasAttempted False (isEmpty <~ errors)
 
--- Display
-fieldWith : String -> Element -> Element
-fieldWith txt fld =
-  flow right
-    [ container 200 32 midRight <| plainText txt
-    , container 200 32 middle <| size 180 26 fld ]
+errors : Signal [String]
+errors =
+    let rawErrors = lift4 getErrors first.signal last.signal email.signal remail.signal
+    in  keepWhen hasAttempted [] <| merge rawErrors (sampleOn submit.signal rawErrors)
 
-showErrors : [String] -> Element
-showErrors errs =
-  if isEmpty errs then spacer 10 10 else
-    flow down <| map (text . Text.color red . toText) errs
+getErrors : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String]
+getErrors first last email remail =
+    let empty content = String.isEmpty content.string
+        checks = [ (empty first , "First name required.")
+                 , (empty last  , "Last name required.")
+                 , (empty email , "Must enter your email address.")
+                 , (empty remail, "Must re-enter your email address.")
+                 , (email.string /= remail.string, "Email addresses do not match.")
+                 ]
+        activeError (err,msg) = if err then Just msg else Nothing
+    in
+        justs <| map activeError checks
 
-formTitle : String -> Element
-formTitle str = width 400 . centered . Text.height 38 <| toText str
+port redirect : Signal String
+port redirect =
+    keepWhen sendable "" <| sampleOn submit.signal <|
+    lift3 url first.signal last.signal email.signal
 
-userEntry : Element -> Element -> Element -> Element -> [String] -> Element
-userEntry first last email remail errors =
-  color (rgb 230 230 230) . flow down <|
-    [ formTitle "Example Form"
-    , fieldWith "First Name:" first
-    , fieldWith "Last Name:"  last
-    , fieldWith "Your Email:" email
-    , fieldWith "Re-enter Email:" remail
-    , showErrors errors
-    , container 390 50 midRight <| size 60 30 butn
-    ]
-
--- HTTP control
-sendRequest : Signal String
-sendRequest = keepWhen sendable "" <| lift3 url first last email
+url : Field.Content -> Field.Content -> Field.Content -> String
+url first last email = 
+    "/login?first=" ++ first.string ++ "&last=" ++ last.string ++ "&email="++ email.string
 
 getLogin : Signal String -> Signal (Http.Response String)
 getLogin req = Http.send <| lift (\r -> Http.post r "") req
 
--- HTTP printing  
-prettyPrint : Http.Response String -> Element
-prettyPrint res = case res of
-  Http.Waiting -> plainText ""
-  Http.Failure _ _ -> plainText ""
-  Http.Success a -> plainText a
 
-inputForm = lift5 userEntry firstBox lastBox emailBox remailBox errors
+-- Display
+scene : (Int,Int) -> Element -> Element
+scene (w,h) form =
+    color charcoal . flow down <|
+      [ spacer w 50
+      , container w (h-50) midTop form
+      ]
 
-inputBox = 
-  let
-    cmaker inForm bWidth bHeight = container bWidth bHeight topLeft inForm
-    w = lift widthOf inputForm
-    h = lift heightOf inputForm
-  in 
-    lift3 cmaker inputForm w h
-    
-loginResponse = lift prettyPrint (getLogin sendRequest)
+form : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String] -> Element
+form first' last' email' remail' errors =
+    color lightGrey . flow down <|
+      [ container 340 60 middle . leftAligned . Text.height 32 <| toText "Example Sign Up"
+      , field "First Name:"     first.handle  first'
+      , field "Last Name:"      last.handle   last'
+      , field "Your Email:"     email.handle  email'
+      , field "Re-enter Email:" remail.handle remail'
+      , showErrors errors
+      , container 300 50 midRight <| size 60 30 <| Input.button submit.handle () "Submit"
+      ]
 
-scene (w,h) box result =
-  flow down 
-    [ spacer w 50
-    , container w ((heightOf box)) midTop box
-    , container w (h - heightOf box) midTop result
+field : String -> Input.Handle Field.Content -> Field.Content -> Element
+field label handle content =
+  flow right
+    [ container 120 36 midRight <| plainText label
+    , container 220 36 middle <| size 180 26 <|
+      Field.field Field.defaultStyle handle id "" content
     ]
 
-main : Signal Element
-main = lift3 scene Window.dimensions inputBox loginResponse
+showErrors : [String] -> Element
+showErrors errs =
+  flow down
+    [ spacer 10 10
+    , if isEmpty errs
+        then spacer 0 0
+        else flow down <| map (width 340 . centered . Text.color red . toText) errs
+    ]

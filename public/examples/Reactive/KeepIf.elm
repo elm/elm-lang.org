@@ -1,10 +1,14 @@
-import Char
-import String
-import Graphics.Input as Input
+import Char (isDigit)
+import String (all)
+import Graphics.Input (Input, input)
+import Graphics.Input.Field as Field
 
-(field, input) = Input.field "numbers"
+main : Signal Element
+main = display <~ keepIf (all isDigit . .string) Field.noContent numbers.signal
 
-scene field inp = field `above` plainText ("Last input of all digits: " ++ inp)
+numbers : Input Field.Content
+numbers = input Field.noContent
 
-main = lift2 scene field (keepIf (String.all Char.isDigit) "" input)
-
+display : Field.Content -> Element
+display content =
+    Field.field Field.defaultStyle numbers.handle id "Only numbers!" content

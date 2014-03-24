@@ -18,7 +18,7 @@ Multiple sections may apply to you, so keep reading even if you found a
 good starting point!
 
 And if you are coming to Elm from Haskell or JavaScript, see these
-[tips](/learn/From-other-language-tips.elm).
+[tips](/learn/FAQ.elm).
 
 ### New to programming
 

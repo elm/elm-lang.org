@@ -1,5 +1,4 @@
 import Website.Skeleton (skeleton)
-import open Website.ColorScheme
 import Window
 import JavaScript as JS
 

@@ -1,6 +1,11 @@
 import String
-import Graphics.Input as Input
+import Graphics.Input (Input, input)
+import Graphics.Input.Field as Field
 
-(field, content) = Input.field "Type here!"
+content : Input Field.Content
+content = input Field.noContent
 
-main = lift2 above field (lift (plainText . String.reverse) content)
+main : Signal Element
+main = lift2 above
+         (Field.field Field.defaultStyle content.handle id "Type here!" <~ content.signal)
+         (plainText . String.reverse . .string <~ content.signal)

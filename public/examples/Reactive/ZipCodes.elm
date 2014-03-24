@@ -3,34 +3,40 @@ import String
 import Maybe
 import Http
 import Graphics.Input as Input
+import Graphics.Input.Field as Field
 
+main : Signal Element
+main =
+  let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
+      output fieldContent url response =
+          flow down [ Field.field Field.defaultStyle content.handle id "Zip Code" fieldContent
+                    , Maybe.maybe msg (always (display response)) url
+                    ]
+  in lift3 output content.signal url responses
 
-(field,rawInput) = Input.field "Zip Code"
+content : Input.Input Field.Content
+content = Input.input Field.noContent
 
--- Covert raw input into a usable URL.
-toUrl s = if String.length s == 5 && String.all Char.isDigit s
-             then Just ("http://zip.elevenbasetwo.com/v2/US/" ++ s)
-             else Nothing
+-- Display a response
 
--- Transform the signal of raw input into usable data, indicating if the input
--- is valid and, if so, what it is.
-realInput = lift toUrl rawInput
-
--- Send AJAX requests for any valid input!
-responses = Http.sendGet (lift (Maybe.maybe "" id) realInput)
-
--- Display a response.
+display : Http.Response String -> Element
 display response = 
   case response of
-    Http.Success address -> text . monospace <| toText address
+    Http.Success address -> leftAligned . monospace <| toText address
     Http.Waiting -> image 16 16 "waiting.gif"
     Http.Failure _ _ -> asText response
 
--- Give the user a message depending on whether their input is valid and
--- the response from any AJAX requests.
-message =
-  let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
-      output inp rsp = Maybe.maybe msg (\_ -> display rsp) inp
-  in lift2 output realInput responses
+-- Send requests based on user input
 
-main = lift2 above field message
+responses : Signal (Http.Response String)
+responses = Http.sendGet (Maybe.maybe "" id <~ url)
+
+url : Signal (Maybe String)
+url = lift toUrl content.signal
+
+toUrl : Field.Content -> Maybe String
+toUrl content =
+    let s = content.string in
+    if String.length s == 5 && String.all Char.isDigit s
+      then Just ("http://zip.elevenbasetwo.com/v2/US/" ++ s)
+      else Nothing

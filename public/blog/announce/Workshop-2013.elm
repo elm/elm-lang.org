@@ -1,6 +1,5 @@
 
 import Website.Skeleton (skeleton)
-import open Website.ColorScheme
 import Window
 import JavaScript as JS
 
@@ -48,7 +47,7 @@ talks w =
 
 talk w (title,speaker) =
     let title' = plainText title
-        speaker' = text . Text.color darkGrey <| toText speaker
+        speaker' = leftAligned . Text.color darkGrey <| toText speaker
         padding = 30
         lineHeight = heightOf title' + 4
         speakerWidth = widthOf speaker'

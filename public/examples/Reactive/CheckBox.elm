@@ -1,10 +1,15 @@
 
 import Graphics.Input as Input
 
-main = let (box, checked) = Input.checkbox True
-       in  lift2 display box checked
+main : Signal Element
+main = lift display check.signal
 
-display box checked =
-  flow right [ container 30 30 middle box,
-               container 50 30 middle (asText checked) ]
+check : Input.Input Bool
+check = Input.input True
+
+display : Bool -> Element
+display checked =
+  flow right [ container 30 30 middle <| Input.checkbox check.handle id checked
+             , container 50 30 middle <| asText checked
+             ]
 

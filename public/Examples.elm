@@ -74,10 +74,10 @@ as templates for your own project!
 
 intermediates =
     [ [ "Mario", "Walk", "Pong", "Turtle" ]
-    , [ "SlideShow", "Flickr", "Physics", "PieChart" ]
-    , [ "Plot", "Clock", "Stamps", "Slide" ]
-    , [ "Complements", "Tracer", "PascalsTriangle", "FibonacciTiles" ]
-    , [ "Web", "Circles" ]
+    , [ "TextReverse", "Calculator", "Form", "Flickr" ]
+    , [ "Physics", "Plot", "PieChart", "SlideShow" ]
+    , [ "Clock", "Tracer", "Slide", "Stamps" ]
+    , [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
     ]
 
 addFolder folder lst =
@@ -181,12 +181,12 @@ reactive = addFolder "Reactive/"
   , ("Input",  [ ("Text", "TextField")
                , ("Password"  , "Password")
                , ("Checkbox", "CheckBox")
-               , ("Drop", "StringDropDown")
-               , ("General Drop", "DropDown")
+               , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
   , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
+               , ("Numbers Only", "KeepIf")
                ])
   , ("Ports",  [ ("Logging","Log")
                , ("Set Title","Title")
@@ -198,9 +198,9 @@ example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
   flow right
    [ width 120 (plainText <| " " ++ title)
-   , text . join (toText ", ") <| map example links
+   , leftAligned . join (toText ", ") <| map example links
    ]
 
 subsection w (name,info) =
   flow down . intersperse (spacer w 6) . map (width w) <|
-    (tag name . text . bold <| toText name) :: map toLinks info ++ [spacer w 12]
+    (tag name . leftAligned . bold <| toText name) :: map toLinks info ++ [spacer w 12]

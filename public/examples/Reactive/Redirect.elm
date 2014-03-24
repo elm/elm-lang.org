@@ -1,15 +1,19 @@
 
 import Graphics.Input as Input
 
-main = flow down [ message, butn ]
+main : Element
+main = flow down [ message
+                 , Input.button click.handle () "Redirect to elm-lang.org" ]
 
-(butn, pressed) = Input.button "Redirect to elm-lang.org"
+click : Input.Input ()
+click = Input.input ()
 
 port redirect : Signal String
 port redirect =
     merge (constant "")
-          (always "http://elm-lang.org" <~ pressed)
+          (always "http://elm-lang.org" <~ click.signal)
 
+message : Element
 message = [markdown|
 
 # Redirecting with ports

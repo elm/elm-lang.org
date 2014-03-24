@@ -9,6 +9,8 @@ general = ("General",
   , "Char"
   , "Date"
   , "Bitwise"
+  , "Trampoline"
+  , "Debug"
   ])
 containers = ("Containers",
   [ "List"
@@ -22,6 +24,7 @@ graphics = ("Graphics",
   [ "Graphics.Element"
   , "Graphics.Collage"
   , "Graphics.Input"
+  , "Graphics.Input.Field"
   , "Color"
   , "Text"
   , "Transform2D"
@@ -52,8 +55,10 @@ intro = [markdown|
 
 # Libraries
 
-The Standard Libraries, listed below, come with the latest release
-of the Elm compiler and make it easy to get productive with Elm.
+The Standard Libraries, listed below, come with the latest release of the Elm
+compiler and make it easy to get productive with Elm. Search for
+functions like `map` or `fold` in the standard library
+[by filtering](http://library.elm-lang.org/catalog/evancz-Elm/0.12/).
 
 See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
@@ -65,11 +70,11 @@ Check out [library.elm-lang.org](http://library.elm-lang.org) to discover
 deslash c = if c == '.' then '-' else c
 
 linkify name =
-    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.11/" ++ String.map deslash name
+    let path = "http://library.elm-lang.org/catalog/evancz-Elm/0.12/" ++ String.map deslash name
     in  Text.toText "  " ++ Text.link path (Text.toText name)
 
 linkList (name, pairs) = 
-  flow down . intersperse (spacer 2 4) . map Text.text <|
+  flow down . intersperse (spacer 2 4) . map Text.leftAligned <|
   Text.height 18 (Text.toText name) :: map linkify pairs
 
 makeCol w = width w . flow down . intersperse (spacer 10 20) . map linkList
