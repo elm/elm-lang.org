@@ -64,7 +64,7 @@ screen : Float -> String -> Element
 screen size text =
   let number = txt size white text in
   if widthOf number > 4*buttonSize - 20
-      then screen (size-0.1) text
+      then screen (size-0.02) text
       else number
 
 displayNumber : State -> Float
