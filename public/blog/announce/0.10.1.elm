@@ -42,7 +42,7 @@ code > span.er { font-weight: bold; }
 A lot of work is going into tooling right now, so this incremental release
 mainly gets the compiler in shape for:
 
-  * [A greatly improved version of `elm-repl`](https://github.com/evancz/elm-repl/blob/master/changelog.txt#L1-L12)
+  * [A greatly improved version of `elm-repl`](https://github.com/elm-lang/elm-repl/blob/master/changelog.txt#L1-L12)
     (`cabal install elm-repl`)
   * Easily sharing Elm libraries (announcement coming soon!)
 
