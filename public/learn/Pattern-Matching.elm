@@ -104,7 +104,7 @@ So this creates a type called `List`. A list can either be empty or it can
 have one element (called the *head* of the list) and &ldquo;the rest of the
 list&rdquo; (called the *tail* of the list).
 The second type constructor is called `Cons` because that&rsquo;s
-just the way it has always been. I find [the real explaination][cons] fairly
+just the way it has always been. I find [the real explanation][cons] fairly
 unsatisfying, but at some point it stops being weird.
 
   [cons]: http://en.wikipedia.org/wiki/Cons "Cons"
