@@ -154,7 +154,7 @@ list of kinds of fancy text:
   3. `computery`
   4. [links to things](http://xkcd.com/323/)
 
-|\]
+|]
 ```
 
 Markdown is supposed to look a lot like the styled text it produces.
