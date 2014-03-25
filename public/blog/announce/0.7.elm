@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import Window
 import JavaScript as JS
@@ -33,7 +32,7 @@ of this post. Nonetheless, the new syntax for `lift` is quite nice too,
 so be sure to take a look at that too!
 
 Multi-way-ifs are a nice way to deal with very conditional code in any
-situation. The replace guarded definitions because they are just as
+situation. They replace guarded definitions because they are just as
 flexible and can be used in strictly more situations. This is a breaking
 change, so read that section to see the simple fix!
 
