@@ -211,7 +211,7 @@ You can create custom infix operators. The default
 is 9 and the default
 [associativity](http://en.wikipedia.org/wiki/Operator_associativity)
 is left, but you can set your own.
-You cannot override [the built-in operators](http://docs.elm-lang.org/InfixOps.elm) though.
+You cannot override the built-in operators though.
 
 ```haskell
 f <| x = f x
@@ -221,8 +221,8 @@ infixr 0 <|
 infixl 4 <~
 ```
 
-Use [`(<|)`](http://docs.elm-lang.org/library/Basics.elm#<|)
-and [`(|>)`](http://docs.elm-lang.org/library/Basics.elm#|>)
+Use [`(<|)`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Basics#<|)
+and [`(|>)`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Basics#|>)
 to reduce parentheses usage. They are aliases for function
 application.
 
@@ -327,7 +327,7 @@ scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
 More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
-and [here](http://docs.elm-lang.org/library/Signal.elm).
+and [here](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Signal).
 
 ### Modules
 
