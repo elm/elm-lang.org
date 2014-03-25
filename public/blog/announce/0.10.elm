@@ -220,7 +220,7 @@ like [`(<~)`](http://localhost:8080/library/Signal.elm#<~)
 and   [`(~)`](http://localhost:8080/library/Signal.elm#~). The best part of
 this feature was how simple it was to implement with FRP and Elm.
 
-[The source code for the docs site](https://github.com/evancz/docs.elm-lang.org)
+[The source code for the docs site](https://github.com/elm-lang/docs.elm-lang.org)
 is available if you want to look into instant search, use the site as a starting
 point for your own project, or whatever else.
 Also, huge thanks to [Max New](https://github.com/maxsnew),

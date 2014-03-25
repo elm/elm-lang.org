@@ -70,7 +70,7 @@ Normally Elm release notes dive into the new features. In this case, the new
 APIs are important enough that [the tutorial on interactive UI
 elements](/learn/Interactive-UI-Elements.elm) made it as an entire post on the
 [Learn](/Learn.elm) page.
-That post has tons of [interactive examples](/learn/Inputs.elm#tons-of-examples)
+That post has tons of [interactive examples](/learn/Interactive-UI-Elements.elm#tons-of-examples)
 ranging from creation of text fields and drop downs to validated forms,
 calculators, and todo lists. Definitely check it out to see how you can start
 making "traditional web apps" with Elm.
@@ -78,7 +78,7 @@ making "traditional web apps" with Elm.
 The key insight behind these changes comes from [Spiros
 Eliopoulos](https://github.com/seliopou) and his work on
 [elm-d3](https://github.com/seliopou/elm-d3). From there [Jeff
-Smitts](https://github.com/Apanatshka) suggestions inspired and improved the
+Smits](https://github.com/Apanatshka) suggestions inspired and improved the
 final API. Huge thank you to you both!
 
 ## Other Changes and Improvements
@@ -97,10 +97,10 @@ just going to list all of the new stuff:
 #### Breaking Changes:
 
   * Overhaul the [`Graphics.Input`][gi] library, making interactive UI elements
-    easy as described [here](/learn/Inputs.elm).
+    easy as described [here](/learn/Interactive-UI-Elements.elm).
     <span style="opacity:0.3;">
     Inspired by [Spiros Eliopoulos](http://github.com/seliopou) and
-    [Jeff Smitts](https://github.com/Apanatshka).
+    [Jeff Smits](https://github.com/Apanatshka).
     </span>
 
   * Overhaul the [`Text`][text] library to make the API more consistent overall

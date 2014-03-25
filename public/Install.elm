@@ -17,7 +17,7 @@ compiler/server [on github](https://github.com/evancz/Elm).
 This website is also [available](https://github.com/evancz/elm-lang.org)
 with [setup instructions][instruct]. It can be the basis for your own website
 or let you use the interactive editor locally.
-Use [`elm-repl`](https://github.com/evancz/elm-repl)
+Use [`elm-repl`](https://github.com/elm-lang/elm-repl)
 to interact with specific functions in a multi-module project.
 
  [instruct]: https://github.com/evancz/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm "install"
@@ -38,6 +38,7 @@ report an issue to Elm's [source repository][2].
 
 #### Release Notes
 
+* <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
 * <code>[0.11][11]        &nbsp;&nbsp; Jan 2014&nbsp; </code>Ports: drastically improved FFI
 * <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>`elm-get` integration
 * <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
