@@ -154,7 +154,7 @@ list of kinds of fancy text:
   3. `computery`
   4. [links to things](http://xkcd.com/323/)
 
-|\]
+|]
 ```
 
 Markdown is supposed to look a lot like the styled text it produces.
@@ -170,7 +170,7 @@ together. We do this with the `flow` function.
 ```haskell
 tongueTwister = [markdown|
 She sells sea shells by the sea shore.
-|\]
+|]
 
 main = flow down [ tongueTwister
                  , fittedImage 300 200 "/shells.jpg" ]
