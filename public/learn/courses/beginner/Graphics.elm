@@ -170,7 +170,7 @@ together. We do this with the `flow` function.
 ```haskell
 tongueTwister = [markdown|
 She sells sea shells by the sea shore.
-|\]
+|]
 
 main = flow down [ tongueTwister
                  , fittedImage 300 200 "/shells.jpg" ]
