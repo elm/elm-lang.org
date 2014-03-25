@@ -45,17 +45,17 @@ use community libraries. This comes in two parts:
   1. [Elm Public Library](http://library.elm-lang.org/) which has
      a catalog of all published libraries along with their documentation
 
-  2. [`elm-get` command line tool](https://github.com/evancz/elm-get#elm-get)
+  2. [`elm-get` command line tool](https://github.com/elm-lang/elm-get#elm-get)
      for installing and publishing libraries
 
 [The recent 0.10.1 compiler release](/blog/announce/0.10.1.elm) introduced
 integration with `elm-get` to make things easy to use. So once you [install
-`elm-get`](https://github.com/evancz/elm-get#install) with `cabal install elm-get`,
+`elm-get`](https://github.com/elm-lang/elm-get#install) with `cabal install elm-get`,
 you will be all set to start using any library in
 [the catalog](http://library.elm-lang.org/catalog) in your projects!
 
 For more information on how to use `elm-get` see [the usage
-instructions](https://github.com/evancz/elm-get#elm-get). The rest of this post
+instructions](https://github.com/elm-lang/elm-get#elm-get). The rest of this post
 focuses on why this project is important for Elm, the long-term goals, and a
 rough roadmap for future releases.
 
@@ -144,7 +144,7 @@ and minimizes the amount of work needed.
 ## Roadmap
 
 There is still a lot of work to do on
-[`elm-get`](https://github.com/evancz/elm-get#elm-get)
+[`elm-get`](https://github.com/elm-lang/elm-get#elm-get)
 and [the Elm Public Library](http://library.elm-lang.org/), so the roadmap
 breaks up into fairly distinct topics.
 
@@ -191,7 +191,7 @@ This is great if you want to work on search tool like
 or estimate maximal dependency ranges based on
 [`elm-doc` data](http://library.elm-lang.org/catalog/evancz-automaton/0.1/docs.json).
 
-There is a ton of work, so check out [the repo](https://github.com/evancz/elm-get)
+There is a ton of work, so check out [the repo](https://github.com/elm-lang/elm-get)
 if you are interested in contributing! I am slowly becoming better at managing
 projects and I am doing my best to make it easy and fun to contribute.
 
