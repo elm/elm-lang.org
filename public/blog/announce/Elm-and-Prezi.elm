@@ -1,5 +1,4 @@
 
-import JavaScript as JS
 import Website.Skeleton (skeleton)
 import Window
 

@@ -1,6 +1,5 @@
 
 import Website.Skeleton (skeleton)
-import JavaScript as JS
 import Window
 
 port title : String

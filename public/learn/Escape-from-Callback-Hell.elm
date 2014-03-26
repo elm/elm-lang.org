@@ -1,7 +1,6 @@
 import Website.Skeleton (skeleton')
 import Website.ColorScheme (lightGrey,mediumGrey)
 
-import JavaScript as JS
 import JavaScript.Experimental as JS
 import Window
 import Graphics.Input as Input

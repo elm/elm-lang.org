@@ -2,7 +2,6 @@ import Website.Skeleton (homeSkeleton, bigLogo, installButtons)
 import Website.Tiles (examples)
 
 import Text
-import JavaScript as JS
 import Window
 
 moreInfo = [markdown|

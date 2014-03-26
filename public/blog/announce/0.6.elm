@@ -1,7 +1,6 @@
 
 import Website.Skeleton (skeleton)
 import Window
-import JavaScript as JS
 import Graphics.Input as Input
 
 port title : String

@@ -1,6 +1,5 @@
 import Website.Blog (skeleton)
 import Window
-import JavaScript as JS
 
 port title : String
 port title = "Intro to Lists and Records"

@@ -1,7 +1,6 @@
 
 import Website.Skeleton (skeleton)
 import Window
-import JavaScript as JS
 
 port title : String
 port title = "Elm 0.7.1 - Library Cultivation"

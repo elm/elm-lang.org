@@ -1,7 +1,6 @@
 import Graphics.Input (Input, input, checkbox)
 import Website.Skeleton (skeleton)
 import Window
-import JavaScript as JS
 
 port title : String
 port title = "Interactive UI Elements"

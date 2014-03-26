@@ -1,7 +1,6 @@
 
 module Website.Blog where
 
-import JavaScript as JS
 import Website.ColorScheme (..)
 import Graphics.Input as Input
 

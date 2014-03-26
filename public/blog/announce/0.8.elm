@@ -2,7 +2,6 @@
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (..)
 import Window
-import JavaScript as JS
 
 port title : String
 port title = "Elm 0.8"
