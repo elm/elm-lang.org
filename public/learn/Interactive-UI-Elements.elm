@@ -211,9 +211,9 @@ And then take a look at some more complex examples:
   * [Todo List](https://github.com/evancz/TodoFRP)
 
 I suspect a lot of this code could be shortened, and I hope to see some
-libraries spring up in the [Elm Public Library](library.elm-lang.org) to factor
-out common patterns like form-validation, password verification, credit-card
-entry, etc.
+libraries spring up in the [Elm Public Library](http://library.elm-lang.org)
+to factor out common patterns like form-validation, password verification,
+credit-card entry, etc.
 
 ## Thank you!
 
