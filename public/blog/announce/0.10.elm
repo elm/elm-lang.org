@@ -208,7 +208,7 @@ useful for entirely separate projects. I want to support things like
 IDE features like inline-docs or autocompletion. To reach these two goals,
 this release introduces:
 
-* a new format for documentation, [described here](/learn/Documentation.elm)
+* a new format for documentation, [described here](http://library.elm-lang.org/Documentation.html)
 * [a new home for documentation](http://docs.elm-lang.org/)
 * `elm-doc` which extracts Elm documentation into JSON
 
