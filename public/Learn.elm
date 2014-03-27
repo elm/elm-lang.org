@@ -48,8 +48,8 @@ rightCol = [markdown|
 
 #### Making Stuff
 
-* [Website skeleton](https://github.com/elm-lang/website#elm-langorg-a-template-for-creating-websites-in-elm)
-* [Game skeleton](https://github.com/elm-lang/website/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
+* [Website skeleton](https://github.com/elm-lang/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
+* [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
 * [Making Pong](/blog/Pong.elm)
 
 |]
