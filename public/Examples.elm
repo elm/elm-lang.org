@@ -53,7 +53,7 @@ as templates for your own project!
 
  * [TodoFRP](https://github.com/evancz/TodoFRP) &mdash;
    todo list modelled on [TodoMVC](http://todomvc.com/)
- * [elm-lang.org](https://github.com/evancz/elm-lang.org) &mdash;
+ * [elm-lang.org](https://github.com/elm-lang/website) &mdash;
    good template for your own website
  * [library.elm-lang.org](https://github.com/elm-lang/elm-get) &mdash;
    pretty and easily implements [contextual search](http://library.elm-lang.org)

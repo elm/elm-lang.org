@@ -65,7 +65,7 @@ These are tools that all Elm programmers will use and appreciate.
 
  * **GUI widgets** &ndash; navigation, sidebars, forms, blog frameworks, etc. These
    are all areas in which a good Elm library could make things much simpler.
-   The modules [here](https://github.com/evancz/elm-lang.org/tree/master/public/Website)
+   The modules [here](https://github.com/elm-lang/website/tree/master/public/Website)
    are the basic framework for this website. They define the color scheme, navigation,
    and formatting. Expand this. Generalize it. Be creative!
 
