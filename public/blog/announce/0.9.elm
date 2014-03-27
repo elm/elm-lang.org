@@ -82,8 +82,8 @@ Finally, there are a bunch of miscellaneous improvements:
 The rest of this post will try to cover [all of the changes][changes] in more detail.
 Maybe start the [download process][download] while you are reading!
 
-  [download]: https://github.com/evancz/Elm/blob/master/README.md#install
-  [changes]: https://github.com/evancz/Elm/blob/master/changelog.txt
+  [download]: https://github.com/elm-lang/Elm/blob/master/README.md#install
+  [changes]: https://github.com/elm-lang/Elm/blob/master/changelog.txt
 
 <br/>
 

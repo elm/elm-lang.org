@@ -78,7 +78,7 @@ click : Input.Input ()
 click = Input.input ()
 
 installButtons w =
-  let href = "https://github.com/evancz/Elm/blob/master/README.md#install"
+  let href = "https://github.com/elm-lang/Elm/blob/master/README.md#install"
   in  flow right [ container (w `div` 2) 80 middle <| link "/try" (button "Try")
                  , container (w `div` 2) 80 middle <| link href (button "Install") ]
 

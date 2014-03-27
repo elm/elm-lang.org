@@ -40,8 +40,8 @@ increase the practicality and pleasantness of Elm. And with the `collage` additi
 I think Elm is currently the best language for creating purely functional
 online games.
 
-To install see the [instructions](https://github.com/evancz/Elm/blob/master/README.md)
-on [github](https://github.com/evancz/Elm), and to upgrade use the command:
+To install see the [instructions](https://github.com/elm-lang/Elm/blob/master/README.md)
+on [github](https://github.com/elm-lang/Elm), and to upgrade use the command:
 
     cabal update ; cabal install elm
 

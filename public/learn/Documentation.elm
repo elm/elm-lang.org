@@ -36,8 +36,8 @@ This documentation format strives for simplicity and regularity. It should
 be easy for readers to glance through a file and find the information they
 need.
 
-Check out the two files—[Maybe](https://github.com/evancz/Elm/blob/master/libraries/Maybe.elm)
-and [Either](https://github.com/evancz/Elm/blob/master/libraries/Either.elm)—before
+Check out the two files—[Maybe](https://github.com/elm-lang/Elm/blob/master/libraries/Maybe.elm)
+and [Either](https://github.com/elm-lang/Elm/blob/master/libraries/Either.elm)—before
 reading the following prose description of how it works.
 
 Did you look at those files? Do that now.

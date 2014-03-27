@@ -279,7 +279,7 @@ Also, I am scheduled to speak at the [mloc.js](http://mloc-js.com/)
 conference in Budapest in mid February, so maybe check it out
 if you are in the neighborhood!
 
- [github]: https://github.com/evancz/Elm/issues/73 "Record Constructors"
+ [github]: https://github.com/elm-lang/Elm/issues/73 "Record Constructors"
 
 |]
 

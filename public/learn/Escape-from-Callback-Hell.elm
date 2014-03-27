@@ -455,7 +455,7 @@ If you interested in this approach, [download Elm][download] or
 Elm is only at version 0.5, but it already has lots of great [libraries](/Documentation.elm). If you feel like
 there are some libraries or features missing, [you can help add them](/Contribute.elm).
 
-  [download]: https://github.com/evancz/Elm/blob/master/README.md#elm "Dowload"
+  [download]: https://github.com/elm-lang/Elm/blob/master/README.md#elm "Dowload"
 
 If you have questions or want to learn more, there are lots of helpful
 resources. This [thesis][thesis] has much more information on how asynchrony

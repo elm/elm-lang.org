@@ -13,7 +13,7 @@ info w = flow down
 instructions = [markdown|
 
 To build from source or [contribute](/Contribute.elm), fork the
-compiler/server [on github](https://github.com/evancz/Elm).
+compiler/server [on github](https://github.com/elm-lang/Elm).
 This website is also [available](https://github.com/elm-lang/website)
 with [setup instructions][instruct]. It can be the basis for your own website
 or let you use the interactive editor locally.
@@ -27,7 +27,7 @@ questions [on IRC](http://webchat.freenode.net/?channels=elm), or
 report an issue to Elm's [source repository][2].
 
   [1]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
-  [2]: https://github.com/evancz/Elm "source repository"
+  [2]: https://github.com/elm-lang/Elm "source repository"
 
 #### Syntax Highlighting
 

@@ -145,7 +145,7 @@ you'll see that the syntax upgrades and `fps` function have made it
 significantly clearer and more concise.
 
   [pong]: /blog/games-in-elm/part-0/Making-Pong.html "Pong in Elm"
-  [code]: https://github.com/evancz/Elm/tree/master/Examples/elm-js/Pong "Source for Pong"
+  [code]: https://github.com/elm-lang/Elm/tree/master/Examples/elm-js/Pong "Source for Pong"
 
 #### Delays
 
