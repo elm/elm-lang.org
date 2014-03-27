@@ -1,7 +1,7 @@
 module Website.Skeleton (skeleton, skeleton', homeSkeleton, installButtons, bigLogo) where
 
+import Website.Button as B
 import Website.ColorScheme as C
-import Graphics.Input as Input
 
 skeleton : (Int -> Element) -> (Int,Int) -> Element
 skeleton = flexSkeleton True 526
@@ -74,21 +74,8 @@ footerWords =
        wordLink "written in Elm and " "https://github.com/elm-lang/elm-lang.org" "open source" "" ++
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
-click : Input.Input ()
-click = Input.input ()
-
 installButtons w =
   let href = "https://github.com/elm-lang/Elm/blob/master/README.md#install"
-  in  flow right [ container (w `div` 2) 80 middle <| link "/try" (button "Try")
-                 , container (w `div` 2) 80 middle <| link href (button "Install") ]
-
-box words c1 c2 =
-    color c2 . container 180 50 middle .
-    color c1 . container 178 48 middle .
-    leftAligned . Text.height 30 . Text.color charcoal <| toText words
-
-button words =
-    Input.customButton click.handle ()
-        (box words lightGrey grey)
-        (box words lightGrey darkGrey)
-        (box words grey blue)
+  in  flow right [ B.button (w `div` 2) 180 "/try" "Try"
+                 , B.button (w `div` 2) 180 href "Install"
+                 ]

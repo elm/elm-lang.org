@@ -6,31 +6,31 @@ import Window
 
 moreInfo = [markdown|
 
-Elm also brings the benefits of purity and an expressive static type system
-to GUI programming. Elm is fully type inferred, so no type annotations are
-needed to get the benefits of static checks.
+Elm brings the benefits of purity, immutability, and an expressive static type
+system to GUI programming. Elm is fully type inferred, so no type annotations
+are needed to get the benefits of static checks.
 
-See the [examples](/Examples.elm) and [learning resources](/Learn.elm)
-to learn more. Join the
+See the [examples](/Examples.elm) and [learning resources](/Learn.elm) to learn
+more. Join the
 [elm-discuss list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
-for questions, announcements, and discussion. Press a huge button to get started!
+for questions, announcements, and discussion.
+
 |]
 
 other w = width (w `div` 2) [markdown|
 
-#### Community
+### Community
 
 * [mailing list][list]
 * [`#elm` on IRC](http://webchat.freenode.net/?channels=elm)
 * [/r/elm](http://www.reddit.com/r/elm)
 * [Elm user group SF](http://www.meetup.com/Elm-user-group-SF/)
 * [Share Code](http://www.share-elm.com)
-* [Contribute!](/Contribute.elm)
 
  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
 |] `beside` width (w `div` 2) [markdown|
 
-#### News
+### News
 
 * [Easy user input](/blog/announce/0.12.elm) with 0.12
 * [Great JS interop](/blog/announce/0.11.elm) in 0.11
@@ -65,10 +65,10 @@ info w = let content = flow down [ spacer w 20
                                  , link "/" bigLogo
                                  , width w language
                                  , exampleBlock w
-                                 , spacer w 10
-                                 , width w moreInfo
+                                 , spacer w 24
                                  , installButtons w
-                                 , spacer w 30
+                                 , width w moreInfo
+                                 , spacer w 8
                                  , other w ]
          in  container w (heightOf content) middle content 
 
