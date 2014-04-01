@@ -61,13 +61,17 @@ help you develop Elm programs. This tutorial will teach you how to use them!
 
 ## Using the Terminal
 
-First, find and open an application called Terminal.
+First, find and open an application called
+[Terminal](http://en.wikipedia.org/wiki/Terminal_(OS_X)).
 
-<img src="/onboarding/terminal.png"
+<img src="/onboarding/mac/terminal.png"
      style="width:520px; height:300px; display:block; margin:20px auto;">
 
-Here are a few helpful commands to get you started navigating around your
-computer with the terminal:
+This is a [command line interface](http://en.wikipedia.org/wiki/Command_line_interface)
+for running programs and navigating around your computer. It definitely has a
+learning curve, but it is really helpful when you are programming. Here are a
+few helpful commands to get you started navigating around your computer with
+the terminal:
 
   * `pwd` &mdash; show your **p**resent **w**orking **d**irectory, where you
     are right now.
@@ -160,7 +164,7 @@ you can always take a look at it in your browser. After `elm-server` is running,
 you can set up your editor and browser side-by-side, like in
 [the online editor](/try):
 
-<img src="/onboarding/side-by-side.png"
+<img src="/onboarding/mac/side-by-side.png"
      style="width:576px; height:324px; display:block; margin:20px auto;">
 
 Now you can edit and save your file, then switch over and refresh your browser
