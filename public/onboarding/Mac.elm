@@ -87,7 +87,8 @@ are typing at the moment. Finally, remember that everything is case sensitive!
 ## Creating a Project
 
 In this section we will walk through creating an Elm project and developing
-with `elm-server`. In your terminal, run the following commands one at a time:
+with `elm-server`. First we want to create a fresh directory to put all of our
+Elm files in by running the following commands in your terminal one at a time:
 
 ```bash
 cd ~/Desktop
@@ -96,7 +97,8 @@ cd elm
 ```
 
 We just navigated to your desktop, created a directory called `elm`, and moved
-into that directory. We are going to write some code here!
+into that directory. Now we are going to create our first Elm file&mdash;called
+`HelloWorld.elm`&mdash;by running these commands in your terminal:
 
 ```bash
 touch HelloWorld.elm
