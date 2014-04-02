@@ -52,8 +52,8 @@ code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
 <br/>You have installed the Elm Platform, so you now have a bunch of helpful
-[command line tools](http://en.wikipedia.org/wiki/Command-line_interface) to
-help you develop Elm programs. This tutorial will teach you how to use them!
+command line tools to help you develop Elm programs. This tutorial will teach
+you how to use them!
 
   * [Using the Terminal](#using-the-terminal)
   * [Creating a Project](#creating-a-project)
@@ -67,18 +67,25 @@ First, find and open an application called
 <img src="/onboarding/mac/terminal.png"
      style="width:520px; height:300px; display:block; margin:20px auto;">
 
-This is a [command line interface](http://en.wikipedia.org/wiki/Command_line_interface)
-for running programs and navigating around your computer. It definitely has a
-learning curve, but it is really helpful when you are programming. Here are a
-few helpful commands to get you started navigating around your computer with
-the terminal:
+ [cli]: http://en.wikipedia.org/wiki/Command_line_interface
 
-  * `pwd` &mdash; show your **p**resent **w**orking **d**irectory, where you
-    are right now.
-  * `ls` &mdash; see all of the files and directories in the current directory.
+Think of Terminal as a [text-based][cli] version of Finder. It lets you navigate
+through folders and start programs, but it is all done with the keyboard.
+It definitely has a learning curve, but it is really helpful when you are
+programming. Here are a few helpful commands to get you started navigating
+around your computer with Terminal:
+
+  * `ls` &mdash; **l**i**s**t all the files and directories in the current directory.
+    Directory is just another word for folder, so this is like asking Finder
+    &ldquo;what is in this folder?&rdquo;
+
   * `cd` &mdash; **c**hange **d**irectories. Running `cd myProject` would move
     you into a subdirectory called `myProject`, assuming that directory exists.
     From there you could run `cd ..` which moves you out of a directory.
+
+  * `mkdir` &mdash; **m**a**k**e a new **dir**ectory. Running `mkdir test` will
+    create a new directory called `test`. It is the same as clicking "New Folder"
+    and naming it `test`.
 
 These are the basics of navigating around. Try them out to get comfortable with
 them. Also, try pressing TAB which will often try to autocomplete whatever you
