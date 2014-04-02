@@ -128,7 +128,7 @@ project and running them on your computer.
 
 #### Get a better editor
 
-TextEdit is not the best way to edit code. See [this
+Notepad is not the best way to edit code. See [this
 page](/Install.elm#syntax-highlighting) for a few reasonable options that will
 do syntax highlighting for Elm. There are a ton of options out there though,
 so definitely ask around before picking something.
