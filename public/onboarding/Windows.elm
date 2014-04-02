@@ -49,79 +49,46 @@ code > span.al { color: #CB4B16; font-weight: bold; }
 code > span.fu { color: #268BD2; }
 code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
+span.key {
+  background: #F0F0F0;
+  border-color: #E0E0E0;
+  border-radius: 5px 5px 5px 5px;
+  border-style: solid;
+  border-width: 1px 1px 3px;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 22px;
+  padding: 2px 5px;
+  text-shadow: 1px 1px #FFF;
+}
 </style>
 
 <br/>You have installed the Elm Platform, so you now have a bunch of helpful
 command line tools to help you develop Elm programs. This tutorial will teach
 you how to use them!
 
-  * [Using the Terminal](#using-the-terminal)
   * [Creating a Project](#creating-a-project)
   * [Next Steps](#next-steps)
-
-## Using the Terminal
-
-First, find and open an application called
-[Terminal](http://en.wikipedia.org/wiki/Terminal_(OS_X)).
-
-<img src="/onboarding/mac/terminal.png"
-     style="width:520px; height:300px; display:block; margin:20px auto;">
-
- [cli]: http://en.wikipedia.org/wiki/Command_line_interface
-
-Think of Terminal as a [text-based][cli] version of Finder. It lets you navigate
-through folders and start programs, but it is all done with the keyboard.
-It definitely has a learning curve, but it is really helpful when you are
-programming. Here are a few helpful commands to get you started navigating
-around your computer with Terminal:
-
-  * `ls` &mdash; **l**i**s**t all the files and directories in the current directory.
-    Directory is just another word for folder, so this is like asking Finder
-    &ldquo;what is in this folder?&rdquo;
-
-  * `cd` &mdash; **c**hange **d**irectories. Running `cd myProject` would move
-    you into a subdirectory called `myProject`, assuming that directory exists.
-    From there you could run `cd ..` which moves you out of a directory.
-
-  * `mkdir` &mdash; **m**a**k**e a new **dir**ectory. Running `mkdir test` will
-    create a new directory called `test`. It is the same as clicking "New Folder"
-    and naming it `test`.
-
-These are the basics of navigating around. Try them out to get comfortable with
-them. Also, try pressing TAB which will often try to autocomplete whatever you
-are typing at the moment. Finally, remember that everything is case sensitive!
 
 ## Creating a Project
 
 In this section we will walk through creating an Elm project and developing
-with `elm-server`. First we want to create a fresh directory to put all of our
-Elm files in by running the following commands in your terminal one at a time:
-
-```bash
-cd ~/Desktop
-mkdir elm
-cd elm
-```
-
-We just navigated to your desktop, created a directory called `elm`, and moved
-into that directory. Now we are going to create our first Elm file&mdash;called
-`HelloWorld.elm`&mdash;by running these commands in your terminal:
-
-```bash
-touch HelloWorld.elm
-open -t HelloWorld.elm
-```
-
-The `touch` command created a new file called `HelloWorld.elm`. The next command
-opens the new file in TextEdit, an extremely simple text editor. Now it is time
-to write our first Elm program! In the editor window that you just opened, copy
-in the following Elm code and save the file:
+with `elm-server`. Open Notepad and copy in the following Elm code:
 
 ```haskell
 main = plainText "Hello World!"
 ```
 
-Now return to the terminal and run this command:
+When you save the file, create a new folder on your desktop called `elm` and
+save it as `HelloWorld.elm`. Now click on the `elm` folder on your desktop,
+to see its contents. In the file explorer hold <span class="key">Shift</span>
+and right click to see the *extended* list of options:
+
+<img src="/onboarding/windows/command.png"
+     style="width:420px; height:320px; display:block; margin:20px auto;">
+
+Choose "Open command window here" to open the command prompt in this particular
+folder. In the command prompt, run the command:
 
 ```bash
 elm-server
@@ -130,7 +97,7 @@ elm-server
 This will start a server in the current directory that will let you look at
 files from the browser. Open your browser and navigate to
 [http://localhost:8000](http://localhost:8000). You should see a listing of all
-the files in `~/Desktop/elm/`. Click on
+the files in the `elm/` folder. Click on
 [HelloWorld.elm](http://localhost:8000/HelloWorld.elm) to see your first
 program!
 
@@ -173,8 +140,8 @@ you can always take a look at it in your browser. After `elm-server` is running,
 you can set up your editor and browser side-by-side, like in
 [the online editor](/try):
 
-<img src="/onboarding/mac/side-by-side.png"
-     style="width:576px; height:324px; display:block; margin:20px auto;">
+<img src="/onboarding/windows/side-by-side.png"
+     style="width:512px; height:320px; display:block; margin:20px auto;">
 
 Now you can edit and save your file, then switch over and refresh your browser
 to see the changes.
