@@ -3,7 +3,7 @@
 
 Overview:
   Sometimes it is useful to use an infix operator such as
-  addition (+) or cons (:) as a function.
+  addition (+) or cons (::) as a function.
 
   In Elm, when an infix operator is surrounded by parenthesis,
   it can be used as a normal function.

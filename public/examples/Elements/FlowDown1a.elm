@@ -8,7 +8,7 @@
   It is easy to change the direction of flow. Just use a
   different value for the direction!
 
-     down, up, left, right, inward, outward :: Direction
+     down, up, left, right, inward, outward : Direction
 
   Try switching "down" in the code below with "up".
 -------------------------------------------------------------}
