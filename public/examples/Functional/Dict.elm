@@ -6,9 +6,6 @@ found, and combined efficiently.
 This file defines the `add` and `groupBy` functions which
 can be quite helpful for creating complex dictionaries.
 
-More info at:
-  http://docs.elm-lang.org/library/Dict.elm
-
 -----------------------------------------------------------}
 
 import Dict
