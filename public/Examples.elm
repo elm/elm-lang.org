@@ -151,7 +151,6 @@ functional = addFolder "Functional/"
         [ ("Either", "Either")
         , ("Dict", "Dict")
         , ("Set", "Set")
-        , ("Array", "Array")
         ])
   ]
 
