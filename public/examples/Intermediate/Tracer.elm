@@ -76,4 +76,4 @@ zipWith3 f xs ys zs =
 -- Create a list that starts with x and adjusts n times
 adjust x by n = case n of
   0 -> []
-  _ -> x:: adjust (by x) by (n-1)
+  _ -> x :: adjust (by x) by (n-1)
