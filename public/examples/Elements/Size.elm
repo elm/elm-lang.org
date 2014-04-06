@@ -13,5 +13,5 @@
    Try them out on the car.
 -------------------------------------------------------}
 
-
+main : Element
 main = width 300 (image 472 315 "/car.jpg")

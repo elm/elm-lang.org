@@ -1,8 +1,15 @@
 
-outline = path [ (50,50), (50,-50), (-50,-50), (-50,50), (50,50) ]
-
+main : Element
 main = collage 200 420
-         [ outline |> traced (dashed blue)  |> move (0, -110)
-         , outline |> traced (dotted green)
-         , outline |> traced (solid  red)   |> move (0, 110)
+         [ move (0,-55) blueSquare
+         , move (0, 55) redSquare
          ]
+
+blueSquare : Form
+blueSquare = traced (dashed blue) square
+
+redSquare : Form
+redSquare = traced (solid red) square
+
+square : Path
+square = path [ (50,50), (50,-50), (-50,-50), (-50,50), (50,50) ]
