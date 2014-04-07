@@ -75,7 +75,7 @@ footerWords =
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
 installButtons w =
-  let href = "https://github.com/elm-lang/Elm/blob/master/README.md#install"
+  let href = "https://github.com/elm-lang/elm-platform/blob/master/README.md#elm-platform"
   in  flow right [ B.button (w `div` 2) 180 "/try" "Try"
                  , B.button (w `div` 2) 180 href "Install"
                  ]
