@@ -55,7 +55,7 @@ Task: redefine `stepGame` to use the UserInput and GameState
 ------------------------------------------------------------------------------}
 
 stepGame : Input -> GameState -> GameState
-stepGame {timeDelta,userInput} gameState = gameState
+stepGame { timeDelta, userInput } gameState = gameState
 
 
 
