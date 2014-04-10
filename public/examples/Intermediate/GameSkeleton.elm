@@ -67,8 +67,8 @@ Task: redefine `display` to use the GameState you defined in part 2.
 
 ------------------------------------------------------------------------------}
 
-display : (Int,Int) -> GameState -> Element
-display (w,h) gameState = asText gameState
+display : (Int, Int) -> GameState -> Element
+display (w, h) gameState = asText gameState
 
 
 
