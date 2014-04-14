@@ -68,6 +68,8 @@ as templates for your own project!
    by Tobias Hermann
  * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
    modular spaceship game by John P. Mayer Jr
+ * [2048](https://github.com/fosskers/2048) &mdash;
+   by Colin Woodbury
 
 |]
 
