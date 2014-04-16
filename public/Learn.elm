@@ -79,6 +79,7 @@ papers = [markdown|
 
 #### Articles / Blog
 
+ * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
  * [Elm package manager](/blog/announce/PackageManager.elm)
  * [Elm REPL](/blog/announce/Repl.elm)
  * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
