@@ -32,11 +32,9 @@ other w = width (w `div` 2) [markdown|
 
 ### News
 
+* [Time Traveling Debugger](http://debug.elm-lang.org)
 * [Easy user input](/blog/announce/0.12.elm) with 0.12
-* [Great JS interop](/blog/announce/0.11.elm) in 0.11
-* [Package manager released!](/blog/announce/PackageManager.elm)
-* First release of [Elm REPL](/blog/announce/Repl.elm)
-* [Video from StrangeLoop2013](http://www.infoq.com/presentations/elm-reactive-programming)
+* [Improved JS interop](/blog/announce/0.11.elm) in 0.11
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
