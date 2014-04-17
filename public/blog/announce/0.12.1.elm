@@ -54,9 +54,9 @@ takeaway is that you can have immutibility *and* speed.
 
  [xash]: https://github.com/xashili
 
-This release also simplifies all libraries relating to JavaScript and JSON.
+This release also simplifies all JavaScript related libraries.
 With [the release of ports in 0.11](/blog/announce/0.11.elm), it became much
-easier to communicate with JavaScript and some older libraries became
+easier to communicate with JavaScript, so some older libraries became
 redundant. The biggest improvement from this overhaul is that *any* valid JSON
 can be sent between Elm and JS, whether it can be given a nice type or not.
 For folks waiting to send arbitrary ADTs along ports, sending arbitrary JSON
@@ -64,27 +64,9 @@ is a plausible stop-gap measure because it permits recursive structures.
 
 ## Arrays
 
-Relaxed Radix Trees
+[Relaxed Radix Trees](http://infoscience.epfl.ch/record/169879/files/RMTrees.pdf%E2%80%8E)
 
 ## Json
-
-
-
-
-he started
-looking into fast, immutable data structures. 
-
-So inspired by the talk Evan linked to on this list, I checked out . You can check out the paper I referred to: http://infoscience.epfl.ch/record/169879/files/RMTrees.pdf%E2%80%8E
-
-I'm still working on extending the API, but I published an alpha library with elm-get, or you can check it out here: https://github.com/Xashili/Array
-To compile anything with it you have to --script against Native/Array.js wherever elm-get installed libraries are on your system.
-
-The RRB-Trees are implemented in JavaScript for speed and self-hatred (this language!), and I saw no way to implement it in Elm with an underlying native JS array while sustaining the speed. RRB-Trees are kinda like B-Trees, but with a flexible instead of a constant node size. So an extra size table is needed per node. But this allows O(logN) concating, for the price of log(N) divisions per index access to find the index in the childs. With this, we are (in theory ;-)) faster than Clojure, that uses fixed size trees! At least when concating or splitting and otherwise just a tiny bit slower.
-
-Perfomance tests against a simple JS array implementation with a length of 100. Note, that the JS arrays need to be .sliced() (copied) first, to have a fair competition in the functional world. :-)
-concating: http://jsperf.com/native-array-vs-rrb-tree (way faster)
-pushing: http://jsperf.com/native-array-vs-rrb-tree-pushing (bit slower, but there are things left to optimize)
-
 
 ## Thank you!
 
