@@ -86,13 +86,13 @@ is to increase the &ldquo;branching factor&rdquo;.
 
 The tree on the left has a branching factor *b* of 2. This means you need to
 go through three nodes to get to a leaf. The tree on the right has a branching
-factor *b* of 8, so you only need to go through one node! As the number of
-leafs in your tree *n* increases, this branching factor becomes really
+:factor *b* of 8, so you only need to go through one node! As the number of
+leaves in your tree *n* increases, this branching factor becomes really
 important!
 
 To make this more precise, we can use the following formula to describe the
 number of nodes you need to pass through as you vary your branching factor *b*
-and number of leafs *n*.
+and number of leaves *n*.
 
 <div style="width:100%; font-size:2em; text-align:center; font-family: 'times new roman', serif">log<sub>*b*</sub>(*n*)</div>
 
@@ -100,7 +100,7 @@ The trick to making immutable array lookup really fast is that the constant *b*
 actually makes a huge difference in practice even though it technically does not
 change the asymptotic complexity of the data structure. This approach has been
 popularized by Scala and Clojure which use a branching factor of 32. Let's see
-how many nodes we need to traverse when there are 1 billion leafs (*n* = 1
+how many nodes we need to traverse when there are 1 billion leaves (*n* = 1
 billion, *b* = 32):
 
 <div style="width:100%; font-size:2em; text-align:center; font-family: 'times new roman', serif">log<sub>32</sub>(1 billion) ≈ 6</div>
