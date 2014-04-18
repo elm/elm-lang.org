@@ -48,6 +48,9 @@ thing? Thanks to [Christian Widera][xash], the new [`Array` library][array]
 uses some very clever data structures that make common operations like `get`
 and `set` constant time in practice! We will get into the details later in
 this post, but the big takeaway is that you can have immutibility *and* speed.
+The new `Array` library instigated a push for consistency across all data
+structures, so there are some changes and improvements in the `Dict` and `Set`
+libraries too.
 
  [xash]: https://github.com/xashili
  [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Array
@@ -108,6 +111,21 @@ Elm does [additional tricks][rrbt] to make appending arrays really fast as well.
 To get a more complete picture of how to optimize this further, watch
 [Zach&rsquo;s talk][infoq] and read the paper on [Relaxed Radix Balanced
 Trees][rrbt].
+
+#### Consistency across Data Structures
+
+Both `Array` and `Dict` have lookup functions that may fail, so we have
+standardized the function names across APIs. This is a breaking change for
+`Dict`:
+
+```haskell
+get       : comparable -> Dict comparable v -> Maybe v
+getSafe   : v -> comparable -> Dict comparable v -> v
+getUnsafe : comparable -> Dict comparable v -> v
+```
+
+Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
+`Set` libraries now support `filter` and `partition`.
 
 ## Json
 
