@@ -86,7 +86,7 @@ is to increase the &ldquo;branching factor&rdquo;.
 
 The tree on the left has a branching factor *b* of 2. This means you need to
 go through three nodes to get to a leaf. The tree on the right has a branching
-:factor *b* of 8, so you only need to go through one node! As the number of
+factor *b* of 8, so you only need to go through one node! As the number of
 leaves in your tree *n* increases, this branching factor becomes really
 important!
 
