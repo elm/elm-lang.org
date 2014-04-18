@@ -193,7 +193,7 @@ Neslusan](https://github.com/deadfoxygrandpa) for drastically improving test
 coverage in the compiler:
 
   * Max&rsquo;s [IO](https://github.com/maxsnew/IO) library makes it possible to
-    work with stdin, stdout, and stderr.
+    work with stdin and stdout.
   * Alex&rsquo;s [Elm-Test](https://github.com/deadfoxygrandpa/Elm-Test)
     unit-testing framework makes it easy to write tests for Elm programs.
 
