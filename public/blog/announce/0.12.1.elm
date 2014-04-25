@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import Website.Tiles (examples)
 import Window
@@ -47,7 +46,7 @@ Elm now has *fast* immutable arrays. How can that be? Is there such a
 thing? Thanks to [Christian Widera][xash], the new [`Array` library][array]
 uses some very clever data structures that make common operations like `get`
 and `set` constant time in practice! We will get into the details later in
-this post, but the big takeaway is that you can have immutibility *and* speed.
+this post, but the big takeaway is that you can have immutability *and* speed.
 The new `Array` library instigated a push for consistency across all data
 structures, so there are some changes and improvements in the `Dict` and `Set`
 libraries too.
