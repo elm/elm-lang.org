@@ -221,8 +221,8 @@ infixr 0 <|
 infixl 4 <~
 ```
 
-Use [`(<|)`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Basics#<|)
-and [`(|>)`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Basics#|>)
+Use [`(<|)`](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Basics#<|)
+and [`(|>)`](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Basics#|>)
 to reduce parentheses usage. They are aliases for function
 application.
 
@@ -327,7 +327,7 @@ scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
 More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
-and [here](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Signal).
+and [here](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Signal).
 
 ### Modules
 

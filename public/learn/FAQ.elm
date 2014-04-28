@@ -30,7 +30,7 @@ and [JavaScript](#javascript)
   Borrowed from F#, the goal is to make the symbol reflect its meaning.
 
 * The order of arguments for
-  [foldl](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/List#foldl)
+  [foldl](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/List#foldl)
   is deliberately different from Haskell's [to improve
   composability](http://library.elm-lang.org/DesignGuidelines.html#the-data-structure-is-always-the-last-argument).
 
@@ -38,7 +38,7 @@ and [JavaScript](#javascript)
   OCaml, F#, Agda, Rust, etc. and is based on the fact that type annotations
   are much more common than consing.
 
-* [Graphics.Collage](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Graphics-Collage)
+* [Graphics.Collage](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Graphics-Collage)
   uses Cartesian coordinates, so positive y is up and the origin at the center of the canvas.
 
 * [Elm is not lazy](http://www.testblogpleaseignore.com/2012/06/22/the-trouble-with-frp-and-laziness/).
@@ -56,7 +56,7 @@ and [JavaScript](#javascript)
 
 ## JavaScript
 
-* [Graphics.Collage](http://library.elm-lang.org/catalog/evancz-Elm/0.10.1/Graphics-Collage)
+* [Graphics.Collage](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Graphics-Collage)
   uses Cartesian coordinates, so positive y is up and the origin at the center of the canvas
 
 * The generated HTML is not intended for external styling. Learn about

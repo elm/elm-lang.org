@@ -87,11 +87,11 @@ important among them is the new [`Trampoline`][trampoline] library which
 is really cool and deserves a post of its own, but to keep things brief I am
 just going to list all of the new stuff:
 
- [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
- [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
- [text]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Text
- [regex]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Regex
- [trampoline]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Trampoline
+ [gi]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Graphics-Input
+ [gif]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Graphics-Input-Field
+ [text]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Text
+ [regex]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Regex
+ [trampoline]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Trampoline
 
 #### Breaking Changes:
 
@@ -134,7 +134,7 @@ just going to list all of the new stuff:
     the great design and implementation!
     </span>
 
-  * Add [`Debug`](http://library.elm-lang.org/catalog/evancz-Elm/0.12/Debug)
+  * Add [`Debug`](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Debug)
     library which lets you log values to the developer console. This is intended
     specifically for debugging!
     <span style="opacity:0.3;">
@@ -205,7 +205,7 @@ perhaps `import List (..)` can be removed entirely someday.
 All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://library.elm-lang.org/catalog/evancz-Elm/0.12/docs.json)). The goals
+this](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/docs.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.

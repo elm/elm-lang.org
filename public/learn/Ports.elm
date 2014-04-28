@@ -122,11 +122,9 @@ border protection code that ensures that type errors are kept
 out. Ports also do some conversions so that you get nice
 colloquial data structures in both Elm and JS.
 
-The particular types that can be sent in and out of ports is
-actually quite flexible. It covers pretty much [all valid JSON
-values](http://www.json.org/). Incoming ports can handle [JS
-values](http://library.elm-lang.org/catalog/evancz-Elm/0.11/JavaScript)
-and the following Elm types:
+The particular types that can be sent in and out of ports is quite flexible,
+covering [all valid JSON values](http://www.json.org/). Specifically, incoming
+ports can handle all the following Elm types:
 
   * **Booleans and Strings** &ndash; both exist in Elm and JS!
   * **Numbers** &ndash; Elm ints and floats correspond to JS numbers
@@ -135,6 +133,7 @@ and the following Elm types:
   * **Records** &ndash; correspond to JavaScript objects
   * **Signals** &ndash; correspond to event streams in JS
   * **Maybes**  &ndash; `Nothing` and `Just 42` correspond to `null` and `42` in JS
+  * **Json**    &ndash; [`Json.Value`](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Json) corresponds to arbitrary JSON
 
 All conversions are symmetric and type safe. If someone tries to give a
 badly typed value to Elm it will throw an error in JS immediately. By having
