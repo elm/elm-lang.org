@@ -120,8 +120,8 @@ standardized the function names across APIs. This is a breaking change for
 
 ```haskell
 get       : comparable -> Dict comparable v -> Maybe v
-getSafe   : v -> comparable -> Dict comparable v -> v
-getUnsafe : comparable -> Dict comparable v -> v
+getOrElse : v -> comparable -> Dict comparable v -> v
+getOrFail : comparable -> Dict comparable v -> v
 ```
 
 Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
@@ -199,6 +199,9 @@ coverage in the compiler:
 
 Together they make it possible to [set up continuous integration tests with your
 Elm project](https://groups.google.com/forum/#!searchin/elm-discuss/travis$20unit$20test/elm-discuss/AAWsF7hDbA4/8zSrSG2-FHUJ)!
+
+Thanks to [Max New](https://github.com/maxsnew) for speeding up a bunch of
+functions in the `List` library.
 
 Finally, thanks to [Attila Gazso](https://github.com/agazso) for creating [Mac
 and Windows installers for Elm](https://github.com/elm-lang/elm-platform).
