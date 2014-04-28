@@ -53,7 +53,7 @@ structures, so there are some changes and improvements in the `Dict` and `Set`
 libraries too.
 
  [xash]: https://github.com/xashili
- [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Array
+ [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
 
 This release also simplifies all JavaScript related libraries.
 With [the release of ports in 0.11](/blog/announce/0.11.elm), it became much
@@ -62,7 +62,7 @@ and confusing. After deleting a bunch of code, [the `Json` library][json] came
 out simpler and more useful. This release also makes it possible to send
 arbitrary JSON through ports, so we will cover that too.
 
- [json]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Array
+ [json]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
 
 ## Arrays
 
@@ -132,7 +132,7 @@ Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
 [The `Json` library][json] has been simplified quite dramatically. JSON is now
 represented by the `Json.Value` type:
 
- [json]: http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Json
+ [json]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Json
 
 ```haskell
 data Value

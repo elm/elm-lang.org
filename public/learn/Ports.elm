@@ -133,7 +133,7 @@ ports can handle all the following Elm types:
   * **Records** &ndash; correspond to JavaScript objects
   * **Signals** &ndash; correspond to event streams in JS
   * **Maybes**  &ndash; `Nothing` and `Just 42` correspond to `null` and `42` in JS
-  * **Json**    &ndash; [`Json.Value`](http://library.elm-lang.org/catalog/elm-lang-Elm/0.12.1/Json) corresponds to arbitrary JSON
+  * **Json**    &ndash; [`Json.Value`](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Json) corresponds to arbitrary JSON
 
 All conversions are symmetric and type safe. If someone tries to give a
 badly typed value to Elm it will throw an error in JS immediately. By having
