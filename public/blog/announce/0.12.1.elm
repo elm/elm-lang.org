@@ -123,6 +123,9 @@ getOrElse : v -> comparable -> Dict comparable v -> v
 getOrFail : comparable -> Dict comparable v -> v
 ```
 
+The `Array` library has a `slice` function to get subsections of an array, so
+the `String.sub` function has become `String.slice` to match.
+
 Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
 `Set` libraries now support `filter` and `partition`.
 
