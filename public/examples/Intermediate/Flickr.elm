@@ -58,7 +58,7 @@ getTag tag =
     let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
     in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
 
-toJson : Http.Response String -> Maybe Json.JsonValue
+toJson : Http.Response String -> Maybe Json.Value
 toJson response =
     case response of
       Http.Success str -> Json.fromString str
@@ -70,7 +70,7 @@ getOneFrom photoList =
     case toJson photoList of
       Nothing -> Http.get ""
       Just json ->
-          let photoRecord = JS.toRecord <| Json.toJSObject json
+          let photoRecord = JS.toRecord <| JS.fromJson json
           in  case photoRecord.photos.photo of
                 h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
                 []   -> Http.get ""
@@ -82,7 +82,7 @@ sizesToSource sizeOptions =
     case toJson sizeOptions of
       Nothing   -> Nothing
       Just json ->
-          let sizesRecord = JS.toRecord <| Json.toJSObject json
+          let sizesRecord = JS.toRecord <| JS.fromJson json
               sizes = sizesRecord.sizes.size
           in  case reverse sizes of
                 _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
