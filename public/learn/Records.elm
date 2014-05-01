@@ -191,7 +191,7 @@ matches w = evaluate w
   [ ("dist point2D", "0")
   , ("dist point3D", "5")
   , ("under50 bill", "False")
-  , ("any (map under50 people)", "True") ]
+  , ("any under50 people", "True") ]
 
 postMatches = [markdown|
 <style type="text/css">
