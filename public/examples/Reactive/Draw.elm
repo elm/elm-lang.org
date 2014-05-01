@@ -10,7 +10,7 @@ addN : [Touch.Touch] -> Dict.Dict Int [(Int,Int)] -> Dict.Dict Int [(Int,Int)]
 addN ts dict = foldl add1 dict ts
 
 add1 : Touch.Touch -> Dict.Dict Int [(Int,Int)] -> Dict.Dict Int [(Int,Int)]
-add1 t d = let vs = Dict.findWithDefault [] t.id d
+add1 t d = let vs = Dict.getOrElse [] t.id d
            in  Dict.insert t.id ((t.x,t.y) :: vs) d
 
 scene : (Int,Int) -> [[(Int,Int)]] -> Element
