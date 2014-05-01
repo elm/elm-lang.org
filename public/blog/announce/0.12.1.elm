@@ -202,8 +202,9 @@ coverage in the compiler:
 Together they make it possible to [set up continuous integration tests with your
 Elm project](https://groups.google.com/forum/#!searchin/elm-discuss/travis$20unit$20test/elm-discuss/AAWsF7hDbA4/8zSrSG2-FHUJ)!
 
-Thanks to [Max New](https://github.com/maxsnew) for speeding up a bunch of
-functions in the `List` library.
+Another thanks to [Max New](https://github.com/maxsnew) for speeding up a bunch
+of functions in the `List` library and making `elm-get` more pleasant to use
+with version 0.1.1.3.
 
 Finally, thanks to [Attila Gazso](https://github.com/agazso) for creating [Mac
 and Windows installers for Elm](https://github.com/elm-lang/elm-platform).
