@@ -32,9 +32,9 @@ other w = width (w `div` 2) [markdown|
 
 ### News
 
+* [Fast Immutable Arrays](/blog/announce/0.12.1.elm) in 0.12.1
 * [Time Traveling Debugger](http://debug.elm-lang.org)
 * [Easy user input](/blog/announce/0.12.elm) with 0.12
-* [Improved JS interop](/blog/announce/0.11.elm) in 0.11
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
 * [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
   [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
