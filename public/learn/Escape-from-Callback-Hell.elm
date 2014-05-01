@@ -10,6 +10,57 @@ import Json
 import String
 import Maybe (..)
 
+port title : String
+port title = "Escape from Callback Hell"
+
+content : Int -> Element
+content outerWidth =
+  let sideBarWidth = 210
+      contentWidth = min 600 (outerWidth - sideBarWidth)
+      innerWidth = sideBarWidth + contentWidth
+      
+      averageMargin = (outerWidth - contentWidth) `div` 2
+      leftMargin =
+          if averageMargin < sideBarWidth
+            then outerWidth - innerWidth
+            else averageMargin
+
+      sideBySide big small =
+          flow right
+          [ spacer leftMargin 100
+          , width contentWidth big
+          , spacer 30 100
+          , small
+          ]
+
+      paragraphs content =
+          spacer leftMargin 10 `beside` width contentWidth content
+
+--      (iw,ih) = sizeOf inputField
+--      input = color mediumGrey <| container (iw+2) (ih+2) middle
+--                               <| color white inputField
+      asyncElm = flow down <|
+                 [ paragraphs asyncElm1
+--                 , pairing w input (asText tags)
+                 , paragraphs asyncElm2
+--                 , pairing w (code "lift length tags") (asText <| String.length tags)
+--                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
+--                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
+                 , paragraphs asyncElm3
+--                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , paragraphs asyncElm4 ]
+  in flow down
+      [ container outerWidth (heightOf pageTitle) middle pageTitle
+      , sideBySide intro quote1
+      , sideBySide midtro2 quote2
+      , sideBySide midtro3 funcs
+      , asyncElm
+--      , container contentWidth (heightOf search) middle search
+      , paragraphs outro
+      ]
+
+main = skeleton content <~ Window.width
+
 pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
@@ -240,7 +291,7 @@ and another to get the size options for a given image.
 We will perform this task three ways: synchronously, asynchronously with callbacks,
 and asynchronously with FRP.
 
-#### 1. Readable but Unresponsive
+### 1. Readable but Unresponsive
 
 First let's do this with synchronous HTTP requests. We will rely on a couple of
 functions specified to the right. Here is our code:
@@ -267,7 +318,7 @@ up, waiting to be processed, presenting the user with an unresponsive app. This 
 acceptable user experience.
 
 
-#### 2. Responsive but Unreadable
+### 2. Responsive but Unreadable
 
 The current solution is to instead make asynchronous HTTP requests (AJAX requests) that use
 callbacks that give finer-grained control over time-dependencies.
@@ -331,7 +382,7 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-#### 3. Readable *and* Responsive
+### 3. Readable *and* Responsive
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
 all interactive time-varying content. For example, the value of a text input field is a
@@ -618,53 +669,3 @@ showResponse response =
             Http.Success r -> "Success \"... " ++ format r ++ " ...\""
             Http.Waiting -> "Waiting"
             Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
-
-content outerWidth =
-  let sideBarWidth = 210
-      contentWidth = min 600 (outerWidth - sideBarWidth)
-      innerWidth = sideBarWidth + contentWidth
-      
-      averageMargin = (outerWidth - contentWidth) `div` 2
-      leftMargin =
-          if averageMargin < sideBarWidth
-            then outerWidth - innerWidth
-            else averageMargin
-
-      sideBySide big small =
-          flow right
-          [ spacer leftMargin 100
-          , width contentWidth big
-          , spacer 30 100
-          , small
-          ]
-
-      paragraphs content =
-          spacer leftMargin 10 `beside` width contentWidth content
-
---      (iw,ih) = sizeOf inputField
---      input = color mediumGrey <| container (iw+2) (ih+2) middle
---                               <| color white inputField
-      asyncElm = flow down <|
-                 [ paragraphs asyncElm1
---                 , pairing w input (asText tags)
-                 , paragraphs asyncElm2
---                 , pairing w (code "lift length tags") (asText <| String.length tags)
---                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
---                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
-                 , paragraphs asyncElm3
---                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
-                 , paragraphs asyncElm4 ]
-  in flow down
-      [ container outerWidth (heightOf pageTitle) middle pageTitle
-      , sideBySide intro quote1
-      , sideBySide midtro2 quote2
-      , sideBySide midtro3 funcs
-      , asyncElm
---      , container contentWidth (heightOf search) middle search
-      , paragraphs outro
-      ]
-
-main = skeleton content <~ Window.width
-
-port title : String
-port title = "Escape from Callback Hell"
