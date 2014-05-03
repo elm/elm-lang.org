@@ -124,7 +124,7 @@ if | key == 40 -> n+1
    | otherwise -> n
 ```
 
-You can alse have conditional behavior based on the structure of algebraic
+You can also have conditional behavior based on the structure of algebraic
 data types and literals
 
 ```haskell
