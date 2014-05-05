@@ -4,80 +4,65 @@ module FirstPerson where
 import Debug
 import Http (..)
 import Keyboard
-import MJS (..)
+import Math.Vector (..)
+import Math.Matrix (..)
 import Graphics.WebGL (..)
+import Window
 
-type Person = { position:V3, velocity:V3 }
+type Person = { position:Vec3, velocity:Vec3 }
 
 eyeLevel : Float
-eyeLevel = 1
+eyeLevel = 2
 
 defaultPerson : Person
 defaultPerson =
-  { position = v3 0 -6 eyeLevel, velocity = v3 0 0 0 }
+  { position = v3 0 -10 eyeLevel, velocity = v3 0 0 0 }
 
 walk : { x:Int, y:Int } -> Person -> Person
 walk directions person =
-  let (_,_,z) = toTuple3 person.position in
-  if z > eyeLevel then person else
+  if getZ person.position > eyeLevel then person else
     let vx = toFloat directions.x
         vy = toFloat directions.y
-        (_,_,vz) = toTuple3 person.velocity
     in
-        { person | velocity <- v3 vx vy vz }
+        { person | velocity <- v3 vx vy (getZ person.velocity) }
 
 jump : Bool -> Person -> Person
 jump isJumping person =
-  let (_,_,z) = toTuple3 person.position in
-  if not isJumping || z > eyeLevel then person else
-    let (vx,vy,_) = toTuple3 person.velocity
+  if not isJumping || getZ person.position > eyeLevel then person else
+    let (vx,vy,_) = toTuple person.velocity
     in
         { person | velocity <- v3 vx vy 2 }
 
 physics : Float -> Person -> Person
 physics dt person =
     let position = person.position `add` scale person.velocity dt
-        (x,y,z)  = toTuple3 position
+        (x,y,z) = toTuple position
     in
         { person | position <- if z < eyeLevel then v3 x y eyeLevel else position }
 
 gravity : Float -> Person -> Person
 gravity dt person =
-    let position = position
-        ( _, _, z) = toTuple3 person.position
-        (vx,vy,vz) = toTuple3 person.velocity
+  if getZ person.position <= eyeLevel then person else
+    let v = toRecord person.velocity
     in
-        if z <= eyeLevel then person else
-          { person | velocity <- v3 vx vy (vz - 2 * dt) }
+        { person | velocity <- v3 v.x v.y (v.z - 2 * dt) }
 
 step : Inputs -> Person -> Person
 step (isJumping, directions, dt) person =
-    person
-      |> walk directions
-      |> jump isJumping
-      |> gravity dt
-      |> physics dt
+    physics dt (gravity dt (jump isJumping (walk directions person)))
 
 -- View
-view : Person -> M4x4
-view person =
-    perspective `mul` makeLookAt person.position (person.position `add` v3 0 1 0) (v3 0 0 1)
-
-perspective : M4x4
-perspective = makePerspective 45 1 0.01 100
+view : (Int,Int) -> Person -> Mat4
+view (w,h) person =
+    mul (makePerspective 45 (toFloat w / toFloat h) 0.01 100)
+        (makeLookAt person.position (person.position `add` j) k)
 
 -- Putting it together
 main : Signal Element
 main =
   let person = foldp step defaultPerson inputs
-      world = lift2 worldModel (loadTex "woodCrate.jpg") (lift view person)
-  in  lift2 scene person world
-
-scene person world =
-    flow down [ asText (toTuple3 person.position)
-              , asText (toTuple3 person.velocity)
-              , webgl (400,400) world
-              ]
+      world = lift2 worldModel (loadTex "woodCrate.jpg") (lift2 view Window.dimensions person)
+  in  lift2 webgl Window.dimensions world
 
 type Inputs = (Bool, {x:Int, y:Int}, Float)
 
@@ -86,18 +71,18 @@ inputs =
   let dt = lift (\t -> t/500) (fps 25)
   in  sampleOn dt <| (,,) <~ Keyboard.space ~ Keyboard.arrows ~ dt
 
-worldModel : Response Texture -> M4x4 -> [Model]
+worldModel : Response Texture -> Mat4 -> [Model]
 worldModel response view =
   case response of
     Waiting     -> []
     Failure _ _ -> []
-    Success tex -> [model vertexShader fragmentShader crate { crate = tex, view = view }]
+    Success tex -> [model vertexShader fragmentShader crate { crate=tex, view=view }]
 
 -- Define the mesh for a crate
-crate : [Triangle { pos:V3, coord:V3 }]
+crate : [Triangle { pos:Vec3, coord:Vec3 }]
 crate = concatMap rotatedFace [ (0,0), (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
-rotatedFace : (Float,Float) -> [Triangle { pos:V3, coord:V3 }]
+rotatedFace : (Float,Float) -> [Triangle { pos:Vec3, coord:Vec3 }]
 rotatedFace (angleX,angleY) = 
   let x = makeRotate (degrees angleX) (v3 1 0 0)
       y = makeRotate (degrees angleY) (v3 0 1 0)
@@ -105,7 +90,7 @@ rotatedFace (angleX,angleY) =
   in
       map (mapTriangle (\x -> {x | pos <- mul4x4 t x.pos })) face
 
-face : [Triangle { pos:V3, coord:V3 }]
+face : [Triangle { pos:Vec3, coord:Vec3 }]
 face =
   let topLeft     = { pos = v3 -1  1 0, coord = v3 0 1 0 }
       topRight    = { pos = v3  1  1 0, coord = v3 1 1 0 }
@@ -115,7 +100,7 @@ face =
       [ (topLeft,topRight,bottomLeft), (bottomLeft,topRight,bottomRight) ]
 
 -- Shaders
-vertexShader : Shader { pos:V3, coord:V3 } { u | view:M4x4 } { vcoord:V2 }
+--vertexShader : Shader { pos:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
 vertexShader = [glShader|
 
 attribute vec3 pos;
@@ -129,7 +114,7 @@ void main () {
 
 |]
 
-fragmentShader : Shader {} { u | crate:Texture } { vcoord:V2 }
+--fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
 fragmentShader = [glShader|
 
 precision mediump float;
