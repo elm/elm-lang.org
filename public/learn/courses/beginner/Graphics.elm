@@ -184,7 +184,7 @@ they say they do. Try some of them!
 Rectangles are cool and all, but sometimes you just need a pentagon.
 In Elm, irregular shapes that cannot be stacked easily are called *forms*.
 These visual forms have shape, color, and many more properties and can be
-displayed any which way on a [collage](ahttp://en.wikipedia.org/wiki/Collage).
+displayed any which way on a [collage](http://en.wikipedia.org/wiki/Collage).
 We will start with a red pentagon:
 
 ```haskell
