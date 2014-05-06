@@ -6,6 +6,7 @@ import Http (..)
 import Keyboard
 import Math.Vector2 (Vec2)
 import Math.Vector3 (..)
+import Math.Vector3 as V3
 import Math.Matrix4 (..)
 import Graphics.WebGL (..)
 import Window
@@ -36,7 +37,7 @@ jump isJumping person =
 
 physics : Float -> Person -> Person
 physics dt person =
-    let position = person.position `add` scale person.velocity dt
+    let position = person.position `add` V3.scale person.velocity dt
         (x,y,z) = toTuple position
     in
         { person | position <- if z < eyeLevel then v3 x y eyeLevel else position }
@@ -89,7 +90,7 @@ rotatedFace (angleX,angleY) =
       y = makeRotate (degrees angleY) (v3 0 1 0)
       t = x `mul` y `mul` makeTranslate (v3 0 0 1)
   in
-      map (mapTriangle (\x -> {x | pos <- mul4x4 t x.pos })) face
+      map (mapTriangle (\x -> {x | pos <- mulVec3 t x.pos })) face
 
 face : [Triangle { pos:Vec3, coord:Vec3 }]
 face =
