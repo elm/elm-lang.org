@@ -4,8 +4,9 @@ module FirstPerson where
 import Debug
 import Http (..)
 import Keyboard
-import Math.Vector (..)
-import Math.Matrix (..)
+import Math.Vector2 (Vec2)
+import Math.Vector3 (..)
+import Math.Matrix4 (..)
 import Graphics.WebGL (..)
 import Window
 
@@ -100,7 +101,7 @@ face =
       [ (topLeft,topRight,bottomLeft), (bottomLeft,topRight,bottomRight) ]
 
 -- Shaders
---vertexShader : Shader { pos:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
+vertexShader : Shader { pos:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
 vertexShader = [glShader|
 
 attribute vec3 pos;
@@ -114,7 +115,7 @@ void main () {
 
 |]
 
---fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
+fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
 fragmentShader = [glShader|
 
 precision mediump float;
