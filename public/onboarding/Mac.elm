@@ -155,7 +155,7 @@ Navigate to the new file in your browser to see it in action!
 
 #### Continue Learning
 
-Navigate to the [Learn](/Learn.elm) and [Examples](./Examples.elm) pages to
+Navigate to the [Learn](/Learn.elm) and [Examples](/Examples.elm) pages to
 read tutorials and see tons of example programs. Try creating files in your
 project and running them on your computer.
 
