@@ -43,7 +43,9 @@ camera = makeLookAt (v3 0 0 5) (v3 0 0 0) (v3 0 1 0)
 
 -- Putting it together
 main : Signal Element
-main = webgl (400,400) <~ lift2 scene (loadTexture "woodCrate.jpg") (view <~ angle)
+main =
+    let texture = loadTexture "/texture/woodCrate.jpg"
+    in  webgl (400,400) <~ lift2 scene texture (lift view angle)
 
 angle : Signal Float
 angle = foldp (\dt theta -> theta + dt / 10000) 0 (fps 25)
