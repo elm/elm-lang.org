@@ -18,9 +18,9 @@ sides : [Triangle Vertex]
 sides = concatMap rotatedSquare [ (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
 rotatedSquare : (Float,Float) -> [Triangle Vertex]
-rotatedSquare (angleX,angleY) = 
-  let x = makeRotate (degrees angleX) i
-      y = makeRotate (degrees angleY) j
+rotatedSquare (angleXY,angleYZ) = 
+  let x = makeRotate (degrees angleXY) k
+      y = makeRotate (degrees angleYZ) i
       t = x `mul` y
   in
       map (mapTriangle (\v -> {v | position <- transform t v.position })) square
