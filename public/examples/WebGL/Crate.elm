@@ -1,6 +1,4 @@
 
-module Crate where
-
 import Http (..)
 import Math.Vector2 (Vec2)
 import Math.Vector3 (..)
@@ -17,7 +15,7 @@ rotatedFace (angleX,angleY) =
       y = makeRotate (degrees angleY) (v3 0 1 0)
       t = x `mul` y `mul` makeTranslate (v3 0 0 1)
   in
-      map (mapTriangle (\x -> {x | pos <- mulVec3 t x.pos })) face
+      map (mapTriangle (\x -> {x | pos <- transform t x.pos })) face
 
 face : [Triangle { pos:Vec3, coord:Vec3 }]
 face =
@@ -45,17 +43,17 @@ camera = makeLookAt (v3 0 0 5) (v3 0 0 0) (v3 0 1 0)
 
 -- Putting it together
 main : Signal Element
-main = webgl (400,400) <~ lift2 scene (loadTex "woodCrate.jpg") (view <~ angle)
+main = webgl (400,400) <~ lift2 scene (loadTexture "woodCrate.jpg") (view <~ angle)
 
 angle : Signal Float
 angle = foldp (\dt theta -> theta + dt / 10000) 0 (fps 25)
 
-scene : Response Texture -> Mat4 -> [Model]
+scene : Response Texture -> Mat4 -> [Entity]
 scene response view =
   case response of
     Waiting     -> []
     Failure _ _ -> []
-    Success tex -> [model vertexShader fragmentShader crate { crate = tex, view = view }]
+    Success tex -> [entity vertexShader fragmentShader crate { crate = tex, view = view }]
 
 -- Shaders
 vertexShader : Shader { pos:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }

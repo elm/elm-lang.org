@@ -1,7 +1,3 @@
-
-module FirstPerson where
-
-import Debug
 import Http (..)
 import Keyboard
 import Math.Vector2 (Vec2)
@@ -63,8 +59,17 @@ view (w,h) person =
 main : Signal Element
 main =
   let person = foldp step defaultPerson inputs
-      world = lift2 worldModel (loadTex "woodCrate.jpg") (lift2 view Window.dimensions person)
-  in  lift2 webgl Window.dimensions world
+      entities = world <~ loadTexture "woodCrate.jpg"
+                        ~ lift2 view Window.dimensions person
+  in  lift2 scene Window.dimensions entities
+
+scene : (Int,Int) -> [Entity] -> Element
+scene (w,h) entities =
+    layers [ webgl (w,h) entities
+           , container w 100 (midLeftAt (absolute 40) (relative 0.5)) . plainText <|
+               "Walk around with a first person perspective.\n" ++
+               "Arrows keys to move, space bar to jump."
+           ]
 
 type Inputs = (Bool, {x:Int, y:Int}, Float)
 
@@ -73,12 +78,12 @@ inputs =
   let dt = lift (\t -> t/500) (fps 25)
   in  sampleOn dt <| (,,) <~ Keyboard.space ~ Keyboard.arrows ~ dt
 
-worldModel : Response Texture -> Mat4 -> [Model]
-worldModel response view =
+world : Response Texture -> Mat4 -> [Entity]
+world response view =
   case response of
     Waiting     -> []
     Failure _ _ -> []
-    Success tex -> [model vertexShader fragmentShader crate { crate=tex, view=view }]
+    Success tex -> [entity vertexShader fragmentShader crate { crate=tex, view=view }]
 
 -- Define the mesh for a crate
 crate : [Triangle { pos:Vec3, coord:Vec3 }]
@@ -90,7 +95,7 @@ rotatedFace (angleX,angleY) =
       y = makeRotate (degrees angleY) (v3 0 1 0)
       t = x `mul` y `mul` makeTranslate (v3 0 0 1)
   in
-      map (mapTriangle (\x -> {x | pos <- mulVec3 t x.pos })) face
+      map (mapTriangle (\x -> {x | pos <- transform t x.pos })) face
 
 face : [Triangle { pos:Vec3, coord:Vec3 }]
 face =
