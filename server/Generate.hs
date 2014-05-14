@@ -3,7 +3,7 @@
 module Generate (html, js) where
 
 import Control.Exception (evaluate, catches, Handler(..), SomeException)
-import Control.Monad    (forM_)
+import Control.Monad    (forM_, when)
 import Data.Functor     ((<$>))
 import Data.Maybe       (fromMaybe)
 import System.Directory
@@ -110,11 +110,11 @@ compileInSandbox src =
      (exitCode, stdout, stderr) <- readProcessWithExitCode "elm" (args file) ""
      case exitCode of
        ExitFailure _ ->
-           do deleteEverything file
+           do removeEverything file
               return (Left (stdout ++ stderr))
        ExitSuccess ->
            do result <- readFile ("build" </> file `replaceExtension` "js")
-              length result `seq` deleteEverything file
+              length result `seq` removeEverything file
               return (Right result)
   where
     args file =
@@ -123,12 +123,15 @@ compileInSandbox src =
         , file
         ]
 
-    deleteEverything file =
+    removeEverything :: FilePath -> IO ()
+    removeEverything file =
         do remove "." "elm"
            remove "cache" "elmi"
            remove "cache" "elmo"
            remove "build" "js"
         where
           remove :: String -> String -> IO ()
-          remove path ext =
-              removeFile (path </> file `replaceExtension` ext)
+          remove dir ext = do
+            let path = dir </> file `replaceExtension` ext
+            exists <- doesFileExist path
+            when exists (removeFile path)
