@@ -59,7 +59,7 @@ view (w,h) person =
 main : Signal Element
 main =
   let person = foldp step defaultPerson inputs
-      entities = world <~ loadTexture "woodCrate.jpg"
+      entities = world <~ loadTexture "/texture/woodCrate.jpg"
                         ~ lift2 view Window.dimensions person
   in  lift2 scene Window.dimensions entities
 
