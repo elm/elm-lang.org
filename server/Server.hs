@@ -150,7 +150,7 @@ precompile :: IO ()
 precompile =
   do setCurrentDirectory "public"
      files <- getFiles True ".elm" "."
-     forM_ files $ \file -> rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
+     forM_ files $ \file -> rawSystem "elm" ["--make","--set-runtime=/elm-runtime.js",file]
      htmls <- getFiles False ".html" "build"
      mapM_ adjustHtmlFile htmls
      setCurrentDirectory ".."
