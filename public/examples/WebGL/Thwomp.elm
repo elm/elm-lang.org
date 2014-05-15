@@ -42,7 +42,7 @@ view (w',h') (x',y') =
       x = toFloat x'
       y = toFloat y'
 
-      distance = 10
+      distance = 6
 
       eyeX = distance * (x - w/2) / w
       eyeY = distance * (y - h/2) / h
