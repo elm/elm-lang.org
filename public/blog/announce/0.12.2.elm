@@ -143,7 +143,7 @@ to update when the color scheme changes. You could also create a
 [color conversion site](http://rem.im/rgb2hex.html) that actually lets you
 convert back-and-forth between color spaces. Easily discoverable sites for this
 tend to work only in one direction (hex to RGB) and often are not very pleasant
-to look at or use.
+to look at or use. Please someone fix this!
 
 ## Thank you!
 
