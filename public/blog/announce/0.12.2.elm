@@ -93,12 +93,12 @@ the barrier to entry and makes it really fun to work with 3D!
 
 ## Colors
 
-The `Color` library underwent a breaking change by switching from HSV to HSL.
-If those letters do not mean anything to you, your code will be fine and you
-are about to learn about a very useful color space! HSV and HSL are very
-closely related, so upgrading should be easy. The library also got some new
-functions that make it possible to generate colors and color schemes
-programmatically!
+[The `Color` library](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Color)
+underwent a breaking change by switching from HSV to HSL. If those letters do
+not mean anything to you, your code will be fine and you are about to learn
+about a very useful color space! HSV and HSL are very closely related, so
+upgrading should be easy. The library also got some new functions that make it
+possible to generate colors and color schemes programmatically!
 
 #### Switching to HSL
 
