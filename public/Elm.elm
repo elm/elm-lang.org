@@ -1,5 +1,5 @@
 import Website.Skeleton (homeSkeleton, bigLogo, installButtons)
-import Website.Tiles (examples)
+import Website.Tiles as Tile
 
 import Text
 import Window
@@ -42,9 +42,10 @@ other w = width (w `div` 2) [markdown|
 |]
 
 exampleBlock w =
-    examples w [ [ "Mario", "TextReverse", "Calculator", "Pong" ]
-               , [ "Clock", "PieChart", "Plot", "Walk" ]
-               ]
+    Tile.examples w
+    [ map Tile.intermediate [ "Mario", "TextReverse", "Calculator", "Pong" ]
+    , map Tile.intermediate [ "Clock", "PieChart", "Plot"] ++ [ Tile.webgl "Thwomp" ]
+    ]
 
 language = [markdown|
 

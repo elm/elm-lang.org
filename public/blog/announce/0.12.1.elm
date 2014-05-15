@@ -1,5 +1,4 @@
 import Website.Skeleton (skeleton)
-import Website.Tiles (examples)
 import Window
 
 port title : String
@@ -7,14 +6,8 @@ port title = "Elm 0.12.1 - Arrays"
 
 main = lift (skeleton everything) Window.dimensions
 
-everything wid =
-    let w = min 600 wid
-    in  flow down
-        [ width w intro
-        ]
-
-exampleBlock w =
-    examples w [ [ "TextReverse", "Calculator", "Form", "Plot" ] ]
+everything w =
+    width (min 600 w) intro
 
 intro = [markdown|
 
