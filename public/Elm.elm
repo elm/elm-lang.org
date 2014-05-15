@@ -32,7 +32,7 @@ other w = width (w `div` 2) [markdown|
 
 ### News
 
-* [Fast Immutable Arrays](/blog/announce/0.12.1.elm) in 0.12.1
+* [WebGL support](/blog/announce/0.12.2.elm) in 0.12.2
 * [Time Traveling Debugger](http://debug.elm-lang.org)
 * [Easy user input](/blog/announce/0.12.elm) with 0.12
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
