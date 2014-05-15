@@ -154,5 +154,12 @@ to look at or use. Please someone fix this!
 
 ## Thank you!
 
+Thank you again to [John P. Mayer](https://github.com/johnpmayer/) who designed
+and implemented the WebGL libraries! The Elm community has been wondering about
+this from very early on, and it is great to finally see it in practice!
+
+Thanks also to [Max New](https://github.com/maxsnew) who has been making a
+bunch of contributions, particularly for handling the recent outbreak of cabal
+issues with Travis CI. Cabal hell is a very dark place, so thank you!
 
 |]
