@@ -117,30 +117,33 @@ things up, so it is trickier to deduce how to create a pastel color.
 
 #### Algorithmic Colors
 
-The initial goal of these changes was to make it simple to use pretty colors
-with WebGL. WebGL requires colors to be specified as vectors of floating point
-numbers, so the new `toRgb` function can be very handy:
+The new color library includes two new functions that make it possible to work
+with colors programmatically:
 
 ```haskell
 toRgb : Color -> { red:Int, green:Int, blue:Int, alpha:Float }
 
-toVector : Color -> Vec3
-toVector color =
-    let c = toRgb color
-    in  v3 (toFloat c.red   / 255)
-           (toFloat c.green / 255)
-           (toFloat c.blue  / 255)
+toHsl : Color -> { hue        : Float
+                 , saturation : Float
+                 , lightness  : Float
+                 , alpha      : Float
+                 }
 ```
 
 This makes it easy to use Elm's built-in colors in [the cube
-example](/edit/examples/WebGL/Cube.elm), but these changes are much more general
-than that!
+example](/edit/examples/WebGL/Cube.elm), but these new functions are much more
+general than that!
 
-Algorithmic approaches to color schemes seem quite interesting, so it should be
-pretty easy to explore ideas like a library for [utilizing the color
-wheel](http://colorschemedesigner.com/) or a [color conversion
-site](http://rem.im/rgb2hex.html) that actually lets you convert between any
-color space all on one page (hex to hsl, rgb to hex, etc.)
+[The color wheel](http://colorschemedesigner.com/) can be really helpful for
+creating color schemes. The relationships between colors could be the foundation
+for a library that lets you easily create triads or [analogous
+colors](http://en.wikipedia.org/wiki/Analogous_colors). You could also generate
+lighter or darker or greener versions of a color, so your programs could be easy
+to update when the color scheme changes. You could also create a
+[color conversion site](http://rem.im/rgb2hex.html) that actually lets you
+convert back-and-forth between color spaces. Easily discoverable sites for this
+tend to work only in one direction (hex to RGB) and often are not very pleasant
+to look at or use.
 
 ## Thank you!
 
