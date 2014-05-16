@@ -56,9 +56,14 @@ complexity](http://en.wikipedia.org/wiki/Accidental_complexity).
 [John](https://github.com/johnpmayer/) has done a great job simplifying and
 modernizing this API for Elm, only exposing details that are truly essential
 to 3D rendering and efficient use of the GPU.
+He has released the API as [`elm-webgl`][webgl] for 3D rendering and
+[`elm-linear-algebra`][algebra] for working with vectors and matrices.
 
-The best way to get started with this API is to read about [the architecture of
-WebGL in Elm](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and
+ [webgl]: http://library.elm-lang.org/catalog/johnpmayer-elm-webgl/latest/
+ [algebra]: http://library.elm-lang.org/catalog/johnpmayer-elm-linear-algebra/latest/
+
+The best way to get started is to read about [the architecture of WebGL in
+Elm](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and
 then play around with some examples to get a feel for actually using this API:
 
 |]
@@ -85,11 +90,31 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
-The immediate next steps for WebGL are to begin building on this foundation.
-We have the basics, but we can start to create libraries for common shapes
-(branching out from cubes!) or loading meshes or defining shaders with an EDSL.
-There is a lot to explore here, and John's simplified API significantly lowers
-the barrier to entry and makes it really fun to work with 3D!
+We can create triangles, build up arbitrary shapes such as cubes, load textures,
+write shaders, and efficiently load them all onto the GPU. The immediate next
+steps for WebGL are to begin building on this foundation. This could be things
+like:
+
+  * Write libraries for extruding 2D shapes into 3D.
+  * Find a way to load meshes from 3D modeling programs.
+  * Create an EDSL for dynamically creating shaders.
+
+There is a lot to explore here! John's API significantly lowers the barrier to
+entry, so we hope you [learn more about
+it](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and have fun
+working in 3D!
+
+To work with [`elm-webgl`][webgl] and [`elm-linear-algebra`][algebra] locally,
+install the new [Elm Platform](https://github.com/elm-lang/elm-platform#install),
+navigate to a fresh directory, and run:
+
+```bash
+elm-get install elm-webgl
+elm-get install elm-linear-algebra
+```
+
+ [webgl]: http://library.elm-lang.org/catalog/johnpmayer-elm-webgl/latest/
+ [algebra]: http://library.elm-lang.org/catalog/johnpmayer-elm-linear-algebra/latest/
 
 ## Colors
 
