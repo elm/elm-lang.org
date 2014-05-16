@@ -98,6 +98,8 @@ like:
   * Write libraries for extruding 2D shapes into 3D.
   * Find a way to load meshes from 3D modeling programs.
   * Create an EDSL for dynamically creating shaders.
+  * Use [Pointer Lock](https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock)
+    to do proper first person navigation.
 
 There is a lot to explore here! John's API significantly lowers the barrier to
 entry, so we hope you [learn more about
