@@ -35,7 +35,7 @@ jump isJumping person =
 
 physics : Float -> Person -> Person
 physics dt person =
-    let position = person.position `add` V3.scale person.velocity dt
+    let position = person.position `add` V3.scale dt person.velocity
         (x,y,z) = toTuple position
     in
         { person | position <- if y < eyeLevel then v3 x eyeLevel z else position }

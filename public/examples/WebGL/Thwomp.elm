@@ -48,7 +48,7 @@ view (w',h') (x',y') =
 
       eyeX = distance * (w/2 - x) / w
       eyeY = distance * (y - h/2) / h
-      eye = V3.scale (V3.normalize (v3 eyeX eyeY distance)) distance
+      eye = V3.scale distance (V3.normalize (v3 eyeX eyeY distance))
   in
       mul (makePerspective 45 (w/h) 0.01 100)
           (makeLookAt eye (v3 0 0 0) j)
