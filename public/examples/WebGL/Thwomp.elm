@@ -20,8 +20,8 @@ sides : [Triangle Vertex]
 sides = concatMap rotatedSquare [ (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
 rotatedSquare : (Float,Float) -> [Triangle Vertex]
-rotatedSquare (angleXY,angleYZ) = 
-  let x = makeRotate (degrees angleXY) k
+rotatedSquare (angleXZ,angleYZ) =
+  let x = makeRotate (degrees angleXZ) j
       y = makeRotate (degrees angleYZ) i
       t = x `mul` y
   in
@@ -29,10 +29,10 @@ rotatedSquare (angleXY,angleYZ) =
 
 square : [Triangle Vertex]
 square =
-  let topLeft     = Vertex (v3 -1 1  1) (v3 0 1 0)
-      topRight    = Vertex (v3  1 1  1) (v3 1 1 0)
-      bottomLeft  = Vertex (v3 -1 1 -1) (v3 0 0 0)
-      bottomRight = Vertex (v3  1 1 -1) (v3 1 0 0)
+  let topLeft     = Vertex (v3 -1  1 1) (v3 0 1 0)
+      topRight    = Vertex (v3  1  1 1) (v3 1 1 0)
+      bottomLeft  = Vertex (v3 -1 -1 1) (v3 0 0 0)
+      bottomRight = Vertex (v3  1 -1 1) (v3 1 0 0)
   in
       [ (topLeft,topRight,bottomLeft), (bottomLeft,topRight,bottomRight) ]
 
@@ -46,13 +46,12 @@ view (w',h') (x',y') =
 
       distance = 6
 
-      eyeX = distance * (x - w/2) / w
+      eyeX = distance * (w/2 - x) / w
       eyeY = distance * (y - h/2) / h
-      eye = V3.scale (V3.normalize (v3 eyeX distance eyeY)) distance
+      eye = V3.scale (V3.normalize (v3 eyeX eyeY distance)) distance
   in
-      foldr1 mul [ makePerspective 45 (w/h) 0.01 100
-                 , makeLookAt eye (v3 0 0 0) k
-                 ]
+      mul (makePerspective 45 (w/h) 0.01 100)
+          (makeLookAt eye (v3 0 0 0) j)
 
 -- Putting it together
 main : Signal Element
