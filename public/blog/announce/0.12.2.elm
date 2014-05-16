@@ -39,7 +39,7 @@ in general.
 
 ## Functional 3D Rendering
 
-We of course need to start with an example. As you move your mouse above the
+We of course need to start with an example. As you move your mouse within the
 grey box, [Thwomp](http://www.mariowiki.com/Thwomp#Super_Mario_64) will stare
 at you. Too far away to crush you, but waiting...
 
