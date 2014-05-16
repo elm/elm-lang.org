@@ -16,7 +16,7 @@ everything wid =
         ]
 
 exampleBlock w =
-    Tile.examples w [ map Tile.webgl [ "Cube", "Crate", "Thwomp", "FirstPerson" ] ]
+    Tile.examples w [ map Tile.webgl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ] ]
 
 intro = [markdown|
 <style type="text/css">
