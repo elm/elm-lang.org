@@ -6,14 +6,25 @@ import Window
 
 moreInfo = [markdown|
 
-Elm brings the benefits of purity, immutability, and an expressive static type
-system to GUI programming. Elm is fully type inferred, so no type annotations
-are needed to get the benefits of static checks.
+We carefully choose great ideas from the functional programming world and work
+hard to make them **accessible** and most importantly **useful**.
+Features like [functional reactive programming][frp], immutability, and type
+inference system are all tools to help make your code safer and simpler in
+practice.
 
-See the [examples](/Examples.elm) and [learning resources](/Learn.elm) to learn
-more. Join the
-[elm-discuss list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
-for questions, announcements, and discussion.
+Together these features made it possible to create Elm&rsquo;s [Time Traveling
+Debugger](http://debug.elm-lang.org/) and will help us improve our tooling support
+as Elm continues to progress.
+
+It is easy to make claims like this though, so **check out some
+[examples](http://elm-lang.org/Examples.elm) and decide for yourself!**
+And definitely take advantage of the [accessible learning resources](/Learn.elm),
+[great library documentation][docs], and [friendly community][list] when you
+need help.
+
+  [frp]:  /learn/What-is-FRP.elm
+  [docs]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/
+  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
 |]
 
@@ -48,20 +59,24 @@ exampleBlock w =
 
 language = [markdown|
 
-Elm is a functional language that compiles to HTML, CSS, and JavaScript. 
-Designed for [functional reactive programming][frp], Elm makes it easy to create
-[highly][mario] [interactive][pong] [applications][flickr].
+Elm is a functional language that compiles to HTML, CSS, and JavaScript.
+It is great for creating [websites](http://library.elm-lang.org/),
+[interactive widgets](https://github.com/evancz/TodoFRP),
+[diagrams](https://github.com/seliopou/elm-d3), or [2D](/blog/Pong.elm) or
+[3D](https://github.com/johnpmayer/elm-webgl) games.
 
-  [frp]:    /learn/What-is-FRP.elm "functional reactive programming"
-  [mario]:  /edit/examples/Intermediate/Mario.elm "mario"
-  [pong]:   /edit/examples/Intermediate/Pong.elm "pong"
-  [flickr]: /edit/examples/Intermediate/Flickr.elm "flickr"
+Elm is also [super simple to embed](https://github.com/evancz/elm-html-and-js)
+as a component in an existing project. Just pick a small widget and see if Elm
+can simplify it!
+
+  [frp]: /learn/What-is-FRP.elm "functional reactive programming"
 
 |]
 
 info w = let content = flow down [ spacer w 20
                                  , link "/" bigLogo
                                  , width w language
+                                 , spacer w 4
                                  , exampleBlock w
                                  , spacer w 24
                                  , installButtons w
