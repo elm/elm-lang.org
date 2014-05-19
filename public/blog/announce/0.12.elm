@@ -1,6 +1,6 @@
 
 import Website.Skeleton (skeleton)
-import Website.Tiles (examples)
+import Website.Tiles as Tile
 import Window
 
 port title : String
@@ -17,7 +17,7 @@ everything wid =
         ]
 
 exampleBlock w =
-    examples w [ [ "TextReverse", "Calculator", "Form", "Plot" ] ]
+    Tile.examples w [ map Tile.intermediate [ "TextReverse", "Calculator", "Form", "Plot" ] ]
 
 intro = [markdown|
 

@@ -129,6 +129,7 @@ ports can handle all the following Elm types:
   * **Booleans and Strings** &ndash; both exist in Elm and JS!
   * **Numbers** &ndash; Elm ints and floats correspond to JS numbers
   * **Lists**   &ndash; correspond to JS arrays
+  * **Arrays**  &ndash; correspond to JS arrays
   * **Tuples**  &ndash; correspond to fixed-length, mixed-type JS arrays
   * **Records** &ndash; correspond to JavaScript objects
   * **Signals** &ndash; correspond to event streams in JS

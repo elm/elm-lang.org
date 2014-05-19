@@ -46,7 +46,7 @@ main = do
   precompile
   cargs <- cmdArgs flags
   httpServe (setPort (port cargs) defaultConfig) $
-      ifTop (serveElm "public/build/Elm.elm")
+      ifTop (serveElm "build/public/Elm.elm")
       <|> route [ ("try", serveHtml Editor.empty)
                 , ("edit", edit)
                 , ("code", code)
@@ -54,14 +54,14 @@ main = do
                 , ("hotswap", hotswap)
                 , ("login", login)
                 ]
-      <|> serveDirectoryWith directoryConfig "public/build"
+      <|> serveDirectoryWith directoryConfig "build/public/"
       <|> serveDirectoryWith simpleDirectoryConfig "resources"
       <|> error404
 
 error404 :: Snap ()
 error404 =
     do modifyResponse $ setResponseStatus 404 "Not found"
-       serveElm "public/build/Error404.elm"
+       serveElm "build/public/Error404.elm"
 
 serveElm :: FilePath -> Snap ()
 serveElm = serveFileAs "text/html; charset=UTF-8"
@@ -145,25 +145,26 @@ setupLogging =
         exists <- doesFileExist path
         when (not exists) $ BS.writeFile path ""
 
--- | Compile all of the Elm files in public/, placing results in public/build/
+-- | Compile all of the Elm files in public/, placing results in build/public/
 precompile :: IO ()
 precompile =
-  do setCurrentDirectory "public"
-     files <- getFiles True ".elm" "."
-     forM_ files $ \file -> rawSystem "elm" ["--make","--runtime=/elm-runtime.js",file]
-     htmls <- getFiles False ".html" "build"
+  do files <- getFiles ".elm" "public"
+     forM_ files $ \file ->
+         rawSystem "elm" [ "--make"
+                         , "--set-runtime=/elm-runtime.js"
+                         , "--src-dir=public"
+                         , file
+                         ]
+     htmls <- getFiles ".html" "build"
      mapM_ adjustHtmlFile htmls
-     setCurrentDirectory ".."
   where
-    getFiles :: Bool -> String -> FilePath -> IO [FilePath]
-    getFiles skip ext directory = 
-        if skip && "build" `elem` map FP.dropTrailingPathSeparator (FP.splitPath directory)
-          then return [] else
-          (do contents <- map (directory </>) `fmap` getDirectoryContents directory
-              let files = filter ((ext==) . FP.takeExtension) contents
-                  directories  = filter (not . FP.hasExtension) contents
-              filess <- mapM (getFiles skip ext) directories
-              return (files ++ concat filess))
+    getFiles :: String -> FilePath -> IO [FilePath]
+    getFiles ext directory = do
+      contents <- map (directory </>) `fmap` getDirectoryContents directory
+      let files = filter ((ext==) . FP.takeExtension) contents
+          directories  = filter (not . FP.hasExtension) contents
+      filess <- mapM (getFiles ext) directories
+      return (files ++ concat filess)
 
 getRuntimeAndDocs :: IO ()
 getRuntimeAndDocs = do

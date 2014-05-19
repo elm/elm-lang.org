@@ -7,3 +7,4 @@ resources/elm-runtime.js
 resources/docs.json
 run-elm-website
 log
+elm_dependencies/
