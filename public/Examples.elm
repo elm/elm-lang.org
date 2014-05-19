@@ -84,7 +84,7 @@ intermediates =
         , ex [ "Physics", "Plot", "PieChart", "SlideShow" ]
         , ex [ "Clock", "Tracer", "Slide", "Stamps" ]
         , ex [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
---        , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+        , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
         ]
 
 addFolder folder lst =
