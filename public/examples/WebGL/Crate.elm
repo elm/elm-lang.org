@@ -59,7 +59,7 @@ scene response view =
 
 -- Shaders
 vertexShader : Shader { pos:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
-vertexShader = [shader|
+vertexShader = [glsl|
 
 attribute vec3 pos;
 attribute vec3 coord;
@@ -74,7 +74,7 @@ void main () {
 |]
 
 fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
-fragmentShader = [shader|
+fragmentShader = [glsl|
 
 precision mediump float;
 uniform sampler2D crate;

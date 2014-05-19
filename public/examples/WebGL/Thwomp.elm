@@ -77,7 +77,7 @@ toEntity mesh response view =
 
 -- Shaders
 vertexShader : Shader { position:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
-vertexShader = [shader|
+vertexShader = [glsl|
 
 attribute vec3 position;
 attribute vec3 coord;
@@ -92,7 +92,7 @@ void main () {
 |]
 
 fragmentShader : Shader {} { u | texture:Texture } { vcoord:Vec2 }
-fragmentShader = [shader|
+fragmentShader = [glsl|
 
 precision mediump float;
 uniform sampler2D texture;

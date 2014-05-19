@@ -60,7 +60,7 @@ uniforms t =
 vertexShader : Shader { attr | position:Vec3, color:Vec3 }
                       { unif | rotation:Mat4, perspective:Mat4, camera:Mat4 }
                       { vcolor:Vec3 }
-vertexShader = [shader|
+vertexShader = [glsl|
 
 attribute vec3 position;
 attribute vec3 color;
@@ -76,7 +76,7 @@ void main () {
 |]
 
 fragmentShader : Shader {} { u | shade:Float } { vcolor:Vec3 }
-fragmentShader = [shader|
+fragmentShader = [glsl|
 
 precision mediump float;
 uniform float shade;
