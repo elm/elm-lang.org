@@ -65,6 +65,7 @@ attribute vec3 pos;
 attribute vec3 coord;
 uniform mat4 view;
 varying vec2 vcoord;
+
 void main () {
   gl_Position = view * vec4(pos, 1.0);
   vcoord = coord.xy;
@@ -78,6 +79,7 @@ fragmentShader = [glShader|
 precision mediump float;
 uniform sampler2D crate;
 varying vec2 vcoord;
+
 void main () {
   gl_FragColor = texture2D(crate, vcoord);
 }
