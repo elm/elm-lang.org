@@ -31,7 +31,7 @@ view t =
 -- Shaders
 
 vertexShader : Shader { attr | position:Vec3, color:Vec3 } { unif | view:Mat4 } { vcolor:Vec3 }
-vertexShader = [glShader|
+vertexShader = [shader|
 
 attribute vec3 position;
 attribute vec3 color;
@@ -46,7 +46,7 @@ void main () {
 |]
 
 fragmentShader : Shader {} u { vcolor:Vec3 }
-fragmentShader = [glShader|
+fragmentShader = [shader|
 
 precision mediump float;
 varying vec3 vcolor;

@@ -112,7 +112,7 @@ face =
 
 -- Shaders
 vertexShader : Shader { position:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
-vertexShader = [glShader|
+vertexShader = [shader|
 
 attribute vec3 position;
 attribute vec3 coord;
@@ -127,7 +127,7 @@ void main () {
 |]
 
 fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
-fragmentShader = [glShader|
+fragmentShader = [shader|
 
 precision mediump float;
 uniform sampler2D crate;
