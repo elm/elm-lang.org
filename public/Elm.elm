@@ -66,8 +66,8 @@ It is great for creating [websites](http://library.elm-lang.org/),
 [3D](https://github.com/johnpmayer/elm-webgl) games.
 
 Elm is also [super simple to embed](https://github.com/evancz/elm-html-and-js)
-as a component in an existing project. Just pick a small widget and see if Elm
-can simplify it!
+as a component in an existing project, and [interop with JS](/learn/Ports.elm)
+is easy. Just pick a small widget and see if Elm can simplify it!
 
   [frp]: /learn/What-is-FRP.elm "functional reactive programming"
 
