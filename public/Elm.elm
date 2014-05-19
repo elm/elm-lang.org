@@ -62,8 +62,7 @@ language = [markdown|
 Elm is a functional language that compiles to HTML, CSS, and JavaScript.
 It is great for creating [websites](http://library.elm-lang.org/),
 [interactive widgets](https://github.com/evancz/TodoFRP),
-[diagrams](https://github.com/seliopou/elm-d3), [2D games](/blog/Pong.elm), and
-[3D animations](https://github.com/johnpmayer/elm-webgl).
+[diagrams](https://github.com/seliopou/elm-d3), and [games](/blog/Pong.elm).
 
 Elm is also [super simple to embed](https://github.com/evancz/elm-html-and-js)
 as a component in an existing project, and [interop with JS](/learn/Ports.elm)
