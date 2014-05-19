@@ -43,7 +43,7 @@ other w = width (w `div` 2) [markdown|
 
 ### News
 
-* [Delightful WebGL](/blog/announce/0.12.2.elm) in 0.12.2
+* [Delightful WebGL](/blog/announce/0.12.3.elm) in 0.12.3
 * [Time Traveling Debugger](http://debug.elm-lang.org)
 * [Easy user input](/blog/announce/0.12.elm) with 0.12
 * [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
@@ -63,7 +63,8 @@ language = [markdown|
 Elm is a functional language that compiles to HTML, CSS, and JavaScript.
 It is great for creating [websites](http://library.elm-lang.org/),
 [interactive widgets](https://github.com/evancz/TodoFRP),
-[diagrams](https://github.com/seliopou/elm-d3), and [games](/blog/Pong.elm).
+[diagrams](https://github.com/seliopou/elm-d3), and [2D](/blog/Pong.elm) or
+[3D](https://github.com/johnpmayer/elm-webgl) games.
 
 Elm is also [super simple to embed](https://github.com/evancz/elm-html-and-js)
 as a component in an existing project, and [interop with JS](/learn/Ports.elm)

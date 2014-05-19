@@ -3,7 +3,7 @@ import Website.Tiles as Tile
 import Window
 
 port title : String
-port title = "Elm 0.12.2 - WebGL"
+port title = "Elm 0.12.3 - WebGL"
 
 main = lift (skeleton everything) Window.dimensions
 
@@ -23,8 +23,8 @@ intro = [markdown|
 p { text-align: justify }
 </style>
 
-<h1><div style="text-align:center">Elm 0.12.2 - WebGL
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Functional 3D Rendering*</div></div>
+<h1><div style="text-align:center">Elm 0.12.3
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*Hardware accelerated 3D rendering with WebGL*</div></div>
 </h1>
 
 Elm now supports 3D rendering with WebGL! Huge thank you to
