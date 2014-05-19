@@ -32,6 +32,14 @@ Elm now supports 3D rendering with WebGL! Huge thank you to
 such a simple API for this. It has been really fun to work with so far and we
 are excited to see what people can do with it!
 
+This is the first public exploration of using alternate renders with Elm. Our
+goal is to be great for all kinds of UI tasks, so 3D is just the first step on
+the road to more traditional renderers such as [the D3 backend for
+Elm](https://github.com/seliopou/elm-d3). Future exploration will focus on
+more traditional kinds of UI, all [super easy to
+embed](https://github.com/evancz/elm-html-and-js) as a component in an existing
+JS app.
+
 This release also comes with some changes to the `Color` library, making it
 easier to create colors programmatically. The initial motivation was to make
 `Color` play nice with WebGL, but the library came out a lot friendlier to use
@@ -187,7 +195,9 @@ to flow through ports.
 
 Thanks also to [Max New](https://github.com/maxsnew) who has been making a
 bunch of contributions, particularly for handling the recent outbreak of cabal
-issues with Travis CI. Cabal hell is a very dark place, so thank you!
+issues with Travis CI. Cabal hell is a very dark place, so thank you! Max also
+added the `--get-runtime` flag which tells you the absolute path to Elm's
+runtime (along with renaming `--runtime` to `--set-runtime` for consistency).
 
 Finally, thank you again to [John P. Mayer](https://github.com/johnpmayer/) who
 designed and implemented the WebGL libraries! The Elm community has been
