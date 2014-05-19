@@ -6,15 +6,15 @@ import Window
 
 moreInfo = [markdown|
 
-We carefully choose great ideas from the functional programming world and work
-hard to make them **accessible** and most importantly **useful**.
-Features like [functional reactive programming][frp], immutability, and type
-inference system are all tools to help make your code safer and simpler in
+We carefully choose the **practical** and **useful** ideas from the functional
+programming world and work hard to make them **accessible**. Elm has features
+like [functional reactive programming][frp], immutability, and type inference
+because we think these are ideas that prove their usefulness very quickly in
 practice.
 
-Together these features made it possible to create Elm&rsquo;s [Time Traveling
-Debugger](http://debug.elm-lang.org/) and will help us improve our tooling support
-as Elm continues to progress.
+These features not only made it possible to create Elm&rsquo;s [Time Traveling
+Debugger](http://debug.elm-lang.org/), but we think they will make your code
+simpler and safer too.
 
 It is easy to make claims like this though, so **check out some
 [examples](http://elm-lang.org/Examples.elm) and decide for yourself!**
