@@ -108,6 +108,7 @@ like:
   * Create an EDSL for dynamically creating shaders.
   * Use [Pointer Lock](https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock)
     to do proper first person navigation.
+  * Integrate with [the time traveling debugger](http://debug.elm-lang.org/).
 
 There is a lot to explore here! John's API significantly lowers the barrier to
 entry, so we hope you [learn more about
