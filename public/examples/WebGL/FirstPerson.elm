@@ -16,7 +16,7 @@ eyeLevel = 2
 
 defaultPerson : Person
 defaultPerson =
-  { position = v3 0 eyeLevel -10, velocity = v3 0 0 0 }
+  { position = vec3 0 eyeLevel -10, velocity = vec3 0 0 0 }
 
 walk : { x:Int, y:Int } -> Person -> Person
 walk directions person =
@@ -24,28 +24,28 @@ walk directions person =
     let vx = toFloat -directions.x
         vz = toFloat  directions.y
     in
-        { person | velocity <- v3 vx (getY person.velocity) vz }
+        { person | velocity <- vec3 vx (getY person.velocity) vz }
 
 jump : Bool -> Person -> Person
 jump isJumping person =
   if not isJumping || getY person.position > eyeLevel then person else
     let (vx,_,vz) = toTuple person.velocity
     in
-        { person | velocity <- v3 vx 2 vz }
+        { person | velocity <- vec3 vx 2 vz }
 
 physics : Float -> Person -> Person
 physics dt person =
     let position = person.position `add` V3.scale dt person.velocity
         (x,y,z) = toTuple position
     in
-        { person | position <- if y < eyeLevel then v3 x eyeLevel z else position }
+        { person | position <- if y < eyeLevel then vec3 x eyeLevel z else position }
 
 gravity : Float -> Person -> Person
 gravity dt person =
   if getY person.position <= eyeLevel then person else
     let v = toRecord person.velocity
     in
-        { person | velocity <- v3 v.x (v.y - 2 * dt) v.z }
+        { person | velocity <- vec3 v.x (v.y - 2 * dt) v.z }
 
 step : Inputs -> Person -> Person
 step (isJumping, directions, dt) person =
@@ -103,10 +103,10 @@ rotatedFace (angleXZ,angleYZ) =
 
 face : [Triangle Vertex]
 face =
-  let topLeft     = Vertex (v3 -1  1 1) (v3 0 1 0)
-      topRight    = Vertex (v3  1  1 1) (v3 1 1 0)
-      bottomLeft  = Vertex (v3 -1 -1 1) (v3 0 0 0)
-      bottomRight = Vertex (v3  1 -1 1) (v3 1 0 0)
+  let topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
+      topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
+      bottomLeft  = Vertex (vec3 -1 -1 1) (vec3 0 0 0)
+      bottomRight = Vertex (vec3  1 -1 1) (vec3 1 0 0)
   in
       [ (topLeft,topRight,bottomLeft), (bottomLeft,topRight,bottomRight) ]
 

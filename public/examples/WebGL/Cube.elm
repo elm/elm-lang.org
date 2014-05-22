@@ -11,21 +11,21 @@ face : Color -> Vec3 -> Vec3 -> Vec3 -> Vec3 -> [Triangle Vertex]
 face color a b c d =
   let toV3 color =
         let c = toRgb color
-        in  v3 (toFloat c.red / 255) (toFloat c.green / 255) (toFloat c.blue / 255)
+        in  vec3 (toFloat c.red / 255) (toFloat c.green / 255) (toFloat c.blue / 255)
       p = Vertex (toV3 color)
   in
       [ (p a, p b, p c), (p c, p d, p a) ]
 
 cube : [Triangle Vertex]
 cube =
-  let rft = v3  1  1  1   -- right, front, top
-      lft = v3 -1  1  1   -- left,  front, top
-      lbt = v3 -1 -1  1
-      rbt = v3  1 -1  1
-      rbb = v3  1 -1 -1
-      rfb = v3  1  1 -1
-      lfb = v3 -1  1 -1
-      lbb = v3 -1 -1 -1
+  let rft = vec3  1  1  1   -- right, front, top
+      lft = vec3 -1  1  1   -- left,  front, top
+      lbt = vec3 -1 -1  1
+      rbt = vec3  1 -1  1
+      rbb = vec3  1 -1 -1
+      rfb = vec3  1  1 -1
+      lfb = vec3 -1  1 -1
+      lbb = vec3 -1 -1 -1
   in
       concat [ face green  rft rfb rbb rbt   -- right
              , face blue   rft rfb lfb lft   -- front
@@ -49,9 +49,9 @@ scene angle =
 
 uniforms : Float -> { rotation:Mat4, perspective:Mat4, camera:Mat4, shade:Float }
 uniforms t =
-    { rotation = mul (makeRotate (3*t) (v3 0 1 0)) (makeRotate (2*t) (v3 1 0 0))
+    { rotation = mul (makeRotate (3*t) (vec3 0 1 0)) (makeRotate (2*t) (vec3 1 0 0))
     , perspective = makePerspective 45 1 0.01 100
-    , camera = makeLookAt (v3 0 0 5) (v3 0 0 0) (v3 0 1 0)
+    , camera = makeLookAt (vec3 0 0 5) (vec3 0 0 0) (vec3 0 1 0)
     , shade = 0.8
     }
 

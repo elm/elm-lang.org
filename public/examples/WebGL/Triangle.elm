@@ -7,9 +7,9 @@ import Graphics.WebGL (..)
 type Vertex = { position:Vec3, color:Vec3 }
 
 mesh : [Triangle Vertex]
-mesh = [ ( Vertex (v3 0  0 0) (v3 1 0 0)
-         , Vertex (v3 1  1 0) (v3 0 1 0)
-         , Vertex (v3 1 -1 0) (v3 0 0 1)
+mesh = [ ( Vertex (vec3 0  0 0) (vec3 1 0 0)
+         , Vertex (vec3 1  1 0) (vec3 0 1 0)
+         , Vertex (vec3 1 -1 0) (vec3 0 0 1)
          )
        ]
 
@@ -26,7 +26,7 @@ scene t =
 view : Float -> Mat4
 view t =
     mul (makePerspective 45 1 0.01 100)
-        (makeLookAt (v3 (4 * cos t) 0 (4 * sin t)) (v3 0 0 0) (v3 0 1 0))
+        (makeLookAt (vec3 (4 * cos t) 0 (4 * sin t)) (vec3 0 0 0) (vec3 0 1 0))
 
 -- Shaders
 
