@@ -4,9 +4,9 @@
     "description": "Something",
     "license": "BSD3",
     "exposed-modules": [],
-    "elm-version": "0.12.1.3",
+    "elm-version": "0.12.3",
     "dependencies": {
-        "johnpmayer/elm-linear-algebra": "0.1",
+        "johnpmayer/elm-linear-algebra": "1.0",
         "johnpmayer/elm-webgl": "0.1"
     },
     "repository": "https://github.com/elm-lang/elm-lang.org.git"
