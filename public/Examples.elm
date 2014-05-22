@@ -1,14 +1,17 @@
 
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
-import Website.Tiles (examples)
+import Website.Tiles as Tile
 import Window
 
 main = skeleton exampleSets <~ Window.dimensions
 
 content w =
   let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
-  in  words :: map (subsection w) exs ++ [ intermediate, examples w intermediates, projects ]
+  in  words :: map (subsection w) exs ++ [ intermediate
+                                         , Tile.examples w intermediates
+                                         , projects
+                                         ]
 
 exampleSets w =
   flow down . map (width w) . intersperse (plainText " ") <| content w
@@ -73,12 +76,16 @@ as templates for your own project!
 
 
 intermediates =
-    [ [ "Mario", "Walk", "Pong", "Turtle" ]
-    , [ "TextReverse", "Calculator", "Form", "Flickr" ]
-    , [ "Physics", "Plot", "PieChart", "SlideShow" ]
-    , [ "Clock", "Tracer", "Slide", "Stamps" ]
-    , [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
-    ]
+    let ex = map Tile.intermediate
+        gl = map Tile.webgl
+    in
+        [ ex [ "Mario", "Walk", "Pong", "Turtle" ]
+        , ex [ "TextReverse", "Calculator", "Form", "Flickr" ]
+        , ex [ "Physics", "Plot", "PieChart", "SlideShow" ]
+        , ex [ "Clock", "Tracer", "Slide", "Stamps" ]
+        , ex [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
+        , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+        ]
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm")

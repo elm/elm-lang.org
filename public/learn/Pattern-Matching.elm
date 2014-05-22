@@ -196,7 +196,7 @@ We are always in one of these states, and with pattern matching it is
 easy to define what should happen in each case. This data type is actually
 used in the [HTTP library][http].
 
- [http]: http://docs.elm-lang.org/library/Http.elm "HTTP library"
+ [http]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Http "HTTP library"
 
 We can even model a programming language! In this case, it is one that only
 deals with [Boolean algebra][algebra]:

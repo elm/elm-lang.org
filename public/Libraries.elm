@@ -8,7 +8,7 @@ main = lift (skeleton content) Window.dimensions
 content w =
   flow down
   [ width w intro
-  , B.button w 400 "http://library.elm-lang.org/catalog/evancz-Elm/0.12/" "Standard Libraries"
+  , B.button w 400 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries"
   , width w midtro
   , B.button w 400 "http://library.elm-lang.org/catalog" "Community Libraries"
   , width w outro

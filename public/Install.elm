@@ -38,6 +38,8 @@ report an issue to Elm's [source repository][2].
 
 #### Release Notes
 
+* <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
+* <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
 * <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
 * <code>[0.11][11]        &nbsp;&nbsp; Jan 2014&nbsp; </code>Ports: drastically improved FFI
 * <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>`elm-get` integration
@@ -68,5 +70,7 @@ report an issue to Elm's [source repository][2].
   [101]: /blog/announce/0.10.1.elm "elm-get integration"
   [11]: /blog/announce/0.11.elm "ports"
   [12]: /blog/announce/0.12.elm "user input"
+  [121]: /blog/announce/0.12.1.elm "Fast Immutable Arrays"
+  [123]: /blog/announce/0.12.3.elm "3D rendering with WebGL"
 
 |]

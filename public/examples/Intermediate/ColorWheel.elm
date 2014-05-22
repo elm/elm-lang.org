@@ -19,7 +19,7 @@ input = mergeEither target (40 `fpsWhen` (second `since` target))
 follower angle =
   let toRad t = (angle + t - 90) * pi / 180
       toPos t = (150 + 100 * cos (toRad t), 150 + 100 * sin (toRad t))
-      toClr t = hsv (t `mod` 360) 1 1
+      toClr t = hsl (t `mod` 360) 1 0.5
       toRds t = let a = abs (abs ((t + angle) `mod` 360 - 180) - 180) in
                 if a < 30 then 10 + (30-a) / 3 else 10
       toDot t = filled (toClr t) <| circle (toRds t) (toPos t)

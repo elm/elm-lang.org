@@ -1,11 +1,11 @@
 
-hexagon = ngon 6 40
+hexagon : Color -> Form
+hexagon clr = outlined (solid clr) (ngon 6 40)
 
-bordered clr = outlined (solid clr)
-
+main : Element
 main = collage 300 300
-         [ hexagon |> bordered red
-         , hexagon |> bordered blue   |> rotate (degrees 30)
-         , hexagon |> bordered green  |> scale 2
-         , hexagon |> bordered purple |> move (100,0)
+         [ hexagon red
+         , scale 2 (hexagon purple)
+         , move (100,0) (hexagon green)
+         , rotate (degrees 30) (hexagon blue)
          ]

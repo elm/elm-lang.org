@@ -1,19 +1,10 @@
 
 main : Element
-main = flow down <| map pairToElement stylePairs
+main = flow down
+       [ leftAligned (bold (toText "Bold"))
+       , leftAligned (italic (toText "Italicize"))
+       , leftAligned (Text.link "/" (toText "Link"))
+       ]
 
-stylePairs : [(String, Text -> Text)]
-stylePairs =
-    [ ("Bold"     , bold)
-    , ("Italicize", italic)
-    , ("Underline", line Under)
-    , ("Link"     , Text.link "/")
-    , ("Typeface" , typeface ["serif"])
-    , ("Color"    , Text.color red)
-    , ("Strikeout", line Through)
-    , ("Overline" , line Over)
-    ]
-
-pairToElement : (String, Text -> Text) -> Element
-pairToElement (name, style) =
-    leftAligned (style (toText name))
+-- Challenge: can you rewrite this example so the code is less
+-- repetative? Try using map to factor out common patterns.

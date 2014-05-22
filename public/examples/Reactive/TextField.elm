@@ -6,6 +6,11 @@ content : Input Field.Content
 content = input Field.noContent
 
 main : Signal Element
-main = lift2 above
-         (Field.field Field.defaultStyle content.handle id "Type here!" <~ content.signal)
-         (plainText . String.reverse . .string <~ content.signal)
+main = lift scene content.signal
+
+scene : Field.Content -> Element
+scene fieldContent =
+   flow down
+   [ Field.field Field.defaultStyle content.handle id "Type here!" fieldContent
+   , plainText (String.reverse fieldContent.string)
+   ]

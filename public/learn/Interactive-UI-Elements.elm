@@ -42,7 +42,7 @@ field, the event goes to an `Input`. I think the best way to really understand
 this approach is to see it in action! In this post we will start with an example
 and then dive into how it works.
 
- [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
+ [gi]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Input
 
 ## A Minimal Example
 
@@ -150,9 +150,9 @@ functions that can make any `Element` clickable or hoverable. We will focus on
 [the `checkbox` function][box] which does a great job illustrating the general
 pattern used by interactive UI elements in Elm:
 
-  [gi]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input
-  [gif]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input-Field
-  [box]: http://library.elm-lang.org/catalog/evancz-Elm/0.12/Graphics-Input#checkbox
+  [gi]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Input
+  [gif]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Input-Field
+  [box]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Input#checkbox
 
 ```haskell
 checkbox : Handle a -> (Bool -> a) -> Bool -> Element

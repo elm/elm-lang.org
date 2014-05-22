@@ -13,6 +13,9 @@
   Try switching "down" in the code below with "up".
 -------------------------------------------------------------}
 
-main = flow down [ plainText "By using the \"flow\" function,",
-                   plainText "we can stack elements",
-                   plainText "on top of other elements." ]
+main : Element
+main = flow down
+       [ plainText "By using the \"flow\" function,"
+       , plainText "we can stack elements"
+       , plainText "on top of other elements."
+       ]

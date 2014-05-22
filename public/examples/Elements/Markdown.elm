@@ -1,4 +1,5 @@
 
+main : Element
 main = [markdown|
 
 # Markdown Support

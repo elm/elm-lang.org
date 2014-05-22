@@ -20,7 +20,7 @@ trees = [{ family="Rosaceae", genus="Crataegus" },
          { family="Ulmaceae", genus="Zelkova"   }]
 
 add k v dict =
-    let vs = Dict.findWithDefault [] k dict
+    let vs = Dict.getOrElse [] k dict
     in  Dict.insert k (v::vs) dict
 
 groupBy f g vs =

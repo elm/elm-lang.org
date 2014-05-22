@@ -47,6 +47,7 @@ title w =
 heading outer =
   topBar 10 outer
 
+skeleton : (Int -> Element) -> Int -> Element
 skeleton bodyFunc outer =
   let body = bodyFunc outer
   in color lightGrey <| flow down

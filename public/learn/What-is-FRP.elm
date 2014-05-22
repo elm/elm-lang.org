@@ -46,7 +46,7 @@ automatically whenever the signal updates. So if the function produces static gr
 These examples are just the basics of FRP. There are tons of other
 [interactive examples](/Examples.elm) that allow you to play around
 with FRP in [Elm](/). More information on how to use signals can be found
-[here](http://library.elm-lang.org/catalog/evancz-Elm/0.11/Signal).
+[here](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal).
 
 |]
 

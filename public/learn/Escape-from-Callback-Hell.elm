@@ -1,42 +1,74 @@
-import Website.Skeleton (skeleton')
+import Website.Blog (skeleton)
 import Website.ColorScheme (lightGrey,mediumGrey)
 
 import JavaScript.Experimental as JS
 import Window
 import Graphics.Input as Input
+import Graphics.Input.Field as Field
 import Http
 import Json
 import String
 import Maybe (..)
 
-intro = [markdown|
+port title : String
+port title = "Escape from Callback Hell"
 
-<style type="text/css">
-p { text-align:justify; }
-pre {
-  background-color: white;
-  padding: 10px;
-  border: 1px solid rgb(216, 221, 225);
-  border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
+content : Int -> Element
+content outerWidth =
+  let sideBarWidth = 210
+      contentWidth = min 600 (outerWidth - sideBarWidth)
+      innerWidth = sideBarWidth + contentWidth
+      
+      averageMargin = (outerWidth - contentWidth) `div` 2
+      leftMargin =
+          if averageMargin < sideBarWidth
+            then outerWidth - innerWidth
+            else averageMargin
 
-<h1><div style="text-align:center">Escape from Callback Hell
-<div style="font-size:0.5em;font-weight:normal">*Callbacks are the modern `goto`*</div></div>
-</h1>
+      sideBySide big small =
+          flow right
+          [ spacer leftMargin 100
+          , width contentWidth big
+          , spacer 30 100
+          , small
+          ]
 
+      paragraphs content =
+          spacer leftMargin 10 `beside` width contentWidth content
+
+--      (iw,ih) = sizeOf inputField
+--      input = color mediumGrey <| container (iw+2) (ih+2) middle
+--                               <| color white inputField
+      asyncElm = flow down <|
+                 [ paragraphs asyncElm1
+--                 , pairing w input (asText tags)
+                 , paragraphs asyncElm2
+--                 , pairing w (code "lift length tags") (asText <| String.length tags)
+--                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
+--                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
+                 , paragraphs asyncElm3
+--                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , paragraphs asyncElm4 ]
+  in flow down
+      [ container outerWidth (heightOf pageTitle) middle pageTitle
+      , sideBySide intro quote1
+      , sideBySide midtro2 quote2
+      , sideBySide midtro3 funcs
+      , asyncElm
+--      , container contentWidth (heightOf search) middle search
+      , paragraphs outro
+      ]
+
+main = skeleton content <~ Window.width
+
+pageTitle = [markdown|
+<br/>
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
+<div style="font-size: 4em;">Escape from Callback Hell</div>
+<div style="font-size: 1.2em;">Callbacks are the modern `goto`</div>
+</div>
 |]
+
 
 quote1 = spacer 170 200 `above` width 170 [markdown|
 
@@ -64,7 +96,34 @@ of programmers is a decreasing function of the density of go to statements in th
 
 |]
 
-midtro1 = [markdown|
+intro = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
+</style>
+
+<span style="color:firebrick">Code examples out of order for now, working on fix!</span>
 
 Callbacks are used to structure programs. They let us say, &ldquo;When this value is ready,
 go to another function and run that.&rdquo; From there, maybe you go to *another* function
@@ -130,6 +189,15 @@ In short:
 |]
 
 midtro2 = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+</style>
 
 [Functional Reactive Programming][frp] (FRP) is a high-level framework for
 describing time-dependent relationships. FRP formalizes these time-dependencies,
@@ -182,6 +250,31 @@ mess around with the DOM in [Elm](/), so this function only gets used in the JS 
 
 
 midtro3 = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
+</style>
 
 ## Case Study: Using the Flickr API
 
@@ -198,7 +291,7 @@ and another to get the size options for a given image.
 We will perform this task three ways: synchronously, asynchronously with callbacks,
 and asynchronously with FRP.
 
-#### 1. Readable but Unresponsive
+### 1. Readable but Unresponsive
 
 First let's do this with synchronous HTTP requests. We will rely on a couple of
 functions specified to the right. Here is our code:
@@ -225,7 +318,7 @@ up, waiting to be processed, presenting the user with an unresponsive app. This 
 acceptable user experience.
 
 
-#### 2. Responsive but Unreadable
+### 2. Responsive but Unreadable
 
 The current solution is to instead make asynchronous HTTP requests (AJAX requests) that use
 callbacks that give finer-grained control over time-dependencies.
@@ -263,8 +356,33 @@ the same reason. It is pretty much the same as using `goto` to structure your pr
 |]
 
 asyncElm1 = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
+</style>
 
-#### 3. Readable *and* Responsive
+### 3. Readable *and* Responsive
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
 all interactive time-varying content. For example, the value of a text input field is a
@@ -284,11 +402,24 @@ into the input box to see `tags` update automatically.
 |]
 
 asyncElm2 = [markdown|
+<style type="text/css">
+p {
+  text-align: justify;
+  line-height: 1.2em;
+}
+</style>
+
 We can then do all sorts of computations with `tags`. When `tags` changes
 the signals that depend on it change automatically:
 |]
 
 asyncElm3 = [markdown|
+<style type="text/css">
+p {
+  text-align: justify;
+  line-height: 1.2em;
+}
+</style>
 
 The `lift` function is used to transform a signal. It takes functions such as
 `length`, `reverse`, or `requestTag` and applies them to a signal. This lets
@@ -302,6 +433,31 @@ Now we just need to send this request! For this we use the `send` function:
 |]
 
 asyncElm4 = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
+</style>
 
 Notice that when `tags` changes, the result of `send` does *not* change immediately.
 The responses are sent and received asynchronously, so a response only arrives when
@@ -359,7 +515,7 @@ of HTTP requests we make. The result looks like this:
 
 |]
 
-(tagInput, flickrTags) = Input.field "Flickr Search"
+{- (tagInput, flickrTags) = Field.field "Flickr Search"
 
 getSources : Signal String -> Signal (Maybe String)
 getSources tag = let photos = Http.send (getTag <~ tag)
@@ -376,7 +532,7 @@ scene tagInput imgSrc =
 
 
 searchBox = scene <~ tagInput ~ getSources (dropRepeats flickrTags)
-
+-}
 
 {---------------------  Helper Functions  ---------------------}
 
@@ -401,7 +557,7 @@ getOneFrom photoList =
     case toJson photoList of
       Nothing -> Http.get ""
       Just json ->
-          let photoRecord = JS.toRecord <| Json.toJSObject json
+          let photoRecord = JS.toRecord <| JS.fromJson json
           in  case photoRecord.photos.photo of
                 h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
                 []   -> Http.get ""
@@ -411,7 +567,7 @@ sizesToSource sizeOptions =
     case toJson sizeOptions of
       Nothing   -> Nothing
       Just json ->
-          let sizesRecord = JS.toRecord <| Json.toJSObject json
+          let sizesRecord = JS.toRecord <| JS.fromJson json
               sizes = sizesRecord.sizes.size
           in  case reverse sizes of
                 _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
@@ -419,6 +575,31 @@ sizesToSource sizeOptions =
                 _ -> Nothing
 
 outro = [markdown|
+<style type="text/css">
+p, li {
+  text-align: justify;
+  line-height: 1.2em;
+}
+h2, h3, h4 {
+  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
+}
+pre { background-color: white;
+      padding: 10px;
+      border: 1px solid rgb(216, 221, 225);
+      border-radius: 4px;
+}
+code > span.kw { color: #268BD2; }
+code > span.dt { color: #268BD2; }
+code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
+code > span.ch { color: #DC322F; }
+code > span.st { color: #2AA198; }
+code > span.co { color: #93A1A1; }
+code > span.ot { color: #A57800; }
+code > span.al { color: #CB4B16; font-weight: bold; }
+code > span.fu { color: #268BD2; }
+code > span.re { }
+code > span.er { color: #D30102; font-weight: bold; }
+</style>
 
 ## Conclusions
 
@@ -472,8 +653,6 @@ if you do not have any experience reading academic papers. You can also email
 tags : Input.Input Field.Content
 tags = Input.input Field.noContent
 
--- (inputField, tags) = Input.field "Tag"
-
 code = centered . monospace . toText
 box w e = container w 40 middle e
 pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
@@ -484,47 +663,9 @@ trim str = case String.indexes "[" str of
              i::_ -> String.dropLeft (i+1) str
              _ -> str
 
-format r = String.map (\c -> if c == '"' then '\'' else c) (String.left 19 (trim r))
+format r = String.map (\c -> if c == '\"' then '\'' else c) (String.left 19 (trim r))
 showResponse response =
   code <| case response of
             Http.Success r -> "Success \"... " ++ format r ++ " ...\""
             Http.Waiting -> "Waiting"
             Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
-
-content inputField tags response search wid =
-  let w = wid - 200
-      sideBySide big small = flow right [ width w big, spacer 30 100, small ]
-      (iw,ih) = sizeOf inputField
-      input = color mediumGrey <| container (iw+2) (ih+2) middle
-                               <| color white inputField
-      asyncElm = flow down . map (width w) <|
-                 [ asyncElm1
-                 , pairing w input (asText tags)
-                 , asyncElm2
-                 , pairing w (code "lift length tags") (asText <| String.length tags)
-                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
-                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
-                 , asyncElm3
-                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
-                 , asyncElm4 ]
-  in flow down
-      [ width w intro
-      , sideBySide midtro1 quote1
-      , sideBySide midtro2 quote2
-      , sideBySide midtro3 funcs
-      , asyncElm
-      , container w (heightOf search) middle search
-      , width w outro
-      ]
-
-everything = content <~ inputField
-                      ~ tags
-                      ~ Http.send (getTag <~ tags)
-                      ~ searchBox
-
-main = lift2 (\e (w,h) -> skeleton' 800 e (w,h)) everything Window.dimensions
-
-port title : String
-port title = "Escape from Callback Hell"
-
-  
