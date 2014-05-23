@@ -15,8 +15,10 @@ First make sure that you have the Elm compiler installed
 Then follow these steps to get the website running locally:
 
 ```bash
-git clone https://github.com/evancz/elm-lang.org.git
+git clone https://github.com/elm-lang/elm-lang.org.git
 cd elm-lang.org
+git checkout stable
+elm-get install
 cabal configure
 cabal build
 ./dist/build/run-elm-website/run-elm-website
