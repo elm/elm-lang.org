@@ -9,7 +9,7 @@ import Data.Maybe       (fromMaybe)
 import System.Directory
 import System.Exit
 import System.FilePath
-import System.IO (openTempFile, hPutStr, hFlush)
+import System.IO (openTempFile, hPutStr, hClose)
 import System.Process
 import Text.Blaze       (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
@@ -106,7 +106,7 @@ compileInSandbox :: String -> IO (Either String String)
 compileInSandbox src =
   do (file, handle) <- openTempFile "." "Temp.elm"
      hPutStr handle src
-     hFlush handle
+     hClose handle
      (exitCode, stdout, stderr) <- readProcessWithExitCode "elm" (args file) ""
      case exitCode of
        ExitFailure _ ->
