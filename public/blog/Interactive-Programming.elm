@@ -315,7 +315,7 @@ still some open technical questions:
 
 There are also some fun questions:
 
-  * How can ideas some of the more extreme ideas from Learnable Programming
+  * How can some of the more extreme ideas from Learnable Programming
     make hot-swapping an even better experience?
 
   * How would Elm integrate with an IDE like LightTable that is already focused
