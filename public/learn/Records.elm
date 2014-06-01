@@ -123,8 +123,7 @@ There are a number of ways to access records:
 |]
 
 access w = evaluate w
-  [ ("point3D.z", "12")
-  , ("bill.name", "\"Gates\"")
+  [ ("bill.name", "\"Gates\"")
   , (".name bill", "\"Gates\"")
   , ("map .age people", "[57,56,39]") ]
 
@@ -157,7 +156,7 @@ side of the `(.)` with this method.
 The second way to access records is with a special function `.name` that
 is equivalent to `(\\r -> r.name)`, making things a bit more concise.
 
-The only requirement is that the accessor is used on a record that actually
+The only requirement is that the accessor must be used on a record that actually
 has that field, the other fields in the record do not matter. So it is
 perfectly acceptable to say:
 
@@ -168,7 +167,7 @@ perfectly acceptable to say:
 ```
 
 in a single file because each of these records has a field `x`.
-Note that none these accessors pollute the global namespace.
+Note that none of these accessors pollute the global namespace.
 You can still have a value `x` independent of the `(.x)` accessor.
 
 ### Pattern Matching

@@ -256,7 +256,7 @@ Each definition should align with the one above it.
 ### Applying Functions
 
 ```haskell
--- alias for appending lists and two lists
+-- alias for appending two lists
 append xs ys = xs ++ ys
 xs = [1,2,3]
 ys = [4,5,6]
@@ -272,7 +272,7 @@ c1 = (append xs) ys
 c2 = ((++) xs) ys
 ```
 
-The basic arithmetic infix operators all figure out what type they should have automatically.
+All of the basic arithmetic infix operators automatically figure out what type they should have.
 
 ```haskell
 23 + 19    : number
