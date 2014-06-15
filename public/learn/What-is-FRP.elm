@@ -4,7 +4,6 @@ import Website.ColorScheme (..)
 import Mouse
 import Window
 
-
 ---- Text of the page: all written in Markdown ----
 
 what1 = [markdown|
@@ -118,7 +117,7 @@ of events, display, and updates.
 
 entry w1 w2 v1 v2 = container w1 40 middle v1 `beside` container w2 40 middle v2
 example w1 w2 code =
-    lift (\info -> entry w1 w2 (leftAligned . monospace . toText <| code) (asText info))
+    lift (\info -> entry w1 w2 (leftAligned . monospace <| toText code) (asText info))
 
 clickCount = count Mouse.clicks
 
