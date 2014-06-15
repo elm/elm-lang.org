@@ -13,6 +13,7 @@ More info at:
 
 -----------------------------------------------------------}
 
+import Either
 import Either (..)
 
 names : [Either String Int]
@@ -24,7 +25,7 @@ main =
     [ asText names,
       asText <| lefts names,
       asText <| rights names,
-      asText <| partition names,
+      asText <| Either.partition names,
       asText <| map (either id show) names,
       asText <| map isLeft names,
       asText <| map isRight names ]

@@ -2,6 +2,7 @@
 -- http://elm-lang.org/blog/Pong.elm
 
 import Keyboard
+import Text
 import Window
 
 -- Inputs

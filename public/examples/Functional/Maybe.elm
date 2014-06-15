@@ -29,18 +29,22 @@ but it still always produces a value, even if it is "Nothing"!
 data Maybe a = Just a | Nothing
 
 safeLog : Float -> Maybe Float
-safeLog n = if n <= 0 then Nothing else Just (logBase 10 n)
+safeLog n =
+    if n <= 0 then Nothing else Just (logBase 10 n)
 
 safeHead : [a] -> Maybe a
-safeHead xs = case xs of
-                h::t -> Just h
-                []   -> Nothing
+safeHead xs =
+    case xs of
+      h::t -> Just h
+      []   -> Nothing
 
 main : Element
-main = flow down [ display "safeLog" safeLog 100,
-                   display "safeLog" safeLog -1,
-                   display "safeHead" safeHead [2,3,5,7,11],
-                   display "safeHead" safeHead [] ]
+main = flow down
+       [ display "safeLog" safeLog 100
+       , display "safeLog" safeLog -1
+       , display "safeHead" safeHead [2,3,5,7,11]
+       , display "safeHead" safeHead []
+       ]
 
 display : String -> (a -> Maybe b) -> a -> Element
 display name f v =

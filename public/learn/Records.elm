@@ -1,4 +1,5 @@
 
+import Text
 import Website.ColorScheme (accent1)
 import Website.Skeleton (skeleton)
 import Window

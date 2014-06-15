@@ -1,4 +1,4 @@
-
+import Text
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
 import Website.Tiles as Tile

@@ -2,6 +2,7 @@ module Website.Skeleton (skeleton, skeleton', homeSkeleton, installButtons, bigL
 
 import Website.Button as B
 import Website.ColorScheme as C
+import Text
 
 skeleton : (Int -> Element) -> (Int,Int) -> Element
 skeleton = flexSkeleton True 526

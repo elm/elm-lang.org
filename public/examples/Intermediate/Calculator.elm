@@ -1,6 +1,7 @@
 import Char
 import String
 import Graphics.Input as Input
+import Text
 import Window
 
 main : Signal Element

@@ -1,5 +1,6 @@
 
 import Graphics.Input (Input, input, dropDown)
+import Text
 
 main : Signal Element
 main = lift display style.signal
@@ -16,7 +17,7 @@ display transform =
 
 options : [(String, Text -> Text)]
 options = [ ("plain"    , id)
-          , ("underline", line Under)
+          , ("underline", Text.line Text.Under)
           , ("italic"   , italic)
           , ("bold"     , bold)
           , ("red"      , Text.color red)

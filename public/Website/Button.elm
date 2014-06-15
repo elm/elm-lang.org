@@ -1,6 +1,7 @@
 module Website.Button (button) where
 
 import Graphics.Input as Input
+import Text
 
 click : Input.Input ()
 click = Input.input ()
@@ -18,8 +19,8 @@ box : Int -> String -> Color -> Color -> Element
 box w msg c1 c2 =
     let words = leftAligned . Text.height 30 . typeface faces . Text.color charcoal <| toText msg
     in
-        color c2 . container w 50 middle .
-        color c1 . container (w-2) 48 middle <| words
+        color c2 . container w 50 middle . color c1 <|
+        container (w-2) 48 middle words
 
 faces : [String]
 faces = [ "Lucida Grande"

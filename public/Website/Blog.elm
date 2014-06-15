@@ -1,10 +1,11 @@
 
 module Website.Blog where
 
-import Website.ColorScheme (..)
+import Website.ColorScheme as C
 import Graphics.Input as Input
+import Text
 
-accents = [accent0,accent1,accent2,accent3,accent4]
+accents = [ C.accent0, C.accent1, C.accent2, C.accent3, C.accent4 ]
 
 topBar k n =
     let n' = toFloat n
@@ -16,21 +17,6 @@ topBar k n =
         boxes = box :: title :: map (\_ -> box) [1..8]
     in  flow right <| addColors (zipWith (<|) boxes ws)
 
-click = Input.input ""
-
-button (name, href, clr) =
- let btn alpha =
-         flow down [ color (rgba 200 200 200 alpha) . container 100 24 middle .
-                     width 100 . leftAligned . Text.color black <| toText name
-                   , color clr (spacer 100 2) ]
- in  link href <| Input.customButton click.handle href (btn 0) (btn 0.1) (btn 0.2)
-
-buttons = flow right . map button <|
-  [ ("About"   , "/About.elm"        , accent1)
-  , ("Examples", "/Examples.elm"     , accent2)
-  , ("Docs"    , "/Documentation.elm", accent3)
-  , ("Download", "/Download.elm"     , accent4) ]
-
 faces : [String]
 faces = [ "futura", "century gothic", "twentieth century"
         , "calibri", "verdana", "helvetica", "arial"
@@ -38,7 +24,7 @@ faces = [ "futura", "century gothic", "twentieth century"
 
 logo : Element
 logo =
-    leftAligned . typeface faces . Text.color lightGrey . Text.height 30 <| toText "elm"
+    Text.leftAligned . Text.typeface faces . Text.color C.lightGrey . Text.height 30 <| Text.toText "elm"
 
 title : Int -> Element
 title w =
@@ -50,16 +36,16 @@ heading outer =
 skeleton : (Int -> Element) -> Int -> Element
 skeleton bodyFunc outer =
   let body = bodyFunc outer
-  in color lightGrey <| flow down
+  in color C.lightGrey <| flow down
        [ heading outer
        , spacer outer 10
        , container outer (heightOf body) middle body
-       , container outer 50 middle <| centered footerWords
+       , container outer 50 middle <| Text.centered footerWords
        ]
 
 footerWords =
   let wordLink words1 href words2 words3 =
-          toText words1 ++ Text.link href (toText words2) ++ toText words3
+          Text.toText words1 ++ Text.link href (Text.toText words2) ++ Text.toText words3
   in
      Text.color (rgb 145 145 145) <|
        wordLink "written in Elm and " "https://github.com/elm-lang/elm-lang.org" "open source" "" ++

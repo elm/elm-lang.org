@@ -2,6 +2,7 @@ import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
 import String
+import Text
 import Window
 
 main : Signal Element
