@@ -1,10 +1,10 @@
-import Website.Blog (skeleton)
+import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Intro to Graphics"
 
-main = lift (skeleton everything) Window.width
+main = skeleton "Learn" everything <~ Window.dimensions
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)

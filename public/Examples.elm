@@ -4,17 +4,24 @@ import Website.ColorScheme (accent4)
 import Website.Tiles as Tile
 import Window
 
-main = skeleton exampleSets <~ Window.dimensions
+port title : String
+port title = "Examples"
 
-content w =
-  let exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
-  in  words :: map (subsection w) exs ++ [ intermediate
-                                         , Tile.examples w intermediates
-                                         , projects
-                                         ]
+main = skeleton "Examples" body <~ Window.dimensions
 
-exampleSets w =
-  flow down . map (width w) . intersperse (plainText " ") <| content w
+body outer =
+  let b = flow down <| intersperse (spacer 20 20) content
+  in  container outer (heightOf b) middle b
+
+content =
+  let w = 600
+      exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
+  in  width w words ::
+      map (subsection w) exs ++
+      [ width w intermediate
+      , Tile.examples w intermediates
+      , width w projects
+      ]
 
 words = [markdown|
 
@@ -204,10 +211,12 @@ reactive = addFolder "Reactive/"
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
   flow right
-   [ width 120 (plainText <| " " ++ title)
+   [ width 150 (plainText <| "    " ++ title)
    , leftAligned . join (toText ", ") <| map example links
    ]
 
 subsection w (name,info) =
   flow down . intersperse (spacer w 6) . map (width w) <|
-    (tag name . leftAligned . bold <| toText name) :: map toLinks info ++ [spacer w 12]
+    (tag name . leftAligned . bold <| toText name) ::
+    spacer 0 0 ::
+    map toLinks info ++ [spacer w 12]

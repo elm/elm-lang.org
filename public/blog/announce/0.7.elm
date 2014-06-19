@@ -4,6 +4,10 @@ import Window
 port title : String
 port title = "Elm 0.7 - Extensible Records"
 
+main = skeleton "Blog" scene <~ Window.dimensions
+
+scene w = width (min 600 w) intro
+
 intro = [markdown|
 
 <style type="text/css">
@@ -282,8 +286,3 @@ if you are in the neighborhood!
  [github]: https://github.com/elm-lang/Elm/issues/73 "Record Constructors"
 
 |]
-
-scene w = width w intro
-
-main = lift (skeleton (scene . min 600)) Window.dimensions
-

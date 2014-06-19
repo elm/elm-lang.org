@@ -2,6 +2,10 @@
 import Website.Skeleton (skeleton)
 import Window as Window
 
+main = skeleton "Learn" content <~ Window.dimensions
+
+content w = width (min 600 w) intro
+
 intro = [markdown|
 
 <h1><div style="text-align:center">Types in Elm
@@ -130,7 +134,3 @@ and direction. Well, a `Thing` fits exactly that description, so you can call
 `move` on `car` and `myCar` with no problem!
 
 |]
-
-content w = width (min 600 w) intro
-
-main = lift (skeleton content) Window.dimensions

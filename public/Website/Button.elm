@@ -1,7 +1,23 @@
-module Website.Button (button) where
+module Website.Button (bigLogo, installButtons) where
 
 import Graphics.Input as Input
 import Text
+import Website.ColorScheme as C
+
+bigLogo =
+    let name = leftAligned . Text.height 60 <| toText "elm" in
+    flow right [ image 80 80 "/logo.png"
+               , spacer 10 80
+               , container (widthOf name) 80 middle name
+               ]
+
+installButtons w =
+  let href = "https://github.com/elm-lang/elm-platform/blob/master/README.md#elm-platform"
+  in  flow right [ button (w `div` 2) 180 "/try" "Try"
+                 , button (w `div` 2) 180 href "Install"
+                 ]
+
+-- implementation
 
 click : Input.Input ()
 click = Input.input ()
@@ -11,9 +27,9 @@ button outerWidth innerWidth href msg =
     let box' = box innerWidth msg in
     container outerWidth 100 middle . link href <|
     Input.customButton click.handle ()
-        (box' lightGrey grey)
-        (box' lightGrey darkGrey)
-        (box' grey blue)
+        (box' C.lightGrey C.mediumGrey)
+        (box' C.lightGrey C.accent1)
+        (box' C.mediumGrey C.accent1)
 
 box : Int -> String -> Color -> Color -> Element
 box w msg c1 c2 =

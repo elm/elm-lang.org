@@ -7,6 +7,27 @@ import Window
 port title : String
 port title = "Elm - Extensible Records"
 
+main = skeleton "Learn" (content . min 600) <~ Window.dimensions
+
+content w = 
+  flow down
+    [ intro w
+    , access w
+    , width w postAccess
+    , matches w
+    , width w postMatches
+    , updating w
+    , postUpdating w
+    , rest w
+    , postRest w
+    , rename w
+    , postRename w
+    , replace w
+    , postReplace w
+    , poly w
+    , postPoly w
+    ]
+
 intro w = width w [markdown|
 
 <style type="text/css">
@@ -502,26 +523,5 @@ evaluate wid pairs =
       h = sum <| map heightOf es
   in  layers [ container wid h middle arrow
              , flow down es ]
-
-content w = 
-  flow down
-    [ intro w
-    , access w
-    , width w postAccess
-    , matches w
-    , width w postMatches
-    , updating w
-    , postUpdating w
-    , rest w
-    , postRest w
-    , rename w
-    , postRename w
-    , replace w
-    , postReplace w
-    , poly w
-    , postPoly w
-    ]
-
-main = lift (skeleton (content . min 600)) Window.dimensions
 
 

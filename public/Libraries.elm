@@ -1,34 +1,34 @@
-import Website.Button as B
 import Website.Skeleton (skeleton)
 import String
 import Window
 
-main = lift (skeleton content) Window.dimensions
+main = skeleton "Libraries" content <~ Window.dimensions
 
-content w =
-  flow down
-  [ width w intro
-  , B.button w 400 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries"
-  , width w midtro
-  , B.button w 400 "http://library.elm-lang.org/catalog" "Community Libraries"
-  , width w outro
-  ]
+content outer =
+    let inner = 600
+        half = inner `div` 2
+        center elem =
+            container outer (heightOf elem) middle elem
+        centerText msg =
+            let msg' = width inner msg
+            in  center msg'
+    in
+      flow down
+      [ centerText intro
+      , spacer outer 20
+      , center (flow right [ standardLibs 260, spacer 40 10, communityLibs 260 ])
+      , spacer outer 20
+      , centerText outro
+      ]
 
 intro = [markdown|
 
 # Libraries
 
-The Standard Libraries come with the latest release of the Elm compiler and
-make it easy to get productive. When you need documentation for functions like
-`map` and `length` or operators like `/=` and `|>`, just **filter** to find out
-which module it is in:
-
-|]
-
-midtro = [markdown|
-
-If you cannot find it in the Standard Libraries, the Elm community is probably
-working on it already. Browse community libraries and check out their documentation:
+The libraries all live at [library.elm-lang.org](http://library.elm-lang.org).
+When looking at a particular library, use the search feature to find
+documentation for functions like `map` and `length` or operators like `/=` and
+`|>`.
 
 |]
 
@@ -38,3 +38,19 @@ See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
 
 |]
+
+standardLibs : Int -> Element
+standardLibs w =
+    link "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" <|
+    flow down
+    [ container w 40 middle (leftAligned . Text.height 20 <| toText "Standard Libraries")
+    , image w w "/screenshot/Home/Catalog.png"
+    ]
+
+communityLibs : Int -> Element
+communityLibs w =
+    link "http://library.elm-lang.org/catalog" <|
+    flow down
+    [ container w 40 middle (leftAligned . Text.height 20 <| toText "Community Libraries")
+    , image w w "/screenshot/Home/Catalog.png"
+    ]

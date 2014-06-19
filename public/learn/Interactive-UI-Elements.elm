@@ -5,8 +5,9 @@ import Window
 port title : String
 port title = "Interactive UI Elements"
 
-main = skeleton <~ (everything <~ check.signal)
-                 ~ Window.dimensions
+main = lift2 (skeleton "Learn")
+             (everything <~ check.signal)
+             Window.dimensions
 
 check : Input Bool
 check = input False

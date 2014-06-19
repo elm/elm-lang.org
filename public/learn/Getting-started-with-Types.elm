@@ -2,6 +2,10 @@
 import Website.Skeleton (skeleton)
 import Window
 
+main = skeleton "Learn" content <~ Window.dimensions
+
+content w = width (min 600 w) intro
+
 intro = [markdown|
 
 <h1><div style="text-align:center">Getting started with Types
@@ -303,7 +307,3 @@ figure out what is going on here, especially with functions and polymorphism.
 The best way to improve is to program more and to see more examples of types
 and type errors.
 |]
-
-content w = width (min 600 w) intro
-
-main = lift (skeleton content) Window.dimensions

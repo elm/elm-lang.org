@@ -4,7 +4,7 @@ import Window
 port title : String
 port title = "Elm REPL"
 
-main = lift (skeleton everything) Window.dimensions
+main = skeleton "Blog" everything <~ Window.dimensions
 
 everything wid =
     let w = min 600 wid

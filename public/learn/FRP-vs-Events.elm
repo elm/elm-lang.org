@@ -1,8 +1,10 @@
 import Website.Skeleton (skeleton)
 import Window
 
+port title : String
+port title = "FRP vs Events"
 
----- Text of the page: all written in Markdown ----
+main = skeleton "Learn" (\w -> width w content) <~ Window.dimensions
 
 content = [markdown|
 
@@ -69,13 +71,3 @@ in the current implementation. Asynchrony is already there though!
   [ajax]: http://elm-lang.org/edit/examples/Reactive/ZipCodes.elm "AJAX"
 
 |]
-
-
-main = lift (skeleton (\w -> width w content)) Window.dimensions
-
-
----- Setting the title of the page to be prettier ----
-
-
-port title : String
-port title = "FRP vs Events"

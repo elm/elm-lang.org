@@ -6,7 +6,7 @@ import Window
 port title : String
 port title = "Ports"
 
-main = lift (skeleton intro) Window.dimensions
+main = skeleton "Learn" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 

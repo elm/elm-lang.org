@@ -5,6 +5,8 @@ import Window
 port title : String
 port title = "The Libraries You Need: Elm 0.5"
 
+main = skeleton "Blog" blog <~ Window.dimensions
+
 blog w = width (min 600 w) [markdown|
 
 # The Libraries You Need: Elm 0.5
@@ -114,6 +116,4 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
   [irc]: http://webchat.freenode.net/ "IRC"
 
 |]
-
-main = lift (skeleton blog) Window.dimensions
 

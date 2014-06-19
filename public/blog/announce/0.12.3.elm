@@ -5,7 +5,7 @@ import Window
 port title : String
 port title = "Elm 0.12.3 - WebGL"
 
-main = lift (skeleton everything) Window.dimensions
+main = skeleton "Blog" everything <~ Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -53,7 +53,7 @@ at you. Too far away to crush you, but waiting...
 
 <iframe src="/examples/WebGL/Thwomp.elm"
         frameborder="0"
-        width="526"
+        width="600"
         height="300"
         style="background-color: #D8DDE1;">
 </iframe>

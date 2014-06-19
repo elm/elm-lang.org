@@ -1,82 +1,85 @@
-module Website.Skeleton (skeleton, skeleton', homeSkeleton, installButtons, bigLogo) where
+module Website.Skeleton where
 
-import Website.Button as B
 import Website.ColorScheme as C
+import Graphics.Input as Input
 import Text
 
-skeleton : (Int -> Element) -> (Int,Int) -> Element
-skeleton = flexSkeleton True 526
-
-skeleton' : Int -> (Int -> Element) -> (Int,Int) -> Element
-skeleton' = flexSkeleton True
-
-homeSkeleton : (Int -> Element) -> (Int,Int) -> Element
-homeSkeleton = flexSkeleton False 526
-
-topBarHeight = 42
-topBarPadding = 2
-footerHeight = 120
-
-extraHeight = topBarHeight + topBarPadding + footerHeight
-
-flexSkeleton : Bool -> Int -> (Int -> Element) -> (Int,Int) -> Element
-flexSkeleton isNormal inner bodyFunc (w,h) =
-    let content = bodyFunc (min inner w) in
-    color C.lightGrey <|
-    flow down [ topBar isNormal inner w
-              , container w (max (h-extraHeight) (heightOf content)) midTop content
-              , container w footerHeight midBottom . flow down <|
-                [ container w 2 middle . color C.mediumGrey <| spacer (inner+80) 1
-                , container w 50 middle <| centered footerWords
-                ]
-              ]
-
-topBar isNormal inner w =
-    let leftWidth = inner - sum (map widthOf tabs)
-        left = if isNormal then logo leftWidth else spacer leftWidth 30
-    in  flow down
-        [ container w topBarHeight middle . flow right <| left :: tabs
-        , container w topBarPadding midTop <| color C.mediumGrey (spacer (inner+80) 1)
-        ]
-
-logo w =
-    let name = leftAligned . Text.height 24 <| toText "elm" in
-    container w topBarHeight midLeft . link "/" <|
-    flow right [ image 30 30 "/logo.png"
-               , spacer 4 30
-               , container (widthOf name) 30 middle name
-               ]
-
-bigLogo =
-    let name = leftAligned . Text.height 60 <| toText "elm" in
-    flow right [ image 80 80 "/logo.png"
-               , spacer 10 80
-               , container (widthOf name) 80 middle name
-               ]
-
-tabs = map tab paths
-
-paths =
-  [ ("Learn"    , "/Learn.elm")
-  , ("Examples" , "/Examples.elm")
-  , ("Libraries", "/Libraries.elm")
-  , ("Install"  , "/Install.elm")
-  ]
-
-tab (name, href) =
-    let words = leftAligned . Text.link href <| toText name
-    in  container (widthOf words + 20) topBarHeight midRight words
+skeleton : String -> (Int -> Element) -> (Int,Int) -> Element
+skeleton localName bodyFunc (w,h) =
+  let body = bodyFunc w
+      navBar = heading localName w
+      bodyHeight = max (heightOf body) (h - heightOf navBar - 131)
+  in color (rgb 253 253 253) <| flow down
+       [ navBar
+       , container w bodyHeight midTop body
+       , spacer w 80
+       , color C.mediumGrey (spacer w 1)
+       , color C.lightGrey <| container w 50 middle <| Text.centered footerWords
+       ]
 
 footerWords =
   let wordLink words1 href words2 words3 =
-          toText words1 ++ Text.link href (toText words2) ++ toText words3
+          Text.toText words1 ++ Text.link href (Text.toText words2) ++ Text.toText words3
   in
      Text.color (rgb 145 145 145) <|
        wordLink "written in Elm and " "https://github.com/elm-lang/elm-lang.org" "open source" "" ++
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
-installButtons w =
-  let href = "https://github.com/elm-lang/elm-platform/blob/master/README.md#elm-platform"
-  in  flow right [ B.button (w `div` 2) 180 "/try" "Try"
-                 , B.button (w `div` 2) 180 href "Install"
-                 ]
+heading localName outer =
+  let inner = min 800 outer
+      leftWidth = max 0 ((outer - inner) `div` 2)
+      rightWidth = max 0 (outer - leftWidth - inner)
+  in
+  flow right
+  [ color C.lightGrey (spacer leftWidth 40) `above` color C.mediumGrey (spacer leftWidth 1)
+  , topBar localName inner
+  , color C.lightGrey (spacer rightWidth 40) `above` color C.mediumGrey (spacer rightWidth 1)
+  ]
+
+topBar localName inner =
+  let tabs' = tabs localName
+      w = inner - widthOf tabs'
+  in
+  flow right
+  [ flow down
+    [ color C.lightGrey <| container w 40 midLeft logo
+    , color C.mediumGrey (spacer w 1)
+    ]
+  , tabs'
+  ]
+
+logo =
+    let btn clr =
+            let name = leftAligned . Text.color clr . Text.height 24 <| toText "elm" in
+            color C.lightGrey <| 
+            flow right [ image 30 30 "/logo.png"
+                       , spacer 4 30
+                       , container (widthOf name) 30 middle name
+                       ]
+    in
+        link "/" <|
+        Input.customButton clicks.handle () (btn charcoal) (btn black) (btn black)
+
+tabs localName = flow right (map (tab localName) paths)
+
+paths =
+  [ ("Learn"    , "/Learn.elm")
+  , ("Examples" , "/Examples.elm")
+  , ("Libraries", "/Libraries.elm")
+  , ("Community", "/Community.elm")
+  , ("Blog"     , "/Blog.elm")
+  ]
+
+clicks : Input.Input ()
+clicks = Input.input ()
+
+tab localName (name, href) =
+    let (accent, h) = if localName == name then (C.accent1, 3) else (C.mediumGrey, 1)
+        btn clr =
+            let words = leftAligned . Text.color clr <| toText name
+            in  flow down
+                [ color C.lightGrey <| container (widthOf words + 20) 40 middle words
+                , color accent (spacer (widthOf words + 20) h)
+                ]
+    in  link href <|
+        Input.customButton clicks.handle () (btn charcoal) (btn black) (btn black)

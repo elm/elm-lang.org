@@ -5,9 +5,9 @@ main = report [markdown|
 
 # Try Elm
 
-This is an online editor for writing and compiling
-<a href="/" target="_top">Elm</a> code. If you
-are unsure how to get started, take a look at the
-<a href="/Examples.elm" target="_top">examples</a>
-or <a href="/Learn.elm" target="_top">learning resources</a>.
+Write and compile code online! You may want to check out:
+
+  * <a href="/Examples.elm" target="_top">Code Examples</a>
+  * <a href="/Learn.elm" target="_top">Learning Resources</a>
+
 |]

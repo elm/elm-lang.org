@@ -1,11 +1,11 @@
 
-import Website.Blog (skeleton)
+import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Making Pong"
 
-main = lift (skeleton content) Window.width
+main = lift (skeleton "Blog" content) Window.dimensions
 
 content w = width (min 600 w) [markdown|
 
@@ -29,6 +29,7 @@ code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
 
+<br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 4em;">Making Pong</div>
 
 This post has two major goals:
