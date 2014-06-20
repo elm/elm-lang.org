@@ -40,6 +40,7 @@ content outer =
     , centerText exampleText
     , container outer 460 middle <| exampleBlock 860
     , spacer outer 36
+    , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
     ]
@@ -106,9 +107,13 @@ exampleBlock w =
       ]
     ]
 
-debuggerText = [markdown|
+debuggerTitle = [markdown|
 
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Editor and Debugger</div>
+
+|]
+
+debuggerText = [markdown|
 
 The combination of [functional reactive programming](/learn/What-is-FRP.elm) and
 managed effects makes Elm's [Time Traveling Debugger][debug] simple and reliable.

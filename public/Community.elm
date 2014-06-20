@@ -20,9 +20,9 @@ community = [markdown|
 
 [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
 
-The [mailing list][list] great place for friendly discussion! Common activities
-include discussing API design, reviewing blog posts and libraries, and finding
-projects to collaborate on. Share code snippets with
+The [mailing list][list] is a great place for friendly discussion! Common
+activities include discussing API design, reviewing blog posts and libraries,
+and finding projects to collaborate on. Share code snippets with
 [share-elm.com](http://www.share-elm.com).
 
 This list is all about learning and improvement, so even if you know a lot
