@@ -15,9 +15,9 @@ content outer =
     in
       flow down
       [ centerText intro
-      , spacer outer 20
-      , center (flow right [ standardLibs 260, spacer 40 10, communityLibs 260 ])
-      , spacer outer 20
+      , spacer outer 30
+      , center (flow right [ standardLibs, spacer 40 10, communityLibs ])
+      , spacer outer 40
       , centerText outro
       ]
 
@@ -39,18 +39,18 @@ resources](/Learn.elm) to learn more about the language itself.
 
 |]
 
-standardLibs : Int -> Element
-standardLibs w =
+standardLibs : Element
+standardLibs =
     link "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" <|
     flow down
-    [ container w 40 middle (leftAligned . Text.height 20 <| toText "Standard Libraries")
-    , image w w "/screenshot/Home/Catalog.png"
+    [ container 300 40 middle (leftAligned . Text.height 20 <| toText "Standard Libraries")
+    , image 300 200 "/screenshot/Home/StandardLibraries.jpg"
     ]
 
-communityLibs : Int -> Element
-communityLibs w =
+communityLibs : Element
+communityLibs =
     link "http://library.elm-lang.org/catalog" <|
     flow down
-    [ container w 40 middle (leftAligned . Text.height 20 <| toText "Community Libraries")
-    , image w w "/screenshot/Home/Catalog.png"
+    [ container 300 40 middle (leftAligned . Text.height 20 <| toText "Community Libraries")
+    , image 300 200 "/screenshot/Home/CommunityLibraries.jpg"
     ]
