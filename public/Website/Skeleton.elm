@@ -1,5 +1,6 @@
 module Website.Skeleton where
 
+import Website.Widgets (headerFaces)
 import Website.ColorScheme as C
 import Graphics.Input as Input
 import Text

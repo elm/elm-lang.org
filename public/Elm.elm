@@ -1,4 +1,4 @@
-import Website.Button (bigLogo, installButtons)
+import Website.Widgets (bigLogo, installButtons, button)
 import Website.Skeleton (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
@@ -39,10 +39,14 @@ content outer =
     , spacer outer 36
     , centerText exampleText
     , container outer 460 middle <| exampleBlock 860
+    , center (button outer 260 "/Examples.elm" "More Examples")
     , spacer outer 36
     , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
+    , center <| flow right [ button 220 180 "/try" "Edit"
+                           , button 220 180 "http://debug.elm-lang.org/try" "Debug"
+                           ]
     ]
 
 threeKeywords =

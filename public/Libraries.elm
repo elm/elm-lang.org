@@ -1,4 +1,5 @@
 import Website.Skeleton (skeleton)
+import Website.Widgets (button)
 import String
 import Window
 
@@ -15,9 +16,9 @@ content outer =
     in
       flow down
       [ centerText intro
-      , spacer outer 30
-      , center (flow right [ standardLibs, spacer 40 10, communityLibs ])
-      , spacer outer 40
+      , center (button outer 320 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries")
+      , centerText midtro
+      , center (button outer 320 "http://library.elm-lang.org/catalog" "Community Libraries")
       , centerText outro
       ]
 
@@ -25,10 +26,18 @@ intro = [markdown|
 
 # Libraries
 
-The libraries all live at [library.elm-lang.org](http://library.elm-lang.org).
-When looking at a particular library, use the search feature to find
-documentation for functions like `map` and `length` or operators like `/=` and
-`|>`.
+Documentation for all Elm libraries can be found at
+[library.elm-lang.org](http://library.elm-lang.org).
+
+The Standard Libraries come with the latest release of the Elm compiler and
+make it easy to get productive.
+
+|]
+
+midtro = [markdown|
+
+If you cannot find it in the Standard Libraries, the Elm community is probably
+working on it!
 
 |]
 
@@ -37,20 +46,18 @@ outro = [markdown|
 See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
 
+## Search
+
+Every page on [library.elm-lang.org](http://library.elm-lang.org) has a search
+box that lets you filter through results. For example, in the standard
+libraries, you can search the documentation for functions like `map` and
+`length` or operators like `/=` and `|>`.
+
+## Written in Elm
+
+Just like [this website](https://github.com/elm-lang/elm-lang.org), the Public
+Library is also written entirely in Elm. Check out [the source
+code](https://github.com/elm-lang/elm-get) to see how FRP makes live search
+easy to implement.
+
 |]
-
-standardLibs : Element
-standardLibs =
-    link "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" <|
-    flow down
-    [ container 300 40 middle (leftAligned . Text.height 20 <| toText "Standard Libraries")
-    , image 300 200 "/screenshot/Home/StandardLibraries.jpg"
-    ]
-
-communityLibs : Element
-communityLibs =
-    link "http://library.elm-lang.org/catalog" <|
-    flow down
-    [ container 300 40 middle (leftAligned . Text.height 20 <| toText "Community Libraries")
-    , image 300 200 "/screenshot/Home/CommunityLibraries.jpg"
-    ]

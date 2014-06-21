@@ -1,8 +1,13 @@
-module Website.Button (bigLogo, installButtons) where
+module Website.Widgets (bigLogo, installButtons, button, headerFaces) where
 
 import Graphics.Input as Input
 import Text
 import Website.ColorScheme as C
+
+headerFaces =
+    [ "futura", "century gothic", "twentieth century"
+    , "calibri", "verdana", "helvetica", "arial"
+    ]
 
 bigLogo =
     let name = leftAligned . Text.height 60 <| toText "elm" in
@@ -33,7 +38,7 @@ button outerWidth innerWidth href msg =
 
 box : Int -> String -> Color -> Color -> Element
 box w msg c1 c2 =
-    let words = leftAligned . Text.height 30 . typeface faces . Text.color charcoal <| toText msg
+    let words = leftAligned . Text.height 26 . typeface faces . Text.color charcoal <| toText msg
     in
         color c2 . container w 50 middle . color c1 <|
         container (w-2) 48 middle words
