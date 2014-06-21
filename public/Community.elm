@@ -32,16 +32,18 @@ everyone is.
 
 ### Reddit
 
-Check out [/r/elm](http://www.reddit.com/r/elm) to find out about new libraries
-and read blog posts. Or even better, use it to announce libraries and post your
-own blog posts!
+[reddit]: http://www.reddit.com/r/elm
+
+Check out [/r/elm][reddit] to find out about new libraries and read blog posts.
+Or even better, use it to announce libraries and post your own blog posts!
 
 ### IRC
 
+[irc]: http://webchat.freenode.net/?channels=elm
+
 Got a quick question, but do not feel comfortable asking on the mailing list?
-Chatting on [#elm](http://webchat.freenode.net/?channels=elm) is a great way to
-learn from a real person. Share code snippets with
-[share-elm.com](http://www.share-elm.com).
+Chatting on [#elm][irc] is a great way to learn from a real person. Share code
+snippets with [share-elm.com](http://www.share-elm.com).
 
 As for culture, prefer to ask rather than tell. You may be talking to someone
 with no programming background or a PhD in programming languages, so to answer
@@ -51,9 +53,11 @@ respectful to everyone.
 
 ### Twitter
 
-Both [@elmlang](https://twitter.com/elmlang) and
-[@czaplic](https://twitter.com/czaplic) tweet about Elm a lot. Try to use the
-#elmlang hashtag, though it would be very cool to claim the #elm some day!
+[twitter]: https://twitter.com/elmlang
+
+Both [@elmlang][twitter] and [@czaplic](https://twitter.com/czaplic) tweet about
+Elm a lot. The #elmlang hashtag is commonly used. Using #elm is okay, but people
+tweet about weird stuff with that one sometimes.
 
 ### Real Life
 
