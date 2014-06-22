@@ -1,13 +1,18 @@
 import Website.Message (report)
 
 main = report [markdown|
-<style type="text/css">p { text-align:justify; }</style>
 
-# Try Elm
+# Online Editor
 
-Write and compile code online! You may want to check out:
+Write and compile code online!
 
-  * <a href="/Examples.elm" target="_top">Code Examples</a>
-  * <a href="/Learn.elm" target="_top">Learning Resources</a>
+  * <a href="/edit/examples/Elements/HelloWorld.elm" target="_top">Hello World!</a>
+  * <a href="/edit/examples/Elements/Image.elm" target="_top">Images</a>
+  * <a href="/edit/examples/Elements/LinearGradient.elm" target="_top">Gradients</a>
+
+For more guidance check out:
+
+  * <a href="/Examples.elm" target="_top">Tons more examples</a>
+  * <a href="/Learn.elm" target="_top">Learning resources</a>
 
 |]
