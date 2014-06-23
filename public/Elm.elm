@@ -38,7 +38,7 @@ content outer =
     , center threeKeywords
     , spacer outer 36
     , centerText exampleText
-    , container outer 460 middle <| exampleBlock 860
+    , container outer 500 middle <| exampleBlock 860
     , center (button outer 260 "/Examples.elm" "More Examples")
     , spacer outer 36
     , width outer debuggerTitle
@@ -99,15 +99,15 @@ to help you learn Elm by reading and modifying simple programs.
 
 exampleBlock w =
     Tile.examples w
-    [ [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm")
-      , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/")
-      , ("Home/Vessel", "https://slawrence.github.io/vessel")
-      , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm")
+    [ [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", Nothing)
+      , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", Just "https://github.com/jcollard/elmtris")
+      , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
+      , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
       ]
-    , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest")
-      , ("Home/Todo", "https://evancz.github.io/TodoFRP")
-      , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/")
-      , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm")
+    , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
+      , ("Home/Todo", "https://evancz.github.io/TodoFRP", Just "https://github.com/evancz/TodoFRP")
+      , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
+      , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm", Nothing)
       ]
     ]
 
@@ -129,4 +129,4 @@ can modify running programs.
 |]
 
 debuggerBlock =
-    Tile.example (596,308) ("Home/Debugger", "http://debug.elm-lang.org/")
+    Tile.example (596,308) ("Home/Debugger", "http://debug.elm-lang.org/", Nothing)
