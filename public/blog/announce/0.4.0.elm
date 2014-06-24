@@ -5,6 +5,10 @@ import Window
 port title : String
 port title = "Elm 0.4: Graphics Upgrade"
 
+main = skeleton "Blog" page <~ Window.dimensions
+
+page w = width (min 600 w) blog
+
 blog = [markdown|
 <style>
 pre { background-color: white;
@@ -251,8 +255,3 @@ I would really recommend updating the code (it was a pretty easy change in
 my experience), but it is your call!
 
 |]
-
-page w = width (min 600 w) blog
-
-main = lift (skeleton page) Window.dimensions
-

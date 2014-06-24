@@ -1,12 +1,11 @@
 import Website.Skeleton (skeleton)
 import Window
 
+main = skeleton "Learn" content <~ Window.dimensions
+
+content w = width (min 600 w) intro
+
 intro = [markdown|
-
-<h1><div style="text-align:center">The Syntax of Elm
-<div style="font-size:0.5em;font-weight:normal">*A Quick Tour*</div></div>
-</h1>
-
 <style type="text/css">
 h3 { padding-top: 1em; }
 pre { background-color: white;
@@ -26,6 +25,8 @@ code > span.fu { color: #268BD2; }
 code > span.re { }
 code > span.er { color: #D30102; font-weight: bold; }
 </style>
+
+# The Syntax of Elm
 
 This syntax reference is a minimal introduction to:
 
@@ -433,7 +434,3 @@ Elm currently does not support:
 - any sort of `do` or `proc` notation
 
 |]
-
-content w = width (min 600 w) intro
-
-main = lift (skeleton content) Window.dimensions

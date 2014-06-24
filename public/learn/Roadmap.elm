@@ -1,9 +1,9 @@
 import Website.Skeleton (skeleton)
 import Window
 
-main = lift (skeleton content) Window.dimensions
+main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width w [markdown|
+content w = width (min 600 w) [markdown|
 <style>
 h1 { margin-bottom: 0; }
 ul { margin-top: 0; }
@@ -27,7 +27,7 @@ And if you are coming to Elm from Haskell or JavaScript, see these
 ### New to functional programming
 
  * [syntax reference](/learn/Syntax.elm)
- * [feature tutorials](/Learn.elm#features)
+ * [topic tutorials](/Learn.elm#topic-tutorials)
  * [examples of functional concepts](/Examples.elm#compute)
 
 ### New to Functional Reactive Programming
@@ -43,6 +43,7 @@ And if you are coming to Elm from Haskell or JavaScript, see these
 
  * see the [intermediate](/Examples.elm#intermediate) and [big examples](/Examples.elm#big-examples)
  * [skeletons for making websites and games](/Learn.elm#making-stuff)
- * [release notes](/Install.elm#release-notes) which may contain information that has not yet made it into docs
- * [blog posts](#articles-blog)
+ * [release notes](/Blog.elm#release-notes) which may contain information that has not yet made it into docs
+ * [blog posts](/Blog.elm)
+ * follow [/r/elm](http://www.reddit.com/r/elm) and read peoples' code
 |]

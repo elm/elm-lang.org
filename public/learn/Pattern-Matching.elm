@@ -1,6 +1,11 @@
 import Website.Skeleton (skeleton)
 import Window
 
+port title : String
+port title = "What is Pattern Matching?"
+
+main = skeleton "Learn" (what . min 600) <~ Window.dimensions
+
 ---- Text of the page: all written in Markdown ----
 
 what w = width w [markdown|
@@ -224,13 +229,3 @@ more about representing boolean expressions.
 |]
 
 
----- Putting it all together into a single page ----
-
-
-main = lift (skeleton (what . min 600)) Window.dimensions
-
-
----- Setting the title of the page to be prettier ----
-
-port title : String
-port title = "What is Pattern Matching?"

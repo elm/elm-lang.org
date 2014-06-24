@@ -1,10 +1,11 @@
 import Char (isDigit)
-import String (all)
+import String
 import Graphics.Input (Input, input)
 import Graphics.Input.Field as Field
 
 main : Signal Element
-main = display <~ keepIf (all isDigit . .string) Field.noContent numbers.signal
+main = let allDigits content = String.all isDigit content.string
+       in  display <~ keepIf allDigits Field.noContent numbers.signal
 
 numbers : Input Field.Content
 numbers = input Field.noContent

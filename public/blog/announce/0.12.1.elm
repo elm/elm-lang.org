@@ -4,7 +4,7 @@ import Window
 port title : String
 port title = "Elm 0.12.1 - Arrays"
 
-main = lift (skeleton everything) Window.dimensions
+main = skeleton "Blog" everything <~ Window.dimensions
 
 everything w =
     width (min 600 w) intro

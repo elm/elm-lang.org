@@ -1,10 +1,10 @@
-import Website.Blog (skeleton)
+import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Intro to Graphics"
 
-main = lift (skeleton everything) Window.width
+main = skeleton "Learn" everything <~ Window.dimensions
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
@@ -290,8 +290,8 @@ an image for it and we currently only have red and blue.
 That was a lot of new stuff! To help you remember you can look at all
 of the documentation for Elm [here](/Documentation.elm).
 Each category is called a *library*. The ones we used today are the
-[Element](http://docs.elm-lang.org/library/Graphics/Element.elm) and
-[Collage](http://docs.elm-lang.org/library/Graphics/Collage.elm) libraries.
+[Element](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Element) and
+[Collage](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Collage) libraries.
 Documentation can be hard to read and takes some getting used to, but
 being able to read and understand this kind of document is very important
 for quickly learning new things.

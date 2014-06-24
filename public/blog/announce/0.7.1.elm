@@ -5,6 +5,12 @@ import Window
 port title : String
 port title = "Elm 0.7.1 - Library Cultivation"
 
+main = lift2 (skeleton "Blog" . scene) (constant ()) Window.dimensions
+
+scene obj w' =
+  let w = min 600 w' in
+  width w intro
+
 intro = [markdown|
 
 <style type="text/css">
@@ -224,10 +230,4 @@ Thanks to Grzegorz and Mads for working on cool projects! Again, I encourage you
 [set up Preselm](https://github.com/grzegorzbalcerek/Preselm#preselm) or
 [try out the inline docs](https://groups.google.com/forum/?fromgroups=#!topic/elm-discuss/_xmbeVfjYbI)!
 |]
-
-scene obj w' =
-  let w = min 600 w' in
-  width w intro
-
-main = lift2 (skeleton . scene) (constant ()) Window.dimensions
 

@@ -1,42 +1,39 @@
-import Website.Skeleton (skeleton, installButtons)
+import Website.Widgets (bigLogo, installButtons)
+import Website.Skeleton (skeleton)
+import Website.BigTiles as Tile
+import Website.ColorScheme as C
+
+import Text
 import Window
-import Graphics.Input as Input
 
-main = lift (skeleton info) Window.dimensions
+port title : String
+port title = "Blog"
 
-info w = flow down
-  [ spacer w 20
-  , installButtons w
-  , width w instructions ]
+main = skeleton "Blog" content <~ Window.dimensions
 
+content outer =
+    let center elem =
+            container outer (heightOf elem) middle elem
+    in  center (width (min 600 outer) blog)
 
-instructions = [markdown|
+--  * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
 
-To build from source or [contribute](/Contribute.elm), fork the
-compiler/server [on github](https://github.com/elm-lang/Elm).
-This website is also [available](https://github.com/elm-lang/elm-lang.org)
-with [setup instructions][instruct]. It can be the basis for your own website
-or let you use the interactive editor locally.
-Use [`elm-repl`](https://github.com/elm-lang/elm-repl)
-to interact with specific functions in a multi-module project.
+blog = [markdown|
 
- [instruct]: https://github.com/elm-lang/elm-lang.org#template-for-creating-elm-websites "install"
+# Blog
 
-If you run into problems, email the [mailing list][1], ask
-questions [on IRC](http://webchat.freenode.net/?channels=elm), or
-report an issue to Elm's [source repository][2].
+### Articles
 
-  [1]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "email list"
-  [2]: https://github.com/elm-lang/Elm "source repository"
+ * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
+ * [Elm package manager](/blog/announce/PackageManager.elm)
+ * [Elm REPL](/blog/announce/Repl.elm)
+ * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
+ * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
+ * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
+ * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
+ * [Making Pong](/blog/Pong.elm)
 
-#### Syntax Highlighting
-
-* *Sublime Text* &mdash; [Elm Language Support](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
-* *Emacs* &mdash; turn on [haskell-mode](https://github.com/afeinberg/haskellmode-emacs#readme) for `.elm` files
-* *Vim* &mdash; use Haskell mode or try [elm.vim](https://github.com/otavialabs/elm.vim)
-* *Other* &mdash; Haskell syntax highlighting tends to work pretty well
-
-#### Release Notes
+### Release Notes
 
 * <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
 * <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
@@ -73,4 +70,18 @@ report an issue to Elm's [source repository][2].
   [121]: /blog/announce/0.12.1.elm "Fast Immutable Arrays"
   [123]: /blog/announce/0.12.3.elm "3D rendering with WebGL"
 
+### Conference Videos
+
+* [StrangeLoop 2013][sl2013] &mdash; The best one so far! Teaches the basics of
+  graphics and FRP in Elm and builds up to implementing a basic [Mario
+  game](/edit/examples/Intermediate/Mario.elm) *and* it is pretty fun to watch.
+* [mloc.js 2013][mlocjs] &mdash; a less polished version of the StrangeLoop 2013 talk.
+* [StrangeLoop 2012][sl2012] &mdash; First conference talk ever. Covers the basics of
+  graphics and FRP before Elm even had its record system!
+
+ [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
+ [mlocjs]: http://www.ustream.tv/recorded/29330499
+ [sl2012]: http://www.infoq.com/presentations/Elm
+
 |]
+

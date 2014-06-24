@@ -1,92 +1,132 @@
-import Website.Skeleton (homeSkeleton, bigLogo, installButtons)
-import Website.Tiles as Tile
+import Website.Widgets (bigLogo, installButtons, button)
+import Website.Skeleton (skeleton)
+import Website.BigTiles as Tile
+import Website.ColorScheme as C
 
 import Text
 import Window
 
-moreInfo = [markdown|
+port title : String
+port title = "Elm - functional web programming"
 
-We carefully choose the **practical** and **useful** ideas from the functional
-programming world and work hard to make them **accessible**. Elm has features
-like [functional reactive programming][frp], immutability, and type inference
-because we think these are ideas that prove their usefulness very quickly in
-practice.
+main = skeleton "" content <~ Window.dimensions
 
-These features not only made it possible to create Elm&rsquo;s [Time Traveling
-Debugger](http://debug.elm-lang.org/), but we think they will make your code
-simpler and safer too.
+tagLine =
+    leftAligned <|
+        toText "A " ++
+        Text.link "/learn/What-is-FRP.elm" (toText "functional reactive") ++
+        toText " language for interactive applications"
 
-It is easy to make claims like this though, so **check out some
-[examples](http://elm-lang.org/Examples.elm) and decide for yourself!**
-And definitely take advantage of the [accessible learning resources](/Learn.elm),
-[great library documentation][docs], and [friendly community][list] when you
-need help.
+content outer =
+    let inner = 600
+        half = inner `div` 2
+        center elem =
+            container outer (heightOf elem) middle elem
+        centerText msg =
+            let msg' = width inner msg
+            in  center msg'
+    in
+    color white (flow down
+    [ spacer outer 20
+    , container outer 100 middle bigLogo
+    , container outer 40 middle tagLine
+    , center (installButtons 440)
+    , spacer outer 20
+    ]) `above` flow down
+    [ color C.mediumGrey (spacer outer 1)
+    , spacer outer 30
+    , center threeKeywords
+    , spacer outer 36
+    , centerText exampleText
+    , container outer 500 middle <| exampleBlock 860
+    , center (button outer 260 "/Examples.elm" "More Examples")
+    , spacer outer 36
+    , width outer debuggerTitle
+    , centerText debuggerText
+    , center debuggerBlock
+    , center <| flow right [ button 220 180 "/try" "Edit"
+                           , button 220 180 "http://debug.elm-lang.org/try" "Debug"
+                           ]
+    ]
 
-  [frp]:  /learn/What-is-FRP.elm
-  [docs]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/
-  [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
+threeKeywords =
+    flow right
+    [ width 260 functional
+    , spacer 40 10
+    , width 260 reactive
+    , spacer 40 10
+    , width 260 compatible
+    ]
+
+functional = [markdown|
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Functional</div>
+
+Elm helps you write shorter and safer code with features like first-class
+functions, immutability, and type inference. We also focus on making it [easy
+to learn](/Learn.elm).
 
 |]
 
-other w = width (w `div` 2) [markdown|
+reactive = [markdown|
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Reactive</div>
 
-### Community
+Elm is based on the idea of [Functional Reactive
+Programming](/learn/What-is-FRP.elm). Create highly interactive applications
+without messy callbacks or a tangle of shared state.
+|]
 
-* [mailing list][list]
-* [`#elm` on IRC](http://webchat.freenode.net/?channels=elm)
-* [/r/elm](http://www.reddit.com/r/elm)
-* [Elm user group SF](http://www.meetup.com/Elm-user-group-SF/)
-* [Share Code](http://www.share-elm.com)
+compatible = [markdown|
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Compatible</div>
 
- [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
-|] `beside` width (w `div` 2) [markdown|
+Elm compiles to HTML, CSS, and JavaScript. [Embedding in
+HTML](/learn/Components.elm) and [JS interop](/learn/Ports.elm) are easy, so it
+is simple to write part of your application in Elm.
 
-### News
+|]
 
-* [Delightful WebGL](/blog/announce/0.12.3.elm) in 0.12.3
-* [Time Traveling Debugger](http://debug.elm-lang.org)
-* [Easy user input](/blog/announce/0.12.elm) with 0.12
-* [Hot-swapping](/blog/Interactive-Programming.elm) in Elm
-* [Elm and Prezi](http://elm-lang.org/blog/announce/Elm-and-Prezi.elm),
-  [Prezi and Elm](http://engineering.prezi.com/blog/2013/05/21/elm-at-prezi/)
+exampleText = [markdown|
+
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Examples</div>
+
+Elm is great for [2D](/blog/Pong.elm) and
+[3D](https://github.com/johnpmayer/elm-webgl) games,
+[diagrams](https://github.com/seliopou/elm-d3), widgets, and
+[websites](http://github.com/elm-lang/elm-lang.org). In addition to the larger
+examples showcased here, there are tons of [educational examples](/Examples.elm)
+to help you learn Elm by reading and modifying simple programs.
 
 |]
 
 exampleBlock w =
     Tile.examples w
-    [ map Tile.intermediate [ "Mario", "TextReverse", "Calculator", "Pong" ]
-    , map Tile.intermediate [ "Clock", "PieChart", "Plot"] ++ [ Tile.webgl "Thwomp" ]
+    [ [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", Nothing)
+      , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", Just "https://github.com/jcollard/elmtris")
+      , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
+      , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
+      ]
+    , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
+      , ("Home/Todo", "https://evancz.github.io/TodoFRP", Just "https://github.com/evancz/TodoFRP")
+      , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
+      , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm", Nothing)
+      ]
     ]
 
-language = [markdown|
+debuggerTitle = [markdown|
 
-Elm is a functional language that compiles to HTML, CSS, and JavaScript.
-It is great for creating [websites](http://library.elm-lang.org/),
-[interactive widgets](https://github.com/evancz/TodoFRP),
-[diagrams](https://github.com/seliopou/elm-d3), and [2D](/blog/Pong.elm) or
-[3D](https://github.com/johnpmayer/elm-webgl) games.
-
-Elm is also [super simple to embed](https://github.com/evancz/elm-html-and-js)
-as a component in an existing project, and [interop with JS](/learn/Ports.elm)
-is easy. Just pick a small widget and see if Elm can simplify it!
-
-  [frp]: /learn/What-is-FRP.elm "functional reactive programming"
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Editor and Debugger</div>
 
 |]
 
-info w = let content = flow down [ spacer w 20
-                                 , link "/" bigLogo
-                                 , width w language
-                                 , spacer w 4
-                                 , exampleBlock w
-                                 , spacer w 24
-                                 , installButtons w
-                                 , width w moreInfo
-                                 , spacer w 8
-                                 , other w ]
-         in  container w (heightOf content) middle content 
+debuggerText = [markdown|
 
-main = homeSkeleton info <~ Window.dimensions
+The combination of [functional reactive programming](/learn/What-is-FRP.elm) and
+managed effects makes Elm's [Time Traveling Debugger][debug] simple and reliable.
+The editor also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
+can modify running programs.
 
-port title : String
-port title = "Elm - functional web programming"
+[debug]: http://debug.elm-lang.org
+
+|]
+
+debuggerBlock =
+    Tile.example (596,308) ("Home/Debugger", "http://debug.elm-lang.org/", Nothing)

@@ -1,34 +1,43 @@
-import Website.Button as B
 import Website.Skeleton (skeleton)
+import Website.Widgets (button)
 import String
 import Window
 
-main = lift (skeleton content) Window.dimensions
+main = skeleton "Libraries" content <~ Window.dimensions
 
-content w =
-  flow down
-  [ width w intro
-  , B.button w 400 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries"
-  , width w midtro
-  , B.button w 400 "http://library.elm-lang.org/catalog" "Community Libraries"
-  , width w outro
-  ]
+content outer =
+    let inner = 600
+        half = inner `div` 2
+        center elem =
+            container outer (heightOf elem) middle elem
+        centerText msg =
+            let msg' = width inner msg
+            in  center msg'
+    in
+      flow down
+      [ centerText intro
+      , center (button outer 320 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries")
+      , centerText midtro
+      , center (button outer 320 "http://library.elm-lang.org/catalog" "Community Libraries")
+      , centerText outro
+      ]
 
 intro = [markdown|
 
 # Libraries
 
+Documentation for all Elm libraries can be found at
+[library.elm-lang.org](http://library.elm-lang.org).
+
 The Standard Libraries come with the latest release of the Elm compiler and
-make it easy to get productive. When you need documentation for functions like
-`map` and `length` or operators like `/=` and `|>`, just **filter** to find out
-which module it is in:
+make it easy to get productive.
 
 |]
 
 midtro = [markdown|
 
 If you cannot find it in the Standard Libraries, the Elm community is probably
-working on it already. Browse community libraries and check out their documentation:
+working on it!
 
 |]
 
@@ -36,5 +45,19 @@ outro = [markdown|
 
 See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
+
+## Search
+
+Every page on [library.elm-lang.org](http://library.elm-lang.org) has a search
+box that lets you filter through results. For example, in the standard
+libraries, you can search the documentation for functions like `map` and
+`length` or operators like `/=` and `|>`.
+
+## Written in Elm
+
+Just like [this website](https://github.com/elm-lang/elm-lang.org), the Public
+Library is also written entirely in Elm. Check out [the source
+code](https://github.com/elm-lang/elm-get) to see how FRP makes live search
+easy to implement.
 
 |]

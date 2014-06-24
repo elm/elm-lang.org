@@ -9,7 +9,7 @@ import Data.Maybe       (fromMaybe)
 import System.Directory
 import System.Exit
 import System.FilePath
-import System.IO (openTempFile, hPutStr, hFlush)
+import System.IO (openTempFile, hPutStr, hClose)
 import System.Process
 import Text.Blaze       (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
@@ -49,7 +49,7 @@ html name src =
           H.title . H.toHtml $ name
           H.style ! A.type_ "text/css" $ preEscapedToMarkup
               ("a:link {text-decoration: none; color: rgb(15,102,230);}\n\
-               \a:visited {text-decoration: none}\n\
+               \a:visited {text-decoration: none; color: rgb(15,102,230);}\n\
                \a:active {text-decoration: none}\n\
                \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
         H.body $ do
@@ -106,7 +106,7 @@ compileInSandbox :: String -> IO (Either String String)
 compileInSandbox src =
   do (file, handle) <- openTempFile "." "Temp.elm"
      hPutStr handle src
-     hFlush handle
+     hClose handle
      (exitCode, stdout, stderr) <- readProcessWithExitCode "elm" (args file) ""
      case exitCode of
        ExitFailure _ ->
