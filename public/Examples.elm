@@ -2,6 +2,7 @@ import Text
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
 import Website.Tiles as Tile
+import Website.Widgets (headerFaces)
 import Window
 
 port title : String
@@ -217,6 +218,6 @@ toLinks (title, links) =
 
 subsection w (name,info) =
   flow down . intersperse (spacer w 6) . map (width w) <|
-    (tag name . leftAligned . bold <| toText name) ::
+    (tag name . leftAligned . typeface headerFaces . bold <| toText name) ::
     spacer 0 0 ::
     map toLinks info ++ [spacer w 12]
