@@ -1,4 +1,3 @@
-
 import Website.Skeleton (skeleton)
 import Website.ColorScheme
 import Window
@@ -6,7 +5,7 @@ import Window
 port title : String
 port title = "Embed Elm in HTML"
 
-main = lift (skeleton intro) Window.dimensions
+main = skeleton "Learn" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 

@@ -1,6 +1,18 @@
 import Website.Skeleton (skeleton)
 import Window
 
+main = skeleton "Learn" content <~ Window.dimensions
+
+content outer =
+  let w = 600
+      hwidth = if w < 800 then w `div` 2 - 20 else 380
+      body = flow down
+             [ width w intro
+             , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
+             , width w papers
+             ]
+  in  container outer (heightOf body) middle body
+
 intro = [markdown|
 <style>
 h1 { margin-bottom: 0; }
@@ -56,49 +68,14 @@ rightCol = [markdown|
 
 papers = [markdown|
 
-#### Conference Videos
-
-* [StrangeLoop 2013][sl2013] &mdash; The best one so far! Teaches the basics of
-  graphics and FRP in Elm and builds up to implementing a basic [Mario
-  game](/edit/examples/Intermediate/Mario.elm) *and* it is pretty fun to watch.
-* [mloc.js 2013][mlocjs] &mdash; a less polished version of the StrangeLoop 2013 talk.
-* [StrangeLoop 2012][sl2012] &mdash; First conference talk ever. Covers the basics of
-  graphics and FRP before Elm even had its record system!
-
- [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
- [mlocjs]: http://www.ustream.tv/recorded/29330499
- [sl2012]: http://www.infoq.com/presentations/Elm
-
 #### Publications
 
-* [Concurrent FRP for GUIs][thesis] &mdash; overview of Elm and history of FRP
-* [Asynchronous FRP for GUIs][pldi] &mdash; formal semantics of Elm, PLDI 2013
+* [Concurrent FRP for GUIs][thesis] &mdash; very accessible overview of Elm and a history of FRP
+* [Asynchronous FRP for GUIs][pldi] &mdash; formal semantics of Elm, from PLDI 2013
 
  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
-#### Articles / Blog
-
- * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
- * [Elm package manager](/blog/announce/PackageManager.elm)
- * [Elm REPL](/blog/announce/Repl.elm)
- * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
- * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
- * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
- * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
- * [Making Pong](/blog/Pong.elm)
-
-
 |]
 
---  * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
 
-content w =
-  let hwidth = if w < 800 then w `div` 2 - 20 else 380 in
-  flow down
-    [ width w intro
-    , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
-    , width w papers
-    ]
-
-main = lift (skeleton content) Window.dimensions

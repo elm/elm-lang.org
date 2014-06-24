@@ -49,7 +49,7 @@ html name src =
           H.title . H.toHtml $ name
           H.style ! A.type_ "text/css" $ preEscapedToMarkup
               ("a:link {text-decoration: none; color: rgb(15,102,230);}\n\
-               \a:visited {text-decoration: none}\n\
+               \a:visited {text-decoration: none; color: rgb(15,102,230);}\n\
                \a:active {text-decoration: none}\n\
                \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
         H.body $ do

@@ -183,10 +183,11 @@ style :: BSC.ByteString
 style = 
     "<style type=\"text/css\">\n\
     \  a:link {text-decoration: none; color: rgb(15,102,230);}\n\
-    \  a:visited {text-decoration: none}\n\
+    \  a:visited {text-decoration: none; color: rgb(15,102,230);}\n\
     \  a:active {text-decoration: none}\n\
     \  a:hover {text-decoration: underline; color: rgb(234,21,122);}\n\
-    \  body { font-family: \"Lucida Grande\",\"Trebuchet MS\",\"Bitstream Vera Sans\",Verdana,Helvetica,sans-serif !important; }\n\
+    \  body { font-family: 'Lucida Grande','Trebuchet MS','Bitstream Vera Sans',Verdana,Helvetica,sans-serif !important; }\n\
+    \  h1,h2,h3,h4 { font-weight:normal; font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial !important; }\n\
     \  p, li { font-size: 14px !important;\n\
     \          line-height: 1.5em !important; }\n\
     \</style>"

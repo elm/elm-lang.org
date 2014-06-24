@@ -1,9 +1,9 @@
 import Website.Skeleton (skeleton)
 import Window
 
-main = lift (skeleton content) Window.dimensions
+main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width w [markdown|
+content w = width (min 600 w) [markdown|
 <style>
 h1 { margin-bottom: 0; }
 ul { margin-top: 0; }

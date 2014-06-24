@@ -1,30 +1,45 @@
-import Website.Skeleton (skeleton')
-import Website.ColorScheme (..)
+import Website.Skeleton (skeleton)
+import Website.ColorScheme as C
 
 import Mouse
 import Window
+
+port title : String
+port title = "What is FRP?"
+
+main = lift2 (skeleton "Learn")
+             (lift2 display (box examples1) (box examples2))
+             Window.dimensions
+
+display exs1 exs2 outer =
+    let w = 800
+        body = flow down [ whatIsFRP exs1 w, moreOnFRP exs2 w, width w why ]
+    in
+        container outer (heightOf body) middle body
+
 
 ---- Text of the page: all written in Markdown ----
 
 what1 = [markdown|
 
-Functional Reactive Programming (FRP) is a high-level way to work with
-interactions. It provides control flow structures for *time*.
+Functional Reactive Programming (FRP) provides control flow structures for
+events. It gives you a high-level way to describe interactions with a mouse,
+keyboard, server, etc.
 
-FRP is built around the idea of time-varying values, called *signals* in Elm.
+*Signals* are the key concept in FRP. A signal is a value that changes over time.
 
-You can see some signals in action in the colorful box to the right.
+You can see some signals in action in the blue box to the right.
 Take a second to play around with each of the examples. Try to make them change
 and guess what they do.
 
 The first example is the position of the mouse. In Elm, the mouse position
 is represented by a signal named `Mouse.position`. When the mouse moves, the value of
-`Mouse.position` changes automatically [[3]][mouse].
+`Mouse.position` changes automatically ([play][mouse]).
 
   [mouse]: /edit/examples/Reactive/Position.elm "mouse"
 
 The `Window.dimensions` signal works exactly the same way, automatically changing
-whenever the window is resized [[4]][dimensions].
+whenever the window is resized ([play][dimensions]).
 
   [dimensions]: /edit/examples/Reactive/ResizePaint.elm "dimensions"
 
@@ -86,29 +101,19 @@ why = [markdown|
 
 ## Why is FRP a good idea?
 
-Functional reactive programming (FRP) is a *declarative* approach to GUI design. The
-term *declarative* makes a distinction between the &ldquo;what&rdquo; and the
-&ldquo;how&rdquo; of programming. A declarative language allows you to say *what* is
-displayed, without having to specify exactly *how* the computer should do it.
+Functional reactive programming (FRP) is a *declarative* approach to GUI design.
+The term *declarative* makes a distinction between the &ldquo;what&rdquo; and
+the &ldquo;how&rdquo; of programming. A declarative language allows you to say
+*what* is displayed, without having to specify exactly *how* the computer should
+do it.
 
-The term declarative is important only because most current frameworks for graphical
-user interfaces are *not* declarative. They mire programmers in the many small,
-nonessential details of handling user input and manually modifying the display.
+Because FRP gives us a high-level way to react to events, there is no need for
+messy event handlers, callbacks, or manual DOM manipulations. This cleans up
+code dramatically. The operational stuff largley disappears, often leaving you
+exclusively with code that is essential to your task. No non-essential details!
 
-So with FRP, many of the irrelevant details are left
-to the compiler, freeing the programmer to think about things that matter.
-That means no event handlers, no callbacks, no DOM manipulations. These things simply
-are not necessary with FRP in Elm.
-
-Coding these examples in a traditional GUI framework &ndash; such as HTML/CSS/JavaScript
-&ndash; would require significantly more work and headache. Imagine manually extracting
-the mouse position from an event, adjusting the value to deal with cross-browser
-incompatabilities, finding a node in the DOM based on its ID, and finally describing exactly
-how to destructively modify that node. Not only is that painful to code, but it
-also requires broad and deep knowledge of inconsequential things.
-
-FRP makes tasks considerably easier by taking care of the messy &ldquo;how&rdquo;
-of events, display, and updates.
+The best evidence is code though, so take a look at [more
+examples](/Examples.elm)!
 
 |]
 
@@ -133,9 +138,9 @@ examples1 =
 
 examples2 =
   let title = leftAligned . bold . toText
-      example' = example 420 200
-  in [ constant (entry 420 200 (title "Source Code") (title "Value"))
-     , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat a / toFloat b) Mouse.x Window.width)
+      example' = example 420 140
+  in [ constant (entry 420 140 (title "Source Code") (title "Value"))
+     , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat (round (1000 * toFloat a / toFloat b)) / 1000) Mouse.x Window.width)
      , example' "sampleOn Mouse.clicks Mouse.position" (sampleOn Mouse.clicks Mouse.position)
      , example' "keepWhen Mouse.isDown (0,0) Mouse.position" (keepWhen Mouse.isDown (0,0) Mouse.position)
      ]
@@ -143,12 +148,8 @@ examples2 =
 box exs =
   let putInBox exs =
         let eBox  = color white <| flow down exs
-            eBox' = flow right [ color accent2 <| spacer 2 (heightOf eBox)
-                               , eBox
-                               , color accent3 <| spacer 2 (heightOf eBox) ]
-        in  flow down [ color accent1 <| spacer (widthOf eBox') 2
-                      , eBox'
-                      , color accent4 <| spacer (widthOf eBox') 2 ]
+        in  color C.accent1 <|
+            container (widthOf eBox + 4) (heightOf eBox + 4) middle eBox
   in  lift putInBox <| combine exs
 
 
@@ -158,7 +159,7 @@ box exs =
 whatIsFRP exs w =
   let hw = w `div` 2 - 15 in
   flow down
-    [ [markdown|## What is Functional Reactive Programming? |]
+    [ [markdown|# What is Functional Reactive Programming? |]
     , flow right [ width hw what1
                  , spacer 30 10
                  , flow down [ spacer hw 20
@@ -176,13 +177,3 @@ moreOnFRP exs w =
     , container w (heightOf exs) middle exs
     , width w complex2
     ]
-
-display exs1 exs2 w = flow down [ whatIsFRP exs1 w, moreOnFRP exs2 w, width w why ]
-
-main = lift2 (skeleton' 800) (lift2 display (box examples1) (box examples2)) Window.dimensions
-
-
----- Setting the title of the page to be prettier ----
-
-port title : String
-port title = "What is FRP?"

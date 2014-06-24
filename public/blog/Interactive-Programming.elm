@@ -1,11 +1,11 @@
 
-import Website.Blog (skeleton)
+import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Interactive Programming in Elm"
 
-main = lift (skeleton everything) Window.width
+main = lift (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)

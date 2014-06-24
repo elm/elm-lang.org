@@ -6,7 +6,7 @@ import Graphics.Input as Input
 port title : String
 port title = "Upgrade Time: Elm 0.6"
 
-main = lift (skeleton intro) Window.dimensions
+main = skeleton "Blog" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 

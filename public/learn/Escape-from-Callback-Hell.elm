@@ -1,4 +1,4 @@
-import Website.Blog (skeleton)
+import Website.Skeleton (skeleton)
 import Website.ColorScheme (lightGrey,mediumGrey)
 
 import JavaScript.Experimental as JS
@@ -59,7 +59,7 @@ content outerWidth =
       , paragraphs outro
       ]
 
-main = skeleton content <~ Window.width
+main = skeleton "Learn" content <~ Window.dimensions
 
 pageTitle = [markdown|
 <br/>
