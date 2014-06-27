@@ -173,7 +173,7 @@ velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
 share some code later on.
 
 ```haskell
-type Object a = { a | x:Float, y:Float, vx:Float vy:Float }
+type Object a = { a | x:Float, y:Float, vx:Float, vy:Float }
 
 type Ball = Object {}
 
