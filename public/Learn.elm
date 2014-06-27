@@ -63,6 +63,8 @@ rightCol = [markdown|
 * [Website skeleton](https://github.com/elm-lang/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
 * [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
 * [Making Pong](/blog/Pong.elm)
+* [Library Design Guidelines](http://library.elm-lang.org/DesignGuidelines.html)
+* [Writing Docs](http://library.elm-lang.org/Documentation.html)
 
 |]
 
