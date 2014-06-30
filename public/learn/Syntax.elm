@@ -176,7 +176,7 @@ map .x [point,{x=0,y=0}]       -- field access function
 
 { point | x <- 6 }             -- nicer way to update a field
 { point | x <- point.x + 1
-        , y <- point.x + 1 }   -- batch update fields
+        , y <- point.y + 1 }   -- batch update fields
 
 dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
 \{x,y} -> (x,y)
