@@ -36,11 +36,11 @@ content outer =
     [ color C.mediumGrey (spacer outer 1)
     , spacer outer 30
     , center threeKeywords
-    , spacer outer 36
+    , spacer outer 40
     , centerText exampleText
     , container outer 500 middle <| exampleBlock 860
     , center (button outer 260 "/Examples.elm" "More Examples")
-    , spacer outer 36
+    , spacer outer 40
     , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
@@ -61,9 +61,8 @@ threeKeywords =
 functional = [markdown|
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Functional</div>
 
-Elm helps you write shorter and safer code with features like first-class
-functions, immutability, and type inference. We also focus on making it [easy
-to learn](/Learn.elm).
+Features like immutability and type inference help you write code that is short,
+fast, and maintainable. Elm makes them [easy to learn](/Learn.elm) too.
 
 |]
 
