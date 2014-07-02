@@ -331,7 +331,7 @@ displaying scores and instructions nicely.
 -- helper values
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
-txt f = text . f . monospace . Text.color textGreen . toText
+txt f = leftAligned . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 
 -- shared function for rendering objects
