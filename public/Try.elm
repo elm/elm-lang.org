@@ -12,7 +12,7 @@ Write and compile code online!
 
 For more guidance check out:
 
-  * <a href="/Examples.elm" target="_top">Tons more examples</a>
+  * <a href="/Examples.elm" target="_top">More examples</a>
   * <a href="/Learn.elm" target="_top">Learning resources</a>
 
 |]
