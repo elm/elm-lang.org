@@ -74,6 +74,8 @@ explore what &ldquo;virtual DOM&rdquo; means and how **purity** and
 **immutability** make it extremely fast. This will explain why Om, Mercury, and
 Elm all get such great numbers.
 
+[virtual-dom]: https://github.com/Matt-Esch/virtual-dom
+
 Performance is a good hook, but the real benefit is that this approach leads to
 code that is easier to understand and maintain. In short, it becomes very simple
 to create reusable HTML widgets and abstract out common patterns. *This* is why
@@ -82,7 +84,7 @@ people with larger code bases should be interested in virtual DOM approaches.
 This library is also great news for people who have been thinking about using
 Elm. It means you can use Elm *and* keep using the same CSS and
 designer/developer workflow that you are comfortable with. It is simpler than
-ever to get the benefits of Elm in your project. Let&rsquo;s see how it works!
+ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
 [FRP]: /learn/What-is-FRP.elm
 [std]: library.elm-lang.org/catalog/elm-lang-Elm/latest/
@@ -117,16 +119,17 @@ patterns and reuse code.
 
 ## Making Virtual DOM Fast
 
-Virtual DOM sounds pretty slow right? Create a whole new scene on every frame?
-This technique is actually [widely used in the game industry][scene] and works
-shockingly well for DOM updates if you do one weird trick!
+Virtual DOM sound pretty slow right? Create a whole new scene on every frame?
+This technique is actually [widely used in the game industry][scene] and
+performs shockingly well for DOM updates when you use two relatively simple
+techniques: diffing and laziness.
 
 [scene]: http://en.wikipedia.org/wiki/Scene_graph
 
-React and Om popularized the idea of &ldquo;diffing&rdquo; to figure out how
-the DOM needs to be modified. **Diffing means taking the *current* virtual DOM
-and the *new* virtual DOM and looking for changes.** It sounds kind of fancy at
-first, but it is a very simple process. We first make a big list of all the
+React popularized the idea of &ldquo;diffing&rdquo; to figure out how the DOM
+needs to be modified. **Diffing means taking the *current* virtual DOM and the
+*new* virtual DOM and looking for changes.** It sounds kind of fancy at first,
+but it is a very simple process. We first make a big list of all the
 differences, like if someone has changed the color of a particular `<div>` or
 added an entirely new one. After all of the differences are found, we use them
 as instructions for modifying the DOM in one big batch using
@@ -163,7 +166,7 @@ todoWidget state =
 ```
 
 Instead of calling the `todoList` function on every frame, we check to see if
-`state.tasks` has changed since last frame. If not, we can skip everything!
+`state.tasks` has changed since last frame. If not, we can skip everything.
 No need to call the function, do any diffing, or touch the DOM at all!
 This optimization is safe in Elm because functions are [pure][] and data is
 [immutable][].
@@ -179,7 +182,7 @@ This optimization is safe in Elm because functions are [pure][] and data is
 So we just check to see if `todoList` and `state.tasks` are the same as last
 frame by comparing the old and new values by *reference*. This is super cheap,
 and if they are the same, the `lazy` function can often avoid a ton of work.
-This is a pretty simple trick that can speed things up significantly!
+This is a pretty simple trick that can speed things up significantly.
 
 [pure]: http://en.wikipedia.org/wiki/Pure_function
 [immutable]: http://en.wikipedia.org/wiki/Immutable_object
@@ -188,15 +191,6 @@ If you have been following Elm, you may begin to see a pattern:
 purity and immutability are kind of a big deal. Read about [hot-swapping in
 Elm](/blog/Interactive-Programming.elm) and the [time traveling
 debugger](http://debug.elm-lang.org/) to learn more about this.
-
-**Note of Thanks:** Elm always did diffing to render `Elements`, but I never
-imagined that diffing would actually be a great approach for high-performance
-UIs in the browser. So big thanks to the React team and David Nolen for coming
-up with these ideas and popularizing them! And huge thanks to Matt Esch and
-Jake Verbaten for distilling these realizations into the extremely fast
-[virtual-dom][] project that elm-html is based on!
-
-[virtual-dom]: https://github.com/Matt-Esch/virtual-dom
 
 ## Reusable Widgets
 
