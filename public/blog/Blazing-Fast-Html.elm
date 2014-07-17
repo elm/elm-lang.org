@@ -115,7 +115,8 @@ profile user =
 
 Notice that we set a class so the whole thing can be styled from CSS. Paired
 with Elm&rsquo;s module system, this makes it easy to abstract out common
-patterns and reuse code.
+patterns and reuse code. We will explore more example uses soon in the section
+on [reusable widgets](#reusable-widgets).
 
 ## Making Virtual DOM Fast
 
