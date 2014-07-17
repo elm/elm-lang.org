@@ -195,7 +195,7 @@ debugger](http://debug.elm-lang.org/) to learn more about this.
 
 ## Reusable Widgets
 
-This approach makes it is incredibly simple to create reusable widgets. For
+This approach makes it incredibly simple to create reusable widgets. For
 example, a list of user profiles can be nicely abstracted with something like
 this:
 
