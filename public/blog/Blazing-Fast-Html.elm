@@ -69,10 +69,10 @@ popular entries:
      style="width:500px; height:380px; margin-left: auto; margin-right: auto; display:block;"></a>
 
 Both Elm and Mercury are based on the [virtual-dom][] project, which is entirely
-responsible for great performance numbers. The first half of this post will
-explore what &ldquo;virtual DOM&rdquo; means and how **purity** and
-**immutability** make it extremely fast. This will explain why Om, Mercury, and
-Elm all get such great numbers.
+responsible for the great performance. The first half of this post will explore
+what &ldquo;virtual DOM&rdquo; means and how **purity** and **immutability**
+make it extremely fast. This will explain why Om, Mercury, and Elm all get such
+great numbers.
 
 [virtual-dom]: https://github.com/Matt-Esch/virtual-dom
 
