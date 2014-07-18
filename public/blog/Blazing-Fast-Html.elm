@@ -145,7 +145,8 @@ that is perfect for Elm! Even better, Elm already has great facilities for
 purity and immutability, which are vital for optimizations that make diffing
 *way* faster.
 
-One of the tricks that came from Om is being lazy about diffing. For example,
+As pioneered by React and Om, being *lazy* about diffing can lead to great
+performance improvements, especially if you have immutable data. For example,
 lets say we are rendering a list of tasks:
 
 ```haskell
