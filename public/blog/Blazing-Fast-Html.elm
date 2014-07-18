@@ -270,6 +270,16 @@ My goal with Elm is still to rethink web programming, and in a weird and twisted
 way, fully supporting HTML and CSS is a big step in that direction. I am excited
 to see what we can do with [elm-html](https://github.com/evancz/elm-html)!
 
+## Notes on Architecture
+
+As with any new approach, one of the first questions people ask is &ldquo;what
+does it look like for a large project?&rdquo; The general approach is in the
+same ballpark as architecting large applications with Om or Facebook’s Flux. I
+have informally outlined [how this works in Elm][architecture] and plan to
+create more formal documentation and examples soon.
+
+[architecture]: https://gist.github.com/evancz/2b2ba366cae1887fe621
+
 ## Thank you
 
 Thank you to React and Om for discovering and popularizing these techniques.
