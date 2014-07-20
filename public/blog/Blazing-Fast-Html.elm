@@ -60,7 +60,7 @@ popular entries:
 
 [elm-html]: http://library.elm-lang.org/catalog/evancz-elm-html/latest/
 [todo]: http://evancz.github.io/elm-todomvc/
-[code]: https://github.com/evancz/elm-html/blob/master/examples/todo/Todo.elm
+[code]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [bench]: https://evancz.github.io/todomvc-perf-comparison
 
 <a href="https://evancz.github.io/todomvc-perf-comparison">
