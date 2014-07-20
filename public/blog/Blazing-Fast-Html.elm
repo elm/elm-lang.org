@@ -120,7 +120,7 @@ on [reusable widgets](#reusable-widgets).
 
 ## Making Virtual DOM Fast
 
-Virtual DOM sound pretty slow right? Create a whole new scene on every frame?
+Virtual DOM sounds pretty slow, right? Create a whole new scene on every frame?
 This technique is actually [widely used in the game industry][scene] and
 performs shockingly well for DOM updates when you use two relatively simple
 techniques: diffing and laziness.
@@ -147,7 +147,7 @@ purity and immutability, which are vital for optimizations that make diffing
 
 As pioneered by React and Om, being *lazy* about diffing can lead to great
 performance improvements, especially if you have immutable data. For example,
-lets say we are rendering a list of tasks:
+let&rsquo;s say we are rendering a list of tasks:
 
 ```haskell
 todoList : [Task] -> Html
@@ -251,8 +251,8 @@ simple now, but we can do much more than this!
 When I started working on the project that would become Elm, HTML was about 20
 years old and people still had to read three blog posts and five Stack Overflow
 questions to figure out how to vertically center things. My initial goal with
-Elm was rethink GUIs from scratch. **What would web programming look like if we
-could restart?**
+Elm was to rethink GUIs from scratch. **What would web programming look like if
+we could restart?**
 
 [elm-html][] has two very important strengths in pursuing that goal. First, it
 gives you access to HTML and CSS, so you can always take full advantage of the
