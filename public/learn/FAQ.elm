@@ -47,8 +47,7 @@ and [JavaScript](#javascript)
   Pure monadic FRP has theoretical problems regarding performance, requiring
   memory usage to grow linearly with time to maintain referential transparency.
   You can read more about these concerns in [my
-  thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
-  or the closely related [PLDI
+  thesis](/papers/concurrent-frp.pdf) or the closely related [PLDI
   paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
   [Arrowized FRP](http://library.elm-lang.org/catalog/evancz-automaton/0.1/)
   provides much of the flexibility of Monadic FRP without the performance issues.

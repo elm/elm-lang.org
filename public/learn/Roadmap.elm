@@ -36,7 +36,7 @@ And if you are coming to Elm from Haskell or JavaScript, see these
  * [basic examples of FRP in action](/Examples.elm#react)
  * [video explaning FRP](http://www.infoq.com/presentations/elm-reactive-programming)
    in a fun and accessible way
- * [thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
+ * [thesis](/papers/concurrent-frp.pdf)
    explaining how FRP works in Elm, very accessible despite the format!
 
 ### Using Elm

@@ -191,7 +191,7 @@ communicate between Elm and JS. The two biggest inspirations for ports were:
 * **Message-passing concurrency**:
   [Concurrent ML](http://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
   was extremely influential in [the theoretical work underlying
-  Elm](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf).
+  Elm](/papers/concurrent-frp.pdf).
   The key abstraction from Concurrent ML is the *channels* which allow messages to
   be passed between components that run concurrently know nothing about each other (similar
   to Go and Erlang). I cannot say enough good things about this style of

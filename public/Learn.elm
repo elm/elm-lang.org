@@ -75,7 +75,7 @@ papers = [markdown|
 * [Concurrent FRP for GUIs][thesis] &mdash; very accessible overview of Elm and a history of FRP
 * [Asynchronous FRP for GUIs][pldi] &mdash; formal semantics of Elm, from PLDI 2013
 
- [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+ [thesis]: /papers/concurrent-frp.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
 |]

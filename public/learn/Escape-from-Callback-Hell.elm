@@ -644,7 +644,7 @@ works in Elm. It also describes the history of FRP. It is quite accessible even
 if you do not have any experience reading academic papers. You can also email
 [the list][list] or ask questions on the [#elm channel at freenode][irc].
 
-  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+  [thesis]: /papers/concurrent-frp.pdf "thesis"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
   [irc]: http://webchat.freenode.net/?channels=elm "#elm channel"
 

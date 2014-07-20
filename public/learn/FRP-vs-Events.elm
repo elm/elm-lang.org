@@ -67,7 +67,7 @@ notion of concurrency and asynchrony.
 *Note:* Although Elm can support concurrency in theory, this feature is not yet available
 in the current implementation. Asynchrony is already there though!
 
-  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "Concurrent FRP"
+  [thesis]: /papers/concurrent-frp.pdf "Concurrent FRP"
   [ajax]: http://elm-lang.org/edit/examples/Reactive/ZipCodes.elm "AJAX"
 
 |]
