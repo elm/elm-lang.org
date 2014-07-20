@@ -51,7 +51,7 @@ By the end of this post we will have written Pong without any
 imperative code. No global mutable state, no flipping pixels, no destructive
 updates. In fact, Elm disallows all of these things at the language level.
 So good design and safe coding practices are a requirement, not just
-self-inforced suggestions.
+self-enforced suggestions.
 
 Imperative programs allow you to reach into objects and data structures
 whenever you want, so it is not a huge deal if your code is somewhat
@@ -331,7 +331,7 @@ displaying scores and instructions nicely.
 -- helper values
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
-txt f = text . f . monospace . Text.color textGreen . toText
+txt f = leftAligned . f . monospace . Text.color textGreen . toText
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 
 -- shared function for rendering objects
