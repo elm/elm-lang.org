@@ -66,6 +66,7 @@ popular entries:
 <a href="https://evancz.github.io/todomvc-perf-comparison">
 <img src="/diagrams/sampleResults.png"
      alt="sample results with Chrome 35 on a Macbook Air with OSX 10.9.4"
+     title="sample results with Chrome 35 on a Macbook Air with OSX 10.9.4"
      style="width:500px; height:380px; margin-left: auto; margin-right: auto; display:block;"></a>
 
 Both Elm and Mercury are based on the [virtual-dom][] project, which is entirely
