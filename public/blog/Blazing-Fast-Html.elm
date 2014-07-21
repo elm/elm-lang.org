@@ -58,7 +58,7 @@ recreating the [TodoMVC][todo] app, the [code][code] is quite simple and our
 [preliminary benchmarks][bench] show that it is extremely fast compared to other
 popular entries:
 
-[elm-html]: http://library.elm-lang.org/catalog/evancz-elm-html/latest/
+[elm-html]: https://github.com/evancz/elm-html
 [todo]: http://evancz.github.io/elm-todomvc/
 [code]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [bench]: https://evancz.github.io/todomvc-perf-comparison
@@ -69,7 +69,7 @@ popular entries:
      title="sample results with Firefox 30 on a Macbook Air with OSX 10.9.4"
      style="width:500px; height:380px; margin-left: auto; margin-right: auto; display:block;"></a>
 
-Both Elm and Mercury are based on the [virtual-dom][] project, which is entirely
+Both [elm-html][] and Mercury are based on the [virtual-dom][] project, which is
 responsible for the great performance. The first half of this post will explore
 what &ldquo;virtual DOM&rdquo; means and how **purity** and **immutability**
 make it extremely fast. This will explain why Om, Mercury, and Elm all get such
@@ -93,9 +93,10 @@ ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
 ## Virtual DOM
 
-This library is based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than
-touching the DOM directly, we build an abstract version of it on each frame. We
-use the `node` function to create a cheap representation of what we want:
+[This library](http://library.elm-lang.org/catalog/evancz-elm-html/latest/) is
+based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than touching the DOM
+directly, we build an abstract version of it on each frame. We use the `node`
+function to create a cheap representation of what we want:
 
 ```haskell
 node : String -> [Attribute] -> [CssProperty] -> [Html] -> Html
@@ -269,7 +270,7 @@ explains this aspiration very nicely in his [provocative post on CSS][css].
 
 My goal with Elm is still to rethink web programming, and in a weird and twisted
 way, fully supporting HTML and CSS is a big step in that direction. I am excited
-to see what we can do with [elm-html](https://github.com/evancz/elm-html)!
+to see what we can do with [elm-html][]!
 
 ## Notes on Architecture
 
