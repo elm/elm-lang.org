@@ -49,7 +49,7 @@ main = scene <~ Window.dimensions
 flickrRequest : String -> String
 flickrRequest args =
   "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
+  "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c" ++ args
 
 
 {-| Turn a tag into an HTTP GET request. -}
