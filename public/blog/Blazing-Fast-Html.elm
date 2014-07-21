@@ -93,10 +93,9 @@ ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
 ## Virtual DOM
 
-[This library](http://library.elm-lang.org/catalog/evancz-elm-html/latest/) is
-based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than touching the DOM
-directly, we build an abstract version of it on each frame. We use the `node`
-function to create a cheap representation of what we want:
+This library is based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than
+touching the DOM directly, we build an abstract version of it on each frame. We
+use the `node` function to create a cheap representation of what we want:
 
 ```haskell
 node : String -> [Attribute] -> [CssProperty] -> [Html] -> Html
@@ -117,8 +116,10 @@ profile user =
 
 Notice that we set a class so the whole thing can be styled from CSS. Paired
 with Elm&rsquo;s module system, this makes it easy to abstract out common
-patterns and reuse code. We will explore more example uses soon in the section
-on [reusable widgets](#reusable-widgets).
+patterns and reuse code. You can check out the full API and documentation
+[here](http://library.elm-lang.org/catalog/evancz-elm-html/latest/) and we will
+explore more example uses soon in the section on [reusable
+widgets](#reusable-widgets).
 
 ## Making Virtual DOM Fast
 
