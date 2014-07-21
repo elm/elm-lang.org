@@ -48,7 +48,7 @@ main = scene <~ Window.dimensions
 {-| The standard parts of a Flickr API request. -}
 flickrRequest : String -> String
 flickrRequest args =
-  "http://api.flickr.com/services/rest/?format=json" ++
+  "https://api.flickr.com/services/rest/?format=json" ++
   "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c" ++ args
 
 
