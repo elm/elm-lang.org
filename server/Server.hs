@@ -173,6 +173,7 @@ precompile =
                ExitSuccess -> return ()
                ExitFailure _ -> compileTry2 file
            unhide
+           putStrLn ""
         where
           unhide = renameFile "resources/elm_dependencies.json" "elm_dependencies.json"
           hide   = renameFile "elm_dependencies.json" "resources/elm_dependencies.json"
@@ -184,9 +185,11 @@ precompile =
                  return exitCode
 
           compileTry2 file =
-              do putStrLn ""
-                 unhide
-                 rawSystem "elm" (flags file)
+              do unhide
+                 (exitCode, out, err) <- readProcessWithExitCode "elm" (flags file) ""
+                 case exitCode of
+                   ExitSuccess -> putStr "." >> hFlush stdout
+                   ExitFailure _ -> putStrLn ("\n" ++ out ++ err)
                  hide
 
           flags file =
