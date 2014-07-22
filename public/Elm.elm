@@ -104,7 +104,7 @@ exampleBlock w =
       , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
       ]
     , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
-      , ("Home/Todo", "https://evancz.github.io/TodoFRP", Just "https://github.com/evancz/TodoFRP")
+      , ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
       , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
       , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm", Nothing)
       ]
