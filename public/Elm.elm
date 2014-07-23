@@ -77,9 +77,11 @@ without messy callbacks or a tangle of shared state.
 compatible = [markdown|
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Compatible</div>
 
-Elm compiles to HTML, CSS, and JavaScript. [Embedding in
-HTML](/learn/Components.elm) and [JS interop](/learn/Ports.elm) are easy, so it
-is simple to write part of your application in Elm.
+Elm compiles to HTML, CSS, and JavaScript. It is easy to [use HTML][html] and
+[interop with JS][ports], so it is simple to write part of your application in Elm.
+
+[html]: /blog/Blazing-Fast-Html.elm
+[ports]: /learn/Ports.elm
 
 |]
 
