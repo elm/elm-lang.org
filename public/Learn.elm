@@ -63,6 +63,8 @@ rightCol = [markdown|
 * [Website skeleton](https://github.com/elm-lang/elm-lang.org#elm-langorg-a-template-for-creating-websites-in-elm)
 * [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1)
 * [Making Pong](/blog/Pong.elm)
+* [Library Design Guidelines](http://library.elm-lang.org/DesignGuidelines.html)
+* [Writing Docs](http://library.elm-lang.org/Documentation.html)
 
 |]
 
@@ -73,7 +75,7 @@ papers = [markdown|
 * [Concurrent FRP for GUIs][thesis] &mdash; very accessible overview of Elm and a history of FRP
 * [Asynchronous FRP for GUIs][pldi] &mdash; formal semantics of Elm, from PLDI 2013
 
- [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+ [thesis]: /papers/concurrent-frp.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
 |]

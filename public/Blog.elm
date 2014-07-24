@@ -24,6 +24,7 @@ blog = [markdown|
 
 ### Articles
 
+ * [Blazing Fast HTML](/blog/Blazing-Fast-Html.elm)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
  * [Elm package manager](/blog/announce/PackageManager.elm)
  * [Elm REPL](/blog/announce/Repl.elm)

@@ -183,7 +183,7 @@ code > span.er { color: #D30102; font-weight: bold; }
 Huge thank you to Laszlo for working on the
 [debugger](https://github.com/laszlopandy/elm-lang.org/tree/signal-graph-demo) demoed above.
 For tons more details on signals and signal graphs, see
-[this thesis](http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf)
+[this thesis](/papers/concurrent-frp.pdf)
 or [this paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
 </span>
 

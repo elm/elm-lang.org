@@ -36,11 +36,11 @@ content outer =
     [ color C.mediumGrey (spacer outer 1)
     , spacer outer 30
     , center threeKeywords
-    , spacer outer 36
+    , spacer outer 40
     , centerText exampleText
     , container outer 500 middle <| exampleBlock 860
     , center (button outer 260 "/Examples.elm" "More Examples")
-    , spacer outer 36
+    , spacer outer 40
     , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
@@ -61,9 +61,8 @@ threeKeywords =
 functional = [markdown|
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Functional</div>
 
-Elm helps you write shorter and safer code with features like first-class
-functions, immutability, and type inference. We also focus on making it [easy
-to learn](/Learn.elm).
+Features like immutability and type inference help you write code that is short,
+fast, and maintainable. Elm makes them [easy to learn](/Learn.elm) too.
 
 |]
 
@@ -78,9 +77,11 @@ without messy callbacks or a tangle of shared state.
 compatible = [markdown|
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Compatible</div>
 
-Elm compiles to HTML, CSS, and JavaScript. [Embedding in
-HTML](/learn/Components.elm) and [JS interop](/learn/Ports.elm) are easy, so it
-is simple to write part of your application in Elm.
+Elm compiles to HTML, CSS, and JavaScript. It is easy to [use HTML][html] and
+[interop with JS][ports], so it is simple to write part of your application in Elm.
+
+[html]: /blog/Blazing-Fast-Html.elm
+[ports]: /learn/Ports.elm
 
 |]
 
@@ -105,7 +106,7 @@ exampleBlock w =
       , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
       ]
     , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
-      , ("Home/Todo", "https://evancz.github.io/TodoFRP", Just "https://github.com/evancz/TodoFRP")
+      , ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
       , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
       , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm", Nothing)
       ]

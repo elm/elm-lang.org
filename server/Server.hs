@@ -18,7 +18,9 @@ import Snap.Core
 import Snap.Http.Server
 import Snap.Util.FileServe
 import System.Console.CmdArgs
+import System.Exit (ExitCode(..))
 import System.FilePath as FP
+import System.IO (hFlush, stdout)
 import System.Process
 import System.Directory
 import GHC.Conc
@@ -149,12 +151,7 @@ setupLogging =
 precompile :: IO ()
 precompile =
   do files <- getFiles ".elm" "public"
-     forM_ files $ \file ->
-         rawSystem "elm" [ "--make"
-                         , "--set-runtime=/elm-runtime.js"
-                         , "--src-dir=public"
-                         , file
-                         ]
+     compilationHack files
      htmls <- getFiles ".html" "build"
      mapM_ adjustHtmlFile htmls
   where
@@ -165,6 +162,43 @@ precompile =
           directories  = filter (not . FP.hasExtension) contents
       filess <- mapM (getFiles ext) directories
       return (files ++ concat filess)
+
+    -- There's a problem with the builder that native files will be included
+    -- even if they are not needed. This avoids that.
+    compilationHack files =
+        do hide
+           forM_ files $ \file -> do
+             exitCode <- compileTry1 file
+             case exitCode of
+               ExitSuccess -> return ()
+               ExitFailure _ -> compileTry2 file
+           unhide
+           putStrLn ""
+        where
+          unhide = renameFile "resources/elm_dependencies.json" "elm_dependencies.json"
+          hide   = renameFile "elm_dependencies.json" "resources/elm_dependencies.json"
+
+          compileTry1 file =
+              do putStr "."
+                 hFlush stdout
+                 (exitCode, _, _) <- readProcessWithExitCode "elm" (flags file) ""
+                 return exitCode
+
+          compileTry2 file =
+              do unhide
+                 (exitCode, out, err) <- readProcessWithExitCode "elm" (flags file) ""
+                 case exitCode of
+                   ExitSuccess -> putStr "." >> hFlush stdout
+                   ExitFailure _ -> putStrLn ("\n" ++ out ++ err)
+                 hide
+
+          flags file =
+              [ "--make"
+              , "--set-runtime=/elm-runtime.js"
+              , "--src-dir=public"
+              , file
+              ]
+
 
 getRuntimeAndDocs :: IO ()
 getRuntimeAndDocs = do

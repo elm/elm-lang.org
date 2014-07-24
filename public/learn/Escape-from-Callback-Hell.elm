@@ -13,8 +13,18 @@ import Maybe (..)
 port title : String
 port title = "Escape from Callback Hell"
 
-content : Int -> Element
-content outerWidth =
+tagSearch : Input.Input Field.Content
+tagSearch = Input.input Field.noContent
+
+picSearch : Input.Input Field.Content
+picSearch = Input.input Field.noContent
+
+fieldStyle =
+    let s = Field.defaultStyle in
+    { s | outline <- { color = grey, width = Field.uniformly 1, radius = 4 } }
+
+content : Field.Content -> Http.Response String -> Int -> Element
+content tagContent tagResponse outerWidth =
   let sideBarWidth = 210
       contentWidth = min 600 (outerWidth - sideBarWidth)
       innerWidth = sideBarWidth + contentWidth
@@ -36,18 +46,24 @@ content outerWidth =
       paragraphs content =
           spacer leftMargin 10 `beside` width contentWidth content
 
---      (iw,ih) = sizeOf inputField
---      input = color mediumGrey <| container (iw+2) (ih+2) middle
---                               <| color white inputField
+      tagField = Field.field fieldStyle tagSearch.handle id "tag" tagContent
+
+      pairing e1 e2 =
+          flow right
+          [ spacer leftMargin 10
+          , box (contentWidth `div` 2) e1
+          , box (contentWidth `div` 2) e2
+          ]
+
       asyncElm = flow down <|
                  [ paragraphs asyncElm1
---                 , pairing w input (asText tags)
+                 , pairing tagField (asText tagContent.string)
                  , paragraphs asyncElm2
---                 , pairing w (code "lift length tags") (asText <| String.length tags)
---                 , pairing w (code "lift reverse tags") (asText <| String.reverse tags)
---                 , pairing w (code "lift requestTag tags") (asText <| requestTagSimple tags)
+                 , pairing (code "lift length tags") (asText <| String.length tagContent.string)
+                 , pairing (code "lift reverse tags") (asText <| String.reverse tagContent.string)
+                 , pairing (code "lift requestTag tags") (asText <| requestTagSimple tagContent.string)
                  , paragraphs asyncElm3
---                 , pairing w (code "send (lift requestTag tags)") (showResponse response)
+                 , pairing (code "send (lift requestTag tags)") (showResponse tagResponse)
                  , paragraphs asyncElm4 ]
   in flow down
       [ container outerWidth (heightOf pageTitle) middle pageTitle
@@ -59,7 +75,10 @@ content outerWidth =
       , paragraphs outro
       ]
 
-main = skeleton "Learn" content <~ Window.dimensions
+--tagResults : Signal (Http.Response String)
+tagResults = Http.send (getTag . .string <~ tagSearch.signal)
+
+main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults) ~ Window.dimensions
 
 pageTitle = [markdown|
 <br/>
@@ -538,8 +557,8 @@ searchBox = scene <~ tagInput ~ getSources (dropRepeats flickrTags)
 
 -- The standard parts of a Flickr API request.
 flickrRequest args =
-  "http://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=256663858aa10e52a838a58b7866d858" ++ args
+  "https://api.flickr.com/services/rest/?format=json" ++
+  "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c" ++ args
 
 -- Turn a tag into an HTTP GET request.
 getTag : String -> Http.Request String
@@ -644,7 +663,7 @@ works in Elm. It also describes the history of FRP. It is quite accessible even
 if you do not have any experience reading academic papers. You can also email
 [the list][list] or ask questions on the [#elm channel at freenode][irc].
 
-  [thesis]: http://www.testblogpleaseignore.com/wp-content/uploads/2012/04/thesis.pdf "thesis"
+  [thesis]: /papers/concurrent-frp.pdf "thesis"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
   [irc]: http://webchat.freenode.net/?channels=elm "#elm channel"
 
@@ -655,7 +674,6 @@ tags = Input.input Field.noContent
 
 code = centered . monospace . toText
 box w e = container w 40 middle e
-pairing w left right = box (w `div` 2) left `beside` box (w `div` 2) right
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
 
