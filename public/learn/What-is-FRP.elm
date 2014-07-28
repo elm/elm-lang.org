@@ -109,7 +109,7 @@ do it.
 
 Because FRP gives us a high-level way to react to events, there is no need for
 messy event handlers, callbacks, or manual DOM manipulations. This cleans up
-code dramatically. The operational stuff largley disappears, often leaving you
+code dramatically. The operational stuff largely disappears, often leaving you
 exclusively with code that is essential to your task. No non-essential details!
 
 The best evidence is code though, so take a look at [more
