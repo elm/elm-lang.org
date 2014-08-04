@@ -4,12 +4,6 @@ import Window
 main = skeleton "Learn" content <~ Window.dimensions
 
 content w = width (min 600 w) [markdown|
-<style>
-h1 { margin-bottom: 0; }
-ul { margin-top: 0; }
-h2,h3,h4 { margin-bottom: 0.5em; margin-top: 2em; }
-h5 { margin-bottom: 0.5em; }
-</style>
 
 # Tips by language
 

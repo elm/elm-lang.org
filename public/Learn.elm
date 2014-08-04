@@ -14,12 +14,6 @@ content outer =
   in  container outer (heightOf body) middle body
 
 intro = [markdown|
-<style>
-h1 { margin-bottom: 0; }
-ul { margin-top: 0; }
-h2,h3,h4 { margin-bottom: 0.5em; margin-top: 2em; }
-h5 { margin-bottom: 0.5em; }
-</style>
 
 # Learn
 

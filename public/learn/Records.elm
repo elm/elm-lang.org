@@ -30,27 +30,6 @@ content w =
 
 intro w = width w [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
-
 # Extensible Records
 
 Records are a labeled data structure. They provide a lightweight representation
@@ -151,26 +130,6 @@ access w = evaluate w
   , ("map .age people", "[57,56,39]") ]
 
 postAccess = [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 The first way to access records is fairly standard, appearing in many
 languages, from JavaScript to OCaml. No spaces are permitted on either
@@ -216,26 +175,6 @@ matches w = evaluate w
   , ("any under50 people", "True") ]
 
 postMatches = [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 These patterns can appear in let expressions, lambda expressions,
 and case expressions.
@@ -253,26 +192,6 @@ updating w = evaluate w
   ]
 
 postUpdating w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 You can update as many fields as you want, separating each update by a comma.
 You can even change the type of value in a field. Say the user inputs a bunch
@@ -311,26 +230,6 @@ rest w = evaluate w
  ]
 
 postRest w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 This actually means you can have multiple fields with the same name in a record,
 the latest field taking precedence over the earlier ones. Check out
@@ -355,26 +254,6 @@ replace w = evaluate w
   [ ("{ point2D - x | x = 1 }", "{ x=1, y=0 }") ]
 
 postReplace w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 The field update syntax is just a prettier way to write this!
 
@@ -412,26 +291,6 @@ poly w = evaluate w
   ]
 
 postPoly w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 I suspect that this can be used for some really cool stuff! It should
 make it possible to gain some of the flexibility of first-class modules
