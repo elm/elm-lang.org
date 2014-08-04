@@ -28,12 +28,7 @@ pageTitle = [markdown|
 |]
 
 preface = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-</style>
+
 Now that you have been [introduced to programming](/learn/beginner-course/Intro-to-Programming.elm),
 you are about to learn the basics of graphics in Elm.
 The following video, [written explanation](#words), and [practice problems](#practice-problems)
@@ -55,31 +50,6 @@ video = [markdown|
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-h1, h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 <span id="words"></span><br/>
 Okay, now we are going to cover the same material, but in text form.
