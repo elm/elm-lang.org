@@ -28,42 +28,10 @@ pageTitle = [markdown|
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-span.key {
-  background: #F0F0F0;
-  border-color: #E0E0E0;
-  border-radius: 5px 5px 5px 5px;
-  border-style: solid;
-  border-width: 1px 1px 3px;
-  font-family: monospace;
-  font-size: 12px;
-  line-height: 22px;
-  padding: 2px 5px;
-  text-shadow: 1px 1px #FFF;
-}
-</style>
 
-<br/>You have installed the Elm Platform, so you now have a bunch of helpful
+<br>
+
+You have installed the Elm Platform, so you now have a bunch of helpful
 command line tools to help you develop Elm programs. This tutorial will teach
 you how to use them!
 
@@ -81,8 +49,8 @@ main = plainText "Hello World!"
 
 When you save the file, create a new folder on your desktop called `elm` and
 save it as `HelloWorld.elm`. Now click on the `elm` folder on your desktop,
-to see its contents. In the file explorer hold <span class="key">Shift</span>
-and right click to see the *extended* list of options:
+to see its contents. In the file explorer hold `Shift` and right click to see
+the *extended* list of options:
 
 <img src="/onboarding/windows/command.png"
      style="width:420px; height:320px; display:block; margin:20px auto;">
