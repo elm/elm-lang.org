@@ -34,14 +34,10 @@ pageTitle = [markdown|
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-</style>
 
-<br/>Programming is becoming more interactive.
+<br>
+
+Programming is becoming more interactive.
 JavaScript proved that the development loop can be as short as refreshing
 your browser. More recently, [Go](http://golang.org/) made fast compilation
 possible at Google scale.
@@ -89,12 +85,6 @@ video1 = [markdown|
 |]
 
 segue = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-</style>
 
 Support for hot-swapping is live on this site, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm) and play with the
@@ -104,23 +94,10 @@ will see the ball update automatically.
 |]
 
 editor = [markdown|
-<iframe src="/edit/examples/Intermediate/Bounce.elm?cols=100%25%2C150px"
-        frameborder="0"
-        style="overflow:hidden; height:400px; width:100%"
-        height="400px" width="100%"></iframe>
+<iframe src="/edit/examples/Intermediate/Bounce.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
 |]
 
 rest1 = [markdown|
-
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-</style>
 
 There are [many more examples](/examples/Intermediate.elm), so you can
 continue to explore Elm and experiment with hot-swapping.
@@ -152,32 +129,6 @@ video2 = [markdown|
 |]
 
 rest2 = [markdown|
-
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 <span style="color:#999;">
 Huge thank you to Laszlo for working on the
