@@ -18,29 +18,8 @@ everything wid =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
-</style>
-
 <h1><div style="text-align:center">Elm 0.8
-<div style="font-size:0.5em;font-weight:normal">*Too many improvements to fit in a pithy title*</div></div>
+<div style="font-size:0.5em;font-weight:normal">Too many improvements to fit in a pithy title</div></div>
 </h1>
 
 This release has been in the works for quite a while now, and it is introducing

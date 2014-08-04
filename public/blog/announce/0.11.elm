@@ -13,28 +13,8 @@ everything wid =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
-
 <h1><div style="text-align:center">Elm 0.11 &ndash; Ports
-<div style="padding-top:4px;font-size:0.5em;font-weight:normal">*A drastically improved FFI and the &ldquo;Component Model&rdquo;*</div></div>
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">A drastically improved FFI and the &ldquo;Component Model&rdquo;</div></div>
 </h1>
 
 The key idea for this release comes from a “component model” for using Elm in

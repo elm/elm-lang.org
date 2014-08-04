@@ -10,15 +10,6 @@ main = skeleton "Blog" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
-<style>
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-</style>
-
 # Elm 0.6 &ndash; Time, Dates, and Syntax
 
 This release makes Elm much prettier and much better for working with time.

@@ -10,16 +10,6 @@ scene w = width (min 600 w) intro
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-h2,h3,h4 { padding-top: 0.5em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-</style>
-
 # Elm 0.7 &ndash; Extensible Records
 
 Major changes in this release include:
@@ -79,53 +69,61 @@ Elm, [see here][overview].
 The following shows creation, access, restriction, and extension in that order.
 The comments show the result of the expression:
 
-    point2 = { x = 0, y = 0 }
-    point3 = { x = 3, y = 4, z = 12 }
-    book   = { title = "Steppenwolf", author = "Hesse" }
-    group  = { add a b = a + b, zero = 0 }
+```haskell
+point2 = { x = 0, y = 0 }
+point3 = { x = 3, y = 4, z = 12 }
+book   = { title = "Steppenwolf", author = "Hesse" }
+group  = { add a b = a + b, zero = 0 }
 
-    book.title              -- "Steppenwolf"
-    .title book             -- "Steppenwolf"
+book.title              -- "Steppenwolf"
+.title book             -- "Steppenwolf"
 
-    { book - title }        -- { author = "Hesse" }
-    {  point3 - z  }        -- {  x = 3,  y = 4   }
+{ book - title }        -- { author = "Hesse" }
+{  point3 - z  }        -- {  x = 3,  y = 4   }
 
-    { point2 | z = 0 }      -- { x = 0, y = 0, z = 0 }
-    { book | pages = 237 }  -- { title  = "Steppenwolf"
-                            -- , author = "Hesse"
-                            -- , pages  = 237 }
+{ point2 | z = 0 }      -- { x = 0, y = 0, z = 0 }
+{ book | pages = 237 }  -- { title  = "Steppenwolf"
+                        -- , author = "Hesse"
+                        -- , pages  = 237 }
+```
 
 With restriction and extension it is possible to rename fields and update values.
 There is also a special short-hand for updating fields that lets you do
 updates in bulk:
 
-    { book - title | name = book.title }    -- rename
-    { book - title | title = "Demian" }     -- update
+```haskell
+{ book - title | name = book.title }    -- rename
+{ book - title | title = "Demian" }     -- update
 
-    { point2 | x <- 1 }            -- { x = 1, y = 0 }
-    { point3 | x <- 7, y <- 9 }    -- { x = 7, y = 9, z = 12 }
-    { book | title <- "Demian" }   -- { title  = "Demian"
-                                   -- , author = "Hesse" }
+{ point2 | x <- 1 }            -- { x = 1, y = 0 }
+{ point3 | x <- 7, y <- 9 }    -- { x = 7, y = 9, z = 12 }
+{ book | title <- "Demian" }   -- { title  = "Demian"
+                               -- , author = "Hesse" }
+```
 
 You can pattern match on records in function definitions and in let-expressions.
 You can alse use special field accessors. A field must be present if you use it,
 and it is fine if there are additional fields.
 
-    dist {x,y} = sqrt (x^2 + y^2)
+```haskell
+dist {x,y} = sqrt (x^2 + y^2)
 
-    dist point3 == 5
+dist point3 == 5
 
-    demian  = { book | title <- "Demian" }
-    gertrud = { book | title <- "Gertrud" }
-    titles  = map .title [ book, demain, gertrud ]
+demian  = { book | title <- "Demian" }
+gertrud = { book | title <- "Gertrud" }
+titles  = map .title [ book, demain, gertrud ]
+```
 
 It is fine to call `dist` on `point2`, `point3`, and anything else that has
 an `x` and `y` field. And the value of `titles` is
 `["Steppenwolf","Demian","Gertrud"]`. You can also pattern match in let expressions
 and lambdas.
 
-    \\{x,y} -> (x,y)
-    let {author} = book in ...
+```haskell
+\{x,y} -> (x,y)
+let {author} = book in ...
+```
 
 As a result, it is no longer possible to use the `{;;}` syntax to separate definitions
 in let expressions. This is a breaking change that may require some minor refactoring,
@@ -187,33 +185,39 @@ a bit lighter visually.
 
 The `(<~)` operator is exactly equivalent to `lift`.
 
-    (<~) : (a -> b) -> Signal a -> Signal b
+```haskell
+(<~) : (a -> b) -> Signal a -> Signal b
 
-    f <~ s = lift f s
+f <~ s = lift f s
+```
 
 The `(~)` operator allows you to apply a signal of functions to a signal of values.
 
-    (~) : Signal (a -> b) -> Signal a -> Signal b
+```haskell
+(~) : Signal (a -> b) -> Signal a -> Signal b
 
-    sf ~ s = lift2 (\\f x -> f x) sf s
+sf ~ s = lift2 (\\f x -> f x) sf s
+```
 
 This allows you to put together many signals quite easily. The following
 pairs of expressions are equivalent:
 
-    lift asText Mouse.position
-    asText <~ Mouse.position
+```haskell
+lift asText Mouse.position
+asText <~ Mouse.position
 
-    lift2 scene signal1 signal2
-    scene <~ signal1 ~ signal2
+lift2 scene signal1 signal2
+scene <~ signal1 ~ signal2
 
 
-    values  = (,,) <~ count (every second)
-                    ~ sampleOn Mouse.clicks Mouse.position
-                    ~ delay second (count Mouse.clicks)
+values  = (,,) <~ count (every second)
+                ~ sampleOn Mouse.clicks Mouse.position
+                ~ delay second (count Mouse.clicks)
 
-    values' = lift3 (,,) (count (every second))
-                         (sampleOn Mouse.clicks Mouse.position)
-                         (delay second (count Mouse.clicks))
+values' = lift3 (,,) (count (every second))
+                     (sampleOn Mouse.clicks Mouse.position)
+                     (delay second (count Mouse.clicks))
+```
 
 I do not really advocate switching over to `(<~)` and `(~)` entirely.
 They are nice when used in the appropriate situation, but can be more
@@ -229,22 +233,26 @@ functors with the added benefit of not being extremely hideous.
 The multi-way if is simply a nicer way to write nested if expressions. So the
 following expression can be used anywhere, not just in definitions.
 
-    if | key == 40 -> n + 1
-       | key == 38 -> n - 1
-       | otherwise -> n
+```haskell
+if | key == 40 -> n + 1
+   | key == 38 -> n - 1
+   | otherwise -> n
+```
 
 This means that any existing guarded definitions will cease to work in their
 current form. Definitions will have to be converted as follows:
 
-    step key n
-        | key == 40 = n + 1
-        | key == 38 = n - 1
-        | otherwise = n
+```haskell
+step key n
+    | key == 40 = n + 1
+    | key == 38 = n - 1
+    | otherwise = n
 
-    step' key n =
-     if | key == 40 -> n + 1
-        | key == 38 -> n - 1
-        | otherwise -> n
+step' key n =
+ if | key == 40 -> n + 1
+    | key == 38 -> n - 1
+    | otherwise -> n
+```
 
 You just have to add an equals sign (just like in every other definition),
 the `if` keyword, and convert the equals signs into arrows.

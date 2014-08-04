@@ -10,13 +10,6 @@ main = skeleton "Blog" page <~ Window.dimensions
 page w = width (min 600 w) blog
 
 blog = [markdown|
-<style>
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-</style>
 
 # Elm 0.4: Graphics Upgrade
 
@@ -47,7 +40,9 @@ online games.
 To install see the [instructions](https://github.com/elm-lang/Elm/blob/master/README.md)
 on [github](https://github.com/elm-lang/Elm), and to upgrade use the command:
 
-    cabal update ; cabal install elm
+```bash
+cabal update ; cabal install elm
+```
 
 The rest of this post is devoted to explaining the new features and providing
 examples of their usage. These improvements also come with some minor breaking
@@ -60,8 +55,6 @@ I hope you enjoy Elm 0.4!
  [b]: /edit/examples/Elements/Sprite.elm "sprites"
  [c]: /edit/examples/Elements/Texture.elm "texture"
 
-<br/>
-
 ## Markdown Support
 
 Creating text in a language designed for GUIs *should* be really easy. Well
@@ -71,19 +64,22 @@ Markdown lets you write fairly complicated formatted text
 
 The syntax is as follows:
 
-    [markdown| ... |\] : Element
+```haskell
+[markdown| ... | ] : Element
+```
 
 Where `...` is some Markdown (and can span multiple lines). For example:
 
-    main = [markdown|
+```haskell
+main = [markdown|
 
-    The Title
-    =========
+# The Title
 
-    This is a paragraph.
-    This sentence is part of the same paragraph.
+This is a paragraph.
+This sentence is part of the same paragraph.
 
-    |\]
+| ]
+```
 
 See [this example][2] if you want to play around with this feature, and be sure
 to check out [this site][1] to learn the full capabilities of Markdown.
@@ -94,8 +90,6 @@ I had no idea such a simple addition could have such a positive impact!
  [1]: http://daringfireball.net/projects/markdown/dingus "Markdown"
  [2]: /edit/examples/Elements/Markdown.elm "Elm+Markdown example"
  [blog]: /edit/blog/announce/0.4.0.elm "Edit Announcement"
-
-<br/>
 
 ## Games: Elements, Sprites, and Textures
 
@@ -122,16 +116,16 @@ you can decide for yourself!
 These additions required a small change to the API for transforms. The new
 functions have the following types:
 
-    move : Int -> Int -> Form -> Form
-    rotate : Float -> Form -> Form
-    scale : Float -> Form -> Form
+```haskell
+move : Int -> Int -> Form -> Form
+rotate : Float -> Form -> Form
+scale : Float -> Form -> Form
+```
 
 The only difference is that a transform now acts upon a `Form` instead of
 directly upon a form-precursor (a `Shape` or `Line`). Before, form-precursors
 could *only* appear in a collage. Now that the form-precursors also include
 Elements, this approach is not possible. What would it mean to rotate an Element?!
-
-<br/>
 
 ## Graphics in General
 
@@ -146,9 +140,6 @@ spends less time cleaning up the mess afterwards.
 
 This is great for Elm in general, and it is particularly important for game making.
 
-
-<br/>
-
 ## New Functions
 
 #### Typeface
@@ -156,7 +147,9 @@ This is great for Elm in general, and it is particularly important for game maki
 Set the typeface (often incorrectly called the "font") used to display text.
 The string argument contains the names of the typefaces you want to use.
 
-    typeface : String -> Text -> Text
+```haskell
+typeface : String -> Text -> Text
+```
 
 See the [`typeface` example][typeface] for details.
 
@@ -166,15 +159,14 @@ See the [`typeface` example][typeface] for details.
 
 You can look up the dimensions of an `Element` with:
 
-    widthOf  : Element -> Int
-    heightOf : Element -> Int
-    sizeOf   : Element -> (Int,Int)
+```haskell
+widthOf  : Element -> Int
+heightOf : Element -> Int
+sizeOf   : Element -> (Int,Int)
+```
 
 This should make it easier to create higher-order elements (functions that take
 take elements as arguments and produce a more complicated layout).
-
-
-<br/>
 
 ## Optimizations, Pattern Matching, Minification
 
@@ -184,8 +176,6 @@ Pattern matching is implemented much more efficiently (as described
 [here](http://research.microsoft.com/en-us/um/people/simonpj/papers/slpj-book-1987/start.htm)).
 
 You can also reduce the size of the compiler output by using the `--minify` flag.
-
-<br/>
 
 ## Breaking Changes
 
@@ -201,7 +191,9 @@ as possible.
 This one is sad, but `image` and `video` both require a width and a
 height. The new API is:
 
-    image, video : Int -> Int -> String -> Element
+```haskell
+image, video : Int -> Int -> String -> Element
+```
 
 This unfortunate requirement has a very good rational though.
 
@@ -218,7 +210,9 @@ does not load!
 It is actually still possible to load an image without specifying dimensions,
 but the API is a little different:
 
-    images : Signal String -> Signal Element
+```haskell
+images : Signal String -> Signal Element
+```
 
 The old `image src` is almost the same as `images (constant src)`, but
 instead of yeilding an `Element`, the new version produces `Signal Element`.
@@ -230,8 +224,10 @@ the image loads asynchronously.
 Two existing functions (`box` and `rectangle`) have been renamed and reworked
 (now `container` and `spacer`).
 
-    container : Int -> Int -> Position -> Element -> Element
-    spacer : Int -> Int -> Element
+```haskell
+container : Int -> Int -> Position -> Element -> Element
+spacer : Int -> Int -> Element
+```
 
 For more info on the new functions see the [`container` example][container] and the
 [`spacer` example][spacer].
@@ -242,14 +238,16 @@ For more info on the new functions see the [`container` example][container] and 
 If you have code that uses the old versions, you can just add these two
 definitions to your code:
 
-    box n e =
-      let pos = head . drop ((n-1) `mod` 9) <|
-            [ topLeft, midTop, topRight
-            , midLeft, middle, midRight
-            , bottomLeft, midBottom, bottomRight ]
-      in  container (widthOf e) (heightOf e) pos e
+```haskell
+box n e =
+  let pos = head . drop ((n-1) `mod` 9) <|
+        [ topLeft, midTop, topRight
+        , midLeft, middle, midRight
+        , bottomLeft, midBottom, bottomRight ]
+  in  container (widthOf e) (heightOf e) pos e
 
-    rectangle = spacer
+rectangle = spacer
+```
 
 I would really recommend updating the code (it was a pretty easy change in
 my experience), but it is your call!
