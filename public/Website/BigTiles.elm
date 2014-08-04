@@ -1,6 +1,7 @@
 module Website.BigTiles (examples, example) where
 
 import Graphics.Input as Input
+import Text
 import Website.ColorScheme as C
 
 examples w exs =
