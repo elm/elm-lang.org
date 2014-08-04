@@ -1,5 +1,5 @@
 import Graphics.Input (Input, input)
-import Graphics.Input.Field (Content, noContent, field, defaultStyle, Forward, Backward)
+import Graphics.Input.Field (Content, noContent, field, defaultStyle, Direction(..))
 import String
 import Text
 import Window
