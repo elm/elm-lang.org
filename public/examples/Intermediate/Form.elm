@@ -40,7 +40,7 @@ getErrors first last email remail =
                  ]
         activeError (err,msg) = if err then Just msg else Nothing
     in
-        justs <| map activeError checks
+        filterMap id <| map activeError checks
 
 port redirect : Signal String
 port redirect =
