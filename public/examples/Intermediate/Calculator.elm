@@ -1,6 +1,7 @@
 import Char
 import String
 import Graphics.Input as Input
+import Maybe
 import Text
 import Window
 
@@ -44,7 +45,7 @@ numberToFloat : Number -> Float
 numberToFloat number =
     let neg = if number.negative then -1 else 1
         exp = 100 ^ toFloat number.percentage
-    in  maybe 0 id (String.toFloat number.string) * neg / exp
+    in  Maybe.maybe 0 id (String.toFloat number.string) * neg / exp
 
 
 -- DISPLAY
