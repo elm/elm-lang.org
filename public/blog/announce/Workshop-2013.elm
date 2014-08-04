@@ -15,12 +15,8 @@ everything wid =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-</style>
-
 <h1><div style="text-align:center">Elm Workshop
-<div style="font-size:0.5em;font-weight:normal">*November 9th in Budapest*</div></div>
+<div style="font-size:0.5em;font-weight:normal">November 9th in Budapest</div></div>
 </h1>
 
 The first ever Elm Workshop is meant to bring the Elm community together

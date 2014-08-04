@@ -9,13 +9,8 @@ main = skeleton "Blog" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-h4 { margin-top: 2em; margin-bottom: 0; }
-</style>
-
 <h1><div style="text-align:center">Working on Elm full-time
-<div style="font-size:0.5em;font-weight:normal">*Elm &hearts; Prezi*</div></div>
+<div style="font-size:0.5em;font-weight:normal">Elm &hearts; Prezi</div></div>
 </h1>
 
 I am now working on Elm full-time at [Prezi](http://prezi.com/)!
