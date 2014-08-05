@@ -25,7 +25,7 @@ import System.Process
 import System.Directory
 import GHC.Conc
 
-import qualified Elm.Internal.Paths as Elm
+import qualified Elm.Internal.Assets as Elm
 import qualified Generate
 import qualified Editor
 
