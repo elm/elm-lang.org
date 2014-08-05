@@ -128,7 +128,7 @@ function loadDoc() {
     req.onload = function () {
         elmDocs = parseDoc(JSON.parse(this.responseText));
     };
-    req.open('GET', '/docs.json?v0.10', true);
+    req.open('GET', '/docs.json', true);
     req.send();
 }
 
