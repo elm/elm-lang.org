@@ -1,13 +1,13 @@
 {
     "version": "0.1",
-    "summary": "Sandbox for building code that depends on third party libs",
-    "description": "Something",
+    "summary": "concise, helpful summary of your project",
+    "description": "full description of this project, describe your use case",
     "license": "BSD3",
     "exposed-modules": [],
     "elm-version": "0.12.3",
     "dependencies": {
-        "johnpmayer/elm-linear-algebra": "1.0",
-        "johnpmayer/elm-webgl": "0.1"
+        "maxsnew/Error": "0.1",
+        "JoeyEremondi/JsonUtils": "0.1"
     },
-    "repository": "https://github.com/elm-lang/elm-lang.org.git"
+    "repository": "https://github.com/USER/PROJECT.git"
 }
