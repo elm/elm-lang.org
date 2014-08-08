@@ -29,7 +29,7 @@ pageTitle = [markdown|
 
 preface = [markdown|
 
-Now that you have been [introduced to programming](/learn/beginner-course/Intro-to-Programming.elm),
+Now that you have been [introduced to programming](/learn/beginner-course/Programming.elm),
 you are about to learn how to work with lists and records.
 
   * **Lists** are basically what they say, a big list of values.
