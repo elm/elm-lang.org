@@ -29,7 +29,7 @@ pageTitle = [markdown|
 
 preface = [markdown|
 
-Now that you have been [introduced to programming](/learn/beginner-course/Intro-to-Programming.elm),
+Now that you have been [introduced to programming](/learn/beginner-course/Programming.elm),
 you are about to learn the basics of graphics in Elm.
 The following video, [written explanation](#words), and [practice problems](#practice-problems)
 are designed to help you dive into working with images, text, and shapes.
