@@ -26,6 +26,6 @@ main =
       asText <| lefts names,
       asText <| rights names,
       asText <| Either.partition names,
-      asText <| map (either id show) names,
+      asText <| map (either identity show) names,
       asText <| map isLeft names,
       asText <| map isRight names ]

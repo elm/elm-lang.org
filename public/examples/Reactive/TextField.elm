@@ -11,6 +11,6 @@ main = lift scene content.signal
 scene : Field.Content -> Element
 scene fieldContent =
    flow down
-   [ Field.field Field.defaultStyle content.handle id "Type here!" fieldContent
+   [ Field.field Field.defaultStyle content.handle identity "Type here!" fieldContent
    , plainText (String.reverse fieldContent.string)
    ]

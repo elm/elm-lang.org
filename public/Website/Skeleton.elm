@@ -28,7 +28,7 @@ footerWords =
 
 heading localName outer =
   let inner = min 800 outer
-      leftWidth = max 0 ((outer - inner) `div` 2)
+      leftWidth = max 0 ((outer - inner) // 2)
       rightWidth = max 0 (outer - leftWidth - inner)
   in
   flow right

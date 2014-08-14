@@ -29,7 +29,7 @@ content tagContent tagResponse outerWidth =
       contentWidth = min 600 (outerWidth - sideBarWidth)
       innerWidth = sideBarWidth + contentWidth
       
-      averageMargin = (outerWidth - contentWidth) `div` 2
+      averageMargin = (outerWidth - contentWidth) // 2
       leftMargin =
           if averageMargin < sideBarWidth
             then outerWidth - innerWidth
@@ -46,13 +46,13 @@ content tagContent tagResponse outerWidth =
       paragraphs content =
           spacer leftMargin 10 `beside` width contentWidth content
 
-      tagField = Field.field fieldStyle tagSearch.handle id "tag" tagContent
+      tagField = Field.field fieldStyle tagSearch.handle identity "tag" tagContent
 
       pairing e1 e2 =
           flow right
           [ spacer leftMargin 10
-          , box (contentWidth `div` 2) e1
-          , box (contentWidth `div` 2) e2
+          , box (contentWidth // 2) e1
+          , box (contentWidth // 2) e2
           ]
 
       asyncElm = flow down <|

@@ -157,7 +157,7 @@ box exs =
 ---- Putting it all together into a single page ----
 
 whatIsFRP exs w =
-  let hw = w `div` 2 - 15 in
+  let hw = w // 2 - 15 in
   flow down
     [ [markdown|# What is Functional Reactive Programming? |]
     , flow right [ width hw what1
@@ -171,7 +171,7 @@ whatIsFRP exs w =
     ]
 
 moreOnFRP exs w =
-  let hw = w `div` 2 - 15 in
+  let hw = w // 2 - 15 in
   flow down
     [ width w complex1
     , container w (heightOf exs) middle exs

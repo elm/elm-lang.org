@@ -370,7 +370,7 @@ used safely!
 
 evaluate wid pairs =
   let f (a,b) =
-        let w = wid `div` 2
+        let w = wid // 2
             c = leftAligned . monospace <| toText a
             d = leftAligned . monospace <| toText b
             h = 10 + max (heightOf c) (heightOf d)

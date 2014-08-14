@@ -15,7 +15,7 @@ check = input False
 everything : Bool -> Int -> Element
 everything isChecked wid =
     let w = min 600 wid
-        box = checkbox check.handle id isChecked
+        box = checkbox check.handle identity isChecked
     in  flow down
         [ width w intro
         , container w 30 middle <| flow right [ box, box, box ]
@@ -62,7 +62,7 @@ check = input False
 
 displayBoxes : Bool -> Element
 displayBoxes isChecked =
-    let box = checkbox check.handle id isChecked
+    let box = checkbox check.handle identity isChecked
     in  flow right [ box, box, box ]
 
 main : Signal Element

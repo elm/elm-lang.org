@@ -33,8 +33,8 @@ pixel color time size =
   in  move' p (filled color (circle size))
   
 -- Oscillate the colors up and down
-osc n = if n <= 255 then n else (255 - (n `mod` 255))
-c m t = osc ((t*m) `mod` 510)
+osc n = if n <= 255 then n else (255 - (n % 255))
+c m t = osc ((t*m) % 510)
 red   = c 3
 green = c 5
 blue  = c 7

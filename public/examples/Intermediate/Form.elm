@@ -40,7 +40,7 @@ getErrors first last email remail =
                  ]
         activeError (err,msg) = if err then Just msg else Nothing
     in
-        filterMap id <| map activeError checks
+        filterMap identity <| map activeError checks
 
 port redirect : Signal String
 port redirect =
@@ -80,7 +80,7 @@ field label handle content =
   flow right
     [ container 120 36 midRight <| plainText label
     , container 220 36 middle <| size 180 26 <|
-      Field.field Field.defaultStyle handle id "" content
+      Field.field Field.defaultStyle handle identity "" content
     ]
 
 showErrors : [String] -> Element

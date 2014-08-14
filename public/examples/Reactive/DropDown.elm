@@ -6,7 +6,7 @@ main : Signal Element
 main = lift display style.signal
 
 style : Input (Text -> Text)
-style = input id
+style = input identity
 
 display : (Text -> Text) -> Element
 display transform =
@@ -16,7 +16,7 @@ display transform =
             ]
 
 options : [(String, Text -> Text)]
-options = [ ("plain"    , id)
+options = [ ("plain"    , identity)
           , ("underline", Text.line Text.Under)
           , ("italic"   , italic)
           , ("bold"     , bold)

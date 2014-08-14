@@ -5,7 +5,7 @@ main = skeleton "Learn" content <~ Window.dimensions
 
 content outer =
   let w = 600
-      hwidth = if w < 800 then w `div` 2 - 20 else 380
+      hwidth = if w < 800 then w // 2 - 20 else 380
       body = flow down
              [ width w intro
              , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
