@@ -17,18 +17,19 @@ pieChart numbers =
 pieSlice : Float -> Color -> Float -> Float -> [Form]
 pieSlice radius colr offset angle =
     let makePoint t = fromPolar (radius, degrees (360 * offset + t))
-    in  [ filled colr . polygon <| (0,0) :: map makePoint[ 0 .. 360 * angle ]
+    in  [ filled colr << polygon <| (0,0) :: map makePoint[ 0 .. 360 * angle ]
         , toForm (asPercent angle)
             |> move (fromPolar (radius*1.25, turns (offset + angle/2)))
         ]
 
 asPercent : Float -> Element
 asPercent fraction =
-    plainText <| show (toFloat . truncate <| fraction * 100) ++ "%"
+    plainText <| show (toFloat (truncate (fraction * 100))) ++ "%"
 
 colors : [Color]
 colors = [ lightBlue, lightGreen, lightYellow, lightRed
-         , lightPurple, blue, green, yellow, red, purple ]
+         , lightPurple, blue, green, yellow, red, purple
+         ]
 
 normalize : [Float] -> [Float]
 normalize xs =

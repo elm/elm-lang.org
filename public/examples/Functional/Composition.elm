@@ -1,23 +1,37 @@
 
 {----------------------------------------------------------------
 
-Overview:
-  Function composition is just putting two functions together.
+Function composition passes results along in the suggested
+direction. For example, the following code checks if the square
+of a number is odd:
 
-  Pretend you are in algebra again, and we have two functions,
-  f(x) and g(x). Each takes a number and produces a number.
-  Function composition combines these f and g into a new function
-  we'll call h. We now have h such that h(x) = f(g(x)).
+      square >> isEven >> not
 
-  The symbol for function composition is '.' and is meant to look
-  like the standard mathematical notation for composition.
+You can think of this operator as equivalent to the following:
+
+      (f >> g)  ==  (\x -> g (f x))
+
+So our example expands out to something like this:
+
+      \n -> not (isEven (square n))
 
 ----------------------------------------------------------------}
 
 
-square n = n * n
-incr n = n + 1
+-- simple functions
 
-incrThenSquare = square . incr
+square : Int -> Int
+square n =
+    n * n
 
-main = asText <| incrThenSquare 3
+isEven : Int -> Bool
+isEven n =
+    n % 2 == 0
+
+-- composed functions
+
+squareIsOdd : Int -> Bool
+squareIsOdd =
+    square >> isEven >> not
+
+main = asText (squareIsOdd 3)

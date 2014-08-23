@@ -75,10 +75,16 @@ plot style w h points =
       (ymin, ymax) = (eps * minimum ys, eps * maximum ys)
       fit scale lo hi z = scale * abs (z-lo) / abs (hi-lo)
       f (x,y) = (fit w xmin xmax x, fit h ymin ymax y)
-      axis a b = traced (solid black) . path . map f <| [a,b]
+      axis a b = traced (solid black) <| path (map f [a,b])
       xaxis = axis (xmin, clamp ymin ymax 0) (xmax, clamp ymin ymax 0)
       yaxis = axis (clamp xmin xmax 0, ymin) (clamp xmin xmax 0, ymax)
       draw ps = case style of
-                  Points -> map (\p -> move p . outlined (solid lightBlue) <| ngon 4 3) ps
+                  Points -> map (\p -> move p << outlined (solid lightBlue) <| ngon 4 3) ps
                   Line   -> [ traced (solid lightBlue) <| path ps ]
-  in  collage (round w) (round h) [ move (-200,-200) . group <| [ xaxis, yaxis ] ++ draw (map f points) ]
+  in
+      collage (round w) (round h)
+      [ [ xaxis, yaxis ] ++ draw (map f points)
+          |> group
+          |> move (-200,-200)
+      ]
+

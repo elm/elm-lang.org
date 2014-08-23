@@ -58,15 +58,15 @@ getLogin req = Http.send <| lift (\r -> Http.post r "") req
 -- Display
 scene : (Int,Int) -> Element -> Element
 scene (w,h) form =
-    color charcoal . flow down <|
+    color charcoal << flow down <|
       [ spacer w 50
       , container w (h-50) midTop form
       ]
 
 form : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String] -> Element
 form first' last' email' remail' errors =
-    color lightGrey . flow down <|
-      [ container 340 60 middle . leftAligned . Text.height 32 <| toText "Example Sign Up"
+    color lightGrey << flow down <|
+      [ container 340 60 middle << leftAligned << Text.height 32 <| toText "Example Sign Up"
       , field "First Name:"     first.handle  first'
       , field "Last Name:"      last.handle   last'
       , field "Your Email:"     email.handle  email'
@@ -89,5 +89,5 @@ showErrors errs =
     [ spacer 10 10
     , if isEmpty errs
         then spacer 0 0
-        else flow down <| map (width 340 . centered . Text.color red . toText) errs
+        else flow down <| map (width 340 << centered << Text.color red << toText) errs
     ]

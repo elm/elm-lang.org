@@ -213,11 +213,11 @@ example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
   flow right
    [ width 150 (plainText <| "    " ++ title)
-   , leftAligned . join (toText ", ") <| map example links
+   , leftAligned << join (toText ", ") <| map example links
    ]
 
 subsection w (name,info) =
-  flow down . intersperse (spacer w 6) . map (width w) <|
-    (tag name . leftAligned . typeface headerFaces . bold <| toText name) ::
+  flow down << intersperse (spacer w 6) << map (width w) <|
+    (tag name << leftAligned << typeface headerFaces << bold <| toText name) ::
     spacer 0 0 ::
     map toLinks info ++ [spacer w 12]

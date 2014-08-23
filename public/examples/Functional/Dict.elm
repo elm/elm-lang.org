@@ -10,29 +10,47 @@ can be quite helpful for creating complex dictionaries.
 
 import Dict
 
-trees = [{ family="Rosaceae", genus="Crataegus" },
-         { family="Theaceae", genus="Gordonia"  },
-         { family="Ulmaceae", genus="Ulmus"     },
-         { family="Rosaceae", genus="Pyrus"     },
-         { family="Rosaceae", genus="Malus"     },
-         { family="Theaceae", genus="Stewartia" },
-         { family="Rosaceae", genus="Prunus"    },
-         { family="Ulmaceae", genus="Zelkova"   }]
+type Tree =
+    { family : String
+    , genus : String
+    }
 
-add k v dict =
-    let vs = Dict.getOrElse [] k dict
-    in  Dict.insert k (v::vs) dict
+trees : [Tree]
+trees =
+    [ Tree "Rosaceae" "Crataegus"
+    , Tree "Theaceae" "Gordonia"
+    , Tree "Ulmaceae" "Ulmus"
+    , Tree "Rosaceae" "Pyrus"
+    , Tree "Rosaceae" "Malus"
+    , Tree "Theaceae" "Stewartia"
+    , Tree "Rosaceae" "Prunus"
+    , Tree "Ulmaceae" "Zelkova"
+    ]
 
-groupBy f g vs =
-    foldl (\v d -> add (f v) (g v) d) Dict.empty vs
+add : comparable -> a -> Dict.Dict comparable [a] -> Dict.Dict comparable [a]
+add key value dict =
+    let update currentValue =
+            case currentValue of
+                Nothing -> Just [value]
+                Just vs -> Just (value :: vs)
+    in
+        Dict.update key update dict
 
+groupBy getKey getValue values =
+    foldl (\v d -> add (getKey v) (getValue v) d) Dict.empty values
+
+familyToGenera : Dict.Dict String [String]
 familyToGenera =
     groupBy .family .genus trees
 
-display (family,genera) =
+display : (String, a) -> Element
+display (family, genera) =
     width 100 (plainText family) `beside` asText genera
 
+header : Element
 header = [markdown|## Trees: Genera in each Family|]
 
-main = flow down
-       (header :: map display (Dict.toList familyToGenera))
+main : Element
+main =
+    flow down
+        (header :: map display (Dict.toList familyToGenera))

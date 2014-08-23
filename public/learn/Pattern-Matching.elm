@@ -4,7 +4,7 @@ import Window
 port title : String
 port title = "What is Pattern Matching?"
 
-main = skeleton "Learn" (what . min 600) <~ Window.dimensions
+main = skeleton "Learn" (what << min 600) <~ Window.dimensions
 
 ---- Text of the page: all written in Markdown ----
 

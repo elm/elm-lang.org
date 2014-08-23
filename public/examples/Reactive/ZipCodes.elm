@@ -22,7 +22,7 @@ content = Input.input Field.noContent
 display : Http.Response String -> Element
 display response = 
   case response of
-    Http.Success address -> leftAligned . monospace <| toText address
+    Http.Success address -> leftAligned << monospace <| toText address
     Http.Waiting -> image 16 16 "waiting.gif"
     Http.Failure _ _ -> asText response
 

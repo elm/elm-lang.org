@@ -8,12 +8,13 @@ fibSquare n =
   let fN = fib n
       len = fN * 15
       clr = rgb ((85*n) % 256) ((36*n) % 256) ((51*n) % 256)
-  in  color clr . container len len middle <| asText fN
+  in  color clr <| container len len middle (asText fN)
 
 
 ----  Combine squares  ----
 
-ith i lst = case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
+ith i lst =
+  case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
 
 dirs = [ beside, above, flip beside, below ]
 

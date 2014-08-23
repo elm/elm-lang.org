@@ -50,6 +50,9 @@ main = flow down
        ]
 
 display : String -> (a -> Maybe' b) -> a -> Element
-display name f v =
-  leftAligned . monospace . toText <|
-  show (f v) ++ " &lArr; " ++ name ++ " " ++ show v
+display name f value =
+    show (f value) ++ " &lArr; " ++ name ++ " " ++ show value
+        |> toText
+        |> monospace
+        |> leftAligned
+  

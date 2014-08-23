@@ -7,7 +7,7 @@ import Window
 port title : String
 port title = "Elm - Extensible Records"
 
-main = skeleton "Learn" (content . min 600) <~ Window.dimensions
+main = skeleton "Learn" (content << min 600) <~ Window.dimensions
 
 content w = 
   flow down
@@ -371,14 +371,14 @@ used safely!
 evaluate wid pairs =
   let f (a,b) =
         let w = wid // 2
-            c = leftAligned . monospace <| toText a
-            d = leftAligned . monospace <| toText b
+            c = leftAligned << monospace <| toText a
+            d = leftAligned << monospace <| toText b
             h = 10 + max (heightOf c) (heightOf d)
         in  flow right [ container w h middle c
                        , container w h middle d ]
   in
   let es = map f pairs
-      arrow = leftAligned . Text.height 3 . Text.color accent1 . toText <| "&rArr;"
+      arrow = leftAligned << Text.height 3 << Text.color accent1 << toText <| "&rArr;"
       h = sum <| map heightOf es
   in  layers [ container wid h middle arrow
              , flow down es ]
