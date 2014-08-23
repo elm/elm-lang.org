@@ -364,7 +364,7 @@ and are mainly useful for saving yourself from writing too many parentheses.
 -- (sqrt 4) == (sqrt <| 4) == (4 |> sqrt) == 2
 
 -- The (<|) operator works just like ($).
-formA = scale 2 . rotate (degrees 30) . filled blue <| ngon 3 40
+formA = scale 2 << rotate (degrees 30) << filled blue <| ngon 3 40
 
 -- The (|>) operator can be quite nice when creating forms.
 formB = ngon 3 40 |> filled blue

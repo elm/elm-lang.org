@@ -240,7 +240,7 @@ definitions to your code:
 
 ```haskell
 box n e =
-  let pos = head . drop ((n-1) `mod` 9) <|
+  let pos = head << drop ((n-1) `mod` 9) <|
         [ topLeft, midTop, topRight
         , midLeft, middle, midRight
         , bottomLeft, midBottom, bottomRight ]
