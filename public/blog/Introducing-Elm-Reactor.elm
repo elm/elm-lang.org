@@ -23,7 +23,7 @@ pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Introducing Elm Reactor</div>
-<div style="font-size: 1.5em;">An Interactive Programming Experience</div>
+<div style="font-size: 1.5em;">An Interactive Programming Tool</div>
 </div>
 |]
 
@@ -42,22 +42,21 @@ of the language into a kickass debugging tool. Thanks to Elm’s unique design,
 the Reactor lets you:
 
 * Swap running code with an update
-* Time travel within the program
-* Develop and debug with Elm-HTML
+* Go back to any previous state of the program
+* Develop and debug with any Elm program (even Elm-HTML)
 
-This new tool, sits at the center of the development cycle. It builds code and
-shows the results, with the ability to debug those results. It merges the
-high-functioning prototype time-traveling debugger with rapid development features
-like automatic hot-swapping. Good tools let developers make good applications,
-fast.
+This new tool sits at the center of the development cycle. It builds code and
+shows the results with the ability to debug those results. It merges the
+prototype time-traveling debugger with rapid development features
+like automatic hot-swapping.
 
 <img src="/imgs/reactor-post/fold_small.gif" style="width:100%" height="486px">
 
 # Elm-Reactor
 
 The Reactor is your tool for developing Elm programs. It wants you to stop
-focusing on the tools surrounding your code and just write cool stuff. It’ll
-take care of the intermediate stuff.
+focusing on the middle steps surrounding your code and just write cool stuff.
+It’ll take care of the intermediate stuff.
 
 ## Interactive Programming by Default
 
@@ -66,24 +65,24 @@ entire development process. **Interactive programming is programming with
 immediate feedback**. Interactive programming connects the developer to the
 changes made as soon as they’re made.
 
-Hot-swapping is changing live code with new code. This is how Elm does
+Hot-swapping is changing live code with new code. Elm uses this technique for
 interactive programming. The runtime permits new functions and values to **swap
 in while the program is running**.
 
 <img src="/imgs/reactor-post/mario_small.gif" style="width:100%" height="451px">
 
 In [this example](http://debug.elm-lang.org/edit/Mario.elm), Mario’s image URL
-was incorrect, but he had already made a few jumps. The functions that control
-Mario can be swapped but still use the state that Elm’s signal graph carries
-about Mario’s location and past.
+and gravity was incorrect, but he had already made a few jumps. The functions
+that control Mario can be swapped but still use the state that Elm’s signal
+graph carries about Mario’s location and past.
 
-The piping that guides input signals through the program’s functions holds the
-state of the program. An interactive program may use a `foldp` to carry state
-from one input update to the next. This state is held in the signal
-graph. So when the code changes the functions and values update but the state
-remains as long as the program structure remains. All the previous inputs
-(Mario jumping and time passing) are applied to the new code and Mario appears,
-with the same history has before the hot-swap.
+The piping that guides inputs through the program’s functions&mdash;the signal
+graph&mdash; holds the state of the program. An interactive program may use a
+`foldp` to carry state from one input update to the next. So when the code
+changes, the functions and values update but the state remains as long as the
+program structure remains the same. All the previous inputs (Mario jumping and
+time passing) are applied to the new code and Mario appears, with the same
+history has before the hot-swap.
 
 With automatic hot-swapping, we’re closing the feedback loop. Programming with
 Elm's Reactor is as interactive as your save-habits. For more information on how
@@ -93,9 +92,9 @@ Elm can hot-swap code, read the
 
 ## Changing history
 
-On its own, hot-swapping will make development easier. But Elm can do more to
-help the programmer. Elm's design supports time travelling debugging, and Laszlo
-Pandy made a prototype last year. Time travelling debugging is two things:
+On its own, hot-swapping will make development faster. But Elm can do more to
+help the programmer. Elm's design supports time traveling debugging, and Laszlo
+Pandy made a prototype last year. Time traveling debugging is two things:
 
 * Stepping back in time of a program’s execution.
 * Continuing from any point in the program’s past, to make a new future.
@@ -117,15 +116,15 @@ another coordinate, etc.). The state of the program is a just a certain flow of
 this data, for two reasons:
 
 * **Separation of code and data** - All program state is held in the signal
-  graph, the plumbing that moves inputs to outputs through the program’s
+  graph&mdash;the plumbing that moves inputs to outputs through the program’s
   functions. Some of the plumbing accumulates state when the program uses a past-
   dependent function. The code inside these functions is separated entirely from
   the data they work with. So it’s possible to replay old inputs on the functions,
   swap the functions, or clear the data!
 
 * **Functional Reactive Style** - Input from the outside world (e.g., screen
-  size, mouse position, keypresses) is a flow of data that the pure functions
-  react to, producing a brutally hard game of Tetris.
+  size, mouse position, keypresses) flow through the pure functions to make a
+  new frame.
 
 To go back in time Elm must only record the inputs from the world and just
 reapply the functions as necessary. To read more about time traveling in Elm,
@@ -136,8 +135,8 @@ check out the [original blog post](http://debug.elm-lang.org/)!
 
 The reactor is not restricted to vanilla Elm. Debugging complex user
 interactions was a motivating factor in the reactor’s creation. Naturally, Elm-
-Reactor works with Elm-HTML. **Blazing fast HTML can be accompanied by time-
-traveling development tools**. You are free to use your own CSS, your own
+Reactor works with Elm-HTML. **Blazing fast HTML can be accompanied by
+time-traveling development tools**. You are free to use your own CSS, your own
 javascript, and your own HTML.
 
 <img src="/imgs/reactor-post/html_small.gif" style="width:100%" height="403px">
@@ -146,9 +145,9 @@ The Reactor can be attached to any Elm program by including two lines of
 code. To attach the debugging panel to your elm program simply import the
 debugging script in your final html file and start Elm in debugging mode:
 
-```html
+```
 <script type="text/javascript" src="/debugger.js"></script>
-var runningElmModule = Elm.debugFullscreen(Elm.Todo, "path/to/todo.elm");
+var runningElmModule = Elm.debugFullscreen(Elm.Todo,"path/to/todo.elm");
 ```
 
 For more information about using the debugger in your own workflow, check out
@@ -157,11 +156,11 @@ the [repository](https://github.com/elm-lang/elm-reactor).
 
 ## Big Projects
 
-Complex projects aren’t contained in just one Elm file. There are several files
-but ultimately one file brings them all together. The Reactor interacts with
-the last part of the chain. When any of the dependent files change, the entire
-project gets a hot-swap and state is maintained throughout the running program.
-Elm's Reactor is ready to help create impressive and complex programs.
+Complex projects aren’t contained in just one file. There are several files but
+ultimately one file brings them all together. So when any of the dependent files
+change, the main file gets recompiled which sends a hot-swap of the entire
+project. State is maintained throughout the running program. Elm's Reactor is
+ready to help create impressive and complex programs.
 
 
 ## Editor Agnostic
@@ -182,7 +181,7 @@ only when the new version compiles.
 
 # What's next
 
-Elm's Reactor is ready to build applications meant for lots of people to see. It
+Elm's Reactor is meant to build applications for lots of people to see. It
 is a capable tool for building a complex web app. The project is far from
 complete, though. There are a few ideas that will certainly make Elm development
 easier and I want to see them happen.
@@ -216,9 +215,9 @@ started on a project.
 
 # Thank You
 
-Thank you, Evan Czaplicki for the guidance and wisdom while writing this. You
+Thank you Evan Czaplicki for the guidance and wisdom while writing this. You
 taught me an unreal amount about FRP and everything else this summer, I’m so
-grateful for this experience.
+grateful to have had this experience.
 
 Thanks Prezi Design Team for the suggestions on making the debugging tab pretty!
 Thank you to Laszlo Pandy who wrote the prototype Elm debugger. He demonstrated
