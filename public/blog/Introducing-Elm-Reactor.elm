@@ -16,7 +16,9 @@ everything wid =
   flow down
   [ width w pageTitle
   , section author
-  , section intro
+  , section content
+  , width w example
+  , section closing
   ]
 
 pageTitle = [markdown|
@@ -33,7 +35,7 @@ By <a href="http://github.com/michaelbjames">Michael James</a>
 </div>
 |]
 
-intro = [markdown|
+content = [markdown|
 
 <br/>
 
@@ -178,7 +180,16 @@ the Reactor doesn’t try to swap the running code with bad code.
 Instead, the old version keeps working and will get swapped for a newer version
 only when the new version compiles.
 
+# Try it yourself!
 
+You can hide the debugging panel by clicking on the tab.
+|]
+
+example = [markdown|
+<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
+|]
+
+closing = [markdown|
 # What's next
 
 Elm's Reactor is meant to build applications for lots of people to see. It
