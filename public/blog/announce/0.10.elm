@@ -43,7 +43,7 @@ To upgrade run `cabal update && cabal install elm`. Note that
 .elmi files are *not* backwards compatible, so you must
 delete `cache/` directories in existing projects.
 
-## Strings
+<h2 id="strings">Strings</h2>
 
 This release moves away from the Haskell-inspired list of characters, providing
 [a new string library](http://docs.elm-lang.org/library/String.elm) that
@@ -90,7 +90,7 @@ I should also note that I got this `uncons` trick from the many Haskell
 libraries that did it first&mdash;`Parsec`, `Text`, `ByteString`&mdash;and
 I look forward to seeing it used in parser combinator libraries in Elm.
 
-## Nice Default Colors
+<h2 id="nice-default-colors">Nice Default Colors</h2>
 
 Typically the default colors are the primary and secondary colors. These colors
 are extremely aggressive and generally do not look very good alone or together.
@@ -114,7 +114,7 @@ has a light and dark version. We did not use
 because they are harder to remember. Thank you
 to [Laszlo Pandy](https://github.com/laszlopandy) for suggesting the Tango scheme!
 
-## Infix Operators
+<h2 id="infix-operators">Infix Operators</h2>
 
 You now can set the
 [precedence](http://en.wikipedia.org/wiki/Order_of_operations) and
@@ -178,7 +178,7 @@ it? Can they figure it out without you? Does the symbol clarify its meaning? Can
 they figure it out without seeing type signatures? I followed all of these rules
 with `(<~)` and `(~)` and I am still not sure that they were a good idea.
 
-## New Documentation
+<h2 id="new-documentation">New Documentation</h2>
 
 I had two major goals when working on documentation: (1) to make documentation
 nice in Elm code and [online](http://docs.elm-lang.org/) and (2) to make docs
@@ -205,7 +205,7 @@ Also, huge thanks to [Max New](https://github.com/maxsnew),
 [Max Goldstein](https://github.com/mgold), and [Justin Leitgeb](https://github.com/jsl)
 for helping convert the standard libraries to the new docs format!
 
-## Improvements and Fixes
+<h2 id="improvements-and-fixes">Improvements and Fixes</h2>
 
 In addition to the more obvious improvements we have seen so far, there are
 tons of important fixes and improvements. Altogether, they are probably the

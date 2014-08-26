@@ -35,7 +35,7 @@ The reward is being able to write programs that &ldquo;just work&rdquo;.
 
 Let&rsquo;s get started!
 
-## What is a Type?
+<h2 id="what-is-a-type">What is a Type?</h2>
 
 All values in Elm have a type. A number is one *type* of value, and a list is
 a totally separate *type* of value.
@@ -73,7 +73,7 @@ properties.
 Types become more interesting and useful when you start working with more
 complicated values. So let&rsquo;s take a look at types for data structures.
 
-## Types for Data Structures
+<h2 id="types-for-data-structures">Types for Data Structures</h2>
 
 This section will cover lists, tuples, and [records][records]. It may help
 to find some examples or read some documentation on these data structures
@@ -154,7 +154,7 @@ which `String` was the title and which was the author. You would have to
 read some code or do some experiment to figure it out. With records, it is
 totally clear and extracting a title is as simple as saying `book2.title`.
 
-## Types for Functions
+<h2 id="types-for-functions">Types for Functions</h2>
 
 So far we have only looked at unchanging values, but this is *functional*
 programming! What about functions?!

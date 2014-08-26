@@ -15,7 +15,7 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Algebraic Data Types](#algebraic-data-types)
+- [Algebraic Data Types](#adts)
 - [Records](#records)
 - [Functions](#functions)
 - [Infix Operators](#infix-operators)
@@ -31,7 +31,7 @@ This syntax reference is a minimal introduction to:
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
 
-### Comments
+<h3 id="comments">Comments</h3>
 
 ```haskell
 -- a single line comment
@@ -51,7 +51,7 @@ add x y = x + y
 
 Just add or remove the `}` on the first line and you'll toggle between commented and uncommented!
 
-### Literals
+<h3 id="literals">Literals</h3>
 
 ```haskell
 -- Boolean
@@ -79,7 +79,7 @@ True && not (True || False)
 "abc" ++ "def"
 ```
 
-### Lists
+<h3 id="lists">Lists</h3>
 
 Here are four things that are equivalent:
 
@@ -90,7 +90,7 @@ Here are four things that are equivalent:
 1 :: 2 :: 3 :: 4 :: []
 ```
 
-### Conditionals
+<h3 id="conditionals">Conditionals</h3>
 
 ```haskell
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
@@ -127,7 +127,7 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-### Algebraic Data Types
+<h3 id="adts">Algebraic Data Types</h3>
 
 ```haskell
 data List = Nil | Cons Int List
@@ -135,7 +135,7 @@ data List = Nil | Cons Int List
 
 Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
 
-### Records
+<h3 id="records">Records</h3>
 
 For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
@@ -169,7 +169,7 @@ lib = { id x = x }             -- polymorphic fields
 type Location = { line:Int, column:Int }
 ```
 
-### Functions
+<h3 id="functions">Functions</h3>
 
 ```haskell
 square n = n^2
@@ -186,7 +186,7 @@ square = \n -> n^2
 squares = map (\n -> n^2) [1..100]
 ```
 
-### Infix Operators
+<h3 id="infix-operators">Infix Operators</h3>
 
 You can create custom infix operators. The default
 [precedence](http://en.wikipedia.org/wiki/Order_of_operations)
@@ -221,7 +221,7 @@ dot' = circle 10 |> filled blue
 Historical note: this is borrowed from F#, inspired by Unix pipes,
 improving upon Haskell&rsquo;s `($)`.
 
-### Let Expressions
+<h3 id="let-expressions">Let Expressions</h3>
 
 ```haskell
 let n = 42
@@ -235,7 +235,7 @@ in
 Let-expressions are indentation sensitive.
 Each definition should align with the one above it.
 
-### Applying Functions
+<h3 id="applying-functions">Applying Functions</h3>
 
 ```haskell
 -- alias for appending lists and two lists
@@ -276,7 +276,7 @@ There is a special function for creating tuples:
 
 You can use as many commas as you want.
 
-### Lifting
+<h3 id="lifting">Lifting</h3>
 
 The `lift` functions are used to apply a normal function like `sqrt` to a signal
 of values such as `Mouse.x`. So the expression `(lift sqrt Mouse.x)` evaluates
@@ -311,7 +311,7 @@ scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
 and [here](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal).
 
-### Modules
+<h3 id="modules">Modules</h3>
 
 ```haskell
 module MyModule where
@@ -328,7 +328,7 @@ import List (map,foldl)   -- map, foldl
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
-### Type Annotations
+<h3 id="type-annotations">Type Annotations</h3>
 
 ```haskell
 answer : Int
@@ -341,7 +341,7 @@ addName : String -> a -> { a | name:String }
 addName name record = { record | name = name }
 ```
 
-### Type Aliases
+<h3 id="type-aliases">Type Aliases</h3>
 
 ```haskell
 type Name = String
@@ -356,7 +356,7 @@ origin : Point
 origin = { x=0, y=0 }
 ```
 
-### JavaScript FFI
+<h3 id="javascript-ffi">JavaScript FFI</h3>
 
 ```haskell
 -- incoming values
@@ -405,7 +405,7 @@ Experimental port handlers:
  * `stdout` logs to stdout in node.js and to console in browser
  * `stderr` logs to stderr in node.js and to console in browser
 
-### Things *not* in Elm
+<h3 id="things-not-in-elm">Things *not* in Elm</h3>
 
 Elm currently does not support:
 

@@ -34,7 +34,7 @@ and you can turn on automatic compilation which will recompile by itself. Check
 out the [Try Elm](/try) page to see these features in action. Big
 thanks to [madscoaducom](https://github.com/madscoaducom) for adding this!
 
-## Records
+<h2 id="records">Records</h2>
 
 Elm now supports records. Records are a labeled data structures
 that permit lightweight representations of complex data.

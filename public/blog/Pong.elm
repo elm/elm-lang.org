@@ -79,7 +79,7 @@ playing around with your own ideas.
 
 Let&rsquo;s get into the code!
 
-# Inputs
+<h1 id="inputs">Inputs</h1>
 
 This game has two primary inputs: the passage of time and key presses.
 With the keyboard, we to keep track of:
@@ -124,7 +124,7 @@ Notice that we sample on time deltas so that keyboard events do not
 cause extra updates. We want 35 frames per second, not 35 plus the
 number of key presses.
 
-# Model
+<h1 id="model">Model</h1>
 
 Here we will define the data structures that will be used throughout the rest
 of the program. This is the foundation of our game, so changes here will likely
@@ -194,7 +194,7 @@ defaultGame =
 The `defaultGame` is the starting state, so we pause the game, place the ball
 in the middle of the screen, and put the paddles on either side of the court.
 
-# Update
+<h1 id="update">Update</h1>
 
 Our `Game` data structure holds all of the information needed to represent the
 game at any moment. In this section we will define a *step function* that steps
@@ -295,7 +295,7 @@ gameState = foldp stepGame defaultGame input
 
 This models the state of the game over time.
 
-# View
+<h1 id="view">View</h1>
 
 The view is totally independent of how the game updates, it is only based on
 the model. This means we can change how the game looks without changing any of

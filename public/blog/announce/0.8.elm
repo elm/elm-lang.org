@@ -45,7 +45,7 @@ please let us know on the [mailing
 list](https://groups.google.com/forum/?fromgroups#!forum/elm-discuss)
 so we can help you out and get better documentation out for any confusing parts.
 
-## Embedding Elm in HTML and JS
+<h2 id="embedding-elm-in-html-and-js">Embedding Elm in HTML and JS</h2>
 
 Elm can now be embedded directly in HTML or JS. This means Elm will
 integrate with your existing workflow, whether you make web apps
@@ -69,7 +69,7 @@ The following video is a short demo of how to embed Elm in a `<div>`.
 So it is no longer an all-or-nothing choice. You can use Elm where it
 makes sense and HTML everywhere else.
 
-## Type Annotations and Type Aliases
+<h2 id="type-annotations-and-type-aliases">Type Annotations and Type Aliases</h2>
 
 If you are new to types, I recommend reading
 [Getting started with Types](/learn/Getting-started-with-Types.elm)
@@ -111,7 +111,7 @@ polymorphism is not possible right now. That would permit an explicit form
 of type-classes, but that is for another day.
 
 
-## Dynamic Inputs
+<h2 id="dynamic-inputs">Dynamic Inputs</h2>
 
 The new [`Graphics.Input` library](http://docs.elm-lang.org/library/Graphics/Input.elm)
 introduces text boxes, buttons, and checkboxes that can be created dynamically and
@@ -128,7 +128,7 @@ it was very encouraging that it ended up confirming the principles
 of [bidirectional data flow](http://apfelmus.nfshost.com/blog/2012/03/29-frp-three-principles-bidirectional-gui.html)
 as described by apfelmus.
 
-## Better 2D Graphics
+<h2 id="better-2d-graphics">Better 2D Graphics</h2>
 
 The `collage` API has been streamlined and now permits grouping
 and 2D matrix transforms. It also uses a proper [cartesian coordinate
@@ -272,7 +272,7 @@ and do fancier transformations like reflections and skews with
 the new [`Matrix2D` library](http://docs.elm-lang.org/library/Transform2D.elm).
 
 
-## Faster currying and data structures
+<h2 id="faster-currying-and-data-structures">Faster currying and data structures</h2>
 
 Currying is now quite a bit faster and all ADTs have a much faster
 representation. This should not change how you write code. Your code
@@ -289,7 +289,7 @@ If you want to read more about a bunch of different currying optimizations, see
 [Making a fast Curry](http://community.haskell.org/~simonmar/papers/evalapplyjfp06.pdf)
 which describes how currying works in Haskell.
 
-## Inline Documentation
+<h2 id="inline-documentation">Inline Documentation</h2>
 
 [The online editor](/edit/examples/Intermediate/Circles.elm) now shows type
 information and documentation when your cursor moves over a function. This
@@ -307,7 +307,7 @@ This feature was conceived, designed, and implemented by Mads.
 I think this is one of the coolest things in the editor, and it is
 another step towards getting extremely fast feedback for Elm development.
 
-## Miscellaneous / Experimental
+<h2 id="miscellaneous-experimental">Miscellaneous / Experimental</h2>
 
 There is a bunch of small changes and additions that aim to make Elm better
 long-term. Many of these are experimental or setting the groundwork for bigger
@@ -381,7 +381,7 @@ You can now do record pattern matching in case expressions. We have talked about
 how to make record pattern matching more flexible in general, so that will
 come out at some point in the future.
 
-## Thank you!
+<h2 id="thank-you">Thank you!</h2>
 
 Thank you to Mads for his really nice improvement to the editor. Having
 the documentation for every function makes it way easier for a beginner

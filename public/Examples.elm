@@ -43,19 +43,19 @@ is a very information dense resource once you become familiar with Elm.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
-## Basics
+<h2 id="basics">Basics</h2>
 
 |]
 
 intermediate = [markdown|
 
-## Intermediate
+<h2 id="intermediate">Intermediate</h2>
 
 |]
 
 projects = [markdown|
 
-## Big Projects
+<h2 id="big-projects">Big Projects</h2>
 
 These are all larger projects created with Elm. Fork them and use them
 as templates for your own project!
