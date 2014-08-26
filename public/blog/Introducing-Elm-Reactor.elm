@@ -52,7 +52,7 @@ shows the results with the ability to debug those results. It merges the
 prototype time-traveling debugger with rapid development features
 like automatic hot-swapping.
 
-<img src="/imgs/reactor-post/fold_small.gif" style="width:100%" height="486px">
+<img src="/imgs/reactor-post/fold.gif" style="width:100%" height="364px">
 
 # Elm-Reactor
 
@@ -71,7 +71,7 @@ Hot-swapping is changing live code with new code. Elm uses this technique for
 interactive programming. The runtime permits new functions and values to **swap
 in while the program is running**.
 
-<img src="/imgs/reactor-post/mario_small.gif" style="width:100%" height="451px">
+<img src="/imgs/reactor-post/mario.gif" style="width:100%" height="336px">
 
 In [this example](http://debug.elm-lang.org/edit/Mario.elm), Mario’s image URL
 and gravity was incorrect, but he had already made a few jumps. The functions
@@ -104,7 +104,7 @@ Pandy made a prototype last year. Time traveling debugging is two things:
 The Reactor realizes this possibility. Watch me travel back in time to not lose
 in Tetris.
 
-<img src="/imgs/reactor-post/tetris_small.gif" style="width:100%" height="485px">
+<img src="/imgs/reactor-post/tetris.gif" style="width:100%" height="362px">
 
 In this example, we can investigate the series of events that led up to my
 defeat. The Reactor will let you inspect every point in the program. It is
@@ -141,7 +141,7 @@ Reactor works with Elm-HTML. **Blazing fast HTML can be accompanied by
 time-traveling development tools**. You are free to use your own CSS, your own
 javascript, and your own HTML.
 
-<img src="/imgs/reactor-post/html_small.gif" style="width:100%" height="403px">
+<img src="/imgs/reactor-post/html.gif" style="width:100%" height="378px">
 
 The Reactor can be attached to any Elm program by including two lines of
 code. To attach the debugging panel to your elm program simply import the
@@ -175,7 +175,7 @@ the world but it’s certainly a handy one.
 What about when you make a syntax error? The browser gives you the error but
 the Reactor doesn’t try to swap the running code with bad code.
 
-<img src="/imgs/reactor-post/error_small.gif" style="width:100%" height="362px">
+<img src="/imgs/reactor-post/error.gif" style="width:100%" height="270px">
 
 Instead, the old version keeps working and will get swapped for a newer version
 only when the new version compiles.
