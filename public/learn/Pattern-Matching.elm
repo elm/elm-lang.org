@@ -36,9 +36,10 @@ using patterns in the structure of a `Color` to break it apart. This happens wit
 case-expressions.
 
 ```haskell
-toString color = case color of
-                   Blue -> "Blue"
-                   Red  -> "Red"
+toString color =
+    case color of
+        Blue -> "Blue"
+        Red  -> "Red"
 ```
 
 The case-expression is saying, &ldquo;look at the structure of `color`. If it
@@ -81,7 +82,9 @@ can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into an ADT:
 
 ```haskell
-data List a = Empty | Cons a (List a)
+data List a
+    = Empty
+    | Cons a (List a)
 ```
 
 So this creates a type called `List`. A list can either be empty or it can
@@ -107,9 +110,10 @@ Say we want to compute the product of all of the numbers in a list. The
 following function defines the logic for each possible scenario.
 
 ```haskell
-product xs = case xs of
-               Cons head tail -> head * product tail
-               Empty -> 1
+product xs =
+    case xs of
+        Cons head tail -> head * product tail
+        Empty -> 1
 ```
 
 This use of pattern matching is more complicated than with a `Color` because
@@ -159,7 +163,9 @@ We can create all sorts of data structures, like [binary trees][binary].
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
 ```haskell
-data Tree a = Empty | Node a (Tree a) (Tree a)
+data Tree a
+    = Empty
+    | Node a (Tree a) (Tree a)
 ```
 
 A tree is either empty or it is a node with a value and two children.
