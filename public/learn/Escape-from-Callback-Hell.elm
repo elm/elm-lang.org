@@ -482,7 +482,7 @@ time-sensitive [sampling][sample] and [filtering][filter], and [asynchrony][http
 This makes it much easier to deal with complicated time-dependent interactions,
 a task that is extremely common when designing user interfaces.
 
-  [signal]: http://docs.elm-lang.org/library/Signal.elm "Signal Docs"
+  [signal]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal "Signal Docs"
   [stamp]: /edit/examples/Intermediate/Stamps.elm "Stamps"
   [clock]: /edit/examples/Intermediate/Clock.elm "Clock"
   [sample]: /edit/examples/Reactive/SampleOn.elm "sampleOn"
