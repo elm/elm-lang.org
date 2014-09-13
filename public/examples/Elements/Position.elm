@@ -28,4 +28,5 @@ A Pos can be created with:
 
 main : Element
 main =
-  color grey (container 300 300 middle (plainText "Try this with html."))
+  plainText "Try this with html." |> container 300 300 middle
+                                  |> color grey
