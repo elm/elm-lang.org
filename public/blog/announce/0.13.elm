@@ -193,13 +193,15 @@ There is now a `--bundle-runtime` flag which creates stand-alone Elm programs.
 It adds the runtime system to the generated code, so you do not need to link
 it.
 
-Previous iterations of Elm depended on the Pandoc project. Pandoc is great and
-extremely useful, but it includes lots of functionality that Elm does not need
-and brings in a large number of dependencies that led to build problems quite
-frequently. Elm 0.13 uses a library called cheapskate for markdown parsing.
+Previous iterations of Elm depended on the Pandoc project. [Pandoc][] is great
+and extremely useful, but it includes lots of functionality that Elm does not
+need and brings in a large number of dependencies that led to build problems
+quite frequently. Elm 0.13 uses a library called [cheapskate][] for markdown
+parsing.
 
 [ports]: /learn/Ports.elm
-
+[Pandoc]: http://johnmacfarlane.net/pandoc/
+[cheapskate]: https://hackage.haskell.org/package/cheapskate
 
 ## Thank you
 
@@ -232,8 +234,8 @@ an Elm repo!
 Thank you to [Christian Widera](https://github.com/Xashili) for continuing to
 improve [the Array library][array]. Thanks to [Daniel Heres][dan] for fixing
 a layout bug. Thank you [Max New][max] for continuing to improve testing and
-build process. I think We are at a point now where the benefits of these
-efforts has become extremely obvious, it is great!
+build process. The benefits of these efforts has become extremely obvious by
+now; it is great!
 
 [dan]: https://github.com/Dandandan
 [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
