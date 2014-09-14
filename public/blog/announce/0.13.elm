@@ -24,10 +24,10 @@ In addition to making the compiler code nicer to work with, it made it really
 easy to fix a couple long-standing issues surrounding imports and exports. The
 major improvements you will see as a user include:
 
-  * Better error messages on ambiguous variables.
-  * Nicer import and export mechanisms for ADTs.
-  * Cleaner and more consistent standard libraries.
-  * Type aliases can be used with ports.
+  * Better error messages on ambiguous variables
+  * Nicer import and export mechanisms for ADTs
+  * Cleaner and more consistent standard libraries
+  * Type aliases can be used with ports
 
 In pursuit of these improvements, we made some breaking changes, so these
 release notes are a nice overview of what has changed and how to upgrade your
