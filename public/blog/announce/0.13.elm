@@ -77,6 +77,7 @@ your code can never *become* ambiguous if someone adds a `map` function to a
 library you imported unqualified. Furthermore, it is very helpful for people
 reading your code for the first time.
 
+
 ## Cleaning up the Standard Libraries
 
 Quite a few functions have been added, renamed, and removed in an effort to
@@ -103,21 +104,12 @@ Here are all the changes:
 The changes in `Basics` are probably the most far reaching, so I think they
 deserve a proper defense. See [this thread][renaming] to see the arguments
 for renaming `id`, `div`, and `mod`. The toughest decision was about function
-composition, so there is [a whole section][fun-comp] on that at the end of
-this post.
+composition, so the next section is devoted to explaining that choice.
 
 [renaming]: https://groups.google.com/forum/#!searchin/elm-discuss/div$20mod$20id/elm-discuss/uuKEqENZZm8/bKs5k-suzJsJ
-[fun-comp]: #fun-comp
 
-## Miscellaneous
 
-  * Type aliases in port types 
-  * Add --bundle-runtime flag which creates stand-alone Elm programs
-  * Replace dependency on Pandoc with cheapskate+kate
-
-<br>
-
-<h2 id="fun-comp">Composing functions the new way</h2>
+### The new Function Composition Operators
 
 Function composition is now done with the following operators:
 
@@ -183,4 +175,70 @@ It is pretty easy to replace `(.)` with `(<<)`. The operator is typically
 surrounded by spaces, so you can find and replace it pretty safely. Longer
 term, it may be worthwhile to consider switching to `(>>)` or `(|>)`.
 
+
+## Miscellaneous Improvements
+
+Elm uses [ports][] to communicate with JavaScript. You can now use type aliases
+when defining ports. This means it is much nicer to send large records through
+ports. You can now send Elm arrays through ports as well.
+
+There is now a `--bundle-runtime` flag which creates stand-alone Elm programs.
+It adds the runtime system to the generated code, so you do not need to link
+it.
+
+Previous iterations of Elm depended on the Pandoc project. Pandoc is great and
+extremely useful, but it includes lots of functionality that Elm does not need
+and brings in a large number of dependencies that led to build problems quite
+frequently. Elm 0.13 uses a library called cheapskate for markdown parsing.
+
+[ports]: /learn/Ports.elm
+
+
+## Thank you
+
+Huge thank you to [Michael B. James][michael] and [Andrew Shulayev][andrew] who
+joined the Elm team as interns this summer! The major parts of their projects
+will be coming out in the following days and weeks, but some improvements can
+already be announced. Thanks to Michael for figuring out how to build the
+entire Elm platform with cabal sandboxes, this makes installing much nicer
+on non-Windows and non-Mac platforms! Thanks to Andrew for making the
+documentation parser less ad-hoc. Thank you to both of you for talking through
+issues and design choices. I learned a lot working with you and had a ton of
+fun! On that note, thank you too [Laszlo Pandy][laszlo] for helping me
+improve as a leader and manager and person; this summer felt like a big deal
+for me.
+
+[michael]: https://github.com/michaelbjames
+[andrew]: https://github.com/ddrone
+[laszlo]: https://github.com/laszlopandy
+
+Massive thank you to [Attila Gazso][agazso] for improving the installers. I
+used to be really wary of working on them, but you laid a great foundation
+for [Elm Platform][platform] that helped me learn a ton about the tools and
+processes needed. I continue to be surprised by the kinds of crazy and
+creative fixes we end up using. I never imagined VBScript would make it into
+an Elm repo!
+
+[agazso]: https://github.com/agazso
+[platform]: https://github.com/elm-lang/elm-platform
+
+Thank you to [Christian Widera](https://github.com/Xashili) for continuing to
+improve [the Array library][array]. Thanks to [Max Goldstein][mgold] for
+allowing arrays to flow through ports. Thanks to [Daniel Heres][dan] for fixing
+a layout bug. Thank you [Max New][max] for continuing to improve testing and
+build process. I think We are at a point now where the benefits of these
+efforts has become extremely obvious, it is great!
+
+[dan]: https://github.com/Dandandan
+[array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
+[max]: https://github.com/maxsnew
+[mgold]: https://github.com/mgold
+
+Finally, thank you to [Peter Halacsy][hp] and [Prezi][] for your support! You
+have helped this project and community enormously. The progress is so obvious
+looking back over the past year and a half, and there is no way it would have
+happened so quickly or so smoothly without your help. Thank you!
+
+[hp]: https://twitter.com/halacsy
+[Prezi]: https://prezi.com/
 |]
