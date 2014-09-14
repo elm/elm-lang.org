@@ -17,6 +17,7 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
 import qualified Elm.Internal.Utils as Elm
+import Elm.Internal.Version (elmVersion)
 import Utils
 
 -- | Using a page title and the full source of an Elm program, compile down to
@@ -53,7 +54,7 @@ html name src =
                \a:active {text-decoration: none}\n\
                \a:hover {text-decoration: underline; color: rgb(234,21,122);}" :: String)
         H.body $ do
-          script ! A.src (H.toValue ("/elm-runtime.js" :: String)) $ ""
+          script ! A.src (H.toValue ("/elm-runtime.js?" ++ show elmVersion)) $ ""
           content
         googleAnalytics
 

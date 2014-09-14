@@ -26,6 +26,7 @@ import System.Directory
 import GHC.Conc
 
 import qualified Elm.Internal.Paths as Elm
+import Elm.Internal.Version (elmVersion)
 import qualified Generate
 import qualified Editor
 
@@ -194,7 +195,7 @@ precompile =
 
           flags file =
               [ "--make"
-              , "--set-runtime=/elm-runtime.js"
+              , "--set-runtime=/elm-runtime.js?" ++ show elmVersion
               , "--src-dir=public"
               , file
               ]
