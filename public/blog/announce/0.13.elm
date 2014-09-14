@@ -19,16 +19,23 @@ content = [markdown|
 
 # Elm 0.13
 
-This release is largely a clean up that closes a lot of long-standing issues
-and improves the standard libraries a bit. In pursuit of these improvements,
-we made some breaking changes, so these release notes are a nice overview of
-what has changed and how to upgrade your code to use 0.13.
-
-## Imports and Exports
-
 A big part of this release is an architecture improvement for the compiler.
 In addition to making the compiler code nicer to work with, it made it really
-easy to fix a couple long-standing issues surrounding imports and exports.
+easy to fix a couple long-standing issues surrounding imports and exports. The
+major improvements you will see as a user include:
+
+    * Better error messages on ambiguous variables.
+    * Nicer import and export mechanisms for ADTs.
+    * Cleaner and more consistent standard libraries.
+    * Type aliases can be used with ports.
+
+In pursuit of these improvements, we made some breaking changes, so these
+release notes are a nice overview of what has changed and how to upgrade your
+code to use 0.13. To install or upgrade, follow [these directions][install].
+
+[install]: https://github.com/elm-lang/elm-platform/blob/master/README.md
+
+## Imports and Exports
 
 The code that manages importing and exporting ADTs has been improved a lot. As
 part of those fixes, there is now a new syntax for importing and exporting
@@ -180,7 +187,7 @@ term, it may be worthwhile to consider switching to `(>>)` or `(|>)`.
 
 Elm uses [ports][] to communicate with JavaScript. You can now use type aliases
 when defining ports. This means it is much nicer to send large records through
-ports. You can now send Elm arrays through ports as well.
+ports.
 
 There is now a `--bundle-runtime` flag which creates stand-alone Elm programs.
 It adds the runtime system to the generated code, so you do not need to link
@@ -223,8 +230,7 @@ an Elm repo!
 [platform]: https://github.com/elm-lang/elm-platform
 
 Thank you to [Christian Widera](https://github.com/Xashili) for continuing to
-improve [the Array library][array]. Thanks to [Max Goldstein][mgold] for
-allowing arrays to flow through ports. Thanks to [Daniel Heres][dan] for fixing
+improve [the Array library][array]. Thanks to [Daniel Heres][dan] for fixing
 a layout bug. Thank you [Max New][max] for continuing to improve testing and
 build process. I think We are at a point now where the benefits of these
 efforts has become extremely obvious, it is great!
@@ -232,7 +238,6 @@ efforts has become extremely obvious, it is great!
 [dan]: https://github.com/Dandandan
 [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
 [max]: https://github.com/maxsnew
-[mgold]: https://github.com/mgold
 
 Finally, thank you to [Peter Halacsy][hp] and [Prezi][] for your support! You
 have helped this project and community enormously. The progress is so obvious
