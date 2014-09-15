@@ -186,9 +186,9 @@ with the Reactor**
 [elm-webgl]: /blog/announce/0.12.3.elm
 [elm-d3]: https://github.com/seliopou/elm-d3
 
-<img style="width:200px; height:100px;" src="">
-<img style="width:200px; height:100px;" src="">
-<img style="width:200px; height:100px;" src="">
+<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-html">
+<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-webgl">
+<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-d3">
 
 The Reactor can also integrate with your favorite editor. Even better the code
 swapping is editor-agnostic; it just watches your project directory for file
