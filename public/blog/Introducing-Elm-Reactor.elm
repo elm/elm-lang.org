@@ -184,7 +184,7 @@ Elm Reactor will work with any Elm project. Use it with  [elm-html][],
 with the Reactor**
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
-[elm-webgl]: http://library.elm-lang.org/catalog/johnpmayer-elm-webgl/latest/
+[elm-webgl]: /blog/announce/0.12.3.elm
 [elm-d3]: https://github.com/seliopou/elm-d3
 
 <img><img><img>
