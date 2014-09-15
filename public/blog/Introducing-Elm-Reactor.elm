@@ -15,7 +15,6 @@ everything wid =
   in
   flow down
   [ width w pageTitle
-  , section author
   , section content
   , width w example
   , section workflow
@@ -30,15 +29,12 @@ pageTitle = [markdown|
 </div>
 |]
 
-author = [markdown|
-<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 1em; text-align: right; font-style: italic;">
-By <a href="http://github.com/michaelbjames">Michael James</a>
-</div>
-|]
-
 content = [markdown|
 
 <br/>
+<p style="text-align: right;">
+By <a href="http://github.com/michaelbjames">Michael James</a>
+</p>
 
 Elm Reactor is a development tool that gives you the power to time-travel.
 Pause, rewind, and unpause any Elm program to find bugs and explore the
@@ -52,7 +48,7 @@ you can start using it for your projects today.
 [install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 The following demo shows someone fixing a bug in a TodoMVC app written with
-[elm-html](/blog/Blazing-Fast-Html.em). “Active Tasks” should filter tasks
+[elm-html](/blog/Blazing-Fast-Html.em). &ldquo;Active Tasks&rdquo; should filter tasks
 marked as complete. Watch them find the bug, fix the code, see the fix propagate
 automatically, and rewind the program to verify the fix.
 
@@ -74,21 +70,21 @@ a line piece and correct my mistake:
 <img src="/imgs/reactor-post/tetris.gif" style="width:100%" height="336px">
 
 In this example, I paused the game, went back, and continued to undo my poor
-gameplay.  This is what I mean by “time-traveling” in Elm Reactor; to be more
-formal “time-traveling” means to:
+gameplay. This is the essense of time-travel with Elm Reactor:
 
 * Pause a running program
 * Step back in time
-* Continue from any point in the program’s past to make a new future.
+* Continue from any point in the program&rsquo;s past to make a new future
 
 This sort of time traveling lets you explore the interaction space of your
 program faster. Imagine debugging an online checkout page with this. You need to
 verify that the error messages look right. Now imagine there are several dozen
 ways to reach an error message (e.g., bad phone number, no last name, etc.).
-Traditionally you would need to repeat the entire transaction for each error
-error, slowly driving you crazy as you mistype something for the 13th time. Elm
+Traditionally you would need to repeat the entire transaction for each error,
+slowly driving you crazy as you mistype something for the 13th time. Elm
 Reactor lets you rewind to any point making it easy to explore an alternate
-interaction. Here’s how Elm Reactor does it.
+interaction. The next few sections will describe how Elm Reactor makes this
+possible.
 
 ### Recording Inputs
 
@@ -184,7 +180,7 @@ workflow = [markdown|
 # In your workflow
 
 Elm Reactor will work with any Elm project. Use it with  [elm-html][],
-[elm-webgl][], [elm-d3][], or any other renderer.  **If it’s Elm it will work
+[elm-webgl][], [elm-d3][], or any other renderer. **If it’s Elm it will work
 with the Reactor**
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
@@ -266,7 +262,7 @@ debugging tab pretty! Thank you to Laszlo Pandy who wrote the prototype Elm
 debugger. He demonstrated the possibility of debugging like this.
 
 Thank you to Bret Victor whose talk,
-[“Inventing on Principle”](https://www.youtube.com/watch?v=PUv66718DII) offered
+[&ldquo;Inventing on Principle&rdquo;](https://www.youtube.com/watch?v=PUv66718DII) offered
 valuable insight into what this experience should be like.
 
 |]
