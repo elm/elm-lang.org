@@ -52,7 +52,7 @@ The following demo shows someone fixing a bug in a TodoMVC app written with
 marked as complete. Watch them find the bug, fix the code, see the fix propagate
 automatically, and rewind the program to verify the fix.
 
-<img src="/imgs/reactor-post/fold.gif" style="width:100%" height="364px">
+<img src="/imgs/reactor-post/fold.gif" style="width:600px; height:364px;">
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
 combines the time-traveling debugger prototype created by Laszlo Pandy and Evan
@@ -67,7 +67,7 @@ program, rewind to any earlier point, and start running again. Watch me misplace
 a line piece and correct my mistake:
 
 
-<img src="/imgs/reactor-post/tetris.gif" style="width:100%" height="336px">
+<img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:336px;">
 
 In this example, I paused the game, went back, and continued to undo my poor
 gameplay. This is the essense of time-travel with Elm Reactor:
@@ -98,7 +98,7 @@ Elm Time, while Real Time presses on. To unpause time, Elm Reactor begins to let
 events go to the runtime.
 
 
-<img src="/imgs/reactor-post/timeline-pause.png" style="width:600px" height="200px">
+<img src="/imgs/reactor-post/timeline-pause.png" style="width:600px; height:200px;">
 
 Elm Time is continuous from its perspective. A naïve approach might only unmute
 events from Real Time to Elm Time, but Elm Reactor offsets events by the time
@@ -142,8 +142,7 @@ In addition to time-traveling, Elm Reactor also lets you change history. Since
 the Reactor records the entire history of inputs to the program, we can simply
 replay these inputs on new code to see a bug fix or how things change.
 
-
-<img src="/imgs/reactor-post/swap.gif" style="width:100%" height="364px">
+<img src="/imgs/reactor-post/swap.gif" style="width:600px; height:364px;">
 
 In this example, Mario’s image URL and gravity were set incorrectly. Mario had
 already made a few jumps and time had passed. But since the program’s input
@@ -164,7 +163,7 @@ swap in *valid* programs. If there is a type error or syntax error, then the
 program is not swapped. Instead an error message is displayed explaining the
 issue and the last working version keeps running.
 
-<img src="/imgs/reactor-post/error.gif" style="width:100%" height="364px">
+<img src="/imgs/reactor-post/error.gif" style="width:600px; height:364px;">
 
 # Try it yourself!
 
