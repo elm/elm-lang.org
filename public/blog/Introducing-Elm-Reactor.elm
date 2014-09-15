@@ -67,7 +67,7 @@ program, rewind to any earlier point, and start running again. Watch me misplace
 a line piece and correct my mistake:
 
 
-<img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:336px;">
+<img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:306px;">
 
 In this example, I paused the game, went back, and continued to undo my poor
 gameplay. This is the essense of time-travel with Elm Reactor:
