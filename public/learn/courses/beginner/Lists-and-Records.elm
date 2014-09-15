@@ -61,7 +61,7 @@ video = [markdown|
 
 intro = [markdown|
 
-# Practice Problems
+<h1 id="practice-problems">Practice Problems</h1>
 
 These problems will challenge you to use and expand upon your knowledge of
 lists and records. Remember that case expressions and pattern matching are

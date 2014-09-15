@@ -117,7 +117,7 @@ Languages. It is one of the best resources I have found.
 
 ## Syntax Improvements
 
-#### Pattern Matching
+<h4 id="pattern-matching">Pattern Matching</h4>
 
 You can now pattern match on literals like numbers, strings, and booleans.
 
@@ -152,7 +152,7 @@ data World = World Mario [Goomba] [Brick]
 step input (World mario goombas bricks as world) = ...
 ```
 
-#### Unary negation
+<h4 id="unary-negation">Unary negation</h4>
 
 I was very hesitant to add this feature because I had not seen a
 statically-typed functional language that I felt got this right.
@@ -200,7 +200,7 @@ In practice, I have found that this is how my brain parses code. I definitely re
 This is similar to how `(.)` can mean many different things depending on spacing. It is
 unfortunate to overload, but I think this is the best solution given the constraints.
 
-#### Multi-line Strings
+<h4 id="multi-line-strings">Multi-line Strings</h4>
 
 Just like Python, you can use multi-line strings if you use the triple-quote.
 This will make it easier to embed plain-text or JSON if the text uses `"`.
@@ -215,7 +215,7 @@ json = """
 """
 ```
 
-#### Record Constructors
+<h4 id="record-constructors">Record Constructors</h4>
 
 When you create a type alias for a record, you also create a &ldquo;record constructor&rdquo;.
 

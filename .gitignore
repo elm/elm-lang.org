@@ -1,10 +1,8 @@
-compiled
-ElmServer
 cache
 build
 dist
 resources/elm-runtime.js
 resources/docs.json
-run-elm-website
 log
 elm_dependencies/
+cabal.sandbox.config

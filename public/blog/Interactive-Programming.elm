@@ -178,7 +178,7 @@ features like [static types](#static-types),
 [immutability and purity](#immutability-and-purity),
 and [predictable structure](#predictable-structure).
 
-### Static Types
+<h3 id="static-types">Static Types</h3>
 
 It is quite common to change an API. Modifying or extending existing functions
 often requires it. For example, the following two functions conceptually do the
@@ -204,7 +204,7 @@ types of the old state matches the types of the new state, ruling out a whole
 class of hot-swapping-induced runtime errors. With static types, hot-swapping
 can be safely automated to a much greater extent.
 
-### Immutability and Purity
+<h3 id="immutability-and-purity">Immutability and Purity</h3>
 
 Mutable state permits a tight coupling between state and functions.
 Suddenly part of our programs state lives in functions. We cannot
@@ -227,7 +227,7 @@ Both have already been very successful for concurrency in languages
 like [Erlang](http://www.erlang.org/), one of the few languages that also
 supports hot-swapping.
 
-### Predictable Structure
+<h3 id="predictable-structure">Predictable Structure</h3>
 
 In Elm, the structure of signal graphs is known as soon as the program starts
 and does not change. Elm&rsquo;s static signal graphs are possible because

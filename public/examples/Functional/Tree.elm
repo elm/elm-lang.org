@@ -52,9 +52,12 @@ main = flow down [ display "depth" depth t1
                  ]
 
 display : String -> (Tree a -> b) -> Tree a -> Element
-display name f v =
-  leftAligned . monospace . toText <|
-  concat [ name, " (", show v, ") &rArr;\n    ", show (f v), "\n " ]
+display name f value =
+    concat [ name, " (", show value, ") &rArr;\n    ", show (f value), "\n " ]
+      |> toText
+      |> monospace
+      |> leftAligned
+  
 
 {-----------------------------------------------------------------
 

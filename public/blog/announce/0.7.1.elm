@@ -5,7 +5,7 @@ import Window
 port title : String
 port title = "Elm 0.7.1 - Library Cultivation"
 
-main = lift2 (skeleton "Blog" . scene) (constant ()) Window.dimensions
+main = lift2 (skeleton "Blog" << scene) (constant ()) Window.dimensions
 
 scene obj w' =
   let w = min 600 w' in
@@ -221,7 +221,7 @@ fromMaybe' d = maybe d id
 
 mapMaybe : (a -> Maybe b) -> [a] -> [b]
 mapMaybe f xs = justs (map f xs)
-mapMaybe' f = justs . map f
+mapMaybe' f = justs << map f
 ```
 
 In general, it is probably just easier to not define the function and use `maybe` and

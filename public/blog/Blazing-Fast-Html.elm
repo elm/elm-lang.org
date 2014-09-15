@@ -177,7 +177,7 @@ purity and immutability are kind of a big deal. Read about [hot-swapping in
 Elm](/blog/Interactive-Programming.elm) and the [time traveling
 debugger](http://debug.elm-lang.org/) to learn more about this.
 
-## Reusable Widgets
+<h2 id="reusable-widgets">Reusable Widgets</h2>
 
 This approach makes it incredibly simple to create reusable widgets. For
 example, a list of user profiles can be nicely abstracted with something like

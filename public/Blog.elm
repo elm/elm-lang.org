@@ -37,6 +37,7 @@ blog = [markdown|
 
 ### Release Notes
 
+* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Internal cleanup
 * <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
 * <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
 * <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
@@ -71,6 +72,7 @@ blog = [markdown|
   [12]: /blog/announce/0.12.elm "user input"
   [121]: /blog/announce/0.12.1.elm "Fast Immutable Arrays"
   [123]: /blog/announce/0.12.3.elm "3D rendering with WebGL"
+  [13]: /blog/announce/0.13.elm
 
 ### Conference Videos
 

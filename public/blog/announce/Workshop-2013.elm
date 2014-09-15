@@ -42,7 +42,7 @@ talks w =
 
 talk w (title,speaker) =
     let title' = plainText title
-        speaker' = leftAligned . Text.color darkGrey <| toText speaker
+        speaker' = leftAligned << Text.color darkGrey <| toText speaker
         padding = 30
         lineHeight = heightOf title' + 4
         speakerWidth = widthOf speaker'

@@ -43,19 +43,19 @@ is a very information dense resource once you become familiar with Elm.
 
   [syntax]: /learn/Syntax.elm "The Syntax of Elm"
 
-## Basics
+<h2 id="basics">Basics</h2>
 
 |]
 
 intermediate = [markdown|
 
-## Intermediate
+<h2 id="intermediate">Intermediate</h2>
 
 |]
 
 projects = [markdown|
 
-## Big Projects
+<h2 id="big-projects">Big Projects</h2>
 
 These are all larger projects created with Elm. Fork them and use them
 as templates for your own project!
@@ -213,11 +213,11 @@ example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
 toLinks (title, links) =
   flow right
    [ width 150 (plainText <| "    " ++ title)
-   , leftAligned . join (toText ", ") <| map example links
+   , leftAligned << join (toText ", ") <| map example links
    ]
 
 subsection w (name,info) =
-  flow down . intersperse (spacer w 6) . map (width w) <|
-    (tag name . leftAligned . typeface headerFaces . bold <| toText name) ::
+  flow down << intersperse (spacer w 6) << map (width w) <|
+    (tag name << leftAligned << typeface headerFaces << bold <| toText name) ::
     spacer 0 0 ::
     map toLinks info ++ [spacer w 12]

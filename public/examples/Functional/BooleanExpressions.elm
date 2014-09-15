@@ -36,5 +36,8 @@ main : Element
 main = flow down <| map display [ e1, e2, e3, e4 ]
 
 display : Expr -> Element
-display e =
-  leftAligned . monospace . toText <| show (eval e) ++ " &lArr; " ++ show e
+display expr =
+  show (eval expr) ++ " &lArr; " ++ show expr
+    |> toText
+    |> monospace
+    |> leftAligned

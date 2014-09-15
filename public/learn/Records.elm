@@ -7,7 +7,7 @@ import Window
 port title : String
 port title = "Elm - Extensible Records"
 
-main = skeleton "Learn" (content . min 600) <~ Window.dimensions
+main = skeleton "Learn" (content << min 600) <~ Window.dimensions
 
 content w = 
   flow down
@@ -62,7 +62,7 @@ The structure of the following document is as follows:
 - [Polymorphic Fields](#polymorphic-fields)
 - [Record Types](#record-types)
 
-### Comparison of Records and Objects
+<h3 id="comparison-of-records-and-objects">Comparison of Records and Objects</h3>
 
 Records in Elm are quite similar to objects in JavaScript. The major differences
 are that with records:
@@ -84,7 +84,7 @@ type.
 
  [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 
-### What is a Record?
+<h3 id="what-is-a-record">What is a Record?</h3>
 
 A record is a lightweight labeled data structure. For instance, if we
 wanted to represent a point we just create a record with an x and y field:
@@ -117,7 +117,7 @@ larry = { name="Page" , age=39 }
 people = [ bill, steve, larry ]
 ```
 
-### Access
+<h3 id="access">Access</h3>
 
 There are a number of ways to access records:
 
@@ -152,7 +152,7 @@ in a single file because each of these records has a field `x`.
 Note that none these accessors pollute the global namespace.
 You can still have a value `x` independent of the `(.x)` accessor.
 
-### Pattern Matching
+<h3 id="pattern-matching">Pattern Matching</h3>
 
 It is also possible to pattern match on records:
 
@@ -179,7 +179,7 @@ postMatches = [markdown|
 These patterns can appear in let expressions, lambda expressions,
 and case expressions.
 
-### Updating Records
+<h3 id="updating-records">Updating Records</h3>
 
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
@@ -217,7 +217,7 @@ with and whether or not it is valid.
 The update functions allow you to write fairly elaborate update functions
 with little trouble.
 
-### Adding, Deleting, and Renaming Fields
+<h3 id="adding-deleting-and-renaming-fields">Adding, Deleting, and Renaming Fields</h3>
 
 Record fields can be added and deleted with following syntax:
 |]
@@ -257,7 +257,7 @@ postReplace w = width w [markdown|
 
 The field update syntax is just a prettier way to write this!
 
-### Polymorphic Fields
+<h3 id="polymorphic-fields">Polymorphic Fields</h3>
 
 Elm allows [polymorphism][poly] within records, so a record field can
 hold a polymorphic function like list append `(++)`. For example:
@@ -297,7 +297,7 @@ make it possible to gain some of the flexibility of first-class modules
 and typeclasses, as described in
 [this announcement](/blog/announce/0.7.elm).
 
-### Record Types
+<h3 id="record-types">Record Types</h3>
 
 A record type looks very similar to actual records. Say we wanted to work
 with points that have an `x` and `y` field. We could add type annotations
@@ -371,14 +371,14 @@ used safely!
 evaluate wid pairs =
   let f (a,b) =
         let w = wid // 2
-            c = leftAligned . monospace <| toText a
-            d = leftAligned . monospace <| toText b
+            c = leftAligned << monospace <| toText a
+            d = leftAligned << monospace <| toText b
             h = 10 + max (heightOf c) (heightOf d)
         in  flow right [ container w h middle c
                        , container w h middle d ]
   in
   let es = map f pairs
-      arrow = leftAligned . Text.height 3 . Text.color accent1 . toText <| "&rArr;"
+      arrow = leftAligned << Text.height 3 << Text.color accent1 << toText <| "&rArr;"
       h = sum <| map heightOf es
   in  layers [ container wid h middle arrow
              , flow down es ]

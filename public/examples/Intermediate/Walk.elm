@@ -29,8 +29,12 @@ timeStep t ({x,y,vx,vy} as obj) =
     { obj | x <- clamp (-areaW/2) (areaW/2) (x + t * vx) ,
             y <- clamp (-areaH/2) (areaH/2) (y + t * vy) }
 
-step (time,arrows,run) hero =
-    timeStep time . dirStep arrows . runStep run . velStep arrows <| hero
+step (time, keys, run) hero =
+    hero
+        |> velStep keys
+        |> runStep run
+        |> dirStep keys
+        |> timeStep time
 
 
 -- HERO
@@ -42,7 +46,7 @@ main  = lift2 display Window.dimensions (foldp step hero input)
 
 -- DISPLAY
 display (w,h) {x,y,vx,vy,dir} =
-  container w h middle . collage areaW areaH <|
+  container w h middle << collage areaW areaH <|
     [ toForm (image areaW areaH "/imgs/desert.png")
     , let verb = if vx == 0 && vy == 0 then "stand" else "walk"
           src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"

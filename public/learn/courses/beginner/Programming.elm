@@ -309,7 +309,7 @@ a couple different ways:
 |]
 
 pics w =
-  flow right . map (container (w // 2) 160 middle) <|
+  flow right << map (container (w // 2) 160 middle) <|
     [ image 200 140 "/imgs/right-triangle.jpg"
     , image 150 150 "http://upload.wikimedia.org/wikipedia/commons/6/65/Pythag_anim.gif"
     ]

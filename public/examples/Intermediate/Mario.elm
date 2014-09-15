@@ -14,7 +14,8 @@ walk {x} m = { m | vx <- toFloat x
                              | x > 0     -> "right"
                              | otherwise -> m.dir }
 
-step (t,dir) = physics t . walk dir . gravity t . jump dir
+step (dt, keys) =
+  jump keys >> gravity dt >> walk keys >> physics dt
 
 
 -- DISPLAY
@@ -23,7 +24,7 @@ render (w',h') mario =
       verb = if | mario.y  >  0 -> "jump"
                 | mario.vx /= 0 -> "walk"
                 | otherwise     -> "stand"
-      src  = "/imgs/mario/" ++ verb ++ "/" ++ mario.dir ++ ".gif"
+      src = "/imgs/mario/" ++ verb ++ "/" ++ mario.dir ++ ".gif"
   in collage w' h'
       [ rect w h  |> filled (rgb 174 238 238)
       , rect w 50 |> filled (rgb 74 163 41)
@@ -33,6 +34,6 @@ render (w',h') mario =
 
 -- MARIO
 input = let delta = lift (\t -> t/20) (fps 25)
-        in sampleOn delta (lift2 (,) delta Keyboard.arrows)
+        in  sampleOn delta (lift2 (,) delta Keyboard.arrows)
 
-main  = lift2 render Window.dimensions (foldp step mario input)
+main = lift2 render Window.dimensions (foldp step mario input)

@@ -11,8 +11,10 @@ box e =
   let w = widthOf e
       h = heightOf e
   in  flow down [ color C.accent1 (spacer (w+40) 5)
-                , color C.mediumGrey . container (w+40) (h+11) midTop .
-                  color C.lightGrey <| container (w+38) (h+10) midTop e
+                , container (w+38) (h+10) midTop e
+                    |> color C.lightGrey
+                    |> container (w+40) (h+11) midTop
+                    |> color C.mediumGrey 
                 ]
 
 report msg = scene msg <~ Window.dimensions

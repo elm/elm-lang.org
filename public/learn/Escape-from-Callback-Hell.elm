@@ -76,7 +76,7 @@ content tagContent tagResponse outerWidth =
       ]
 
 --tagResults : Signal (Http.Response String)
-tagResults = Http.send (getTag . .string <~ tagSearch.signal)
+tagResults = Http.send (getTag << .string <~ tagSearch.signal)
 
 main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults) ~ Window.dimensions
 
@@ -520,7 +520,7 @@ if you do not have any experience reading academic papers. You can also email
 tags : Input.Input Field.Content
 tags = Input.input Field.noContent
 
-code = centered . monospace . toText
+code = centered << monospace << toText
 box w e = container w 40 middle e
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t

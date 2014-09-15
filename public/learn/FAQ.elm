@@ -11,17 +11,21 @@ These are answers to frequently asked questions, broken down by the
 background of the questioner. It currently covers [Haskell](#haskell)
 and [JavaScript](#javascript)
 
-## Haskell
+<h2 id="haskell">Haskell</h2>
 
 * [Although Elm looks like Haskell, Elm is not
-  Haskell](http://www.testblogpleaseignore.com/2012/06/21/why-elm/). In the pursuit
-  of making purely functional GUIs easy and practical, Elm draws inspiration from
-  many languages (e.g. Haskell, OCaml, Agda, F#, SML) and aims to borrow and improve
-  upon the best of existing languages and research.
+  Haskell](http://www.testblogpleaseignore.com/2012/06/21/why-elm/). In the
+  pursuit of making purely functional GUIs easy and practical, Elm draws
+  inspiration from many languages (e.g. Haskell, OCaml, Agda, F#, SML, Python,
+  Clojure) and aims to borrow and improve upon the best of existing languages
+  and research.
 
 * Instead of using `($)` for function application, Elm uses the `(<|)` and `(|>)`
   operators for forward and backward application: `(f <| x) == f x == (x |> f)`.
   Borrowed from F#, the goal is to make the symbol reflect its meaning.
+
+* Instead of using `(.)` for function composition, Elm uses the `(<<)` and
+  `(>>)`. Borrowed from F#, the goal is to make the symbol reflect its meaning.
 
 * The order of arguments for
   [foldl](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/List#foldl)
@@ -47,7 +51,7 @@ and [JavaScript](#javascript)
   provides much of the flexibility of Monadic FRP without the performance issues.
 
 
-## JavaScript
+<h2 id="javascript">JavaScript</h2>
 
 * [Graphics.Collage](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Collage)
   uses Cartesian coordinates, so positive y is up and the origin at the center of the canvas

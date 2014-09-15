@@ -1,10 +1,18 @@
 
+quadrant : Float -> Int -> [Form]
 quadrant spc n =
-    let xs = map (\x -> (x * spc, 0)) <| [0..n]
-        ys = map (\y -> (0, y * spc)) <| reverse [0..n]
-    in  map (traced (solid black)) (zipWith segment xs ys)
+    let scale a = toFloat a * spc
+        xs = map (\x -> (scale x, 0)) <| [0..n]
+        ys = map (\y -> (0, scale y)) <| reverse [0..n]
+    in
+        map (traced (solid black)) (zipWith segment xs ys)
 
+quad : Float -> Form
 quad angle =
-    rotate (degrees angle) . group <| quadrant 8 20
+    quadrant 8 20
+        |> group
+        |> rotate (degrees angle) 
 
-main = collage 300 300 <| map quad [ 0, 90, 180, 270 ]
+main : Element
+main =
+    collage 300 300 (map quad [ 0, 90, 180, 270 ])
