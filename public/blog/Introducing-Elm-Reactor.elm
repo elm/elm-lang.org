@@ -47,7 +47,7 @@ you can start using it for your projects today.
 [install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 The following demo shows someone fixing a bug in a TodoMVC app written with
-[elm-html](/blog/Blazing-Fast-Html.em). “Active Tasks” should filter tasks
+[elm-html](/blog/Blazing-Fast-Html.em). &ldquo;Active Tasks&rdquo; should filter tasks
 marked as complete. Watch them find the bug, fix the code, see the fix propagate
 automatically, and rewind the program to verify the fix.
 
@@ -68,9 +68,8 @@ a line piece and correct my mistake:
 <img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:306px;">
 
 In this example, I paused the game, went back, and continued to avoid crushing
-defeat.  This is what I mean by “time-traveling” in Elm Reactor; to be more
-formal “time-traveling” means to:
-
+defeat. This is what &ldquo;time-traveling&rdquo; means in Elm Reactor. It lets
+you:
 
 * Pause a running program
 * Step back in time
@@ -80,10 +79,11 @@ This sort of time traveling lets you explore the interaction space of your
 program faster. Imagine debugging an online checkout page with this. You need to
 verify that the error messages look right. Now imagine there are several dozen
 ways to reach an error message (e.g., bad phone number, no last name, etc.).
-Traditionally you would need to repeat the entire transaction for each error
-error, slowly driving you crazy as you mistype something for the 13th time. Elm
+Traditionally you would need to repeat the entire transaction for each error,
+slowly going crazy as you mistype something for the 13th time. Elm
 Reactor lets you rewind to any point making it easy to explore an alternate
-interaction. Here&rsquo;s how Elm Reactor does it.
+interaction. The next few sections will describe how Elm Reactor makes this
+possible.
 
 ### Recording Inputs
 
