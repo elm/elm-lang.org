@@ -113,7 +113,7 @@ Elm functions are pure, meaning they don&rsquo;t write to files, mutate state,
 or have other side-effects. Since they don&rsquo;t modify the world, it&rsquo;s
 safe to replay events as many times as we like. Some inputs to an Elm program
 can have state (e.g., the number of times the mouse clicked). This state can be
-stepped only forward with an event (i.e., a mouse click), there is no stepping
+stepped only forward with an event (i.e., a mouse click) and there is no stepping
 back. So to travel to a given point in time, you can simply replay events up to
 that point.
 
@@ -190,7 +190,7 @@ with the Reactor**
 [elm-d3]: https://github.com/seliopou/elm-d3
 
 <img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-html.png">
-<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-webgl.png">
+<img style="width:190px; height:100px;" src="/imgs/reactor-post/elm-webgl.png">
 <img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-d3.png">
 
 The Reactor can also integrate with your favorite editor. Even better the code
@@ -203,9 +203,7 @@ change, it will try to recompile the main Elm file which will recompile and
 dependencies.
 
 For more information about using the debugger in your own workflow, check out
-the [repository](https://github.com/elm-lang/elm-reactor).
-
-|]
+the [repository](https://github.com/elm-lang/elm-reactor).|]
 
 closing = [markdown|
 # What&rsquo;s next
