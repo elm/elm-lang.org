@@ -31,7 +31,6 @@ pageTitle = [markdown|
 
 content = [markdown|
 
-<br/>
 <p style="text-align: right;">
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
@@ -39,7 +38,7 @@ By <a href="http://github.com/michaelbjames">Michael James</a>
 Elm Reactor is a development tool that gives you the power to time-travel.
 Pause, rewind, and unpause any Elm program to find bugs and explore the
 interaction space. Elm Reactor swaps in new code upon saving, letting you know
-immediately if your bug fix or feature works. This way it’s easy to tweak
+immediately if your bug fix or feature works. This way it&rsquo;s easy to tweak
 layout, play with colors, and quickly explore ideas. Elm has prototyped [these
 pieces before](http://debug.elm-lang.org/), but **Elm Reactor polishes them in
 an [easy to install package][install]** that can be used with any text editor so
@@ -48,7 +47,7 @@ you can start using it for your projects today.
 [install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 The following demo shows someone fixing a bug in a TodoMVC app written with
-[elm-html](/blog/Blazing-Fast-Html.em). &ldquo;Active Tasks&rdquo; should filter tasks
+[elm-html](/blog/Blazing-Fast-Html.em). “Active Tasks” should filter tasks
 marked as complete. Watch them find the bug, fix the code, see the fix propagate
 automatically, and rewind the program to verify the fix.
 
@@ -66,11 +65,12 @@ Elm Reactor lets you travel back in time. You can pause the execution of your
 program, rewind to any earlier point, and start running again. Watch me misplace
 a line piece and correct my mistake:
 
-
 <img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:306px;">
 
-In this example, I paused the game, went back, and continued to undo my poor
-gameplay. This is the essense of time-travel with Elm Reactor:
+In this example, I paused the game, went back, and continued to avoid crushing
+defeat.  This is what I mean by “time-traveling” in Elm Reactor; to be more
+formal “time-traveling” means to:
+
 
 * Pause a running program
 * Step back in time
@@ -80,61 +80,64 @@ This sort of time traveling lets you explore the interaction space of your
 program faster. Imagine debugging an online checkout page with this. You need to
 verify that the error messages look right. Now imagine there are several dozen
 ways to reach an error message (e.g., bad phone number, no last name, etc.).
-Traditionally you would need to repeat the entire transaction for each error,
-slowly driving you crazy as you mistype something for the 13th time. Elm
+Traditionally you would need to repeat the entire transaction for each error
+error, slowly driving you crazy as you mistype something for the 13th time. Elm
 Reactor lets you rewind to any point making it easy to explore an alternate
-interaction. The next few sections will describe how Elm Reactor makes this
-possible.
+interaction. Here&rsquo;s how Elm Reactor does it.
 
 ### Recording Inputs
 
 All input sources to an Elm program are managed by the runtime and known
 statically at compile-time. So you declare that your game will be expecting
 keypresses and mouse clicks. This makes the inputs easy to track. The first step
-to time-traveling is to know your history, to record these input events.
+to time-traveling is to know your history, so Elm Reactor records these input
+events.
 
-The next step to pause time. Elm Reactor mutes input events to the runtime, and
-Elm Time, while Real Time presses on. To unpause time, Elm Reactor begins to let
-events go to the runtime.
+The next step to pause time. The following diagram shows how events such as
+keypresses and mouse clicks come to the Elm runtime. The events when they come
+in are shown on the &rdquo;Real Time&ldquo; graph and the events Elm sees are on
+the &rdquo;Elm Time&ldquo; graph. When Elm Reactor pauses Elm the program stops
+receiving inputs from the real world until Elm is unpaused.
 
 
 <img src="/imgs/reactor-post/timeline-pause.png" style="width:600px; height:200px;">
 
-Elm Time is continuous from its perspective. A naïve approach might only unmute
-events from Real Time to Elm Time, but Elm Reactor offsets events by the time
-spent paused, so Elm has a continuous view of time. Since these events have
-their value and time of occurrence, Elm Reactor can replay them at any speed
-(read: really fast).
+Events in Elm have a time associated with them. So that Elm does not get a hole
+in its perception of time, Elm Reactor offsets that recorded time by the time
+spent paused. The combination of event value and time means that these events
+can be replayed at any speed (read: really fast).
 
 ### Safe Replay
 
-Elm functions are pure, meaning they don’t write files, mutate state, or have
-other side-effects. It’s safe to replay events as many times as we like. Some
-functions are past-dependent so they rely on the function’s last value, from the
-last round of inputs. So to travel to a certain point in time, you have to
-replay events up to that point.
+Elm functions are pure, meaning they don&rsquo;t write to files, mutate state,
+or have other side-effects. Since they don&rsquo;t modify the world, it&rsquo;s
+safe to replay events as many times as we like. Some inputs to an Elm program
+can have state (e.g., the number of times the mouse clicked). This state can be
+stepped only forward with an event (i.e., a mouse click), there is no stepping
+back. So to travel to a given point in time, you can simply replay events up to
+that point.
 
 The simple approach to time-traveling is to start from the beginning and replay
 everything up to the desired event. So if you wanted to step to the 1000th
 event, you would have to replay 1000 events. Elm Reactor uses *snapshotting* to
-avoid this unnecessary recomputation.
+avoid replaying so many events.
 
 ### Snapshotting
 
 Snapshotting is to save the state of your application in a way that can be
-restored. Elm’s version of [FRP](/learn/What-is-FRP.elm) makes this
+restored. Elm&rsquo;s version of [FRP](/learn/What-is-FRP.elm) makes this
 straightforward and cheap. There is a clean separation of code and data: the
-application data is totally separate from the runtime. To snapshot an Elm
+application data is totally separate from the runtime. So to snapshot an Elm
 application we only have to save the **application data** and not implementation
-details of the stack, heap, or execution line. This is most equivalent to saving
-the model in MVC.
+details like the state of the stack, heap, or current line number. This is most
+equivalent to saving the model in MVC.
 
-Setting frequent snapshots, after every 100 events, Elm Reactor makes traveling
-to the 999th event as cheap as traveling to the 99th. This is not the only smart
-way to snapshot: Evan and I put thought into ensuring time-traveling never takes
-more than N milliseconds by measuring computation time for inputs and
-snapshotting accordingly, but we used the simpler snapshot-every-Nth strategy
-for the initial release.
+Elm Reactor takes a snapshot every 100 events. This means jumping to any event
+from any other takes no more than 100 event replays. A better user experience
+strategy to snapshotting could ensure time-traveling never takes more than N
+milliseconds. This could be done by timing how long each round of computation
+takes to process an input and snapshotting every N milliseconds. Instead Elm
+Reactor uses a simpler snapshot-every-Nth strategy for its initial release.
 
 # Changing History
 
@@ -144,11 +147,11 @@ replay these inputs on new code to see a bug fix or how things change.
 
 <img src="/imgs/reactor-post/swap.gif" style="width:600px; height:364px;">
 
-In this example, Mario’s image URL and gravity were set incorrectly. Mario had
-already made a few jumps and time had passed. But since the program’s input
-history is separate from its functions, the latter could be swapped out. Even
-better, the live code can be changed and the input events can be replayed to see
-the effect of the changes!
+In this example, Mario&rsquo;s image URL and gravity were set incorrectly. Mario
+had already made a few jumps and time had passed. But since the program&rsquo;s
+input history is separate from its functions, the latter could be swapped out.
+Even better, the live code can be changed and the input events can be replayed
+to see the effect of the changes!
 
 Building a game while you play it is one thing but this is also remarkably handy
 for more typical applications. In the checkout example we described earlier,
@@ -157,7 +160,7 @@ page, Elm Reactor lets you mess with the code as much as you want while you find
 the right place for the close button. You can see the results of your new code
 without maddeningly running through the entire interaction each time!
 
-In real life, it’s easy to get time-traveling wrong. People are always
+In real life, it&rsquo;s easy to get time-traveling wrong. People are always
 disappearing from photographs and kissing grandparents. Elm Reactor will only
 swap in *valid* programs. If there is a type error or syntax error, then the
 program is not swapped. Instead an error message is displayed explaining the
@@ -179,7 +182,7 @@ workflow = [markdown|
 # In your workflow
 
 Elm Reactor will work with any Elm project. Use it with  [elm-html][],
-[elm-webgl][], [elm-d3][], or any other renderer. **If it’s Elm it will work
+[elm-webgl][], [elm-d3][], or any other renderer. **If it&rsquo;s Elm it will work
 with the Reactor**
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
@@ -205,15 +208,15 @@ the [repository](https://github.com/elm-lang/elm-reactor).
 |]
 
 closing = [markdown|
-# What's next
+# What&rsquo;s next
 
 This is the first public release of Elm-Reactor. There are a lot of useful ideas
-and plans that didn’t make in the first version. The long-term vision includes:
+and plans that didn&rsquo;t make in the first version. The long-term vision includes:
 
 * **REPL in the Reactor** - A [read-eval-print loop][repl] (REPL) is super
-useful for testing specific functions in a large project. Imagine a suped-up
-in-browser REPL that is aware of your code so you can try out ideas in a
-scratchpad before committing them to your project.
+useful for testing specific functions in a large project. Imagine an in-browser
+REPL that knows about your code so you can explore an idea in a scratchpad or
+make sure a function does what you expect.
 
 [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
 
@@ -246,7 +249,7 @@ in browsers with a nice UI. A plug-in system would make it easier for the Elm
 community to make editor-agnostic tools.
 
 There are a lot of great ideas that can go into making the reactor even more
-powerful. If you’re interested, check out
+powerful. If you&rsquo;re interested, check out
 [the repository](https://github.com/elm-lang/elm-reactor/)
 and the community. We will be happy to help get you
 started on a project.
@@ -255,7 +258,7 @@ started on a project.
 # Thank You
 
 Thank you Evan Czaplicki for the guidance and wisdom while writing this. You
-taught me an unreal amount about FRP and everything else this summer, I’m so
+taught me an unreal amount about FRP and everything else this summer, I&rsquo;m so
 grateful to have had this experience.
 
 Thanks Gábor Hoffer and the Prezi design team for the suggestions on making the
