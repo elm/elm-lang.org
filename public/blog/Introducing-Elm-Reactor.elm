@@ -93,10 +93,10 @@ keypresses and mouse clicks. This makes the inputs easy to track. The first step
 to time-traveling is to know your history, so Elm Reactor records these input
 events.
 
-The next step to pause time. The following diagram shows how events such as
+The next step is to pause time. The following diagram shows how events such as
 keypresses and mouse clicks come to the Elm runtime. The events when they come
-in are shown on the &rdquo;Real Time&ldquo; graph and the events Elm sees are on
-the &rdquo;Elm Time&ldquo; graph. When Elm Reactor pauses Elm the program stops
+in are shown on the &ldquo;Real Time&rdquo; graph and the events Elm sees are on
+the &ldquo;Elm Time&rdquo; graph. When Elm Reactor pauses Elm the program stops
 receiving inputs from the real world until Elm is unpaused.
 
 
@@ -114,8 +114,8 @@ or have other side-effects. Since they don&rsquo;t modify the world, it&rsquo;s
 safe to replay events as many times as we like. Some inputs to an Elm program
 can have state (e.g., the number of times the mouse clicked). This state can be
 stepped only forward with an event (i.e., a mouse click) and there is no stepping
-back. So to travel to a given point in time, you can simply replay events up to
-that point.
+back. So to travel to a given point in time, you can simply replay the events
+leading up to that point.
 
 The simple approach to time-traveling is to start from the beginning and replay
 everything up to the desired event. So if you wanted to step to the 1000th
@@ -174,7 +174,7 @@ You can hide the debugging panel by clicking on the tab.
 |]
 
 example = [markdown|
-<iframe src="http://debug.elm-lang.org:1234/edit/Thwomp.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
+<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
 |]
 
 workflow = [markdown|
@@ -193,13 +193,13 @@ with the Reactor**
 <img style="width:190px; height:100px;" src="/imgs/reactor-post/elm-webgl.png">
 <img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-d3.png">
 
-The Reactor can also integrate with your favorite editor. Even better the code
+The Reactor can also integrate with your favorite editor. In addition, the code
 swapping is editor-agnostic; it just watches your project directory for file
 saves. There is no need for an emacs, Sublime Text, or vim plug-in. It just
-works.
+works!
 
 That applies for multi-module projects, too! Whenever Elm Reactor detects a file
-change, it will try to recompile the main Elm file which will recompile and
+change, it will try to recompile the main Elm file which will recompile any
 dependencies.
 
 For more information about using the debugger in your own workflow, check out
@@ -209,7 +209,8 @@ closing = [markdown|
 # What&rsquo;s next
 
 This is the first public release of Elm-Reactor. There are a lot of useful ideas
-and plans that didn&rsquo;t make in the first version. The long-term vision includes:
+and plans that didn&rsquo;t make it in the first version. The long-term vision
+includes:
 
 * **REPL in the Reactor** - A [read-eval-print loop][repl] (REPL) is super
 useful for testing specific functions in a large project. Imagine an in-browser
