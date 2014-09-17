@@ -95,8 +95,8 @@ events.
 
 The next step to pause time. The following diagram shows how events such as
 keypresses and mouse clicks come to the Elm runtime. The events when they come
-in are shown on the &rdquo;Real Time&ldquo; graph and the events Elm sees are on
-the &rdquo;Elm Time&ldquo; graph. When Elm Reactor pauses Elm the program stops
+in are shown on the &ldquo;Real Time&rdquo; graph and the events Elm sees are on
+the &ldquo;Elm Time&rdquo; graph. When Elm Reactor pauses Elm the program stops
 receiving inputs from the real world until Elm is unpaused.
 
 
