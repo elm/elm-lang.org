@@ -114,13 +114,13 @@ Elm functions are pure, meaning they don&rsquo;t write to files, mutate state,
 or have other side-effects. Since they don&rsquo;t modify the world, functions
 are free to be replayed, without restriction.
 
-Elm programs may have state, even though all functions are pure. The
-runtime stores this state, not your program. The input events dictate how the
-state will change when your program is running. Because this internal state is
-determined entirely by the recorded input events, Elm Reactor can transition to
-any state. Transitioning is restricted to only mutating to the next state
-becuase an input cannot be undone. So, to transition to any point in time, you
-must replay the events leading up to that point.
+Elm programs may have state, even though all functions are pure. The runtime
+stores this state, not your program. The input events dictate how the state will
+change when your program is running. Elm Reactor can jump to any state because
+this internal state is determined entirely by the recorded input events. The Elm
+runtime combines the previous state and new inputs to make the current state.
+So, to jump to any point in time and have a sensible state, you must replay the
+events leading up to that point.
 
 The simple approach to time-traveling is to start from the beginning and replay
 everything up to the desired event. So if you wanted to step to the 1000th
@@ -166,11 +166,14 @@ page, Elm Reactor lets you mess with the code as much as you want while you find
 the right place for the close button. You can see the results of your new code
 without maddeningly running through the entire interaction each time!
 
-In real life, it&rsquo;s easy to get time-traveling wrong. People are always
-disappearing from photographs and kissing grandparents. Elm Reactor will only
-swap in *valid* programs. If a potential program has a type error or syntax
-error, then Elm Reactor does not swap in the new code. Instead, Elm Reactor overlays
-an error message explaining the issue and the last working version keeps running.
+It&rsquo;s easy to get time-traveling wrong, just ask [Doc Brown][] how that
+worked for him. Elm Reactor will only swap in *valid* programs. If a potential
+program has a type error or syntax error, then Elm Reactor does not swap in the
+new code. Instead, Elm Reactor overlays an error message explaining the issue
+and the last working version keeps running. Below is an example of trying to
+swap in code that doesn&rsquo;t comile.
+
+[Doc Brown]: http://en.wikipedia.org/wiki/Emmett_Brown
 
 <img src="/imgs/reactor-post/error.gif" style="width:600px; height:364px;">
 
