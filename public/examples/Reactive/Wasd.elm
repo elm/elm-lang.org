@@ -1,4 +1,6 @@
 
 import Keyboard
 
-main = lift asText Keyboard.wasd
+main : Signal Element
+main =
+    lift asText Keyboard.wasd

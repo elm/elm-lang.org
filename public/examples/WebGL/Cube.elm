@@ -5,16 +5,26 @@ import Graphics.WebGL (..)
 
 -- Create a cube in which each vertex has a position and color
 
-type Vertex = { color:Vec3, position:Vec3 }
+type alias Vertex =
+    { color:Vec3
+    , position:Vec3
+    }
 
 face : Color -> Vec3 -> Vec3 -> Vec3 -> Vec3 -> [Triangle Vertex]
-face color a b c d =
-  let toV3 color =
-        let c = toRgb color
-        in  vec3 (toFloat c.red / 255) (toFloat c.green / 255) (toFloat c.blue / 255)
-      p = Vertex (toV3 color)
+face rawColor a b c d =
+  let color =
+          let c = toRgb rawColor in
+          vec3
+              (toFloat c.red / 255)
+              (toFloat c.green / 255)
+              (toFloat c.blue / 255)
+
+      vertex position =
+          Vertex color position
   in
-      [ (p a, p b, p c), (p c, p d, p a) ]
+      [ (vertex a, vertex b, vertex c)
+      , (vertex c, vertex d, vertex a)
+      ]
 
 cube : [Triangle Vertex]
 cube =
@@ -27,21 +37,24 @@ cube =
       lfb = vec3 -1  1 -1
       lbb = vec3 -1 -1 -1
   in
-      concat [ face green  rft rfb rbb rbt   -- right
-             , face blue   rft rfb lfb lft   -- front
-             , face yellow rft lft lbt rbt   -- top
-             , face red    rfb lfb lbb rbb   -- bottom
-             , face purple lft lfb lbb lbt   -- left
-             , face orange rbt rbb lbb lbt   -- back
-             ]
+      concat
+          [ face green  rft rfb rbb rbt   -- right
+          , face blue   rft rfb lfb lft   -- front
+          , face yellow rft lft lbt rbt   -- top
+          , face red    rfb lfb lbb rbb   -- bottom
+          , face purple lft lfb lbb lbt   -- left
+          , face orange rbt rbb lbb lbt   -- back
+          ]
 
 -- Create the scene
 
 main : Signal Element
-main = webgl (400,400) <~ lift scene angle
+main =
+    webgl (400,400) <~ lift scene angle
 
 angle : Signal Float
-angle = foldp (\dt theta -> theta + dt / 5000) 0 (fps 25)
+angle =
+    foldp (\dt theta -> theta + dt / 5000) 0 (fps 25)
 
 scene : Float -> [Entity]
 scene angle =

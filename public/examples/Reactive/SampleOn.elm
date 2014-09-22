@@ -3,4 +3,6 @@
 
 import Mouse
 
-main = lift asText (sampleOn Mouse.clicks Mouse.position)
+main : Signal Element
+main =
+    lift asText (sampleOn Mouse.clicks Mouse.position)

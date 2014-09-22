@@ -10,6 +10,7 @@ password = input Field.noContent
 
 display : Field.Content -> Element
 display content =
-  flow down [ Field.password Field.defaultStyle password.handle identity "Password" content
-            , plainText ("Your password is: " ++ content.string)
-            ]
+    flow down
+        [ Field.password Field.defaultStyle password.handle identity "Password" content
+        , plainText ("Your password is: " ++ content.string)
+        ]
