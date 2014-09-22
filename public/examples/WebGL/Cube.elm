@@ -5,7 +5,7 @@ import Graphics.WebGL (..)
 
 -- Create a cube in which each vertex has a position and color
 
-type alias Vertex =
+type Vertex =
     { color:Vec3
     , position:Vec3
     }
