@@ -7,4 +7,6 @@
 
 import Mouse
 
-main = lift asText (foldp (+) 0 (30 `fpsWhen` Mouse.isDown))
+main : Signal Element
+main =
+    lift asText (foldp (+) 0 (30 `fpsWhen` Mouse.isDown))

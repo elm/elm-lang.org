@@ -1,6 +1,8 @@
 
+main : Element
 main = asText (quicksort [5,3,8,1,9,4,7])
 
+quicksort : [comparable] -> [comparable]
 quicksort list =
   case list of
     [] -> []

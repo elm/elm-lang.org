@@ -2,6 +2,7 @@
 port title : Signal String
 port title = show <~ every second
 
+main : Element
 main = [markdown|
 
 # Setting titles with ports

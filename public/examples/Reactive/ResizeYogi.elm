@@ -3,8 +3,14 @@
 
 import Mouse
 
-edgeLength = lift (uncurry max) Mouse.position
+edgeLength : Signal Int
+edgeLength =
+    lift (\(x,y) -> max x y) Mouse.position
 
-resizeableYogi n = image n n "/yogi.jpg"
+resizeableYogi : Int -> Element
+resizeableYogi n =
+    image n n "/yogi.jpg"
 
-main = lift resizeableYogi edgeLength
+main : Signal Element
+main =
+    lift resizeableYogi edgeLength
