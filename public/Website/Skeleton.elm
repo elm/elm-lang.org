@@ -4,6 +4,7 @@ import Website.Widgets (headerFaces)
 import Website.ColorScheme as C
 import Graphics.Input as Input
 import Text
+import Native.RedirectHack
 
 skeleton : String -> (Int -> Element) -> (Int,Int) -> Element
 skeleton localName bodyFunc (w,h) =
@@ -59,7 +60,7 @@ logo =
                        ]
     in
         link "/" <|
-        Input.customButton clicks.handle () (btn charcoal) (btn black) (btn black)
+        Input.customButton clicks.handle "/" (btn charcoal) (btn black) (btn black)
 
 tabs localName = flow right (map (tab localName) paths)
 
@@ -71,8 +72,10 @@ paths =
   , ("Blog"     , "/Blog.elm")
   ]
 
-clicks : Input.Input ()
-clicks = Input.input ()
+clicks : Input.Input String
+clicks = Input.input ""
+
+badMustRemoveThis = lift Native.RedirectHack.redirect clicks.signal
 
 tab localName (name, href) =
     let (accent, h) = if localName == name then (C.accent1, 3) else (C.mediumGrey, 1)
@@ -83,4 +86,4 @@ tab localName (name, href) =
                 , color accent (spacer (widthOf words + 20) h)
                 ]
     in  link href <|
-        Input.customButton clicks.handle () (btn charcoal) (btn black) (btn black)
+        Input.customButton clicks.handle href (btn charcoal) (btn black) (btn black)
