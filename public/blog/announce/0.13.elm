@@ -197,11 +197,14 @@ Previous iterations of Elm depended on the Pandoc project. [Pandoc][] is great
 and extremely useful, but it includes lots of functionality that Elm does not
 need and brings in a large number of dependencies that led to build problems
 quite frequently. Elm 0.13 uses a library called [cheapskate][] for markdown
-parsing.
+parsing. Both Pandoc and cheapskate were created by [John MacFarlane][jgm] who
+knows a ton about Markdown and created cheapskate to focus on creating a
+parser that is extremely fast, standards compliant, and light-weight.
 
 [ports]: /learn/Ports.elm
 [Pandoc]: http://johnmacfarlane.net/pandoc/
 [cheapskate]: https://hackage.haskell.org/package/cheapskate
+[jgm]: https://github.com/jgm
 
 ## Thank you
 
