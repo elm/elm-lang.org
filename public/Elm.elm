@@ -19,7 +19,7 @@ tagLine =
 
 content outer =
     let inner = 600
-        half = inner `div` 2
+        half = inner // 2
         center elem =
             container outer (heightOf elem) middle elem
         centerText msg =

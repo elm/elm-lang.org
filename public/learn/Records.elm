@@ -7,7 +7,7 @@ import Window
 port title : String
 port title = "Elm - Extensible Records"
 
-main = skeleton "Learn" (content . min 600) <~ Window.dimensions
+main = skeleton "Learn" (content << min 600) <~ Window.dimensions
 
 content w = 
   flow down
@@ -29,27 +29,6 @@ content w =
     ]
 
 intro w = width w [markdown|
-
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 # Extensible Records
 
@@ -83,7 +62,7 @@ The structure of the following document is as follows:
 - [Polymorphic Fields](#polymorphic-fields)
 - [Record Types](#record-types)
 
-### Comparison of Records and Objects
+<h3 id="comparison-of-records-and-objects">Comparison of Records and Objects</h3>
 
 Records in Elm are quite similar to objects in JavaScript. The major differences
 are that with records:
@@ -105,7 +84,7 @@ type.
 
  [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 
-### What is a Record?
+<h3 id="what-is-a-record">What is a Record?</h3>
 
 A record is a lightweight labeled data structure. For instance, if we
 wanted to represent a point we just create a record with an x and y field:
@@ -138,7 +117,7 @@ larry = { name="Page" , age=39 }
 people = [ bill, steve, larry ]
 ```
 
-### Access
+<h3 id="access">Access</h3>
 
 There are a number of ways to access records:
 
@@ -151,26 +130,6 @@ access w = evaluate w
   , ("map .age people", "[57,56,39]") ]
 
 postAccess = [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 The first way to access records is fairly standard, appearing in many
 languages, from JavaScript to OCaml. No spaces are permitted on either
@@ -193,7 +152,7 @@ in a single file because each of these records has a field `x`.
 Note that none these accessors pollute the global namespace.
 You can still have a value `x` independent of the `(.x)` accessor.
 
-### Pattern Matching
+<h3 id="pattern-matching">Pattern Matching</h3>
 
 It is also possible to pattern match on records:
 
@@ -216,31 +175,11 @@ matches w = evaluate w
   , ("any under50 people", "True") ]
 
 postMatches = [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 These patterns can appear in let expressions, lambda expressions,
 and case expressions.
 
-### Updating Records
+<h3 id="updating-records">Updating Records</h3>
 
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
@@ -253,26 +192,6 @@ updating w = evaluate w
   ]
 
 postUpdating w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 You can update as many fields as you want, separating each update by a comma.
 You can even change the type of value in a field. Say the user inputs a bunch
@@ -298,7 +217,7 @@ with and whether or not it is valid.
 The update functions allow you to write fairly elaborate update functions
 with little trouble.
 
-### Adding, Deleting, and Renaming Fields
+<h3 id="adding-deleting-and-renaming-fields">Adding, Deleting, and Renaming Fields</h3>
 
 Record fields can be added and deleted with following syntax:
 |]
@@ -311,26 +230,6 @@ rest w = evaluate w
  ]
 
 postRest w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 This actually means you can have multiple fields with the same name in a record,
 the latest field taking precedence over the earlier ones. Check out
@@ -355,30 +254,10 @@ replace w = evaluate w
   [ ("{ point2D - x | x = 1 }", "{ x=1, y=0 }") ]
 
 postReplace w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 The field update syntax is just a prettier way to write this!
 
-### Polymorphic Fields
+<h3 id="polymorphic-fields">Polymorphic Fields</h3>
 
 Elm allows [polymorphism][poly] within records, so a record field can
 hold a polymorphic function like list append `(++)`. For example:
@@ -412,33 +291,13 @@ poly w = evaluate w
   ]
 
 postPoly w = width w [markdown|
-<style type="text/css">
-p { text-align: justify }
-h3 { padding-top: 1em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 I suspect that this can be used for some really cool stuff! It should
 make it possible to gain some of the flexibility of first-class modules
 and typeclasses, as described in
 [this announcement](/blog/announce/0.7.elm).
 
-### Record Types
+<h3 id="record-types">Record Types</h3>
 
 A record type looks very similar to actual records. Say we wanted to work
 with points that have an `x` and `y` field. We could add type annotations
@@ -511,15 +370,15 @@ used safely!
 
 evaluate wid pairs =
   let f (a,b) =
-        let w = wid `div` 2
-            c = leftAligned . monospace <| toText a
-            d = leftAligned . monospace <| toText b
+        let w = wid // 2
+            c = leftAligned << monospace <| toText a
+            d = leftAligned << monospace <| toText b
             h = 10 + max (heightOf c) (heightOf d)
         in  flow right [ container w h middle c
                        , container w h middle d ]
   in
   let es = map f pairs
-      arrow = leftAligned . Text.height 3 . Text.color accent1 . toText <| "&rArr;"
+      arrow = leftAligned << Text.height 3 << Text.color accent1 << toText <| "&rArr;"
       h = sum <| map heightOf es
   in  layers [ container wid h middle arrow
              , flow down es ]

@@ -9,7 +9,7 @@ main : Signal Element
 main =
   let msg = plainText "Enter a valid zip code, such as 12345 or 90210."
       output fieldContent url response =
-          flow down [ Field.field Field.defaultStyle content.handle id "Zip Code" fieldContent
+          flow down [ Field.field Field.defaultStyle content.handle identity "Zip Code" fieldContent
                     , Maybe.maybe msg (always (display response)) url
                     ]
   in lift3 output content.signal url responses
@@ -22,14 +22,14 @@ content = Input.input Field.noContent
 display : Http.Response String -> Element
 display response = 
   case response of
-    Http.Success address -> leftAligned . monospace <| toText address
+    Http.Success address -> leftAligned << monospace <| toText address
     Http.Waiting -> image 16 16 "waiting.gif"
     Http.Failure _ _ -> asText response
 
 -- Send requests based on user input
 
 responses : Signal (Http.Response String)
-responses = Http.sendGet (Maybe.maybe "" id <~ url)
+responses = Http.sendGet (Maybe.maybe "" identity <~ url)
 
 url : Signal (Maybe String)
 url = lift toUrl content.signal

@@ -12,29 +12,8 @@ everything wid =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
-</style>
-
 <h1><div style="text-align:center">Elm 0.9
-<div style="font-size:0.5em;font-weight:normal">*Fast and reliable static checks*</div></div>
+<div style="font-size:0.5em;font-weight:normal">Fast and reliable static checks</div></div>
 </h1>
 
 Before this release, my primary priority was: prove that
@@ -138,7 +117,7 @@ Languages. It is one of the best resources I have found.
 
 ## Syntax Improvements
 
-#### Pattern Matching
+<h4 id="pattern-matching">Pattern Matching</h4>
 
 You can now pattern match on literals like numbers, strings, and booleans.
 
@@ -173,7 +152,7 @@ data World = World Mario [Goomba] [Brick]
 step input (World mario goombas bricks as world) = ...
 ```
 
-#### Unary negation
+<h4 id="unary-negation">Unary negation</h4>
 
 I was very hesitant to add this feature because I had not seen a
 statically-typed functional language that I felt got this right.
@@ -221,7 +200,7 @@ In practice, I have found that this is how my brain parses code. I definitely re
 This is similar to how `(.)` can mean many different things depending on spacing. It is
 unfortunate to overload, but I think this is the best solution given the constraints.
 
-#### Multi-line Strings
+<h4 id="multi-line-strings">Multi-line Strings</h4>
 
 Just like Python, you can use multi-line strings if you use the triple-quote.
 This will make it easier to embed plain-text or JSON if the text uses `"`.
@@ -236,7 +215,7 @@ json = """
 """
 ```
 
-#### Record Constructors
+<h4 id="record-constructors">Record Constructors</h4>
 
 When you create a type alias for a record, you also create a &ldquo;record constructor&rdquo;.
 

@@ -74,8 +74,8 @@ now they do not have to!
 ### New Functions and Syntax
 
 - Abbreviated notation for tuple functions:
-    * `(,)  === (\\x y -> (x,y))`
-    * `(,,) === (\\x y z -> (x,y,z))`
+    * `(,)  === (\x y -> (x,y))`
+    * `(,,) === (\x y z -> (x,y,z))`
     * etc.
 - New functions for converting strings to numbers. Great for text input boxes:
     * `readInt : String -> Maybe Int`

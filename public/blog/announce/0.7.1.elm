@@ -5,7 +5,7 @@ import Window
 port title : String
 port title = "Elm 0.7.1 - Library Cultivation"
 
-main = lift2 (skeleton "Blog" . scene) (constant ()) Window.dimensions
+main = lift2 (skeleton "Blog" << scene) (constant ()) Window.dimensions
 
 scene obj w' =
   let w = min 600 w' in
@@ -13,18 +13,8 @@ scene obj w' =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-h2,h3,h4 { padding-top: 0.5em; }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-</style>
-
 <h1><div style="text-align:center">Library Cultivation &ndash; Elm 0.7.1
-<div style="font-size:0.5em;font-weight:normal">*Keyboard, Touch, Either, and more.*</div></div>
+<div style="font-size:0.5em;font-weight:normal">Keyboard, Touch, Either, and more.</div></div>
 </h1>
 
 This release is partly the result of exploring what is possible with
@@ -63,7 +53,9 @@ Okay, now let&rsquo;s dive into Elm 0.7.1!
 [The new `Keyboard` library][keys] introduces a couple simple and useful signals.
 First there are the directional signals:
 
-    arrows, wasd : Signal { x : Int, y : Int }
+```haskell
+arrows, wasd : Signal { x : Int, y : Int }
+```
 
 These allow you to easily handle input from the arrow keys or the [wasd keys][wasd].
 It turns out there is a [long and crazy history of arrow configurations][arrows],
@@ -71,7 +63,9 @@ so please let me know if you think there should be more choices.
 
 There are also a few signals for common modifier keys:
 
-    ctrl, shift, space : Signal Bool
+```haskell
+ctrl, shift, space : Signal Bool
+```
 
 The existing `Keyboard.Raw` library provides some lower-level signals that
 allow you to work with arbitrary keyboard input, but that is often too more
@@ -116,12 +110,16 @@ The `touches` signal is a list of all of the ongoing touches. A touch is:
 The reason for including so much information is to make it easier to define
 more complicated gestures. The type looks like this:
 
-    touches : Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
+```haskell
+touches : Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
+```
 
 The `Touch` library also includes a `taps` signal which just gives the
 coordinates of the latest tap. The default value is the origin.
 
-    taps : Signal { x : Int, y : Int }
+```haskell
+taps : Signal { x : Int, y : Int }
+```
 
 You can find examples for these signals [here][t1], [here][t2], [here][t3],
 and [here][t4]. Warning: you need an Android or iOS touch device for these!
@@ -173,7 +171,9 @@ in mind when using `touches` and let [the list][discuss] know what you learn!
 [here](/edit/examples/Functional/Either.elm). The most important
 addition to come with this library is actually in the `Signal` library:
 
-    mergeEither : Signal a -> Signal b -> Signal (Either a b)
+```haskell
+mergeEither : Signal a -> Signal b -> Signal (Either a b)
+```
 
 This lets you combine two signals without losing information about
 the original source of the signal.
@@ -188,19 +188,25 @@ a little bit. Names are now consistent with the new `Either` library. For exampl
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
 
-    justs  : [Maybe a] -> [a]
-    lefts  : [Either a b] -> [a]
-    rights : [Either a b] -> [b]
+```haskell
+justs  : [Maybe a] -> [a]
+lefts  : [Either a b] -> [a]
+rights : [Either a b] -> [b]
+```
 
 Or if you are curious about what kind of value you have:
 
-    isNothing, isJust : Maybe a -> Bool
-    isLeft, isRight   : Either a b -> Bool
+```haskell
+isNothing, isJust : Maybe a -> Bool
+isLeft, isRight   : Either a b -> Bool
+```
 
 Or if you want to extract a value from a Maybe or Either, you can use:
 
-    maybe  : b -> (a -> b) -> Maybe a -> b
-    either : (a -> c) -> (b -> c) -> Either a b -> c
+```haskell
+maybe  : b -> (a -> b) -> Maybe a -> b
+either : (a -> c) -> (b -> c) -> Either a b -> c
+```
 
 With both extraction functions, you provide two ways to extract a value.
 
@@ -208,13 +214,15 @@ Some functions have also been taken out of the `Maybe` library: `fromMaybe`
 and `mapMaybe`. I removed them because I thought they had silly names and
 could be defined easily with more general functions. They can be re-defined as follows:
 
-    fromMaybe : a -> Maybe a -> a
-    fromMaybe default option = maybe default id option
-    fromMaybe' d = maybe d id
+```haskell
+fromMaybe : a -> Maybe a -> a
+fromMaybe default option = maybe default id option
+fromMaybe' d = maybe d id
 
-    mapMaybe : (a -> Maybe b) -> [a] -> [b]
-    mapMaybe f xs = justs (map f xs)
-    mapMaybe' f = justs . map f
+mapMaybe : (a -> Maybe b) -> [a] -> [b]
+mapMaybe f xs = justs (map f xs)
+mapMaybe' f = justs << map f
+```
 
 In general, it is probably just easier to not define the function and use `maybe` and
 `justs` in these situations. In any case, sorry for any inconvenience!

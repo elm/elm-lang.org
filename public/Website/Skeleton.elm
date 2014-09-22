@@ -28,7 +28,7 @@ footerWords =
 
 heading localName outer =
   let inner = min 800 outer
-      leftWidth = max 0 ((outer - inner) `div` 2)
+      leftWidth = max 0 ((outer - inner) // 2)
       rightWidth = max 0 (outer - leftWidth - inner)
   in
   flow right
@@ -51,7 +51,7 @@ topBar localName inner =
 
 logo =
     let btn clr =
-            let name = leftAligned . Text.color clr . Text.height 24 <| toText "elm" in
+            let name = leftAligned << Text.color clr << Text.height 24 <| toText "elm" in
             color C.lightGrey <| 
             flow right [ image 30 30 "/logo.png"
                        , spacer 4 30
@@ -77,7 +77,7 @@ clicks = Input.input ()
 tab localName (name, href) =
     let (accent, h) = if localName == name then (C.accent1, 3) else (C.mediumGrey, 1)
         btn clr =
-            let words = leftAligned . Text.color clr <| toText name
+            let words = leftAligned << Text.color clr <| toText name
             in  flow down
                 [ color C.lightGrey <| container (widthOf words + 20) 40 middle words
                 , color accent (spacer (widthOf words + 20) h)

@@ -33,8 +33,8 @@ pixel color time size =
   in  move' p (filled color (circle size))
   
 -- Oscillate the colors up and down
-osc n = if n <= 255 then n else (255 - (n `mod` 255))
-c m t = osc ((t*m) `mod` 510)
+osc n = if n <= 255 then n else (255 - (n % 255))
+c m t = osc ((t*m) % 510)
 red   = c 3
 green = c 5
 blue  = c 7
@@ -57,21 +57,6 @@ stateSignal = foldp (\a b -> b + 1) 0 <| every <| rate*millisecond
 
 main = drawing <~ stateSignal
 
-
-
--- Helper functions
-
-zipWith4 : (a -> b -> c -> d -> e) -> [a] -> [b] -> [c] -> [d] -> [e]
-zipWith4 f ws xs ys zs = 
-  case (ws,xs,ys,zs) of
-    (w::ws, x::xs, y::ys, z::zs) -> f w x y z :: zipWith4 f ws xs ys zs
-    _ -> []
-
-zipWith3 : (a -> b -> c -> d) -> [a] -> [b] -> [c] -> [d]
-zipWith3 f xs ys zs = 
-  case (xs,ys,zs) of
-    (x::xs, y::ys, z::zs) -> f x y z :: zipWith3 f xs ys zs
-    _ -> []
 
 -- Create a list that starts with x and adjusts n times
 adjust x by n = case n of

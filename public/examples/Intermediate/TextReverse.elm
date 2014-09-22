@@ -1,5 +1,5 @@
 import Graphics.Input (Input, input)
-import Graphics.Input.Field (Content, noContent, field, defaultStyle, Forward, Backward)
+import Graphics.Input.Field (Content, noContent, field, defaultStyle, Direction(..))
 import String
 import Text
 import Window
@@ -12,18 +12,18 @@ content = input noContent
 
 display : (Int,Int) -> Content -> Element
 display (w,h) fieldContent =
-    let txt = container 300 60 middle . width 300 . centered . Text.color lightGrey . toText in
+    let txt = container 300 60 middle << width 300 << centered << Text.color lightGrey << toText in
     color lightPurple <| container w h middle <| flow down
     [ txt "Type in either field to reverse text:"
-    , myField id "Forward" fieldContent
+    , myField identity "Forward" fieldContent
     , myField reverse "Backward" (reverse fieldContent)
     , txt "Lookup palindromes and emordnilaps to try to make sentences!"
     ]
 
 myField : (Content -> Content) -> String -> Content -> Element
 myField handler placeHolder fieldContent =
-    container 300 50 middle <|
     field defaultStyle content.handle handler placeHolder fieldContent
+        |> container 300 50 middle
 
 reverse : Content -> Content
 reverse content =

@@ -28,7 +28,7 @@ scene : (Int,Int) -> Field.Content -> Maybe String -> Element
 scene (w,h) searchContent imgSrc =
     flow down
       [ container w 100 middle <|
-          Field.field Field.defaultStyle tag.handle id "Flickr Instant Search" searchContent
+          Field.field Field.defaultStyle tag.handle identity "Flickr Instant Search" searchContent
       , case imgSrc of
           Just src -> fittedImage w (h-100) src
           Nothing -> container w (h-100) middle (image 16 16 "/waiting.gif")

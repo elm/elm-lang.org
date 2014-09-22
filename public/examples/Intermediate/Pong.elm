@@ -85,7 +85,7 @@ gameState = foldp stepGame defaultGame input
 
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
-txt f = leftAligned . f . monospace . Text.color textGreen . toText
+txt f = toText >> Text.color textGreen >> monospace >> f >> leftAligned
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 make obj shape =
     shape |> filled white
@@ -101,7 +101,7 @@ display (w,h) {state,ball,player1,player2} =
        , rect 10 40 |> make player1
        , rect 10 40 |> make player2
        , toForm scores |> move (0, gameHeight/2 - 40)
-       , toForm (if state == Play then spacer 1 1 else txt id msg)
+       , toForm (if state == Play then spacer 1 1 else txt identity msg)
            |> move (0, 40 - gameHeight/2)
        ]
 

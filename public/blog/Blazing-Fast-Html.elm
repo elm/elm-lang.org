@@ -28,30 +28,10 @@ pageTitle = [markdown|
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
-<br/>The new [elm-html][] library lets you use
+<br/>
+
+The new [elm-html][] library lets you use
 HTML and CSS directly in Elm. Want to use flexbox? Want to keep using existing
 style sheets? Elm now makes all of this pleasant and *fast*. For example, when
 recreating the [TodoMVC][todo] app, the [code][code] is quite simple and our
@@ -197,7 +177,7 @@ purity and immutability are kind of a big deal. Read about [hot-swapping in
 Elm](/blog/Interactive-Programming.elm) and the [time traveling
 debugger](http://debug.elm-lang.org/) to learn more about this.
 
-## Reusable Widgets
+<h2 id="reusable-widgets">Reusable Widgets</h2>
 
 This approach makes it incredibly simple to create reusable widgets. For
 example, a list of user profiles can be nicely abstracted with something like

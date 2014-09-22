@@ -28,13 +28,8 @@ pageTitle = [markdown|
 |]
 
 preface = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-</style>
-Now that you have been [introduced to programming](/learn/beginner-course/Intro-to-Programming.elm),
+
+Now that you have been [introduced to programming](/learn/beginner-course/Programming.elm),
 you are about to learn how to work with lists and records.
 
   * **Lists** are basically what they say, a big list of values.
@@ -65,33 +60,8 @@ video = [markdown|
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.5em;
-}
-h1, h2, h3, h4 {
-  font-family: futura,calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
-# Practice Problems
+<h1 id="practice-problems">Practice Problems</h1>
 
 These problems will challenge you to use and expand upon your knowledge of
 lists and records. Remember that case expressions and pattern matching are

@@ -1,7 +1,7 @@
 
 import Touch
 
-main = lift (above msg . flow down . map asText) Touch.touches
+main = lift (above msg << flow down << map asText) Touch.touches
 
 msg = [markdown|
 

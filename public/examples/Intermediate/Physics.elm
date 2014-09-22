@@ -25,7 +25,7 @@ Now you know how to gravity with elasticity! Good work physics friend!
 
 ---- Diagrams ----
 
-time = lift (inSeconds . fst) (timestamp (fps 40))
+time = lift (inSeconds << fst) (timestamp (fps 40))
 
 sunAndEarthAt angle =
   let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]

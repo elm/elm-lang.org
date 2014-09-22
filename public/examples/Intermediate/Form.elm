@@ -40,7 +40,7 @@ getErrors first last email remail =
                  ]
         activeError (err,msg) = if err then Just msg else Nothing
     in
-        justs <| map activeError checks
+        filterMap identity <| map activeError checks
 
 port redirect : Signal String
 port redirect =
@@ -58,15 +58,15 @@ getLogin req = Http.send <| lift (\r -> Http.post r "") req
 -- Display
 scene : (Int,Int) -> Element -> Element
 scene (w,h) form =
-    color charcoal . flow down <|
+    color charcoal << flow down <|
       [ spacer w 50
       , container w (h-50) midTop form
       ]
 
 form : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String] -> Element
 form first' last' email' remail' errors =
-    color lightGrey . flow down <|
-      [ container 340 60 middle . leftAligned . Text.height 32 <| toText "Example Sign Up"
+    color lightGrey << flow down <|
+      [ container 340 60 middle << leftAligned << Text.height 32 <| toText "Example Sign Up"
       , field "First Name:"     first.handle  first'
       , field "Last Name:"      last.handle   last'
       , field "Your Email:"     email.handle  email'
@@ -80,7 +80,7 @@ field label handle content =
   flow right
     [ container 120 36 midRight <| plainText label
     , container 220 36 middle <| size 180 26 <|
-      Field.field Field.defaultStyle handle id "" content
+      Field.field Field.defaultStyle handle identity "" content
     ]
 
 showErrors : [String] -> Element
@@ -89,5 +89,5 @@ showErrors errs =
     [ spacer 10 10
     , if isEmpty errs
         then spacer 0 0
-        else flow down <| map (width 340 . centered . Text.color red . toText) errs
+        else flow down <| map (width 340 << centered << Text.color red << toText) errs
     ]

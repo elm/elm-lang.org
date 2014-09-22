@@ -29,7 +29,7 @@ content tagContent tagResponse outerWidth =
       contentWidth = min 600 (outerWidth - sideBarWidth)
       innerWidth = sideBarWidth + contentWidth
       
-      averageMargin = (outerWidth - contentWidth) `div` 2
+      averageMargin = (outerWidth - contentWidth) // 2
       leftMargin =
           if averageMargin < sideBarWidth
             then outerWidth - innerWidth
@@ -46,13 +46,13 @@ content tagContent tagResponse outerWidth =
       paragraphs content =
           spacer leftMargin 10 `beside` width contentWidth content
 
-      tagField = Field.field fieldStyle tagSearch.handle id "tag" tagContent
+      tagField = Field.field fieldStyle tagSearch.handle identity "tag" tagContent
 
       pairing e1 e2 =
           flow right
           [ spacer leftMargin 10
-          , box (contentWidth `div` 2) e1
-          , box (contentWidth `div` 2) e2
+          , box (contentWidth // 2) e1
+          , box (contentWidth // 2) e2
           ]
 
       asyncElm = flow down <|
@@ -76,7 +76,7 @@ content tagContent tagResponse outerWidth =
       ]
 
 --tagResults : Signal (Http.Response String)
-tagResults = Http.send (getTag . .string <~ tagSearch.signal)
+tagResults = Http.send (getTag << .string <~ tagSearch.signal)
 
 main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults) ~ Window.dimensions
 
@@ -116,31 +116,6 @@ of programmers is a decreasing function of the density of go to statements in th
 |]
 
 intro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 <span style="color:firebrick">Code examples out of order for now, working on fix!</span>
 
@@ -208,15 +183,6 @@ In short:
 |]
 
 midtro2 = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-</style>
 
 [Functional Reactive Programming][frp] (FRP) is a high-level framework for
 describing time-dependent relationships. FRP formalizes these time-dependencies,
@@ -269,31 +235,6 @@ mess around with the DOM in [Elm](/), so this function only gets used in the JS 
 
 
 midtro3 = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 ## Case Study: Using the Flickr API
 
@@ -375,31 +316,6 @@ the same reason. It is pretty much the same as using `goto` to structure your pr
 |]
 
 asyncElm1 = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 ### 3. Readable *and* Responsive
 
@@ -421,24 +337,6 @@ into the input box to see `tags` update automatically.
 |]
 
 asyncElm2 = [markdown|
-<style type="text/css">
-p {
-  text-align: justify;
-  line-height: 1.2em;
-}
-</style>
-
-We can then do all sorts of computations with `tags`. When `tags` changes
-the signals that depend on it change automatically:
-|]
-
-asyncElm3 = [markdown|
-<style type="text/css">
-p {
-  text-align: justify;
-  line-height: 1.2em;
-}
-</style>
 
 The `lift` function is used to transform a signal. It takes functions such as
 `length`, `reverse`, or `requestTag` and applies them to a signal. This lets
@@ -452,31 +350,6 @@ Now we just need to send this request! For this we use the `send` function:
 |]
 
 asyncElm4 = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 Notice that when `tags` changes, the result of `send` does *not* change immediately.
 The responses are sent and received asynchronously, so a response only arrives when
@@ -594,31 +467,6 @@ sizesToSource sizeOptions =
                 _ -> Nothing
 
 outro = [markdown|
-<style type="text/css">
-p, li {
-  text-align: justify;
-  line-height: 1.2em;
-}
-h2, h3, h4 {
-  font-family: futura,'century gothic','twentieth century',calibri,verdana,helvetica,arial;
-}
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 ## Conclusions
 
@@ -672,7 +520,7 @@ if you do not have any experience reading academic papers. You can also email
 tags : Input.Input Field.Content
 tags = Input.input Field.noContent
 
-code = centered . monospace . toText
+code = centered << monospace << toText
 box w e = container w 40 middle e
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t

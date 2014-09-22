@@ -9,28 +9,8 @@ content w = width (min 600 w) intro
 intro = [markdown|
 
 <h1><div style="text-align:center">Getting started with Types
-<div style="font-size:0.5em;font-weight:normal">*What are types? Why are they useful?*</div></div>
+<div style="font-size:0.5em;font-weight:normal">What are types? Why are they useful?</div></div>
 </h1>
-
-<style type="text/css">
-pre {
-  background-color: white;
-  padding: 10px;
-  border: 1px solid rgb(216, 221, 225);
-  border-radius: 4px;
-}
-code > span.kw { color: #268BD2; }
-code > span.dt { color: #268BD2; }
-code > span.dv, code > span.bn, code > span.fl { color: #D33682; }
-code > span.ch { color: #DC322F; }
-code > span.st { color: #2AA198; }
-code > span.co { color: #93A1A1; }
-code > span.ot { color: #A57800; }
-code > span.al { color: #CB4B16; font-weight: bold; }
-code > span.fu { color: #268BD2; }
-code > span.re { }
-code > span.er { color: #D30102; font-weight: bold; }
-</style>
 
 Types help you write correct programs. They come with tools that will warn you
 about problems while you are writing the program, as opposed to when people
@@ -55,7 +35,7 @@ The reward is being able to write programs that &ldquo;just work&rdquo;.
 
 Let&rsquo;s get started!
 
-## What is a Type?
+<h2 id="what-is-a-type">What is a Type?</h2>
 
 All values in Elm have a type. A number is one *type* of value, and a list is
 a totally separate *type* of value.
@@ -93,7 +73,7 @@ properties.
 Types become more interesting and useful when you start working with more
 complicated values. So let&rsquo;s take a look at types for data structures.
 
-## Types for Data Structures
+<h2 id="types-for-data-structures">Types for Data Structures</h2>
 
 This section will cover lists, tuples, and [records][records]. It may help
 to find some examples or read some documentation on these data structures
@@ -174,7 +154,7 @@ which `String` was the title and which was the author. You would have to
 read some code or do some experiment to figure it out. With records, it is
 totally clear and extracting a title is as simple as saying `book2.title`.
 
-## Types for Functions
+<h2 id="types-for-functions">Types for Functions</h2>
 
 So far we have only looked at unchanging values, but this is *functional*
 programming! What about functions?!

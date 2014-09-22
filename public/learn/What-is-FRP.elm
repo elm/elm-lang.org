@@ -109,7 +109,7 @@ do it.
 
 Because FRP gives us a high-level way to react to events, there is no need for
 messy event handlers, callbacks, or manual DOM manipulations. This cleans up
-code dramatically. The operational stuff largley disappears, often leaving you
+code dramatically. The operational stuff largely disappears, often leaving you
 exclusively with code that is essential to your task. No non-essential details!
 
 The best evidence is code though, so take a look at [more
@@ -120,14 +120,16 @@ examples](/Examples.elm)!
 
 ---- Putting together the examples and making them pretty ----
 
-entry w1 w2 v1 v2 = container w1 40 middle v1 `beside` container w2 40 middle v2
+entry w1 w2 v1 v2 =
+    container w1 40 middle v1 `beside` container w2 40 middle v2
+
 example w1 w2 code =
-    lift (\info -> entry w1 w2 (leftAligned . monospace <| toText code) (asText info))
+    lift (\info -> entry w1 w2 (leftAligned (monospace (toText code))) (asText info))
 
 clickCount = count Mouse.clicks
 
 examples1 =
-  let title = leftAligned . bold . toText
+  let title = leftAligned << bold << toText
       example' = example 250 110
   in [ constant (entry 250 110 (title "Source Code") (title "Value"))
      , example' "Mouse.position" Mouse.position
@@ -137,7 +139,7 @@ examples1 =
      ]
 
 examples2 =
-  let title = leftAligned . bold . toText
+  let title = leftAligned << bold << toText
       example' = example 420 140
   in [ constant (entry 420 140 (title "Source Code") (title "Value"))
      , example' "lift2 (/) Mouse.x Window.width" (lift2 (\a b -> toFloat (round (1000 * toFloat a / toFloat b)) / 1000) Mouse.x Window.width)
@@ -157,7 +159,7 @@ box exs =
 ---- Putting it all together into a single page ----
 
 whatIsFRP exs w =
-  let hw = w `div` 2 - 15 in
+  let hw = w // 2 - 15 in
   flow down
     [ [markdown|# What is Functional Reactive Programming? |]
     , flow right [ width hw what1
@@ -171,7 +173,7 @@ whatIsFRP exs w =
     ]
 
 moreOnFRP exs w =
-  let hw = w `div` 2 - 15 in
+  let hw = w // 2 - 15 in
   flow down
     [ width w complex1
     , container w (heightOf exs) middle exs

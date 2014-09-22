@@ -26,6 +26,7 @@ import System.Directory
 import GHC.Conc
 
 import qualified Elm.Internal.Paths as Elm
+import Elm.Internal.Version (elmVersion)
 import qualified Generate
 import qualified Editor
 
@@ -194,7 +195,7 @@ precompile =
 
           flags file =
               [ "--make"
-              , "--set-runtime=/elm-runtime.js"
+              , "--set-runtime=/elm-runtime.js?" ++ show elmVersion
               , "--src-dir=public"
               , file
               ]
@@ -224,6 +225,22 @@ style =
     \  h1,h2,h3,h4 { font-weight:normal; font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial !important; }\n\
     \  p, li { font-size: 14px !important;\n\
     \          line-height: 1.5em !important; }\n\
+    \  pre { background-color: white;\n\
+    \        padding: 10px;\n\
+    \        border: 1px solid rgb(216, 221, 225);\n\
+    \        border-radius: 4px;\n\
+    \  }\n\
+    \  code > span.kw { color: #268BD2; }\n\
+    \  code > span.dt { color: #268BD2; }\n\
+    \  code > span.dv, code > span.bn, code > span.fl { color: #D33682; }\n\
+    \  code > span.ch { color: #DC322F; }\n\
+    \  code > span.st { color: #2AA198; }\n\
+    \  code > span.co { color: #93A1A1; }\n\
+    \  code > span.ot { color: #A57800; }\n\
+    \  code > span.al { color: #CB4B16; font-weight: bold; }\n\
+    \  code > span.fu { color: #268BD2; }\n\
+    \  code > span.re { }\n\
+    \  code > span.er { color: #D30102; font-weight: bold; }\n\
     \</style>"
 
 -- | Add analytics to a page.

@@ -5,7 +5,7 @@ main = skeleton "Learn" content <~ Window.dimensions
 
 content outer =
   let w = 600
-      hwidth = if w < 800 then w `div` 2 - 20 else 380
+      hwidth = if w < 800 then w // 2 - 20 else 380
       body = flow down
              [ width w intro
              , flow right [ width hwidth leftCol, spacer 40 10, width hwidth rightCol ]
@@ -14,12 +14,6 @@ content outer =
   in  container outer (heightOf body) middle body
 
 intro = [markdown|
-<style>
-h1 { margin-bottom: 0; }
-ul { margin-top: 0; }
-h2,h3,h4 { margin-bottom: 0.5em; margin-top: 2em; }
-h5 { margin-bottom: 0.5em; }
-</style>
 
 # Learn
 

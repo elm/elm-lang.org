@@ -12,30 +12,7 @@ everything wid =
 
 intro = [markdown|
 
-<style type="text/css">
-p { text-align: justify }
-pre { background-color: white;
-      padding: 10px;
-      border: 1px solid rgb(216, 221, 225);
-      border-radius: 4px;
-}
-code > span.kw { color: #204a87; font-weight: bold; }
-code > span.dt { color: #204a87; }
-code > span.dv { color: #0000cf; }
-code > span.bn { color: #0000cf; }
-code > span.fl { color: #0000cf; }
-code > span.ch { color: #4e9a06; }
-code > span.st { color: #4e9a06; }
-code > span.co { color: #8f5902; font-style: italic; }
-code > span.ot { color: #8f5902; }
-code > span.al { color: #ef2929; }
-code > span.fu { color: #000000; }
-code > span.er { font-weight: bold; }
-</style>
-
-<h1><div style="text-align:center">Announcing Elm REPL
-<div style="margin-top:4px;font-size:0.5em;font-weight:normal">*An Old Kind of REPL*</div></div>
-</h1>
+<h1><div style="text-align:center">Announcing Elm REPL</div></h1>
 
 The first release of [`elm-repl`](https://github.com/elm-lang/elm-repl#elm-repl)
 is now available. Like any traditional

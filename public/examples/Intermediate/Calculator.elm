@@ -1,6 +1,7 @@
 import Char
 import String
 import Graphics.Input as Input
+import Maybe
 import Text
 import Window
 
@@ -44,7 +45,7 @@ numberToFloat : Number -> Float
 numberToFloat number =
     let neg = if number.negative then -1 else 1
         exp = 100 ^ toFloat number.percentage
-    in  maybe 0 id (String.toFloat number.string) * neg / exp
+    in  Maybe.maybe 0 identity (String.toFloat number.string) * neg / exp
 
 
 -- DISPLAY
@@ -55,8 +56,8 @@ buttonSize = 80
 calculator : (Int,Int) -> State -> Element
 calculator (w,h) state =
     let pos = bottomRightAt (absolute 10) (absolute 10)
-    in  color darkCharcoal . container w h middle <|
-        flow down [ color black . container (4*buttonSize) (buttonSize+40) pos <|
+    in  color darkCharcoal << container w h middle <|
+        flow down [ color black << container (4*buttonSize) (buttonSize+40) pos <|
                     screen 0.6 (show (displayNumber state))
                   , buttons
                   ]
@@ -91,9 +92,11 @@ button : Color -> Color -> Int -> Int -> Command -> String -> Element
 button background foreground w h command name =
     let n = min w h
         btn alpha =
-            layers [ color black . container w h bottomRight .
-                     color background . container (w-1) (h-1) midLeft .
-                     container n n middle <| txt 0.3 foreground name
+            layers [ container n n middle (txt 0.3 foreground name)
+                      |> container (w-1) (h-1) midLeft
+                      |> color background
+                      |> container w h bottomRight
+                      |> color black
                    , color (rgba 0 0 0 alpha) (spacer w h)
                    ]
     in  Input.customButton commands.handle command (btn 0) (btn 0.05) (btn 0.1)
@@ -115,8 +118,11 @@ rightOp command name =
 
 txt : Float -> Color -> String -> Element
 txt p clr string =
-    leftAligned . Text.height (p * buttonSize) .
-    typeface ["Helvetica Neue","Sans-serif"] . Text.color clr <| toText string
+    toText string
+      |> Text.color clr
+      |> typeface ["Helvetica Neue","Sans-serif"]
+      |> Text.height (p * buttonSize)
+      |> leftAligned
 
 
 -- UPDATE
