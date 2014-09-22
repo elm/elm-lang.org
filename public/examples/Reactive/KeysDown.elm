@@ -4,8 +4,10 @@
 
 import Keyboard
 
-display codes =
-  plainText "You are holding down the following keys: " `beside` asText codes
+display : [Int] -> Element
+display keyCodes =
+    plainText "You are holding down the following keys: " `beside` asText keyCodes
 
 
+main : Signal Element
 main = lift display Keyboard.keysDown

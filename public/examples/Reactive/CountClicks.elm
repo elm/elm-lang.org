@@ -1,4 +1,6 @@
 
 import Mouse
 
-main = lift asText (count Mouse.clicks)
+main : Signal Element
+main =
+    lift asText (count Mouse.clicks)

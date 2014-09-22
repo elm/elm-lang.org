@@ -6,7 +6,8 @@ content : Input Field.Content
 content = input Field.noContent
 
 main : Signal Element
-main = lift scene content.signal
+main =
+    lift scene content.signal
 
 scene : Field.Content -> Element
 scene fieldContent =

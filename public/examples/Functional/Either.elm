@@ -17,15 +17,22 @@ import Either
 import Either (..)
 
 names : [Either String Int]
-names = [ Left "Alice", Right 43, Left "Bob", Right 29, Right 7 ]
+names =
+    [ Left "Alice"
+    , Right 43
+    , Left "Bob"
+    , Right 29
+    , Right 7
+    ]
 
 main : Element
 main =
-  flow down
-    [ asText names,
-      asText <| lefts names,
-      asText <| rights names,
-      asText <| Either.partition names,
-      asText <| map (either identity show) names,
-      asText <| map isLeft names,
-      asText <| map isRight names ]
+    flow down
+        [ asText names
+        , asText <| lefts names
+        , asText <| rights names
+        , asText <| Either.partition names
+        , asText <| map (either identity show) names
+        , asText <| map isLeft names
+        , asText <| map isRight names
+        ]

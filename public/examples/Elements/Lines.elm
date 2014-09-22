@@ -1,9 +1,10 @@
 
 main : Element
-main = collage 200 420
-         [ move (0,-55) blueSquare
-         , move (0, 55) redSquare
-         ]
+main =
+    collage 200 420
+        [ move (0,-55) blueSquare
+        , move (0, 55) redSquare
+        ]
 
 blueSquare : Form
 blueSquare = traced (dashed blue) square

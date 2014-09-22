@@ -3,9 +3,12 @@
 import Char
 import Keyboard
 
-display code =
-    plainText "The last key you pressed was: "
-    `beside`
-    asText (Char.fromCode code)
+display : Int -> Element
+display keyCode =
+    flow right
+        [ plainText "The last key you pressed was: "
+        , asText (Char.fromCode keyCode)
+        ]
 
+main : Signal Element
 main = lift display Keyboard.lastPressed

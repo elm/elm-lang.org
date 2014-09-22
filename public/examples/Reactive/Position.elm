@@ -1,4 +1,6 @@
 
 import Mouse
 
-main = lift asText Mouse.position
+main : Signal Element
+main =
+    lift asText Mouse.position

@@ -4,8 +4,13 @@
 
 import Window
 
-resizeablePaint (w,h) = fittedImage w h "/paint.jpg"
-main = lift resizeablePaint Window.dimensions
+resizeablePaint : (Int,Int) -> Element
+resizeablePaint (w,h) =
+    fittedImage w h "/paint.jpg"
+
+main : Signal Element
+main =
+    lift resizeablePaint Window.dimensions
 
 
 
