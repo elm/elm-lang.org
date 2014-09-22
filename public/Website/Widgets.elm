@@ -3,6 +3,7 @@ module Website.Widgets (bigLogo, installButtons, button, headerFaces) where
 import Graphics.Input as Input
 import Text
 import Website.ColorScheme as C
+import Native.RedirectHack
 
 headerFaces =
     [ "futura", "century gothic", "twentieth century"
@@ -24,14 +25,16 @@ installButtons w =
 
 -- implementation
 
-click : Input.Input ()
-click = Input.input ()
+click : Input.Input String
+click = Input.input ""
+
+bad = lift Native.RedirectHack.redirect click.signal
 
 button : Int -> Int -> String -> String -> Element
 button outerWidth innerWidth href msg =
     let box' = box innerWidth msg in
     container outerWidth 100 middle << link href <|
-    Input.customButton click.handle ()
+    Input.customButton click.handle href
         (box' C.lightGrey C.mediumGrey)
         (box' C.lightGrey C.accent1)
         (box' C.mediumGrey C.accent1)
