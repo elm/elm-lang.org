@@ -17,14 +17,14 @@ content = [markdown|
 
 <br>
 
-# Elm 0.13
+# Elm 0.13 - Architecture Improvements
 
 A big part of this release is an architecture improvement for the compiler.
 In addition to making the compiler code nicer to work with, it made it really
-easy to fix a couple long-standing issues surrounding imports and exports. The
-major improvements you will see as a user include:
+easy to fix a couple issues with imports and exports. The major improvements
+you will see as a user include:
 
-  * Better error messages on ambiguous variables
+  * Better error messages for ambiguous variables
   * Nicer import and export mechanisms for ADTs
   * Cleaner and more consistent standard libraries
   * Type aliases can be used with ports
@@ -81,11 +81,11 @@ The local definition will always take precedence. When upgrading, you may run
 into some code that needs to be disambiguated. Keep in mind that it is usually
 best to use qualified names in the first place. Writing `Set.map` means that
 your code can never *become* ambiguous if someone adds a `map` function to a
-library you imported unqualified. Furthermore, it is very helpful for people
-reading your code for the first time.
+library you imported entirely open with `(..)`. Furthermore, using qualified
+imports is very helpful for people reading your code for the first time.
 
 
-## Cleaning up the Standard Libraries
+## Improving the Standard Libraries
 
 Quite a few functions have been added, renamed, and removed in an effort to
 make the standard libraries more predictable and to help produce nicer code.
@@ -108,15 +108,15 @@ Here are all the changes:
     * Added `(map : (a -> b) -> Maybe a -> Maybe b)`
     * `justs` is replaced by `(List.filterMap identity)`
 
-The changes in `Basics` are probably the most far reaching, so I think they
-deserve a proper defense. See [this thread][renaming] to see the arguments
-for renaming `id`, `div`, and `mod`. The toughest decision was about function
-composition, so the next section is devoted to explaining that choice.
+The changes in `Basics` are probably the most far reaching. See
+[this thread][renaming] to see the discussion about renaming `id`, `div`, and
+`mod`. The toughest decision was about function composition, so the next
+section is devoted to explaining that choice.
 
 [renaming]: https://groups.google.com/forum/#!searchin/elm-discuss/div$20mod$20id/elm-discuss/uuKEqENZZm8/bKs5k-suzJsJ
 
 
-### The new Function Composition Operators
+### New Function Composition Operators
 
 Function composition is now done with the following operators:
 
@@ -126,9 +126,9 @@ Function composition is now done with the following operators:
 (<<) : (b -> c) -> (a -> b) -> (a -> c)
 ```
 This matches the syntax from F#. This is an improvement because (1) Elm has
-special record accessor functions that look very bad with the old composition
-operator and (2) adding the `(>>)` operator means you can write function
-compositions that read left to right.
+special record accessor functions that do not look great with the old
+composition operator and (2) adding the `(>>)` operator means you can write
+function compositions that read left to right.
 
 Here is an illustration of mixing function composition with record accessors:
 
@@ -151,11 +151,11 @@ code in more typical situations:
 step (dt, keys) =
     physics dt . walk keys . gravity dt . jump keys
 
--- F# way with function composition
+-- F#-inspired way with function composition
 step (dt, keys) =
     jump keys >> gravity dt >> walk keys >> physics dt
 
--- F# way with forward application
+-- F#-inspired way with forward application
 step (dt, keys) mario =
     mario
         |> jump keys
@@ -186,7 +186,7 @@ term, it may be worthwhile to consider switching to `(>>)` or `(|>)`.
 ## Miscellaneous Improvements
 
 Elm uses [ports][] to communicate with JavaScript. You can now use type aliases
-when defining ports. This means it is much nicer to send large records through
+when defining ports. This makes it much nicer to send large records through
 ports.
 
 There is now a `--bundle-runtime` flag which creates stand-alone Elm programs.
