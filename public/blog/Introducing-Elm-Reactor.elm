@@ -35,35 +35,31 @@ content = [markdown|
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
 
-Elm Reactor is a development tool that gives you the power to time-travel.
-Pause, rewind, and unpause any Elm program to find bugs and explore the
-interaction space. Elm Reactor also swaps in new code upon saving, letting you
-know immediately if your bug fix or feature works. This way it&rsquo;s easy to
-tweak layout, play with colors, and quickly explore ideas. **Elm Reactor
-bundles time-travel and code swapping in an [easy-to-install package][install]
-that can be used with any text editor.** It came out with [Elm 0.13][13], so
-you can start using it for your projects today.
+Elm Reactor makes time-travel easy and practical. It lets you pause/unpause
+and rewind/replay at any point in any Elm program. This is great for finding
+bugs and exploring interactions. Elm Reactor can also keep track of what files
+you are working on, so when you save, the changes will propagate to the
+running program. This lets you see immediately if your bug fix works or if
+your feature looks right.
 
-[install]: https://github.com/elm-lang/elm-platform#elm-platform
-[13]: /blog/announce/0.13.elm
-
-The following demo shows someone fixing a bug in [a TodoMVC app][todo] written
-with [elm-html](/blog/Blazing-Fast-Html.em). Any task marked as complete should
-not appear under &ldquo;Active Tasks&rdquo;, but this bug mistakes completed
-tasks for active tasks. Watch them find the bug, fix the code, see the fix
-propagate automatically, and rewind the program to verify the fix.
+Check out the following video to see Elm Reactor in action when debugging a
+[TodoMVC app][todo] written with [elm-html][html]:
 
 [todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
+[html]: /blog/Blazing-Fast-Html.em
 
 <img src="/imgs/reactor-post/fold.gif" style="width:600px; height:364px;">
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
-combines the [time-traveling debugger prototype][debug] created by Laszlo Pandy
-and Evan Czaplicki along with the modular design of Elm to make a practical
-development tool. It harnesses the recent features of Elm to give the debugging
-process a much needed upgrade.
+improves the [time-traveling debugger][debug] created by Laszlo Pandy and Evan
+Czaplicki, turning it into a practical development tool. It has more features,
+a nice new UI written in Elm, and can now be used with *any* text editor. Elm
+Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
+[install][] and use right now.
 
 [debug]: http://debug.elm-lang.org/
+[13]: /blog/announce/0.13.elm
+[install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 # Ultimate Undo Button
 
