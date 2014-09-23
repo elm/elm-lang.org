@@ -167,20 +167,17 @@ page, Elm Reactor lets you mess with the code as much as you want while you find
 the right place for the close button. You can see the results of your new code
 without maddeningly running through the entire interaction each time!
 
-It&rsquo;s easy to get time-traveling wrong, just ask [Doc Brown][] how that
-worked for him. Elm Reactor will only swap in *valid* programs. If a potential
-program has a type error or syntax error, then Elm Reactor does not swap in the
-new code. Instead, Elm Reactor overlays an error message explaining the issue
-and the last working version keeps running. Below is an example of trying to
-swap in code that doesn&rsquo;t comile.
-
-[Doc Brown]: http://en.wikipedia.org/wiki/Emmett_Brown
+But what happens when you try to swap in a program with a type error or syntax
+error? In that case, Elm Reactor does not swap in the new code. Instead, it
+displays a message explaining the issue while the last working version keeps
+running. The following video shows this kind of feedback:
 
 <img src="/imgs/reactor-post/error.gif" style="width:600px; height:364px;">
 
 # Try it yourself!
 
-You can hide the debugging panel by clicking on the tab.
+The editor below lets you try out all of the features described so far. Try it
+out:
 |]
 
 example = [markdown|
@@ -188,6 +185,9 @@ example = [markdown|
 |]
 
 workflow = [markdown|
+
+This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
+are some other examples you can explore.
 
 # In your workflow
 
