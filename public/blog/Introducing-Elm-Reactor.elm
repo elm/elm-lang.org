@@ -2,7 +2,7 @@ import Website.Skeleton (skeleton)
 import Window
 
 port title : String
-port title = "Introducing: Elm-Reactor"
+port title = "Introducing Elm Reactor"
 
 main = lift (skeleton "Blog" everything) Window.dimensions
 
@@ -37,28 +37,33 @@ By <a href="http://github.com/michaelbjames">Michael James</a>
 
 Elm Reactor is a development tool that gives you the power to time-travel.
 Pause, rewind, and unpause any Elm program to find bugs and explore the
-interaction space. Elm Reactor swaps in new code upon saving, letting you know
-immediately if your bug fix or feature works. This way it&rsquo;s easy to tweak
-layout, play with colors, and quickly explore ideas. Elm has prototyped [these
-features](http://debug.elm-lang.org/) before, but **Elm Reactor polishes them in
-an [easy-to-install package][install]** that can be used with any text editor.
-You can start using it for your projects today.
+interaction space. Elm Reactor also swaps in new code upon saving, letting you
+know immediately if your bug fix or feature works. This way it&rsquo;s easy to
+tweak layout, play with colors, and quickly explore ideas. **Elm Reactor
+bundles time-travel and code swapping in an [easy-to-install package][install]
+that can be used with any text editor.** It came out with [Elm 0.13][13], so
+you can start using it for your projects today.
 
 [install]: https://github.com/elm-lang/elm-platform#elm-platform
+[13]: /blog/announce/0.13.elm
 
-The following demo shows someone fixing a bug in a TodoMVC app written with
-[elm-html](/blog/Blazing-Fast-Html.em). Any task marked as complete should not appear under
-&ldquo;Active Tasks&rdquo;, but this bug mistakes completed tasks for active tasks.
-Watch them find the bug, fix the code, see the fix propagate
-automatically, and rewind the program to verify the fix.
+The following demo shows someone fixing a bug in [a TodoMVC app][todo] written
+with [elm-html](/blog/Blazing-Fast-Html.em). Any task marked as complete should
+not appear under &ldquo;Active Tasks&rdquo;, but this bug mistakes completed
+tasks for active tasks. Watch them find the bug, fix the code, see the fix
+propagate automatically, and rewind the program to verify the fix.
+
+[todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 
 <img src="/imgs/reactor-post/fold.gif" style="width:600px; height:364px;">
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
-combines the time-traveling debugger prototype created by Laszlo Pandy and Evan
-Czaplicki along with the modular design of Elm to make a practical development
-tool. It harnesses the recent features of Elm to give the debugging process a
-much needed upgrade.
+combines the [time-traveling debugger prototype][debug] created by Laszlo Pandy
+and Evan Czaplicki along with the modular design of Elm to make a practical
+development tool. It harnesses the recent features of Elm to give the debugging
+process a much needed upgrade.
+
+[debug]: http://debug.elm-lang.org/
 
 # Ultimate Undo Button
 
