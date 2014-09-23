@@ -204,6 +204,7 @@ precompile =
 getRuntimeAndDocs :: IO ()
 getRuntimeAndDocs = do
   writeFile "resources/elm-runtime.js" =<< readFile Elm.runtime
+  appendFile "resources/elm-runtime.js" =<< readFile "resources/RedirectHack.js"
   writeFile "resources/docs.json" =<< readFile Elm.docs
 
 adjustHtmlFile :: FilePath -> IO ()

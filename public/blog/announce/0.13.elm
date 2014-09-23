@@ -3,7 +3,7 @@ import Website.Tiles as Tile
 import Window
 
 port title : String
-port title = "Elm 0.13"
+port title = "Elm 0.13 - Architecture Improvements"
 
 main = skeleton "Blog" everything <~ Window.dimensions
 
@@ -20,9 +20,9 @@ content = [markdown|
 # Elm 0.13 - Architecture Improvements
 
 A big part of this release is an architecture improvement for the compiler.
-In addition to making the compiler code nicer to work with, it made it really
-easy to fix a couple issues with imports and exports. The major improvements
-you will see as a user include:
+In addition to making the compiler code nicer to work with in general, it made
+a couple of the specific goals for this release extremely simple to tackle. The
+major improvements you will see as a user include:
 
   * Better error messages for ambiguous variables
   * Nicer import and export mechanisms for ADTs
@@ -197,11 +197,14 @@ Previous iterations of Elm depended on the Pandoc project. [Pandoc][] is great
 and extremely useful, but it includes lots of functionality that Elm does not
 need and brings in a large number of dependencies that led to build problems
 quite frequently. Elm 0.13 uses a library called [cheapskate][] for markdown
-parsing.
+parsing. Both Pandoc and cheapskate were created by [John MacFarlane][jgm] who
+knows a ton about Markdown and created cheapskate to focus on creating a
+parser that is extremely fast, standards compliant, and light-weight.
 
 [ports]: /learn/Ports.elm
 [Pandoc]: http://johnmacfarlane.net/pandoc/
 [cheapskate]: https://hackage.haskell.org/package/cheapskate
+[jgm]: https://github.com/jgm
 
 ## Thank you
 
@@ -211,11 +214,11 @@ will be coming out in the following days and weeks, but some improvements can
 already be announced. Thanks to Michael for figuring out how to build the
 entire Elm platform with cabal sandboxes, this makes installing much nicer
 on non-Windows and non-Mac platforms! Thanks to Andrew for making the
-documentation parser less ad-hoc. Thank you to both of you for talking through
-issues and design choices. I learned a lot working with you and had a ton of
-fun! On that note, thank you too [Laszlo Pandy][laszlo] for helping me
-improve as a leader and manager and person; this summer felt like a big deal
-for me.
+documentation parser less ad-hoc and adding `elm-get init`. Thank you to both
+of you for talking through issues and design choices. I learned a lot working
+with you and had a ton of fun! On that note, thank you too [Laszlo Pandy][laszlo]
+for helping me improve as a leader and manager and person; this summer felt
+like a big deal for me.
 
 [michael]: https://github.com/michaelbjames
 [andrew]: https://github.com/ddrone
@@ -233,9 +236,9 @@ an Elm repo!
 
 Thank you to [Christian Widera](https://github.com/Xashili) for continuing to
 improve [the Array library][array]. Thanks to [Daniel Heres][dan] for fixing
-a layout bug. Thank you [Max New][max] for continuing to improve testing and
-build process. The benefits of these efforts has become extremely obvious by
-now; it is great!
+a layout bug. Thank you [Max New][max] for continuing to improve testing,
+streamlining the build process, and adding history and completion to `elm-repl`.
+The benefits of these efforts has become extremely obvious; it is great!
 
 [dan]: https://github.com/Dandandan
 [array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
