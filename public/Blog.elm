@@ -24,6 +24,7 @@ blog = [markdown|
 
 ### Articles
 
+ * [Introducing Elm Reactor](/blog/Introducing-Elm-Reactor.elm)
  * [Blazing Fast HTML](/blog/Blazing-Fast-Html.elm)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
  * [Elm package manager](/blog/announce/PackageManager.elm)
@@ -36,7 +37,7 @@ blog = [markdown|
 
 ### Release Notes
 
-* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Architecture and library improvements
+* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Architecture improvements and Elm Reactor integration
 * <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
 * <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
 * <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
