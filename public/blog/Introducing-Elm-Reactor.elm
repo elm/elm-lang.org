@@ -24,7 +24,7 @@ everything wid =
 pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
-<div style="font-size: 4em;">Time-Travel made Easy</div>
+<div style="font-size: 4em;">Time Travel made Easy</div>
 <div style="font-size: 1.5em;">Introducing Elm Reactor</div>
 </div>
 |]
@@ -35,7 +35,7 @@ content = [markdown|
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
 
-Elm Reactor is a development tool that makes time-travel easy and practical.
+Elm Reactor is a development tool that makes time travel easy and practical.
 It lets you pause/unpause and rewind/replay at any point in any Elm program.
 This is great for finding bugs and exploring interactions. Elm Reactor can
 also keep track of what files you are working on, so when you save, the
@@ -58,7 +58,7 @@ Check out the following video to see Elm Reactor in action when debugging a
 <div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
-improves the [time-traveling debugger][debug] created by Laszlo Pandy and Evan
+improves the [time traveling debugger][debug] created by Laszlo Pandy and Evan
 Czaplicki, turning it into a practical development tool. It has more features,
 a nice new UI written in Elm, and can now be used with *any* text editor. Elm
 Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
@@ -85,7 +85,7 @@ a line piece and correct my mistake when playing [elmtris][]:
 </div>
 
 In this example, I paused the game, went back, and continued to avoid crushing
-defeat. This is what &ldquo;time-traveling&rdquo; means in Elm Reactor. It lets
+defeat. This is what &ldquo;time traveling&rdquo; means in Elm Reactor. It lets
 you:
 
 * Pause a running program
@@ -107,7 +107,7 @@ possible.
 All input sources to an Elm program are managed by the runtime and known
 statically at compile-time. You declare that your game will be expecting
 keypresses and mouse clicks. This makes the inputs easy to track. The first step
-in time-traveling is to know your history, so Elm Reactor records these input
+in time traveling is to know your history, so Elm Reactor records these input
 events.
 
 The next step is to pause time. The following diagram shows how an event such as
@@ -137,7 +137,7 @@ runtime combines the previous state and new inputs to make the current state.
 So, to jump to any point in time and have a sensible state, you must replay the
 events leading up to that point.
 
-The simple approach to time-traveling is to start from the beginning and replay
+The simple approach to time travel is to start from the beginning and replay
 everything up to the desired event. So if you wanted to step to the 1000th
 event, you would have to replay 1000 events. Elm Reactor uses *snapshotting* to
 avoid replaying so many events.
@@ -156,14 +156,14 @@ Elm Reactor takes a snapshot every 100 events. This means jumping to any event
 from any other takes no more than 100 event replays. For example, to jump to
 event #199 from event #1000 Elm Reactor first restores the snapshot at event
 #100, then applies the next 99 recorded events. A better user experience
-strategy to snapshotting could ensure time-traveling never takes more than N
+strategy to snapshotting could ensure time travel never takes more than N
 milliseconds. This could be done by timing each round of computation and
 snapshotting every N milliseconds. Instead Elm Reactor uses the simpler
 snapshot-every-Nth strategy for its initial release.
 
 # Changing History
 
-In addition to time-traveling, Elm Reactor lets you change history. Since
+In addition to time travel, Elm Reactor lets you change history. Since
 Elm Reactor records the entire history of inputs to the program, we can simply
 replay these inputs on new code to see a bug fix or watch how things change.
 
@@ -261,7 +261,7 @@ make sure a function does what you expect.
 
 * **Ports** - [Ports][] make it easy for Elm programs to send messages to and
 from JS, where there may be all sorts of side-effects. It is not immediately
-obvious how ports will work with time-traveling. The easy solution is to never
+obvious how ports will work with time travel. The easy solution is to never
 send values out of ports, avoiding unwanted side-effects like writing to disk
 many times as we rewind. Some ports are safe to replay though, so maybe more
 nuance is needed.
