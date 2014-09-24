@@ -208,7 +208,7 @@ Thwomp. Try it out!
 |]
 
 example = [markdown|
-<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
+<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
 |]
 
 workflow = [markdown|
