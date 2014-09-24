@@ -130,4 +130,4 @@ can modify running programs.
 |]
 
 debuggerBlock =
-    Tile.example (596,308) ("Home/Debugger", "http://debug.elm-lang.org/", Nothing)
+    Tile.example (860,260) ("Home/Debugger", "http://debug.elm-lang.org/", Nothing)
