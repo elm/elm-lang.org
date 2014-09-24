@@ -17,7 +17,8 @@ everything wid =
   [ width w pageTitle
   , section content
   , width w example
-  , section body
+  , section workflow
+  , section closing
   ]
 
 pageTitle = [markdown|
@@ -41,17 +42,20 @@ also keep track of what files you are working on, so when you save, the
 changes will propagate to the running program. This lets you see immediately
 if your bug fix works or if your feature looks right.
 
-You may have seen it demoed in the browser before, but now it is a development
-tool you can run locally. The debugger below shows what it is like to use it
-on a simple stamps program. Try to change the size and shape of the stamps!
+Check out the following video to see Elm Reactor in action when debugging a
+[TodoMVC app][todo] written with [elm-html][html]:
 
-|]
+[todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
+[html]: /blog/Blazing-Fast-Html.em
 
-example = [markdown|
-<iframe src="http://debug.elm-lang.org/edit/Stamps.elm" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
-|]
-
-body = [markdown|
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
+</div>
+<div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
 improves the [time traveling debugger][debug] created by Laszlo Pandy and Evan
@@ -79,8 +83,6 @@ a line piece and correct my mistake when playing [elmtris][]:
         allowfullscreen
         src="//www.youtube.com/embed/IwOka_IXjU4?rel=0&html5=1"></iframe>
 </div>
-<div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
-
 
 In this example, I paused the game, went back, and continued to avoid crushing
 defeat. This is what &ldquo;time traveling&rdquo; means in Elm Reactor. It lets
@@ -198,6 +200,28 @@ running. The following video shows this kind of feedback:
         src="//www.youtube.com/embed/xlP-Bpdv1lc?rel=0&html5=1"></iframe>
 </div>
 
+# Try it yourself!
+
+The editor below lets you try out all of the features described so far. If you
+click on the tab of the debugger panel it will slide away, showing more of
+Thwomp. Try it out!
+
+|]
+
+example = [markdown|
+<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
+|]
+
+workflow = [markdown|
+
+This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
+are some other examples you can explore, such as [the Mario example][mario]
+where you can play with physics and [a simple stamping app][stamp] where it is
+fun to change the size and shape of each stamp.
+
+[mario]: http://debug.elm-lang.org/edit/Mario.elm
+[stamp]: http://debug.elm-lang.org/edit/Stamps.elm
+
 # In your workflow
 
 Elm Reactor will work with any pure Elm project. Use it with  [elm-html][],
@@ -219,8 +243,9 @@ works!
 That applies for multi-module projects, too! Whenever Elm Reactor detects a file
 change, it tries to recompile the main Elm file, which recompiles any
 dependencies. For more information about using the debugger in your own
-workflow, check out the [repository](https://github.com/elm-lang/elm-reactor).
+workflow, check out the [repository](https://github.com/elm-lang/elm-reactor).|]
 
+closing = [markdown|
 # What&rsquo;s next
 
 This is the first public release of Elm Reactor. There are many useful ideas
