@@ -35,12 +35,16 @@ content = [markdown|
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
 
-Elm Reactor is a development tool that makes time travel easy and practical.
-It lets you pause/unpause and rewind/replay at any point in any Elm program.
-This is great for finding bugs and exploring interactions. Elm Reactor can
-also keep track of what files you are working on, so when you save, the
-changes will propagate to the running program. This lets you see immediately
-if your bug fix works or if your feature looks right.
+Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
+improves the [time traveling debugger][debug] created by Laszlo Pandy and Evan
+Czaplicki, turning it into a practical development tool. It has more features,
+a nice new UI written in Elm, and can now be used with *any* text editor. Elm
+Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
+[install][] and use right now.
+
+[debug]: http://debug.elm-lang.org/
+[13]: /blog/announce/0.13.elm
+[install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 Check out the following video to see Elm Reactor in action when debugging a
 [TodoMVC app][todo] written with [elm-html][html]:
@@ -56,17 +60,6 @@ Check out the following video to see Elm Reactor in action when debugging a
         src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
 </div>
 <div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
-
-Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
-improves the [time traveling debugger][debug] created by Laszlo Pandy and Evan
-Czaplicki, turning it into a practical development tool. It has more features,
-a nice new UI written in Elm, and can now be used with *any* text editor. Elm
-Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
-[install][] and use right now.
-
-[debug]: http://debug.elm-lang.org/
-[13]: /blog/announce/0.13.elm
-[install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 # Ultimate Undo Button
 
