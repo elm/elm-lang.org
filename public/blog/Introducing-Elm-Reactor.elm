@@ -115,7 +115,6 @@ shown on the &ldquo;Real Time&rdquo; graph and when your program receives the
 event, it is shown on the &ldquo;Elm Time&rdquo;. When Elm Reactor pauses Elm,
 the program stops receiving inputs from the real world until Elm is unpaused.
 
-
 <img src="/imgs/reactor-post/timeline-pause.png" style="width:600px; height:200px;">
 
 Events in Elm have a time associated with them. So that Elm does not get a hole
@@ -167,7 +166,13 @@ In addition to time-traveling, Elm Reactor lets you change history. Since
 Elm Reactor records the entire history of inputs to the program, we can simply
 replay these inputs on new code to see a bug fix or watch how things change.
 
-<img src="/imgs/reactor-post/swap.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/RPNxNAJG4EU?rel=0&html5=1"></iframe>
+</div>
 
 In this example, Mario&rsquo;s image URL and gravity were set incorrectly. Mario
 had already made a few jumps and time had passed. But the functions that control
