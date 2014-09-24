@@ -215,7 +215,12 @@ example = [markdown|
 workflow = [markdown|
 
 This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
-are some other examples you can explore.
+are some other examples you can explore, such as [the Mario example][mario]
+where you can play with physics and [a simple stamping app][stamp] where it is
+fun to change the size and shape of each stamp.
+
+[mario]: http://debug.elm-lang.org/edit/Mario.elm
+[stamp]: http://debug.elm-lang.org/edit/Stamps.elm
 
 # In your workflow
 
