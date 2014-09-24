@@ -48,7 +48,13 @@ Check out the following video to see Elm Reactor in action when debugging a
 [todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [html]: /blog/Blazing-Fast-Html.em
 
-<img src="/imgs/reactor-post/fold.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
+</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
 improves the [time-traveling debugger][debug] created by Laszlo Pandy and Evan
@@ -65,9 +71,17 @@ Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
 
 Elm Reactor lets you travel back in time. You can pause the execution of your
 program, rewind to any earlier point, and start running again. Watch me misplace
-a line piece and correct my mistake:
+a line piece and correct my mistake when playing [elmtris][]:
 
-<img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:306px;">
+[elmtris]: https://github.com/jcollard/elmtris
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/IwOka_IXjU4?rel=0&html5=1"></iframe>
+</div>
 
 In this example, I paused the game, went back, and continued to avoid crushing
 defeat. This is what &ldquo;time-traveling&rdquo; means in Elm Reactor. It lets
