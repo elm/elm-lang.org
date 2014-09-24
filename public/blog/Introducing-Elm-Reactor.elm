@@ -24,8 +24,8 @@ everything wid =
 pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
-<div style="font-size: 4em;">Introducing Elm Reactor</div>
-<div style="font-size: 1.5em;">An Interactive Programming Tool</div>
+<div style="font-size: 4em;">Time-Travel made Easy</div>
+<div style="font-size: 1.5em;">Introducing Elm Reactor</div>
 </div>
 |]
 
@@ -35,12 +35,12 @@ content = [markdown|
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
 
-Elm Reactor makes time-travel easy and practical. It lets you pause/unpause
-and rewind/replay at any point in any Elm program. This is great for finding
-bugs and exploring interactions. Elm Reactor can also keep track of what files
-you are working on, so when you save, the changes will propagate to the
-running program. This lets you see immediately if your bug fix works or if
-your feature looks right.
+Elm Reactor is a development tool that makes time-travel easy and practical.
+It lets you pause/unpause and rewind/replay at any point in any Elm program.
+This is great for finding bugs and exploring interactions. Elm Reactor can
+also keep track of what files you are working on, so when you save, the
+changes will propagate to the running program. This lets you see immediately
+if your bug fix works or if your feature looks right.
 
 Check out the following video to see Elm Reactor in action when debugging a
 [TodoMVC app][todo] written with [elm-html][html]:
