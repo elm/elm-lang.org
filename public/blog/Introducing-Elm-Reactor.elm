@@ -2,7 +2,7 @@ import Website.Skeleton (skeleton)
 import Window
 
 port title : String
-port title = "Introducing: Elm-Reactor"
+port title = "Introducing Elm Reactor"
 
 main = lift (skeleton "Blog" everything) Window.dimensions
 
@@ -35,38 +35,53 @@ content = [markdown|
 By <a href="http://github.com/michaelbjames">Michael James</a>
 </p>
 
-Elm Reactor is a development tool that gives you the power to time-travel.
-Pause, rewind, and unpause any Elm program to find bugs and explore the
-interaction space. Elm Reactor swaps in new code upon saving, letting you know
-immediately if your bug fix or feature works. This way it&rsquo;s easy to tweak
-layout, play with colors, and quickly explore ideas. Elm has prototyped [these
-features](http://debug.elm-lang.org/) before, but **Elm Reactor polishes them in
-an [easy-to-install package][install]** that can be used with any text editor.
-You can start using it for your projects today.
+Elm Reactor makes time-travel easy and practical. It lets you pause/unpause
+and rewind/replay at any point in any Elm program. This is great for finding
+bugs and exploring interactions. Elm Reactor can also keep track of what files
+you are working on, so when you save, the changes will propagate to the
+running program. This lets you see immediately if your bug fix works or if
+your feature looks right.
 
-[install]: https://github.com/elm-lang/elm-platform#elm-platform
+Check out the following video to see Elm Reactor in action when debugging a
+[TodoMVC app][todo] written with [elm-html][html]:
 
-The following demo shows someone fixing a bug in a TodoMVC app written with
-[elm-html](/blog/Blazing-Fast-Html.em). Any task marked as complete should not appear under
-&ldquo;Active Tasks&rdquo;, but this bug mistakes completed tasks for active tasks.
-Watch them find the bug, fix the code, see the fix propagate
-automatically, and rewind the program to verify the fix.
+[todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
+[html]: /blog/Blazing-Fast-Html.em
 
-<img src="/imgs/reactor-post/fold.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
+</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
-combines the time-traveling debugger prototype created by Laszlo Pandy and Evan
-Czaplicki along with the modular design of Elm to make a practical development
-tool. It harnesses the recent features of Elm to give the debugging process a
-much needed upgrade.
+improves the [time-traveling debugger][debug] created by Laszlo Pandy and Evan
+Czaplicki, turning it into a practical development tool. It has more features,
+a nice new UI written in Elm, and can now be used with *any* text editor. Elm
+Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
+[install][] and use right now.
+
+[debug]: http://debug.elm-lang.org/
+[13]: /blog/announce/0.13.elm
+[install]: https://github.com/elm-lang/elm-platform#elm-platform
 
 # Ultimate Undo Button
 
 Elm Reactor lets you travel back in time. You can pause the execution of your
 program, rewind to any earlier point, and start running again. Watch me misplace
-a line piece and correct my mistake:
+a line piece and correct my mistake when playing [elmtris][]:
 
-<img src="/imgs/reactor-post/tetris.gif" style="width:600px; height:306px;">
+[elmtris]: https://github.com/jcollard/elmtris
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/IwOka_IXjU4?rel=0&html5=1"></iframe>
+</div>
 
 In this example, I paused the game, went back, and continued to avoid crushing
 defeat. This is what &ldquo;time-traveling&rdquo; means in Elm Reactor. It lets
@@ -99,7 +114,6 @@ a keypress or mouse click comes to the Elm runtime. When an event happens, it is
 shown on the &ldquo;Real Time&rdquo; graph and when your program receives the
 event, it is shown on the &ldquo;Elm Time&rdquo;. When Elm Reactor pauses Elm,
 the program stops receiving inputs from the real world until Elm is unpaused.
-
 
 <img src="/imgs/reactor-post/timeline-pause.png" style="width:600px; height:200px;">
 
@@ -152,7 +166,13 @@ In addition to time-traveling, Elm Reactor lets you change history. Since
 Elm Reactor records the entire history of inputs to the program, we can simply
 replay these inputs on new code to see a bug fix or watch how things change.
 
-<img src="/imgs/reactor-post/swap.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/RPNxNAJG4EU?rel=0&html5=1"></iframe>
+</div>
 
 In this example, Mario&rsquo;s image URL and gravity were set incorrectly. Mario
 had already made a few jumps and time had passed. But the functions that control
@@ -166,20 +186,25 @@ page, Elm Reactor lets you mess with the code as much as you want while you find
 the right place for the close button. You can see the results of your new code
 without maddeningly running through the entire interaction each time!
 
-It&rsquo;s easy to get time-traveling wrong, just ask [Doc Brown][] how that
-worked for him. Elm Reactor will only swap in *valid* programs. If a potential
-program has a type error or syntax error, then Elm Reactor does not swap in the
-new code. Instead, Elm Reactor overlays an error message explaining the issue
-and the last working version keeps running. Below is an example of trying to
-swap in code that doesn&rsquo;t comile.
+But what happens when you try to swap in a program with a type error or syntax
+error? In that case, Elm Reactor does not swap in the new code. Instead, it
+displays a message explaining the issue while the last working version keeps
+running. The following video shows this kind of feedback:
 
-[Doc Brown]: http://en.wikipedia.org/wiki/Emmett_Brown
-
-<img src="/imgs/reactor-post/error.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/xlP-Bpdv1lc?rel=0&html5=1"></iframe>
+</div>
 
 # Try it yourself!
 
-You can hide the debugging panel by clicking on the tab.
+The editor below lets you try out all of the features described so far. If you
+click on the tab of the debugger panel it will slide away, showing more of
+Thwomp. Try it out!
+
 |]
 
 example = [markdown|
@@ -187,6 +212,9 @@ example = [markdown|
 |]
 
 workflow = [markdown|
+
+This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
+are some other examples you can explore.
 
 # In your workflow
 
@@ -228,8 +256,9 @@ make sure a function does what you expect.
 * **Ports** - [Ports][] make it easy for Elm programs to send messages to and
 from JS, where there may be all sorts of side-effects. It is not immediately
 obvious how ports will work with time-traveling. The easy solution is to never
-send values out of ports, avoiding unwanted side-effects like appending too many
-times as we rewind. But *some* ports are safe to replay.
+send values out of ports, avoiding unwanted side-effects like writing to disk
+many times as we rewind. Some ports are safe to replay though, so maybe more
+nuance is needed.
 
 [ports]: /learn/Ports.elm
 
