@@ -191,7 +191,13 @@ error? In that case, Elm Reactor does not swap in the new code. Instead, it
 displays a message explaining the issue while the last working version keeps
 running. The following video shows this kind of feedback:
 
-<img src="/imgs/reactor-post/error.gif" style="width:600px; height:364px;">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/xlP-Bpdv1lc?rel=0&html5=1"></iframe>
+</div>
 
 # Try it yourself!
 
