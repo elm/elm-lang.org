@@ -17,7 +17,8 @@ everything wid =
   [ width w pageTitle
   , section content
   , width w example
-  , section body
+  , section workflow
+  , section closing
   ]
 
 pageTitle = [markdown|
@@ -41,19 +42,20 @@ also keep track of what files you are working on, so when you save, the
 changes will propagate to the running program. This lets you see immediately
 if your bug fix works or if your feature looks right.
 
-You may have seen it demoed in the browser before, but now it is a development
-tool you can run locally. The debugger below shows what it is like to use it
-on a simple stamps program. Try to change the size and shape of the stamps!
+Check out the following video to see Elm Reactor in action when debugging a
+[TodoMVC app][todo] written with [elm-html][html]:
 
-|]
+[todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
+[html]: /blog/Blazing-Fast-Html.em
 
-example = [markdown|
-<div style="background-color: white;">
-<iframe src="http://debug.elm-lang.org/compile?input=import%20Debug%0Aimport%20Mouse%0Aimport%20Window%0A%0Amain%20%3A%20Signal%20Element%0Amain%20%3D%0A%20%20lift2%20scene%20Window.dimensions%20%28Debug.watch%20%22Stamps%22%20%3C~%20clickLocations%29%0A%0AclickLocations%20%3A%20Signal%20%5B%28Int%2CInt%29%5D%0AclickLocations%20%3D%0A%20%20let%20position%20%3D%20Debug.watch%20%22Mouse%22%20%3C~%20Mouse.position%0A%20%20in%20%20foldp%20%28%3A%3A%29%20%5B%5D%20%28sampleOn%20Mouse.clicks%20position%29%0A%0Ascene%20%3A%20%28Int%2CInt%29%20-%3E%20%5B%28Int%2CInt%29%5D%20-%3E%20Element%0Ascene%20%28w%2Ch%29%20locs%20%3D%0A%20%20let%20drawPentagon%20%28x%2Cy%29%20%3D%0A%20%20%20%20%20%20%20%20%20%20ngon%205%2020%0A%20%20%20%20%20%20%20%20%20%20%20%20%7C%3E%20filled%20%28hsla%20%28toFloat%20x%29%200.9%200.6%200.7%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%7C%3E%20move%20%28toFloat%20x%20-%20toFloat%20w%2F2%2C%20toFloat%20h%2F2%20-%20toFloat%20y%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%7C%3E%20rotate%20%28toFloat%20x%29%0A%20%20in%0A%20%20%20%20%20%20layers%20%5B%20collage%20w%20h%20%28map%20drawPentagon%20locs%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%2C%20plainText%20%22Click%20to%20stamp%20a%20pentagon.%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%5D%0A" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
-  </div>
-|]
-
-body = [markdown|
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe width="600"
+        height="338"
+        frameborder="0"
+        allowfullscreen
+        src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
+</div>
+<div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
 improves the [time traveling debugger][debug] created by Laszlo Pandy and Evan
@@ -81,8 +83,6 @@ a line piece and correct my mistake when playing [elmtris][]:
         allowfullscreen
         src="//www.youtube.com/embed/IwOka_IXjU4?rel=0&html5=1"></iframe>
 </div>
-<div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
-
 
 In this example, I paused the game, went back, and continued to avoid crushing
 defeat. This is what &ldquo;time traveling&rdquo; means in Elm Reactor. It lets
@@ -200,6 +200,28 @@ running. The following video shows this kind of feedback:
         src="//www.youtube.com/embed/xlP-Bpdv1lc?rel=0&html5=1"></iframe>
 </div>
 
+# Try it yourself!
+
+The editor below lets you try out all of the features described so far. If you
+click on the tab of the debugger panel it will slide away, showing more of
+Thwomp. Try it out!
+
+|]
+
+example = [markdown|
+<iframe src="http://debug.elm-lang.org/edit/Thwomp.elm" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
+|]
+
+workflow = [markdown|
+
+This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
+are some other examples you can explore, such as [the Mario example][mario]
+where you can play with physics and [a simple stamping app][stamp] where it is
+fun to change the size and shape of each stamp.
+
+[mario]: http://debug.elm-lang.org/edit/Mario.elm
+[stamp]: http://debug.elm-lang.org/edit/Stamps.elm
+
 # In your workflow
 
 Elm Reactor will work with any pure Elm project. Use it with  [elm-html][],
@@ -221,8 +243,9 @@ works!
 That applies for multi-module projects, too! Whenever Elm Reactor detects a file
 change, it tries to recompile the main Elm file, which recompiles any
 dependencies. For more information about using the debugger in your own
-workflow, check out the [repository](https://github.com/elm-lang/elm-reactor).
+workflow, check out the [repository](https://github.com/elm-lang/elm-reactor).|]
 
+closing = [markdown|
 # What&rsquo;s next
 
 This is the first public release of Elm Reactor. There are many useful ideas
