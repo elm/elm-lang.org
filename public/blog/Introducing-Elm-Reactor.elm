@@ -195,8 +195,10 @@ running. The following video shows this kind of feedback:
 
 # Try it yourself!
 
-The editor below lets you try out all of the features described so far. Try it
-out:
+The editor below lets you try out all of the features described so far. If you
+click on the tab of the debugger panel it will slide away, showing more of
+Thwomp. Try it out!
+
 |]
 
 example = [markdown|
