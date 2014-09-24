@@ -256,8 +256,9 @@ make sure a function does what you expect.
 * **Ports** - [Ports][] make it easy for Elm programs to send messages to and
 from JS, where there may be all sorts of side-effects. It is not immediately
 obvious how ports will work with time-traveling. The easy solution is to never
-send values out of ports, avoiding unwanted side-effects like appending too many
-times as we rewind. But *some* ports are safe to replay.
+send values out of ports, avoiding unwanted side-effects like writing to disk
+many times as we rewind. Some ports are safe to replay though, so maybe more
+nuance is needed.
 
 [ports]: /learn/Ports.elm
 
