@@ -292,13 +292,19 @@ started on a project.
 
 # Thank You
 
-Thank you Evan Czaplicki for your guidance, wisdom, and patience while writing
-this. You taught me an astonishing amount about FRP and rigour this summer.
-I&rsquo;m so grateful for the methodologies I picked up from you.
+Thank you [Evan Czaplicki][evan] for your guidance, wisdom, and patience while
+writing this. You taught me an astonishing amount about FRP and rigour this
+summer. I&rsquo;m so grateful for the methodologies I picked up from you.
 
-Thank you to Laszlo Pandy who demonstrated the possibility of debugging like
-this by writing the prototype Elm debugger. Thanks Gábor Hoffer and the Prezi
-design team for the suggestions on making the debugging tab pretty!
+[evan]: https://twitter.com/czaplic
+
+Thank you to [Laszlo Pandy][laszlo] who demonstrated the possibility of
+debugging like this by writing the prototype Elm debugger. Thanks [Gábor
+Hoffer][gabor] and the Prezi design team for the suggestions on making the
+debugging tab pretty!
+
+[laszlo]: https://github.com/laszlopandy
+[gabor]: https://twitter.com/hoffergabor
 
 Thank you to Bret Victor, whose talk,
 [&ldquo;Inventing on Principle&rdquo;](https://www.youtube.com/watch?v=PUv66718DII) offered
