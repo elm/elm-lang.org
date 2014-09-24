@@ -55,6 +55,7 @@ Check out the following video to see Elm Reactor in action when debugging a
         allowfullscreen
         src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
 </div>
+<div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
 
 Elm Reactor grew out of my internship working on Elm at Prezi this summer. It
 improves the [time-traveling debugger][debug] created by Laszlo Pandy and Evan
