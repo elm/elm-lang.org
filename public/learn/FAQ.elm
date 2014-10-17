@@ -14,8 +14,8 @@ and [JavaScript](#javascript)
 <h2 id="haskell">Haskell</h2>
 
 * [Although Elm looks like Haskell, Elm is not
-  Haskell](http://www.testblogpleaseignore.com/2012/06/21/why-elm/). In the
-  pursuit of making purely functional GUIs easy and practical, Elm draws
+  Haskell](https://groups.google.com/d/msg/elm-discuss/rI_IAf4TiAA/KTvQv1LQ6uAJ).
+  In the pursuit of making purely functional GUIs easy and practical, Elm draws
   inspiration from many languages (e.g. Haskell, OCaml, Agda, F#, SML, Python,
   Clojure) and aims to borrow and improve upon the best of existing languages
   and research.
@@ -41,14 +41,13 @@ and [JavaScript](#javascript)
 
 * [Elm is not lazy](http://www.testblogpleaseignore.com/2012/06/22/the-trouble-with-frp-and-laziness/).
 
-* Signals are not monads. There is no function `join : Signal (Signal a) -> Signal a`.
-  Pure monadic FRP has theoretical problems regarding performance, requiring
-  memory usage to grow linearly with time to maintain referential transparency.
-  You can read more about these concerns in [my
-  thesis](/papers/concurrent-frp.pdf) or the closely related [PLDI
-  paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
-  [Arrowized FRP](http://library.elm-lang.org/catalog/evancz-automaton/0.1/)
-  provides much of the flexibility of Monadic FRP without the performance issues.
+* Signals are not monads in Elm. There is no `join : Signal (Signal a) -> Signal a`.
+  [This conference talk](https://www.youtube.com/watch?v=Agu6jipKfYw) explains
+  it best. You can read more about these concerns in [this
+  thesis](/papers/concurrent-frp.pdf). You can also use [the automaton
+  library](http://library.elm-lang.org/catalog/evancz-automaton/latest/) which
+  provides much of the flexibility of higher-order FRP without the performance
+  issues.
 
 
 <h2 id="javascript">JavaScript</h2>

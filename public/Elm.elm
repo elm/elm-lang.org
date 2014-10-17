@@ -92,7 +92,7 @@ exampleText = [markdown|
 Elm is great for [2D](/blog/Pong.elm) and
 [3D](https://github.com/johnpmayer/elm-webgl) games,
 [diagrams](https://github.com/seliopou/elm-d3), widgets, and
-[websites](http://github.com/elm-lang/elm-lang.org). In addition to the larger
+[websites](/blog/Blazing-Fast-Html.elm). In addition to the larger
 examples showcased here, there are tons of [educational examples](/Examples.elm)
 to help you learn Elm by reading and modifying simple programs.
 
@@ -105,27 +105,30 @@ exampleBlock w =
       , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
       , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
       ]
-    , [ ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
-      , ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
+    , [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
+      , ("Home/DreamWriter", "http://dreamwriter.io", Just "https://github.com/rtfeldman/dreamwriter")
+      , ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
       , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
-      , ("Home/PieChart", "/edit/examples/Intermediate/PieChart.elm", Nothing)
       ]
     ]
 
 debuggerTitle = [markdown|
 
-<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Editor and Debugger</div>
+<div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Time Traveling Debugger</div>
 
 |]
 
 debuggerText = [markdown|
 
-The combination of [functional reactive programming](/learn/What-is-FRP.elm) and
-managed effects makes Elm's [Time Traveling Debugger][debug] simple and reliable.
-The editor also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
-can modify running programs.
+Elm's [Time Traveling Debugger][debug] makes debugging and exploration easy.
+It also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
+can modify running programs. If you download [Elm Platform][platform], you get
+[Elm Reactor][reactor] which bundles up all these features for use with your
+favorite code editor.
 
 [debug]: http://debug.elm-lang.org
+[platform]: https://github.com/elm-lang/elm-platform/
+[reactor]: /blog/Introducing-Elm-Reactor.elm
 
 |]
 
