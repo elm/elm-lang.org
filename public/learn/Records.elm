@@ -236,6 +236,7 @@ the latest field taking precedence over the earlier ones. Check out
 [this paper][records] for more information on this.
 
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
+
 We can combine the add and delete operations to rename fields.
 
     renameName person = { person - name | surname = person.name }
