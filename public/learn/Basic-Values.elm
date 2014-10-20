@@ -3,7 +3,7 @@ import Website.Skeleton (skeleton)
 import Window
 
 port title : String
-port title = "Types"
+port title = "Basic Values"
 
 main = skeleton "Learn" content <~ Window.dimensions
 
@@ -11,15 +11,18 @@ content w = width (min 600 w) intro
 
 intro = [markdown|
 
-# Types
+# Basic Values
 
-All values in Elm have a type. A number is one *type* of value, and a list is
-a totally separate *type* of value. This page will go through some of the basic
-values and data structures in Elm, showing you how to think about their types.
+This page will go through some of the basic values in Elm, including primitives,
+data structures, and functions. It focuses on understanding their types, which
+can be hard to learn just by example and has big benefits once you get into the
+swing of things.
 
-## Primitive Values
+## Primitives
 
-For example, the number 42 is an integer. So to write down the type we say:
+The basic building blocks of Elm are a set of primitive values that include
+strings, booleans, and numbers. For example, the number 42 is an integer. So
+to write down the type we say:
 
 ```haskell
 42 : Int
