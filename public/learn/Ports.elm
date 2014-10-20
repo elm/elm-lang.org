@@ -10,89 +10,71 @@ main = skeleton "Learn" intro <~ Window.dimensions
 
 intro w = width (min 600 w) [markdown|
 
-# Ports: Communicate with JS
+# Ports
 
-This idea comes from a “component model” for using Elm in production systems.
-Realistically, folks are not going to go all Elm all at once. A component model
-means you write small UI widgets or signal processing units in Elm and [embed them
-in a larger system](/learn/Components.elm) that uses lots of different things.
-Ports are a nice way of making these components simple and composable.
+Ports are a general purpose way to communicate with JavaScript. They let you
+send messages in and out of Elm so you can use JavaScript whenever you need to.
 
 [This example](https://github.com/evancz/elm-html-and-js) and
 [this example](https://gist.github.com/evancz/8521339) show
 code you can take a look at, but this document will explain
 the specifics of what you can and cannot do with ports.
 
-## Ports in Elm
+## From JavaScript to Elm
 
-Ports are unified way to send information to and from an Elm program. Ports are
-geared towards communicating via signals, but they also allow non-signal values
-through. For example:
+To send messages from JavaScript to Elm, you use an incoming port like this:
 
 ```haskell
-module Chat where
-
--- incoming messages typed by your chat parter
-port messageIn : Signal String
-
-myTextInput = ...
-
--- outgoing messages typed in by you
-port messageOut : Signal String
-port messageOut = myTextInput
+port addUser : Signal (String, UserRecord)
 ```
 
-This will create two ports named `messageIn` and `messageOut`.
-If the port has no definition, it must be an incoming port. This means
-`messageIn` is a signal coming into the Elm program from JavaScript. If
-a port *does* have a definition it is an outgoing port. That means `messageOut`
-is sending the values of `myTextInput` out to JavaScript.
-
-## Initializing a component with ports
-
-You should already know [how to initialize an Elm module in JS](/learn/Components.elm).
-When a module has incoming ports, you must provide a value for each one:
+This means we now have a signal in Elm called `addUser` that is updated
+by some code in JavaScript. To actually send messages to this port, we would
+write something like this in JavaScript:
 
 ```javascript
-var chat = Elm.embed(Elm.Chat, div, { messagesIn: "" });
+myapp.ports.addUser.send([ "Tom", { age: 32, job: "lumberjack" } ]);
+myapp.ports.addUser.send([ "Sue", { age: 37, job: "accountant" } ]);
 ```
 
-The last argument to `Elm.embed` is an object that has a field for each incoming port.
-It works the same for `Elm.fullscreen` and `Elm.worker`.
+This sends two updates to Elm, automatically converting to values that work
+well in Elm.
 
-If you do not provide every port declared in the module, it will throw a JS error.
-If you provide *extra* ports, it will throw a JS error. Each port also has a
-known type in Elm, so Elm will perform validation on incoming values and throw
-an error if a value of the wrong type is given.
+## From Elm to JavaScript
 
-Notice that when you initialize an Elm module, you get an object back.
-The most important field in this object is `chat.ports` which contains
-all of the incoming and outgoing ports that you may need to interact with.
+To send messages from Elm to JavaScript, you define an outgoing port like this:
 
-#### Sending messages to Elm
+```haskell
+port requestUser : Signal String
+port requestUser =
+    signalOfUsersWeWantMoreInfoOn
+```
+
+In this case we are taking a signal that exists in Elm and sending each of its
+values to JavaScript. On the JavaScript side, we handle these messages by
+subscribing to that port:
 
 ```javascript
-chat.ports.messageIn.send("hey");
-chat.ports.messageIn.send("what's up?");
+myapp.ports.requestUser.subscribe(databaseLookup);
+
+function databaseLookup(user) {
+    var userInfo = database.lookup(user);
+    myapp.ports.addUser.send(user, userInfo);
+}
 ```
 
-These incoming signals are typed, so a JS error will be thrown if you provide
-an invalid value.
-
-#### Receiving messages from Elm
+We have subscribed to the `requestUser` port and will actually go and do the
+database lookup. When we get the results, we send them back into Elm using
+another port. Perhaps at some point you will need to unsubscribe from a port,
+in which case you would do this:
 
 ```javascript
-function logger(x) { console.log(x); }
-
-// attach a logger, printing all outgoing messages to console
-chat.ports.messageOut.subscribe(logger);
-
-// detach the logger
-chat.ports.messageOut.unsubscribe(logger);
+myapp.ports.requestUser.unsubscribe(databaseLookup);
 ```
 
-You may subscribe many different functions. Each will be called
-once for every outgoing event.
+Check out [this example](https://github.com/evancz/elm-html-and-js) or
+[this example](https://gist.github.com/evancz/8521339) to see these ideas in
+working code.
 
 ## Customs and Border Protection
 
@@ -126,9 +108,12 @@ one important addition: first-order functions!
 If you wrote a nice parser or library in Elm, you can use those functions
 directly in JS. The mapping between Elm and JS function looks like this:
 
-    add x y = x + y
-
-    function add(x,y) { return x + y; }
+```haskell
+add x y = x + y
+```
+```javascript
+function add(x,y) { return x + y; }
+```
 
 You lose currying on the JS side, but the goal of this whole feature is to
 produce *colloquial* values in both Elm and JS. One important restriction on
