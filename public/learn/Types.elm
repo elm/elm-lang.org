@@ -1,6 +1,9 @@
 
 import Website.Skeleton (skeleton)
-import Window as Window
+import Window
+
+port title : String
+port title = "Types"
 
 main = skeleton "Learn" content <~ Window.dimensions
 
@@ -8,109 +11,263 @@ content w = width (min 600 w) intro
 
 intro = [markdown|
 
-<h1><div style="text-align:center">Types in Elm
-<div style="font-size:0.5em;font-weight:normal">What are they? Why are they useful?</div></div>
-</h1>
+# Types
 
-What are types? Why are they useful?
+All values in Elm have a type. A number is one *type* of value, and a list is
+a totally separate *type* of value. This page will go through some of the basic
+values and data structures in Elm, showing you how to think about their types.
 
-Elm is a strongly and statically typed language. All types can be inferred, so
-it is totally fine to leave them out entirely. The compiler will tell you if
-you have made a mistake.
+## Primitive Values
 
-For people coming from languages like JavaScript, Java, and C, this may seem
-
-
-### Type annotations
-
-First we have type annotations, which are a form of self-documentation that is
-useful for debugging code and reading other peoples' code. It looks like this:
+For example, the number 42 is an integer. So to write down the type we say:
 
 ```haskell
-factorial : Int -> Int
+42 : Int
 ```
 
-This means that factorial is a function that takes integers and gives back
-integers. Without seeing the function, we have a pretty good idea that the
-actual definition will be:
+This is read, &ldquo;42 has type `Int`&rdquo;. The term `Int` is the abbreviation
+for integers. The same works for all types of primitive values:
 
 ```haskell
-factorial n = product [1..n]
+True    : Bool      -- True is a boolean value
+3.1415  : Float     -- pi is a floating point number
+'x'     : Char      -- 'x' is a character
+"Alice" : String    -- "Alice" is a string of characters
 ```
 
-This is increasingly valuable as your functions become more complex and more
-abstract. For example, say I am writing mergesort and I want to split a list
-into two equal length sub-lists, I'd want something like this:
+You would read each entry as &ldquo;True has type Bool&rdquo;,
+&ldquo;3.1415 has type float&rdquo;, etc. The basic types are
+all slightly abbreviated, and this convention has become so widespread in
+programming languages that there is no going back. It may be confusing
+at first, but it turns out to be quite nice.
+
+One thing to note, a floating point number is any number with a decimal point.
+Its name reflects some of its technical details, but they are not super
+important. The main thing to know is that a `Float` is not 100% accurate, at
+some point it stops keeping track of very, very small fractions. It is also
+important to know that an `Int` and a `Float` are not the same thing! They
+are both numbers, but they are represented differently and have different
+properties.
+
+Types become more interesting and useful when you start working with more
+complicated values. So let&rsquo;s take a look at types for data structures.
+
+## Data Structures
+
+This section will cover lists, tuples, and [records][records]. It may help
+to find some examples or read some documentation on these data structures
+before continuing.
+
+ [records]: /learn/Records.elm "Records in Elm"
+
+### Lists
+
+One of the most common data structures in Elm is the list. Lists can hold
+many values, and those values must all have the same type. For example,
 
 ```haskell
-split : [a] -> ([a],[a])
+numbers : [Int]
+numbers = [1,2,3]
 ```
 
-It takes in a list, produces a pair of lists. Type annotations are valuable
-because they encourage you to write functions like a contract or interface.
-You must think, "what does this function actually need to do?", and other
-people can read that without knowing any implementation details.
-
-### Type Aliases
-
-Type aliases are a way of giving types a clearer or nicer name. In the simplest
-case, you can use them to make your API more instructive:
+This could be read &ldquo;`numbers` has type list of ints.&rdquo; If you
+wanted to represent a list of names:
 
 ```haskell
-type Height = Float
-type Weight = Float
-
--- calculate body mass index (BMI)
-bmi : Height -> Weight -> Float
+names : [String]
+names = ["Alice", "Bob", "Chuck"]
 ```
 
-That is a somewhat dubious usage, but it should be illustrative. You can tell
-from just the type of `bmi` exactly what it's arguments should be.
+Again, the key thing is that all elements of the list have exactly the
+same type.
 
-Type aliases are increasingly useful as your types become more complex.
+### Tuples
 
-They are particularly useful for records. Say you'd like to represent something
-with a position, velocity, and direction:
+Tuples are another useful data structure. A tuple can hold a fixed number of
+values, and each value can have any type. The most common use is for
+representing a point:
 
 ```haskell
-type Thing = { x:Float, y:Float, v:Float, a:Float }
+point : (Int,Int)
+point = (3,4)
 ```
 
-This says, you can now write types like this:
+This pair of integers is the most basic tuple. Tuples are mainly for grouping
+information, so you could use them to represent a book, holding the title,
+author, and number of pages.
 
 ```haskell
-car : Thing
-car = { x=0, y=0, v=100, a = degrees 30 }
-
-positionOf : Thing -> (Float,Float)
+book : (String,String,Int)
+book = ("Demian","Hesse",176)
 ```
 
-Without type aliases, we'd be typing out a potentially very large record every
-time a `Thing` was used. And if the record changed, we'd have to go through and
-update every occurrence. Not good!
+This illustrates that you can hold many different values, each with a different
+type. When the data structure becomes more complicated or specific, 
+it is often best to use records instead tuples.
 
-You can also have type aliases with type variables. Perhaps you want to make
-use of extensible records, you can say:
+### Records
+
+Elm also has [records][records] which let you have more structured
+values. Say you want to make a list of high quality books. We can put
+them in a record that has a title, author, and number of pages:
 
 ```haskell
-type Named a = { a | name:String }
-type Colorful a = { a | color:Color }
-
-myCar : Colorful (Named Thing)
-myCar = { car | color=red, name="Flying Brick" }
+book1 : { title:String, author:String, pages:Int }
+book1 = { title="Demian", author="Hesse", pages=176 }
 ```
 
-We can now write generic functions to handle any object that can move through
-the world.
+We can use type aliases to make things a bit clearer.
 
 ```haskell
-type Movable a = { a | x:Float, y:Float, v:Float, a:Float }
+type Book = { title:String, author:String, pages:Int }
 
-move : Time -> Movable a -> Movable a
+book2 : Book
+book2 = { title="Magister Ludi", author="Hesse", pages=558 }
+
+books : [Book]
+books = [ book1, book2 ]
 ```
 
-This is saying, `move` can operate on *anything* that has a position, velocity,
-and direction. Well, a `Thing` fits exactly that description, so you can call
-`move` on `car` and `myCar` with no problem!
+In the tuple version of the book, it was unclear from the type
+which `String` was the title and which was the author. You would have to
+read some code or do some experiment to figure it out. With records, it is
+totally clear and extracting a title is as simple as saying `book2.title`.
+
+## Functions
+
+So far we have only looked at unchanging values, but this is *functional*
+programming! What about functions?!
+
+One of the simplest functions is the boolean `not`. Here is how you would
+implement it from scratch:
+
+```haskell
+not : Bool -> Bool
+not boolean =
+    if boolean then False else True
+```
+
+So `not` is a function that takes in a boolean and gives back a boolean.
+This would be read as &ldquo;`not` has type `Bool` to `Bool`&rdquo;.
+
+Another example is the `length` function which figures out the length of a list.
+
+```haskell
+length : [a] -> Int
+length list =
+    case list of
+      [] -> 0
+      first :: rest -> 1 + length rest
+```
+
+A lower case type is called a *type variable*. A type variable means
+&ldquo;any type can go here&rdquo;. Since `length` never looks at any
+of the values in the list, it can work on any kind of list!
+
+People will say that `length` is a *polymorphic function*. If you pretend you
+know greek, you can think of it as a function with &ldquo;many forms&rdquo;.
+This is all just code words for a type that has *type variables* in it
+(the lower case ones).
+
+Functions can have multiple arguments. For example, the `drop` function
+takes in a number of elements to drop and a list. It then returns the
+shortened list. For example, it is true that
+`(drop 2 [1,2,3,4] == [3,4])`. The type of `drop` is:
+
+```haskell
+drop : Int -> [a] -> [a]
+```
+
+When you see multiple arrows, you can think of a bunch of argument types
+ending with the return type. So you can think of `drop` as a function that
+takes two arguments and returns a list. Notice that we use the same type variable
+for the input list `[a]` and the output list `[a]`. That means if you give
+an integer list `[Int]`, you must get back an integer list `[Int]`!
+
+### Higher-order Functions
+
+There are some functions that take functions as arguments. One of the most
+common examples of this is the `map` function. It applies a function to every
+element of a list.
+
+```haskell
+map not [True,False]   -- returns [False,True]
+
+map round [4.2,7.9]    -- returns [4,8]
+```
+
+In the first example, all of the boolean values in the list become *not* that
+value. In the second example, all of the floating point numbers are rounded to
+the nearest integer.
+
+The `map` function has the following type:
+
+```haskell
+map : (a -> b) -> [a] -> [b]
+```
+
+The first argument is a function from `a`&rsquo;s to `b`&rsquo;s, the second
+argument is a list of `a`&rsquo;s, and the return value is a transformed list
+of `b`&rsquo;s.
+
+The types of `not` and `round` are:
+
+```haskell
+not : Bool -> Bool
+round : Float -> Int
+```
+
+The `map` function can be specialized for each case. When `map` is used
+with `not`, it is specialized to have the type:
+
+```haskell
+-- map : (Bool -> Bool) -> [Bool] -> [Bool]
+
+nots : [Bool] -> [Bool]
+nots bools =
+    map not bools
+```
+
+And when it is used with `round` it is specialized to have the type:
+
+```haskell
+-- map : (Float -> Int) -> [Float] -> [Int]
+
+rounds : [Float] -> [Int]
+rounds floats =
+    map length floats
+```
+
+These are some of the &ldquo;many forms&rdquo; of the `map` function. The type
+variables make `map` very flexible, but they also ensure that you cannot use
+it in an undefined way. So the compiler would yell at you if you tried to do
+
+```haskell
+map not ["tree","france"]    -- Type Error!!!
+```
+
+Applying `not` to a string does not make any sense! So when you try to
+specialize `map` to make this work, the type variable `a` ends up not matching!
+
+```haskell
+map : ( a   ->  b  ) -> [  a   ] -> [ b  ]
+map : (Bool -> Bool) -> [String] -> [Bool]   -- Type Error!!!
+```
+
+Type variable `a` cannot be a `Bool` and a `String`! This is when types
+begin to become extremely useful! For every expression you write, the type
+checker is making sure that your code makes sense. In practice, that means
+that the primary errors you will make will be logical errors: writing code
+that is valid but it does not do what you intended. Many programmers find
+that this kind of error is quite rare, so it is common that if it
+compiles, it works!
+
+## Wrap up
+
+We have taken an extremely quick tour through Elm's basic values and their
+types. Do not worry if you got lost at any point, it usually takes a while
+for your brain to really figure out what is going on here, especially with
+functions and polymorphism. Stick with it and you will begin to see some great
+benefits!
 
 |]
