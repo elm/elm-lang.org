@@ -35,8 +35,8 @@ documentation.
 #### Signals and Architecture
 
 * [What is FRP?](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
-* [Signals in Practice](/learn/Signals.elm) &mdash; common patterns and pitfalls
-* [Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with user input elements like text fields and check boxes
+* [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
+* [Creating Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with user input elements like text fields and check boxes
 * [Architecting large programs](/learn/Architecture.elm) &mdash; how to use signals as programs get larger
 
 #### Interop
