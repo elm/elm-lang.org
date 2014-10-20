@@ -16,7 +16,6 @@ content outer =
             container outer (heightOf elem) middle elem
     in  center (width (min 600 outer) blog)
 
---  * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
 
 blog = [markdown|
 
@@ -33,6 +32,7 @@ blog = [markdown|
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
+ * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
  * [Making Pong](/blog/Pong.elm)
 
 ### Release Notes
