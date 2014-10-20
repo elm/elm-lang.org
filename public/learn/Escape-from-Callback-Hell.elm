@@ -23,8 +23,8 @@ fieldStyle =
     let s = Field.defaultStyle in
     { s | outline <- { color = grey, width = Field.uniformly 1, radius = 4 } }
 
-content : Field.Content -> Http.Response String -> Int -> Element
-content tagContent tagResponse outerWidth =
+content : Field.Content -> Http.Response String -> Element -> Int -> Element
+content tagContent tagResponse search outerWidth =
   let sideBarWidth = 210
       contentWidth = min 600 (outerWidth - sideBarWidth)
       innerWidth = sideBarWidth + contentWidth
@@ -55,36 +55,39 @@ content tagContent tagResponse outerWidth =
           , box (contentWidth // 2) e2
           ]
 
-      asyncElm = flow down <|
-                 [ paragraphs asyncElm1
-                 , pairing tagField (asText tagContent.string)
-                 , paragraphs asyncElm2
-                 , pairing (code "lift length tags") (asText <| String.length tagContent.string)
-                 , pairing (code "lift reverse tags") (asText <| String.reverse tagContent.string)
-                 , pairing (code "lift requestTag tags") (asText <| requestTagSimple tagContent.string)
-                 , paragraphs asyncElm3
-                 , pairing (code "send (lift requestTag tags)") (showResponse tagResponse)
-                 , paragraphs asyncElm4 ]
-  in flow down
-      [ container outerWidth (heightOf pageTitle) middle pageTitle
+      asyncElm =
+          flow down
+          [ paragraphs asyncElm1
+          , pairing tagField (asText tagContent.string)
+          , paragraphs asyncElm2
+          , pairing (code "lift length tags") (asText <| String.length tagContent.string)
+          , pairing (code "lift reverse tags") (asText <| String.reverse tagContent.string)
+          , pairing (code "lift requestTag tags") (asText <| requestTagSimple tagContent.string)
+          , paragraphs asyncElm3
+          , pairing (code "send (lift requestTag tags)") (showResponse tagResponse)
+          , paragraphs asyncElm4
+          ]
+  in
+      flow down
+      [ container outerWidth (heightOf pageTitle + 20) middle pageTitle
       , sideBySide intro quote1
       , sideBySide midtro2 quote2
       , sideBySide midtro3 funcs
       , asyncElm
---      , container contentWidth (heightOf search) middle search
+      , container outerWidth (heightOf search) middle search
       , paragraphs outro
       ]
 
 --tagResults : Signal (Http.Response String)
 tagResults = Http.send (getTag << .string <~ tagSearch.signal)
 
-main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults) ~ Window.dimensions
+main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults ~ searchBox) ~ Window.dimensions
 
 pageTitle = [markdown|
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Escape from Callback Hell</div>
-<div style="font-size: 1.2em;">Callbacks are the modern `goto`</div>
+<div style="font-size: 1.2em;">Callbacks are the modern goto</div>
 </div>
 |]
 
@@ -96,9 +99,7 @@ quote1 = spacer 170 200 `above` width 170 [markdown|
 becomes terribly hard to find a meaningful set of coordinates in which to describe the process progress.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
-
-  [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
+<div style="color:#666;font-size:0.8em;text-align:right"><a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html">Edsger Dijkstra</a></div>
 
 |]
 
@@ -109,15 +110,11 @@ quote2 = spacer 170 40 `above` width 170 [markdown|
 of programmers is a decreasing function of the density of go to statements in the programs they produce.&rdquo;
 </div>
 <div style="height:0.5em"></div>
-<div style="color:#666;font-size:0.8em;text-align:right">[Edsger Dijkstra][goto]</div>
-
-  [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
+<div style="color:#666;font-size:0.8em;text-align:right"><a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html">Edsger Dijkstra</a></div>
 
 |]
 
 intro = [markdown|
-
-<span style="color:firebrick">Code examples out of order for now, working on fix!</span>
 
 Callbacks are used to structure programs. They let us say, &ldquo;When this value is ready,
 go to another function and run that.&rdquo; From there, maybe you go to *another* function
@@ -172,13 +169,13 @@ Callback Hell, you need to understand [Functional Reactive Programming][frp] (FR
 In short:
 
 <div style="text-align:center">
-[goto][goto] &nbsp; **:** &nbsp; [structured programming][struct] &nbsp; **: :** &nbsp; [callbacks][callback] &nbsp; **:** &nbsp; [reactive programming][frp]
+<a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html">goto</a> &nbsp; <b>:</b> &nbsp;
+<a href="http://en.wikipedia.org/wiki/Structured_programming">structured programming</a> &nbsp; <b>: :  </b> &nbsp;
+<a href="http://en.wikipedia.org/wiki/Callback_(computer_programming)">callbacks</a> &nbsp; <b>:</b> &nbsp;
+<a href="/learn/What-is-FRP.elm">reactive programming</a>
 </div>
 
-  [goto]: http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html "goto"
-  [callback]: http://en.wikipedia.org/wiki/Callback_(computer_programming) "Callbacks"
-  [frp]: /learn/What-is-FRP.elm "FRP"
-  [struct]: http://en.wikipedia.org/wiki/Structured_programming "Structured Programming"
+  [frp]: /learn/What-is-FRP.elm
 
 |]
 
@@ -203,17 +200,17 @@ entirely free of callbacks.
 funcs = spacer 170 300 `above` width 170 [markdown|
 
 <div style="color:#666;font-size:0.8em;text-align:left">
-**Function Specifications**
+<b>Function Specifications</b>
 </div>
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:left">
-`requestTag` which turns a tag &ndash; such as `"badger"` &ndash; into
+<code>requestTag</code> which turns a tag &ndash; such as <code>"badger"</code> &ndash; into
 a valid Flickr API request. These requests will return a JSON object
-containing a list of `"badger"` photos.
+containing a list of <code>"badger"</code> photos.
 </div>
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:left">
-`requestOneFrom` takes a JSON object of photos and turns it into a request
+<code>requestOneFrom</code> takes a JSON object of photos and turns it into a request
 for just *one* photo. This request will return a JSON object of size options.
 Flickr is basically asking, &ldquo;Do you want low resolution? Original quality?
 800 by 600? ...&rdquo; This function also handles any errors that might have
@@ -221,13 +218,13 @@ occured with the previous request.
 </div>
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:left">
-`sizesToPhoto` turns a JSON object of sizes options into an actual image that
+<code>sizesToPhoto</code> turns a JSON object of sizes options into an actual image that
 we can use. Again, this function handles any errors that might have occured with
 the previous request.
 </div>
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:left">
-`drawOnScreen` puts the image on screen for the user to see. You do not need to
+<code>drawOnScreen</code> puts the image on screen for the user to see. You do not need to
 mess around with the DOM in [Elm](/), so this function only gets used in the JS code.
 </div>
 
@@ -321,7 +318,7 @@ asyncElm1 = [markdown|
 
 [Functional Reactive Programming][frp] uses *signals*, values that change over time, to represent
 all interactive time-varying content. For example, the value of a text input field is a
-&ldquo;signal&rdquo; because it changes over time. We can create such a signal with:
+&ldquo;signal&rdquo; because it changes over time. As of Elm 0.5, we create such a signal with:
 
   [frp]: /learn/What-is-FRP.elm "FRP"
 
@@ -337,6 +334,11 @@ into the input box to see `tags` update automatically.
 |]
 
 asyncElm2 = [markdown|
+We can then do all sorts of computations with `tags`. When `tags` changes
+the signals that depend on it change automatically:
+|]
+
+asyncElm3 = [markdown|
 
 The `lift` function is used to transform a signal. It takes functions such as
 `length`, `reverse`, or `requestTag` and applies them to a signal. This lets
@@ -407,24 +409,41 @@ of HTTP requests we make. The result looks like this:
 
 |]
 
-{- (tagInput, flickrTags) = Field.field "Flickr Search"
+
+flickrSearch : Input.Input Field.Content
+flickrSearch =
+    Input.input Field.noContent
+
 
 getSources : Signal String -> Signal (Maybe String)
-getSources tag = let photos = Http.send (getTag <~ tag)
-                     sizes  = Http.send (getOneFrom <~ photos)
-                 in  sizesToSource <~ sizes
-
-scene : Element -> Maybe String -> Element
-scene tagInput imgSrc =
-    let img = case imgSrc of
-                Just src -> fittedImage 300 300 src
-                Nothing  -> color white (spacer 298 298)
-    in  flow down [ container 300 60 middle tagInput,
-                    color mediumGrey <| container 300 300 middle img ]
+getSources tag =
+    let photos = Http.send (getTag <~ tag)
+        sizes  = Http.send (getOneFrom <~ photos)
+    in
+        sizesToSource <~ sizes
 
 
-searchBox = scene <~ tagInput ~ getSources (dropRepeats flickrTags)
--}
+scene : Field.Content -> Maybe String -> Element
+scene fieldContent imgSrc =
+    let img =
+            case imgSrc of
+              Just src -> fittedImage 300 300 src
+              Nothing  -> color white (spacer 298 298)
+    in
+        flow down
+        [ container 300 60 middle (Field.field fieldStyle flickrSearch.handle identity "Flickr Search" fieldContent)
+        , color mediumGrey <| container 300 300 middle img
+        ]
+
+
+filteredSearch =
+    dropRepeats flickrSearch.signal
+
+searchBox =
+    lift2 scene
+        filteredSearch
+        (getSources (.string <~ filteredSearch))
+
 
 {---------------------  Helper Functions  ---------------------}
 

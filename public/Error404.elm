@@ -3,7 +3,7 @@ import Website.Message (report)
 
 main = report [markdown|
 <h1><div>Poem 404
-<div style="font-size:0.5em;font-weight:normal">*Page Not Found*</div></div>
+<div style="font-size:0.5em;font-weight:normal">Page Not Found</div></div>
 </h1>
 
 I shall be telling this with a sigh<br/>
