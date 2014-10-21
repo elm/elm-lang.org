@@ -41,8 +41,8 @@ documentation.
 
 #### Interop
 
-* [Using HTML in Elm][elm-html] &mdash; making HTML faster and simpler
-* [Using Elm in HTML](/learn/Components.elm) &mdash; put any Elm program in any div
+* [HTML in Elm][elm-html] &mdash; making HTML faster and simpler
+* [Elm in HTML](/learn/Components.elm) &mdash; put any Elm program in any div
 * [Ports](/learn/Ports.elm) &mdash; communicate with JavaScript
 
 
