@@ -26,24 +26,24 @@ documentation.
 * [Learning roadmap](/learn/Roadmap.elm) &mdash; &ldquo;based on my background, what should I learn first?&rdquo;
 * [FAQ](/learn/FAQ.elm) &mdash; frequently asked questions, organized by who tends to ask them
 
-#### Values, Data Structures, Functions
+#### Building Blocks
 
 * [Basic Values](/learn/Basic-Values.elm) &mdash; primitive values, data structures, and functions
 * [Union Types](/learn/Union-Types.elm) &mdash; mixing different kinds of values
 * [Records](/learn/Records.elm) &mdash; values with named fields, sort of like objects
 
-#### Signals and Architecture
+#### Signals
 
 * [What is FRP?](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
 * [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
-* [Creating Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with user input elements like text fields and check boxes
+* [Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with text fields, check boxes, etc.
 * [Architecting large programs](/learn/Architecture.elm) &mdash; how to use signals as programs get larger
 
 #### Interop
 
-* [Using HTML in Elm][elm-html] &mdash; using HTML and CSS in Elm
+* [Using HTML in Elm][elm-html] &mdash; making HTML faster and simpler
 * [Using Elm in HTML](/learn/Components.elm) &mdash; put any Elm program in any div
-* [Ports](/learn/Ports.elm) &mdash; send messages to and from JavaScript
+* [Ports](/learn/Ports.elm) &mdash; communicate with JavaScript
 
 
 #### Making Stuff
