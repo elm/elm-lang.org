@@ -29,6 +29,14 @@ what your users might be up to.
 [pos]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Mouse#position
 [dim]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Window#dimensions
 
+```haskell
+Mouse.position : Signal (Int,Int)
+Window.dimensions : Signal (Int,Int)
+```
+
+These values will change as the mouse moves or as the browser window resizes.
+Inputs like these will be the starting point for updates in every Elm program.
+
 
 ## Transforming Signals
 
@@ -106,8 +114,9 @@ function called `foldp` which is short for &ldquo;fold from the past&rdquo;.
 foldp : (a -> state -> state) -> state -> Signal a -> Signal state
 ```
 
-This function is best understood with an example, so lets look at counting
-mouse clicks.
+It takes an update function, a starting state, and a signal that will drive the
+state updates. The result is a signal representing the latest state. Here is an
+example usage that lets us count mouse clicks.
 
 ```haskell
 clickCount : Signal Int
@@ -115,13 +124,12 @@ clickCount =
     foldp (\click count -> count + 1) 0 Mouse.clicks
 ```
 
-You start out by giving `foldp` an initial state. In our example we start
-`clickCount` with zero. As values come in on the incoming signal of clicks,
-we use the function to update that state. Our function takes in both the click
-and the current count and then returns the updated count, which has just been
-incremented by one.
+So we gave three arguments: a way to increment the counter, an initial count of
+zero, and the `Mouse.clicks` signal. Whenever a mouse click happens, we update
+our count with the function we provided.
 
 You will see `foldp` in pretty much all non-trivial Elm programs.
+
 
 ## Filtering Signals
 
@@ -216,8 +224,9 @@ that you end up with a signal of lists?
 [Signal a] => Signal [a]
 ```
 
-The latter will be much easier to work with because all of our core signal
-functions act on signals of stuff.
+You will have an easier time with a signal of lists because all of the `Signal`
+functions focus on working with exactly this kind of value.
+
 
 |]
 
