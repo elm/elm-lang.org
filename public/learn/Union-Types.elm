@@ -14,8 +14,8 @@ what w = width w [markdown|
 A union type is a way to put together many different types.
 
 *Note: union types have been been called [tagged unions][tag] or [algebraic
-data types][adt] in other communities. If you see those terms, it is the same
-thing with a fancier name!*
+data types][adt] in other communities. Languages like Haxe and Rust call them
+enumerations.*
 
 [tag]: http://en.wikipedia.org/wiki/Tagged_union
 [adt]: http://en.wikipedia.org/wiki/Algebraic_data_type
@@ -72,7 +72,8 @@ type User
 
 Notice that the `LoggedIn` value is associated with extra information! This is
 saying that a user is either `Anonymous` or they are `LoggedIn` and we know
-their user name. We can use that extra information with *case-expressions*:
+their user name. We can use that extra information with *case-expressions*. The
+following code turns user info into image resources for their picture.
 
 ```haskell
 userPhoto : User -> String
@@ -85,14 +86,18 @@ userPhoto user =
           "users/" ++ name ++ "/photo.png"
 ```
 
-So if we know the user name, we can show their photo. Now imagine we have a
-bunch of users all collaborating on a document and we want to show all their
-pictures.
+If they are not logged in we show a dummy photo, but if they *are* logged in
+we show the photo we have saved. Now imagine we have a bunch of users all
+collaborating on a document and we want to show all their pictures.
 
 ```haskell
 activeUsers : [User]
 activeUsers =
-    [ Anonymous, LoggedIn "Tom", LoggedIn "Steve", Anonymous ]
+    [ Anonymous
+    , LoggedIn "Tom"
+    , LoggedIn "Steve"
+    , Anonymous
+    ]
 ```
 
 We can mix data with very different shapes in the same list. If we combine
@@ -101,7 +106,11 @@ we need:
 
 ```haskell
 map userPhoto activeUsers
-  -- [ "anon.png", "users/Tom/photo.png", "users/Steve/photo.png", "anon.png" ]
+-- [ "anon.png"
+-- , "users/Tom/photo.png"
+-- , "users/Steve/photo.png"
+-- , "anon.png"
+-- ]
 ```
 
 All the users are turned into image resources. Okay, but union types can still
