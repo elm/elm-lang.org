@@ -78,20 +78,21 @@ touching the DOM directly, we build an abstract version of it on each frame. We
 use the `node` function to create a cheap representation of what we want:
 
 ```haskell
-node : String -> [Attribute] -> [CssProperty] -> [Html] -> Html
+node : String -> [Attribute] -> [Html] -> Html
 ```
 
-This lets us specify a tag, a list of HTML attributes, a list of CSS properties,
-and a list of children. For example, we can use `node` to build a simple
+This lets us specify a tag, a list of HTML attributes, and a list of children.
+For HTML5 tags, there are helper functions such as `(div = node "div")` to make
+things look a lot cleaner. For example, here is how you can build a simple
 `profile` widget that shows a user&rsquo;s picture and name:
 
 ```haskell
 profile : User -> Html
 profile user =
-    node "div" [ "className" := "profile" ] []
-      [ node "img" [ "src" := user.picture ] [] []
-      , node "span" [] [] [ text user.name ]
-      ]
+    div [ class "profile" ] [
+        img [ src user.picture ] [],
+        span [] [ text user.name ]
+    ]
 ```
 
 Notice that we set a class so the whole thing can be styled from CSS. Paired
@@ -135,7 +136,7 @@ let&rsquo;s say we are rendering a list of tasks:
 ```haskell
 todoList : [Task] -> Html
 todoList tasks =
-    node "div" [] [] (map todoItem tasks)
+    div [] (map todoItem tasks)
 ```
 
 But we may know that on many updates, none of the tasks are changing. And if no
@@ -188,13 +189,13 @@ import Html (..)
 
 profiles : [User] -> Html
 profiles users =
-    node "div" [] [] (map profile users)
+    div [] (map profile users)
 
 profile : User -> Html
 profile user =
-    node "div" [] []
-    [ node "img" [ "src" := user.picture ] [] []
-    , text user.name
+    div [] [
+        img [ src user.picture ] [],
+        text user.name
     ]
 ```
 
@@ -210,20 +211,21 @@ can be mixed and matched on any node.
 ```haskell
 -- small reusable CSS properties
 font : [CssProperty]
-font =
-    [ "font-family" := "futura, sans-serif"
-    , "color"       := "rgb(42, 42, 42)"
-    , "font-size"   := "2em"
-    ]
+font = [
+    prop "font-family" "futura, sans-serif",
+    prop "color" "rgb(42, 42, 42)",
+    prop "font-size" "2em"
+  ]
 
 background : [CssProperty]
-background =
-    [ "background-color" := "rgb(245, 245, 245)" ]
+background = [
+    prop "background-color" "rgb(245, 245, 245)"
+  ]
 
 -- combine them to make individual nodes
 profiles : [User] -> Html
 profiles users =
-    node "div" [] (font ++ background) (map profile users)
+    div [ style (font ++ background) ] (map profile users)
 ```
 
 So creating reusable widgets and abstracting out common patterns is extremely
