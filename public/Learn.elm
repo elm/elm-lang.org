@@ -28,13 +28,13 @@ documentation.
 
 #### Building Blocks
 
-* [Basic Values](/learn/Basic-Values.elm) &mdash; primitive values, data structures, and functions
+* [Understanding Types](/learn/Understanding-Types.elm) &mdash; primitive values, data structures, and functions
 * [Union Types](/learn/Union-Types.elm) &mdash; mixing different kinds of values
 * [Records](/learn/Records.elm) &mdash; values with named fields, sort of like objects
 
 #### Signals
 
-* [What is FRP?](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
+* [Key Concepts](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
 * [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
 * [Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with text fields, check boxes, etc.
 * [Architecting large programs](/learn/Architecture.elm) &mdash; how to use signals as programs get larger
