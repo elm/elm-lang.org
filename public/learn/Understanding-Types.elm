@@ -3,7 +3,7 @@ import Website.Skeleton (skeleton)
 import Window
 
 port title : String
-port title = "Basic Values"
+port title = "Understanding Types"
 
 main = skeleton "Learn" content <~ Window.dimensions
 
@@ -11,7 +11,7 @@ content w = width (min 600 w) intro
 
 intro = [markdown|
 
-# Basic Values
+# Understanding Types
 
 This page will go through some of the basic values in Elm, including primitives,
 data structures, and functions. It focuses on understanding their types, which
