@@ -11,14 +11,8 @@ what w = width w [markdown|
 
 # Union Types
 
-A union type is a way to put together many different types.
-
-*Note: union types have been been called [tagged unions][tag] or [algebraic
-data types][adt] in other communities. Languages like Haxe and Rust call them
-enumerations.*
-
-[tag]: http://en.wikipedia.org/wiki/Tagged_union
-[adt]: http://en.wikipedia.org/wiki/Algebraic_data_type
+A union type is a way to put together many different types. If you have Java
+background, think of them as enums on steroids.
 
 ## Enumerating Possibilities
 
@@ -29,7 +23,7 @@ active tasks, or all the completed tasks. We can represent these three states
 like this:
 
 ```haskell
-type Visibility
+data Visibility
     = All
     | Active
     | Completed
@@ -65,7 +59,7 @@ Okay, what if we want to represent if someone is logged in or not. With union
 types we can say:
 
 ```haskell
-type User
+data User
     = Anonymous
     | LoggedIn String
 ```
@@ -127,7 +121,7 @@ shows scatter plots, one shows recent log data, and one shows time plots. Type
 unions make it really easy to put together the data we need:
 
 ```haskell
-type Widget
+data Widget
     = ScatterPlot [(Int, Int)]
     | LogData [String]
     | TimePlot [(Time, Int)]
@@ -158,9 +152,9 @@ that that are showed on a logarithmic scale. We can augment our `Widget` type
 a bit.
 
 ```haskell
-type Scale = Normal | Logarithmic
+data Scale = Normal | Logarithmic
 
-type Widget
+data Widget
     = ScatterPlot [(Int, Int)]
     | LogData [String]
     | TimePlot Scale [(Time, Int)]
@@ -183,7 +177,7 @@ servers? I guess we will find out later!
 Union types let us sidestep this problem entirely with a type called `Maybe`.
 
 ```haskell
-type Maybe a
+data Maybe a
     = Just a
     | Nothing
 ```
@@ -219,7 +213,7 @@ can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into a union type:
 
 ```haskell
-type List a
+data List a
     = Empty
     | Node a (List a)
 ```
@@ -277,7 +271,7 @@ We can create all sorts of data structures, like [binary trees][binary].
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
 ```haskell
-type Tree a
+data Tree a
     = Empty
     | Node a (Tree a) (Tree a)
 ```
@@ -296,7 +290,7 @@ deals with [Boolean algebra][algebra]:
  [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
 ```haskell
-type Boolean
+data Boolean
     = T
     | F
     | Not Boolean
