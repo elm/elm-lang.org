@@ -62,12 +62,10 @@ as templates for your own project!
 
 #### Websites
 
- * [TodoFRP](https://github.com/evancz/TodoFRP) &mdash;
+ * [elm-todomvc](https://github.com/evancz/elm-todomvc) &mdash;
    todo list modelled on [TodoMVC](http://todomvc.com/)
  * [elm-lang.org](https://github.com/elm-lang/elm-lang.org) &mdash;
-   good template for your own website
- * [library.elm-lang.org](https://github.com/elm-lang/elm-get) &mdash;
-   pretty and easily implements [contextual search](http://library.elm-lang.org)
+   front-end and back-end code for this website
    
 #### Games
 
@@ -89,10 +87,9 @@ intermediates =
     in
         [ ex [ "Mario", "Walk", "Pong", "Turtle" ]
         , ex [ "TextReverse", "Calculator", "Form", "Flickr" ]
-        , ex [ "Physics", "Plot", "PieChart", "SlideShow" ]
-        , ex [ "Clock", "Tracer", "Slide", "Stamps" ]
-        , ex [ "Complements", "PascalsTriangle", "Web", "FibonacciTiles" ]
+        , ex [ "Clock", "Plot", "SlideShow", "PieChart" ]
         , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+        , ex [ "Physics", "Stamps" ]
         ]
 
 addFolder folder lst =
