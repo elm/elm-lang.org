@@ -44,9 +44,8 @@ you are about to learn how to work with lists and records.
 The following video and [practice problems](#practice-problems)
 are designed to help you dive into lists and records.
 
-The video is followed by a written explanation that covers exactly the
-same material. You can use the [online editor](http://elm-lang.org/try) to
-follow along and start experimenting on your own.
+The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try) 
+to follow along and start experimenting on your own.
 |]
 
 video = [markdown|

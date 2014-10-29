@@ -2,45 +2,27 @@
 import Website.Skeleton (skeleton)
 import Window
 
+port title : String
+port title = "Basic Values"
+
 main = skeleton "Learn" content <~ Window.dimensions
 
 content w = width (min 600 w) intro
 
 intro = [markdown|
 
-<h1><div style="text-align:center">Getting started with Types
-<div style="font-size:0.5em;font-weight:normal">What are types? Why are they useful?</div></div>
-</h1>
+# Basic Values
 
-Types help you write correct programs. They come with tools that will warn you
-about problems while you are writing the program, as opposed to when people
-are already using it. They also force you to think a bit harder about how
-you design your program, which will improve a code-base of any size.
+This page will go through some of the basic values in Elm, including primitives,
+data structures, and functions. It focuses on understanding their types, which
+can be hard to learn just by example and has big benefits once you get into the
+swing of things.
 
-We will cover [basic types](#what-is-a-type), [types for data
-structures](#types-for-data-structures), and [types for
-functions](#types-for-functions).
+## Primitives
 
-**To people new to types:** If you start feeling lost, do not fear!
-It can take a while for types to really sink into your brain, and the
-more you use them, the more natural they will become.
-
-**To people with an imperative background:**
-Types in Elm are not like types in C and Java. Elm has full type-inference,
-meaning that all the types can be figured out and checked by the compiler
-without *any* type annotations, making it much less onerous.
-
-So give it a chance and do not get discouraged! Learning how types work is as an investment.
-The reward is being able to write programs that &ldquo;just work&rdquo;.
-
-Let&rsquo;s get started!
-
-<h2 id="what-is-a-type">What is a Type?</h2>
-
-All values in Elm have a type. A number is one *type* of value, and a list is
-a totally separate *type* of value.
-
-For example, the number 42 is an integer. So to write down the type we say:
+The basic building blocks of Elm are a set of primitive values that include
+strings, booleans, and numbers. For example, the number 42 is an integer. So
+to write down the type we say:
 
 ```haskell
 42 : Int
@@ -73,7 +55,7 @@ properties.
 Types become more interesting and useful when you start working with more
 complicated values. So let&rsquo;s take a look at types for data structures.
 
-<h2 id="types-for-data-structures">Types for Data Structures</h2>
+## Data Structures
 
 This section will cover lists, tuples, and [records][records]. It may help
 to find some examples or read some documentation on these data structures
@@ -154,7 +136,7 @@ which `String` was the title and which was the author. You would have to
 read some code or do some experiment to figure it out. With records, it is
 totally clear and extracting a title is as simple as saying `book2.title`.
 
-<h2 id="types-for-functions">Types for Functions</h2>
+## Functions
 
 So far we have only looked at unchanging values, but this is *functional*
 programming! What about functions?!
@@ -164,7 +146,8 @@ implement it from scratch:
 
 ```haskell
 not : Bool -> Bool
-not b = if b then False else True
+not boolean =
+    if boolean then False else True
 ```
 
 So `not` is a function that takes in a boolean and gives back a boolean.
@@ -174,9 +157,10 @@ Another example is the `length` function which figures out the length of a list.
 
 ```haskell
 length : [a] -> Int
-length xs = case xs of
-              hd::tl -> 1 + length tl
-              []     -> 0
+length list =
+    case list of
+      [] -> 0
+      first :: rest -> 1 + length rest
 ```
 
 A lower case type is called a *type variable*. A type variable means
@@ -243,7 +227,8 @@ with `not`, it is specialized to have the type:
 -- map : (Bool -> Bool) -> [Bool] -> [Bool]
 
 nots : [Bool] -> [Bool]
-nots bools = map not bools
+nots bools =
+    map not bools
 ```
 
 And when it is used with `round` it is specialized to have the type:
@@ -252,7 +237,8 @@ And when it is used with `round` it is specialized to have the type:
 -- map : (Float -> Int) -> [Float] -> [Int]
 
 rounds : [Float] -> [Int]
-rounds floats = map length floats
+rounds floats =
+    map length floats
 ```
 
 These are some of the &ldquo;many forms&rdquo; of the `map` function. The type
@@ -281,9 +267,10 @@ compiles, it works!
 
 ## Wrap up
 
-We have taken an extremely quick tour through types in Elm. Do not worry if
-you got lost at any point, it usually takes a while for your brain to really
-figure out what is going on here, especially with functions and polymorphism.
-The best way to improve is to program more and to see more examples of types
-and type errors.
+We have taken an extremely quick tour through Elm's basic values and their
+types. Do not worry if you got lost at any point, it usually takes a while
+for your brain to really figure out what is going on here, especially with
+functions and polymorphism. Stick with it and you will begin to see some great
+benefits!
+
 |]
