@@ -1,4 +1,3 @@
-import Website.Widgets (bigLogo, installButtons)
 import Website.Skeleton (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
