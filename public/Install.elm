@@ -30,8 +30,8 @@ header = [markdown|
 
 # Install
 
-There are handy installers for Windows and Mac, but you will need to build
-from source on other platforms.
+There are handy installers for Windows and Mac, but you will need to [build
+from source](#build-from-source) on other platforms.
 
 |]
 
@@ -47,6 +47,23 @@ To uninstall on Mac, run [this script][uninstall].
 
 <br>
 
+## Syntax Highlighting
+
+There are quite a few editors that support Elm syntax. Some even integrate with
+the REPL. Here are some links to show how to get Elm set up with a couple
+different editors:
+
+  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
+  * [Atom](https://atom.io/packages/language-elm)
+  * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Vim](https://github.com/lambdatoast/elm.vim)
+
+This plus [Elm Reactor](/blog/Introducing-Elm-Reactor.elm) and you can get a
+pretty solid workflow going!
+
+<br>
+
+<span id="build-from-source"></span>
 ## Build from Source
 
 The following instructions should work on any platform, from Windows to Ubuntu.
@@ -71,22 +88,6 @@ sandboxes for the install process. These were released with cabal 0.18 and will
 let you use [this install script][script].
 
 [script]: https://github.com/elm-lang/elm-platform/blob/master/src/BuildFromSource.hs#L1-L31
-
-<br>
-
-## Syntax Highlighting
-
-There are quite a few editors that support Elm syntax. Some even integrate with
-the REPL. Here are some links to show how to get Elm set up with a couple
-different editors:
-
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
-  * [Atom](https://atom.io/packages/language-elm)
-  * [Emacs](https://github.com/jcollard/elm-mode)
-  * [Vim](https://github.com/lambdatoast/elm.vim)
-
-This plus [Elm Reactor](/blog/Introducing-Elm-Reactor.elm) and you can get a
-pretty solid workflow going!
 
 <br>
 
