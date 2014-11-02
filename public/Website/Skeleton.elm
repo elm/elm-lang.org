@@ -70,6 +70,7 @@ paths =
   , ("Libraries", "/Libraries.elm")
   , ("Community", "/Community.elm")
   , ("Blog"     , "/Blog.elm")
+  , ("Install"  , "/Install.elm")
   ]
 
 clicks : Input.Input String
