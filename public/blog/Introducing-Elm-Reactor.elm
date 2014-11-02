@@ -44,7 +44,7 @@ Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
 
 [debug]: http://debug.elm-lang.org/
 [13]: /blog/announce/0.13.elm
-[install]: https://github.com/elm-lang/elm-platform#elm-platform
+[install]: /Install.elm
 
 Check out the following video to see Elm Reactor in action when debugging a
 [TodoMVC app][todo] written with [elm-html][html]:

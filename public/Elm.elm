@@ -122,12 +122,10 @@ debuggerText = [markdown|
 
 Elm's [Time Traveling Debugger][debug] makes debugging and exploration easy.
 It also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
-can modify running programs. If you download [Elm Platform][platform], you get
-[Elm Reactor][reactor] which bundles up all these features for use with your
-favorite code editor.
+can modify running programs. [Elm Reactor][reactor] bundles up all these
+features for use with your favorite code editor.
 
 [debug]: http://debug.elm-lang.org
-[platform]: https://github.com/elm-lang/elm-platform/
 [reactor]: /blog/Introducing-Elm-Reactor.elm
 
 |]

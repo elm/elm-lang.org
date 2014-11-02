@@ -33,7 +33,7 @@ In pursuit of these improvements, we made some breaking changes, so these
 release notes are a nice overview of what has changed and how to upgrade your
 code to use 0.13. To install or upgrade, follow [these directions][install].
 
-[install]: https://github.com/elm-lang/elm-platform/blob/master/README.md
+[install]: /Install.elm
 
 ## Imports and Exports
 

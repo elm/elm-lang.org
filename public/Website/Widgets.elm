@@ -18,10 +18,10 @@ bigLogo =
                ]
 
 installButtons w =
-  let href = "https://github.com/elm-lang/elm-platform/blob/master/README.md#elm-platform"
-  in  flow right [ button (w // 2) 180 "/try" "Try"
-                 , button (w // 2) 180 href "Install"
-                 ]
+    flow right
+    [ button (w // 2) 180 "/try" "Try"
+    , button (w // 2) 180 "/Install.elm" "Install"
+    ]
 
 -- implementation
 

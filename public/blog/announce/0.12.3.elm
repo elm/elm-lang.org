@@ -93,8 +93,8 @@ it](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and have fun
 working in 3D!
 
 To work with [`elm-webgl`][webgl] and [`elm-linear-algebra`][algebra] locally,
-install the new [Elm Platform](https://github.com/elm-lang/elm-platform#install),
-navigate to a fresh directory, and run:
+install the new [Elm Platform](/Install.elm), navigate to a fresh directory,
+and run:
 
 ```bash
 elm-get install elm-webgl
