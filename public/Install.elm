@@ -30,23 +30,40 @@ header = [markdown|
 
 # Install
 
-There are handy installers for Windows and Mac, but you will need to build
-from source on other platforms.
+There are handy installers for Windows and Mac, but you will need to [build
+from source](#build-from-source) on other platforms.
 
 |]
 
 
 rest = [markdown|
 
+To upgrade to a newer version of Elm, run the installer again. They safely
+overwrite old executables so your machine is in a consistent state.
+
 To uninstall on Mac, run [this script][uninstall].
 
 [uninstall]: https://github.com/elm-lang/elm-platform/blob/master/src/mac/helper-scripts/uninstall.sh
 
-To upgrade to a newer version of Elm, run the installer again. They safely
-overwrite old executables so your machine is in a consistent state.
+<br>
+
+## Syntax Highlighting
+
+There are quite a few editors that support Elm syntax. Some even integrate with
+the REPL. Here are some links to show how to get Elm set up with a couple
+different editors:
+
+  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
+  * [Atom](https://atom.io/packages/language-elm)
+  * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Vim](https://github.com/lambdatoast/elm.vim)
+
+This plus [Elm Reactor](/blog/Introducing-Elm-Reactor.elm) and you can get a
+pretty solid workflow going!
 
 <br>
 
+<span id="build-from-source"></span>
 ## Build from Source
 
 The following instructions should work on any platform, from Windows to Ubuntu.
