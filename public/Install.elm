@@ -75,13 +75,16 @@ Then run the following commands:
 
 ```bash
 cabal update
+cabal install cabal-install
 cabal install -j Elm-0.13 elm-repl-0.3 elm-reactor-0.1 elm-get-0.1.3
 ```
 
 This will take some time, but when it is done, all of these executables should
-be on your PATH.
+be on your PATH. If not, then they should be in `~/.cabal/bin` which you can
+[add to your PATH][add-path].
 
 [hp]: http://hackage.haskell.org/platform/
+[add-path]: http://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path
 
 **If you use Haskell for other stuff**, it would be best to use cabal
 sandboxes for the install process. These were released with cabal 0.18 and will
