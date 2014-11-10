@@ -77,6 +77,7 @@ as templates for your own project!
    by Tobias Hermann
  * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
    modular spaceship game by John P. Mayer Jr
+ * [Froggy](https://github.com/thSoft/froggy) &mdash; by Dénes Harmath
 
 |]
 
