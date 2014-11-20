@@ -51,9 +51,6 @@ url : Field.Content -> Field.Content -> Field.Content -> String
 url first last email = 
     "/login?first=" ++ first.string ++ "&last=" ++ last.string ++ "&email="++ email.string
 
-getLogin : Signal String -> Signal (Http.Response String)
-getLogin req = Http.send <| lift (\r -> Http.post r "") req
-
 
 -- Display
 scene : (Int,Int) -> Element -> Element
