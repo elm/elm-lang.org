@@ -35,6 +35,8 @@ content outer =
     ]) `above` flow down
     [ color C.mediumGrey (spacer outer 1)
     , spacer outer 30
+    , center threeKeywords
+    , spacer outer 40
     , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
@@ -42,8 +44,6 @@ content outer =
         [ button 220 180 "/try" "Edit"
         , button 220 180 "http://debug.elm-lang.org/try" "Debug"
         ]
-    , spacer outer 40
-    , center threeKeywords
     , spacer outer 40
     , centerText exampleText
     , container outer 500 middle <| exampleBlock 860
@@ -132,4 +132,4 @@ features for use with your favorite code editor.
 |]
 
 debuggerBlock =
-    Tile.example (860,260) ("Home/Debugger", "http://debug.elm-lang.org/", Nothing)
+    Tile.example (860,260) ("Home/Debugger", "/blog/Introducing-Elm-Reactor.elm", Nothing)
