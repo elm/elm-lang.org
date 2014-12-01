@@ -20,12 +20,13 @@ import qualified Elm.Internal.Utils as Elm
 import Elm.Internal.Version (elmVersion)
 import Utils
 
+
 -- | Using a page title and the full source of an Elm program, compile down to
 --   a valid HTML document.
 html :: String -> String -> IO H.Html
 html name src =
-  do compilerResult <- safeCompile src
-     return . buildPage $ formatResult compilerResult
+  do  compilerResult <- safeCompile src
+      return . buildPage $ formatResult compilerResult
   where
     script = H.script ! A.type_ "text/javascript"
 
@@ -58,12 +59,14 @@ html name src =
           content
         googleAnalytics
 
+
 addSpaces :: String -> String
 addSpaces str =
   case str of
     ' ' : ' ' : rest -> " &nbsp;" ++ addSpaces rest
     c : rest -> c : addSpaces rest
     [] -> []
+
 
 js :: String -> IO String
 js src =
@@ -73,6 +76,7 @@ js src =
     wrap :: String -> String -> String
     wrap typ msg = "{ " ++ show typ ++ " : " ++ show msg ++ " }"
 
+
 safeCompile :: String -> IO (Either String String)
 safeCompile src =
   case Elm.nameAndImports src of
@@ -81,6 +85,7 @@ safeCompile src =
         if any (`elem` thirdPartyLibraries) imports
           then compileInSandbox src
           else compileNormal src
+
 
 thirdPartyLibraries :: [String]
 thirdPartyLibraries =
