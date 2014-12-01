@@ -263,8 +263,8 @@ The basic arithmetic infix operators all figure out what type they should have a
 6 * 7      : number
 10 * 4.2   : Float
 
-1 `div` 2  : Int
-1 / 2      : Float
+100 // 2  : Int
+1 / 2     : Float
 ```
 
 There is a special function for creating tuples:
