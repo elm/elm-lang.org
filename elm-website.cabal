@@ -27,7 +27,7 @@ executable run-elm-website
     Server.hs
 
   ghc-options:
-    -threaded -O2 -rtsopts "-with-rtsopts=-N -I4"
+    -W -threaded -O2 -rtsopts "-with-rtsopts=-N -I4"
 
   build-depends:
     aeson,
