@@ -1,8 +1,5 @@
-cache
-build
+elm-stuff
 dist
-resources/elm-runtime.js
 resources/docs.json
 log
-elm_dependencies/
 cabal.sandbox.config
