@@ -29,27 +29,28 @@ prime has been added to each conflicting name.
 -----------------------------------------------------------------}
 
 
-data Maybe' a = Just' a | Nothing'
+type Option a = Some a | None
 
-safeLog : Float -> Maybe' Float
+safeLog : Float -> Option Float
 safeLog n =
-    if n <= 0 then Nothing' else Just' (logBase 10 n)
+    if n <= 0 then None else Some (logBase 10 n)
 
-safeHead : [a] -> Maybe' a
+safeHead : [a] -> Option a
 safeHead xs =
     case xs of
-      h::t -> Just' h
-      []   -> Nothing'
+      h::t -> Some h
+      []   -> None
 
 main : Element
-main = flow down
-       [ display "safeLog" safeLog 100
-       , display "safeLog" safeLog -1
-       , display "safeHead" safeHead [2,3,5,7,11]
-       , display "safeHead" safeHead []
-       ]
+main =
+    flow down
+        [ display "safeLog" safeLog 100
+        , display "safeLog" safeLog -1
+        , display "safeHead" safeHead [2,3,5,7,11]
+        , display "safeHead" safeHead []
+        ]
 
-display : String -> (a -> Maybe' b) -> a -> Element
+display : String -> (a -> Option b) -> a -> Element
 display name f value =
     show (f value) ++ " &lArr; " ++ name ++ " " ++ show value
         |> toText

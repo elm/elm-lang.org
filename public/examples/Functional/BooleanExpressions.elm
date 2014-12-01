@@ -16,7 +16,12 @@ Finally, we will see these functions in action with some examples.
 
 -----------------------------------------------------------------}
 
-data Expr = T | F | Not Expr | And Expr Expr | Or Expr Expr
+type Expr
+    = T
+    | F
+    | Not Expr
+    | And Expr Expr
+    | Or Expr Expr
 
 eval : Expr -> Bool
 eval expr =

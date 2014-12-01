@@ -11,47 +11,50 @@ import Mouse
 import Window
 
 -- Define the mesh for a crate
-type Vertex = { position:Vec3, coord:Vec3 }
+type alias Vertex = { position:Vec3, coord:Vec3 }
 
 face : [Triangle Vertex]
 face = rotatedSquare (0,0)
 
 sides : [Triangle Vertex]
-sides = concatMap rotatedSquare [ (90,0), (180,0), (270,0), (0,90), (0,-90) ]
+sides =
+    concatMap rotatedSquare [ (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
 rotatedSquare : (Float,Float) -> [Triangle Vertex]
 rotatedSquare (angleXZ,angleYZ) =
-  let x = makeRotate (degrees angleXZ) j
-      y = makeRotate (degrees angleYZ) i
-      t = x `mul` y
-  in
-      map (mapTriangle (\v -> {v | position <- transform t v.position })) square
+    let x = makeRotate (degrees angleXZ) j
+        y = makeRotate (degrees angleYZ) i
+        t = x `mul` y
+    in
+        map (mapTriangle (\v -> {v | position <- transform t v.position })) square
 
 square : [Triangle Vertex]
 square =
-  let topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
-      topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
-      bottomLeft  = Vertex (vec3 -1 -1 1) (vec3 0 0 0)
-      bottomRight = Vertex (vec3  1 -1 1) (vec3 1 0 0)
-  in
-      [ (topLeft,topRight,bottomLeft), (bottomLeft,topRight,bottomRight) ]
+    let topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
+        topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
+        bottomLeft  = Vertex (vec3 -1 -1 1) (vec3 0 0 0)
+        bottomRight = Vertex (vec3  1 -1 1) (vec3 1 0 0)
+    in
+        [ (topLeft,topRight,bottomLeft)
+        , (bottomLeft,topRight,bottomRight)
+        ]
 
 -- View
 view : (Int,Int) -> (Int,Int) -> Mat4
 view (w',h') (x',y') =
-  let w = toFloat w'
-      h = toFloat h'
-      x = toFloat x'
-      y = toFloat y'
+    let w = toFloat w'
+        h = toFloat h'
+        x = toFloat x'
+        y = toFloat y'
 
-      distance = 6
+        distance = 6
 
-      eyeX = distance * (w/2 - x) / w
-      eyeY = distance * (y - h/2) / h
-      eye = V3.scale distance (V3.normalize (vec3 eyeX eyeY distance))
-  in
-      mul (makePerspective 45 (w/h) 0.01 100)
-          (makeLookAt eye (vec3 0 0 0) j)
+        eyeX = distance * (w/2 - x) / w
+        eyeY = distance * (y - h/2) / h
+        eye = V3.scale distance (V3.normalize (vec3 eyeX eyeY distance))
+    in
+        mul (makePerspective 45 (w/h) 0.01 100)
+            (makeLookAt eye (vec3 0 0 0) j)
 
 -- Putting it together
 main : Signal Element
@@ -69,11 +72,11 @@ scene mesh1 mesh2 dimensions texture1 texture2 view =
 
 toEntity : [Triangle Vertex] -> Response Texture -> Mat4 -> [Entity]
 toEntity mesh response view =
-  case response of
-    Waiting     -> []
-    Failure _ _ -> []
-    Success texture -> 
-        [ entity vertexShader fragmentShader mesh { texture=texture, view=view } ]
+    case response of
+        Waiting     -> []
+        Failure _ _ -> []
+        Success texture -> 
+            [ entity vertexShader fragmentShader mesh { texture=texture, view=view } ]
 
 -- Shaders
 vertexShader : Shader { position:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }

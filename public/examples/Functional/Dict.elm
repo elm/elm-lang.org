@@ -10,7 +10,7 @@ can be quite helpful for creating complex dictionaries.
 
 import Dict
 
-type Tree =
+type alias Tree =
     { family : String
     , genus : String
     }

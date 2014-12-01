@@ -4,19 +4,21 @@ import Graphics.WebGL (..)
 
 -- Create a mesh with two triangles
 
-type Vertex = { position:Vec3, color:Vec3 }
+type alias Vertex = { position:Vec3, color:Vec3 }
 
 mesh : [Triangle Vertex]
-mesh = [ ( Vertex (vec3 0  0 0) (vec3 1 0 0)
-         , Vertex (vec3 1  1 0) (vec3 0 1 0)
-         , Vertex (vec3 1 -1 0) (vec3 0 0 1)
-         )
-       ]
+mesh =
+    [ ( Vertex (vec3 0  0 0) (vec3 1 0 0)
+      , Vertex (vec3 1  1 0) (vec3 0 1 0)
+      , Vertex (vec3 1 -1 0) (vec3 0 0 1)
+      )
+    ]
 
 -- Create the scene
 
 main : Signal Element
-main = scene <~ foldp (+) 0 (fps 30)
+main =
+    scene <~ foldp (+) 0 (fps 30)
 
 scene : Float -> Element
 scene t =
