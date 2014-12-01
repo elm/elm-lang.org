@@ -21,7 +21,7 @@ cabal-version:       >=1.10
 
 executable run-elm-website
   hs-source-dirs:
-    server
+    backend
 
   main-is:
     Server.hs
