@@ -1,6 +1,5 @@
-{-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Generate (htmlSkeleton, html, js) where
+module Generate (htmlSkeleton, html, js, scripts) where
 
 import Control.Monad (forM_, when)
 import Text.Blaze (preEscapedToMarkup)
@@ -43,15 +42,20 @@ resultToHtml :: (Either String (String, String)) -> H.Html
 resultToHtml compilerResult =
   case compilerResult of
     Right (moduleName, jsSource) ->
-      do  H.script $ preEscapedToMarkup jsSource
-          H.script $ preEscapedToMarkup $
-            "var runningElmModule = Elm.fullscreen(Elm." ++  moduleName ++ ")"
+      scripts moduleName jsSource
 
     Left err ->
       H.span ! A.style "font-family: monospace;" $
          forM_ (lines err) $ \line ->
              do  preEscapedToMarkup (addSpaces line)
                  H.br
+
+
+scripts :: H.ToMarkup a => String -> a -> H.Html
+scripts moduleName jsSource =
+  do  H.script $ preEscapedToMarkup jsSource
+      H.script $ preEscapedToMarkup $
+          "var runningElmModule = Elm.fullscreen(Elm." ++  moduleName ++ ")"
 
 
 addSpaces :: String -> String
