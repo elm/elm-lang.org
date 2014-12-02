@@ -1,9 +1,12 @@
+import Color
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
+import Text
 import Website.Widgets (bigLogo, installButtons, button)
 import Website.Skeleton (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
-
-import Text
 import Window
 
 port title : String
@@ -12,10 +15,10 @@ port title = "Elm - functional web programming"
 main = skeleton "" content <~ Window.dimensions
 
 tagLine =
-    leftAligned <|
-        toText "A " ++
-        Text.link "/learn/What-is-FRP.elm" (toText "functional reactive") ++
-        toText " language for interactive applications"
+    Text.leftAligned <|
+        Text.fromString "A " ++
+        Text.link "/learn/What-is-FRP.elm" (Text.fromString "functional reactive") ++
+        Text.fromString " language for interactive applications"
 
 content outer =
     let inner = 600
@@ -26,7 +29,7 @@ content outer =
             let msg' = width inner msg
             in  center msg'
     in
-    color white (flow down
+    color Color.white (flow down
     [ spacer outer 20
     , container outer 100 middle bigLogo
     , container outer 40 middle tagLine
@@ -59,23 +62,23 @@ threeKeywords =
     , width 260 compatible
     ]
 
-functional = [markdown|
+functional = Markdown.toElement """
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Functional</div>
 
 Features like immutability and type inference help you write code that is short,
 fast, and maintainable. Elm makes them [easy to learn](/Learn.elm) too.
 
-|]
+"""
 
-reactive = [markdown|
+reactive = Markdown.toElement """
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Reactive</div>
 
 Elm is based on the idea of [Functional Reactive
 Programming](/learn/What-is-FRP.elm). Create highly interactive applications
 without messy callbacks or a tangle of shared state.
-|]
+"""
 
-compatible = [markdown|
+compatible = Markdown.toElement """
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 2em;">Compatible</div>
 
 Elm compiles to HTML, CSS, and JavaScript. It is easy to [use HTML][html] and
@@ -84,9 +87,9 @@ Elm compiles to HTML, CSS, and JavaScript. It is easy to [use HTML][html] and
 [html]: /blog/Blazing-Fast-Html.elm
 [ports]: /learn/Ports.elm
 
-|]
+"""
 
-exampleText = [markdown|
+exampleText = Markdown.toElement """
 
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Examples</div>
 
@@ -97,7 +100,7 @@ Elm is great for [2D](/blog/Pong.elm) and
 examples showcased here, there are tons of [educational examples](/Examples.elm)
 to help you learn Elm by reading and modifying simple programs.
 
-|]
+"""
 
 exampleBlock w =
     Tile.examples w
@@ -113,13 +116,13 @@ exampleBlock w =
       ]
     ]
 
-debuggerTitle = [markdown|
+debuggerTitle = Markdown.toElement """
 
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 3em;">Time Traveling Debugger</div>
 
-|]
+"""
 
-debuggerText = [markdown|
+debuggerText = Markdown.toElement """
 
 Elm's [Time Traveling Debugger][debug] makes debugging and exploration easy.
 It also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
@@ -129,7 +132,7 @@ features for use with your favorite code editor.
 [debug]: http://debug.elm-lang.org
 [reactor]: /blog/Introducing-Elm-Reactor.elm
 
-|]
+"""
 
 debuggerBlock =
     Tile.example (860,260) ("Home/Debugger", "/blog/Introducing-Elm-Reactor.elm", Nothing)

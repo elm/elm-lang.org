@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -19,15 +22,15 @@ everything wid =
   , section intro
   ]
 
-pageTitle = [markdown|
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Success!</div>
 <div style="font-size: 1.5em;">You just installed Elm, now what?</div>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <br>
 
@@ -94,4 +97,4 @@ some helpful information.
 
   [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
 
-|]
+"""

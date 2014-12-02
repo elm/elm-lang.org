@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
@@ -13,7 +16,7 @@ content outer =
 
 -- * [Learning roadmap](/learn/Roadmap.elm) &mdash; &ldquo;based on my background, what should I learn first?&rdquo;
 
-info = [markdown|
+info = Markdown.toElement """
 
 # Learn
 
@@ -72,6 +75,6 @@ documentation.
  [thesis]: /papers/concurrent-frp.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
 
-|]
+"""
 
 

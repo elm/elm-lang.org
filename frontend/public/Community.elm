@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 
 import Window
@@ -12,7 +15,7 @@ content outer =
             container outer (heightOf elem) middle elem
     in  center (width (min 600 outer) community)
 
-community = [markdown|
+community = Markdown.toElement """
 
 # Community
 
@@ -82,5 +85,5 @@ We have found that a good way to make contributions is to hang out on the
 this discussion will make it much clearer how you can effectively help the
 community or a specific project based on your skills and interests.
 
-|]
+"""
 

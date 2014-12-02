@@ -1,3 +1,8 @@
+import Graphics.Element (..)
+import List
+import List ((::))
+import Markdown
+import Signal
 import Text
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (accent4)
@@ -5,26 +10,33 @@ import Website.Tiles as Tile
 import Website.Widgets (headerFaces)
 import Window
 
+
 port title : String
 port title = "Examples"
 
-main = skeleton "Examples" body <~ Window.dimensions
+
+main : Signal.Signal Element
+main =
+  Signal.map (skeleton "Examples" body) Window.dimensions
+
 
 body outer =
-  let b = flow down <| intersperse (spacer 20 20) content
-  in  container outer (heightOf b) middle b
+  let b = flow down <| List.intersperse (spacer 20 20) content
+  in
+    container outer (heightOf b) middle b
 
 content =
   let w = 600
       exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
-  in  width w words ::
-      map (subsection w) exs ++
+  in
+      width w words ::
+      List.map (subsection w) exs ++
       [ width w intermediate
       , Tile.examples w intermediates
       , width w projects
       ]
 
-words = [markdown|
+words = Markdown.toElement """
 
 # Examples
 
@@ -45,15 +57,15 @@ is a very information dense resource once you become familiar with Elm.
 
 <h2 id="basics">Basics</h2>
 
-|]
+"""
 
-intermediate = [markdown|
+intermediate = Markdown.toElement """
 
 <h2 id="intermediate">Intermediate</h2>
 
-|]
+"""
 
-projects = [markdown|
+projects = Markdown.toElement """
 
 <h2 id="big-projects">Big Projects</h2>
 
@@ -78,12 +90,12 @@ as templates for your own project!
  * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
    modular spaceship game by John P. Mayer Jr
 
-|]
+"""
 
 
 intermediates =
-    let ex = map Tile.intermediate
-        gl = map Tile.webgl
+    let ex = List.map Tile.intermediate
+        gl = List.map Tile.webgl
     in
         [ ex [ "Mario", "Walk", "Pong", "Turtle" ]
         , ex [ "TextReverse", "Calculator", "Form", "Flickr" ]
@@ -94,8 +106,8 @@ intermediates =
 
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm")
-      f (n,xs) = (n, map add xs)
-  in  map f lst
+      f (n,xs) = (n, List.map add xs)
+  in  List.map f lst
 
 elements = addFolder "Elements/"
   [ ("Words",
@@ -206,15 +218,15 @@ reactive = addFolder "Reactive/"
                ])
   ]
 
-example (name, loc) = Text.link ("/edit/examples/" ++ loc) (toText name)
+example (name, loc) = Text.link ("/edit/examples/" ++ loc) (Text.fromString name)
 toLinks (title, links) =
   flow right
-   [ width 150 (plainText <| "    " ++ title)
-   , leftAligned << join (toText ", ") <| map example links
+   [ width 150 (Text.plainText <| "    " ++ title)
+   , Text.leftAligned << Text.join (Text.fromString ", ") <| List.map example links
    ]
 
 subsection w (name,info) =
-  flow down << intersperse (spacer w 6) << map (width w) <|
-    (tag name << leftAligned << typeface headerFaces << bold <| toText name) ::
+  flow down << List.intersperse (spacer w 6) << List.map (width w) <|
+    (tag name << Text.leftAligned << Text.typeface headerFaces << Text.bold <| Text.fromString name) ::
     spacer 0 0 ::
-    map toLinks info ++ [spacer w 12]
+    List.map toLinks info ++ [spacer w 12]

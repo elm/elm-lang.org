@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Widgets (button)
 import Website.Skeleton (skeleton)
 import Website.BigTiles as Tile
@@ -26,17 +29,17 @@ content outer =
         ]
 
 
-header = [markdown|
+header = Markdown.toElement """
 
 # Install
 
 There are handy installers for Windows and Mac, but you will need to [build
 from source](#build-from-source) on other platforms.
 
-|]
+"""
 
 
-rest = [markdown|
+rest = Markdown.toElement """
 
 To upgrade to a newer version of Elm, run the installer again. They safely
 overwrite old executables so your machine is in a consistent state.
@@ -104,5 +107,5 @@ If not, open a new issue or email [the list][group] or ask a question in the
 [group]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 [irc]: http://webchat.freenode.net/?channels=elm
 
-|]
+"""
 

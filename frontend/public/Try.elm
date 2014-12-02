@@ -1,6 +1,7 @@
+import Markdown
 import Website.Message (report)
 
-main = report [markdown|
+main = report <| Markdown.toElement """
 
 # Online Editor
 
@@ -15,4 +16,4 @@ For more guidance check out:
   * <a href="/Examples.elm" target="_top">More examples</a>
   * <a href="/Learn.elm" target="_top">Learning resources</a>
 
-|]
+"""

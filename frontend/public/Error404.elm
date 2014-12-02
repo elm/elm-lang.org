@@ -1,7 +1,8 @@
-
+import Markdown
 import Website.Message (report)
 
-main = report [markdown|
+main = report <| Markdown.toElement """
+
 <h1><div>Poem 404
 <div style="font-size:0.5em;font-weight:normal">Page Not Found</div></div>
 </h1>
@@ -13,4 +14,5 @@ I took the one less traveled by,<br/>
 And that has made all the difference.
 
 <p style="text-align:right;font-style:italic;">Robert Frost</p>
-|]
+
+"""

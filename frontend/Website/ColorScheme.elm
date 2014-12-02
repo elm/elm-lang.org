@@ -1,5 +1,7 @@
-
 module Website.ColorScheme where 
+
+import Color (rgb)
+
 
 accent0 = rgb 90 99 120       -- #5A6378  dark grey/blue
 

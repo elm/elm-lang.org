@@ -1,20 +1,25 @@
-
 module Website.Message (report) where
 
+import Graphics.Element (..)
+import Signal ((<~))
 import Website.ColorScheme as C
 import Window
 
 scene msg (w,h) =
-    color C.mediumGrey <| container w h middle (box <| width 300 msg)
+  container w h middle (box <| width 300 msg)
+    |> color C.mediumGrey
 
 box e =
   let w = widthOf e
       h = heightOf e
-  in  flow down [ color C.accent1 (spacer (w+40) 5)
-                , container (w+38) (h+10) midTop e
-                    |> color C.lightGrey
-                    |> container (w+40) (h+11) midTop
-                    |> color C.mediumGrey 
-                ]
+  in
+    flow down
+      [ color C.accent1 (spacer (w+40) 5)
+      , container (w+38) (h+10) midTop e
+          |> color C.lightGrey
+          |> container (w+40) (h+11) midTop
+          |> color C.mediumGrey 
+      ]
 
-report msg = scene msg <~ Window.dimensions
+report msg =
+    scene msg <~ Window.dimensions

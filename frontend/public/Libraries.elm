@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.Widgets (button)
 import String
@@ -22,7 +25,7 @@ content outer =
       , centerText outro
       ]
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 # Libraries
 
@@ -32,16 +35,16 @@ Documentation for all Elm libraries can be found at
 The Standard Libraries come with the latest release of the Elm compiler and
 make it easy to get productive.
 
-|]
+"""
 
-midtro = [markdown|
+midtro = Markdown.toElement """
 
 If you cannot find it in the Standard Libraries, the Elm community is probably
 working on it!
 
-|]
+"""
 
-outro = [markdown|
+outro = Markdown.toElement """
 
 See the [syntax reference](/learn/Syntax.elm) and [other learning
 resources](/Learn.elm) to learn more about the language itself.
@@ -60,4 +63,4 @@ Library is also written entirely in Elm. Check out [the source
 code](https://github.com/elm-lang/elm-get) to see how FRP makes live search
 easy to implement.
 
-|]
+"""

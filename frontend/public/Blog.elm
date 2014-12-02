@@ -1,14 +1,19 @@
+import Graphics.Element (..)
+import Markdown
+import Signal ((<~))
+import Text
+import Window
+
 import Website.Skeleton (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 
-import Text
-import Window
 
 port title : String
 port title = "Blog"
 
-main = skeleton "Blog" content <~ Window.dimensions
+main =
+  skeleton "Blog" content <~ Window.dimensions
 
 content outer =
     let center elem =
@@ -16,7 +21,7 @@ content outer =
     in  center (width (min 600 outer) blog)
 
 
-blog = [markdown|
+blog = Markdown.toElement """
 
 # Blog
 
@@ -86,5 +91,4 @@ blog = [markdown|
  [mlocjs]: http://www.ustream.tv/recorded/29330499
  [sl2012]: http://www.infoq.com/presentations/Elm
 
-|]
-
+"""
