@@ -1,5 +1,5 @@
 {
-    "version": "0.1",
+    "version": "1.0.0",
     "summary": "Sandbox for building code that depends on third party libs",
     "license": "BSD3",
     "exposed-modules": [],
@@ -9,9 +9,7 @@
     "dependencies": {
         "elm-lang/core": "1.0.0 <= v < 2.0.0",
         "evancz/elm-html": "1.0.0 <= v < 2.0.0",
-        "evancz/elm-markdown": "1.0.0 <= v < 2.0.0",
-        "johnpmayer/elm-linear-algebra": "1.0.0 <= v < 2.0.0",
-        "johnpmayer/elm-webgl": "1.0.0 <= v < 2.0.0"
+        "evancz/elm-markdown": "1.0.0 <= v < 2.0.0"
     },
     "repository": "https://github.com/elm-lang/elm-lang.org.git"
 }
