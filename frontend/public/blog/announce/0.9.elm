@@ -1,16 +1,27 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Elm 0.9 - Fix the type-checker"
 
-main = skeleton "Blog" everything <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
+
+everything : Int -> Element
 everything wid =
-    let w = min 600 wid
-    in  width w intro
+  let w = min 600 wid
+  in
+      width w intro
 
-intro = [markdown|
+
+intro : Element
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.9
 <div style="font-size:0.5em;font-weight:normal">Fast and reliable static checks</div></div>
@@ -206,13 +217,13 @@ Just like Python, you can use multi-line strings if you use the triple-quote.
 This will make it easier to embed plain-text or JSON if the text uses `"`.
 
 ```haskell
-json = """
+json = \"\"\"
 {
   "title" : "Narcissus and Goldmund",
   "author": "Hermann Hesse",
   "pages" : 320
 }
-"""
+\"\"\"
 ```
 
 <h4 id="record-constructors">Record Constructors</h4>
@@ -275,4 +286,4 @@ Thank you to the beginners who came to my programming class in Budapest.
 Not only was it super fun, but you found a bug in the compiler!
 This experience also convinced me that unary negation was a good idea.
 
-|]
+"""

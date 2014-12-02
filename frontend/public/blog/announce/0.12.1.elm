@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
@@ -9,7 +12,7 @@ main = skeleton "Blog" everything <~ Window.dimensions
 everything w =
     width (min 600 w) intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.12.1 - Arrays
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Fast, Immutable Data Structures</div></div>
@@ -184,4 +187,4 @@ and Windows installers for Elm](/Install.elm). Hopefully we can keep going with
 this effort and make the [Elm Platform](https://github.com/elm-lang/elm-platform)
 easy to install on any system.
 
-|]
+"""

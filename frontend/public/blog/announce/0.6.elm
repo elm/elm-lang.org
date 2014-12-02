@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -6,9 +9,14 @@ import Graphics.Input as Input
 port title : String
 port title = "Upgrade Time: Elm 0.6"
 
-main = skeleton "Blog" intro <~ Window.dimensions
 
-intro w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Blog" (\w -> width (min 600 w) intro) <~ Window.dimensions
+
+
+intro : Element
+intro = Markdown.toElement """
 
 # Elm 0.6 &ndash; Time, Dates, and Syntax
 
@@ -42,7 +50,7 @@ larger examples ([sliding circle][slide], [color wheel][wheel]).
 
 **The rest of this post is out of order for now. Sorry for the inconvenience!**
 
-|]
+"""
 
 {--
 
@@ -51,18 +59,18 @@ larger examples ([sliding circle][slide], [color wheel][wheel]).
 Elm&rsquo;s use of curly braces and semi-colons added quite a bit of visual
 noise to let- and case-expressions. Elm now supports whitespace sensitivity,
 so you can leave out the `{;;;}` as long as you indent each term uniformly.
-|]
+"""
 
-guards = [markdown|
+guards = Markdown.toElement """
 The new guarded definitions are a great way to avoid ugly nested if-expressions.
 Say you want to use the up (40) and down (38) arrow keys to control a value.
-|]
+"""
 
-infixes = [markdown|
+infixes = Markdown.toElement """
 You can also define custom infix operators. Say you want to work with vectors:
-|]
+"""
 
-time = [markdown|
+time = Markdown.toElement """
 For now, all user defined infix
 operators are left-associative and have the highest precedence, meaning that
 they bind tighter than any predefined operators. Furthermore, you cannot
@@ -105,9 +113,9 @@ the update, dropping the value entirely. This is a low-level way to explore
 the time relationships between updates.
 
 For example, we can now discover the time between clicks:
-|]
+"""
 
-time1 = [markdown|
+time1 = Markdown.toElement """
 #### Frames per Second
 
 The following FPS functions provide a way to request an upper bound on frame
@@ -125,9 +133,9 @@ The function `fpsWhen` is just like `fps` but you can turn it on and off!
 This allows you to do updates only when absolutely necessary, saving cycles
 and battery life. Function `fpsWhen` works best when you want to react to
 user input with animation, such as reacting to sustained mouse presses:
-|]
+"""
 
-time2 = [markdown|
+time2 = Markdown.toElement """
 If you have ever read through the [Pong in Elm walkthrough][pong], you
 probably noticed that getting flexible frame rates was kind of a pain,
 requiring 10 lines of Elm and a helper JS file. That can all be accomplished
@@ -173,9 +181,9 @@ for one second following each mouse click. You can say:
 Function `since` takes a time `t` and a signal, producing a signal that is
 true if it has been less than `t` since the latest update. Therefore `deltas`
 will only cause updates when it is necessary.
-|]
+"""
 
-rest = [markdown|
+rest = Markdown.toElement """
 For a more exciting example of brief animations, see [here](/edit/examples/Intermediate/Slide.elm).
 This example can provide the basis for many slick animations.
 
@@ -226,7 +234,7 @@ Function `average` takes a sample size `n` and a signal `s`. It uses the `n` mos
 The Date library provides a basic way to work with locale specific dates. I am new to internationalization, so I expect that someone somewhere will have a problem. Just let me know if you do!
 
 The coolest function here is probably `Date.read` which attempts to read an arbitrary string as a date:
-|]
+"""
 
 (dateInput, dateString) = Input.textfield "Date"
 
@@ -236,7 +244,7 @@ maybeDate w str =
                                   Nothing -> text << Text.color accent3 << toText <| "Invalid Date Input")
   in  container w 50 middle dateInput `above` container w 50 middle msg
 
-date2 = [markdown|
+date2 = Markdown.toElement """
 It is also quite easy to look up the `dayOfWeek` for a particular date. The `Day` data type then makes it fairly easy to provide day-of-week related logic:
 
         data Day = Mon | Tue | Wed | Thu | Fri | Sat | Sun
@@ -280,12 +288,12 @@ larger examples of Elm in action in [his site][blog]. Thank you Grzegorz!
  [blog]: http://www.grzegorzbalcerek.net/elm/index.html "Grzegorz's Examples"
 
 Elm just got it&rsquo;s 200<sup>th</sup> star on [GitHub](https://github.com/evancz)!
-|]
+"""
 
-spiralCode = [markdown|
+spiralCode = Markdown.toElement """
     deltas = 30 `fpsWhen` Mouse.isDown
     main = lift spiral (foldp (+) 0 deltas)
-|]
+"""
 
 scene speed t1 t3 str w' =
   let sprl = spiral t1
@@ -312,56 +320,56 @@ scene speed t1 t3 str w' =
        , width w date2
        ]
 
-beforeIf = [markdown|
+beforeIf = Markdown.toElement """
     toDirection k y =
         if k == 40 then y+1 else
         if k == 38 then y-1 else y
-|]
+"""
 
-afterIf = [markdown|
+afterIf = Markdown.toElement """
     toDirection k y
         | k == 40   = y + 1
         | k == 38   = y - 1
         | otherwise = y
-|]
+"""
 
-beforeLet = [markdown|
+beforeLet = Markdown.toElement """
     let { xs = ...
         ; ys = ...
         }
     in  zipWith max xs ys
-|]
+"""
 
-afterLet = [markdown|
+afterLet = Markdown.toElement """
     let xs = ...
         ys = ...
     in  zipWith max xs ys
-|]
-beforeCase = [markdown|
+"""
+beforeCase = Markdown.toElement """
     case httpResponse of
       { Success s   -> ...
       ; Waiting     -> ...
       ; Failure _ _ -> ...
       }
-|]
-afterCase = [markdown|
+"""
+afterCase = Markdown.toElement """
     case httpResponse of
         Success s   -> ...
         Waiting     -> ...
         Failure _ _ -> ...
-|]
-beforeInfix = [markdown|
+"""
+beforeInfix = Markdown.toElement """
     vplus (x,y) (w,z) =
         (w + x, y + z)
 
     v = a `vplus` b `vplus` c
-|]
-afterInfix = [markdown|
+"""
+afterInfix = Markdown.toElement """
     (x,y) -+- (w,z) =
         (w + x, y + z)
 
     v = a -+- b -+- c
-|]
+"""
 
 spiral time =
   let a = inSeconds time / 2

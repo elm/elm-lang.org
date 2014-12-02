@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,9 +8,14 @@ import Window
 port title : String
 port title = "The Libraries You Need: Elm 0.5"
 
-main = skeleton "Blog" blog <~ Window.dimensions
 
-blog w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Blog" (\w -> width (min 600 w) blog) <~ Window.dimensions
+
+
+blog : Element
+blog = Markdown.toElement """
 
 # The Libraries You Need: Elm 0.5
 
@@ -74,8 +82,8 @@ now they do not have to!
 ### New Functions and Syntax
 
 - Abbreviated notation for tuple functions:
-    * `(,)  === (\x y -> (x,y))`
-    * `(,,) === (\x y z -> (x,y,z))`
+    * `(,)  === (\\x y -> (x,y))`
+    * `(,,) === (\\x y z -> (x,y,z))`
     * etc.
 - New functions for converting strings to numbers. Great for text input boxes:
     * `readInt : String -> Maybe Int`
@@ -115,5 +123,5 @@ If you want to help out, there are [tons of ways to contribute][contribute]!
   [github]: https://github.com/evancz "Elm on GitHub"
   [irc]: http://webchat.freenode.net/ "IRC"
 
-|]
+"""
 

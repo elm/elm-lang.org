@@ -1,4 +1,8 @@
-
+import Graphics.Collage (..)
+import Graphics.Element (..)
+import List
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.ColorScheme (..)
 import Window
@@ -6,17 +10,24 @@ import Window
 port title : String
 port title = "Elm 0.8"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
 
 everything wid =
-    let w = min 600 wid
-    in  flow down [ width w intro,
-                    container w 50 middle dots,
-                    spacer w 10, width w midtro,
-                    container w 50 middle crosses,
-                    spacer w 10, width w postCross ]
+  let w = min 600 wid
+  in
+      flow down
+        [ width w intro
+        , container w 50 middle dots
+        , spacer w 10, width w midtro
+        , container w 50 middle crosses
+        , spacer w 10, width w postCross
+        ]
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.8
 <div style="font-size:0.5em;font-weight:normal">Too many improvements to fit in a pithy title</div></div>
@@ -175,13 +186,13 @@ For now we will look at some smaller examples and uses.
 The following example creates four colorful dots. It shows a basic
 case in which having the position default to the origin is quite convenient.
 It uses the standard accent colors for the Elm website:
-|]
+"""
 
 dot colr = collage 50 50 [ filled colr (circle 15) ]
 
-dots = flow right (map dot [accent1,accent2,accent3,accent4])
+dots = flow right (List.map dot [accent1,accent2,accent3,accent4])
 
-midtro = [markdown|
+midtro = Markdown.toElement """
 
 ```haskell
 dot colr = collage 50 50 [ filled colr (circle 15) ]
@@ -209,28 +220,31 @@ later on.
 This next example creates four colorful, rotated crosses.
 It uses `group` to flattens a visual component into a single `Form`,
 making them easy to move and rotate.
-|]
+"""
 
 twoRects colr =
-    group (map (filled colr) [ rect 8 30, rect 30 8 ])
+    group (List.map (filled colr) [ rect 8 30, rect 30 8 ])
 
 cross (angle, colr) =
     collage 50 50 [ rotate (degrees angle) (twoRects colr) ]
 
 crosses =
-    flow right (map cross [ ( 0, accent1) ,
-                            (10, accent2) ,
-                            (20, accent3) ,
-                            (30, accent4) ])
+    flow right <|
+      List.map cross
+        [ ( 0, accent1)
+        , (10, accent2)
+        , (20, accent3)
+        , (30, accent4)
+        ]
 
-postCross = [markdown|
+postCross = Markdown.toElement """
 
 ```haskell
 -- Create two rectangles that cross at the origin. We use
 -- the group function to flatten them into a signle Form.
 twoRects : Color -> Form
 twoRects colr =
-    group (map (filled colr) [ rect 8 30, rect 30 8 ])
+    group (List.map (filled colr) [ rect 8 30, rect 30 8 ])
 
 -- We now create the cross by giving our rectangles a color
 -- and then rotating them by the given angle in degrees.
@@ -242,10 +256,13 @@ cross (angle, colr) =
 -- different angle and color.
 crosses : Element
 crosses =
-    flow right (map cross [ ( 0, accent1) ,
-                            (10, accent2) ,
-                            (20, accent3) ,
-                            (30, accent4) ])
+    flow right <|
+      List.map cross
+        [ ( 0, accent1)
+        , (10, accent2)
+        , (20, accent3)
+        , (30, accent4)
+        ]
 ```
 
 This example also shows that rotations are based on the
@@ -405,4 +422,4 @@ who helped me test and think through all of these new ideas!
 I have never had so many people to thank for a release, so please forgive me
 if I have forgotten anyone!
 
-|]
+"""

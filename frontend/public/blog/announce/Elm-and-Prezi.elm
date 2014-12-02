@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,9 +8,13 @@ import Window
 port title : String
 port title = "Elm and Prezi"
 
-main = skeleton "Blog" intro <~ Window.dimensions
 
-intro w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Blog" (\w -> width (min 600 w) intro) <~ Window.dimensions
+
+
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Working on Elm full-time
 <div style="font-size:0.5em;font-weight:normal">Elm &hearts; Prezi</div></div>
@@ -65,4 +72,4 @@ Just me for now. Prezi is hiring for other roles though, so let me know
 if you are interested. I know this probably wasn't a question you had, but
 it is a lovely place to work nonetheless :P
 
-|]
+"""

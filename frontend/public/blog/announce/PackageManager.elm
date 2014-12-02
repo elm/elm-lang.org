@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -11,7 +14,7 @@ everything wid =
     let w = min 600 wid
     in  width w intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm Package Manager
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Making it easy to share code</div></div>
@@ -188,4 +191,4 @@ Thank you to [Joe Collard](https://github.com/jcollard/) for working on
 with `elm-get`.
 And thank you to everyone who has already published libraries!
 
-|]
+"""

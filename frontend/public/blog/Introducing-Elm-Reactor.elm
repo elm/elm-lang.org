@@ -1,10 +1,17 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Introducing Elm Reactor"
 
-main = lift (skeleton "Blog" everything) Window.dimensions
+
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
@@ -21,15 +28,15 @@ everything wid =
   , section closing
   ]
 
-pageTitle = [markdown|
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Time Travel made Easy</div>
 <div style="font-size: 1.5em;">Introducing Elm Reactor</div>
 </div>
-|]
+"""
 
-content = [markdown|
+content = Markdown.toElement """
 
 <p style="text-align: right;">
 By <a href="http://github.com/michaelbjames">Michael James</a>
@@ -199,13 +206,13 @@ The editor below lets you try out all of the features described so far. If you
 click on the tab of the debugger panel it will slide away, showing more of
 Thwomp. Try it out!
 
-|]
+"""
 
-example = [markdown|
+example = Markdown.toElement """
 <iframe src="http://debug.elm-lang.org/edit/Thwomp.elm" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
-|]
+"""
 
-workflow = [markdown|
+workflow = Markdown.toElement """
 
 This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
 are some other examples you can explore, such as [the Mario example][mario]
@@ -236,9 +243,9 @@ works!
 That applies for multi-module projects, too! Whenever Elm Reactor detects a file
 change, it tries to recompile the main Elm file, which recompiles any
 dependencies. For more information about using the debugger in your own
-workflow, check out the [repository](https://github.com/elm-lang/elm-reactor).|]
+workflow, check out the [repository](https://github.com/elm-lang/elm-reactor)."""
 
-closing = [markdown|
+closing = Markdown.toElement """
 # What&rsquo;s next
 
 This is the first public release of Elm Reactor. There are many useful ideas
@@ -309,4 +316,4 @@ Thank you to Bret Victor, whose talk,
 [&ldquo;Inventing on Principle&rdquo;](https://www.youtube.com/watch?v=PUv66718DII) offered
 valuable insight into what the debugging experience should be like.
 
-|]
+"""

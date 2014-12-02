@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -11,7 +14,7 @@ everything wid =
     let w = min 600 wid
     in  width w intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.11 &ndash; Ports
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">A drastically improved FFI and the &ldquo;Component Model&rdquo;</div></div>
@@ -228,4 +231,4 @@ guidance and ideas. We also tried *a lot* of different syntax, so
 thanks to everyone who contributed to these discussions! It was very
 helpful in making these decisions quickly.
 
-|]
+"""

@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,11 +8,17 @@ import Window
 port title : String
 port title = "Elm 0.4: Graphics Upgrade"
 
+
+main : Signal Element
 main = skeleton "Blog" page <~ Window.dimensions
 
-page w = width (min 600 w) blog
 
-blog = [markdown|
+page : Int -> Element
+page w =
+  width (min 600 w) blog
+
+
+blog = Markdown.toElement """
 
 # Elm 0.4: Graphics Upgrade
 
@@ -65,7 +74,7 @@ Markdown lets you write fairly complicated formatted text
 The syntax is as follows:
 
 ```haskell
-[markdown| ... | ] : Element
+[markdown| ... |] : Element
 ```
 
 Where `...` is some Markdown (and can span multiple lines). For example:
@@ -78,7 +87,7 @@ main = [markdown|
 This is a paragraph.
 This sentence is part of the same paragraph.
 
-| ]
+|]
 ```
 
 See [this example][2] if you want to play around with this feature, and be sure
@@ -252,4 +261,4 @@ rectangle = spacer
 I would really recommend updating the code (it was a pretty easy change in
 my experience), but it is your call!
 
-|]
+"""

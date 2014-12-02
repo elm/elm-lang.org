@@ -1,14 +1,25 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Elm 0.7 - Extensible Records"
 
-main = skeleton "Blog" scene <~ Window.dimensions
 
-scene w = width (min 600 w) intro
+main : Signal Element
+main =
+  skeleton "Blog" scene <~ Window.dimensions
 
-intro = [markdown|
+
+scene : Int -> Element
+scene w =
+  width (min 600 w) intro
+
+
+intro : Element
+intro = Markdown.toElement """
 
 # Elm 0.7 &ndash; Extensible Records
 
@@ -121,7 +132,7 @@ an `x` and `y` field. And the value of `titles` is
 and lambdas.
 
 ```haskell
-\{x,y} -> (x,y)
+\\{x,y} -> (x,y)
 let {author} = book in ...
 ```
 
@@ -293,4 +304,4 @@ if you are in the neighborhood!
 
  [github]: https://github.com/elm-lang/Elm/issues/73 "Record Constructors"
 
-|]
+"""

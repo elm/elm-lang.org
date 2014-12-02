@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,13 +8,22 @@ import Window
 port title : String
 port title = "Elm 0.7.1 - Library Cultivation"
 
-main = lift2 (skeleton "Blog" << scene) (constant ()) Window.dimensions
+
+main : Signal Element
+main =
+  Signal.map2
+    (skeleton "Blog" << scene)
+    (Signal.constant ())
+    Window.dimensions
+
 
 scene obj w' =
-  let w = min 600 w' in
-  width w intro
+  let w = min 600 w'
+  in
+      width w intro
 
-intro = [markdown|
+
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Library Cultivation &ndash; Elm 0.7.1
 <div style="font-size:0.5em;font-weight:normal">Keyboard, Touch, Either, and more.</div></div>
@@ -237,5 +249,5 @@ Thank you to Grzegorz and John for finding two weird bugs!
 Thanks to Grzegorz and Mads for working on cool projects! Again, I encourage you, the reader, to
 [set up Preselm](https://github.com/grzegorzbalcerek/Preselm#preselm) or
 [try out the inline docs](https://groups.google.com/forum/?fromgroups=#!topic/elm-discuss/_xmbeVfjYbI)!
-|]
+"""
 

@@ -1,24 +1,40 @@
+import Graphics.Element (..)
+import List
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.Tiles as Tile
 import Window
 
+
 port title : String
 port title = "Elm 0.12.3 - WebGL"
 
-main = skeleton "Blog" everything <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
+
+everything : Int -> Element
 everything wid =
     let w = min 600 wid
-    in  flow down
+    in
+        flow down
         [ width w intro
         , exampleBlock w
         , width w rest
         ]
 
-exampleBlock w =
-    Tile.examples w [ map Tile.webgl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ] ]
 
-intro = [markdown|
+exampleBlock : Int -> Element
+exampleBlock w =
+    Tile.examples w
+      [ List.map Tile.webgl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ] ]
+
+
+intro : Element
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.12.3
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Hardware accelerated 3D rendering with WebGL</div></div>
@@ -71,9 +87,9 @@ The best way to get started is to read about [the architecture of WebGL in
 Elm](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and
 then play around with some examples to get a feel for actually using this API:
 
-|]
+"""
 
-rest = [markdown|
+rest = Markdown.toElement """
 
 We can create triangles, build up arbitrary shapes such as cubes, load textures,
 write shaders, and efficiently load them all onto the GPU. The immediate next
@@ -182,4 +198,4 @@ designed and implemented the WebGL libraries! The Elm community has been
 wondering about this from very early on, and it is great to finally see it in
 practice!
 
-|]
+"""

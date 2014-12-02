@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
@@ -10,7 +13,7 @@ everything wid =
     let w = min 600 wid
     in  width w intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Announcing Elm REPL</div></h1>
 
@@ -154,4 +157,4 @@ which provided lots of great infrastructure for this project.
 
  [repl-request]: https://groups.google.com/forum/#!searchin/elm-discuss/repl/elm-discuss/OqT-HjGCkyY/sGvDAcb8Y84J
 
-|]
+"""

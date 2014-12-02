@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.Tiles as Tile
 import Window
@@ -13,7 +16,7 @@ everything wid =
         [ width w content
         ]
 
-content = [markdown|
+content = Markdown.toElement """
 
 <br>
 
@@ -251,4 +254,4 @@ happened so quickly or so smoothly without your help. Thank you!
 
 [hp]: https://twitter.com/halacsy
 [Prezi]: https://prezi.com/
-|]
+"""

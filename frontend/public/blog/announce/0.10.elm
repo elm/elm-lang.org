@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -11,7 +14,7 @@ everything wid =
     let w = min 600 wid
     in  width w intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.10
 <div style="font-size:0.5em;font-weight:normal">faster strings, colors, bug fixes, and searchable docs</div></div>
@@ -246,4 +249,4 @@ bugs by using the compiler in new and extreme ways!
 And remember, `.elmi` files *are not* backwards compatible. Delete
 existing `cache/` directories with `rm -rf cache/`.
 
-|]
+"""

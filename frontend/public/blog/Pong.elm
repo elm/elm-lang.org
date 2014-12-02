@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,9 +8,13 @@ import Window
 port title : String
 port title = "Making Pong"
 
-main = lift (skeleton "Blog" content) Window.dimensions
 
-content w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Blog" (\w -> width (min 600 w) content) <~ Window.dimensions
+
+
+content = Markdown.toElement """
 
 <br>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center; font-size: 4em;">Making Pong</div>
@@ -382,4 +389,4 @@ learn more about making games in Elm, try tackling some of these challenges:
    against. Maybe try an AI that is not so smart to make things more
    interesting.
 
-|]
+"""

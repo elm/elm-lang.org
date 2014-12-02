@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -5,7 +8,11 @@ import Window
 port title : String
 port title = "Interactive Programming in Elm"
 
-main = lift (skeleton "Blog" everything) Window.dimensions
+
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
@@ -25,15 +32,15 @@ everything wid =
   , section rest2
   ]
 
-pageTitle = [markdown|
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Interactive Programming</div>
 <div style="font-size: 1.5em;">Hot-swapping in Elm</div>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <br>
 
@@ -72,9 +79,9 @@ We will be exploring the limits of hot-swapping, and how language design is
 the key to making it easy and reliable. Before digging into details, let&rsquo;s
 see how hot-swapping works in Elm:
 
-|]
+"""
 
-video1 = [markdown|
+video1 = Markdown.toElement """
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0&html5=1"
         frameborder="0"
@@ -82,22 +89,22 @@ video1 = [markdown|
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="640" height="480"></iframe>
 </div>
-|]
+"""
 
-segue = [markdown|
+segue = Markdown.toElement """
 
 Support for hot-swapping is live on this site, so you can [mess with Mario
 yourself](/edit/examples/Intermediate/Mario.elm) and play with the
 [bouncing ball](/edit/examples/Intermediate/Bounce.elm) below.
 As you tweak the colors, shapes, and physics in the code, you
 will see the ball update automatically.
-|]
+"""
 
-editor = [markdown|
+editor = Markdown.toElement """
 <iframe src="/edit/examples/Intermediate/Bounce.elm?cols=100%25%2C150px" frameborder="0" style="overflow:hidden; height:400px; width:100%" height="400px" width="100%"></iframe>
-|]
+"""
 
-rest1 = [markdown|
+rest1 = Markdown.toElement """
 
 There are [many more examples](/examples/Intermediate.elm), so you can
 continue to explore Elm and experiment with hot-swapping.
@@ -116,9 +123,9 @@ over time or as a stream of events. Every Elm program sets up a network for
 processing these signals, called a signal graph. Watch the following video
 to understand signal graphs and how they can be used for hot-swapping:
 
-|]
+"""
 
-video2 = [markdown|
+video2 = Markdown.toElement """
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/FSdXiBLpErU?rel=0&html5=1"
         frameborder="0"
@@ -126,9 +133,9 @@ video2 = [markdown|
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="640" height="480"></iframe>
 </div>
-|]
+"""
 
-rest2 = [markdown|
+rest2 = Markdown.toElement """
 
 <span style="color:#999;">
 Huge thank you to Laszlo for working on the
@@ -276,4 +283,4 @@ Both of these questions are more on the IDE and tooling side of things.
 Elm provides a solid foundation for hot-swapping *at the language level*,
 and I am excited to see how it can be used for truly Interactive Programming.
 
-|]
+"""

@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 
 import Website.Skeleton (skeleton)
 import Window
@@ -11,7 +14,7 @@ everything wid =
     let w = min 600 wid
     in  width w intro
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.10.1
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Tools and Libraries</div></div>
@@ -127,4 +130,4 @@ expressions](http://www.amazon.com/Introduction-Theory-Computation-Michael-Sipse
 
 Thank you again to everyone who contributed to this release!
 
-|]
+"""

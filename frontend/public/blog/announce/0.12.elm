@@ -1,25 +1,40 @@
-
+import Graphics.Element (..)
+import List
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.Tiles as Tile
 import Window
 
+
 port title : String
 port title = "Elm 0.12 - Interactive UI"
 
-main = skeleton "Blog" everything <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
+
+everything : Int -> Element
 everything wid =
     let w = min 600 wid
-    in  flow down
+    in
+        flow down
         [ width w intro
         , exampleBlock w
         , width w rest
         ]
 
-exampleBlock w =
-    Tile.examples w [ map Tile.intermediate [ "TextReverse", "Calculator", "Form", "Plot" ] ]
 
-intro = [markdown|
+exampleBlock : Int -> Element
+exampleBlock w =
+    Tile.examples w
+      [ List.map Tile.intermediate [ "TextReverse", "Calculator", "Form", "Plot" ] ]
+
+
+intro : Element
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Elm 0.12 - Interactive UI
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Making text fields and buttons easy and pure</div></div>
@@ -37,9 +52,9 @@ work?&rdquo; As of today, the answer is a definite yes! Elm 0.12 makes it easy
 to create interactive UI elements in a purely functional way, from buttons and
 fields to clickable and hoverable elements.
 
-|]
+"""
 
-rest = [markdown|
+rest = Markdown.toElement """
 
 Normally Elm release notes dive into the new features. In this case, the new
 APIs are important enough that [the tutorial on interactive UI
@@ -219,4 +234,4 @@ issues, submitting pull requests, or just pointing out that something seems
 confusing. This is why I love the Elm community and why I am really excited
 about what we can do!
 
-|]
+"""

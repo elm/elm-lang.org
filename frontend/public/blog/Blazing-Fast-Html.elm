@@ -1,11 +1,17 @@
-
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Blazing Fast HTML"
 
-main = lift (skeleton "Blog" everything) Window.dimensions
+
+main : Signal Element
+main =
+  skeleton "Blog" everything <~ Window.dimensions
+
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
@@ -19,15 +25,15 @@ everything wid =
   , section intro
   ]
 
-pageTitle = [markdown|
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Blazing Fast HTML</div>
 <div style="font-size: 1.5em;">Virtual DOM in Elm</div>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <br/>
 
@@ -277,4 +283,4 @@ the great performance!
 
 [mercury]: https://github.com/Raynos/mercury
 
-|]
+"""
