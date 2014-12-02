@@ -40,9 +40,10 @@ executable run-elm-website
     directory,
     elm-compiler,
     filepath,
-    snap-core,
-    snap-server,
     HTTP,
     mtl,
     process,
+    snap-core,
+    snap-server,
+    text,
     unordered-containers
