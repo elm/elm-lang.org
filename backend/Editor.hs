@@ -8,17 +8,22 @@ import qualified Text.Blaze.Html5.Attributes as A
 import Network.HTTP.Base (urlEncode)
 import qualified System.FilePath as FP
 
+
 -- | Display an editor and the compiled result side-by-side.
 ide :: String -> FilePath -> String -> Html
 ide cols fileName code =
-    ideBuilder cols
-               ("Elm Editor: " ++ FP.takeBaseName fileName)
-               fileName
-               ("/compile?input=" ++ urlEncode code)
+    ideBuilder
+      cols
+      ("Elm Editor: " ++ FP.takeBaseName fileName)
+      fileName
+      ("/compile?input=" ++ urlEncode code)
+
 
 -- | Display an editor and the compiled result side-by-side.
 empty :: Html
-empty = ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
+empty =
+    ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
+
 
 ideBuilder :: String -> String -> String -> String -> Html
 ideBuilder cols title input output =
@@ -28,13 +33,18 @@ ideBuilder cols title input output =
          concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
                 , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
                 , "  <frame name=\"output\" src=\"", output, "\" />\n"
-                , "</frameset>" ]
+                , "</frameset>"
+                ]
+
 
 -- | list of themes to use with CodeMirror
 themes :: [String]
-themes = [ "ambiance", "blackboard", "cobalt", "eclipse"
-         , "elegant", "erlang-dark", "lesser-dark", "monokai", "neat", "night"
-         , "rubyblue", "solarized", "twilight", "vibrant-ink", "xq-dark" ]
+themes =
+  [ "ambiance", "blackboard", "cobalt", "eclipse"
+  , "elegant", "erlang-dark", "lesser-dark", "monokai", "neat", "night"
+  , "rubyblue", "solarized", "twilight", "vibrant-ink", "xq-dark"
+  ]
+
 
 -- | Create an HTML document that allows you to edit and submit Elm code
 --   for compilation.
@@ -60,94 +70,116 @@ editor filePath code =
              bar "always_on" (buttons >> options)
         H.script ! A.type_ "text/javascript" $ "initEditor();"
 
+
 bar :: AttributeValue -> Html -> Html
-bar id' body = H.div ! A.id id' ! A.class_ "option" $ body
+bar id' body =
+    H.div ! A.id id' ! A.class_ "option" $ body
+
 
 buttons :: Html
-buttons = H.div ! A.class_ "valign_kids"
-                ! A.style "float:right; padding-right: 6px;"
-                $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
-      where
-        hotSwapButton = 
-            H.input
-                 ! A.type_ "button"
-                 ! A.id "hot_swap_button"
-                 ! A.value "Hot Swap"
-                 ! A.onclick "hotSwap()"
-                 ! A.title "Ctrl-Shift-Enter"
+buttons =
+    H.div
+      ! A.class_ "valign_kids"
+      ! A.style "float:right; padding-right: 6px;"
+      $ "Auto-update:" >> autoBox >> hotSwapButton >> compileButton
+  where
+    hotSwapButton = 
+      H.input
+        ! A.type_ "button"
+        ! A.id "hot_swap_button"
+        ! A.value "Hot Swap"
+        ! A.onclick "hotSwap()"
+        ! A.title "Ctrl-Shift-Enter"
 
-        compileButton = 
-            H.input
-                 ! A.type_ "button"
-                 ! A.id "compile_button"
-                 ! A.value "Compile"
-                 ! A.onclick "compile()"
-                 ! A.title "Ctrl-Enter: change program behavior but keep the state"
+    compileButton = 
+      H.input
+        ! A.type_ "button"
+        ! A.id "compile_button"
+        ! A.value "Compile"
+        ! A.onclick "compile()"
+        ! A.title "Ctrl-Enter: change program behavior but keep the state"
 
-        autoBox =
-            H.input
-                 ! A.type_ "checkbox"
-                 ! A.id "auto_hot_swap_checkbox"
-                 ! A.onchange "setAutoHotSwap(this.checked)"
-                 ! A.style "margin-right:20px;"
-                 ! A.title "attempt to hot-swap automatically"
+    autoBox =
+      H.input
+        ! A.type_ "checkbox"
+        ! A.id "auto_hot_swap_checkbox"
+        ! A.onchange "setAutoHotSwap(this.checked)"
+        ! A.style "margin-right:20px;"
+        ! A.title "attempt to hot-swap automatically"
 
 
 options :: Html
-options = H.div ! A.class_ "valign_kids"
-                ! A.style "float:left; padding-left:6px; padding-top:2px;"
-                ! A.title "Show documentation and types."
-                $ (docs' >> opts)
-    where 
-      docs' = do
-        H.span "Hints:"
-        H.input ! A.type_ "checkbox"
-                ! A.id "show_type_checkbox"
-                ! A.onchange "showType(this.checked);"
+options =
+    H.div
+      ! A.class_ "valign_kids"
+      ! A.style "float:left; padding-left:6px; padding-top:2px;"
+      ! A.title "Show documentation and types."
+      $ (docs' >> opts)
+  where 
+    docs' =
+      do  H.span "Hints:"
+          H.input
+            ! A.type_ "checkbox"
+            ! A.id "show_type_checkbox"
+            ! A.onchange "showType(this.checked);"
 
-      opts = do
-        H.span ! A.style "padding-left: 12px;" $ "Options:"
-        H.input ! A.type_ "checkbox"
-                ! A.id "options_checkbox" 
-                ! A.onchange "showOptions(this.checked);"
+    opts =
+      do  H.span ! A.style "padding-left: 12px;" $ "Options:"
+          H.input
+            ! A.type_ "checkbox"
+            ! A.id "options_checkbox" 
+            ! A.onchange "showOptions(this.checked);"
+
 
 editorOptions :: Html
-editorOptions = theme >> zoom >> lineNumbers
-    where
-      optionFor :: String -> Html
-      optionFor text =
-          H.option ! A.value (toValue text) $ toHtml text
+editorOptions =
+    theme >> zoom >> lineNumbers
+  where
+    optionFor :: String -> Html
+    optionFor text =
+        H.option ! A.value (toValue text) $ toHtml text
 
-      theme =
-          H.select ! A.id "editor_theme"
-                   ! A.onchange "setTheme(this.value)"
-                   $ mapM_ optionFor themes
-              
-      zoom =
-          H.select ! A.id "editor_zoom"
-                   ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"
-                   $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
+    theme =
+      H.select
+        ! A.id "editor_theme"
+        ! A.onchange "setTheme(this.value)"
+        $ mapM_ optionFor themes
+    
+    zoom =
+      H.select
+        ! A.id "editor_zoom"
+        ! A.onchange "setZoom(this.options[this.selectedIndex].innerHTML)"
+        $ mapM_ optionFor ["100%", "80%", "150%", "200%"]
 
-      lineNumbers = do
-        H.span ! A.style "padding-left: 16px;" $ "Line Numbers:"
-        H.input ! A.type_ "checkbox"
-                ! A.id "editor_lines"
-                ! A.onchange "showLines(this.checked);"
+    lineNumbers = do
+      H.span ! A.style "padding-left: 16px;" $ "Line Numbers:"
+      H.input
+        ! A.type_ "checkbox"
+        ! A.id "editor_lines"
+        ! A.onchange "showLines(this.checked);"
+
 
 docs :: Html
-docs = tipe >> desc
-    where
-      tipe = H.div ! A.class_ "type" $ message >> more
+docs =
+    tipe >> desc
+  where
+    tipe =
+      H.div ! A.class_ "type" $ message >> more
 
-      message = H.div ! A.style "position:absolute; left:4px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
+    message =
+      H.div ! A.style "position:absolute; left:4px; right:36px; overflow:hidden; text-overflow:ellipsis;" $ ""
 
-      more = H.a ! A.id "toggle_link"
-                 ! A.style "display:none; float:right;"
-                 ! A.href "javascript:toggleVerbose();"
-                 ! A.title "Ctrl+H"
-                 $ "more"
+    more =
+      H.a
+        ! A.id "toggle_link"
+        ! A.style "display:none; float:right;"
+        ! A.href "javascript:toggleVerbose();"
+        ! A.title "Ctrl+H"
+        $ "more"
 
-      desc = H.div ! A.class_ "doc"
-                   ! A.style "display:none;"
-                   $ ""
+    desc =
+      H.div
+        ! A.class_ "doc"
+        ! A.style "display:none;"
+        $ ""
 
