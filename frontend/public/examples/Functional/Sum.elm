@@ -23,6 +23,11 @@ Overview:
 
 ----------------------------------------------------------------}
 
+import Graphics.Element (..)
+import List
+import Text (asText)
+
 
 main : Element
-main = asText <| foldl (+) 0 [1..5]
+main =
+    asText (List.foldl (+) 0 [1..5])

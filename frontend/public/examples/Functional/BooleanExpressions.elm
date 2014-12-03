@@ -16,12 +16,18 @@ Finally, we will see these functions in action with some examples.
 
 -----------------------------------------------------------------}
 
+import Graphics.Element (..)
+import List
+import Text
+
+
 type Expr
     = T
     | F
     | Not Expr
     | And Expr Expr
     | Or Expr Expr
+
 
 eval : Expr -> Bool
 eval expr =
@@ -32,17 +38,20 @@ eval expr =
     And e1 e2 -> eval e1 && eval e2
     Or  e1 e2 -> eval e1 || eval e2
 
+
 e1 = T
 e2 = And T F
 e3 = Or e1 e2
 e4 = And (Not e2) e1
 
+
 main : Element
-main = flow down <| map display [ e1, e2, e3, e4 ]
+main = flow down <| List.map display [ e1, e2, e3, e4 ]
+
 
 display : Expr -> Element
 display expr =
-  show (eval expr) ++ " &lArr; " ++ show expr
-    |> toText
-    |> monospace
-    |> leftAligned
+  toString (eval expr) ++ " &lArr; " ++ toString expr
+    |> Text.fromString
+    |> Text.monospace
+    |> Text.leftAligned

@@ -17,6 +17,7 @@ So our example expands out to something like this:
 
 ----------------------------------------------------------------}
 
+import Text (asText)
 
 -- simple functions
 
@@ -24,14 +25,17 @@ square : Int -> Int
 square n =
     n * n
 
+
 isEven : Int -> Bool
 isEven n =
     n % 2 == 0
+
 
 -- composed functions
 
 squareIsOdd : Int -> Bool
 squareIsOdd =
     square >> isEven >> not
+
 
 main = asText (squareIsOdd 3)

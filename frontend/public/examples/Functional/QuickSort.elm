@@ -1,15 +1,22 @@
+import Graphics.Element (..)
+import List (..)
+import Text (asText)
+
 
 main : Element
-main = asText (quicksort [5,3,8,1,9,4,7])
+main =
+  asText (quicksort [5,3,8,1,9,4,7])
 
-quicksort : [comparable] -> [comparable]
+
+quicksort : List comparable -> List comparable
 quicksort list =
   case list of
     [] -> []
-    pivot::rest ->
+    pivot :: rest ->
         let lower  = filter (\n -> n <= pivot) rest
             higher = filter (\n -> n >  pivot) rest
-        in  quicksort lower ++ [pivot] ++ quicksort higher
+        in
+            quicksort lower ++ [pivot] ++ quicksort higher
 
 
 {---------------------

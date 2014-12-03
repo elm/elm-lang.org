@@ -1,7 +1,16 @@
 
-length xs =
-    case xs of
-      []     -> 0
-      hd::tl -> 1 + length tl
+import List ((::))
+import Text (asText)
 
-main = asText (length [1..9])
+
+length : List a -> Int
+length list =
+  case list of
+    [] -> 0
+
+    first :: rest ->
+      1 + length rest
+
+
+main =
+  asText (length [1..9])

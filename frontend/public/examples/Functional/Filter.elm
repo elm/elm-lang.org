@@ -4,16 +4,21 @@
 Overview:
   filter takes two arguments: a predicate and a list.
 
-  A predicate is a function from anything to Bool (a -> Bool).
-  A value v 'satisfies' the predicate pred if (pred v) evaluates
-  to True.
+      filter : (a -> Bool) -> List a -> List a
 
   filter returns a new list, keeping only the list elements
   that satisfy the predicate.
 
 ----------------------------------------------------------------}
 
+import List
+import Text (asText)
 
-main = asText <| filter isEven [1..10]
 
-isEven n = n % 2 == 0
+main =
+  asText (List.filter isEven [1..10])
+
+
+isEven : Int -> Bool
+isEven n =
+  n % 2 == 0

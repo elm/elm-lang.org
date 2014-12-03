@@ -8,16 +8,22 @@ Overview:
   In Elm, when an infix operator is surrounded by parenthesis,
   it can be used as a normal function.
 
-  All of the following plus_ functions can be used
+  All of the following `plus` functions can be used
   interchangeably.
 
 ----------------------------------------------------------------}
 
+import Text (asText)
+
 
 plusA x y = x + y
+
 plusB x y = (+) x y
 
 plusC = \x y -> x + y
+
 plusD = (+)
 
-main = asText <| (+) 4 7
+
+main =
+  asText ((+) 4 7)

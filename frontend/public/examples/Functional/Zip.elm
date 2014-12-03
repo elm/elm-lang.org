@@ -12,10 +12,16 @@ Overview:
 
 ----------------------------------------------------------------}
 
+import List ((::))
+import Text (asText)
 
+
+zip : List a -> List b -> List (a,b)
 zip listX listY =
   case (listX, listY) of
     (x::xs, y::ys) -> (x,y) :: zip xs ys
     (  _  ,   _  ) -> []
 
-main = asText (zip ["Tom", "Sue", "Bob"] [45, 31, 26])
+
+main =
+  asText (zip ["Tom", "Sue", "Bob"] [45, 31, 26])

@@ -12,5 +12,8 @@ Overview:
 
 ----------------------------------------------------------------}
 
+import Text (asText)
 
-main = asText <| 3 + 2
+
+main =
+  asText <| 3 + 2

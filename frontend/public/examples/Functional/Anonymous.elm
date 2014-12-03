@@ -11,6 +11,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
+import Text (asText)
 
 -- In traditional imperative languages, we'd have to define a
 -- function before we could use it.
