@@ -1,3 +1,7 @@
+import Graphics.Element (..)
+import Text (..)
+
 
 main : Element
-main = plainText "Hello, World!"
+main =
+  plainText "Hello, World!"

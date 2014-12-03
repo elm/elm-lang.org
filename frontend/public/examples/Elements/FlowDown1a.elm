@@ -13,9 +13,14 @@
   Try switching "down" in the code below with "up".
 -------------------------------------------------------------}
 
+import Graphics.Element (..)
+import Text (..)
+
+
 main : Element
-main = flow down
-       [ plainText "By using the \"flow\" function,"
-       , plainText "we can stack elements"
-       , plainText "on top of other elements."
-       ]
+main =
+  flow down
+    [ plainText "By using the \"flow\" function,"
+    , plainText "we can stack elements"
+    , plainText "on top of other elements."
+    ]

@@ -13,5 +13,9 @@
    Try them out on the car.
 -------------------------------------------------------}
 
+import Graphics.Element (..)
+
+
 main : Element
-main = width 300 (image 472 315 "/car.jpg")
+main =
+  width 300 (image 472 315 "/car.jpg")

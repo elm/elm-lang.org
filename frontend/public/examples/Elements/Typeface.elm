@@ -1,13 +1,19 @@
+import Graphics.Element (..)
+import List
+import Text
+
 
 main : Element
 main = flow down sentences
 
-sentences : [Element]
+
+sentences : List Element
 sentences =
     let msg = "\nThe quick brown fox jumps over the lazy dog.\n"
-        sentence tfs = leftAligned (typeface tfs (toText msg))
+        sentence tfs =
+          Text.leftAligned (Text.typeface tfs (Text.fromString msg))
     in
-        map sentence
+        List.map sentence
         [ ["times new roman"]
         , ["helvetica", "sans-serif"]
         , ["georgia", "serif"]
