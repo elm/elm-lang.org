@@ -154,8 +154,8 @@ equivalent to saving the model in MVC.
 
 Elm Reactor takes a snapshot every 100 events. This means jumping to any event
 from any other takes no more than 100 event replays. For example, to jump to
-event #199 from event #1000 Elm Reactor first restores the snapshot at event
-#100, then applies the next 99 recorded events. A better user experience
+event 199 from event 1000 Elm Reactor first restores the snapshot at event
+100, then applies the next 99 recorded events. A better user experience
 strategy to snapshotting could ensure time travel never takes more than N
 milliseconds. This could be done by timing each round of computation and
 snapshotting every N milliseconds. Instead Elm Reactor uses the simpler
