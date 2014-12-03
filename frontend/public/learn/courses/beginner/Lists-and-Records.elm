@@ -1,11 +1,18 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Intro to Lists and Records"
 
-main = skeleton "Learn" everything <~ Window.dimensions
+main : Signal Element
+main =
+  skeleton "Learn" everything <~ Window.dimensions
 
+
+everything : Int -> Element
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
       w' = min 600 w
@@ -20,14 +27,15 @@ everything wid =
   , section intro
   ]
 
-pageTitle = [markdown|
+
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Intro to Lists and Records</div>
 </div>
-|]
+"""
 
-preface = [markdown|
+preface = Markdown.toElement """
 
 Now that you have been [introduced to programming](/learn/beginner-course/Programming.elm),
 you are about to learn how to work with lists and records.
@@ -46,9 +54,9 @@ are designed to help you dive into lists and records.
 
 The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try) 
 to follow along and start experimenting on your own.
-|]
+"""
 
-video = [markdown|
+video = Markdown.toElement """
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/MLNvn7fml_Q?rel=0&html5=1"
         frameborder="0"
@@ -56,9 +64,9 @@ video = [markdown|
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="853" height="480"></iframe>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1 id="practice-problems">Practice Problems</h1>
 
@@ -108,4 +116,4 @@ your friends!
      `coolest` function should decide what to do in the event of
      a coolness tie.
 
-|]
+"""

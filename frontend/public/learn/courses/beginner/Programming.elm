@@ -1,11 +1,20 @@
+import Graphics.Element (..)
+import List
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Intro to Programming"
 
-main = skeleton "Learn" everything <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Learn" everything <~ Window.dimensions
+
+
+everything : Int -> Element
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
       w' = min 600 w
@@ -22,14 +31,15 @@ everything wid =
   , section problems
   ]
 
-pageTitle = [markdown|
+
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Introduction to Programming</div>
 </div>
-|]
+"""
 
-preface = [markdown|
+preface = Markdown.toElement """
 
 You are about to learn the basics of programming.
 The following video, [written explanation](#words), and [practice problems](#practice-problems)
@@ -41,9 +51,9 @@ same material. Neither assume any prior knowledge of programming.
 I recommend starting with the video, but either way,
 **you can use the [online editor](http://elm-lang.org/try) to follow along**
 and start experimenting on your own.
-|]
+"""
 
-video = [markdown|
+video = Markdown.toElement """
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/alySKbsDZ9E"
         frameborder="0"
@@ -51,9 +61,9 @@ video = [markdown|
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="853" height="480"></iframe>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <span id="words"></span><br/>
 Okay, now we are going to cover the same material, but in text form. This is nice
@@ -306,15 +316,15 @@ square root of a number. So the following is a list of
 Do you remember [the Pythagorean Theorem](http://en.wikipedia.org/wiki/Pythagorean_theorem)?
 It is a way to find the length of the diagonal edge of a right triangle. You can think of it
 a couple different ways:
-|]
+"""
 
 pics w =
-  flow right << map (container (w // 2) 160 middle) <|
+  flow right << List.map (container (w // 2) 160 middle) <|
     [ image 200 140 "/imgs/right-triangle.jpg"
     , image 150 150 "http://upload.wikimedia.org/wikipedia/commons/6/65/Pythag_anim.gif"
     ]
 
-problems = [markdown|
+problems = Markdown.toElement """
 
 <div style="height:50px">
 The standard equation is
@@ -410,4 +420,4 @@ main = asText [ fibonacci 0
 Once you are done, you can check out a [visualization of
 the Fibonacci numbers](/edit/examples/Intermediate/FibonacciTiles.elm).
 
-|]
+"""

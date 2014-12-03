@@ -1,11 +1,20 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
+
 
 port title : String
 port title = "Intro to Graphics"
 
-main = skeleton "Learn" everything <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Learn" everything <~ Window.dimensions
+
+
+everything : Int -> Element
 everything wid =
   let w  = truncate (toFloat wid * 0.8)
       w' = min 600 w
@@ -20,14 +29,16 @@ everything wid =
   , section intro
   ]
 
-pageTitle = [markdown|
+
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Introduction to Graphics</div>
 </div>
-|]
+"""
 
-preface = [markdown|
+
+preface = Markdown.toElement """
 
 Now that you have been [introduced to programming](/learn/courses/beginner/Programming.elm),
 you are about to learn the basics of graphics in Elm.
@@ -37,9 +48,9 @@ are designed to help you dive into working with images, text, and shapes.
 The video is followed by a written explanation that covers exactly the
 same material. You can use the [online editor](http://elm-lang.org/try) to
 follow along and start experimenting on your own.
-|]
+"""
 
-video = [markdown|
+video = Markdown.toElement """
 <div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
 <iframe src="//www.youtube.com/embed/7mMBWfBpyYg?rel=0&html5=1"
         frameborder="0"
@@ -47,9 +58,9 @@ video = [markdown|
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         width="853" height="480"></iframe>
 </div>
-|]
+"""
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <span id="words"></span><br/>
 Okay, now we are going to cover the same material, but in text form.
@@ -107,7 +118,7 @@ It is not great for normal blocks of text. For that we use
 nice format for describing styled text:
 
 ```haskell
-main = [markdown|
+main = Markdown.toElement \"\"\"
 
 # Making Fancy Text
 
@@ -123,7 +134,7 @@ list of kinds of fancy text:
   3. `computery`
   4. [links to things](http://xkcd.com/323/)
 
-|\]
+\"\"\"
 ```
 
 Markdown is supposed to look a lot like the styled text it produces.
@@ -137,12 +148,14 @@ Now that we have some basic elements, the next step is to start putting them
 together. We do this with the `flow` function.
 
 ```haskell
-tongueTwister = [markdown|
-She sells sea shells by the sea shore.
-|\]
+tongueTwister =
+    Markdown.toElement "She sells sea shells by the sea shore."
 
-main = flow down [ tongueTwister
-                 , fittedImage 300 200 "/shells.jpg" ]
+main =
+    flow down
+    [ tongueTwister
+    , fittedImage 300 200 "/shells.jpg"
+    ]
 ```
 
 You can change down to be lots of different things. Your options are:
@@ -289,4 +302,4 @@ this class, hopefully making graphics easier to use.
     change the orbit of the Earth. Part of programming is working with code
     that you do not understand entirely. Do not be afraid!
 
-|]
+"""
