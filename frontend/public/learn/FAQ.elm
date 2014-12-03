@@ -1,9 +1,17 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
-main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+
+
+content : Element
+content = Markdown.toElement """
 
 # Tips by language
 
@@ -70,4 +78,4 @@ and [JavaScript](#javascript)
 
 * Function application happens before any infix operation.
 
-|]
+"""

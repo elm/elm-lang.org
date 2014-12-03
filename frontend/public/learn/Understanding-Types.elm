@@ -1,15 +1,25 @@
-
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
+
 
 port title : String
 port title = "Understanding Types"
 
-main = skeleton "Learn" content <~ Window.dimensions
 
+main : Signal Element
+main =
+  skeleton "Learn" content <~ Window.dimensions
+
+
+content : Int -> Element
 content w = width (min 600 w) intro
 
-intro = [markdown|
+
+intro : Element
+intro = Markdown.toElement """
 
 # Understanding Types
 
@@ -273,4 +283,4 @@ for your brain to really figure out what is going on here, especially with
 functions and polymorphism. Stick with it and you will begin to see some great
 benefits!
 
-|]
+"""

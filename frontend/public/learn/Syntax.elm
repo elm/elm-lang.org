@@ -1,11 +1,22 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
-main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width (min 600 w) intro
+main : Signal Element
+main =
+  skeleton "Learn" content <~ Window.dimensions
 
-intro = [markdown|
+
+content : Int -> Element
+content w =
+  width (min 600 w) intro
+
+
+intro : Element
+intro = Markdown.toElement """
 
 # The Syntax of Elm
 
@@ -65,10 +76,10 @@ False : Bool
 "abc" : String
 
 -- multi-line String
-"""
+\"\"\"
 This is useful for holding JSON or other
 content that has "quotation marks".
-"""
+\"\"\"
 ```
 
 Typical manipulation of literals:
@@ -160,7 +171,7 @@ map .x [point,{x=0,y=0}]       -- field access function
         , y <- point.y + 1 }   -- batch update fields
 
 dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\{x,y} -> (x,y)
+\\{x,y} -> (x,y)
 
 lib = { id x = x }             -- polymorphic fields
 (lib.id 42 == 42)
@@ -182,8 +193,8 @@ distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
 Anonymous functions:
 
 ```haskell
-square = \n -> n^2
-squares = map (\n -> n^2) [1..100]
+square = \\n -> n^2
+squares = map (\\n -> n^2) [1..100]
 ```
 
 <h3 id="infix-operators">Infix Operators</h3>
@@ -372,7 +383,7 @@ port time : Signal Float
 port time = every second
 
 port increment : Int -> Int
-port increment = \n -> n + 1
+port increment = \\n -> n + 1
 ```
 
 From JS, you talk to these ports like this:
@@ -418,4 +429,4 @@ Elm currently does not support:
 - `where` clauses
 - any sort of `do` or `proc` notation
 
-|]
+"""

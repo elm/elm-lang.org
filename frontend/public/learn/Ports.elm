@@ -1,4 +1,6 @@
-
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.ColorScheme
 import Window
@@ -6,9 +8,14 @@ import Window
 port title : String
 port title = "Ports"
 
-main = skeleton "Learn" intro <~ Window.dimensions
 
-intro w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Learn" (\w -> width (min 600 w) intro) <~ Window.dimensions
+
+
+intro : Element
+intro = Markdown.toElement """
 
 # Ports
 
@@ -123,4 +130,4 @@ eventually perform optimizations that assume purity, and higher-order
 functions allow you to introduce impure functions which *could* be executed
 in an unexpected order.
 
-|]
+"""

@@ -1,13 +1,20 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
+
 
 port title : String
 port title = "Union Types"
 
-main = skeleton "Learn" (what << min 600) <~ Window.dimensions
+
+main : Signal Element
+main = skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
 
 
-what w = width w [markdown|
+content : Element
+content = Markdown.toElement """
 
 # Union Types
 
@@ -307,6 +314,6 @@ more about representing boolean expressions.
 
  [bool]: /edit/examples/Functional/BooleanExpressions.elm
 
-|]
+"""
 
 

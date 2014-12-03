@@ -1,15 +1,25 @@
-
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Architecture"
 
-main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width (min 600 w) article
+main : Signal Element
+main =
+  skeleton "Learn" content <~ Window.dimensions
 
-article = [markdown|
+
+content : Int -> Element
+content w =
+  width (min 600 w) article
+
+
+article : Element
+article = Markdown.toElement """
 
 # Architecture in Larger Apps
 
@@ -266,4 +276,4 @@ The reason for my skepticism is that I'd like to keep the number of new
 concepts as low as possible. If we can get by without this, I think Elm will be
 more attractive.
 
-|]
+"""

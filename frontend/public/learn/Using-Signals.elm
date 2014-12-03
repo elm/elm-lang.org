@@ -1,13 +1,20 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
 port title : String
 port title = "Using Signals"
 
-main = skeleton "Learn" (content << min 600) <~ Window.dimensions
+
+main : Signal Element
+main =
+  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
 
 
-content w = width w [markdown|
+content : Element
+content = Markdown.toElement """
 
 # Using Signals
 
@@ -41,10 +48,10 @@ Inputs like these will be the starting point for updates in every Elm program.
 ## Transforming Signals
 
 One of the most important things you can do with a signal is transform it into
-something else. We use the `lift` function for this.
+something else. We use the `map` function for this.
 
 ```haskell
-lift : (a -> b) -> Signal a -> Signal b
+map : (a -> b) -> Signal a -> Signal b
 ```
 
 As an example, say we have the `Window.dimensions` signal and want to get the
@@ -57,7 +64,7 @@ toAspectRatio (w,h) =
 
 aspectRatio : Signal Float
 aspectRatio =
-    lift toAspectRatio Window.dimensions
+    map toAspectRatio Window.dimensions
 ```
 
 Now every pair of dimensions is turned into an aspect ratio. As the window
@@ -67,7 +74,7 @@ resizes, `aspectRatio` is updated automatically.
 ## Merging Signals
 
 It is often useful to put multiple signals together. You can use `merge` or
-`lift2`, each with slightly different results. Lets look at `merge` first.
+`map2`, each with slightly different results. Lets look at `merge` first.
 
 ```haskell
 merge : Signal a -> Signal a -> Signal a
@@ -84,24 +91,24 @@ type Update = Move (Int,Int) | TimeDelta Float
 
 updates : Signal Update
 updates =
-    merge (lift Move Mouse.position) (lift TimeDelta (fps 30))
+    merge (map Move Mouse.position) (map TimeDelta (fps 30))
 ```
 
 Now we have a signal of mouse movements and time deltas. Whenever one of those
 incoming signals updates, the outgoing signal does too.
 
-The other common way to merge signals is with `lift2` which works a little bit
+The other common way to merge signals is with `map2` which works a little bit
 differently.
 
 ```haskell
-lift2 : (a -> b -> c) -> Signal a -> Signal b -> Signal c
+map2 : (a -> b -> c) -> Signal a -> Signal b -> Signal c
 ```
 
 This method of merging uses a function to put the two incoming signals together.
 The outgoing signal is the result of this function. Whenever one of the
 incoming signals updates, we grab the latest values from both and compute the
 new value for the outgoing signal. This means you cannot tell which signal is
-responsible for the updating. A common mistake is to use `lift2` instead of
+responsible for the updating. A common mistake is to use `map2` instead of
 `merge`, so keep this distinction in mind!
 
 
@@ -121,7 +128,7 @@ example usage that lets us count mouse clicks.
 ```haskell
 clickCount : Signal Int
 clickCount =
-    foldp (\click count -> count + 1) 0 Mouse.clicks
+    foldp (\\click count -> count + 1) 0 Mouse.clicks
 ```
 
 So we gave three arguments: a way to increment the counter, an initial count of
@@ -182,7 +189,7 @@ tempting to write something like this:
 ```haskell
 inputs : Signal ((), Float)
 inputs =
-    lift2 (,) Mouse.clicks (fps 40)
+    map2 (,) Mouse.clicks (fps 40)
 ```
 
 The `inputs` signal will now update whenever `Mouse.clicks` or `(fps 40)`
@@ -200,8 +207,8 @@ type Update = Click | TimeDelta Float
 inputs : Signal Update
 inputs =
     merge
-        (lift (always Click) Mouse.clicks)
-        (lift TimeDelta (fps 40))
+        (map (always Click) Mouse.clicks)
+        (map TimeDelta (fps 40))
 ```
 
 When writing large applications, use the techniques described
@@ -228,6 +235,6 @@ You will have an easier time with a signal of lists because all of the `Signal`
 functions focus on working with exactly this kind of value.
 
 
-|]
+"""
 
 

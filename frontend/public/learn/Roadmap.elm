@@ -1,9 +1,17 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Window
 
-main = skeleton "Learn" content <~ Window.dimensions
 
-content w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+
+
+content : Element
+content = Markdown.toElement """
 
 # Learning Roadmap
 
@@ -40,4 +48,4 @@ And if you are coming to Elm from Haskell or JavaScript, see these
  * [release notes](/Blog.elm#release-notes) which may contain information that has not yet made it into docs
  * [blog posts](/Blog.elm)
  * follow [/r/elm](http://www.reddit.com/r/elm) and read peoples' code
-|]
+"""

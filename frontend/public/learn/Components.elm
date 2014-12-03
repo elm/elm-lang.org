@@ -1,3 +1,6 @@
+import Graphics.Element (..)
+import Markdown
+import Signal (Signal, (<~))
 import Website.Skeleton (skeleton)
 import Website.ColorScheme
 import Window
@@ -5,9 +8,14 @@ import Window
 port title : String
 port title = "Embed Elm in HTML"
 
-main = skeleton "Learn" intro <~ Window.dimensions
 
-intro w = width (min 600 w) [markdown|
+main : Signal Element
+main =
+  skeleton "Learn" (\w -> width (min 600 w) intro) <~ Window.dimensions
+
+
+intro : Element
+intro = Markdown.toElement """
 
 # Components: Embed in HTML
 
@@ -77,4 +85,4 @@ Furthermore, all of these Elm components can communicate with JavaScript
 via &ldquo;ports&rdquo;. [Read more about ports](/learn/Ports.elm) to see
 how to do this in more detail.
 
-|]
+"""

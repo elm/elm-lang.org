@@ -1,4 +1,7 @@
-
+import Graphics.Element (..)
+import List
+import Markdown
+import Signal (Signal, (<~))
 import Text
 import Website.ColorScheme (accent1)
 import Website.Skeleton (skeleton)
@@ -11,24 +14,26 @@ main = skeleton "Learn" (content << min 600) <~ Window.dimensions
 
 content w = 
   flow down
-    [ intro w
+    [ width w intro
     , access w
     , width w postAccess
     , matches w
     , width w postMatches
     , updating w
-    , postUpdating w
+    , width w postUpdating
     , rest w
-    , postRest w
+    , width w postRest
     , rename w
-    , postRename w
+    , width w postRename
     , replace w
-    , postReplace w
+    , width w postReplace
     , poly w
-    , postPoly w
+    , width w postPoly
     ]
 
-intro w = width w [markdown|
+
+intro : Element
+intro = Markdown.toElement """
 
 # Extensible Records
 
@@ -121,15 +126,19 @@ people = [ bill, steve, larry ]
 
 There are a number of ways to access records:
 
-|]
+"""
 
-access w = evaluate w
+
+access w =
+  evaluate w
   [ ("point3D.z", "12")
   , ("bill.name", "\"Gates\"")
   , (".name bill", "\"Gates\"")
-  , ("map .age people", "[57,56,39]") ]
+  , ("map .age people", "[57,56,39]")
+  ]
 
-postAccess = [markdown|
+
+postAccess = Markdown.toElement """
 
 The first way to access records is fairly standard, appearing in many
 languages, from JavaScript to OCaml. No spaces are permitted on either
@@ -166,15 +175,18 @@ The first function takes any record that has both an `x` and `y` field and
 computes the distance to the origin. The second takes any record that has an
 `age` and determines if it is less than 50. We can use these functions as follows:
 
-|]
+"""
 
-matches w = evaluate w
+matches w =
+  evaluate w
   [ ("dist point2D", "0")
   , ("dist point3D", "5")
   , ("under50 bill", "False")
-  , ("any under50 people", "True") ]
+  , ("any under50 people", "True")
+  ]
 
-postMatches = [markdown|
+
+postMatches = Markdown.toElement """
 
 These patterns can appear in let expressions, lambda expressions,
 and case expressions.
@@ -183,15 +195,18 @@ and case expressions.
 
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
-|]
+"""
 
-updating w = evaluate w
+
+updating w =
+  evaluate w
   [ ("{ point2D | y <- 1 }", "{ x=0, y=1 }")
   , ("{ point3D | x <- 0, y <- 0 }", "{ x=0, y=0, z=12 }")
   , ("{ steve | name <- \"Wozniak\" }", "{ name=\"Wozniak\", age=56 }")
   ]
 
-postUpdating w = width w [markdown|
+
+postUpdating = Markdown.toElement """
 
 You can update as many fields as you want, separating each update by a comma.
 You can even change the type of value in a field. Say the user inputs a bunch
@@ -220,16 +235,20 @@ with little trouble.
 <h3 id="adding-deleting-and-renaming-fields">Adding, Deleting, and Renaming Fields</h3>
 
 Record fields can be added and deleted with following syntax:
-|]
+"""
 
-rest w = evaluate w
+
+rest w =
+  evaluate w
   [ ("{ point3D - z }", "{ x=3, y=4 }")
   , ("{ bill - age }", "{ name=\"Gates\" }")
   , ("{ point2D | z = 0 }", "{ x=0, y=0, z=0 }")
   , ("{ bill | height = 1.77 }", "{ name=\"Gates\",\n  age=57,\n  height=1.77 }")
- ]
+  ]
 
-postRest w = width w [markdown|
+
+postRest : Element
+postRest = Markdown.toElement """
 
 This actually means you can have multiple fields with the same name in a record,
 the latest field taking precedence over the earlier ones. Check out
@@ -241,20 +260,30 @@ We can combine the add and delete operations to rename fields.
 
     renameName person = { person - name | surname = person.name }
 <br/>
-|]
+"""
 
-rename w = evaluate w
-  [ ("renameName bill", "{ surname=\"Gates\", age=57 }") ]
 
-postRename w = width w [markdown|
+rename w =
+  evaluate w
+  [ ("renameName bill", "{ surname=\"Gates\", age=57 }")
+  ]
+
+
+postRename : Element
+postRename = Markdown.toElement """
 
 We can also derive record updates with field addition and removal:
-|]
+"""
 
-replace w = evaluate w
-  [ ("{ point2D - x | x = 1 }", "{ x=1, y=0 }") ]
 
-postReplace w = width w [markdown|
+replace w =
+  evaluate w
+  [ ("{ point2D - x | x = 1 }", "{ x=1, y=0 }")
+  ]
+
+
+postReplace : Element
+postReplace = Markdown.toElement """
 
 The field update syntax is just a prettier way to write this!
 
@@ -280,9 +309,11 @@ different types.
 
 The `group` record holds an `op` function that appends lists and a `zero` value
 that represents an empty list.
-|]
+"""
 
-poly w = evaluate w
+
+poly w =
+  evaluate w
   [ ("lib.id 42", "42")
   , ("lib.id 'b'", "'b'")
   , ("lib.flip (++) \"ab\" \"cd\"", "\"cdab\"")
@@ -291,7 +322,9 @@ poly w = evaluate w
   , ("group.op [1,2] [3,4]", "[1,2,3,4]")
   ]
 
-postPoly w = width w [markdown|
+
+postPoly : Element
+postPoly = Markdown.toElement """
 
 I suspect that this can be used for some really cool stuff! It should
 make it possible to gain some of the flexibility of first-class modules
@@ -367,21 +400,34 @@ records. You get much of the freedom of a dynamically
 typed language, but the type checker will make sure that these functions are
 used safely!
 
-|]
+"""
+
 
 evaluate wid pairs =
   let f (a,b) =
         let w = wid // 2
-            c = leftAligned << monospace <| toText a
-            d = leftAligned << monospace <| toText b
+            c = Text.leftAligned (Text.monospace (Text.fromString a))
+            d = Text.leftAligned (Text.monospace (Text.fromString b))
             h = 10 + max (heightOf c) (heightOf d)
-        in  flow right [ container w h middle c
-                       , container w h middle d ]
+        in
+            flow right
+              [ container w h middle c
+              , container w h middle d
+              ]
   in
-  let es = map f pairs
-      arrow = leftAligned << Text.height 3 << Text.color accent1 << toText <| "&rArr;"
-      h = sum <| map heightOf es
-  in  layers [ container wid h middle arrow
-             , flow down es ]
+  let es = List.map f pairs
+
+      arrow =
+        Text.fromString "&rArr;"
+          |> Text.color accent1
+          |> Text.height 3
+          |> Text.leftAligned
+
+      h = List.sum (List.map heightOf es)
+  in
+      layers
+        [ container wid h middle arrow
+        , flow down es
+        ]
 
 
