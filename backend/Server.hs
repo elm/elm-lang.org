@@ -14,17 +14,16 @@ import Snap.Http.Server
 import Snap.Util.FileServe
 import System.Console.CmdArgs
 import System.Directory
-import System.Exit (exitFailure)
 import System.FilePath as FP
-import System.IO (hPutStrLn, stderr)
+import System.IO (hFlush, hPutStrLn, stderr, stdout)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html.Renderer.Text as BlazeText
 import qualified Text.Blaze.Html.Renderer.Utf8 as BlazeBS
 
-
-import qualified Generate
+import qualified Compile
 import qualified Editor
 import qualified Elm.Utils as Utils
+import qualified Generate
 
 
 data Flags = Flags
@@ -46,7 +45,7 @@ main =
       precompile
       cargs <- cmdArgs flags
       httpServe (setPort (port cargs) defaultConfig) $
-          ifTop (serveElm "build/public/Elm.elm")
+          ifTop (serveElm "artifacts/Elm.elm")
           <|> route [ ("try", serveHtml Editor.empty)
                     , ("edit", edit)
                     , ("code", code)
@@ -174,26 +173,42 @@ precompile =
   do  setCurrentDirectory ("frontend" </> "public")
       files <- getFiles ".elm" "."
       setCurrentDirectory (".." </> "..")
-      forM_ files $ \filePath ->
+
+      let numFiles = length files
+      forM_ (zip [1..] files) $ \(index, filePath) ->
         do  compilerResult <-
               runErrorT $
-                Utils.run "elm-make" [ "frontend" </> "public" </> filePath ]
+                Utils.run "elm-make" [ "--yes", "frontend" </> "public" </> filePath ]
         
+            let msg = "Compiling Elm file " ++ show index ++ " of " ++ show numFiles
             case compilerResult of
               Left msg ->
-                do  hPutStrLn stderr msg
-                    exitFailure
+                do  putStrLn ("\r" ++ replicate (length msg) ' ')
+                    hPutStrLn stderr msg
 
               Right _ ->
-                do  jsSource <- Text.readFile "elm.js"
+                do  putStr ("\r" ++ msg)
+                    hFlush stdout
+                    jsSource <- Text.readFile "elm.js"
+                    Compile.removeArtifacts "Main"
                     let html = Generate.htmlSkeleton False filePath (Generate.scripts "Main" jsSource)
+                    createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
                     Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
+
+      putStrLn ("\r" ++ replicate (length msg) ' ')
+      removeFile "elm.js"
 
 
 getFiles :: String -> FilePath -> IO [FilePath]
 getFiles ext directory =
   do  contents <- map (directory </>) `fmap` getDirectoryContents directory
-      let files = filter ((ext==) . FP.takeExtension) contents
-          directories  = filter (not . FP.hasExtension) contents
+
+      let files =
+            filter ((ext==) . FP.takeExtension) contents
+
+      let directories =
+            filter (not . FP.hasExtension) contents
+
       filess <- mapM (getFiles ext) directories
+
       return (files ++ concat filess)

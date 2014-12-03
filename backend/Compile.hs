@@ -1,6 +1,5 @@
-module Compile (toJS) where
+module Compile (toJS, removeArtifacts) where
 
-import Control.Applicative ((<$>))
 import Control.Exception (catch, SomeException)
 import Control.Monad.Error (runErrorT)
 import System.Directory (removeFile)
@@ -39,10 +38,17 @@ compileSource source =
 
       removeFile elmFilePath
       removeFile jsFilePath
-      removeFile ("elm-stuff" </> "build-artifacts" </> moduleName <.> "elmi")
-      removeFile ("elm-stuff" </> "build-artifacts" </> moduleName <.> "elmo")
+      removeArtifacts moduleName
 
       return result
+
+
+removeArtifacts :: String -> IO ()
+removeArtifacts moduleName =
+  do  let dir = "elm-stuff" </> "build-artifacts" </> "elm-lang" </> "elm-lang.org" </> "1.0.0"
+      removeFile (dir </> moduleName <.> "elmi")
+      removeFile (dir </> moduleName <.> "elmo")
+
 
 
 catchCrashes :: IO (Either String a) -> IO (Either String a)
