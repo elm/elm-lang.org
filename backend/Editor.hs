@@ -22,7 +22,7 @@ ide cols fileName code =
 -- | Display an editor and the compiled result side-by-side.
 empty :: Html
 empty =
-    ideBuilder "50%,50%" "Try Elm" "Empty.elm" "/Try.elm"
+    ideBuilder "50%,50%" "Try Elm" "empty" "/Try.elm"
 
 
 ideBuilder :: String -> String -> String -> String -> Html

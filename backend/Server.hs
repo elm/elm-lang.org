@@ -108,11 +108,14 @@ code =
 withFile :: (FilePath -> String -> H.Html) -> Snap ()
 withFile handler =
   do  path <- BSC.unpack . rqPathInfo <$> getRequest
-      let file = "public/" ++ path         
-      exists <- liftIO (doesFileExist file)
-      if not exists then error404 else
-          do content <- liftIO $ readFile file
-             serveHtml $ handler path content
+      case path of
+        "empty" -> serveHtml (handler "Empty.elm" "")
+        _ ->
+          do  let file = "public/" ++ path         
+              exists <- liftIO (doesFileExist file)
+              if not exists then error404 else
+                  do content <- liftIO $ readFile file
+                     serveHtml (handler path content)
 
 
 -- | Simple response for form-validation demo.
@@ -195,7 +198,7 @@ precompile =
                     createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
                     Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
 
-      putStrLn ("\r" ++ replicate (length msg) ' ')
+      putStrLn ""
       removeFile "elm.js"
 
 
