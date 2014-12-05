@@ -40,6 +40,10 @@ content outer =
     , spacer outer 30
     , center threeKeywords
     , spacer outer 60
+    , centerText exampleText
+    , container outer 500 middle <| exampleBlock 860
+    , center (button outer 260 "/Examples.elm" "More Examples")
+    , spacer outer 60
     , width outer debuggerTitle
     , centerText debuggerText
     , center debuggerBlock
@@ -47,10 +51,6 @@ content outer =
         [ button 220 180 "/try" "Edit"
         , button 220 180 "http://debug.elm-lang.org/try" "Debug"
         ]
-    , spacer outer 60
-    , centerText exampleText
-    , container outer 500 middle <| exampleBlock 860
-    , center (button outer 260 "/Examples.elm" "More Examples")
     ]
 
 threeKeywords =
