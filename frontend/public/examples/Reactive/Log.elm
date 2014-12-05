@@ -1,8 +1,12 @@
+import Markdown
+import Time (..)
+
 
 port log : Signal Float
 port log = every second
 
-main = [markdown|
+
+main = Markdown.toElement """
 
 # Logging with ports
 
@@ -15,4 +19,4 @@ Just open the 'Developer Console' to see the logged messages!
 See [the full list of built-in port
 handlers](/learn/Syntax.elm#javascript-ffi) for more information.
 
-|]
+"""

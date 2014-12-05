@@ -2,15 +2,19 @@
 -- Show an image that resizes to fit the window
 -- while maintaining its aspect ratio.
 
+import Graphics.Element (..)
+import Signal
 import Window
 
-resizeablePaint : (Int,Int) -> Element
-resizeablePaint (w,h) =
-    fittedImage w h "/paint.jpg"
 
 main : Signal Element
 main =
-    lift resizeablePaint Window.dimensions
+  Signal.map resizeablePaint Window.dimensions
+
+
+resizeablePaint : (Int,Int) -> Element
+resizeablePaint (w,h) =
+  fittedImage w h "/paint.jpg"
 
 
 

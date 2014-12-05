@@ -5,8 +5,13 @@
 -- runs when the signal it is given is true. So this will
 -- only update when the mouse is down.
 
+import Graphics.Element (..)
 import Mouse
+import Signal
+import Text (asText)
+import Time (fpsWhen)
+
 
 main : Signal Element
 main =
-    lift asText (foldp (+) 0 (30 `fpsWhen` Mouse.isDown))
+  Signal.map asText (Signal.foldp (+) 0 (30 `fpsWhen` Mouse.isDown))

@@ -1,24 +1,31 @@
-
+import Graphics.Element (..)
 import Graphics.Input as Input
+import Markdown
+import Signal
+
 
 main : Element
 main =
-    flow down
-        [ message
-        , Input.button click.handle () "Redirect to elm-lang.org"
-        ]
+  flow down
+    [ message
+    , Input.button (Signal.send click ()) "Redirect to elm-lang.org"
+    ]
 
-click : Input.Input ()
-click = Input.input ()
+
+click : Signal.Channel ()
+click =
+  Signal.channel ()
+
 
 port redirect : Signal String
 port redirect =
-    merge
-        (constant "")
-        (always "http://elm-lang.org" <~ click.signal)
+  Signal.merge
+    (Signal.constant "")
+    (Signal.map (always "http://elm-lang.org") (Signal.subscribe click))
+
 
 message : Element
-message = [markdown|
+message = Markdown.toElement """
 
 # Redirecting with ports
 
@@ -29,5 +36,4 @@ handler that reacts to non-empty strings.
 See [the full list of built-in port
 handlers](/learn/Syntax.elm#javascript-ffi) for more information.
 
-|]
-
+"""

@@ -1,9 +1,16 @@
+import Graphics.Element (..)
+import Markdown
+import Signal
+import Time (..)
+
 
 port title : Signal String
-port title = show <~ every second
+port title =
+  Signal.map toString (every second)
+
 
 main : Element
-main = [markdown|
+main = Markdown.toElement """
 
 # Setting titles with ports
 
@@ -15,4 +22,4 @@ Switch to full screen</a> to see the title changing.
 See [the full list of built-in port
 handlers](/learn/Syntax.elm#javascript-ffi) for more information.
 
-|]
+"""

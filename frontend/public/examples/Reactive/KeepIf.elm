@@ -1,17 +1,24 @@
 import Char (isDigit)
-import String
-import Graphics.Input (Input, input)
+import Graphics.Element (..)
 import Graphics.Input.Field as Field
+import Signal
+import String
+
 
 main : Signal Element
 main =
-    let allDigits content = String.all isDigit content.string
-    in
-        display <~ keepIf allDigits Field.noContent numbers.signal
+  let allDigits content = String.all isDigit content.string
+  in
+      Signal.subscribe numbers
+        |> Signal.keepIf allDigits Field.noContent 
+        |> Signal.map display
 
-numbers : Input Field.Content
-numbers = input Field.noContent
+
+numbers : Signal.Channel Field.Content
+numbers =
+  Signal.channel Field.noContent
+
 
 display : Field.Content -> Element
 display content =
-    Field.field Field.defaultStyle numbers.handle identity "Only numbers!" content
+  Field.field Field.defaultStyle (Signal.send numbers) "Only numbers!" content

@@ -1,6 +1,9 @@
-
+import Graphics.Element (..)
 import Keyboard
+import Signal (Signal, map)
+import Text (asText)
+
 
 main : Signal Element
 main =
-    lift asText Keyboard.wasd
+  map asText Keyboard.wasd

@@ -1,16 +1,23 @@
-
+import Graphics.Element (..)
 import Graphics.Input as Input
+import Signal
+import Text (asText)
+
 
 main : Signal Element
-main = lift display check.signal
+main =
+  Signal.map display (Signal.subscribe check)
 
-check : Input.Input Bool
-check = Input.input True
+
+check : Signal.Channel Bool
+check =
+  Signal.channel True
+
 
 display : Bool -> Element
 display checked =
-    flow right
-        [ container 30 30 middle <| Input.checkbox check.handle identity checked
-        , container 50 30 middle <| asText checked
-        ]
+  flow right
+    [ container 30 30 middle (Input.checkbox (Signal.send check) checked)
+    , container 50 30 middle (asText checked)
+    ]
 

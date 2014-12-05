@@ -3,6 +3,12 @@
 -- So summing all of the deltas should give the time
 -- that the signal has been running:
 
+import Graphics.Element (..)
+import Signal
+import Text (asText)
+import Time (fps)
+
+
 main : Signal Element
 main =
-    lift asText (foldp (+) 0 (fps 30))
+  Signal.map asText (Signal.foldp (+) 0 (fps 30))

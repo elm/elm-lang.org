@@ -1,17 +1,23 @@
-import String
-import Graphics.Input (Input, input)
+import Graphics.Element (..)
 import Graphics.Input.Field as Field
+import Signal
+import String
+import Text (plainText)
 
-content : Input Field.Content
-content = input Field.noContent
+
+content : Signal.Channel Field.Content
+content =
+  Signal.channel Field.noContent
+
 
 main : Signal Element
 main =
-    lift scene content.signal
+  Signal.map scene (Signal.subscribe content)
+
 
 scene : Field.Content -> Element
 scene fieldContent =
    flow down
-   [ Field.field Field.defaultStyle content.handle identity "Type here!" fieldContent
+   [ Field.field Field.defaultStyle (Signal.send content) "Type here!" fieldContent
    , plainText (String.reverse fieldContent.string)
    ]
