@@ -21,22 +21,21 @@ display transform =
   in
       flow down
         [ Text.leftAligned (msg ++ transform (Text.fromString "Hello, World!"))
-        , dropDown options
+        , dropDown (Signal.send style) options
         ]
 
 
-options : List (String, Signal.Message)
+options : List (String, Text.Text -> Text.Text)
 options =
-    [ option "plain"      identity
-    , option "underline"  (Text.line Text.Under)
-    , option "italic"     Text.italic
-    , option "bold"       Text.bold
-    , option "red"        (Text.color red)
-    , option "monospace"  Text.monospace
-    , option "Georgia"    (Text.typeface ["georgia", "palatino", "serif"])
+    [ "plain"     := identity
+    , "underline" := Text.line Text.Under
+    , "italic"    := Text.italic
+    , "bold"      := Text.bold
+    , "red"       := Text.color red
+    , "monospace" := Text.monospace
+    , "Georgia"   := Text.typeface ["georgia", "palatino", "serif"]
     ]
 
 
-option : String -> (Text.Text -> Text.Text) -> (String, Signal.Message)
-option name transform =
-  (name, Signal.send style transform)
+(:=) name transform =
+    (name, transform)
