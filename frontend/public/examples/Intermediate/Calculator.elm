@@ -1,23 +1,31 @@
 import Char
-import String
+import Color (..)
+import Graphics.Element (..)
 import Graphics.Input as Input
-import Maybe
+import Result
+import Signal
+import String
 import Text
 import Window
 
+
 main : Signal Element
-main = calculator <~ Window.dimensions ~ foldp step (Start zero) commands.signal
+main =
+  Signal.subscribe commands
+    |> Signal.foldp update (Start zero)
+    |> Signal.map2 calculator Window.dimensions
 
 
 -- INPUTS
 
-commands : Input.Input Command
-commands = Input.input Clear
+commands : Signal.Channel Command
+commands =
+  Signal.channel Clear
 
 
 -- MODEL
 
-data Command
+type Command
     = Digit String
     | Decimal
     | Add
@@ -29,11 +37,13 @@ data Command
     | Percentage
     | Clear
 
-data State
+type State
     = Start Number
     | Operator Float (Float -> Float -> Float) Number
 
-type Number = { negative : Bool, string : String, percentage : Int }
+type alias Number =
+    { negative : Bool, string : String, percentage : Int }
+
 
 mkNumber : String -> Number
 mkNumber n = { negative = False, string = n, percentage = 0 }
@@ -45,7 +55,10 @@ numberToFloat : Number -> Float
 numberToFloat number =
     let neg = if number.negative then -1 else 1
         exp = 100 ^ toFloat number.percentage
-    in  Maybe.maybe 0 identity (String.toFloat number.string) * neg / exp
+    in  
+        case String.toFloat number.string of
+          Ok n -> n * neg / exp
+          Err _ -> 0
 
 
 -- DISPLAY
@@ -58,7 +71,7 @@ calculator (w,h) state =
     let pos = bottomRightAt (absolute 10) (absolute 10)
     in  color darkCharcoal << container w h middle <|
         flow down [ color black << container (4*buttonSize) (buttonSize+40) pos <|
-                    screen 0.6 (show (displayNumber state))
+                    screen 0.6 (toString (displayNumber state))
                   , buttons
                   ]
 
@@ -99,7 +112,7 @@ button background foreground w h command name =
                       |> color black
                    , color (rgba 0 0 0 alpha) (spacer w h)
                    ]
-    in  Input.customButton commands.handle command (btn 0) (btn 0.05) (btn 0.1)
+    in  Input.customButton (Signal.send commands command) (btn 0) (btn 0.05) (btn 0.1)
 
 lightButton : Int -> Int -> Command -> String -> Element
 lightButton = button lightGrey black
@@ -118,17 +131,17 @@ rightOp command name =
 
 txt : Float -> Color -> String -> Element
 txt p clr string =
-    toText string
+    Text.fromString string
       |> Text.color clr
-      |> typeface ["Helvetica Neue","Sans-serif"]
+      |> Text.typeface ["Helvetica Neue","Sans-serif"]
       |> Text.height (p * buttonSize)
-      |> leftAligned
+      |> Text.leftAligned
 
 
 -- UPDATE
 
-step : Command -> State -> State
-step command state =
+update : Command -> State -> State
+update command state =
     case command of
       Digit digit ->
           let isShort n = String.length (String.filter Char.isDigit n.string) < 10
@@ -142,7 +155,7 @@ step command state =
       Subtract -> operator (-) state
       Divide -> operator (/) state
       Multiply -> operator (*) state
-      Equals -> Start (mkNumber (show (equals state)))
+      Equals -> Start (mkNumber (toString (equals state)))
       Negate -> modifyNumber (\n -> { n | negative <- not n.negative }) state
       Percentage -> modifyNumber (\n -> { n | percentage <- 1 + n.percentage }) state
       Clear -> clear state

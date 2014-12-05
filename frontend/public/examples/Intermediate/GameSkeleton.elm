@@ -1,5 +1,8 @@
-module GameSkeleton where
-
+import Graphics.Element (..)
+import Signal
+import Signal (Signal)
+import Text
+import Time
 import Window
 
 {-- Part 1: Model the user input ----------------------------------------------
@@ -12,12 +15,18 @@ Task: Redefine `UserInput` to include all of the information you need.
 
 ------------------------------------------------------------------------------}
 
-type UserInput = {}
+type alias UserInput = {}
+
 
 userInput : Signal UserInput
-userInput = constant {}
+userInput =
+    Signal.constant {}
 
-type Input = { timeDelta:Float, userInput:UserInput }
+
+type alias Input =
+    { timeDelta : Float
+    , userInput : UserInput
+    }
 
 
 
@@ -37,10 +46,11 @@ be an empty list (no objects at the start):
 
 ------------------------------------------------------------------------------}
 
-type GameState = {}
+type alias GameState = {}
 
 defaultGame : GameState
-defaultGame = {}
+defaultGame =
+    {}
 
 
 
@@ -55,7 +65,8 @@ Task: redefine `stepGame` to use the UserInput and GameState
 ------------------------------------------------------------------------------}
 
 stepGame : Input -> GameState -> GameState
-stepGame {timeDelta,userInput} gameState = gameState
+stepGame {timeDelta,userInput} gameState =
+    gameState
 
 
 
@@ -68,7 +79,8 @@ Task: redefine `display` to use the GameState you defined in part 2.
 ------------------------------------------------------------------------------}
 
 display : (Int,Int) -> GameState -> Element
-display (w,h) gameState = asText gameState
+display (w,h) gameState =
+    Text.asText gameState
 
 
 
@@ -78,9 +90,21 @@ The following code puts it all together and shows it on screen.
 
 ------------------------------------------------------------------------------}
 
-delta = fps 30
-input = sampleOn delta (lift2 Input delta userInput)
+delta : Signal Float
+delta =
+    Time.fps 30
 
-gameState = foldp stepGame defaultGame input
 
-main = lift2 display Window.dimensions gameState
+input : Signal Input
+input =
+    Signal.sampleOn delta (Signal.map2 Input delta userInput)
+
+
+gameState : Signal GameState
+gameState =
+    Signal.foldp stepGame defaultGame input
+
+
+main : Signal Element
+main =
+    Signal.map2 display Window.dimensions gameState

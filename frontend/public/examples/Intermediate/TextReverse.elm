@@ -1,38 +1,51 @@
-import Graphics.Input (Input, input)
+import Color (..)
+import Graphics.Element (..)
 import Graphics.Input.Field (Content, noContent, field, defaultStyle, Direction(..))
+import Signal
 import String
 import Text
 import Window
 
 main : Signal Element
-main = display <~ Window.dimensions ~ content.signal
+main = Signal.map2 view Window.dimensions (Signal.subscribe content)
 
-content : Input Content
-content = input noContent
+content : Signal.Channel Content
+content = Signal.channel noContent
 
-display : (Int,Int) -> Content -> Element
-display (w,h) fieldContent =
-    let txt = container 300 60 middle << width 300 << centered << Text.color lightGrey << toText in
-    color lightPurple <| container w h middle <| flow down
-    [ txt "Type in either field to reverse text:"
+view : (Int,Int) -> Content -> Element
+view (w,h) fieldContent =
+  let viewText str =
+        Text.fromString str
+          |> Text.color lightGrey
+          |> Text.centered
+          |> width 300
+          |> container 300 60 middle
+  in
+    color lightPurple <|
+    container w h middle <|
+    flow down
+    [ viewText "Type in either field to reverse text:"
     , myField identity "Forward" fieldContent
     , myField reverse "Backward" (reverse fieldContent)
-    , txt "Lookup palindromes and emordnilaps to try to make sentences!"
+    , viewText "Lookup palindromes and emordnilaps to try to make sentences!"
     ]
 
 myField : (Content -> Content) -> String -> Content -> Element
 myField handler placeHolder fieldContent =
-    field defaultStyle content.handle handler placeHolder fieldContent
-        |> container 300 50 middle
+  field defaultStyle (Signal.send content << handler) placeHolder fieldContent
+    |> container 300 50 middle
 
 reverse : Content -> Content
 reverse content =
-    let len = String.length content.string in
+  let len = String.length content.string
+  in
     { string = String.reverse content.string
-    , selection = { start = len - content.selection.end
-                  , end = len - content.selection.start
-                  , direction = case content.selection.direction of
-                                  Forward -> Backward
-                                  Backward -> Forward
-                  }
+    , selection =
+        { start = len - content.selection.end
+        , end = len - content.selection.start
+        , direction =
+            case content.selection.direction of
+              Forward -> Backward
+              Backward -> Forward
+        }
     }

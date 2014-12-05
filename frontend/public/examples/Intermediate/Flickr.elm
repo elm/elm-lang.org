@@ -1,3 +1,8 @@
+import Graphics.Element (..)
+
+main = spacer 10 10
+
+{--
 import Graphics.Input (Input, input)
 import Graphics.Input.Field as Field
 import Http
@@ -12,9 +17,11 @@ asynchronous HTTP requests to Flickr, resulting in the URL
 of an image.
 -}
 getSources : Signal String -> Signal (Maybe String)
-getSources tag = let photos = Http.send (lift getTag tag)
-                     sizes  = Http.send (lift getOneFrom photos)
-                 in  lift sizesToSource sizes
+getSources tag =
+  let photos = Http.send (lift getTag tag)
+      sizes  = Http.send (lift getOneFrom photos)
+  in
+      lift sizesToSource sizes
 
 {-| Create an input for tags -}
 tag : Input Field.Content
@@ -88,3 +95,4 @@ sizesToSource sizeOptions =
                 _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
                 size :: _ -> Just size.source
                 _ -> Nothing
+--}

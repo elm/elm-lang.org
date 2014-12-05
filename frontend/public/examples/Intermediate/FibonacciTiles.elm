@@ -1,28 +1,43 @@
+import Color (rgb)
+import Graphics.Element (..)
+import List
+import Text (asText)
+
 
 ------ Create squares  ----
 
-fibHelp a b n = if n <= 0 then a else fibHelp b (a+b) (n-1)
-fib = fibHelp 0 1
+fib : Int -> Int
+fib n = fibHelp 0 1 n
 
+fibHelp a b n =
+  if n <= 0 then a else fibHelp b (a+b) (n-1)
+
+
+fibSquare : Int -> Element
 fibSquare n = 
   let fN = fib n
       len = fN * 15
       clr = rgb ((85*n) % 256) ((36*n) % 256) ((51*n) % 256)
-  in  color clr <| container len len middle (asText fN)
+  in
+      color clr <| container len len middle (asText fN)
 
 
 ----  Combine squares  ----
 
 ith i lst =
-  case lst of { x::xs -> if i == 0 then x else ith (i-1) xs }
+  case lst of
+    x::xs -> if i == 0 then x else ith (i-1) xs
 
 dirs = [ beside, above, flip beside, below ]
 
 combine n tiles =
-  let dir = ith (n % length dirs) dirs
-  in  dir tiles (fibSquare n)
+  let dir = ith (n % List.length dirs) dirs
+  in
+      dir tiles (fibSquare n)
     
 
 ----  Put it all together  ----
 
-main = foldl combine (fibSquare 1) [2..7]
+main : Element
+main =
+  List.foldl combine (fibSquare 1) [2..7]

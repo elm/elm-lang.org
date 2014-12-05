@@ -1,4 +1,9 @@
+import Color (..)
+import Graphics.Collage (..)
+import Graphics.Element (..)
 import Keyboard
+import Signal
+import Time (..)
 import Window
 
 -- MODEL
@@ -10,9 +15,8 @@ jump {y} m = if y > 0 && m.y == 0 then { m | vy <- 5 } else m
 gravity t m = if m.y > 0 then { m | vy <- m.vy - t/4 } else m
 physics t m = { m | x <- m.x + t*m.vx , y <- max 0 (m.y + t*m.vy) }
 walk {x} m = { m | vx <- toFloat x
-                 , dir <- if | x < 0     -> "left"
-                             | x > 0     -> "right"
-                             | otherwise -> m.dir }
+                 , dir <- if x < 0 then "left" else
+                          if x > 0 then "right" else m.dir }
 
 step (dt, keys) =
   jump keys >> gravity dt >> walk keys >> physics dt
@@ -33,7 +37,7 @@ render (w',h') mario =
       ]
 
 -- MARIO
-input = let delta = lift (\t -> t/20) (fps 25)
-        in  sampleOn delta (lift2 (,) delta Keyboard.arrows)
+input = let delta = Signal.map (\t -> t/20) (fps 25)
+        in  Signal.sampleOn delta (Signal.map2 (,) delta Keyboard.arrows)
 
-main = lift2 render Window.dimensions (foldp step mario input)
+main = Signal.map2 render Window.dimensions (Signal.foldp step mario input)

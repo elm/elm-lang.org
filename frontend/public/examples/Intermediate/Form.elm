@@ -1,90 +1,179 @@
+import Color (..)
+import Graphics.Element (..)
 import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
+import List
+import Signal
 import String
 import Text
 import Window
 
+
+-- MODEL
+
+type alias Model =
+    { first : Field.Content
+    , last : Field.Content
+    , email : Field.Content
+    , remail : Field.Content
+    , sendAttempts : Int
+    }
+
+
+emptyModel : Model
+emptyModel =
+    { first = Field.noContent
+    , last = Field.noContent
+    , email = Field.noContent
+    , remail = Field.noContent
+    , sendAttempts = 0
+    }
+
+
+-- UPDATE
+
+type Update
+    = First Field.Content
+    | Last Field.Content
+    | Email Field.Content
+    | Remail Field.Content
+    | Submit
+
+
+update : Update -> Model -> Model
+update updt model =
+  case updt of
+    First content ->
+        { model | first <- content }
+
+    Last content ->
+        { model | last <- content }
+
+    Email content ->
+        { model | email <- content }
+
+    Remail content ->
+        { model | remail <- content }
+
+    Submit ->
+        { model | sendAttempts <- model.sendAttempts + 1 }
+
+
+getErrors : Model -> List String
+getErrors {first,last,email,remail,sendAttempts} =
+  let isEmpty content =
+        String.isEmpty content.string
+
+      checks =
+        [ (isEmpty first , "First name required.")
+        , (isEmpty last  , "Last name required.")
+        , (isEmpty email , "Must enter your email address.")
+        , (isEmpty remail, "Must re-enter your email address.")
+        , (email.string /= remail.string, "Email addresses do not match.")
+        ]
+
+      activeError (err,msg) =
+        if err then Just msg else Nothing
+  in
+      if sendAttempts == 0 then [] else List.filterMap activeError checks
+
+
+-- VIEW
+
+view : (Int,Int) -> Model -> Element
+view (w,h) model =
+  color charcoal <|
+    flow down
+    [ spacer w 50
+    , container w (h-50) midTop (viewForm model)
+    ]
+
+
+header : Element
+header =
+  Text.fromString "Example Sign Up"
+    |> Text.height 32
+    |> Text.leftAligned
+
+
+viewForm : Model -> Element
+viewForm model =
+    color lightGrey <|
+      flow down
+      [ container 340 60 middle header
+      , viewField "First Name:" model.first First
+      , viewField "Last Name:" model.last Last
+      , viewField "Your Email:" model.email Email
+      , viewField "Re-enter Email:" model.remail Remail
+      , viewErrors model
+      , container 300 50 midRight <|
+          size 60 30 <|
+            Input.button (Signal.send updateChan Submit) "Submit"
+      ]
+
+
+viewField : String -> Field.Content -> (Field.Content -> Update) -> Element
+viewField label content toUpdate =
+  flow right
+    [ container 120 36 midRight (Text.plainText label)
+    , container 220 36 middle <|
+        size 180 26 <|
+          Field.field Field.defaultStyle (Signal.send updateChan << toUpdate) "" content
+    ]
+
+
+viewErrors : Model -> Element
+viewErrors model =
+  let errors =
+        getErrors model
+  in
+      flow down
+        [ spacer 10 10
+        , if List.isEmpty errors
+            then spacer 0 0
+            else flow down (List.map viewError errors)
+        ]
+
+
+viewError : String -> Element
+viewError msg =
+  Text.fromString msg
+    |> Text.color red
+    |> Text.centered
+    |> width 340
+
+
+-- SIGNALS
+
 main : Signal Element
-main = scene <~ Window.dimensions
-              ~ lift5 form first.signal last.signal email.signal remail.signal errors
+main =
+  Signal.map2 view Window.dimensions model
 
--- Signals and Inputs
-first  = Input.input Field.noContent
-last   = Input.input Field.noContent
-email  = Input.input Field.noContent
-remail = Input.input Field.noContent
-submit = Input.input ()
 
-hasAttempted : Signal Bool
-hasAttempted =
-    let isPositive c = c > 0
-    in  isPositive <~ count submit.signal
+model : Signal Model
+model =
+  Signal.subscribe updateChan
+    |> Signal.foldp update emptyModel
 
-sendable : Signal Bool
-sendable = keepWhen hasAttempted False (isEmpty <~ errors)
 
-errors : Signal [String]
-errors =
-    let rawErrors = lift4 getErrors first.signal last.signal email.signal remail.signal
-    in  keepWhen hasAttempted [] <| merge rawErrors (sampleOn submit.signal rawErrors)
+updateChan : Signal.Channel Update
+updateChan =
+  Signal.channel Submit
 
-getErrors : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String]
-getErrors first last email remail =
-    let empty content = String.isEmpty content.string
-        checks = [ (empty first , "First name required.")
-                 , (empty last  , "Last name required.")
-                 , (empty email , "Must enter your email address.")
-                 , (empty remail, "Must re-enter your email address.")
-                 , (email.string /= remail.string, "Email addresses do not match.")
-                 ]
-        activeError (err,msg) = if err then Just msg else Nothing
-    in
-        filterMap identity <| map activeError checks
 
 port redirect : Signal String
 port redirect =
-    keepWhen sendable "" <| sampleOn submit.signal <|
-    lift3 url first.signal last.signal email.signal
-
-url : Field.Content -> Field.Content -> Field.Content -> String
-url first last email = 
-    "/login?first=" ++ first.string ++ "&last=" ++ last.string ++ "&email="++ email.string
+    Signal.map2 toUrl (Signal.subscribe updateChan) model
 
 
--- Display
-scene : (Int,Int) -> Element -> Element
-scene (w,h) form =
-    color charcoal << flow down <|
-      [ spacer w 50
-      , container w (h-50) midTop form
-      ]
+toUrl : Update -> Model -> String
+toUrl update model = 
+  case update of
+    Submit ->
+      "/login?first=" ++ model.first.string
+      ++ "&last=" ++ model.last.string
+      ++ "&email=" ++ model.email.string
 
-form : Field.Content -> Field.Content -> Field.Content -> Field.Content -> [String] -> Element
-form first' last' email' remail' errors =
-    color lightGrey << flow down <|
-      [ container 340 60 middle << leftAligned << Text.height 32 <| toText "Example Sign Up"
-      , field "First Name:"     first.handle  first'
-      , field "Last Name:"      last.handle   last'
-      , field "Your Email:"     email.handle  email'
-      , field "Re-enter Email:" remail.handle remail'
-      , showErrors errors
-      , container 300 50 midRight <| size 60 30 <| Input.button submit.handle () "Submit"
-      ]
+    _ -> ""
 
-field : String -> Input.Handle Field.Content -> Field.Content -> Element
-field label handle content =
-  flow right
-    [ container 120 36 midRight <| plainText label
-    , container 220 36 middle <| size 180 26 <|
-      Field.field Field.defaultStyle handle identity "" content
-    ]
-
-showErrors : [String] -> Element
-showErrors errs =
-  flow down
-    [ spacer 10 10
-    , if isEmpty errs
-        then spacer 0 0
-        else flow down <| map (width 340 << centered << Text.color red << toText) errs
-    ]

@@ -1,56 +1,100 @@
+import Color (..)
+import Graphics.Collage (..)
+import Graphics.Element (..)
 import Keyboard
+import Markdown
+import Signal
+import Time (..)
 import Window
 
+
 -- MODEL
+
 areaW = 407
 areaH = 301
 
-hero : { x:Float, y:Float, vx:Float, vy:Float, dir:String }
-hero = { x=0, y=0, vx=0, vy=0, dir="south" }
+type alias Model =
+  { x:Float, y:Float, vx:Float, vy:Float, dir:String }
+
+
+hero : Model
+hero =
+  { x=0, y=0, vx=0, vy=0, dir="south" }
 
 
 -- UPDATE
-velStep d obj =
-    let f n = if d.x == 0 || d.y == 0 then toFloat n else toFloat n / sqrt 2
-    in  { obj | vx <- f d.x, vy <- f d.y }
 
-dirStep {x,y} obj =
-    { obj | dir <- if | x > 0 -> "east"
-                      | x < 0 -> "west"
-                      | y < 0 -> "south"
-                      | y > 0 -> "north"
-                      | otherwise -> obj.dir }
-
-runStep running obj =
-    let scale = if running then 2 else 1
-    in  { obj | vx <- obj.vx * scale, vy <- obj.vy * scale }
-
-timeStep t ({x,y,vx,vy} as obj) =
-    { obj | x <- clamp (-areaW/2) (areaW/2) (x + t * vx) ,
-            y <- clamp (-areaH/2) (areaH/2) (y + t * vy) }
-
-step (time, keys, run) hero =
-    hero
-        |> velStep keys
-        |> runStep run
-        |> dirStep keys
-        |> timeStep time
+update : (Time, { x:Int, y:Int }, Bool) -> Model -> Model
+update (timeDelta, direction, isRunning) model =
+  model
+    |> newVelocity isRunning direction
+    |> setDirection direction
+    |> updatePosition timeDelta
 
 
--- HERO
-delta = lift (\t -> t / 20) (fps 25)
-input = sampleOn delta (lift3 (,,) delta Keyboard.arrows Keyboard.shift)
+newVelocity : Bool -> { x:Int, y:Int } -> Model -> Model
+newVelocity isRunning {x,y} model =
+  let scale = if isRunning then 2 else 1
+      newVel n =
+        if x == 0 || y == 0
+          then scale * toFloat n
+          else scale * toFloat n / sqrt 2
+  in
+      { model |
+          vx <- newVel x,
+          vy <- newVel y
+      }
 
-main  = lift2 display Window.dimensions (foldp step hero input)
+
+setDirection : { x:Int, y:Int } -> Model -> Model
+setDirection {x,y} model =
+  { model |
+      dir <-
+        if  | x > 0 -> "east"
+            | x < 0 -> "west"
+            | y < 0 -> "south"
+            | y > 0 -> "north"
+            | otherwise -> model.dir
+  }
 
 
--- DISPLAY
-display (w,h) {x,y,vx,vy,dir} =
-  container w h middle << collage areaW areaH <|
-    [ toForm (image areaW areaH "/imgs/desert.png")
-    , let verb = if vx == 0 && vy == 0 then "stand" else "walk"
-          src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
-      in  move (x,y) (toForm (image 22 28 src))
-    , toForm [markdown|Arrows to move<br/>Shift to run|]
-        |> move (70-areaW/2, 30-areaH/2)
-    ]
+updatePosition : Time -> Model -> Model
+updatePosition dt ({x,y,vx,vy} as model) =
+  { model |
+      x <- clamp (-areaW/2) (areaW/2) (x + dt * vx),
+      y <- clamp (-areaH/2) (areaH/2) (y + dt * vy)
+  }
+
+
+-- VIEW
+
+view : (Int,Int) -> Model -> Element
+view (w,h) {x,y,vx,vy,dir} =
+  let verb = if vx == 0 && vy == 0 then "stand" else "walk"
+      src = "/imgs/hero/" ++ verb ++ "/" ++ dir ++ ".gif"
+  in
+      container w h middle <|
+      collage areaW areaH
+        [ toForm (image areaW areaH "/imgs/desert.png")
+        , toForm (image 22 28 src)
+            |> move (x,y)
+        , toForm (Markdown.toElement "Arrows to move<br/>Shift to run")
+            |> move (70-areaW/2, 30-areaH/2)
+        ]
+
+
+-- SIGNALS
+
+main : Signal Element
+main =
+  Signal.map2 view Window.dimensions (Signal.foldp update hero input)
+
+
+input : Signal (Time, { x:Int, y:Int }, Bool)
+input =
+  Signal.sampleOn delta (Signal.map3 (,,) delta Keyboard.arrows Keyboard.shift)
+
+
+delta : Signal Time
+delta =
+  Signal.map (\t -> t / 20) (fps 25)
