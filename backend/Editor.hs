@@ -1,40 +1,45 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Editor (editor,ide,empty) where
+module Editor ( editor, ide, empty ) where
 
 import Data.Monoid (mempty)
 import Text.Blaze.Html
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Network.HTTP.Base (urlEncode)
 import qualified System.FilePath as FP
-
-
--- | Display an editor and the compiled result side-by-side.
-ide :: String -> FilePath -> String -> Html
-ide cols fileName code =
-    ideBuilder
-      cols
-      ("Elm Editor: " ++ FP.takeBaseName fileName)
-      fileName
-      ("/compile?input=" ++ urlEncode code)
 
 
 -- | Display an editor and the compiled result side-by-side.
 empty :: Html
 empty =
-    ideBuilder "50%,50%" "Try Elm" "empty" "/Try.elm"
+    ide "50%,50%" Nothing
 
 
-ideBuilder :: String -> String -> String -> String -> Html
-ideBuilder cols title input output =
+-- | Display an editor and the compiled result side-by-side.
+ide :: String -> Maybe FilePath -> Html
+ide cols maybeFile =
+  case maybeFile of
+    Nothing -> 
+        ideHtml cols "Try Elm" "empty" "Try.elm"
+
+    Just filePath ->
+        ideHtml
+          cols
+          ("Elm Edit: " ++ FP.dropExtension (FP.takeBaseName filePath))
+          filePath
+          filePath
+
+
+ideHtml :: String -> String -> FilePath -> FilePath -> Html
+ideHtml cols title codePath resultPath =
     H.docTypeHtml $ do
-      H.head . H.title . toHtml $ title
-      preEscapedToMarkup $ 
-         concat [ "<frameset cols=\"" ++ cols ++ "\">\n"
-                , "  <frame name=\"input\" src=\"/code/", input, "\" />\n"
-                , "  <frame name=\"output\" src=\"", output, "\" />\n"
-                , "</frameset>"
-                ]
+        H.head . H.title $ toHtml title
+        preEscapedToMarkup $ 
+            concat
+              [ "<frameset cols=\"" ++ cols ++ "\">\n"
+              , "  <frame name=\"input\" src=\"/code/", codePath, "\" />\n"
+              , "  <frame name=\"output\" src=\"/", resultPath, "\" />\n"
+              , "</frameset>"
+              ]
 
 
 -- | list of themes to use with CodeMirror

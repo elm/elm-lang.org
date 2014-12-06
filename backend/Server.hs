@@ -98,25 +98,30 @@ compile =
 edit :: Snap ()
 edit =
   do  cols <- BSC.unpack . maybe "50%,50%" id <$> getQueryParam "cols"
-      withFile (Editor.ide cols)
+      path <- BSC.unpack . rqPathInfo <$> getRequest
+      let maybePath =
+            case path of
+              "empty" -> Nothing
+              _ -> Just path
+
+      serveHtml (Editor.ide cols maybePath)
 
 
 code :: Snap ()
 code =
-  withFile Editor.editor
-
-
-withFile :: (FilePath -> String -> H.Html) -> Snap ()
-withFile handler =
   do  path <- BSC.unpack . rqPathInfo <$> getRequest
       case path of
-        "empty" -> serveHtml (handler "Empty.elm" "")
+        "empty" ->
+          serveHtml (Editor.editor "Empty.elm" "")
+
         _ ->
-          do  let file = "public/" ++ path         
+          do  let file = "frontend/public/" ++ path
               exists <- liftIO (doesFileExist file)
-              if not exists then error404 else
-                  do content <- liftIO $ readFile file
-                     serveHtml (handler path content)
+              if not exists
+                then error404
+                else
+                  do  content <- liftIO $ readFile file
+                      serveHtml (Editor.editor path content)
 
 
 -- | Simple response for form-validation demo.
