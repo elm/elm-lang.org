@@ -28,7 +28,8 @@ import qualified Generate
 
 data Flags = Flags
   { port :: Int
-  } deriving (Data,Typeable,Show,Eq)
+  }
+  deriving (Data,Typeable,Show,Eq)
 
 
 flags :: Flags
@@ -42,9 +43,9 @@ main =
   do  setNumCapabilities =<< getNumProcessors
       putStrLn "Initializing Server"
       setupLogging
+      args <- cmdArgs flags
       precompile
-      cargs <- cmdArgs flags
-      httpServe (setPort (port cargs) defaultConfig) $
+      httpServe (setPort (port args) defaultConfig) $
           ifTop (serveElm "artifacts/Elm.elm")
           <|> route [ ("try", serveHtml Editor.empty)
                     , ("edit", edit)
@@ -179,27 +180,27 @@ precompile =
 
       let numFiles = length files
       forM_ (zip [1..] files) $ \(index, filePath) ->
-        do  compilerResult <-
-              runErrorT $
-                Utils.run "elm-make" [ "--yes", "frontend" </> "public" </> filePath ]
-        
-            let msg = "Compiling Elm file " ++ show index ++ " of " ++ show numFiles
-            case compilerResult of
-              Left msg ->
-                do  putStrLn ("\r" ++ replicate (length msg) ' ')
-                    hPutStrLn stderr msg
+          do  putStr $ "\rPrepping file " ++ show index ++ " of " ++ show numFiles
+              hFlush stdout
 
-              Right _ ->
-                do  putStr ("\r" ++ msg)
-                    hFlush stdout
-                    jsSource <- Text.readFile "elm.js"
-                    Compile.removeArtifacts "Main"
-                    let html = Generate.htmlSkeleton False filePath (Generate.scripts "Main" jsSource)
-                    createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
-                    Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
+              let source = "frontend" </> "public" </> filePath
+              let result = "artifacts" </> filePath
+
+              exists <- doesFileExist result
+
+              shouldCompile <-
+                if not exists
+                  then return True
+                  else
+                    do  sourceTime <- getModificationTime source
+                        resultTime <- getModificationTime result
+                        return (sourceTime > resultTime)
+
+              when shouldCompile (compileFile filePath)
 
       putStrLn ""
-      removeFile "elm.js"
+      exists <- doesFileExist "elm.js"
+      when exists (removeFile "elm.js")
 
 
 getFiles :: String -> FilePath -> IO [FilePath]
@@ -215,3 +216,22 @@ getFiles ext directory =
       filess <- mapM (getFiles ext) directories
 
       return (files ++ concat filess)
+
+
+compileFile :: FilePath -> IO ()
+compileFile filePath =
+  do  compilerResult <-
+        runErrorT $
+          Utils.run "elm-make" [ "--yes", "frontend" </> "public" </> filePath ]
+  
+      case compilerResult of
+        Left msg ->
+          do  putStrLn ""
+              hPutStrLn stderr msg
+
+        Right _ ->
+          do  jsSource <- Text.readFile "elm.js"
+              Compile.removeArtifacts "Main"
+              let html = Generate.htmlSkeleton False filePath (Generate.scripts "Main" jsSource)
+              createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
+              Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
