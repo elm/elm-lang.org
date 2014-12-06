@@ -62,7 +62,7 @@ main =
 error404 :: Snap ()
 error404 =
   do  modifyResponse $ setResponseStatus 404 "Not found"
-      serveElm "build/public/Error404.elm"
+      serveElm "artifacts/Error404.elm"
 
 
 serveElm :: FilePath -> Snap ()
