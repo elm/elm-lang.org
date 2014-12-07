@@ -1,21 +1,35 @@
 -- Try adding the ability to crouch or to land on top of the crate.
 
+import Graphics.Element (..)
 import Http (..)
 import Keyboard
+import List
 import Math.Vector2 (Vec2)
 import Math.Vector3 (..)
 import Math.Vector3 as V3
 import Math.Matrix4 (..)
-import Graphics.WebGL (..)
+import Signal
+import Text (..)
+import Time (..)
+import WebGL (..)
 import Window
 
+
+-- MODEL
+
 type alias Person =
-    { position:Vec3
-    , velocity:Vec3
+    { position : Vec3
+    , velocity : Vec3
     }
+
+
+type alias Inputs =
+    ( Bool, {x:Int, y:Int}, Float )
+
 
 eyeLevel : Float
 eyeLevel = 2
+
 
 defaultPerson : Person
 defaultPerson =
@@ -23,26 +37,42 @@ defaultPerson =
     , velocity = vec3 0 0 0
     }
 
+
+-- UPDATE
+
+update : Inputs -> Person -> Person
+update (isJumping, directions, dt) person =
+    person
+        |> walk directions
+        |> jump isJumping
+        |> gravity dt
+        |> physics dt
+
+
 walk : { x:Int, y:Int } -> Person -> Person
 walk directions person =
-    if  | getY person.position > eyeLevel -> person
-        | otherwise ->
-            let vx = toFloat -directions.x
-                vz = toFloat  directions.y
-            in
-                { person |
-                    velocity <- vec3 vx (getY person.velocity) vz
-                }
+    if getY person.position > eyeLevel
+      then person
+      else
+        let vx = toFloat -directions.x
+            vz = toFloat  directions.y
+        in
+            { person |
+                velocity <- vec3 vx (getY person.velocity) vz
+            }
+
 
 jump : Bool -> Person -> Person
 jump isJumping person =
-    if  | not isJumping || getY person.position > eyeLevel -> person
-        | otherwise ->
-            let (vx,_,vz) = toTuple person.velocity
-            in
-                { person |
-                    velocity <- vec3 vx 2 vz
-                }
+    if not isJumping || getY person.position > eyeLevel
+      then person
+      else
+        let (vx,_,vz) = toTuple person.velocity
+        in
+            { person |
+                velocity <- vec3 vx 2 vz
+            }
+
 
 physics : Float -> Person -> Person
 physics dt person =
@@ -54,49 +84,58 @@ physics dt person =
                 if y < eyeLevel then vec3 x eyeLevel z else position
         }
 
+
 gravity : Float -> Person -> Person
 gravity dt person =
-    if  | getY person.position <= eyeLevel -> person
-        | otherwise ->
-            let v = toRecord person.velocity
-            in
-                { person |
-                    velocity <- vec3 v.x (v.y - 2 * dt) v.z
-                }
+    if getY person.position <= eyeLevel
+      then person
+      else
+        let v = toRecord person.velocity
+        in
+            { person |
+                velocity <- vec3 v.x (v.y - 2 * dt) v.z
+            }
 
-step : Inputs -> Person -> Person
-step (isJumping, directions, dt) person =
-    person
-        |> walk directions
-        |> jump isJumping
-        |> gravity dt
-        |> physics dt
 
--- View
-view : (Int,Int) -> Person -> Mat4
-view (w,h) person =
+-- SIGNALS
+
+main : Signal Element
+main =
+    let person = Signal.foldp update defaultPerson inputs
+        entities =
+            Signal.map2 world
+                (loadTexture "/texture/woodCrate.jpg")
+                (Signal.map2 perspective Window.dimensions person)
+    in
+        Signal.map2 view Window.dimensions entities
+
+
+inputs : Signal Inputs
+inputs =
+    let dt = Signal.map (\t -> t/500) (fps 25)
+    in
+        Signal.map3 (,,) Keyboard.space Keyboard.arrows dt
+          |> Signal.sampleOn dt
+
+
+-- VIEW
+
+perspective : (Int,Int) -> Person -> Mat4
+perspective (w,h) person =
     mul (makePerspective 45 (toFloat w / toFloat h) 0.01 100)
         (makeLookAt person.position (person.position `add` k) j)
 
--- Putting it together
-main : Signal Element
-main =
-    let person = foldp step defaultPerson inputs
-        entities =
-            lift2 world
-                (loadTexture "/texture/woodCrate.jpg")
-                (lift2 view Window.dimensions person)
-    in
-        lift2 scene Window.dimensions entities
 
-scene : (Int,Int) -> [Entity] -> Element
-scene (w,h) entities =
+view : (Int,Int) -> List Entity -> Element
+view (w,h) entities =
     layers
         [ webgl (w,h) entities
         , container w 100 position message
         ]
 
+
 position = midLeftAt (absolute 40) (relative 0.5)
+
 
 message : Element
 message =
@@ -104,40 +143,37 @@ message =
         "Walk around with a first person perspective.\n"
         ++ "Arrows keys to move, space bar to jump."
 
-type alias Inputs =
-    ( Bool, {x:Int, y:Int}, Float )
 
-inputs : Signal Inputs
-inputs =
-    let dt = lift (\t -> t/500) (fps 25)
-    in
-        sampleOn dt <| (,,) <~ Keyboard.space ~ Keyboard.arrows ~ dt
-
-world : Response Texture -> Mat4 -> [Entity]
-world response view =
+world : Response Texture -> Mat4 -> List Entity
+world response perspective =
     case response of
         Waiting     -> []
         Failure _ _ -> []
         Success tex ->
-            [entity vertexShader fragmentShader crate { crate=tex, view=view }]
+            [entity vertexShader fragmentShader crate { crate=tex, perspective=perspective }]
+
 
 -- Define the mesh for a crate
+
 type alias Vertex =
     { position:Vec3, coord:Vec3 }
 
-crate : [Triangle Vertex]
-crate =
-    concatMap rotatedFace [ (0,0), (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
-rotatedFace : (Float,Float) -> [Triangle Vertex]
+crate : List (Triangle Vertex)
+crate =
+    List.concatMap rotatedFace [ (0,0), (90,0), (180,0), (270,0), (0,90), (0,-90) ]
+
+
+rotatedFace : (Float,Float) -> List (Triangle Vertex)
 rotatedFace (angleXZ,angleYZ) =
     let x = makeRotate (degrees angleXZ) j
         y = makeRotate (degrees angleYZ) i
         t = x `mul` y
     in
-        map (mapTriangle (\v -> {v | position <- transform t v.position })) face
+        List.map (mapTriangle (\v -> {v | position <- transform t v.position })) face
 
-face : [Triangle Vertex]
+
+face : List (Triangle Vertex)
 face =
     let topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
         topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
@@ -148,17 +184,19 @@ face =
         , (bottomLeft,topRight,bottomRight)
         ]
 
+
 -- Shaders
-vertexShader : Shader { position:Vec3, coord:Vec3 } { u | view:Mat4 } { vcoord:Vec2 }
+
+vertexShader : Shader { position:Vec3, coord:Vec3 } { u | perspective:Mat4 } { vcoord:Vec2 }
 vertexShader = [glsl|
 
 attribute vec3 position;
 attribute vec3 coord;
-uniform mat4 view;
+uniform mat4 perspective;
 varying vec2 vcoord;
 
 void main () {
-  gl_Position = view * vec4(position, 1.0);
+  gl_Position = perspective * vec4(position, 1.0);
   vcoord = coord.xy;
 }
 
@@ -176,3 +214,5 @@ void main () {
 }
 
 |]
+
+--}

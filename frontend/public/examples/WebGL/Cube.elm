@@ -1,16 +1,55 @@
-
+import Color (..)
+import Graphics.Element (..)
+import List
 import Math.Vector3 (..)
 import Math.Matrix4 (..)
-import Graphics.WebGL (..)
+import Signal
+import Time (..)
+import WebGL (..)
 
--- Create a cube in which each vertex has a position and color
+
+-- SIGNALS
+
+main : Signal Element
+main =
+    Signal.map (webgl (400,400)) (Signal.map scene angle)
+
+
+angle : Signal Float
+angle =
+    Signal.foldp (\dt theta -> theta + dt / 5000) 0 (fps 25)
+
+
+-- MESHES - create a cube in which each vertex has a position and color
 
 type alias Vertex =
-    { color:Vec3
-    , position:Vec3
+    { color : Vec3
+    , position : Vec3
     }
 
-face : Color -> Vec3 -> Vec3 -> Vec3 -> Vec3 -> [Triangle Vertex]
+
+cube : List (Triangle Vertex)
+cube =
+  let rft = vec3  1  1  1   -- right, front, top
+      lft = vec3 -1  1  1   -- left,  front, top
+      lbt = vec3 -1 -1  1
+      rbt = vec3  1 -1  1
+      rbb = vec3  1 -1 -1
+      rfb = vec3  1  1 -1
+      lfb = vec3 -1  1 -1
+      lbb = vec3 -1 -1 -1
+  in
+      List.concat
+          [ face green  rft rfb rbb rbt   -- right
+          , face blue   rft rfb lfb lft   -- front
+          , face yellow rft lft lbt rbt   -- top
+          , face red    rfb lfb lbb rbb   -- bottom
+          , face purple lft lfb lbb lbt   -- left
+          , face orange rbt rbb lbb lbt   -- back
+          ]
+
+
+face : Color -> Vec3 -> Vec3 -> Vec3 -> Vec3 -> List (Triangle Vertex)
 face rawColor a b c d =
   let color =
           let c = toRgb rawColor in
@@ -26,39 +65,13 @@ face rawColor a b c d =
       , (vertex c, vertex d, vertex a)
       ]
 
-cube : [Triangle Vertex]
-cube =
-  let rft = vec3  1  1  1   -- right, front, top
-      lft = vec3 -1  1  1   -- left,  front, top
-      lbt = vec3 -1 -1  1
-      rbt = vec3  1 -1  1
-      rbb = vec3  1 -1 -1
-      rfb = vec3  1  1 -1
-      lfb = vec3 -1  1 -1
-      lbb = vec3 -1 -1 -1
-  in
-      concat
-          [ face green  rft rfb rbb rbt   -- right
-          , face blue   rft rfb lfb lft   -- front
-          , face yellow rft lft lbt rbt   -- top
-          , face red    rfb lfb lbb rbb   -- bottom
-          , face purple lft lfb lbb lbt   -- left
-          , face orange rbt rbb lbb lbt   -- back
-          ]
 
--- Create the scene
+-- VIEW
 
-main : Signal Element
-main =
-    webgl (400,400) <~ lift scene angle
-
-angle : Signal Float
-angle =
-    foldp (\dt theta -> theta + dt / 5000) 0 (fps 25)
-
-scene : Float -> [Entity]
+scene : Float -> List Entity
 scene angle =
     [ entity vertexShader fragmentShader cube (uniforms angle) ]
+
 
 uniforms : Float -> { rotation:Mat4, perspective:Mat4, camera:Mat4, shade:Float }
 uniforms t =
@@ -68,7 +81,8 @@ uniforms t =
     , shade = 0.8
     }
 
--- Shaders
+
+-- SHADERS
 
 vertexShader : Shader { attr | position:Vec3, color:Vec3 }
                       { unif | rotation:Mat4, perspective:Mat4, camera:Mat4 }
@@ -87,6 +101,7 @@ void main () {
 }
 
 |]
+
 
 fragmentShader : Shader {} { u | shade:Float } { vcolor:Vec3 }
 fragmentShader = [glsl|
