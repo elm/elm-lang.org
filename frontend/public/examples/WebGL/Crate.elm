@@ -38,7 +38,7 @@ rotatedFace (angleX,angleY) =
         y = makeRotate (degrees angleY) (vec3 0 1 0)
         t = x `mul` y `mul` makeTranslate (vec3 0 0 1)
     in
-        List.map (mapTriangle (\x -> {x | pos <- transform t x.pos })) face
+        List.map (map (\x -> {x | pos <- transform t x.pos })) face
 
 
 face : List (Triangle { pos:Vec3, coord:Vec3 })

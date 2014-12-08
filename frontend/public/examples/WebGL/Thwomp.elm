@@ -47,7 +47,7 @@ rotatedSquare (angleXZ,angleYZ) =
         y = makeRotate (degrees angleYZ) i
         t = x `mul` y
     in
-        List.map (mapTriangle (\v -> {v | position <- transform t v.position })) square
+        List.map (map (\v -> {v | position <- transform t v.position })) square
 
 
 square : List (Triangle Vertex)

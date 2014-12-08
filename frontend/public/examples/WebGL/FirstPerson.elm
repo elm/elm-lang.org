@@ -170,7 +170,7 @@ rotatedFace (angleXZ,angleYZ) =
         y = makeRotate (degrees angleYZ) i
         t = x `mul` y
     in
-        List.map (mapTriangle (\v -> {v | position <- transform t v.position })) face
+        List.map (map (\v -> {v | position <- transform t v.position })) face
 
 
 face : List (Triangle Vertex)
