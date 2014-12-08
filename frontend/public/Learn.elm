@@ -53,7 +53,7 @@ documentation.
 ### Making Stuff
 
 * [Website skeleton](https://github.com/evancz/elm-todomvc/blob/master/Todo.elm) &mdash; template for making websites with [elm-html][]
-* [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/public/examples/Intermediate/GameSkeleton.elm#L1) &mdash; template for making games, though many things fit this pattern
+* [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/frontend/public/examples/Intermediate/GameSkeleton.elm) &mdash; template for making games, though many things fit this pattern
 * [Making Pong](/blog/Pong.elm) &mdash; a full walkthrough of how to create Pong
 * [Library Design Guidelines](http://library.elm-lang.org/DesignGuidelines.html) &mdash; creating pleasant and consistent libraries in Elm
 * [Writing Docs](http://library.elm-lang.org/Documentation.html) &mdash; an important thing to do!
