@@ -21,8 +21,8 @@ htmlSkeleton userGenerated title scripts =
       H.title (H.toHtml title)
       H.style $ preEscapedToMarkup Utils.standardStyle
       when (not userGenerated) $
-        do  H.link ! A.rel "stylesheet" ! A.href "/assets/highlight/styles/default.css"
-            H.script ! A.src "/assets/highlight/highlight.pack.js" $ ""
+        do  H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
+            H.script ! A.src "/highlight/highlight.pack.js" $ ""
 
     H.body scripts
 
