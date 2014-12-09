@@ -61,7 +61,7 @@ update updt model =
 
 
 getErrors : Model -> List String
-getErrors {first,last,email,remail,sendAttempts} =
+getErrors {first,last,email,remail} =
   let isEmpty content =
         String.isEmpty content.string
 
@@ -76,7 +76,7 @@ getErrors {first,last,email,remail,sendAttempts} =
       activeError (err,msg) =
         if err then Just msg else Nothing
   in
-      if sendAttempts == 0 then [] else List.filterMap activeError checks
+      List.filterMap activeError checks
 
 
 -- VIEW
@@ -101,7 +101,7 @@ viewForm : Model -> Element
 viewForm model =
     color lightGrey <|
       flow down
-      [ container 340 60 middle header
+      [ container 360 60 middle header
       , viewField "First Name:" model.first First
       , viewField "Last Name:" model.last Last
       , viewField "Your Email:" model.email Email
@@ -116,7 +116,7 @@ viewForm model =
 viewField : String -> Field.Content -> (Field.Content -> Update) -> Element
 viewField label content toUpdate =
   flow right
-    [ container 120 36 midRight (Text.plainText label)
+    [ container 140 36 midRight (Text.plainText label)
     , container 220 36 middle <|
         size 180 26 <|
           Field.field Field.defaultStyle (Signal.send updateChan << toUpdate) "" content
@@ -126,13 +126,13 @@ viewField label content toUpdate =
 viewErrors : Model -> Element
 viewErrors model =
   let errors =
-        getErrors model
+        if model.sendAttempts > 0 then getErrors model else []
   in
       flow down
         [ spacer 10 10
         , if List.isEmpty errors
             then spacer 0 0
-            else flow down (List.map viewError errors)
+            else flow down (List.map viewError errors ++ [spacer 10 10])
         ]
 
 
@@ -141,7 +141,7 @@ viewError msg =
   Text.fromString msg
     |> Text.color red
     |> Text.centered
-    |> width 340
+    |> width 360
 
 
 -- SIGNALS
@@ -165,15 +165,19 @@ updateChan =
 port redirect : Signal String
 port redirect =
     Signal.map2 toUrl (Signal.subscribe updateChan) model
+      |> Signal.keepIf (not << String.isEmpty) ""
 
 
 toUrl : Update -> Model -> String
-toUrl update model = 
-  case update of
-    Submit ->
-      "/login?first=" ++ model.first.string
-      ++ "&last=" ++ model.last.string
-      ++ "&email=" ++ model.email.string
+toUrl update model =
+  if not (List.isEmpty (getErrors model))
+    then ""
+    else
+      case update of
+        Submit ->
+          "/login?first=" ++ model.first.string
+          ++ "&last=" ++ model.last.string
+          ++ "&email=" ++ model.email.string
 
-    _ -> ""
+        _ -> ""
 
