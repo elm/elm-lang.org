@@ -53,7 +53,7 @@ to start making beautiful projects with Elm:
 [elm-package]: https://github.com/elm-lang/elm-package#elm-package
 [elm-make]: https://github.com/elm-lang/elm-make#elm-make
 
-I am really excited about this release. If you have been eying Elm from afar,
+I am really excited about this release. If you have been eyeing Elm from afar,
 now is a great time to start taking a closer look. It feels like everything
 is coming together. My goal has always been to make web programming pleasant,
 but I never thought it would be quite this nice.
