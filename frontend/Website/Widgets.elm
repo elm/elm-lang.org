@@ -3,6 +3,7 @@ module Website.Widgets (bigLogo, installButtons, button, headerFaces) where
 import Color
 import Graphics.Element (..)
 import Graphics.Input as Input
+import Native.RedirectHack
 import Signal
 import Text
 import Website.ColorScheme as C
@@ -36,16 +37,20 @@ installButtons w =
 
 -- implementation
 
-click : Signal.Channel String
-click =
+clicks : Signal.Channel String
+clicks =
   Signal.channel ""
+
+
+bad =
+  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
 
 
 button : Int -> Int -> String -> String -> Element
 button outerWidth innerWidth href msg =
     let box' = box innerWidth msg in
     container outerWidth 100 middle << link href <|
-    Input.customButton (Signal.send click href)
+    Input.customButton (Signal.send clicks href)
         (box' C.lightGrey C.mediumGrey)
         (box' C.lightGrey C.accent1)
         (box' C.mediumGrey C.accent1)

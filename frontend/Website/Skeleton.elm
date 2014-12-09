@@ -4,6 +4,7 @@ import Color
 import Graphics.Element (..)
 import Graphics.Input as Input
 import List
+import Native.RedirectHack
 import Signal
 import Text
 import Website.Widgets (headerFaces)
@@ -95,8 +96,8 @@ clicks =
   Signal.channel ""
 
 
---badMustRemoveThis =
---    lift Native.RedirectHack.redirect clicks.signal
+bad =
+  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
 
 
 tab localName (name, href) =

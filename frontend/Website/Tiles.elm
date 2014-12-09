@@ -3,6 +3,7 @@ module Website.Tiles (examples, intermediate, webgl) where
 import Graphics.Element (..)
 import Graphics.Input as Input
 import List
+import Native.RedirectHack
 import Signal
 import Website.ColorScheme (..)
 
@@ -27,7 +28,8 @@ clicks =
   Signal.channel ""
 
 
---bad = lift Native.RedirectHack.redirect clicks.signal
+bad =
+  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
 
 intermediate name =
   ("Intermediate/" ++ name, "/edit/examples/Intermediate/" ++ name ++ ".elm")

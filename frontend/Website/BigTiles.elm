@@ -4,6 +4,7 @@ import Color
 import Graphics.Element (..)
 import Graphics.Input as Input
 import List
+import Native.RedirectHack
 import Signal
 import Text
 import Website.ColorScheme as C
@@ -24,10 +25,12 @@ row examples =
 
 
 clicks : Signal.Channel String
-clicks = Signal.channel ""
+clicks =
+  Signal.channel ""
 
 
---bad = lift Native.RedirectHack.redirect clicks.signal
+bad =
+  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
 
 
 sourceCode clr =
