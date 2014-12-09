@@ -165,7 +165,7 @@ functional = addFolder "Functional/"
       , ("Fold"   , "Sum")
       , ("Filter" , "Filter")
       ])
-  , ("Data Types",
+  , ("Union Types",
       [ ("Maybe", "Maybe")
       , ("Boolean Expressions", "BooleanExpressions")
       , ("Tree", "Tree")
