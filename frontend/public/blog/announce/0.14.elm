@@ -304,7 +304,7 @@ but Joe also did a nice dice rolling example. You can check out the source code
     frameborder="0"></iframe>
 
 
-### Making Error Handling Easier
+## Making Error Handling Easier
 
 The `Either` library has been removed in favor of [the `Result` library][result].
 A `Result` is intended to be a very obvious choice for error handling. The core
