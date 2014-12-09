@@ -5,6 +5,10 @@ import Website.Skeleton (skeleton)
 import Window
 
 
+port title : String
+port title = "Elm Syntax"
+
+
 main : Signal Element
 main =
   skeleton "Learn" content <~ Window.dimensions
@@ -32,7 +36,7 @@ This syntax reference is a minimal introduction to:
 - [Infix Operators](#infix-operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
-- [Lifting with `(<~)` and `(~)`](#lifting)
+- [Mapping with `(<~)` and `(~)`](#mapping)
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
@@ -42,7 +46,7 @@ This syntax reference is a minimal introduction to:
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
 
-<h3 id="comments">Comments</h3>
+### Comments
 
 ```haskell
 -- a single line comment
@@ -62,7 +66,7 @@ add x y = x + y
 
 Just add or remove the `}` on the first line and you'll toggle between commented and uncommented!
 
-<h3 id="literals">Literals</h3>
+### Literals
 
 ```haskell
 -- Boolean
@@ -90,7 +94,7 @@ True && not (True || False)
 "abc" ++ "def"
 ```
 
-<h3 id="lists">Lists</h3>
+### Lists
 
 Here are four things that are equivalent:
 
@@ -101,7 +105,7 @@ Here are four things that are equivalent:
 1 :: 2 :: 3 :: 4 :: []
 ```
 
-<h3 id="conditionals">Conditionals</h3>
+### Conditionals
 
 ```haskell
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
@@ -146,7 +150,7 @@ type List = Empty | Node Int List
 
 Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
 
-<h3 id="records">Records</h3>
+### Records
 
 For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
@@ -180,7 +184,7 @@ lib = { id x = x }             -- polymorphic fields
 type alias Location = { line:Int, column:Int }
 ```
 
-<h3 id="functions">Functions</h3>
+### Functions
 
 ```haskell
 square n = n^2
@@ -197,7 +201,7 @@ square = \\n -> n^2
 squares = map (\\n -> n^2) [1..100]
 ```
 
-<h3 id="infix-operators">Infix Operators</h3>
+### Infix Operators
 
 You can create custom infix operators. The default
 [precedence](http://en.wikipedia.org/wiki/Order_of_operations)
@@ -208,10 +212,8 @@ You cannot override the built-in operators though.
 
 ```haskell
 f <| x = f x
-(<~) = lift
 
 infixr 0 <|
-infixl 4 <~
 ```
 
 Use [`(<|)`](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Basics#<|)
@@ -223,16 +225,20 @@ application.
 f <| x = f x
 x |> f = f x
 
-dot  = scale 2 (move (20,20) (filled blue (circle 10)))
-dot' = circle 10 |> filled blue
-                 |> move (20,20)
-                 |> scale 2
+dot =
+  scale 2 (move (20,20) (filled blue (circle 10)))
+
+dot' =
+  circle 10
+    |> filled blue
+    |> move (20,20)
+    |> scale 2
 ```
 
 Historical note: this is borrowed from F#, inspired by Unix pipes,
 improving upon Haskell&rsquo;s `($)`.
 
-<h3 id="let-expressions">Let Expressions</h3>
+### Let Expressions
 
 ```haskell
 let n = 42
@@ -246,7 +252,7 @@ in
 Let-expressions are indentation sensitive.
 Each definition should align with the one above it.
 
-<h3 id="applying-functions">Applying Functions</h3>
+### Applying Functions
 
 ```haskell
 -- alias for appending lists and two lists
@@ -287,19 +293,19 @@ There is a special function for creating tuples:
 
 You can use as many commas as you want.
 
-<h3 id="lifting">Lifting</h3>
+### Mapping
 
-The `lift` functions are used to apply a normal function like `sqrt` to a signal
-of values such as `Mouse.x`. So the expression `(lift sqrt Mouse.x)` evaluates
+The `map` functions are used to apply a normal function like `sqrt` to a signal
+of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
 to a signal in which the current value is equal to the square root of the current
 x-coordinate of the mouse.
 
-You can also use the functions `(<~)` and `(~)` to lift signals. The squigly
-arrow is exactly the same as the lift function, so the following expressions
+You can also use the functions `(<~)` and `(~)` to map over signals. The squigly
+arrow is exactly the same as the `map` function, so the following expressions
 are the same:
 
 ```haskell
-lift sqrt Mouse.x
+map sqrt Mouse.x
 sqrt <~ Mouse.x
 ```
 
@@ -308,21 +314,21 @@ function.&rdquo;
 
 The `(~)` operator allows you to apply a signal of functions to a signal of
 values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
-together many signals, just like `lift2`, `lift3`, etc. So the following
+together many signals, just like `map2`, `map3`, etc. So the following
 expressions are equivalent:
 
 ```haskell
-lift2 (,) Mouse.x Mouse.y
+map2 (,) Mouse.x Mouse.y
 (,) <~ Mouse.x ~ Mouse.y
 
-lift2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
+map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
 scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
 More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
 and [here](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal).
 
-<h3 id="modules">Modules</h3>
+### Modules
 
 ```haskell
 module MyModule where
@@ -343,7 +349,7 @@ import Maybe ( Maybe(Just) )   -- Maybe, Just
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
-<h3 id="type-annotations">Type Annotations</h3>
+### Type Annotations
 
 ```haskell
 answer : Int
@@ -356,7 +362,7 @@ addName : String -> a -> { a | name:String }
 addName name record = { record | name = name }
 ```
 
-<h3 id="type-aliases">Type Aliases</h3>
+### Type Aliases
 
 ```haskell
 type alias Name = String
@@ -371,7 +377,7 @@ origin : Point
 origin = { x=0, y=0 }
 ```
 
-<h3 id="javascript-ffi">JavaScript FFI</h3>
+### JavaScript FFI
 
 ```haskell
 -- incoming values
@@ -420,7 +426,7 @@ Experimental port handlers:
  * `stdout` logs to stdout in node.js and to console in browser
  * `stderr` logs to stderr in node.js and to console in browser
 
-<h3 id="things-not-in-elm">Things *not* in Elm</h3>
+### Things *not* in Elm
 
 Elm currently does not support:
 
