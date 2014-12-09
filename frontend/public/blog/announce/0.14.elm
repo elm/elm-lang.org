@@ -22,11 +22,11 @@ content = Markdown.toElement """
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Simpler Core, Better Tools</div></div>
 </h1>
 
-This release has two major aspects, both focusing on making it easy and qucik
+This release has two major aspects, both focusing on making it easy and quick
 to start making beautiful projects with Elm:
 
   * **Simplify the language and core libraries.**<br>
-    Signals are easier. JSON and randomness are both massively improved. Error
+    Signals are easier. JSON and random number generation are both massively improved. Error
     handling is clearer. Markdown parsing now lives in [a library][elm-markdown],
     making it much more flexible. Types easier to learn and understand. The
     net effect of these improvements ripple out to all aspects of Elm, making
@@ -46,14 +46,14 @@ to start making beautiful projects with Elm:
     enforce semantic versioning. No user will ever get a breaking change in a
     patch version again! More automation and verification is planned, and we
     now have a solid foundation to build upon. This release also introduces
-    [`elm-make`][elm-make] which
+    [`elm-make`][elm-make], which
     is a build tool that replaces the old `elm` command. It permits parallel
     compilation and can handle any package downloaded with `elm-package`.
 
 [elm-package]: https://github.com/elm-lang/elm-package#elm-package
 [elm-make]: https://github.com/elm-lang/elm-make#elm-make
 
-I am really excited about this release. If you have been eying Elm from afar,
+I am really excited about this release. If you have been eyeing Elm from afar,
 now is a great time to start taking a closer look. It feels like everything
 is coming together. My goal has always been to make web programming pleasant,
 but I never thought it would be quite this nice.
@@ -250,7 +250,7 @@ some cool stuff farther down the line!
 
 Thanks to [Alexander Noriega](https://github.com/lambdatoast), we now have
 great libraries for converting betwen JSON and Elm. The most crucial one is
-[`Json.Decode`][decode] which gives you tools for converting JSON strings
+[`Json.Decode`][decode], which gives you tools for converting JSON strings
 to Elm. Here is a small example where we extract 2D coordinates from JSON.
 
 ```haskell
@@ -322,11 +322,11 @@ When you have a computation that may fail, like parsing or validating, you
 want to return a `Result` that will either be `Ok` or an `Err` with some sort
 of error message.
 
-But why remove `Either` entirely you might ask? In my experience, the only
+But why remove `Either` entirely, you might ask? In my experience, the only
 remaining times you might want an `Either` are when you might return two
 different types or you need to differentiate between two different kinds of
 values. Whenever I use an `Either` in my code, I end up regretting it later
-when I cannot remember which thing was `Left` and which was `Right` or I end
+when I cannot remember which thing was `Left` and which was `Right`, or I end
 up having to add another possibility, forcing me to refactor all of that code.
 If you just start out being more specific by using a custom union type, both
 of these problems go away, and I feel that is a better experience in practice.
