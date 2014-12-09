@@ -58,7 +58,8 @@ now is a great time to start taking a closer look. It feels like everything
 is coming together. My goal has always been to make web programming pleasant,
 but I never thought it would be quite this nice.
 
-If you are in a rush or just want references to help you upgrade, check out
+If you are in a rush or just want references to help you upgrade, follow the
+[install instructions](/Install.elm) and then check out
 [the changelog](https://github.com/elm-lang/core/blob/master/changelog.md#014),
 [elm-package][], and [elm-make][].
 
