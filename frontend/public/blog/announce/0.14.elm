@@ -307,7 +307,7 @@ Furthermore, it does it in a way that works great with time travel in
 There is more info in [the `Random`
 docs](http://package.elm-lang.org/packages/elm-lang/core/latest/Random),
 but Joe also did a nice dice rolling example. You can check out the source code
-[here](https://github.com/jcollard/random-examples/blob/master/src/TimeBasedDice.elm).
+[here](https://github.com/jcollard/random-examples/blob/master/src/Dice.elm).
 
 <iframe
     src="http://jcollard.github.io/dice-example/random-generator.html"
