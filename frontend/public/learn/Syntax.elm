@@ -26,7 +26,7 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Algebraic Data Types](#adts)
+- [Union Types](#union-types)
 - [Records](#records)
 - [Functions](#functions)
 - [Infix Operators](#infix-operators)
@@ -138,10 +138,10 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-<h3 id="adts">Algebraic Data Types</h3>
+### Union Types
 
 ```haskell
-data List = Nil | Cons Int List
+type List = Empty | Node Int List
 ```
 
 Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
@@ -177,7 +177,7 @@ lib = { id x = x }             -- polymorphic fields
 (lib.id 42 == 42)
 (lib.id [] == [])
 
-type Location = { line:Int, column:Int }
+type alias Location = { line:Int, column:Int }
 ```
 
 <h3 id="functions">Functions</h3>
@@ -359,13 +359,13 @@ addName name record = { record | name = name }
 <h3 id="type-aliases">Type Aliases</h3>
 
 ```haskell
-type Name = String
-type Age = Int
+type alias Name = String
+type alias Age = Int
 
 info : (Name,Age)
 info = ("Steve", 28)
 
-type Point = { x:Float, y:Float }
+type alias Point = { x:Float, y:Float }
 
 origin : Point
 origin = { x=0, y=0 }

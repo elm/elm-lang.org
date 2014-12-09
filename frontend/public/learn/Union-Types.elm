@@ -30,7 +30,7 @@ active tasks, or all the completed tasks. We can represent these three states
 like this:
 
 ```haskell
-data Visibility
+type Visibility
     = All
     | Active
     | Completed
@@ -66,7 +66,7 @@ Okay, what if we want to represent if someone is logged in or not. With union
 types we can say:
 
 ```haskell
-data User
+type User
     = Anonymous
     | LoggedIn String
 ```
@@ -128,7 +128,7 @@ shows scatter plots, one shows recent log data, and one shows time plots. Type
 unions make it really easy to put together the data we need:
 
 ```haskell
-data Widget
+type Widget
     = ScatterPlot [(Int, Int)]
     | LogData [String]
     | TimePlot [(Time, Int)]
@@ -159,9 +159,9 @@ that that are showed on a logarithmic scale. We can augment our `Widget` type
 a bit.
 
 ```haskell
-data Scale = Normal | Logarithmic
+type Scale = Normal | Logarithmic
 
-data Widget
+type Widget
     = ScatterPlot [(Int, Int)]
     | LogData [String]
     | TimePlot Scale [(Time, Int)]
@@ -184,7 +184,7 @@ servers? I guess we will find out later!
 Union types let us sidestep this problem entirely with a type called `Maybe`.
 
 ```haskell
-data Maybe a
+type Maybe a
     = Just a
     | Nothing
 ```
@@ -220,7 +220,7 @@ can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into a union type:
 
 ```haskell
-data List a
+type List a
     = Empty
     | Node a (List a)
 ```
@@ -278,7 +278,7 @@ We can create all sorts of data structures, like [binary trees][binary].
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
 ```haskell
-data Tree a
+type Tree a
     = Empty
     | Node a (Tree a) (Tree a)
 ```
@@ -297,7 +297,7 @@ deals with [Boolean algebra][algebra]:
  [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
 ```haskell
-data Boolean
+type Boolean
     = T
     | F
     | Not Boolean
