@@ -18,16 +18,16 @@ everything wid =
 
 content = Markdown.toElement """
 
-<br>
-
-# Elm 0.14
+<h1><div style="text-align:center">Elm 0.14
+<div style="padding-top:4px;font-size:0.5em;font-weight:normal">Simpler Core, Better Tools</div></div>
+</h1>
 
 This release has two major aspects, both focusing on making it easy and qucik
 to start making beautiful projects with Elm:
 
   * **Simplify the language and core libraries.**<br>
     Signals are easier. JSON and randomness are both massively improved. Error
-    handling is clearer. Markdown parsing now lives in [a library][markdown],
+    handling is clearer. Markdown parsing now lives in [a library][elm-markdown],
     making it much more flexible. Types easier to learn and understand. The
     net effect of these improvements ripple out to all aspects of Elm, making
     relatively untouched things like [elm-html][] feel like they got upgraded
