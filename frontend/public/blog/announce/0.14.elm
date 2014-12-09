@@ -22,7 +22,7 @@ content = Markdown.toElement """
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Simpler Core, Better Tools</div></div>
 </h1>
 
-This release has two major aspects, both focusing on making it easy and qucik
+This release has two major aspects, both focusing on making it easy and quick
 to start making beautiful projects with Elm:
 
   * **Simplify the language and core libraries.**<br>
@@ -98,7 +98,7 @@ making my users happier? Terms like this distract people from extremely useful
 ideas. In the worst cases, the terminology actively alienates and discourages
 people, so even when someone comes around with a good explanation it is too late.
 
-This is not some pet theory I formed in a vaccuum. Between teaching functional
+This is not some pet theory I formed in a vacuum. Between teaching functional
 programming, fielding questions on the Elm mailing list and at conferences,
 running an Elm meetup in SF, and just chatting with other programmers, I talk
 to quite a lot of programmers in any given week. In all these cases, I find
@@ -249,7 +249,7 @@ some cool stuff farther down the line!
 ## Making JSON Easier
 
 Thanks to [Alexander Noriega](https://github.com/lambdatoast), we now have
-great libraries for converting betwen JSON and Elm. The most crucial one is
+great libraries for converting between JSON and Elm. The most crucial one is
 [`Json.Decode`][decode] which gives you tools for converting JSON strings
 to Elm. Here is a small example where we extract 2D coordinates from JSON.
 
@@ -284,7 +284,7 @@ that JSON interop is solved!
 
 ## Making Randomness Easier
 
-Thanks to [Joe Collard](https://github.com/jcollard/) working with randomness
+Thanks to [Joe Collard](https://github.com/jcollard/), working with randomness
 is now much simpler and principled. The `Random` library provides the tools for
 generating as many random values as you want, whenever you want. Furthermore,
 it does it in a way that works great with time travel in [Elm Reactor][reactor].
