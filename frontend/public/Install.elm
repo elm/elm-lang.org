@@ -22,8 +22,8 @@ content outer =
         [ center (width (min 600 outer) header)
         , center <|
               flow right
-              [ button 220 180 "http://install.elm-lang.org/Elm-Platform-0.13.pkg" "Mac"
-              , button 220 180 "http://install.elm-lang.org/Elm-Platform-0.13.exe" "Windows"
+              [ button 220 180 "http://install.elm-lang.org/Elm-Platform-0.14.pkg" "Mac"
+              , button 220 180 "http://install.elm-lang.org/Elm-Platform-0.14.exe" "Windows"
               ]
         , center (width (min 600 outer) rest)
         ]
@@ -79,7 +79,7 @@ Then run the following commands:
 ```bash
 cabal update
 cabal install cabal-install
-cabal install -j Elm-0.13 elm-repl-0.3 elm-reactor-0.1 elm-get-0.1.3
+cabal install -j elm-package-0.2 elm-make-0.1 elm-repl-0.4 elm-reactor-0.2
 ```
 
 This will take some time, but when it is done, all of these executables should
