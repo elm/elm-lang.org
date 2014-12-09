@@ -206,7 +206,7 @@ reactive = addFolder "Reactive/"
                , ("Drop Down", "DropDown")
                ])
   , ("Random", [ ("Randomize", "Randomize") ])
-  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
+--  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
   , ("Filters",[ ("Sample", "SampleOn")
                , ("Numbers Only", "KeepIf")
                ])
