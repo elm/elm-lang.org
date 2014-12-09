@@ -22,15 +22,36 @@ content = Markdown.toElement """
 
 # Elm 0.14
 
-This release has two major goals:
+This release has two major aspects, both focusing on making it easy and qucik
+to start making beautiful projects with Elm:
 
-  * **Simplify the language and core libraries**<br>
-    The signal library is much simpler, working with JSON and randomness is
-    great, and we made types easier to learn and understand.
+  * **Simplify the language and core libraries.**<br>
+    Signals are easier. JSON and randomness are both massively improved. Error
+    handling is clearer. Markdown parsing now lives in [a library][markdown],
+    making it much more flexible. Types easier to learn and understand. The
+    net effect of these improvements ripple out to all aspects of Elm, making
+    relatively untouched things like [elm-html][] feel like they got upgraded
+    too.
 
-  * **Greatly improve the package manager and build tools**<br>
-    We now have parallel builds and the beginnings of an innovative
-    approach to package management.
+[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/latest
+[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/latest
+
+  * **New package manager and build tool.**<br>
+    The new package manager, [`elm-package`][elm-package], has a fresh take on
+    alleviating dependency  hell. It reliably detects API changes, so we can
+    create a nice human-readable list of additions, changes, and removals
+    between any two versions. For users, this means it is much easier to figure
+    out if you want to make an upgrade. Now there is a nice list of what you
+    will need to change. For package authors, it means we can automatically
+    enforce semantic versioning. No user will ever get a breaking change in a
+    patch version again! More automation and verification is planned, and we
+    now have a solid foundation to build upon. This release also introduces
+    [`elm-make`][elm-make] which
+    is a build tool that replaces the old `elm` command. It permits parallel
+    compilation and can handle any package downloaded with `elm-package`.
+
+[elm-package]: https://github.com/elm-lang/elm-package#elm-package
+[elm-make]: https://github.com/elm-lang/elm-make#elm-make
 
 I am really excited about this release. If you have been eying Elm from afar,
 now is a great time to start taking a closer look. It feels like everything
@@ -38,9 +59,12 @@ is coming together. My goal has always been to make web programming pleasant,
 but I never thought it would be quite this nice.
 
 If you are in a rush or just want references to help you upgrade, check out
-[the changelog], [elm-package], and [elm-make].
+[the changelog](https://github.com/elm-lang/core/blob/master/changelog.md#014),
+[elm-package][], and [elm-make][].
+
 This post dives into the most exciting changes, showing how they connect to the
-broader philosophy that guides all of the improvements in 0.14.
+broader philosophy that guides all of the improvements in 0.14. I hope this will
+give people some idea of what Elm is about and where it is going.
 
 ## Guiding Philosophy
 
@@ -48,11 +72,13 @@ A great teacher takes an idea and makes you *feel* it. They make it exciting
 and alive. All the bad explanations you have heard before melt away, and you
 feel the rush of comprehension.
 
-I think [Elm Reactor]() embodies this. I think the [online editor] and [examples]
-embody this. I want to design Elm such that this is happening in syntax and
-libraries. As much as possible, I want people to see some code for the first
-time and *feel* how it works. I want to bring the learning curve down from days
-to minutes.
+I think [Elm Reactor][reactor] embodies this. I think the [online editor](/try)
+and [examples](/Examples.elm) embody this. I want to design Elm such that this
+is happening in syntax and libraries. As much as possible, I want people to see
+some code for the first time and *feel* how it works. I want to bring the
+learning curve down from days to minutes.
+
+[reactor]: /blog/Introducing-Elm-Reactor.elm
 
 
 ### Philosophy in Action
@@ -264,7 +290,8 @@ it does it in a way that works great with time travel in [Elm Reactor][reactor].
 
 [reactor]: /blog/Introducing-Elm-Reactor.elm
 
-There is more info in [the `Random` docs](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),
+There is more info in [the `Random`
+docs](http://package.elm-lang.org/packages/elm-lang/core/latest/Random),
 but Joe also did a nice dice rolling example. You can check out the source code
 [here](https://github.com/jcollard/random-examples/blob/master/src/TimeBasedDice.elm).
 
@@ -278,9 +305,11 @@ but Joe also did a nice dice rolling example. You can check out the source code
 
 ### Making Error Handling Easier
 
-The `Either` library has been removed in favor of [the `Result` library]. A
-`Result` is intended to be a very obvious choice for error handling. The core
+The `Either` library has been removed in favor of [the `Result` library][result].
+A `Result` is intended to be a very obvious choice for error handling. The core
 type there is called a `Result`.
+
+[result]: http://package.elm-lang.org/packages/elm-lang/core/latest/Result
 
 ```haskell
 type Result err value
@@ -308,17 +337,66 @@ In addition to all changes in the core libraries, 0.14 also marks one of the
 biggest refactors of the core tools around Elm. It introduces two new command
 line tools:
 
-  * [`elm-package`] &mdash; a package manager that resolves dependencies and
+  * [`elm-package`][elm-package] &mdash; a package manager that resolves dependencies and
     enforces semantic versioning with API diffs (replacing `elm-get`)
-  * [`elm-make`] &mdash; a build tool that knows how `elm-package` works and
+  * [`elm-make`][elm-make] &mdash; a build tool that knows how `elm-package` works and
     can do parallel builds (replacing `elm`)
 
-You should read about the full details [here]() and [here]() before using 0.14.
-One of the most interesting features of `elm-package` is how it enforces
-semantic versioning. Rather than having programmers decide what is a major or
-minor change, this tool does a diff on the public facing API. Depending on the
-scope of those changes, it determines a new version number. This means package
-authors will have to be extremely creative to break your code with a minor
-version or patch version!
+You should read about the full details [here][elm-package] and [here][elm-make]
+before using 0.14. One of the most interesting features of `elm-package` is API
+diffing. For example, lets say I am curious what changed between versions 1.0.0
+and 1.1.0 of the new [elm-markdown][] library. I would run the following
+command:
+
+```
+elm-package diff evancz/elm-markdown 1.0.0 1.1.0
+```
+
+Resulting in a print out of all the changes.
+
+```
+Comparing evancz/elm-markdown 1.0.0 to 1.1.0...
+This is a MINOR change.
+
+------ Changes to module Markdown - MINOR ------
+
+    Added:
+        type alias Options =
+            { githubFlavored : Maybe { tables : Bool,
+                                       breaks : Bool
+                                     },
+              sanitize : Bool,
+              smartypants : Bool
+            }
+        defaultOptions : Options
+        toElementWith : Options -> String -> Element
+        toHtmlWith : Options -> String -> Html
+```
+
+I see that you can now tweak the settings of the markdown parser, which will
+have no impact on my existing code. Totally safe to upgrade! Longer term, I
+would like to estimate &ldquo;upgrade costs&rdquo; by finding how many times
+changed or removed values appear in your existing code.
+
+The benefits are actually much deeper though. Now that we know exactly how
+the API has changed, it is possible to automatically enforce [strict
+versioning rules](https://github.com/elm-lang/elm-package#version-rules). If
+there are breaking changes, the new release *must* be a major version bump. As
+a package user this is great because you now have a guarantee that minor and
+patch changes will not introduce breaking changes. No more waking up to find
+some random person on the internet has broken your code!
+
+Big thanks to [Andrew Shulayev](https://github.com/ddrone) who worked on many
+of the improvements that became `elm-package` during his internship! We have a
+lot more planned that builds on top of this foundation. I will write more about
+that in a future blog post.
+
+
+## Thank you
+
+Thank you to everyone who helped make 0.14 possible, whether that was with code
+contributions, cool ideas, feedback on the release itself, participating in
+thoughtful discussions on the mailing list, or making cool stuff totally
+independently. I feel very lucky to work with such great people!
 
 """
