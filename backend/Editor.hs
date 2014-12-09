@@ -55,6 +55,7 @@ themes =
 --   for compilation.
 editor :: FilePath -> String -> Html
 editor filePath code =
+    H.docTypeHtml $
     H.html $ do
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath

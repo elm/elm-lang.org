@@ -72,7 +72,7 @@ serveElm =
 
 serveHtml :: MonadSnap m => H.Html -> m ()
 serveHtml html =
-  do  setContentType "text/html" <$> getResponse
+  do  modifyResponse $ setContentType "text/html"
       writeBuilder (BlazeBS.renderHtmlBuilder html)
 
 
@@ -81,7 +81,7 @@ hotswap =
     maybe error404 serve =<< getParam "input"
   where
     serve src =
-      do  setContentType "application/javascript" <$> getResponse
+      do  modifyResponse $ setContentType "application/javascript"
           result <- liftIO . Generate.js $ BSC.unpack src
           writeBS (BSC.pack result)
 
