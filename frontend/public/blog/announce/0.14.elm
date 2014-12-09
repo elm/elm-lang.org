@@ -26,12 +26,12 @@ This release has two major aspects, both focusing on making it easy and quick
 to start making beautiful projects with Elm:
 
   * **Simplify the language and core libraries.**<br>
-    Signals are easier. JSON and randomness are both massively improved. Error
-    handling is clearer. Markdown parsing now lives in [a library][elm-markdown],
-    making it much more flexible. Types easier to learn and understand. The
-    net effect of these improvements ripple out to all aspects of Elm, making
-    relatively untouched things like [elm-html][] feel like they got upgraded
-    too.
+    Signals are easier. JSON and random number generation are both massively
+    improved. Error handling is clearer. Markdown parsing now lives in [a
+    library][elm-markdown], making it much more flexible. Types easier to learn
+    and understand. The net effect of these improvements ripple out to all
+    aspects of Elm, making relatively untouched things like [elm-html][] feel
+    like they got upgraded too.
 
 [elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/latest
 [elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/latest
@@ -286,13 +286,15 @@ who had the key insight for this API. I cannot say enough times how happy I am
 that JSON interop is solved!
 
 
-## Making Randomness Easier
+## Making Random Number Generation Easier
 
-Thanks to [Joe Collard](https://github.com/jcollard/), working with randomness
-is now much simpler and principled. The `Random` library provides the tools for
-generating as many random values as you want, whenever you want. Furthermore,
-it does it in a way that works great with time travel in [Elm Reactor][reactor].
+Thanks to [Joe Collard](https://github.com/jcollard/), working with random values
+is now much simpler and principled. [The `Random` library][random] provides the
+tools for generating as many random values as you want, whenever you want.
+Furthermore, it does it in a way that works great with time travel in
+[Elm Reactor][reactor].
 
+[random]: http://package.elm-lang.org/packages/elm-lang/core/latest/Random
 [reactor]: /blog/Introducing-Elm-Reactor.elm
 
 There is more info in [the `Random`
