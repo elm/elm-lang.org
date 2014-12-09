@@ -88,7 +88,7 @@ about Elm because it makes things so much simpler for me. I *feel* that
 simplicity. People can make fancy arguments and talk about cool features all
 day long, but the real challenge is to share that *feeling*.
 
-It is obviously important to create delightful applications and excelent tools,
+It is obviously important to create delightful applications and excellent tools,
 but in addition to that, we need to change how we talk. Terms like Algebraic
 Data Type are hurting us. We are making useful ideas sound boring and confusing.
 If my goal is to make a great user experience, what do I care about Algebra or
