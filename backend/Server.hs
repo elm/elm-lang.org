@@ -237,6 +237,7 @@ compileFile filePath =
         Right _ ->
           do  jsSource <- Text.readFile "elm.js"
               Compile.removeArtifacts "Main"
-              let html = Generate.htmlSkeleton False filePath (Generate.scripts "Main" jsSource)
+              let fileName = FP.dropExtension (FP.takeFileName filePath)
+              let html = Generate.htmlSkeleton False fileName (Generate.scripts "Main" jsSource)
               createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
               Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
