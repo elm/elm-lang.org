@@ -47,7 +47,7 @@ main =
       precompile
       httpServe (setPort (port args) defaultConfig) $
           ifTop (serveElm "artifacts/Elm.elm")
-          <|> route [ ("try", serveHtml Editor.empty)
+          <|> route [ ("try", serveHtml (Editor.empty "50%,50%"))
                     , ("edit", edit)
                     , ("code", code)
                     , ("compile", compile)
@@ -99,12 +99,12 @@ edit :: Snap ()
 edit =
   do  cols <- BSC.unpack . maybe "50%,50%" id <$> getQueryParam "cols"
       path <- BSC.unpack . rqPathInfo <$> getRequest
-      let maybePath =
+      let html =
             case path of
-              "empty" -> Nothing
-              _ -> Just path
+              "empty" -> Editor.empty cols
+              _ -> Editor.ide cols path
 
-      serveHtml (Editor.ide cols maybePath)
+      serveHtml html
 
 
 code :: Snap ()

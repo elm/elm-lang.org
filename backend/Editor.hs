@@ -9,24 +9,19 @@ import qualified System.FilePath as FP
 
 
 -- | Display an editor and the compiled result side-by-side.
-empty :: Html
-empty =
-    ide "50%,50%" Nothing
+empty :: String -> Html
+empty cols =
+    ideHtml cols "Try Elm" "empty" "Try.elm"
 
 
 -- | Display an editor and the compiled result side-by-side.
-ide :: String -> Maybe FilePath -> Html
-ide cols maybeFile =
-  case maybeFile of
-    Nothing -> 
-        ideHtml cols "Try Elm" "empty" "Try.elm"
-
-    Just filePath ->
-        ideHtml
-          cols
-          ("Elm Edit: " ++ FP.dropExtension (FP.takeBaseName filePath))
-          filePath
-          filePath
+ide :: String -> FilePath -> Html
+ide cols filePath =
+    ideHtml
+      cols
+      ("Elm Edit: " ++ FP.dropExtension (FP.takeBaseName filePath))
+      filePath
+      filePath
 
 
 ideHtml :: String -> String -> FilePath -> FilePath -> Html
