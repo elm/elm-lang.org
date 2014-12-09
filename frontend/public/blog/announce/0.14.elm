@@ -163,19 +163,26 @@ shows a bunch of examples.
 
 ### List Types
 
-The special syntax for lists has been removed. When you want to write the type
-of a list function, now it is something like this:
+The special syntax for lists types has been removed. Working with lists now
+looks more like this:
 
 ```haskell
+four : Int
+four = length [1,2,3,4]
+
 length : List a -> Int
+length list =
+  case list of
+    [] -> 0
+    first :: rest ->
+        1 + length rest
 ```
 
-The primary benefit here is consistency. People learning Elm do not need to
-learn this one special case and cannot be led to think that there is something
-extra special going on there. It also makes it easier to switch annotations
-between `List`, `Set`, and `Array` depending on what you want to do. Finally,
-it frees up the `[]` syntax in types just in case that could come in handy
-some day.
+Notice that the type uses `(List a)` instead of `[a]`. The primary benefit here
+is consistency across all type signatures. In addition to simplifying the
+learning process, this also makes it easier to switch type annotations between
+`List`, `Set`, and `Array` depending on what you want to do. Finally, it frees
+up the `[]` syntax in types just in case that could come in handy some day.
 
 
 ## Making Signals Easier
