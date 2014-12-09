@@ -164,7 +164,6 @@ functional = addFolder "Functional/"
       [ ("Map"    , "Map")
       , ("Fold"   , "Sum")
       , ("Filter" , "Filter")
-      , ("ZipWith", "ZipWith")
       ])
   , ("Data Types",
       [ ("Maybe", "Maybe")
@@ -172,8 +171,7 @@ functional = addFolder "Functional/"
       , ("Tree", "Tree")
       ])
   , ("Libraries",
-        [ ("Either", "Either")
-        , ("Dict", "Dict")
+        [ ("Dict", "Dict")
         , ("Set", "Set")
         ])
   ]
