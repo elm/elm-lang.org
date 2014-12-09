@@ -3,7 +3,7 @@ module Compile (toJS, removeArtifacts) where
 import Control.Exception (catch, SomeException)
 import Control.Monad.Error (runErrorT)
 import System.Directory (removeFile)
-import System.FilePath ((</>), (<.>), dropExtension, replaceExtension)
+import System.FilePath ((</>), (<.>), dropExtension, replaceExtension, takeFileName)
 import System.IO (hClose, hPutStr, openTempFile)
 
 import qualified Elm.Utils as Utils
@@ -17,7 +17,7 @@ toJS source =
 compileSource :: String -> IO (Either String (String, String))
 compileSource source =
   do  (elmFilePath, handle) <- openTempFile "." "Temp.elm"
-      let moduleName = dropExtension elmFilePath
+      let moduleName = dropExtension (takeFileName elmFilePath)
       hPutStr handle ("module " ++ moduleName ++ " where\n" ++ source)
       hClose handle
 
@@ -27,20 +27,17 @@ compileSource source =
         runErrorT $
             Utils.run "elm-make" [ elmFilePath, "--output=" ++ jsFilePath ]
 
-      result <-
-        case compilerResult of
-          Right _ ->
-            do  jsSource <- readFile jsFilePath
-                return (Right (moduleName, jsSource))
+      case compilerResult of
+        Right _ ->
+          do  jsSource <- readFile jsFilePath
+              removeFile elmFilePath
+              removeFile jsFilePath
+              removeArtifacts moduleName
+              return (Right (moduleName, jsSource))
 
-          Left msg ->
-            return (Left msg)
-
-      removeFile elmFilePath
-      removeFile jsFilePath
-      removeArtifacts moduleName
-
-      return result
+        Left msg ->
+          do  removeFile elmFilePath
+              return (Left $ unlines (drop 3 (lines msg)))
 
 
 removeArtifacts :: String -> IO ()
