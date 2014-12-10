@@ -75,7 +75,6 @@ ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
 [FRP]: /learn/What-is-FRP.elm
 [std]: package.elm-lang.org/packages/elm-lang/core/latest/
-[com]: library.elm-lang.org/catalog/
 
 ## Virtual DOM
 

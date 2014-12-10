@@ -21,7 +21,7 @@ content outer =
       [ centerText intro
       , center (button outer 320 "http://package.elm-lang.org/packages/elm-lang/core/latest/" "Standard Libraries")
       , centerText midtro
-      , center (button outer 320 "http://library.elm-lang.org/catalog" "Community Libraries")
+      , center (button outer 320 "http://package.elm-lang.org/packages" "Community Libraries")
       , centerText outro
       ]
 
@@ -30,7 +30,7 @@ intro = Markdown.toElement """
 # Libraries
 
 Documentation for all Elm libraries can be found at
-[library.elm-lang.org](http://library.elm-lang.org).
+[package.elm-lang.org](http://package.elm-lang.org).
 
 The Standard Libraries come with the latest release of the Elm compiler and
 make it easy to get productive.
@@ -51,7 +51,7 @@ resources](/Learn.elm) to learn more about the language itself.
 
 ## Search
 
-Every page on [library.elm-lang.org](http://library.elm-lang.org) has a search
+Every page on [package.elm-lang.org](http://package.elm-lang.org) has a search
 box that lets you filter through results. For example, in the standard
 libraries, you can search the documentation for functions like `map` and
 `length` or operators like `/=` and `|>`.

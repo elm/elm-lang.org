@@ -73,7 +73,7 @@ started with.
 The Elm Platform comes with quite a few helpful tools in addition to
 `elm-reactor`. This section will give a brief overview of them:
 
-  * [`elm`](https://github.com/elm-lang/Elm) &mdash;
+  * [`elm-make`](https://github.com/elm-lang/elm-make) &mdash;
     this command line tool actually compiles Elm programs to HTML
     and JavaScript. It is the most general way to compile Elm code, so if your
     project becomes too advanced for `elm-reactor` you may want to start using
@@ -87,9 +87,10 @@ The Elm Platform comes with quite a few helpful tools in addition to
     JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
     to use it.
 
-  * `elm-get` &mdash; this tool lets you grab libraries from the [Elm Public
-    Library](http://library.elm-lang.org/). The Public Library is a catalog of
-    helpful projects written by the Elm community to solve common problems.
+  * [`elm-package`](https://github.com/elm-lang/elm-package) &mdash;
+    this tool lets you grab packages from the [Elm Package
+    Catalog](http://package.elm-lang.org/). This is a central home for community
+    libraries that solve common problems.
 
 With each of these tools you can use the `--help` flag to get more information.
 Each tool also has a README on [GitHub](http://github.com/elm-lang) that has
