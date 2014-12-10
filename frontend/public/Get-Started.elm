@@ -44,7 +44,7 @@ The easiest way to get started with Elm is with the [elm-examples][] project.
 It has a couple small Elm programs that are great to learn from and fun to
 play with in [Elm Reactor][reactor].
 
-[elm-examples]: https://github.com/michaelbjames/elm-examples
+[elm-examples]: https://github.com/evancz/elm-examples
 [reactor]: https://github.com/elm-lang/elm-reactor
 
 ## Continue Learning
