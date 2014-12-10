@@ -80,8 +80,8 @@ to 3D rendering and efficient use of the GPU.
 He has released the API as [`elm-webgl`][webgl] for 3D rendering and
 [`elm-linear-algebra`][algebra] for working with vectors and matrices.
 
- [webgl]: http://library.elm-lang.org/catalog/johnpmayer-elm-webgl/latest/
- [algebra]: http://library.elm-lang.org/catalog/johnpmayer-elm-linear-algebra/latest/
+ [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/latest/
+ [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/latest/
 
 The best way to get started is to read about [the architecture of WebGL in
 Elm](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and
@@ -117,8 +117,8 @@ elm-get install elm-webgl
 elm-get install elm-linear-algebra
 ```
 
- [webgl]: http://library.elm-lang.org/catalog/johnpmayer-elm-webgl/latest/
- [algebra]: http://library.elm-lang.org/catalog/johnpmayer-elm-linear-algebra/latest/
+ [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/latest/
+ [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/latest/
 
 ## Colors
 
