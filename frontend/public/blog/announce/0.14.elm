@@ -43,8 +43,8 @@ to start making beautiful projects with Elm:
     between any two versions. For users, this means it is much easier to figure
     out if you want to make an upgrade. Now there is a nice list of what you
     will need to change. For package authors, it means we can automatically
-    enforce semantic versioning. No user will ever get a breaking change in a
-    patch version again! More automation and verification is planned, and we
+    enforce semantic versioning. No user will ever get a breaking API change in
+    a patch version again! More automation and verification is planned, and we
     now have a solid foundation to build upon. This release also introduces
     [`elm-make`][elm-make] which
     is a build tool that replaces the old `elm` command. It permits parallel
@@ -134,19 +134,20 @@ might find yourself using a union type to represent this user ID:
 ```haskell
 type UserID = OldID Int | NewID String
 
-newID : UserID -> String
-newID userID =
+toNewID : UserID -> String
+toNewID userID =
     case userID of
       OldID number -> toString number
       NewID string -> string
 ```
 
 You would probably not believe how many times I found strangers and presented
-this idea a bunch of different ways, but this is the result!
+this idea a bunch of different ways. I was actually somewhat surprised to end
+up with union type, but it just worked really well.
 
-The goal is that someone can read the term &ldquo;union type&rdquo; randomly on
-some forum or hear it in a conversation and have a pretty good idea what it is.
-If you want to be extra precise, the term [tagged union][tagged] can be
+One benefit is that someone can read the term &ldquo;union type&rdquo; randomly
+on some forum or hear it in a conversation and have a pretty good idea what it
+is. If you want to be extra precise, the term [tagged union][tagged] can be
 helpful. Comparing union types to Java-style enumerations can also be successful
 depending on who you are talking to.
 
@@ -250,7 +251,7 @@ viewButton id =
 
 It reads much more clearly now, hopefully making it easier to pick up. It also
 has some nice conceptual connections to my [thesis][], so the door is open for
-some cool stuff farther down the line! Huge thanks to [Richard
+some cool stuff farther down the line. Huge thanks to [Richard
 Feldman](https://github.com/rtfeldman/dreamwriter) for talking through this
 until we ended up with this API! Your insights from writing
 [dreamwriter](https://github.com/rtfeldman/dreamwriter#dreamwriter) in Elm
@@ -289,8 +290,8 @@ code generation when the JSON is very simple, but that is an idea for another
 release!
 
 Again, massive thank you to [Alexander Noriega](https://github.com/lambdatoast)
-who had the key insight for this API. I cannot say enough times how happy I am
-that JSON interop is solved!
+who had the key insight for this API. I have been seeing huge bumps in code
+quality and readability as I translate to the new API.
 
 
 ## Making Random Number Generation Easier
@@ -347,9 +348,9 @@ of these problems go away, and I feel that is a better experience in practice.
 
 ## Better Build Tools
 
-In addition to all changes in the core libraries, 0.14 also marks one of the
-biggest refactors of the core tools around Elm. It introduces two new command
-line tools:
+In addition to all changes the in the core libraries, 0.14 also marks one of
+the biggest refactors of the core tools around Elm. It introduces two new
+command line tools:
 
   * [`elm-package`][elm-package] &mdash; a package manager that resolves dependencies and
     enforces semantic versioning with API diffs (replacing `elm-get`)
@@ -358,9 +359,9 @@ line tools:
 
 You should read about the full details [here][elm-package] and [here][elm-make]
 before using 0.14. One of the most interesting features of `elm-package` is API
-diffing. For example, lets say I am curious what changed between versions 1.0.0
-and 1.1.0 of the new [elm-markdown][] library. I would run the following
-command:
+diffing. For example, let&rsquo;s say I am curious what changed between
+versions 1.0.0 and 1.1.0 of the new [elm-markdown][] library. I would run the
+following command:
 
 ```
 elm-package diff evancz/elm-markdown 1.0.0 1.1.0
@@ -396,15 +397,15 @@ The benefits are actually much deeper though. Now that we know exactly how
 the API has changed, it is possible to automatically enforce [strict
 versioning rules](https://github.com/elm-lang/elm-package#version-rules). If
 there are breaking changes, the new release *must* be a major version bump. As
-a package user this is great because you now have a guarantee that minor and
-patch changes will not introduce breaking changes. No more waking up to find
-some random person on the internet has broken your code!
+a package user this is great because you have a guarantee that minor and
+patch changes will not introduce breaking API changes. We have a lot more
+planned that builds on top of this foundation. I think we are headed in a
+good direction, so I will write more about the vision for `elm-package` in a
+future blog post.
 
-Big thanks to [Andrew Shulayev](https://github.com/ddrone) who on many of the
-improvements that became `elm-package` during his summer internship. And thanks
-to Prezi for making this intership possible! We have a lot more planned that
-builds on top of this foundation. I will write more about that in a future blog
-post.
+Big thanks to [Andrew Shulayev](https://github.com/ddrone) who did the first
+iteration of the most important `elm-package` features during his summer
+internship. And huge thanks to Prezi for making this internship possible!
 
 
 ## Thank you
