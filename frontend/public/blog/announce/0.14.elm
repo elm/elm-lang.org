@@ -151,7 +151,7 @@ helpful. Comparing union types to Java-style enumerations can also be successful
 depending on who you are talking to.
 
 Even with the best terminology, it can still be tough to give a good
-explanation. For people who want to *teach* this concept, I written up
+explanation. For people who want to *teach* this concept, I have written up
 [a document][gist] that attempts to handle common questions gracefully. I have
 also written up [a full description][union] that explains what they are and
 shows a bunch of examples.
@@ -163,7 +163,7 @@ shows a bunch of examples.
 
 ### List Types
 
-The special syntax for lists types has been removed. Working with lists now
+The special syntax for list types has been removed. Working with lists now
 looks more like this:
 
 ```haskell
@@ -178,7 +178,7 @@ length list =
         1 + length rest
 ```
 
-Notice that the type uses `(List a)` instead of `[a]`. The primary benefit here
+Notice that the type uses `List a` instead of `[a]`. The primary benefit here
 is consistency across all type signatures. In addition to simplifying the
 learning process, this also makes it easier to switch type annotations between
 `List`, `Set`, and `Array` depending on what you want to do. Finally, it frees
@@ -310,7 +310,7 @@ but Joe also did a nice dice rolling example. You can check out the source code
 [here](https://github.com/jcollard/random-examples/blob/master/src/Dice.elm).
 
 <iframe
-    src="http://jcollard.github.io/dice-example/random-generator.html"
+    src="http://jcollard.github.io/dice-example/"
     style="display: block; margin: 0 auto;"
     width="300"
     height="320"
