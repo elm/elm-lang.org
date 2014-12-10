@@ -348,7 +348,7 @@ of these problems go away, and I feel that is a better experience in practice.
 
 ## Better Build Tools
 
-In addition to all changes the in the core libraries, 0.14 also marks one of
+In addition to all the changes in the core libraries, 0.14 also marks one of
 the biggest refactors of the core tools around Elm. It introduces two new
 command line tools:
 
