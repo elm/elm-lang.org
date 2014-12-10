@@ -53,7 +53,7 @@ and [JavaScript](#javascript)
   [This conference talk](https://www.youtube.com/watch?v=Agu6jipKfYw) explains
   it best. You can read more about these concerns in [this
   thesis](/papers/concurrent-frp.pdf). You can also use [the automaton
-  library](http://library.elm-lang.org/catalog/evancz-automaton/latest/) which
+  library](http://package.elm-lang.org/packages/evancz/automaton/latest/) which
   provides much of the flexibility of higher-order FRP without the performance
   issues.
 

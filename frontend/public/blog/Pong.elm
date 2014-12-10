@@ -364,7 +364,7 @@ it is specific to Arrowized FRP, which is supported by Elm&rsquo;s
 [Automaton][automaton] library.
 
  [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf
- [automaton]: http://library.elm-lang.org/catalog/evancz-automaton/0.1.0.1
+ [automaton]: http://package.elm-lang.org/packages/evancz/automaton/latest
 
 Learning by doing is a great way to improve your skills, so if you want to
 learn more about making games in Elm, try tackling some of these challenges:

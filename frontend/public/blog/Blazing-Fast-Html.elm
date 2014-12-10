@@ -104,7 +104,7 @@ profile user =
 Notice that we set a class so the whole thing can be styled from CSS. Paired
 with Elm&rsquo;s module system, this makes it easy to abstract out common
 patterns and reuse code. You can check out the full API and documentation
-[here](http://library.elm-lang.org/catalog/evancz-elm-html/latest/) and we will
+[here](http://package.elm-lang.org/packages/evancz/elm-html/latest/) and we will
 explore more example uses soon in the section on [reusable
 widgets](#reusable-widgets).
 

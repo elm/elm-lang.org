@@ -165,12 +165,12 @@ variety of reasons, but I imagine it'd help library authors do a better job.
 It is currently possible to download any of it from the site directly, giving you
 access to [a list of every uploaded library](http://library.elm-lang.org/libraries.json)
 and [docs for each version of each
-library](http://library.elm-lang.org/catalog/evancz-automaton/0.1/docs.json).
+library](http://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
 This is great if you want to work on search tool like
 [Hayoo](http://holumbus.fh-wedel.de/hayoo/hayoo.html) or
 [Hoogle](http://www.haskell.org/hoogle/), implement autocomplete in an editor,
 or estimate maximal dependency ranges based on
-[`elm-doc` data](http://library.elm-lang.org/catalog/evancz-automaton/0.1/docs.json).
+[`elm-doc` data](http://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
 
 There is a ton of work, so check out [the repo](https://github.com/elm-lang/elm-get)
 if you are interested in contributing! I am slowly becoming better at managing
