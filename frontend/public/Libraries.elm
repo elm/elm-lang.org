@@ -19,7 +19,7 @@ content outer =
     in
       flow down
       [ centerText intro
-      , center (button outer 320 "http://library.elm-lang.org/catalog/elm-lang-Elm/latest/" "Standard Libraries")
+      , center (button outer 320 "http://package.elm-lang.org/packages/elm-lang/core/latest/" "Standard Libraries")
       , centerText midtro
       , center (button outer 320 "http://library.elm-lang.org/catalog" "Community Libraries")
       , centerText outro

@@ -273,8 +273,8 @@ an image for it and we currently only have red and blue.
 That was a lot of new stuff! To help you remember you can look at all
 of the documentation for Elm [here](http://library.elm-lang.org/).
 Each category is called a *library*. The ones we used today are the
-[Element](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Element) and
-[Collage](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Collage) libraries.
+[Element](http://package.elm-lang.org/packages/elm-lang/core/latest/Graphics-Element) and
+[Collage](http://package.elm-lang.org/packages/elm-lang/core/latest/Graphics-Collage) libraries.
 Documentation can be hard to read and takes some getting used to, but
 being able to read and understand this kind of document is very important
 for quickly learning new things.

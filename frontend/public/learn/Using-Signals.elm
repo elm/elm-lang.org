@@ -33,8 +33,8 @@ Every Elm program starts with an input. Something like [`Mouse.position`][pos]
 or [`Window.dimensions`][dim] that gives you information about the world and
 what your users might be up to.
 
-[pos]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Mouse#position
-[dim]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Window#dimensions
+[pos]: http://package.elm-lang.org/packages/elm-lang/core/latest/Mouse#position
+[dim]: http://package.elm-lang.org/packages/elm-lang/core/latest/Window#dimensions
 
 ```haskell
 Mouse.position : Signal (Int,Int)
@@ -144,7 +144,7 @@ Sometimes it is useful to filter certain updates, though it does not come up
 super frequently. For example, lets say I want to have a signal that represents
 dragging the mouse. I could use [`keepWhen`][keepWhen] for this:
 
-[keepWhen]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal#keepWhen
+[keepWhen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#keepWhen
 
 ```haskell
 keepWhen : Signal a -> b -> Signal b -> Signal b
@@ -180,7 +180,7 @@ The state of your application will live primarily in a single [`foldp`][foldp].
 This `foldp` will take in some signal of &ldquo;inputs&rdquo; that indicate
 how your application state should be updated.
 
-[foldp]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal#foldp
+[foldp]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#foldp
 
 Say those inputs include `Mouse.clicks` and time deltas. We need to put these
 signals together in a way that will update our `foldp` correctly. It may seem
@@ -199,7 +199,7 @@ click or a time delta?!
 Instead you want to model the kinds of updates that can be done and
 [`merge`][merge] them all together.
 
-[merge]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Signal#merge
+[merge]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#merge
 
 ```haskell
 type Update = Click | TimeDelta Float

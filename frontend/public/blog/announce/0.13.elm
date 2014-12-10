@@ -244,7 +244,7 @@ streamlining the build process, and adding history and completion to `elm-repl`.
 The benefits of these efforts has become extremely obvious; it is great!
 
 [dan]: https://github.com/Dandandan
-[array]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array
+[array]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
 [max]: https://github.com/maxsnew
 
 Finally, thank you to [Peter Halacsy][hp] and [Prezi][] for your support! You

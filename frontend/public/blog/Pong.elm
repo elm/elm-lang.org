@@ -117,7 +117,7 @@ delta = inSeconds <~ fps 35
 Now we put that together with the [keyboard][] inputs to make a signal representing
 all inputs.
 
- [keyboard]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Keyboard
+ [keyboard]: http://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard
 
 ```haskell
 input : Signal Input

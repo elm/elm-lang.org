@@ -74,7 +74,7 @@ designer/developer workflow that you are comfortable with. It is simpler than
 ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
 [FRP]: /learn/What-is-FRP.elm
-[std]: library.elm-lang.org/catalog/elm-lang-Elm/latest/
+[std]: package.elm-lang.org/packages/elm-lang/core/latest/
 [com]: library.elm-lang.org/catalog/
 
 ## Virtual DOM

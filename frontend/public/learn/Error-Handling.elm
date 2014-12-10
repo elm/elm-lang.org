@@ -22,7 +22,7 @@ The [`Maybe`][maybe] library is one of the easiest ways to do error handling
 in Elm. This page goes through some examples, building up to some strategies
 that make error handling nice as things get more complicated.
 
-[maybe]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Maybe
+[maybe]: http://package.elm-lang.org/packages/elm-lang/core/latest/Maybe
 
 ## A Function that may Fail
 

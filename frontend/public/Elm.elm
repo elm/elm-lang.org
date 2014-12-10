@@ -111,7 +111,7 @@ exampleBlock w =
       ]
     , [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
       , ("Home/DreamWriter", "http://dreamwriter.io", Just "https://github.com/rtfeldman/dreamwriter")
-      , ("Home/Catalog", "http://library.elm-lang.org/catalog/elm-lang-Elm/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
+      , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", Just "https://github.com/elm-lang/elm-get/tree/master/website")
       , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
       ]
     ]

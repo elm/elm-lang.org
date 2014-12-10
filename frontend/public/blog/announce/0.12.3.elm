@@ -122,7 +122,7 @@ elm-get install elm-linear-algebra
 
 ## Colors
 
-[The `Color` library](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Color)
+[The `Color` library](http://package.elm-lang.org/packages/elm-lang/core/latest/Color)
 underwent a breaking change by switching from HSV to HSL. If those letters do
 not mean anything to you, your code will be fine and you are about to learn
 about a very useful color space! HSV and HSL are very closely related, so
@@ -184,7 +184,7 @@ to look at or use. Please someone fix this!
 ## Thank you!
 
 Thank you to [Max Goldstein](https://github.com/mgold) who made it possible
-for [`Array`](http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Array)
+for [`Array`](http://package.elm-lang.org/packages/elm-lang/core/latest/Array)
 to flow through ports.
 
 Thanks also to [Max New](https://github.com/maxsnew) who has been making a
