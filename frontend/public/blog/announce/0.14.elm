@@ -400,10 +400,11 @@ a package user this is great because you now have a guarantee that minor and
 patch changes will not introduce breaking changes. No more waking up to find
 some random person on the internet has broken your code!
 
-Big thanks to [Andrew Shulayev](https://github.com/ddrone) who worked on many
-of the improvements that became `elm-package` during his internship! We have a
-lot more planned that builds on top of this foundation. I will write more about
-that in a future blog post.
+Big thanks to [Andrew Shulayev](https://github.com/ddrone) who on many of the
+improvements that became `elm-package` during his summer internship. And thanks
+to Prezi for making this intership possible! We have a lot more planned that
+builds on top of this foundation. I will write more about that in a future blog
+post.
 
 
 ## Thank you
