@@ -1,27 +1,37 @@
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (lightGrey,mediumGrey)
-
-import JavaScript.Experimental as JS
-import Window
+import Color (..)
+import Graphics.Element (..)
 import Graphics.Input as Input
 import Graphics.Input.Field as Field
 import Http
-import Json
+import Json.Decode
+import Markdown
+import Maybe
+import Signal
 import String
-import Maybe (..)
+import Text
+import Website.Skeleton (skeleton)
+import Website.ColorScheme (lightGrey,mediumGrey)
+import Window
+
 
 port title : String
 port title = "Escape from Callback Hell"
 
-tagSearch : Input.Input Field.Content
-tagSearch = Input.input Field.noContent
 
-picSearch : Input.Input Field.Content
-picSearch = Input.input Field.noContent
+tagSearch : Signal.Channel Field.Content
+tagSearch =
+  Signal.channel Field.noContent
+
+
+picSearch : Signal.Channel Field.Content
+picSearch =
+  Signal.channel Field.noContent
+
 
 fieldStyle =
     let s = Field.defaultStyle in
     { s | outline <- { color = grey, width = Field.uniformly 1, radius = 4 } }
+
 
 content : Field.Content -> Http.Response String -> Element -> Int -> Element
 content tagContent tagResponse search outerWidth =
@@ -46,7 +56,7 @@ content tagContent tagResponse search outerWidth =
       paragraphs content =
           spacer leftMargin 10 `beside` width contentWidth content
 
-      tagField = Field.field fieldStyle tagSearch.handle identity "tag" tagContent
+      tagField = Field.field fieldStyle (Signal.send tagSearch) "tag" tagContent
 
       pairing e1 e2 =
           flow right
@@ -58,13 +68,13 @@ content tagContent tagResponse search outerWidth =
       asyncElm =
           flow down
           [ paragraphs asyncElm1
-          , pairing tagField (asText tagContent.string)
+          , pairing tagField (Text.asText tagContent.string)
           , paragraphs asyncElm2
-          , pairing (code "lift length tags") (asText <| String.length tagContent.string)
-          , pairing (code "lift reverse tags") (asText <| String.reverse tagContent.string)
-          , pairing (code "lift requestTag tags") (asText <| requestTagSimple tagContent.string)
+          , pairing (code "map length tags") (Text.asText <| String.length tagContent.string)
+          , pairing (code "map reverse tags") (Text.asText <| String.reverse tagContent.string)
+          , pairing (code "map requestTag tags") (Text.asText <| requestTagSimple tagContent.string)
           , paragraphs asyncElm3
-          , pairing (code "send (lift requestTag tags)") (showResponse tagResponse)
+          , pairing (code "send (map requestTag tags)") (showResponse tagResponse)
           , paragraphs asyncElm4
           ]
   in
@@ -74,25 +84,49 @@ content tagContent tagResponse search outerWidth =
       , sideBySide midtro2 quote2
       , sideBySide midtro3 funcs
       , asyncElm
-      , container outerWidth (heightOf search) middle search
+--      , container outerWidth (heightOf search) middle search
       , paragraphs outro
       ]
 
---tagResults : Signal (Http.Response String)
-tagResults = Http.send (getTag << .string <~ tagSearch.signal)
+tagResults : Signal (Http.Response String)
+tagResults =
+  Signal.subscribe tagSearch
+    |> Signal.map (.string >> getTag)
+    |> Http.send
 
-main = skeleton "Learn" <~ (content <~ tagSearch.signal ~ tagResults ~ searchBox) ~ Window.dimensions
 
-pageTitle = [markdown|
+flickrRequest args =
+  "https://api.flickr.com/services/rest/?format=json" ++
+  "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c" ++ args
+
+-- Turn a tag into an HTTP GET request.
+getTag : String -> Http.Request String
+getTag tag =
+    let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
+    in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
+
+
+searchBox = Signal.constant (color red (spacer 200 40))
+
+
+main =
+  Signal.map2 (skeleton "Learn") 
+    (Signal.map3 content (Signal.subscribe tagSearch) tagResults searchBox)
+    Window.dimensions
+
+
+pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Escape from Callback Hell</div>
 <div style="font-size: 1.2em;">Callbacks are the modern goto</div>
 </div>
-|]
+"""
 
 
-quote1 = spacer 170 200 `above` width 170 [markdown|
+quote1 = spacer 170 200 `above` width 170 quoteText1
+
+quoteText1 = Markdown.toElement """
 
 <div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;The unbridled use of the go to statement has an immediate consequence that it
@@ -101,9 +135,12 @@ becomes terribly hard to find a meaningful set of coordinates in which to descri
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:right"><a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html">Edsger Dijkstra</a></div>
 
-|]
+"""
 
-quote2 = spacer 170 40 `above` width 170 [markdown|
+
+quote2 = spacer 170 40 `above` width 170 quoteText2
+
+quoteText2 = Markdown.toElement """
 
 <div style="color:#666;font-size:0.8em;text-align:left">
 &ldquo;For a number of years I have been familiar with the observation that the quality
@@ -112,9 +149,10 @@ of programmers is a decreasing function of the density of go to statements in th
 <div style="height:0.5em"></div>
 <div style="color:#666;font-size:0.8em;text-align:right"><a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html">Edsger Dijkstra</a></div>
 
-|]
+"""
 
-intro = [markdown|
+
+intro = Markdown.toElement """
 
 Callbacks are used to structure programs. They let us say, &ldquo;When this value is ready,
 go to another function and run that.&rdquo; From there, maybe you go to *another* function
@@ -177,9 +215,10 @@ In short:
 
   [frp]: /learn/What-is-FRP.elm
 
-|]
+"""
 
-midtro2 = [markdown|
+
+midtro2 = Markdown.toElement """
 
 [Functional Reactive Programming][frp] (FRP) is a high-level framework for
 describing time-dependent relationships. FRP formalizes these time-dependencies,
@@ -195,9 +234,12 @@ this more concrete. The following example will explain the current state
 of affairs and fully explain how to create readable, responsive code that is
 entirely free of callbacks.
 
-|]
+"""
 
-funcs = spacer 170 300 `above` width 170 [markdown|
+
+funcs = spacer 170 300 `above` width 170 funcsText
+
+funcsText = Markdown.toElement """
 
 <div style="color:#666;font-size:0.8em;text-align:left">
 <b>Function Specifications</b>
@@ -228,10 +270,10 @@ the previous request.
 mess around with the DOM in [Elm](/), so this function only gets used in the JS code.
 </div>
 
-|]
+"""
 
 
-midtro3 = [markdown|
+midtro3 = Markdown.toElement """
 
 ## Case Study: Using the Flickr API
 
@@ -310,9 +352,9 @@ the same reason. It is pretty much the same as using `goto` to structure your pr
  [cps_compile]: http://matt.might.net/articles/cps-conversion/ "Compiling with Continuations"
  [cps]: http://matt.might.net/articles/by-example-continuation-passing-style/ "cps"
 
-|]
+"""
 
-asyncElm1 = [markdown|
+asyncElm1 = Markdown.toElement """
 
 ### 3. Readable *and* Responsive
 
@@ -331,27 +373,27 @@ text box. The second is a signal called `tags`. The value of `tags` changes auto
 as the user types and highlights in the input field. Here they are in action. Try typing
 into the input box to see `tags` update automatically.
 
-|]
+"""
 
-asyncElm2 = [markdown|
+asyncElm2 = Markdown.toElement """
 We can then do all sorts of computations with `tags`. When `tags` changes
 the signals that depend on it change automatically:
-|]
+"""
 
-asyncElm3 = [markdown|
+asyncElm3 = Markdown.toElement """
 
-The `lift` function is used to transform a signal. It takes functions such as
+The `map` function is used to transform a signal. It takes functions such as
 `length`, `reverse`, or `requestTag` and applies them to a signal. This lets
 us create new signals that automatically change whenever `tags` changes.
 
 We are particularly interested in the third signal we created.
-The code `(lift requestTag tags)` produces a Flickr request that
+The code `(map requestTag tags)` produces a Flickr request that
 corresponds to the current user input (abbreviated for the sake of presentation).
 Now we just need to send this request! For this we use the `send` function:
 
-|]
+"""
 
-asyncElm4 = [markdown|
+asyncElm4 = Markdown.toElement """
 
 Notice that when `tags` changes, the result of `send` does *not* change immediately.
 The responses are sent and received asynchronously, so a response only arrives when
@@ -364,9 +406,9 @@ are going to do. Here is the full Elm code for making many requests to the Flick
 
 ```haskell
 getPhotos tags =
-    let photoList  = send (lift requestTag tags)
-        photoSizes = send (lift requestOneFrom photoList)
-    in  lift sizesToPhoto photoSizes
+    let photoList  = send (map requestTag tags)
+        photoSizes = send (map requestOneFrom photoList)
+    in  map sizesToPhoto photoSizes
 ```
 
 We have effectively set up a processing pipeline of how to handle user input:
@@ -395,7 +437,7 @@ In fact, here is an abbreviated version that fits in this blog post:
 scene img = flow down [ container 300  60 middle inputField
                       , fittedImage 300 300 img ]
 
-main = lift scene (getPhotos (dropRepeats tags))
+main = map scene (getPhotos (dropRepeats tags))
 ```
 
 In `scene` we stack two elements vertically so that they flow downward.
@@ -407,85 +449,17 @@ which filters out any values that are repeated, cutting down the number
 of HTTP requests we make. The result looks like this:
 
 
-|]
+<iframe
+    src="/examples/Intermediate/Flickr.elm"
+    style="display: block; margin: 0 auto;"
+    width="300"
+    height="300"
+    frameborder="0"></iframe>
+
+"""
 
 
-flickrSearch : Input.Input Field.Content
-flickrSearch =
-    Input.input Field.noContent
-
-
-getSources : Signal String -> Signal (Maybe String)
-getSources tag =
-    let photos = Http.send (getTag <~ tag)
-        sizes  = Http.send (getOneFrom <~ photos)
-    in
-        sizesToSource <~ sizes
-
-
-scene : Field.Content -> Maybe String -> Element
-scene fieldContent imgSrc =
-    let img =
-            case imgSrc of
-              Just src -> fittedImage 300 300 src
-              Nothing  -> color white (spacer 298 298)
-    in
-        flow down
-        [ container 300 60 middle (Field.field fieldStyle flickrSearch.handle identity "Flickr Search" fieldContent)
-        , color mediumGrey <| container 300 300 middle img
-        ]
-
-
-filteredSearch =
-    dropRepeats flickrSearch.signal
-
-searchBox =
-    lift2 scene
-        filteredSearch
-        (getSources (.string <~ filteredSearch))
-
-
-{---------------------  Helper Functions  ---------------------}
-
--- The standard parts of a Flickr API request.
-flickrRequest args =
-  "https://api.flickr.com/services/rest/?format=json" ++
-  "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c" ++ args
-
--- Turn a tag into an HTTP GET request.
-getTag : String -> Http.Request String
-getTag tag =
-    let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
-    in  Http.get (if tag == "" then "" else flickrRequest args ++ tag)
-
-toJson response =
-    case response of
-      Http.Success str -> Json.fromString str
-      _ -> Nothing
-
--- Take a list of photos and choose one, resulting in a request.
-getOneFrom photoList =
-    case toJson photoList of
-      Nothing -> Http.get ""
-      Just json ->
-          let photoRecord = JS.toRecord <| JS.fromJson json
-          in  case photoRecord.photos.photo of
-                h::_ -> Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ h.id)
-                []   -> Http.get ""
-
--- Take some size options and choose one, resulting in a URL.
-sizesToSource sizeOptions =
-    case toJson sizeOptions of
-      Nothing   -> Nothing
-      Just json ->
-          let sizesRecord = JS.toRecord <| JS.fromJson json
-              sizes = sizesRecord.sizes.size
-          in  case reverse sizes of
-                _ :: _ :: _ :: _ :: _ :: size :: _ -> Just size.source
-                size :: _ -> Just size.source
-                _ -> Nothing
-
-outro = [markdown|
+outro = Markdown.toElement """
 
 ## Conclusions
 
@@ -534,12 +508,15 @@ if you do not have any experience reading academic papers. You can also email
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
   [irc]: http://webchat.freenode.net/?channels=elm "#elm channel"
 
-|]
+"""
 
-tags : Input.Input Field.Content
-tags = Input.input Field.noContent
 
-code = centered << monospace << toText
+-- Interactive Parts
+
+tags : Signal.Channel Field.Content
+tags = Signal.channel Field.noContent
+
+code = Text.centered << Text.monospace << Text.fromString
 box w e = container w 40 middle e
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t
@@ -553,4 +530,4 @@ showResponse response =
   code <| case response of
             Http.Success r -> "Success \"... " ++ format r ++ " ...\""
             Http.Waiting -> "Waiting"
-            Http.Failure n _ -> "Failure " ++ show n ++ " \"...\""
+            Http.Failure n _ -> "Failure " ++ toString n ++ " \"...\""
