@@ -89,7 +89,7 @@ Let&rsquo;s get into the code!
 <h1 id="inputs">Inputs</h1>
 
 This game has two primary inputs: the passage of time and key presses.
-With the keyboard, we to keep track of:
+With the keyboard, we need to keep track of:
 
   * SPACE &mdash; to pause and unpause the game.
   * w/s &mdash; whether paddle *one* is moving up or down.
