@@ -53,6 +53,7 @@ main =
                     , ("compile", compile)
                     , ("hotswap", hotswap)
                     , ("login", login)
+                    , ("learn/Pattern-Matching.elm", ifTop (redirect' "/learn/Union-Types.elm" 301))
                     ]
           <|> serveDirectoryWith directoryConfig "artifacts"
           <|> serveDirectoryWith simpleDirectoryConfig "resources"
