@@ -98,6 +98,49 @@ let you use [this install script][script].
 
 <br>
 
+## My First Project
+
+The easiest way to get started with Elm is with the [elm-examples][] project.
+It has a couple small Elm programs that are great to learn from and fun to
+play with in [Elm Reactor][reactor].
+
+[elm-examples]: https://github.com/evancz/elm-examples
+[reactor]: https://github.com/elm-lang/elm-reactor
+
+<br>
+
+## Additional Tools
+
+The Elm Platform comes with quite a few helpful tools in addition to
+`elm-reactor`. This section will give a brief overview of them:
+
+  * [`elm-make`](https://github.com/elm-lang/elm-make) &mdash;
+    this command line tool actually compiles Elm programs to HTML
+    and JavaScript. It is the most general way to compile Elm code, so if your
+    project becomes too advanced for `elm-reactor` you may want to start using
+    the compiler directly.
+
+  * [`elm-repl`](https://github.com/elm-lang/elm-repl) &mdash;
+    REPL stands for [read-eval-print-loop][repl] which lets you play with small
+    Elm expressions. The REPL can import code from your projects, so if you want
+    to play around with a function burried deep inside a module, you can load it
+    into the REPL and test it out. `elm-repl` eventually needs to evaluate
+    JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
+    to use it.
+
+  * [`elm-package`](https://github.com/elm-lang/elm-package) &mdash;
+    this tool lets you grab packages from the [Elm Package
+    Catalog](http://package.elm-lang.org/). This is a central home for community
+    libraries that solve common problems.
+
+With each of these tools you can use the `--help` flag to get more information.
+Each tool also has a README on [GitHub](http://github.com/elm-lang) that has
+some helpful information.
+
+  [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
+
+<br>
+
 ## Help
 
 If you are stuck, check to see if anyone has had [a similar issue][elm-platform].
