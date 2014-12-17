@@ -18,10 +18,22 @@ Then follow these steps to get the website running locally:
 git clone https://github.com/elm-lang/elm-lang.org.git
 cd elm-lang.org
 git checkout stable
-elm-get install
+elm-package install
 cabal configure
 cabal build
 ./dist/build/run-elm-website/run-elm-website
+```
+If you get the following error message:
+
+```bash
+cabal: At least the following dependencies are missing:
+```
+
+...
+
+You may need to run the following command 
+```bash
+cabal install --only-dependencies
 ```
 
 Great! You should be set up with [elm-lang.org](http://elm-lang.org/) running at
