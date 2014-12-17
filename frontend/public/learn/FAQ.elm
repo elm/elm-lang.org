@@ -74,7 +74,7 @@ and [JavaScript](#javascript)
 
 * Tuples such as `(3, True)` may mix types but must be of a known, fixed length.
 
-* Anonymous functions are written `(\a b c -> expression)`
+* Anonymous functions are written `(\\a b c -> expression)`
 
 * Function application happens before any infix operation.
 
