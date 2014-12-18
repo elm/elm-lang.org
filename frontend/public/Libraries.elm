@@ -60,7 +60,7 @@ libraries, you can search the documentation for functions like `map` and
 
 Just like [this website](https://github.com/elm-lang/elm-lang.org), the Public
 Library is also written entirely in Elm. Check out [the source
-code](https://github.com/elm-lang/elm-get) to see how FRP makes live search
+code](https://github.com/elm-lang/elm-package) to see how FRP makes live search
 easy to implement.
 
 """
