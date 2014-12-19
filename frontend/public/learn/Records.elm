@@ -345,7 +345,7 @@ origin = { x=0, y=0 }
 We can also use type aliases to make things much more concise.
 
 ```haskell
-type Point = { x:Float, y:Float }
+type alias Point = { x:Float, y:Float }
 
 hypotenuse : Point -> Float
 hypotenuse {x,y} = sqrt (x^2 + y^2)
@@ -355,9 +355,9 @@ You can also define extensible records. This is generally recommended because
 it makes your functions more reusable:
 
 ```haskell
-type Positioned a = { a | x:Float, y:Float }
-type Named      a = { a | name:String }
-type Moving     a = { a | velocity:Float, angle:Float }
+type alias Positioned a = { a | x:Float, y:Float }
+type alias Named      a = { a | name:String }
+type alias Moving     a = { a | velocity:Float, angle:Float }
 ```
 
 This syntax is just like the syntax for record extension, indicating that
