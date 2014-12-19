@@ -300,7 +300,7 @@ of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
 to a signal in which the current value is equal to the square root of the current
 x-coordinate of the mouse.
 
-You can also use the functions `(<~)` and `(~)` to map over signals. The squigly
+You can also use the functions `(<~)` and `(~)` to map over signals. The squiggly
 arrow is exactly the same as the `map` function, so the following expressions
 are the same:
 
