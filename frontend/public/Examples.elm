@@ -77,8 +77,14 @@ as templates for your own project!
  * [elm-todomvc](https://github.com/evancz/elm-todomvc) &mdash;
    todo list modelled on [TodoMVC](http://todomvc.com/)
  * [elm-lang.org](https://github.com/elm-lang/elm-lang.org) &mdash;
-   front-end and back-end code for this website
-   
+   frontend and backend code for this website
+ * [package.elm-lang.org](https://github.com/elm-lang/package.elm-lang.org) &mdash;
+   frontend and backend code for the package website
+ * [Reddit Time Machine](https://github.com/Dobiasd/RedditTimeMachine) &mdash;
+   Check out what was up on reddit days/weeks/months ago, by Tobias Hermann
+ * [EAN/UPC-A Barcode Generator](https://github.com/Dobiasd/Barcode-Generator) &mdash;
+   with addon2/addon5 and real-time output, by Tobias Hermann
+
 #### Games
 
  * [Tetris](https://github.com/jcollard/elmtris) &mdash;
@@ -87,8 +93,9 @@ as templates for your own project!
    by Tobias Hermann
  * [Maze](https://github.com/Dobiasd/Maze#maze--play-it) &mdash;
    by Tobias Hermann
- * [Celestia](https://github.com/johnpmayer/celestia) &mdash;
-   modular spaceship game by John P. Mayer Jr
+ * [Demoscene-Concentration](https://github.com/Dobiasd/Demoscene-Concentration) &mdash;
+   the classical memory game with (simple) old-school demoscene effects, by Tobias Hermann
+ * [Froggy](https://github.com/thSoft/froggy) &mdash; by Dénes Harmath
 
 """
 
