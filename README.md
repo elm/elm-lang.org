@@ -20,6 +20,7 @@ cd elm-lang.org
 git checkout stable
 elm-package install
 cabal configure
+cabal install --only-dependencies
 cabal build
 ./dist/build/run-elm-website/run-elm-website
 ```
