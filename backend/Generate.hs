@@ -21,13 +21,11 @@ htmlSkeleton userGenerated title scripts =
       H.title (H.toHtml title)
       H.style $ preEscapedToMarkup Utils.standardStyle
       when (not userGenerated) $
-        do  H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
+        do  Utils.googleAnalytics
+            H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
             H.script ! A.src "/highlight/highlight.pack.js" $ ""
 
     H.body scripts
-
-    when (not userGenerated) Utils.googleAnalytics
-
 
 -- USER-GENERATED ELM TO HTML
 
