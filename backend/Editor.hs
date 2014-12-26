@@ -56,7 +56,11 @@ editor filePath code =
         H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/util/foldgutter.css"
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/util/dialog.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/dialog.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/search.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/searchcursor.js" $ mempty
         H.script ! A.src "/codemirror-3.x/lib/util/foldcode.js" $ mempty
         H.script ! A.src "/codemirror-3.x/lib/util/foldgutter.js" $ mempty
         H.script ! A.src "/codemirror-3.x/lib/util/indent-fold.js" $ mempty
