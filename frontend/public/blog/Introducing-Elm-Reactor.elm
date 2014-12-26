@@ -57,7 +57,7 @@ Check out the following video to see Elm Reactor in action when debugging a
 [TodoMVC app][todo] written with [elm-html][html]:
 
 [todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
-[html]: /blog/Blazing-Fast-Html.em
+[html]: /blog/Blazing-Fast-Html.elm
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
 <iframe width="600"
