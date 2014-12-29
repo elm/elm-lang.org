@@ -216,7 +216,9 @@ CodeMirror.defineMode("elm", function() {
       var t = state.f(stream, function(s) { state.f = s; });
       var w = stream.current();
       return (wellKnownWords.hasOwnProperty(w)) ? wellKnownWords[w] : t;
-    }
+    },
+    blockCommentStart: "{-",
+    blockCommentEnd: "-}"
   };
 
 });

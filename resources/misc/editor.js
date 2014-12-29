@@ -349,9 +349,22 @@ function setVisibility(id, visible) {
   node.style.borderTopWidth = visible ? '1px' : '0';
 }
 
+function setGuttersDefaultOrder(){
+    editor.setOption('gutters', ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]);
+}
+
 function showLines(on) {
   editor.setOption('lineNumbers', on);
+  setGuttersDefaultOrder();
   cookie('lineNumbers', on);
+}
+
+function showCodeFolding(on) {
+  editor.setOption('foldGutter', on ?{
+            rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.indent, CodeMirror.fold.comment)
+          }:false);
+  setGuttersDefaultOrder();
+  cookie('codeFolding', on);
 }
 
 var delay;
@@ -429,6 +442,22 @@ function initLines() {
   return false;
 }
 
+function initCodeFolding() {
+  var codeFolding = readCookie('codeFolding');
+
+  if (codeFolding) {
+    codeFolding = codeFolding === 'true';
+    document.getElementById('editor_code_folding').checked = codeFolding;
+    if(codeFolding){
+        return {
+            rangeFinder: new CodeMirror.fold.combine(CodeMirror.fold.brace, CodeMirror.fold.indent, CodeMirror.fold.comment)
+          };
+    }
+    else return false;
+  }
+  return false;
+}
+
 function initTheme() {
   var theme = readCookie('theme');
   if (theme) {
@@ -469,8 +498,11 @@ function initEditor() {
     editor = CodeMirror.fromTextArea(
         document.getElementById('input'),
         { lineNumbers: initLines(),
+          foldGutter: initCodeFolding(),   
+          gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
           matchBrackets: true,
           theme: initTheme(),
+          tabSize: 2,
           tabMode: 'shift',
           extraKeys: {
               'Ctrl-Enter': compile,
