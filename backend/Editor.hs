@@ -55,7 +55,11 @@ editor filePath code =
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/util/dialog.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/dialog.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/search.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/searchcursor.js" $ mempty
         H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
