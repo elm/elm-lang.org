@@ -79,7 +79,7 @@ One of the most common data structures in Elm is the list. Lists can hold
 many values, and those values must all have the same type. For example,
 
 ```haskell
-numbers : [Int]
+numbers : List Int
 numbers = [1,2,3]
 ```
 
@@ -87,7 +87,7 @@ This could be read &ldquo;`numbers` has type list of ints.&rdquo; If you
 wanted to represent a list of names:
 
 ```haskell
-names : [String]
+names : List String
 names = ["Alice", "Bob", "Chuck"]
 ```
 
@@ -132,12 +132,12 @@ book1 = { title="Demian", author="Hesse", pages=176 }
 We can use type aliases to make things a bit clearer.
 
 ```haskell
-type Book = { title:String, author:String, pages:Int }
+type alias Book = { title:String, author:String, pages:Int }
 
 book2 : Book
 book2 = { title="Magister Ludi", author="Hesse", pages=558 }
 
-books : [Book]
+books : List Book
 books = [ book1, book2 ]
 ```
 
@@ -166,7 +166,7 @@ This would be read as &ldquo;`not` has type `Bool` to `Bool`&rdquo;.
 Another example is the `length` function which figures out the length of a list.
 
 ```haskell
-length : [a] -> Int
+length : List a -> Int
 length list =
     case list of
       [] -> 0
@@ -188,14 +188,14 @@ shortened list. For example, it is true that
 `(drop 2 [1,2,3,4] == [3,4])`. The type of `drop` is:
 
 ```haskell
-drop : Int -> [a] -> [a]
+drop : Int -> List a -> List a
 ```
 
 When you see multiple arrows, you can think of a bunch of argument types
 ending with the return type. So you can think of `drop` as a function that
 takes two arguments and returns a list. Notice that we use the same type variable
-for the input list `[a]` and the output list `[a]`. That means if you give
-an integer list `[Int]`, you must get back an integer list `[Int]`!
+for the input list `List a` and the output list `List a`. That means if you give
+an integer list `List Int`, you must get back an integer list `List Int`!
 
 ### Higher-order Functions
 
@@ -216,7 +216,7 @@ the nearest integer.
 The `map` function has the following type:
 
 ```haskell
-map : (a -> b) -> [a] -> [b]
+map : (a -> b) -> List a -> List b
 ```
 
 The first argument is a function from `a`&rsquo;s to `b`&rsquo;s, the second
@@ -234,9 +234,9 @@ The `map` function can be specialized for each case. When `map` is used
 with `not`, it is specialized to have the type:
 
 ```haskell
--- map : (Bool -> Bool) -> [Bool] -> [Bool]
+-- map : (Bool -> Bool) -> List Bool -> List Bool
 
-nots : [Bool] -> [Bool]
+nots : List Bool -> List Bool
 nots bools =
     map not bools
 ```
@@ -244,9 +244,9 @@ nots bools =
 And when it is used with `round` it is specialized to have the type:
 
 ```haskell
--- map : (Float -> Int) -> [Float] -> [Int]
+-- map : (Float -> Int) -> List Float -> List Int
 
-rounds : [Float] -> [Int]
+rounds : List Float -> List Int
 rounds floats =
     map length floats
 ```
@@ -263,8 +263,8 @@ Applying `not` to a string does not make any sense! So when you try to
 specialize `map` to make this work, the type variable `a` ends up not matching!
 
 ```haskell
-map : ( a   ->  b  ) -> [  a   ] -> [ b  ]
-map : (Bool -> Bool) -> [String] -> [Bool]   -- Type Error!!!
+map : ( a   ->  b  ) -> List  a     -> List b  
+map : (Bool -> Bool) -> List String -> List Bool   -- Type Error!!!
 ```
 
 Type variable `a` cannot be a `Bool` and a `String`! This is when types
