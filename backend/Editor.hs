@@ -55,7 +55,17 @@ editor filePath code =
       H.head $ do
         H.title . toHtml $ "Elm Editor: " ++ FP.takeBaseName filePath
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/codemirror.css"
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/util/foldgutter.css"
+        H.link ! A.rel "stylesheet" ! A.href "/codemirror-3.x/lib/util/dialog.css"
         H.script ! A.src "/codemirror-3.x/lib/codemirror.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/dialog.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/search.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/searchcursor.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/foldcode.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/foldgutter.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/indent-fold.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/brace-fold.js" $ mempty
+        H.script ! A.src "/codemirror-3.x/lib/util/comment-fold.js" $ mempty
         H.script ! A.src "/codemirror-3.x/mode/elm/elm.js" $ mempty
         mapM_ (\theme -> H.link ! A.rel "stylesheet" ! A.href (toValue ("/codemirror-3.x/theme/" ++ theme ++ ".css" :: String))) themes
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
@@ -134,7 +144,7 @@ options =
 
 editorOptions :: Html
 editorOptions =
-    theme >> zoom >> lineNumbers
+    theme >> zoom >> lineNumbers >> codeFolding
   where
     optionFor :: String -> Html
     optionFor text =
@@ -159,6 +169,12 @@ editorOptions =
         ! A.id "editor_lines"
         ! A.onchange "showLines(this.checked);"
 
+    codeFolding = do
+      H.span ! A.style "padding-left: 16px;" $ "Code Folding:"
+      H.input
+        ! A.type_ "checkbox"
+        ! A.id "editor_code_folding"
+        ! A.onchange "showCodeFolding(this.checked);"
 
 docs :: Html
 docs =
