@@ -155,7 +155,7 @@ type Action = State -> State
 removeTask : Int -> Action
 removeTask id state =
     { state |
-        tasks <- filter (\task -> task.id /= id) state.tasks
+        tasks <- filter (\\task -> task.id /= id) state.tasks
     }
 ```
 
