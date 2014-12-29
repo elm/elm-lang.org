@@ -83,7 +83,7 @@ touching the DOM directly, we build an abstract version of it on each frame. We
 use the `node` function to create a cheap representation of what we want:
 
 ```haskell
-node : String -> [Attribute] -> [Html] -> Html
+node : String -> List Attribute -> List Html -> Html
 ```
 
 This lets us specify a tag, a list of HTML attributes, and a list of children.
@@ -139,7 +139,7 @@ performance improvements, especially if you have immutable data. For example,
 let&rsquo;s say we are rendering a list of tasks:
 
 ```haskell
-todoList : [Task] -> Html
+todoList : List Task -> Html
 todoList tasks =
     div [] (map todoItem tasks)
 ```
@@ -192,7 +192,7 @@ this:
 ```haskell
 import Html (..)
 
-profiles : [User] -> Html
+profiles : List User -> Html
 profiles users =
     div [] (map profile users)
 
@@ -215,20 +215,20 @@ can be mixed and matched on any node.
 
 ```haskell
 -- small reusable CSS properties
-font : [CssProperty]
+font : List CssProperty
 font = [
     prop "font-family" "futura, sans-serif",
     prop "color" "rgb(42, 42, 42)",
     prop "font-size" "2em"
   ]
 
-background : [CssProperty]
+background : List CssProperty
 background = [
     prop "background-color" "rgb(245, 245, 245)"
   ]
 
 -- combine them to make individual nodes
-profiles : [User] -> Html
+profiles : List User -> Html
 profiles users =
     div [ style (font ++ background) ] (map profile users)
 ```
