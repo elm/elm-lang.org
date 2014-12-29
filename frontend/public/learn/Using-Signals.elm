@@ -228,7 +228,7 @@ where you think you want a list of signals, how can you change your code such
 that you end up with a signal of lists?
 
 ```haskell
-[Signal a] => Signal [a]
+List (Signal a) => Signal (List a)
 ```
 
 You will have an easier time with a signal of lists because all of the `Signal`
