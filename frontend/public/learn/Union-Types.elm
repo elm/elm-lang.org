@@ -92,7 +92,7 @@ we show the photo we have saved. Now imagine we have a bunch of users all
 collaborating on a document and we want to show all their pictures.
 
 ```haskell
-activeUsers : [User]
+activeUsers : List User
 activeUsers =
     [ Anonymous
     , LoggedIn "Tom"
@@ -129,9 +129,9 @@ unions make it really easy to put together the data we need:
 
 ```haskell
 type Widget
-    = ScatterPlot [(Int, Int)]
-    | LogData [String]
-    | TimePlot [(Time, Int)]
+    = ScatterPlot (List (Int, Int))
+    | LogData (List String)
+    | TimePlot (List (Time, Int))
 ```
 
 You can think of this as putting together three different types. Each type is
@@ -162,9 +162,9 @@ a bit.
 type Scale = Normal | Logarithmic
 
 type Widget
-    = ScatterPlot [(Int, Int)]
-    | LogData [String]
-    | TimePlot Scale [(Time, Int)]
+    = ScatterPlot (List (Int, Int))
+    | LogData (List String)
+    | TimePlot Scale (List (Time, Int))
 ```
 
 Notice that the `TimePlot` tag now has two pieces of data. Each tag can
