@@ -31,7 +31,7 @@ compileSource source =
         Right _ ->
           do  jsSource <- readFile jsFilePath
               removeFile elmFilePath
-              removeFile jsFilePath
+              length jsSource `seq` removeFile jsFilePath
               removeArtifacts moduleName
               return (Right (moduleName, jsSource))
 
