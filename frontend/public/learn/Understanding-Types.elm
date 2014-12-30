@@ -263,7 +263,7 @@ Applying `not` to a string does not make any sense! So when you try to
 specialize `map` to make this work, the type variable `a` ends up not matching!
 
 ```haskell
-map : ( a   ->  b  ) -> List  a     -> List b  
+map : ( a   ->  b  ) -> List a      -> List b
 map : (Bool -> Bool) -> List String -> List Bool   -- Type Error!!!
 ```
 
