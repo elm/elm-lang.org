@@ -381,13 +381,13 @@ Then we can make functions that only require some of those fields:
 getName : Named a -> String
 getName {name} = name
 
-names : [String]
+names : List String
 names = [ getName dude, getName lady ]
 
 getPos : Positioned a -> (Float,Float)
 getPos {x,y} = (x,y)
 
-positions : [(Float,Float)]
+positions : List (Float,Float)
 positions = [ getPos origin, getPos dude ]
 ```
 
