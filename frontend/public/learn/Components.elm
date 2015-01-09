@@ -30,9 +30,9 @@ that lets you [stamp shapes by
 clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm).
 Compiling it with
 
-    elm --only-js Stamper.elm
+    elm-make Stamper.elm
 
-will result in a file named `build/Stamper.js`. This JS file contains
+will result in a file named `Stamper.js`. This JS file contains
 everything necessary for embedding in HTML.
 
 In our HTML file [`EmbeddedElm.html`](https://gist.github.com/evancz/8456627#file-embeddedelm-html),
@@ -67,6 +67,8 @@ between Elm and JS with [ports](/learn/Ports.elm).
 The example above embeds in a `<div>` but it is also possible to
 create Elm components that run fullscreen and ones that have no
 graphics at all.
+You generate the HTML automatically by specifying an HTML output file with
+`elm-make Stamper.elm --output=Main.html
 
 ```javascript
 // fullscreen version of Stamper
