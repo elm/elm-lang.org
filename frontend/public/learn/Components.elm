@@ -32,7 +32,7 @@ Compiling it with
 
     elm-make Stamper.elm
 
-will result in a file named `Stamper.js`. This JS file contains
+will result in a file named `elm.js`. This JS file contains
 everything necessary for embedding in HTML.
 
 In our HTML file [`EmbeddedElm.html`](https://gist.github.com/evancz/8456627#file-embeddedelm-html),
