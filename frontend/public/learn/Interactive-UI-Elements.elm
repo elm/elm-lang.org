@@ -8,6 +8,9 @@ import Window
 port title : String
 port title = "Interactive UI Elements"
 
+main : Signal.Signal Element
+main = Signal.map2 display checkSignal Window.dimensions
+
 display: Bool -> (Int, Int) -> Element
 display checked (w,h) =
   skeleton "Learn" (content checked << min 600) (w,h)
@@ -16,9 +19,6 @@ check : Signal.Channel Bool
 check = Signal.channel False
 
 checkSignal = Signal.subscribe check
-
-main : Signal.Signal Element
-main = Signal.map2 display checkSignal Window.dimensions
 
 content isChecked w =
     let box = checkbox (Signal.send check) isChecked
