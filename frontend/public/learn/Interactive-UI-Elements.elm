@@ -159,7 +159,7 @@ The two arguments work like this:
 
   [pure]: http://en.wikipedia.org/wiki/Pure_function
 
-Breaking the concept of a checkbox into an `Channel` and a `checkbox`
+Breaking the concept of a checkbox into a `Channel` and a `checkbox`
 makes the flow of events very explicit. This same pattern is used by all
 interactive UI elements, so you will see this again and again as you look at
 more examples.
