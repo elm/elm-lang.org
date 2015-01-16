@@ -154,8 +154,7 @@ view widget =
 ```
 
 Depending on what kind of widget we are looking at, we will render it
-differently. Perhaps we want to get a bit trickier and have some time plots
-that that are showed on a logarithmic scale. We can augment our `Widget` type
+differently. Perhaps we want to get a bit trickier and have some time plots that are showed on a logarithmic scale. We can augment our `Widget` type
 a bit.
 
 ```haskell
@@ -315,5 +314,3 @@ more about representing boolean expressions.
  [bool]: /edit/examples/Functional/BooleanExpressions.elm
 
 """
-
-
