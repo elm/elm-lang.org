@@ -41,6 +41,7 @@ blog = Markdown.toElement """
 
 ### Release Notes
 
+* <code>[0.14.1][141]            &nbsp;Jan 2015&nbsp; </code>HTML through main, Elm Reactor improvements
 * <code>[0.14][14]        &nbsp;&nbsp; Dec &nbsp; &nbsp; &nbsp; </code>Package Manager, Parallel Builds, better JSON interop
 * <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Architecture improvements and Elm Reactor integration
 * <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
@@ -79,6 +80,7 @@ blog = Markdown.toElement """
   [123]: /blog/announce/0.12.3.elm "3D rendering with WebGL"
   [13]: /blog/announce/0.13.elm
   [14]: /blog/announce/0.14.elm
+  [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
 
 ### Conference Videos
 
