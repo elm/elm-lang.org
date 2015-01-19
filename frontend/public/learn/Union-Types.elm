@@ -205,7 +205,7 @@ toMonth rawString =
 ```
 
 Now our types explicitly tell everyone that you may end up with something
-besides and integer. You never have to wonder if there is a `null` value
+besides an integer. You never have to wonder if there is a `null` value
 sneaking around. This may seem like a subtle improvement, but think about what
 your life will be like when you never have to hunt for a null pointer
 exception again!
