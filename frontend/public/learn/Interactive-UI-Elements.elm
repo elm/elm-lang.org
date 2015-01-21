@@ -1,28 +1,36 @@
-import Graphics.Input (Input, input, checkbox)
+import Graphics.Input (checkbox)
+import Graphics.Element (..)
+import Markdown
 import Website.Skeleton (skeleton)
+import Signal
 import Window
 
 port title : String
 port title = "Interactive UI Elements"
 
-main = lift2 (skeleton "Learn")
-             (everything <~ check.signal)
-             Window.dimensions
+main : Signal.Signal Element
+main = Signal.map2 display checkSignal Window.dimensions
 
-check : Input Bool
-check = input False
+display: Bool -> (Int, Int) -> Element
+display checked (w,h) =
+  skeleton "Learn" (content checked << min 600) (w,h)
 
-everything : Bool -> Int -> Element
-everything isChecked wid =
-    let w = min 600 wid
-        box = checkbox check.handle identity isChecked
+check : Signal.Channel Bool
+check = Signal.channel False
+
+checkSignal = Signal.subscribe check
+
+content isChecked w =
+    let box = checkbox (Signal.send check) isChecked
     in  flow down
         [ width w intro
         , container w 30 middle <| flow right [ box, box, box ]
         , width w rest
         ]
 
-intro = [markdown|
+
+intro : Element
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Interactive UI Elements
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Using text fields, drop downs, buttons, etc.</div></div>
@@ -46,35 +54,35 @@ and then dive into how it works.
 We are going to make three synced checkboxes. Changing one of them will change
 the two others:
 
-|]
+"""
 
-rest = [markdown|
+rest = Markdown.toElement """
 
 Here is the code we need to make that happen. Don't worry about the details too
 much yet. This is more to get a feel for the API so we know what we are working
 towards when we dive into the details:
 
 ```haskell
-import Graphics.Input (Input, input, checkbox)
+import Graphics.Input (checkbox)
 
-check : Input Bool
-check = input False
+check : Signal.Channel Bool
+check = Signal.channel True
 
 displayBoxes : Bool -> Element
 displayBoxes isChecked =
-    let box = checkbox check.handle identity isChecked
+    let box = checkbox (Signal.send check) isChecked
     in  flow right [ box, box, box ]
 
 main : Signal Element
-main = displayBoxes <~ check.signal
+main = displayBoxes <~ Signal.subscribe check
 ```
 
-The key things to notice before we go into the API itself is the `Input` named
+The key things to notice before we go into the API itself is the `Channel` named
 `check`. All UI events are going to flow through `check`. It is used twice in
 the rest of the code:
 
   1. In `displayBoxes` we create a `box` that we display three times.
-     The definition of `box` refers to `check.handle` which means that all
+     The definition of `box` refers to `Signal.send check` which means that all
      `checkbox` events are going to be sent to the `check` input.
 
   2. In `main` we pipe all of the events from the `check` input to our display.
@@ -87,34 +95,34 @@ in more detail.
 
 ## Inputs
 
-The first thing we do when making an interactive UI element is to create an input:
+The first thing we do when making an interactive UI element is to create a channel:
 
 ```haskell
-type Input a = { signal : Signal a, handle : Handle a }
+channel : a -> Channel a
+subscribe : Channel a -> Signal a
+send : Channel a -> a -> Message
 ```
 
-An `Input` has two distinct parts. One is a `signal` of events coming from UI
-elements. In our synced checkbox example, these are boolean values indicating
-whether the box should be checked or not. The more subtle part of an `Input` is
-the `handle`. All interactive UI elements will latch on to a handle and report
-their events to the corresponding `Input`. The handle lets us get events from
-the UI back into our program without any messy callbacks or event-listeners.
+A `Channel a` can be easily 'transformed' to `Signal a` via `subscribe`.
+The `send` function returns a `Message` function that the input will call
+foreach UI event. You can look at a `Channel` as a mechanism to transform
+messy callbacks to a signal.
 
-You create an `Input` with the `input` function, like this:
+You create a `Channel` with the `channel` function, like this:
 
 ```haskell
-input : a -> Input a
+channel : a -> Channel a
 
-check : Input Bool
-check = input False
+check : Channel Bool
+check = channel False
 ```
 
-The argument to `input` serves as the default value of the input&rsquo;s
-`signal`. So when we create the `check` input we get:
+The argument to `Channel` serves as the default value of the channel&rsquo;s
+`signal`. So when we create the `check` channel we get:
 
-  1. A signal called `check.signal` with the initial value `False`.
-  2. A handle called `check.handle`. Any UI element can refer to `check.handle`
-     which would send events to `check.signal`.
+  1. A signal we can `subscribe` to with the initial value `False`.
+  2. A mechanism to `send` messages to this channel. Any UI element can call
+     the message function `(send check)` which would send events to the subsribed signal.
 
 Now that we have a way to manage UI events, we need to actually create the
 interactive UI elements.
@@ -132,36 +140,26 @@ pattern used by interactive UI elements in Elm:
   [box]: http://library.elm-lang.org/catalog/elm-lang-Elm/latest/Graphics-Input#checkbox
 
 ```haskell
-checkbox : Handle a -> (Bool -> a) -> Bool -> Element
-checkbox handle processingFunction checked = ...
+checkbox : (Bool -> Signal.Message) -> Bool -> Element
+checkbox message checked = ...
 ```
 
-The three arguments work like this:
+The two arguments work like this:
 
-  1. Clicking on a checkbox generates an event, and the handle specifies which
-     `Input` these events should be sent to. The generated event is a boolean
-     value that represents what the user *wants* the checkbox to be. Clicking an
-     unchecked box generates a `True` event, and clicking a checked box generates
-     a `False` event.
+  1. Clicking on a checkbox generates an event, and the message function
+     is the mechanism through which these events should be sent to.
+     The generated event is a boolean value that represents what the user *wants*
+     the checkbox to be. Clicking an unchecked box generates a `True` event,
+     and clicking a checked box generates a `False` event.
 
-  2. A way to process each event before sending it along to the `Input`
-     specified by the handle. This processing function lets us add
-     extra information to the event. A common thing to add is an ID to indicate
-     which checkbox has been clicked, so when there are four check boxes
-     reporting to the same `Input` we can send events like `(True, 1)` to
-     indicate that the first box wants to be checked. Adding extra information
-     is not always necessary, as in our synced checkbox example, so a common
-     processing function is `id` which passes the boolean value to the
-     specified `Input` unmodified.
-
-  3. The third argument is the actual state of the checkbox: whether it is
+  3. The checked argument is the actual state of the checkbox: whether it is
      checked or not. This means `checkbox` is a [pure function][pure]! Whether
      it is checked or not is an argument, so that information must live in the
      model, not in the view!
 
   [pure]: http://en.wikipedia.org/wiki/Pure_function
 
-Breaking the concept of a checkbox into an `Input`, a `Handle`, and a `checkbox`
+Breaking the concept of a checkbox into a `Channel` and a `checkbox`
 makes the flow of events very explicit. This same pattern is used by all
 interactive UI elements, so you will see this again and again as you look at
 more examples.
@@ -204,4 +202,4 @@ came together!
 
   [list]: https://groups.google.com/forum/#!forum/elm-discuss
 
-|]
+"""
