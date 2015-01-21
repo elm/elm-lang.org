@@ -1,4 +1,4 @@
-module Website.Widgets (bigLogo, installButtons, button, headerFaces) where
+module Website.Widgets (bigLogo, logoImage, installButtons, button, headerFaces) where
 
 import Color
 import Graphics.Element (..)
@@ -14,6 +14,13 @@ headerFaces =
     , "calibri", "verdana", "helvetica", "arial"
     ]
 
+logoImage w h =
+  let smaller =
+        toFloat
+          >> (*) 0.8
+          >> round
+  in
+    container w h middle <| image (smaller w) (smaller h) "/logo.svg"
 
 bigLogo =
   let name =
@@ -22,7 +29,7 @@ bigLogo =
           |> Text.leftAligned
   in
     flow right
-      [ image 80 80 "/logo.png"
+      [ logoImage 80 80
       , spacer 10 80
       , container (widthOf name) 80 middle name
       ]

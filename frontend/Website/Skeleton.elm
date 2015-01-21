@@ -7,7 +7,7 @@ import List
 import Native.RedirectHack
 import Signal
 import Text
-import Website.Widgets (headerFaces)
+import Website.Widgets (headerFaces, logoImage)
 import Website.ColorScheme as C
 
 
@@ -65,7 +65,7 @@ logo =
           in
             color C.lightGrey <| 
             flow right
-              [ image 30 30 "/logo.png"
+              [ logoImage 30 30
               , spacer 4 30
               , container (widthOf name) 30 middle name
               ]
