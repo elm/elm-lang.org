@@ -19,6 +19,7 @@ htmlSkeleton userGenerated title scripts =
     H.head $ do
       H.meta ! A.charset "UTF-8"
       H.title (H.toHtml title)
+      favicon
       H.style $ preEscapedToMarkup Utils.standardStyle
       when (not userGenerated) $
         do  Utils.googleAnalytics
@@ -26,6 +27,15 @@ htmlSkeleton userGenerated title scripts =
             H.script ! A.src "/highlight/highlight.pack.js" $ ""
 
     H.body scripts
+
+
+favicon :: H.Html
+favicon =
+  H.link
+    ! A.rel "shortcut icon"
+    ! A.size "16x16, 32x32, 48x48, 64x64, 128x128, 256x256"
+    ! A.href "/favicon.ico"
+
 
 -- USER-GENERATED ELM TO HTML
 
