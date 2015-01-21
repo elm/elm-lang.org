@@ -1,28 +1,32 @@
-import Graphics.Input (Input, input, checkbox)
+import Graphics.Element (..)
+import Graphics.Input as Input
 import Website.Skeleton (skeleton)
 import Window
+import Markdown
+import Signal (Signal, Channel, (<~))
+import Signal
 
 port title : String
 port title = "Interactive UI Elements"
 
-main = lift2 (skeleton "Learn")
-             (everything <~ check.signal)
-             Window.dimensions
+main = Signal.map2 (skeleton "Learn")
+                   (everything <~ Signal.subscribe check)
+                   Window.dimensions
 
-check : Input Bool
-check = input False
+check : Channel Bool
+check = Signal.channel False
 
 everything : Bool -> Int -> Element
 everything isChecked wid =
     let w = min 600 wid
-        box = checkbox check.handle identity isChecked
+        box = Input.checkbox (Signal.send check) isChecked
     in  flow down
         [ width w intro
         , container w 30 middle <| flow right [ box, box, box ]
         , width w rest
         ]
 
-intro = [markdown|
+intro = Markdown.toElement """
 
 <h1><div style="text-align:center">Interactive UI Elements
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Using text fields, drop downs, buttons, etc.</div></div>
@@ -46,9 +50,9 @@ and then dive into how it works.
 We are going to make three synced checkboxes. Changing one of them will change
 the two others:
 
-|]
+"""
 
-rest = [markdown|
+rest = Markdown.toElement """
 
 Here is the code we need to make that happen. Don't worry about the details too
 much yet. This is more to get a feel for the API so we know what we are working
@@ -204,4 +208,4 @@ came together!
 
   [list]: https://groups.google.com/forum/#!forum/elm-discuss
 
-|]
+"""
