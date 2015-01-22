@@ -147,7 +147,7 @@ dragging the mouse. I could use [`keepWhen`][keepWhen] for this:
 [keepWhen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#keepWhen
 
 ```haskell
-keepWhen : Signal a -> b -> Signal b -> Signal b
+keepWhen : Signal Bool -> a -> Signal a -> Signal a
 
 drags : Signal (Int,Int)
 drags =
