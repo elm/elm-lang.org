@@ -85,7 +85,7 @@ tabs localName =
 paths =
   [ ("Learn"    , "/Learn.elm")
   , ("Examples" , "/Examples.elm")
-  , ("Libraries", "/Libraries.elm")
+  , ("Packages" , "http://package.elm-lang.org/")
   , ("Community", "/Community.elm")
   , ("Blog"     , "/Blog.elm")
   , ("Install"  , "/Install.elm")
