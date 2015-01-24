@@ -62,7 +62,7 @@ union types are much more flexible than that!
 
 ## Enumeration + Data
 
-Okay, what if we want to represent if someone is logged in or not. With union
+Okay, what if we want to represent whether someone is logged in or not? With union
 types we can say:
 
 ```haskell
