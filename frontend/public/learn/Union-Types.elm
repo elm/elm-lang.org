@@ -25,7 +25,7 @@ background, think of them as enums on steroids.
 
 One common use of union types is to enumerate a couple possible states. Imagine
 we are creating a [todo list](http://evancz.github.io/elm-todomvc/) and want to
-crate a filter on which tasks are visible. We can show all tasks, all the
+create a filter on which tasks are visible. We can show all tasks, all the
 active tasks, or all the completed tasks. We can represent these three states
 like this:
 
