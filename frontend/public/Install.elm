@@ -46,7 +46,7 @@ overwrite old executables so your machine is in a consistent state.
 
 To uninstall on Mac, run [this script][uninstall].
 
-[uninstall]: https://github.com/elm-lang/elm-platform/blob/master/src/mac/helper-scripts/uninstall.sh
+[uninstall]: https://github.com/elm-lang/elm-platform/blob/master/installers/mac/helper-scripts/uninstall.sh
 
 <br>
 
