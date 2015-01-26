@@ -94,7 +94,7 @@ be on your PATH. If not, then they should be in `~/.cabal/bin` which you can
 sandboxes for the install process. These were released with cabal 0.18 and will
 let you use [this install script][script].
 
-[script]: https://github.com/elm-lang/elm-platform/blob/master/src/BuildFromSource.hs#L1-L31
+[script]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs#L1-L31
 
 <br>
 
