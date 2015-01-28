@@ -100,7 +100,7 @@ can be represented by an integer in { -1, 0, 1 }. So to represent the game
 like this:
 
 ```haskell
-type Input = { space:Bool, paddle1:Int, paddle2:Int, delta:Time }
+type alias Input = { space:Bool, paddle1:Int, paddle2:Int, delta:Time }
 ```
 
 From here we will actually define these inputs. To keep track of the passage of
@@ -160,11 +160,11 @@ velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
 share some code later on.
 
 ```haskell
-type Object a = { a | x:Float, y:Float, vx:Float, vy:Float }
+type alias Object a = { a | x:Float, y:Float, vx:Float, vy:Float }
 
-type Ball = Object {}
+type alias Ball = Object {}
 
-type Player = Object { score:Int }
+type alias Player = Object { score:Int }
 ```
 
 Both `Ball` and `Player` have a position and velocity, but notice that a
@@ -176,7 +176,7 @@ which we can later extend if we want more game states for speeding up gameplay
 or whatever else.
 
 ```haskell
-data State = Play | Pause
+type State = Play | Pause
 ```
 
 We now have a way to model balls, players, and the game state, so we just need
@@ -184,7 +184,7 @@ to put it together. We define a `Game` that includes all of these things and
 then create a default game state.
 
 ```haskell
-type Game = { state:State, ball:Ball, player1:Player, player2:Player }
+type alias Game = { state:State, ball:Ball, player1:Player, player2:Player }
 
 player : Float -> Player
 player x = { x=x, y=0, vx=0, vy=0, score=0 }
