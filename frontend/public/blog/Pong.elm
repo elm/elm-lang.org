@@ -171,7 +171,7 @@ Both `Ball` and `Player` have a position and velocity, but notice that a
 `Player` has one extra field for representing the player&rsquo;s score.
 
 We also want to be able to pause the game between volleys so the user can take
-a break. We do this with an [algebraic data type](/learn/Pattern-Matching.elm)
+a break. We do this with a [union type](/learn/Pattern-Matching.elm)
 which we can later extend if we want more game states for speeding up gameplay
 or whatever else.
 
