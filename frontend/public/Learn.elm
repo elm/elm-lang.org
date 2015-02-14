@@ -35,13 +35,15 @@ documentation.
 * [Understanding Types](/learn/Understanding-Types.elm) &mdash; primitive values, data structures, and functions
 * [Union Types](/learn/Union-Types.elm) &mdash; mixing different kinds of values
 * [Records](/learn/Records.elm) &mdash; values with named fields, sort of like objects
-
-### Signals
-
-* [Key Concepts](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
+* [Signals](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
 * [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
-* [Architecting large programs](https://github.com/evancz/elm-architecture-tutorial#the-elm-architecture)
-  &mdash; how to use signals as programs get larger
+
+### Architecture
+
+* [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial#the-elm-architecture)
+  &mdash; a simple pattern that scales extrodinarily well and is easy to
+  understand, test, and maintain. Use it!
+
 
 ### Interop
 
