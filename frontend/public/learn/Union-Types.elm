@@ -214,7 +214,7 @@ exception again!
 
 If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list)
 in C or Java you will appreciate how easy this is in Elm.
-The following algebraic data type represents a list. The front of a list
+The following union type represents a list. The front of a list
 can only be one of two things: empty or something followed by a list.
 We can turn this informal definition into a union type:
 
