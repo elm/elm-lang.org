@@ -75,10 +75,12 @@ documentation.
   formulations of FRP: how they work, their goals, their strengths and
   weaknesses, and how they relate to each other. This is very helpful if you
   are curious about the differences between Elm, reactive libraries for JS, etc.
+
 * [Concurrent FRP for GUIs][thesis] &mdash; A very accessible history of FRP and
   overview of how signals work in Elm.
-* [Asynchronous FRP for GUIs][pldi] &mdash; The formal semantics of Elm from PLDI
-  2013. This overlaps quite a bit with Concurrent FRP for GUIs but is more
+
+* [Asynchronous FRP for GUIs][pldi] &mdash; The formal semantics of Elm from
+  PLDI 2013. This overlaps quite a bit with Concurrent FRP for GUIs but is more
   focused and dryer in tone.
 
  [thesis]: /papers/concurrent-frp.pdf "thesis"
