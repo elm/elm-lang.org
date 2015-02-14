@@ -40,8 +40,8 @@ documentation.
 
 * [Key Concepts](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
 * [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
-* [Inputs](/learn/Interactive-UI-Elements.elm) &mdash; working with text fields, check boxes, etc.
-* [Architecting large programs](/learn/Architecture.elm) &mdash; how to use signals as programs get larger
+* [Architecting large programs](https://github.com/evancz/elm-architecture-tutorial#the-elm-architecture)
+  &mdash; how to use signals as programs get larger
 
 ### Interop
 
