@@ -57,7 +57,7 @@ documentation.
 * [Website skeleton](https://github.com/evancz/elm-todomvc/blob/master/Todo.elm) &mdash; template for making websites with [elm-html][]
 * [Game skeleton](https://github.com/elm-lang/elm-lang.org/blob/master/frontend/public/examples/Intermediate/GameSkeleton.elm) &mdash; template for making games, though many things fit this pattern
 * [Making Pong](/blog/Pong.elm) &mdash; a full walkthrough of how to create Pong
-* [Library Design Guidelines](http://package.elm-lang.org/help/design-guidelines) &mdash; creating pleasant and consistent libraries in Elm
+* [Design Guidelines](http://package.elm-lang.org/help/design-guidelines) &mdash; creating pleasant and consistent packages in Elm
 * [Writing Docs](http://package.elm-lang.org/help/documentation-format) &mdash; an important thing to do!
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
@@ -69,14 +69,21 @@ documentation.
 * [Intro to Lists and Records](/learn/courses/beginner/Lists-and-Records.elm) &mdash; getting deeper into programming concepts in Elm
 
 
-### Publications
+### Advanced Info on FRP
 
-* [Concurrent FRP for GUIs][thesis] &mdash; very accessible history of FRP and overview of Elm 
-* [Asynchronous FRP for GUIs][pldi] &mdash; formal semantics of Elm from PLDI 2013
+* [Controlling Time and Space][ctas] &mdash; presentation describing the many
+  formulations of FRP: how they work, their goals, their strengths and
+  weaknesses, and how they relate to each other. This is very helpful if you
+  are curious about the differences between Elm, reactive libraries for JS, etc.
+* [Concurrent FRP for GUIs][thesis] &mdash; A very accessible history of FRP and
+  overview of how signals work in Elm.
+* [Asynchronous FRP for GUIs][pldi] &mdash; The formal semantics of Elm from PLDI
+  2013. This overlaps quite a bit with Concurrent FRP for GUIs but is more
+  focused and dryer in tone.
 
  [thesis]: /papers/concurrent-frp.pdf "thesis"
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
-
+ [ctas]: https://www.youtube.com/watch?v=Agu6jipKfYw
 """
 
 
