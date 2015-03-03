@@ -210,7 +210,7 @@ CodeMirror.defineMode("elm", function() {
 			"let", "in",
 			"infix", "infixl", "infixr",
 			"type", "alias",
-			"port",
+			"input", "output", "foreign", "loopback",
 			"module", "where", "import", "exposing",
 			"_", "..", "|", ":", "=", "\\", "\"", "->", "<-"
 		];
