@@ -65,10 +65,6 @@ CodeMirror.defineMode("elm", function() {
 			if (largeRE.test(ch))
 			{
 				source.eatWhile(idRE);
-				if (source.eat('.'))
-				{
-					return "qualifier";
-				}
 				return "variable-2";
 			}
 
