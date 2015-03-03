@@ -1,6 +1,4 @@
 import Graphics.Element exposing (..)
-import List
-import List exposing ((::))
 import Markdown
 import Signal
 import Text

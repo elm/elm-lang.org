@@ -24,10 +24,8 @@ Overview:
 ----------------------------------------------------------------}
 
 import Graphics.Element exposing (..)
-import List
-import Text exposing (asText)
 
 
 main : Element
 main =
-    asText (List.foldl (+) 0 [1..5])
+    show (List.foldl (+) 0 [1..5])

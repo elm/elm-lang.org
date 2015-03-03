@@ -29,7 +29,6 @@ but it still always produces a value, even if it is "Nothing"!
 -----------------------------------------------------------------}
 
 import Graphics.Element exposing (..)
-import List exposing ((::))
 import Text
 
 
@@ -62,5 +61,4 @@ display name f value =
     toString (f value) ++ " &lArr; " ++ name ++ " " ++ toString value
         |> Text.fromString
         |> Text.monospace
-        |> Text.leftAligned
-  
+        |> leftAligned

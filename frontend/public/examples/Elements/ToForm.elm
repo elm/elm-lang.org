@@ -1,6 +1,5 @@
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import Text exposing (plainText)
 
 
 main : Element

@@ -17,7 +17,6 @@ Finally, we will see these functions in action with some examples.
 -----------------------------------------------------------------}
 
 import Graphics.Element exposing (..)
-import List
 import Text
 
 
@@ -54,4 +53,4 @@ display expr =
   toString (eval expr) ++ " &lArr; " ++ toString expr
     |> Text.fromString
     |> Text.monospace
-    |> Text.leftAligned
+    |> leftAligned

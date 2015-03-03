@@ -1,5 +1,4 @@
 import Graphics.Element exposing (..)
-import List
 import Text
 
 
@@ -11,7 +10,7 @@ sentences : List Element
 sentences =
     let msg = "\nThe quick brown fox jumps over the lazy dog.\n"
         sentence tfs =
-          Text.leftAligned (Text.typeface tfs (Text.fromString msg))
+          leftAligned (Text.typeface tfs (Text.fromString msg))
     in
         List.map sentence
         [ ["times new roman"]

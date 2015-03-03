@@ -12,8 +12,8 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Text exposing (asText)
+import Graphics.Element exposing (show)
 
 
 main =
-  asText <| 3 + 2
+  show <| 3 + 2

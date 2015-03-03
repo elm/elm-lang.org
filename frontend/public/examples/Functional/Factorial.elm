@@ -1,5 +1,4 @@
-import Graphics.Element exposing (Element)
-import Text exposing (asText)
+import Graphics.Element exposing (Element, show)
 
 
 factorial : Int -> Int
@@ -11,4 +10,4 @@ factorial n =
 
 main : Element
 main =
-  asText (factorial 5)
+  show (factorial 5)

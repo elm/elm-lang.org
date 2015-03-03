@@ -1,16 +1,16 @@
 
-import List exposing ((::))
-import Text exposing (asText)
+import Graphics.Element exposing (show)
 
 
 length : List a -> Int
 length list =
   case list of
-    [] -> 0
+    [] ->
+        0
 
     first :: rest ->
-      1 + length rest
+        1 + length rest
 
 
 main =
-  asText (length [1..9])
+  show (length [1..9])

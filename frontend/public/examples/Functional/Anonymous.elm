@@ -11,7 +11,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Text exposing (asText)
+import Graphics.Element exposing (show)
 
 -- In traditional imperative languages, we'd have to define a
 -- function before we could use it.
@@ -28,7 +28,7 @@ plus1' = \n -> n + 1
 
 four = (\n -> n + 1) 3
 
-main = asText four
+main = show four
 
 
 -- This will become much more useful when we look at higher order

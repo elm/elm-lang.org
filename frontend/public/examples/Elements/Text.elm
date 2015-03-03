@@ -1,4 +1,4 @@
-import Graphics.Element exposing (Element, flow, down)
+import Graphics.Element exposing (Element, flow, down, leftAligned)
 import Text exposing (..)
 
 main : Element

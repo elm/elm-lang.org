@@ -23,12 +23,11 @@ A Pos can be created with:
 
   absolute : Int -> Pos
   relative : Float -> Pos
- 
+
 ----------------------------------------------------------------------}
 
 import Color exposing (..)
 import Graphics.Element exposing (..)
-import Text exposing (plainText)
 
 
 main : Element

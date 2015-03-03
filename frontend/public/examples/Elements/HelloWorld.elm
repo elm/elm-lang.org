@@ -1,5 +1,4 @@
-import Graphics.Element exposing (..)
-import Text exposing (..)
+import Graphics.Element exposing (Element, plainText)
 
 
 main : Element

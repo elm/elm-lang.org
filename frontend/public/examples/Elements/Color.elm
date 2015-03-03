@@ -1,7 +1,6 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
 
 
 main : Element

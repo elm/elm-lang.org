@@ -1,5 +1,4 @@
 import Graphics.Element exposing (..)
-import List
 import Text
 
 {-----------------------------------------------------------------
@@ -37,7 +36,7 @@ insert x tree =
       Node y left right ->
           if  | x > y -> Node y left (insert x right)
               | x < y -> Node y (insert x left) right
-              | otherwise -> tree 
+              | otherwise -> tree
 
 
 fromList : List comparable -> Tree comparable
@@ -79,8 +78,8 @@ display name f value =
     name ++ " (" ++ toString value ++ ") &rArr;\n    " ++ toString (f value) ++ "\n "
         |> Text.fromString
         |> Text.monospace
-        |> Text.leftAligned
-  
+        |> leftAligned
+
 
 {-----------------------------------------------------------------
 
@@ -96,7 +95,7 @@ Exercises:
 
 (3) Check to see if an element is in a given tree.
 
-       isElement : a -> Tree a -> Bool 
+       isElement : a -> Tree a -> Bool
 
 (4) Write a general fold function that acts on trees. The fold
     function does not need to guarantee a particular order of
