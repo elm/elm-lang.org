@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Keyboard
-import Signal (Signal, map)
-import Text (asText)
+import Signal exposing (Signal, map)
+import Text exposing (asText)
 
 
 main : Signal Element

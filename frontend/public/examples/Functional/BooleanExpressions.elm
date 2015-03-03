@@ -16,7 +16,7 @@ Finally, we will see these functions in action with some examples.
 
 -----------------------------------------------------------------}
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
 import Text
 

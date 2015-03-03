@@ -1,6 +1,6 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Signal
-import Signal (Signal)
+import Signal exposing (Signal)
 import Text
 import Time
 import Window

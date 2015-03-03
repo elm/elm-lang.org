@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Signal
 import Window
-import Text (..)
+import Text exposing (..)
 
 
 main : Signal Element

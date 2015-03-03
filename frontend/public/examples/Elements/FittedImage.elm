@@ -1,4 +1,4 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 
 -- fittedImage crops and resizes the image to fill the given area without
 -- becoming deformed.

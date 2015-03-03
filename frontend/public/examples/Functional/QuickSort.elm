@@ -1,6 +1,6 @@
-import Graphics.Element (..)
-import List (..)
-import Text (asText)
+import Graphics.Element exposing (..)
+import List exposing (..)
+import Text exposing (asText)
 
 
 main : Element

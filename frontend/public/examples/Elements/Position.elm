@@ -26,9 +26,9 @@ A Pos can be created with:
  
 ----------------------------------------------------------------------}
 
-import Color (..)
-import Graphics.Element (..)
-import Text (plainText)
+import Color exposing (..)
+import Graphics.Element exposing (..)
+import Text exposing (plainText)
 
 
 main : Element

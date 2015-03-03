@@ -1,9 +1,9 @@
 -- A set is a container that has no duplicates.
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
 import Set
-import Text (asText)
+import Text exposing (asText)
 
 xs : Set.Set Int
 xs =

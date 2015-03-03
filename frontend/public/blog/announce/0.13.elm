@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Signal exposing (Signal, (<~))
+import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
@@ -58,7 +58,7 @@ new syntax in mind when you are updating your code for 0.13.
 
 Another result of this architecture improvement is that the error messages for
 ambiguous variables work properly now. For example, the following code will
-tell you that your use of `map` is ambiguous: 
+tell you that your use of `map` is ambiguous:
 
 ```haskell
 import List (map)

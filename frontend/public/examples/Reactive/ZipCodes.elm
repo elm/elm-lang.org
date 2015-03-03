@@ -1,5 +1,5 @@
 import Char
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Http
 import Maybe

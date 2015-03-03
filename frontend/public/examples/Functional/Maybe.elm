@@ -28,8 +28,8 @@ but it still always produces a value, even if it is "Nothing"!
 
 -----------------------------------------------------------------}
 
-import Graphics.Element (..)
-import List ((::))
+import Graphics.Element exposing (..)
+import List exposing ((::))
 import Text
 
 

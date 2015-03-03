@@ -12,7 +12,7 @@ Overview:
 ----------------------------------------------------------------}
 
 import List
-import Text (asText)
+import Text exposing (asText)
 
 
 main =

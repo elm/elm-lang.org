@@ -1,7 +1,7 @@
-import Graphics.Element (..)
-import Signal (Signal, map, foldp)
+import Graphics.Element exposing (..)
+import Signal exposing (Signal, map, foldp)
 import Mouse
-import Text (asText)
+import Text exposing (asText)
 
 
 main : Signal Element

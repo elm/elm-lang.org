@@ -1,10 +1,10 @@
-import Color (..)
+import Color exposing (..)
 import Dict
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import List exposing (..)
 import Markdown
-import Maybe (withDefault)
+import Maybe exposing (withDefault)
 import Signal
 import Touch
 import Window

@@ -3,10 +3,10 @@
 -- So summing all of the deltas should give the time
 -- that the signal has been running:
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Signal
-import Text (asText)
-import Time (fps)
+import Text exposing (asText)
+import Time exposing (fps)
 
 
 main : Signal Element

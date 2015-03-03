@@ -1,16 +1,16 @@
 -- Thanks to The PaperNES Guy for the texture:
 -- http://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
 
-import Graphics.Element (..)
-import Http (..)
+import Graphics.Element exposing (..)
+import Http exposing (..)
 import List
-import Math.Vector2 (Vec2)
-import Math.Vector3 (..)
+import Math.Vector2 exposing (Vec2)
+import Math.Vector3 exposing (..)
 import Math.Vector3 as V3
-import Math.Matrix4 (..)
+import Math.Matrix4 exposing (..)
 import Mouse
 import Signal
-import WebGL (..)
+import WebGL exposing (..)
 import Window
 
 

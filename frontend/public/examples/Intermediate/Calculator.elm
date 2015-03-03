@@ -1,6 +1,6 @@
 import Char
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Result
 import Signal

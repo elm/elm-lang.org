@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Mouse
 import Signal
-import Text (asText)
+import Text exposing (asText)
 
 
 -- Mouse.isDown is true whenever the left mouse button

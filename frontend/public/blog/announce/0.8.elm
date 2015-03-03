@@ -1,10 +1,10 @@
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (..)
+import Signal exposing (Signal, (<~))
+import Website.Skeleton exposing (skeleton)
+import Website.ColorScheme exposing (..)
 import Window
 
 port title : String
@@ -345,7 +345,7 @@ import open Dict
 
 -- Import Dict and load certain values into local scope.
 -- This lets you say empty and Dict.empty.
-import Dict (empty, insert)
+import Dict exposing (empty, insert)
 
 -- Import Graphics.Input under the name Input
 import Graphics.Input as Input

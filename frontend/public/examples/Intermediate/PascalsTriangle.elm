@@ -1,7 +1,7 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import List exposing (..)
 import Signal
 import Text
 import Window

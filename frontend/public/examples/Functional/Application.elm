@@ -12,7 +12,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Text (asText)
+import Text exposing (asText)
 
 
 main =

@@ -1,8 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
+import Signal exposing (Signal, (<~))
 
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 import Graphics.Input as Input
 

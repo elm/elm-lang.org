@@ -1,5 +1,5 @@
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http

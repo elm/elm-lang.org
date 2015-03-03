@@ -13,8 +13,8 @@
   Try switching "down" in the code below with "up".
 -------------------------------------------------------------}
 
-import Graphics.Element (..)
-import Text (..)
+import Graphics.Element exposing (..)
+import Text exposing (..)
 
 
 main : Element

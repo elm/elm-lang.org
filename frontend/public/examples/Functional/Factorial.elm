@@ -1,5 +1,5 @@
-import Graphics.Element (Element)
-import Text (asText)
+import Graphics.Element exposing (Element)
+import Text exposing (asText)
 
 
 factorial : Int -> Int

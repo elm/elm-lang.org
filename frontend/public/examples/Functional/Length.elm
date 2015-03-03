@@ -1,6 +1,6 @@
 
-import List ((::))
-import Text (asText)
+import List exposing ((::))
+import Text exposing (asText)
 
 
 length : List a -> Int

@@ -5,11 +5,11 @@
 -- runs when the signal it is given is true. So this will
 -- only update when the mouse is down.
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Mouse
 import Signal
-import Text (asText)
-import Time (fpsWhen)
+import Text exposing (asText)
+import Time exposing (fpsWhen)
 
 
 main : Signal Element

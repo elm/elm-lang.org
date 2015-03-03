@@ -13,7 +13,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Text (asText)
+import Text exposing (asText)
 
 
 plusA x y = x + y

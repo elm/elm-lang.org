@@ -1,6 +1,6 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
 import Signal

@@ -1,8 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Signal exposing (Signal, (<~))
+import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 

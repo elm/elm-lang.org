@@ -1,8 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Signal
 import String
-import Text (plainText)
+import Text exposing (plainText)
 
 
 content : Signal.Channel Field.Content

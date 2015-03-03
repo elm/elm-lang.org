@@ -1,5 +1,5 @@
-import Graphics.Input (Input, input, checkbox)
-import Website.Skeleton (skeleton)
+import Graphics.Input exposing (Input, input, checkbox)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -55,7 +55,7 @@ much yet. This is more to get a feel for the API so we know what we are working
 towards when we dive into the details:
 
 ```haskell
-import Graphics.Input (Input, input, checkbox)
+import Graphics.Input exposing (Input, input, checkbox)
 
 check : Input Bool
 check = input False

@@ -1,10 +1,10 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
 import Signal
-import Text (..)
-import Time (..)
+import Text exposing (..)
+import Time exposing (..)
 
 
 ---- Put it together and show it ----

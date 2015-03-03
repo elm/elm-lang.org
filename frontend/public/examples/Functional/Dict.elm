@@ -9,9 +9,9 @@ can be quite helpful for creating complex dictionaries.
 -----------------------------------------------------------}
 
 import Dict
-import Graphics.Element (..)
-import List (foldl, map, (::))
-import Text (asText, plainText)
+import Graphics.Element exposing (..)
+import List exposing (foldl, map, (::))
+import Text exposing (asText, plainText)
 
 
 type alias Tree =

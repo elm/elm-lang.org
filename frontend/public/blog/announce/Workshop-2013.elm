@@ -1,11 +1,11 @@
 import Color
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
-import Signal (Signal, (<~))
+import Signal exposing (Signal, (<~))
 import Text
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String

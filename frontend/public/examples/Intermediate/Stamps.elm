@@ -1,10 +1,10 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (map, (::))
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import List exposing (map, (::))
 import Mouse
 import Signal
-import Text (..)
+import Text exposing (..)
 import Window
 
 

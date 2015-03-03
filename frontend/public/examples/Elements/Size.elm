@@ -13,7 +13,7 @@
    Try them out on the car.
 -------------------------------------------------------}
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 
 
 main : Element

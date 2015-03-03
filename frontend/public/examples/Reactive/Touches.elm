@@ -1,8 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
 import Signal
-import Text (asText)
+import Text exposing (asText)
 import Touch
 
 

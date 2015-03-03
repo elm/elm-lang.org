@@ -1,8 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Widgets (button)
-import Website.Skeleton (skeleton)
+import Signal exposing (Signal, (<~))
+import Website.Widgets exposing (button)
+import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 

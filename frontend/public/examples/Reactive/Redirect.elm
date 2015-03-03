@@ -1,4 +1,4 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Markdown
 import Signal

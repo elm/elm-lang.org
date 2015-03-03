@@ -1,5 +1,5 @@
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Graphics.Input.Field as Field
 import Http
@@ -9,8 +9,8 @@ import Maybe
 import Signal
 import String
 import Text
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (lightGrey,mediumGrey)
+import Website.Skeleton exposing (skeleton)
+import Website.ColorScheme exposing (lightGrey,mediumGrey)
 import Window
 
 

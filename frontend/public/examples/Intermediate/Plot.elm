@@ -1,10 +1,10 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List (..)
+import List exposing (..)
 import Signal
-import Text (..)
+import Text exposing (..)
 
 
 ----  Put it all on screen  ----

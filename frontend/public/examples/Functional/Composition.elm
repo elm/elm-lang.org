@@ -17,7 +17,7 @@ So our example expands out to something like this:
 
 ----------------------------------------------------------------}
 
-import Text (asText)
+import Text exposing (asText)
 
 -- simple functions
 

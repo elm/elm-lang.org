@@ -1,10 +1,10 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
 import Markdown
-import Signal (Signal, (<~))
+import Signal exposing (Signal, (<~))
 import Text
-import Website.ColorScheme (accent1)
-import Website.Skeleton (skeleton)
+import Website.ColorScheme exposing (accent1)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String

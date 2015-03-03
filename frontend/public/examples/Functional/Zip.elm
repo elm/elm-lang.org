@@ -12,8 +12,8 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import List ((::))
-import Text (asText)
+import List exposing ((::))
+import Text exposing (asText)
 
 
 zip : List a -> List b -> List (a,b)

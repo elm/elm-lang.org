@@ -1,12 +1,12 @@
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import List
-import List ((::))
+import List exposing ((::))
 import Markdown
 import Mouse
 import Signal
 import Text
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme as C
 import Window
 

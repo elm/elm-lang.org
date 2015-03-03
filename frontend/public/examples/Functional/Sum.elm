@@ -23,9 +23,9 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
-import Text (asText)
+import Text exposing (asText)
 
 
 main : Element

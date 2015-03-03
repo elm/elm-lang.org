@@ -1,10 +1,10 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal ((<~))
+import Signal exposing ((<~))
 import Text
 import Window
 
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 

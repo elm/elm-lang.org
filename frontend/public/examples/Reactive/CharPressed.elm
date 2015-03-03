@@ -1,10 +1,10 @@
 -- Click on the righthand screen and start pressing keys!
 
 import Char
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Keyboard
 import Signal
-import Text (..)
+import Text exposing (..)
 
 
 main : Signal Element

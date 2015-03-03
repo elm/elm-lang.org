@@ -1,17 +1,17 @@
 -- Try adding the ability to crouch or to land on top of the crate.
 
-import Graphics.Element (..)
-import Http (..)
+import Graphics.Element exposing (..)
+import Http exposing (..)
 import Keyboard
 import List
-import Math.Vector2 (Vec2)
-import Math.Vector3 (..)
+import Math.Vector2 exposing (Vec2)
+import Math.Vector3 exposing (..)
 import Math.Vector3 as V3
-import Math.Matrix4 (..)
+import Math.Matrix4 exposing (..)
 import Signal
-import Text (..)
-import Time (..)
-import WebGL (..)
+import Text exposing (..)
+import Time exposing (..)
+import WebGL exposing (..)
 import Window
 
 

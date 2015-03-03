@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Signal
-import Text (asText)
-import Time (every, second)
+import Text exposing (asText)
+import Time exposing (every, second)
 
 
 main : Signal Element

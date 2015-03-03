@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
 import Signal
-import Time (..)
+import Time exposing (..)
 
 
 port title : Signal String

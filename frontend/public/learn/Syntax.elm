@@ -1,7 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Signal exposing (Signal, (<~))
+import Website.Skeleton exposing (skeleton)
 import Window
 
 
@@ -338,12 +338,12 @@ import List                    -- List.map, List.foldl
 import List as L               -- L.map, L.foldl
 
 -- open imports
-import List (..)               -- map, foldl, concat, ...
-import List ( map, foldl )     -- map, foldl
+import List exposing (..)               -- map, foldl, concat, ...
+import List exposing ( map, foldl )     -- map, foldl
 
-import Maybe ( Maybe )         -- Maybe
-import Maybe ( Maybe(..) )     -- Maybe, Just, Nothing
-import Maybe ( Maybe(Just) )   -- Maybe, Just
+import Maybe exposing ( Maybe )         -- Maybe
+import Maybe exposing ( Maybe(..) )     -- Maybe, Just, Nothing
+import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 ```
 
 Qualified imports are preferred. Module names must match their file name,

@@ -1,5 +1,5 @@
-import Graphics.Element (Element, flow, down)
-import Text (..)
+import Graphics.Element exposing (Element, flow, down)
+import Text exposing (..)
 
 main : Element
 main =

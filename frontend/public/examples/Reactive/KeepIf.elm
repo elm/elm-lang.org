@@ -1,5 +1,5 @@
-import Char (isDigit)
-import Graphics.Element (..)
+import Char exposing (isDigit)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Signal
 import String

@@ -1,6 +1,6 @@
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import Text (plainText)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import Text exposing (plainText)
 
 
 main : Element

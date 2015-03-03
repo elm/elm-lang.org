@@ -1,6 +1,6 @@
-import Color (..)
-import Graphics.Element (..)
-import Graphics.Input (dropDown)
+import Color exposing (..)
+import Graphics.Element exposing (..)
+import Graphics.Input exposing (dropDown)
 import Signal
 import Text
 

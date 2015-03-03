@@ -1,7 +1,7 @@
-import Color (rgb)
-import Graphics.Element (..)
+import Color exposing (rgb)
+import Graphics.Element exposing (..)
 import List
-import Text (asText)
+import Text exposing (asText)
 
 
 ------ Create squares  ----

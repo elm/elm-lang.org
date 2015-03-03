@@ -1,13 +1,13 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import List
-import List ((::))
+import List exposing ((::))
 import Markdown
 import Signal
 import Text
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (accent4)
+import Website.Skeleton exposing (skeleton)
+import Website.ColorScheme exposing (accent4)
 import Website.Tiles as Tile
-import Website.Widgets (headerFaces)
+import Website.Widgets exposing (headerFaces)
 import Window
 
 

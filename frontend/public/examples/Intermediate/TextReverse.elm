@@ -1,6 +1,6 @@
-import Color (..)
-import Graphics.Element (..)
-import Graphics.Input.Field (Content, noContent, field, defaultStyle, Direction(..))
+import Color exposing (..)
+import Graphics.Element exposing (..)
+import Graphics.Input.Field exposing (Content, noContent, field, defaultStyle, Direction(..))
 import Signal
 import String
 import Text

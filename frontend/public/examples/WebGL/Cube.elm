@@ -1,11 +1,11 @@
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import List
-import Math.Vector3 (..)
-import Math.Matrix4 (..)
+import Math.Vector3 exposing (..)
+import Math.Matrix4 exposing (..)
 import Signal
-import Time (..)
-import WebGL (..)
+import Time exposing (..)
+import WebGL exposing (..)
 
 
 -- SIGNALS
