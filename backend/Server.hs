@@ -46,14 +46,11 @@ main =
       args <- cmdArgs flags
       precompile
       httpServe (setPort (port args) defaultConfig) $
-          ifTop (serveElm "artifacts/Elm.elm")
-          <|> route [ ("try", serveHtml (Editor.empty "50%,50%"))
-                    , ("edit", edit)
+          ifTop (serveHtml (Editor.empty "50%,50%"))
+          <|> route [ ("edit", edit)
                     , ("code", code)
                     , ("compile", compile)
                     , ("hotswap", hotswap)
-                    , ("login", login)
-                    , ("learn/Pattern-Matching.elm", ifTop (redirect' "/learn/Union-Types.elm" 301))
                     ]
           <|> serveDirectoryWith directoryConfig "artifacts"
           <|> serveDirectoryWith simpleDirectoryConfig "resources"
