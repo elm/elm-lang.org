@@ -1,7 +1,6 @@
 import Color
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Text
 import Website.Widgets exposing (bigLogo, installButtons, button)
 import Website.Skeleton exposing (skeleton)
@@ -9,16 +8,22 @@ import Website.BigTiles as Tile
 import Website.ColorScheme as C
 import Window
 
-port title : String
-port title = "Elm - functional web programming"
 
-main = skeleton "" content <~ Window.dimensions
+output title : String
+output title =
+    "Elm - functional web programming"
+
+
+main =
+    Varying.map (skeleton "" content) Window.dimensions
+
 
 tagLine =
-    Text.leftAligned <|
+    leftAligned <|
         Text.fromString "A " ++
         Text.link "/learn/What-is-FRP.elm" (Text.fromString "functional reactive") ++
         Text.fromString " language for interactive applications"
+
 
 content outer =
     let inner = 600

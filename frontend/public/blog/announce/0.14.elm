@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
-port title : String
-port title = "Elm 0.14"
+output title : String
+output title = "Elm 0.14"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -198,8 +197,8 @@ working with lists.
 [thesis]: /papers/concurrent-frp.pdf
 
 ```haskell
-Signal.map  : (a -> b) -> Signal a -> Signal b
-Signal.map2 : (a -> b -> c) -> Signal a -> Signal b -> Signal c
+Varying.map  : (a -> b) -> Varying a -> Varying b
+Varying.map2 : (a -> b -> c) -> Varying a -> Varying b -> Varying c
 ```
 
 To make this connection stronger, the `List` library has changed a bit too.
@@ -219,20 +218,20 @@ List.map2 (,) [1,2,3] [1,2,3] == [(1,1), (2,2), (3,3)]
 List.map2 (+) [1,2,3] [1,2,3] == [2,4,6]
 ```
 
-These changes are paralleled in the Signal library, where the map functions all
+These changes are paralleled in the Varying library, where the map functions all
 work exactly the same way. This naming scheme is more in line with
 [Clojure](https://clojuredocs.org/clojure.core/map),
 [Racket](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._racket%2Fprivate%2Fmap..rkt%29._map%29%29),
 and [OCaml](http://caml.inria.fr/pub/docs/old-311/libref/List.html#VALmap2).
 
-### Signal Channels
+### Varying Channels
 
 This release also replaces the concept of an `Input` with `Signal.Channel`.
 The API is extremely close to the ports API:
 
 ```haskell
 channel : a -> Channel a
-subscribe : Channel a -> Signal a
+subscribe : Channel a -> Varying a
 send : Channel a -> a -> Message
 ```
 

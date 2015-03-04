@@ -1,22 +1,21 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List exposing (map, (::))
 import Mouse
-import Signal
 import Text exposing (..)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 scene Window.dimensions clickLocations
+  Varying.map2 scene Window.dimensions clickLocations
 
 
 -- for a good time, remove "sampleOn Mouse.clicks" ;)
-clickLocations : Signal (List (Int,Int))
+clickLocations : Varying (List (Int,Int))
 clickLocations =
-  Signal.foldp (::) [] (Signal.sampleOn Mouse.clicks Mouse.position)
+  Stream.sample always Mouse.position Mouse.clicks
+    |> Stream.fold (::) []
 
 
 scene : (Int,Int) -> List (Int,Int) -> Element
@@ -28,6 +27,6 @@ scene (w,h) locs =
             |> rotate (toFloat x)
   in
       layers
-        [ collage w h (map drawPentagon locs)
+        [ collage w h (List.map drawPentagon locs)
         , plainText "Click to stamp a pentagon."
         ]

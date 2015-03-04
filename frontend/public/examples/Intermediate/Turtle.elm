@@ -2,8 +2,6 @@
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Keyboard
-import Signal
-import Time exposing (..)
 import Window
 
 -- MODEL
@@ -55,16 +53,15 @@ view (w,h) turtle =
 
 -- SIGNALS
 main =
-  Signal.map2 view Window.dimensions (Signal.foldp update turtle input)
+  Varying.map2 view Window.dimensions (Signal.foldp update turtle events)
 
-input =
+events =
   let floatify {x,y} = { x = toFloat x, y = toFloat y }
   in
-      Signal.map2 (,) (Signal.map floatify Keyboard.arrows) delta
-        |> Signal.sampleOn delta
+      Time.fps 30
+        |> Varying.map Time.inSeconds
+        |> Stream.sample (,) (Varying.map floatify Keyboard.arrows)
 
-delta =
-  Signal.map inSeconds (fps 30)
 
 -- Try switching out Keyboard.arrows for Keyboard.wasd to
 -- try out different controls.

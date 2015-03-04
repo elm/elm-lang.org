@@ -7,11 +7,9 @@
 
 import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text exposing (asText)
-import Time exposing (fpsWhen)
+import Time
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map asText (Signal.foldp (+) 0 (30 `fpsWhen` Mouse.isDown))
+  Varying.map show (Stream.fold (+) 0 (Time.fpsWhen 30 Mouse.isDown))

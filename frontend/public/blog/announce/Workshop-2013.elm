@@ -1,20 +1,18 @@
 import Color
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal exposing (Signal, (<~))
 import Text
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm Workshop 2013"
+output title : String
+output title = "Elm Workshop 2013"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Varying.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything : Int -> Element
@@ -59,8 +57,8 @@ talks w =
 
 
 talk w (title,speaker) =
-    let title' = Text.plainText title
-        speaker' = Text.leftAligned << Text.color Color.darkGrey <| Text.fromString speaker
+    let title' = plainText title
+        speaker' = leftAligned << Text.color Color.darkGrey <| Text.fromString speaker
         padding = 30
         lineHeight = heightOf title' + 4
         speakerWidth = widthOf speaker'

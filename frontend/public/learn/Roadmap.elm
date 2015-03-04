@@ -1,13 +1,12 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+  Varying.map (skeleton "Learn" (\w -> width (min 600 w) content)) Window.dimensions
 
 
 content : Element

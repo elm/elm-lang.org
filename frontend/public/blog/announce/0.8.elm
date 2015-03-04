@@ -1,19 +1,17 @@
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme exposing (..)
 import Window
 
-port title : String
-port title = "Elm 0.8"
+output title : String
+output title = "Elm 0.8"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Varying.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything wid =

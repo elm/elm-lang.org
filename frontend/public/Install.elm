@@ -1,6 +1,5 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Widgets exposing (button)
 import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
@@ -9,10 +8,10 @@ import Website.ColorScheme as C
 import Text
 import Window
 
-port title : String
-port title = "Install"
+output title : String
+output title = "Install"
 
-main = skeleton "Install" content <~ Window.dimensions
+main = Varying.map (skeleton "Install" content) Window.dimensions
 
 content outer =
     let center elem =

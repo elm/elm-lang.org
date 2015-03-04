@@ -2,7 +2,6 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Keyboard
-import Signal
 import Time exposing (..)
 import Window
 
@@ -37,7 +36,7 @@ render (w',h') mario =
       ]
 
 -- MARIO
-input = let delta = Signal.map (\t -> t/20) (fps 25)
-        in  Signal.sampleOn delta (Signal.map2 (,) delta Keyboard.arrows)
+output = let delta = Varying.map (\t -> t/20) (fps 25)
+        in  Signal.sampleOn delta (Varying.map2 (,) delta Keyboard.arrows)
 
-main = Signal.map2 render Window.dimensions (Signal.foldp step mario input)
+main = Varying.map2 render Window.dimensions (Signal.foldp step mario input)

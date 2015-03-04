@@ -1,16 +1,15 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Using Signals"
+output title : String
+output title = "Using Signals"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+  Varying.map (skeleton "Learn" (\w -> width (min 600 w) content)) Window.dimensions
 
 
 content : Element
@@ -37,8 +36,8 @@ what your users might be up to.
 [dim]: http://package.elm-lang.org/packages/elm-lang/core/latest/Window#dimensions
 
 ```haskell
-Mouse.position : Signal (Int,Int)
-Window.dimensions : Signal (Int,Int)
+Mouse.position : Varying (Int,Int)
+Window.dimensions : Varying (Int,Int)
 ```
 
 These values will change as the mouse moves or as the browser window resizes.
@@ -51,7 +50,7 @@ One of the most important things you can do with a signal is transform it into
 something else. We use the `map` function for this.
 
 ```haskell
-map : (a -> b) -> Signal a -> Signal b
+map : (a -> b) -> Varying a -> Varying b
 ```
 
 As an example, say we have the `Window.dimensions` signal and want to get the
@@ -62,7 +61,7 @@ toAspectRatio : (Int,Int) -> Float
 toAspectRatio (w,h) =
     toFloat w / toFloat h
 
-aspectRatio : Signal Float
+aspectRatio : Varying Float
 aspectRatio =
     map toAspectRatio Window.dimensions
 ```
@@ -77,7 +76,7 @@ It is often useful to put multiple signals together. You can use `merge` or
 `map2`, each with slightly different results. Lets look at `merge` first.
 
 ```haskell
-merge : Signal a -> Signal a -> Signal a
+merge : Varying a -> Varying a -> Varying a
 ```
 
 This function takes two signals and merges them into one. Whenever an incoming
@@ -89,7 +88,7 @@ a [union type](/learn/Union-Types.elm) like this:
 ```haskell
 type Update = Move (Int,Int) | TimeDelta Float
 
-updates : Signal Update
+updates : Varying Update
 updates =
     merge (map Move Mouse.position) (map TimeDelta (fps 30))
 ```
@@ -101,7 +100,7 @@ The other common way to merge signals is with `map2` which works a little bit
 differently.
 
 ```haskell
-map2 : (a -> b -> c) -> Signal a -> Signal b -> Signal c
+map2 : (a -> b -> c) -> Varying a -> Varying b -> Varying c
 ```
 
 This method of merging uses a function to put the two incoming signals together.
@@ -118,7 +117,7 @@ One of the most important uses of signals is to hold state. We do this with a
 function called `foldp` which is short for &ldquo;fold from the past&rdquo;.
 
 ```haskell
-foldp : (a -> state -> state) -> state -> Signal a -> Signal state
+foldp : (a -> state -> state) -> state -> Varying a -> Varying state
 ```
 
 It takes an update function, a starting state, and a signal that will drive the
@@ -126,7 +125,7 @@ state updates. The result is a signal representing the latest state. Here is an
 example usage that lets us count mouse clicks.
 
 ```haskell
-clickCount : Signal Int
+clickCount : Varying Int
 clickCount =
     foldp (\\click count -> count + 1) 0 Mouse.clicks
 ```
@@ -147,9 +146,9 @@ dragging the mouse. I could use [`keepWhen`][keepWhen] for this:
 [keepWhen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#keepWhen
 
 ```haskell
-keepWhen : Signal Bool -> a -> Signal a -> Signal a
+keepWhen : Varying Bool -> a -> Varying a -> Varying a
 
-drags : Signal (Int,Int)
+drags : Varying (Int,Int)
 drags =
     keepWhen Mouse.isDown (0,0) Mouse.position
 ```
@@ -187,7 +186,7 @@ signals together in a way that will update our `foldp` correctly. It may seem
 tempting to write something like this:
 
 ```haskell
-inputs : Signal ((), Float)
+inputs : Varying ((), Float)
 inputs =
     map2 (,) Mouse.clicks (fps 40)
 ```
@@ -204,7 +203,7 @@ Instead you want to model the kinds of updates that can be done and
 ```haskell
 type Update = Click | TimeDelta Float
 
-inputs : Signal Update
+inputs : Varying Update
 inputs =
     merge
         (map (always Click) Mouse.clicks)
@@ -228,7 +227,7 @@ where you think you want a list of signals, how can you change your code such
 that you end up with a signal of lists?
 
 ```haskell
-List (Signal a) -> Signal (List a)
+List (Signal a) -> Varying (List a)
 ```
 
 You will have an easier time with a signal of lists because all of the `Signal`

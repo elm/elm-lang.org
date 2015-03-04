@@ -1,16 +1,14 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List exposing (..)
 import Mouse
-import Signal
-import Time exposing (..)
+import Time exposing (second)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 slideShow Window.dimensions currentImage
+  Varying.map2 slideShow Window.dimensions currentImage
 
 
 slideShow : (Int, Int) -> String -> Element
@@ -23,11 +21,11 @@ images : List String
 images =
   [ "/book.jpg", "/shells.jpg", "/stack.jpg", "/car.jpg", "/pipe.jpg" ]
 
-currentImage : Signal String
+currentImage : Varying String
 currentImage =
   let cycler _ imgs = tail imgs ++ [head imgs]
   in
-      Signal.map head (Signal.foldp cycler images (every (2*second)))
+      Varying.map head (Signal.fold cycler images (Time.every (2*second)))
 
 
 -- try replacing (every (2*second)) with Mouse.clicks

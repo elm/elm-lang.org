@@ -4,11 +4,9 @@
 -- that the signal has been running:
 
 import Graphics.Element exposing (..)
-import Signal
-import Text exposing (asText)
-import Time exposing (fps)
+import Time
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map asText (Signal.foldp (+) 0 (fps 30))
+  Varying.map show (Stream.fold (+) 0 (Time.fps 30))

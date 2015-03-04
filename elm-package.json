@@ -11,8 +11,6 @@
     "dependencies": {
         "elm-lang/core": "1.1.0 <= v < 2.0.0",
         "evancz/elm-html": "1.1.0 <= v < 2.0.0",
-        "evancz/elm-markdown": "1.1.2 <= v < 2.0.0",
-        "johnpmayer/elm-linear-algebra": "2.0.0 <= v < 3.0.0",
-        "johnpmayer/elm-webgl": "1.0.1 <= v < 2.0.0"
+        "evancz/elm-markdown": "1.1.2 <= v < 2.0.0"
     }
 }

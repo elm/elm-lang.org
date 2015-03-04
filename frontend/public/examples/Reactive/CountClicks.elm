@@ -1,14 +1,12 @@
 import Graphics.Element exposing (..)
-import Signal exposing (Signal, map, foldp)
 import Mouse
-import Text exposing (asText)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  map asText countClick
+  Varying.map show countClick
 
 
-countClick : Signal Int
+countClick : Varying Int
 countClick =
-  foldp (\clk count -> count + 1) 0 Mouse.clicks
+  Stream.fold (\clk count -> count + 1) 0 Mouse.clicks

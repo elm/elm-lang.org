@@ -1,12 +1,11 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.Widgets exposing (button)
 import String
 import Window
 
-main = skeleton "Libraries" content <~ Window.dimensions
+main = Varying.map (skeleton "Libraries" content) Window.dimensions
 
 content outer =
     let inner = 600

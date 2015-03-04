@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.10"
+output title : String
+output title = "Elm 0.10"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -223,7 +222,7 @@ most significant part of this release:
   that let you represent translations, and we wanted to make that clearer.
 
 * Add <span style="font-family:monospace;">
-  ([Random.floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float])</span><br/>
+  ([Random.floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Varying Int -> Varying [Float])</span><br/>
   Thanks to [Max Goldstein](https://github.com/mgold)!
 
 * Fix the `remove` function in [the `Dict`

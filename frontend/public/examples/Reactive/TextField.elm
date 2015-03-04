@@ -1,6 +1,5 @@
 import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
-import Signal
 import String
 import Text exposing (plainText)
 
@@ -10,9 +9,9 @@ content =
   Signal.channel Field.noContent
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map scene (Signal.subscribe content)
+  Varying.map scene (Signal.subscribe content)
 
 
 scene : Field.Content -> Element

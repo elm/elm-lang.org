@@ -1,12 +1,11 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import Signal
 import Time exposing (..)
 
 
 main =
-  Signal.map clock (every second)
+  Varying.map clock (every second)
 
 
 clock t =

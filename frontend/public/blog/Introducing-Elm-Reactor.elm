@@ -1,16 +1,15 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Introducing Elm Reactor"
+output title : String
+output title = "Introducing Elm Reactor"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Varying.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything wid =

@@ -1,23 +1,21 @@
 import Color exposing (..)
 import Graphics.Element exposing (..)
-import List
-import List exposing ((::))
 import Markdown
 import Mouse
-import Signal
 import Text
 import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme as C
 import Window
 
-port title : String
-port title = "What is a Signal?"
+
+output title : String
+output title = "What is a Signal?"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 (skeleton "Learn")
-      (Signal.map view (box examples1))
+  Varying.map2 (skeleton "Learn")
+      (Varying.map view (box examples1))
       Window.dimensions
 
 
@@ -80,7 +78,7 @@ These examples are just the basics of signals. More information on how to use
 signals can be found in [this tutorial](/learn/Using-Signals.elm) and in
 [the documentation](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 There are also tons of other [interactive examples](/Examples.elm) that allow
-you to play around with FRP in [Elm](/). 
+you to play around with FRP in [Elm](/).
 
 """
 
@@ -112,14 +110,14 @@ entry w1 w2 v1 v2 =
 
 
 example w1 w2 code =
-  Signal.map (\info -> entry w1 w2 (Text.leftAligned (Text.monospace (Text.fromString code))) (Text.asText info))
+  Varying.map (\info -> entry w1 w2 (leftAligned (Text.monospace (Text.fromString code))) (show info))
 
 
 examples1 =
-  let title = Text.leftAligned << Text.bold << Text.fromString
+  let title = leftAligned << Text.bold << Text.fromString
       example' = example 200 140
   in
-      [ Signal.constant (entry 200 140 (title "Source Code") (title "Value"))
+      [ Varying.constant (entry 200 140 (title "Source Code") (title "Value"))
       , example' "Mouse.position" Mouse.position
       , example' "Window.dimensions" Window.dimensions
       ]
@@ -131,5 +129,5 @@ box exs =
         in  color C.accent1 <|
             container (widthOf eBox + 4) (heightOf eBox + 4) middle eBox
   in
-      Signal.map putInBox <| List.foldr (Signal.map2 (::)) (Signal.constant []) exs
+      Varying.map putInBox <| List.foldr (Varying.map2 (::)) (Varying.constant []) exs
 

@@ -8,7 +8,6 @@ import Math.Vector2 exposing (Vec2)
 import Math.Vector3 exposing (..)
 import Math.Vector3 as V3
 import Math.Matrix4 exposing (..)
-import Signal
 import Text exposing (..)
 import Time exposing (..)
 import WebGL exposing (..)
@@ -99,22 +98,22 @@ gravity dt person =
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
     let person = Signal.foldp update defaultPerson inputs
         entities =
-            Signal.map2 world
+            Varying.map2 world
                 (loadTexture "/texture/woodCrate.jpg")
-                (Signal.map2 perspective Window.dimensions person)
+                (Varying.map2 perspective Window.dimensions person)
     in
-        Signal.map2 view Window.dimensions entities
+        Varying.map2 view Window.dimensions entities
 
 
-inputs : Signal Inputs
+inputs : Varying Inputs
 inputs =
-    let dt = Signal.map (\t -> t/500) (fps 25)
+    let dt = Varying.map (\t -> t/500) (fps 25)
     in
-        Signal.map3 (,,) Keyboard.space Keyboard.arrows dt
+        Varying.map3 (,,) Keyboard.space Keyboard.arrows dt
           |> Signal.sampleOn dt
 
 

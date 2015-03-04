@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.11 - Ports"
+output title : String
+output title = "Elm 0.11 - Ports"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -68,11 +67,11 @@ prices and export buy orders.
 module FinancialAdvisor where
 
 -- incoming signal of prices
-port prices : Signal Float
+output prices : Varying Float
 
 -- outgoing signal of buy orders
-port orders : Signal String
-port orders = always "BRK.A" <~ prices
+output orders : Varying String
+output orders = always "BRK.A" <~ prices
 ```
 
 All ports are declared with the `port` keyword. Incoming ports are just a
@@ -127,7 +126,7 @@ colloquial data structures in both Elm and JS.
 
 The particular types that can be sent in and out of ports is
 actually quite flexible. It covers pretty much [all valid JSON values](http://www.json.org/). Incoming
-ports can handle [all JS values](http://package.elm-lang.org/packages/elm-lang/core/latest/JavaScript)
+inputs can handle [all JS values](http://package.elm-lang.org/packages/elm-lang/core/latest/JavaScript)
 and the following Elm types:
 
   * **Booleans and Strings** &ndash; both exist in Elm and JS!

@@ -4,7 +4,6 @@ import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
 import List
-import Signal
 import String
 import Text
 import Window
@@ -146,12 +145,12 @@ viewError msg =
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 view Window.dimensions model
+  Varying.map2 view Window.dimensions model
 
 
-model : Signal Model
+model : Varying Model
 model =
   Signal.subscribe updateChan
     |> Signal.foldp update emptyModel
@@ -162,9 +161,9 @@ updateChan =
   Signal.channel Submit
 
 
-port redirect : Signal String
-port redirect =
-    Signal.map2 toUrl (Signal.subscribe updateChan) model
+output redirect : Varying String
+output redirect =
+    Varying.map2 toUrl (Signal.subscribe updateChan) model
       |> Signal.keepIf (not << String.isEmpty) ""
 
 

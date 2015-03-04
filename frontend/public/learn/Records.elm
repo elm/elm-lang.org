@@ -1,18 +1,18 @@
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal exposing (Signal, (<~))
 import Text
 import Website.ColorScheme exposing (accent1)
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm - Extensible Records"
+output title : String
+output title = "Elm - Extensible Records"
 
-main = skeleton "Learn" (content << min 600) <~ Window.dimensions
 
-content w = 
+main =
+  Varying.map (skeleton "Learn" (content << min 600)) Window.dimensions
+
+content w =
   flow down
     [ width w intro
     , access w
@@ -221,7 +221,7 @@ prettify person =
     { person | age    <- readInt   person.age
              , height <- readFloat person.height }
 
-input = prettify rawInput
+output = prettify rawInput
 ```
 
 We started with a record in which `(person.age : String)`, providing little
@@ -364,7 +364,7 @@ This syntax is just like the syntax for record extension, indicating that
 `Positioned a` is a record with at least an `x` and `y` field, etc.
 
 This means you can define records that have any subsection of these fields.
-For example, 
+For example,
 
 ```haskell
 lady : Named { age:Int }
@@ -406,8 +406,8 @@ used safely!
 evaluate wid pairs =
   let f (a,b) =
         let w = wid // 2
-            c = Text.leftAligned (Text.monospace (Text.fromString a))
-            d = Text.leftAligned (Text.monospace (Text.fromString b))
+            c = leftAligned (Text.monospace (Text.fromString a))
+            d = leftAligned (Text.monospace (Text.fromString b))
             h = 10 + max (heightOf c) (heightOf d)
         in
             flow right
@@ -421,7 +421,7 @@ evaluate wid pairs =
         Text.fromString "&rArr;"
           |> Text.color accent1
           |> Text.height 3
-          |> Text.leftAligned
+          |> leftAligned
 
       h = List.sum (List.map heightOf es)
   in

@@ -1,17 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Making Pong"
+output title : String
+output title = "Making Pong"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" (\w -> width (min 600 w) content) <~ Window.dimensions
+  Varying.map (skeleton "Blog" (\w -> width (min 600 w) content)) Window.dimensions
 
 
 content = Markdown.toElement """
@@ -110,7 +109,7 @@ desired FPS as possible. If the browser can not keep up, the time deltas will
 slow down gracefully.
 
 ```haskell
-delta : Signal Time
+delta : Varying Time
 delta = inSeconds <~ fps 35
 ```
 
@@ -120,10 +119,10 @@ all inputs.
  [keyboard]: http://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard
 
 ```haskell
-input : Signal Input
-input = sampleOn delta <| Input <~ Keyboard.space
-                                 ~ Signal.map .y Keyboard.wasd
-                                 ~ Signal.map .y Keyboard.arrows
+output : Varying Input
+output = sampleOn delta <| Input <~ Keyboard.space
+                                 ~ Varying.map .y Keyboard.wasd
+                                 ~ Varying.map .y Keyboard.arrows
                                  ~ delta
 ```
 
@@ -296,7 +295,7 @@ Finally we put together the inputs, the default game, and the step function to
 define `gameState`.
 
 ```haskell
-gameState : Signal Game
+gameState : Varying Game
 gameState = foldp stepGame defaultGame input
 ```
 
@@ -350,7 +349,7 @@ Now that we have a way to display a particular game state, we just
 apply it to our `gameState` that changes over time.
 
 ```haskell
-main = Signal.map2 display Window.dimensions gameState
+main = Varying.map2 display Window.dimensions gameState
 ```
 
 And that is it, [Pong in Elm](/edit/examples/Intermediate/Pong.elm)!

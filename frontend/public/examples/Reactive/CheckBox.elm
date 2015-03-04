@@ -1,12 +1,11 @@
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import Signal
 import Text exposing (asText)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map display (Signal.subscribe check)
+  Varying.map display (Signal.subscribe check)
 
 
 check : Signal.Channel Bool

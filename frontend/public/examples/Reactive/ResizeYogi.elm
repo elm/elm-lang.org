@@ -3,12 +3,11 @@
 
 import Graphics.Element exposing (..)
 import Mouse
-import Signal
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map resizeableYogi edgeLength
+  Varying.map resizeableYogi edgeLength
 
 
 resizeableYogi : Int -> Element
@@ -16,6 +15,6 @@ resizeableYogi n =
   image n n "/yogi.jpg"
 
 
-edgeLength : Signal Int
+edgeLength : Varying Int
 edgeLength =
-  Signal.map (\(x,y) -> max x y) Mouse.position
+  Varying.map (\(x,y) -> max x y) Mouse.position

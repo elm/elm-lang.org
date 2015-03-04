@@ -1,16 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
 
-port title : String
-port title = "Union Types"
+output title : String
+output title = "Union Types"
 
 
-main : Signal Element
-main = skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+main : Varying Element
+main =
+  Varying.map (skeleton "Learn" (\w -> width (min 600 w) content)) Window.dimensions
 
 
 content : Element

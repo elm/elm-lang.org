@@ -2,14 +2,13 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Markdown
-import Signal
 import Touch
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 scene Window.dimensions Touch.taps
+  Varying.map2 scene Window.dimensions Touch.taps
 
 
 scene : (Int,Int) -> { x:Int, y:Int } -> Element

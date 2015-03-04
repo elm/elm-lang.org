@@ -1,7 +1,5 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing ((<~))
-import Text
 import Window
 
 import Website.Skeleton exposing (skeleton)
@@ -9,11 +7,12 @@ import Website.BigTiles as Tile
 import Website.ColorScheme as C
 
 
-port title : String
-port title = "Blog"
+output title : String
+output title = "Blog"
+
 
 main =
-  skeleton "Blog" content <~ Window.dimensions
+  Varying.map (skeleton "Blog" content) Window.dimensions
 
 content outer =
     let center elem =

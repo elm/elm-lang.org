@@ -1,14 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 
 import Window
 
-port title : String
-port title = "Community"
 
-main = skeleton "Community" content <~ Window.dimensions
+output title : String
+output title = "Community"
+
+
+main =
+  Varying.map (skeleton "Community" content) Window.dimensions
 
 content outer =
     let center elem =

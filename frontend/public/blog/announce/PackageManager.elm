@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm Package Manager"
+output title : String
+output title = "Elm Package Manager"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid

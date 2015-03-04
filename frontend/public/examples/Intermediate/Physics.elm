@@ -2,15 +2,13 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Markdown
-import Signal
-import Text exposing (..)
-import Time exposing (..)
+import Time
 
 
 ---- Put it together and show it ----
 
 main =
-  Signal.map2 view sunAndEarth bouncingBall
+  Varying.map2 view sunAndEarth bouncingBall
 
 view figure1 figure2 =
   flow down [ intro, figure1, body, figure2, outro ]
@@ -37,11 +35,11 @@ outro =
 ---- Diagrams ----
 
 time =
-  Signal.map (inSeconds << fst) (timestamp (fps 40))
+  Varying.map (inSeconds << fst) (Stream.timestamp (Time.fps 40))
 
 
 sunAndEarth =
-  Signal.map sunAndEarthAt time
+  Varying.map sunAndEarthAt time
 
 sunAndEarthAt angle =
   let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]
@@ -56,7 +54,7 @@ sunAndEarthAt angle =
 
 
 bouncingBall =
-  Signal.map bouncingBallAt time
+  Varying.map bouncingBallAt time
 
 bouncingBallAt angle =
   let ball = filled red (circle 15)

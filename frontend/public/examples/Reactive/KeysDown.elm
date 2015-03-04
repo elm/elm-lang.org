@@ -4,7 +4,6 @@
 
 import Graphics.Element exposing (..)
 import Keyboard
-import Signal
 import Text exposing (..)
 
 
@@ -13,6 +12,6 @@ display keyCodes =
   plainText "You are holding down the following keys: " `beside` asText keyCodes
 
 
-main : Signal.Signal Element
+main : Varying Element
 main =
-  Signal.map display Keyboard.keysDown
+  Varying.map display Keyboard.keysDown

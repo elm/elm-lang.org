@@ -1,16 +1,15 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.7 - Extensible Records"
+output title : String
+output title = "Elm 0.7 - Extensible Records"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" scene <~ Window.dimensions
+  Varying.map (skeleton "Blog" scene) Window.dimensions
 
 
 scene : Int -> Element
@@ -197,7 +196,7 @@ a bit lighter visually.
 The `(<~)` operator is exactly equivalent to `lift`.
 
 ```haskell
-(<~) : (a -> b) -> Signal a -> Signal b
+(<~) : (a -> b) -> Varying a -> Varying b
 
 f <~ s = lift f s
 ```
@@ -205,7 +204,7 @@ f <~ s = lift f s
 The `(~)` operator allows you to apply a signal of functions to a signal of values.
 
 ```haskell
-(~) : Signal (a -> b) -> Signal a -> Signal b
+(~) : Varying (a -> b) -> Varying a -> Varying b
 
 sf ~ s = lift2 (\\f x -> f x) sf s
 ```

@@ -1,16 +1,14 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
-import Signal
 import Time exposing (..)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map inSeconds (fps 30)
-    |> Signal.foldp step { height = 0, velocity = bounceVelocity }
-    |> Signal.map view
+  Stream.map inSeconds (fps 30)
+    |> Stream.fold step { height = 0, velocity = bounceVelocity }
+    |> Varying.map view
 
 
 -- Draw the sky, ball, and ground

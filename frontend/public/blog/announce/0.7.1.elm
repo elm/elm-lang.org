@@ -1,19 +1,18 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.7.1 - Library Cultivation"
+output title : String
+output title = "Elm 0.7.1 - Library Cultivation"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2
+  Varying.map2
     (skeleton "Blog" << scene)
-    (Signal.constant ())
+    (Varying.constant ())
     Window.dimensions
 
 
@@ -66,7 +65,7 @@ Okay, now let&rsquo;s dive into Elm 0.7.1!
 First there are the directional signals:
 
 ```haskell
-arrows, wasd : Signal { x : Int, y : Int }
+arrows, wasd : Varying { x : Int, y : Int }
 ```
 
 These allow you to easily handle input from the arrow keys or the [wasd keys][wasd].
@@ -76,7 +75,7 @@ so please let me know if you think there should be more choices.
 There are also a few signals for common modifier keys:
 
 ```haskell
-ctrl, shift, space : Signal Bool
+ctrl, shift, space : Varying Bool
 ```
 
 The existing `Keyboard.Raw` library provides some lower-level signals that
@@ -123,14 +122,14 @@ The reason for including so much information is to make it easier to define
 more complicated gestures. The type looks like this:
 
 ```haskell
-touches : Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
+touches : Varying [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
 ```
 
 The `Touch` library also includes a `taps` signal which just gives the
 coordinates of the latest tap. The default value is the origin.
 
 ```haskell
-taps : Signal { x : Int, y : Int }
+taps : Varying { x : Int, y : Int }
 ```
 
 You can find examples for these signals [here][t1], [here][t2], [here][t3],
@@ -184,7 +183,7 @@ in mind when using `touches` and let [the list][discuss] know what you learn!
 addition to come with this library is actually in the `Signal` library:
 
 ```haskell
-mergeEither : Signal a -> Signal b -> Signal (Either a b)
+mergeEither : Varying a -> Varying b -> Varying (Either a b)
 ```
 
 This lets you combine two signals without losing information about

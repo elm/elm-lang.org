@@ -1,22 +1,20 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal
 import Touch
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-    Signal.map2 scene Window.dimensions Touch.touches
+    Varying.map2 scene Window.dimensions Touch.touches
 
 
 scene : (Int,Int) -> List Touch.Touch -> Element
 scene (w,h) touches =
     let dots = List.map (makeCircle (toFloat w) (toFloat h)) touches
-    in 
+    in
         layers [ collage w h dots, message ]
 
 

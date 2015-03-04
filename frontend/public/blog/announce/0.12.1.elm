@@ -1,13 +1,12 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.12.1 - Arrays"
+output title : String
+output title = "Elm 0.12.1 - Arrays"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything w =
     width (min 600 w) intro
@@ -126,7 +125,7 @@ The most valuable part of this change is that you can send a `Json.Value`
 through a port:
 
 ```haskell
-port randomInternetData : Signal Json.Value
+output randomInternetData : Varying Json.Value
 ```
 
 This makes it possible to handle JavaScript values that have unreliable
@@ -150,8 +149,8 @@ toJson prettyText =
     Bold text ->
         Json.Object <| Dict.singleton "bold" (toJson text)
 
-port prettyText : Signal Json.Value
-port prettyText = toJson <~ prettyTexts
+output prettyText : Varying Json.Value
+output prettyText = toJson <~ prettyTexts
 ```
 
 It would *definitely* be nicer to to just allow ADTs to travel through ports

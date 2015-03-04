@@ -1,20 +1,18 @@
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
-import List
-import Signal
-import Time exposing (..)
+import Time
 
 
-main : Signal Element 
+main : Varying Element
 main =
-  Signal.map colorCycle (Signal.foldp (+) 0 (fps 30))
+  Varying.map colorCycle (Stream.fold (+) 0 (Time.fps 30))
 
 
 colorCycle : Float -> Element
 colorCycle time =
   let toDot angle =
-        circle (20 + 10 * sin (angle * 2 + inSeconds time))
+        circle (20 + 10 * sin (angle * 2 + Time.inSeconds time))
           |> filled (hsl angle 0.9 0.6)
           |> move (fromPolar (100, angle + pi))
 

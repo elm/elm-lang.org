@@ -1,17 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
 
-port title : String
-port title = "Elm Syntax"
+output title : String
+output title = "Elm Syntax"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" content <~ Window.dimensions
+  Varying.map (skeleton "Learn" content) Window.dimensions
 
 
 content : Int -> Element
@@ -313,7 +312,7 @@ You can think of it as saying &ldquo;send this signal through this
 function.&rdquo;
 
 The `(~)` operator allows you to apply a signal of functions to a signal of
-values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
+values `(Signal (a -> b) -> Varying a -> Varying b)`. It can be used to put
 together many signals, just like `map2`, `map3`, etc. So the following
 expressions are equivalent:
 
@@ -381,15 +380,15 @@ origin = { x=0, y=0 }
 
 ```haskell
 -- incoming values
-port userID : String
-port prices : Signal Float
+output userID : String
+output prices : Varying Float
 
 -- outgoing values
-port time : Signal Float
-port time = every second
+output time : Varying Float
+output time = every second
 
-port increment : Int -> Int
-port increment = \\n -> n + 1
+output increment : Int -> Int
+output increment = \\n -> n + 1
 ```
 
 From JS, you talk to these ports like this:

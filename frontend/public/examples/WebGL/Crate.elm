@@ -4,23 +4,22 @@ import List
 import Math.Vector2 exposing (Vec2)
 import Math.Vector3 exposing (..)
 import Math.Matrix4 exposing (..)
-import Signal
 import Time exposing (..)
 import WebGL exposing (..)
 
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
     let texture = loadTexture "/texture/woodCrate.jpg"
     in
-        Signal.map perspective angle
-          |> Signal.map2 view texture
-          |> Signal.map (webgl (400,400))
+        Varying.map perspective angle
+          |> Varying.map2 view texture
+          |> Varying.map (webgl (400,400))
 
 
-angle : Signal Float
+angle : Varying Float
 angle =
     Signal.foldp (\dt theta -> theta + dt / 10000) 0 (fps 25)
 

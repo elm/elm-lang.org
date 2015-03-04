@@ -1,12 +1,11 @@
 import Graphics.Element exposing (..)
-import Signal
 import Window
 import Text exposing (..)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map view Window.dimensions
+  Varying.map view Window.dimensions
 
 
 view : (Int,Int) -> Element

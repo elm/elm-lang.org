@@ -13,7 +13,7 @@ quad : Float -> Form
 quad angle =
   quadrant 8 20
     |> group
-    |> rotate (degrees angle) 
+    |> rotate (degrees angle)
 
 
 quadrant : Float -> Int -> List Form

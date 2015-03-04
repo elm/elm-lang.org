@@ -1,18 +1,17 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
-
 import Website.Skeleton exposing (skeleton)
 import Window
 import Graphics.Input as Input
 
-port title : String
-port title = "Upgrade Time: Elm 0.6"
+
+output title : String
+output title = "Upgrade Time: Elm 0.6"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" (\w -> width (min 600 w) intro) <~ Window.dimensions
+  Varying.map (skeleton "Blog" (\w -> width (min 600 w) intro)) Window.dimensions
 
 
 intro : Element
@@ -25,7 +24,7 @@ With these additions, I think its easier than ever to create complex
 interactions and animations.
 
 The most obvious changes in [Elm](/) 0.6 are whitespace sensitivity and the
-addition of many useful time signals such as `(fps : Number -> Signal Time)`
+addition of many useful time signals such as `(fps : Number -> Varying Time)`
 which make it much easier to make rich animations that work on many devices.
 
 This release also includes a [`Date` library][date], supports
@@ -105,8 +104,8 @@ delaying signals.
 
 The following functions simply provide a way to add timestamps to any signal.
 
-        timestamp : Signal a -> Signal (Time,a)
-        timeOf    : Signal a -> Signal Time
+        timestamp : Varying a -> Varying (Time,a)
+        timeOf    : Varying a -> Varying Time
 
 Function `timestamp` adds a timestamp whereas `timeOf` just gives the time of
 the update, dropping the value entirely. This is a low-level way to explore
@@ -121,8 +120,8 @@ time1 = Markdown.toElement """
 The following FPS functions provide a way to request an upper bound on frame
 rates that will gracefully degrade on less powerful devices.
 
-        fps     : Number -> Signal Time
-        fpsWhen : Number -> Signal Bool -> Signal Time
+        fps     : Number -> Varying Time
+        fpsWhen : Number -> Varying Bool -> Varying Time
 
 So the expression `(fps 40)` will create a signal that attempts to update 40
 times per second. The value of the signal is always the time delta between
@@ -150,7 +149,7 @@ significantly clearer and more concise.
 
 Finally, we have a function for delaying signals by a given amount of time:
 
-        delay : Time -> Signal a -> Signal a
+        delay : Time -> Varying a -> Varying a
 
 The `delay` function makes it possible to ask questions like, &ldquo;has this
 signal changed in the last second?&rdquo;
@@ -165,8 +164,8 @@ mouse has been stable for 10 milliseconds.
 
 The Time library also includes some helpers based on the `delay` function:
 
-        since : Time -> Signal a -> Signal Bool
-        after : Time -> Signal a -> Signal Bool
+        since : Time -> Varying a -> Varying Bool
+        after : Time -> Varying a -> Varying Bool
 
 These let you ask &ldquo;is it one second after the last mouse click?&rdquo;
 
@@ -216,14 +215,14 @@ For more information on using HSV colors see the
 
 In addition to the new `Time` signals, there are a couple more new and useful signal functions. Again, providing fundamentally new capabilities is the `merge` function which combines two different signals into one, always taking the latest value.
 
-        merge  : Signal a -> Signal a -> Signal a
-        merges : [Signal a] -> Signal a
+        merge  : Varying a -> Varying a -> Varying a
+        merges : [Signal a] -> Varying a
 
 Both `merge` and `merges` are left-biased. Expressions such as `(merge Mouse.x Mouse.y)` result in simultaneous updates for both input signals, so the left-most signal takes precedence. Therefore, `(merge Mouse.x Mouse.y)` is equivalent to `Mouse.x`.
 
 This release also includes the `average` function, which makes it easier to assess the average frame rates you are getting for an animation.
 
-        average : Int -> Signal Number -> Signal Float
+        average : Int -> Varying Number -> Varying Float
 
 Function `average` takes a sample size `n` and a signal `s`. It uses the `n` most recent updates to `s` to get a snapshot of the average value of `s`. If you wanted to get the frame rate of a signal called `deltas` over the last 40 frames, it would look like this:
 

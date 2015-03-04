@@ -2,8 +2,8 @@ import Markdown
 import Time exposing (..)
 
 
-port log : Signal Float
-port log = every second
+output log : Varying Float
+output log = every second
 
 
 main = Markdown.toElement """

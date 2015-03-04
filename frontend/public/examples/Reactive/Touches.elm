@@ -1,14 +1,11 @@
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal
-import Text exposing (asText)
 import Touch
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map (above msg << flow down << List.map asText) Touch.touches
+  Varying.map (above msg << flow down << List.map show) Touch.touches
 
 
 msg : Element

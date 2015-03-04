@@ -1,13 +1,12 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" (\w -> width (min 600 w) content) <~ Window.dimensions
+  Varying.map (skeleton "Learn" (\w -> width (min 600 w) content)) Window.dimensions
 
 
 content : Element
@@ -49,7 +48,7 @@ and [JavaScript](#javascript)
 
 * [Elm is not lazy](http://www.testblogpleaseignore.com/2012/06/22/the-trouble-with-frp-and-laziness/).
 
-* Signals are not monads in Elm. There is no `join : Signal (Signal a) -> Signal a`.
+* Signals are not monads in Elm. There is no `join : Varying (Signal a) -> Varying a`.
   [This conference talk](https://www.youtube.com/watch?v=Agu6jipKfYw) explains
   it best. You can read more about these concerns in [this
   thesis](/papers/concurrent-frp.pdf). You can also use [the automaton

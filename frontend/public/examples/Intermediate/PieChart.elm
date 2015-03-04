@@ -3,14 +3,12 @@ import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import List exposing (..)
 import Mouse
-import Signal
-import Text exposing (plainText)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 view Mouse.position Window.dimensions
+  Varying.map2 view Mouse.position Window.dimensions
 
 
 view : (Int,Int) -> (Int,Int) -> Element

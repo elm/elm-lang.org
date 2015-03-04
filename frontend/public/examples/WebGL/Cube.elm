@@ -3,19 +3,18 @@ import Graphics.Element exposing (..)
 import List
 import Math.Vector3 exposing (..)
 import Math.Matrix4 exposing (..)
-import Signal
 import Time exposing (..)
 import WebGL exposing (..)
 
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
-    Signal.map (webgl (400,400)) (Signal.map scene angle)
+    Varying.map (webgl (400,400)) (Varying.map scene angle)
 
 
-angle : Signal Float
+angle : Varying Float
 angle =
     Signal.foldp (\dt theta -> theta + dt / 5000) 0 (fps 25)
 

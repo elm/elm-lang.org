@@ -1,7 +1,6 @@
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Markdown
-import Signal
 
 
 main : Element
@@ -17,11 +16,11 @@ click =
   Signal.channel ()
 
 
-port redirect : Signal String
-port redirect =
+output redirect : Varying String
+output redirect =
   Signal.merge
     (Signal.constant "")
-    (Signal.map (always "http://elm-lang.org") (Signal.subscribe click))
+    (Varying.map (always "http://elm-lang.org") (Signal.subscribe click))
 
 
 message : Element

@@ -1,13 +1,10 @@
 module Website.Skeleton where
 
 import Color
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List
-import Native.RedirectHack
-import Signal
 import Text
-import Website.Widgets (headerFaces, logoImage)
+import Website.Widgets exposing (headerFaces, logoImage)
 import Website.ColorScheme as C
 
 
@@ -21,8 +18,9 @@ skeleton localName bodyFunc (w,h) =
        , container w bodyHeight midTop body
        , spacer w 80
        , color C.mediumGrey (spacer w 1)
-       , color C.lightGrey <| container w 50 middle <| Text.centered footerWords
+       , color C.lightGrey <| container w 50 middle <| centered footerWords
        ]
+
 
 footerWords =
   let wordLink words1 href words2 words3 =
@@ -32,28 +30,30 @@ footerWords =
        wordLink "written in Elm and " "https://github.com/elm-lang/elm-lang.org" "open source" "" ++
        wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
 
+
 heading localName outer =
   let inner = min 800 outer
       leftWidth = max 0 ((outer - inner) // 2)
       rightWidth = max 0 (outer - leftWidth - inner)
   in
-  flow right
-  [ color C.lightGrey (spacer leftWidth 40) `above` color C.mediumGrey (spacer leftWidth 1)
-  , topBar localName inner
-  , color C.lightGrey (spacer rightWidth 40) `above` color C.mediumGrey (spacer rightWidth 1)
-  ]
+      flow right
+        [ color C.lightGrey (spacer leftWidth 40) `above` color C.mediumGrey (spacer leftWidth 1)
+        , topBar localName inner
+        , color C.lightGrey (spacer rightWidth 40) `above` color C.mediumGrey (spacer rightWidth 1)
+        ]
+
 
 topBar localName inner =
   let tabs' = tabs localName
       w = inner - widthOf tabs'
   in
-  flow right
-  [ flow down
-    [ color C.lightGrey <| container w 40 midLeft logo
-    , color C.mediumGrey (spacer w 1)
-    ]
-  , tabs'
-  ]
+      flow right
+        [ flow down
+          [ color C.lightGrey <| container w 40 midLeft logo
+          , color C.mediumGrey (spacer w 1)
+          ]
+        , tabs'
+        ]
 
 logo =
     let btn clr =
@@ -61,21 +61,16 @@ logo =
                 Text.fromString "elm"
                   |> Text.height 24
                   |> Text.color clr
-                  |> Text.leftAligned
+                  |> leftAligned
           in
-            color C.lightGrey <| 
+            color C.lightGrey <|
             flow right
               [ logoImage 30 30
               , spacer 4 30
               , container (widthOf name) 30 middle name
               ]
     in
-        link "/" <|
-        Input.customButton
-            (Signal.send clicks "/")
-            (btn Color.charcoal)
-            (btn Color.black)
-            (btn Color.black)
+        link "/" <| btn Color.charcoal
 
 
 tabs localName =
@@ -91,14 +86,6 @@ paths =
   , ("Install"  , "/Install.elm")
   ]
 
-clicks : Signal.Channel String
-clicks =
-  Signal.channel ""
-
-
-bad =
-  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
-
 
 tab localName (name, href) =
   let (accent, h) =
@@ -108,7 +95,7 @@ tab localName (name, href) =
           let words =
                 Text.fromString name
                   |> Text.color clr
-                  |> Text.leftAligned
+                  |> leftAligned
           in
             flow down
               [ color C.lightGrey <| container (widthOf words + 20) 40 middle words
@@ -116,8 +103,4 @@ tab localName (name, href) =
               ]
   in
     link href <|
-      Input.customButton
-          (Signal.send clicks href)
           (btn Color.charcoal)
-          (btn Color.black)
-          (btn Color.black)

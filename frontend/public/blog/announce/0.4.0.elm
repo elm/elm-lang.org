@@ -1,16 +1,15 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Elm 0.4: Graphics Upgrade"
+output title : String
+output title = "Elm 0.4: Graphics Upgrade"
 
 
-main : Signal Element
-main = skeleton "Blog" page <~ Window.dimensions
+main : Varying Element
+main = Varying.map (skeleton "Blog" page) Window.dimensions
 
 
 page : Int -> Element
@@ -220,7 +219,7 @@ It is actually still possible to load an image without specifying dimensions,
 but the API is a little different:
 
 ```haskell
-images : Signal String -> Signal Element
+images : Varying String -> Varying Element
 ```
 
 The old `image src` is almost the same as `images (constant src)`, but

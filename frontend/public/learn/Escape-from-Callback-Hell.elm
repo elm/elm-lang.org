@@ -3,10 +3,8 @@ import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Graphics.Input.Field as Field
 import Http
-import Json.Decode
 import Markdown
 import Maybe
-import Signal
 import String
 import Text
 import Website.Skeleton exposing (skeleton)
@@ -14,8 +12,8 @@ import Website.ColorScheme exposing (lightGrey,mediumGrey)
 import Window
 
 
-port title : String
-port title = "Escape from Callback Hell"
+output title : String
+output title = "Escape from Callback Hell"
 
 
 tagSearch : Signal.Channel Field.Content
@@ -38,7 +36,7 @@ content tagContent tagResponse search outerWidth =
   let sideBarWidth = 210
       contentWidth = min 600 (outerWidth - sideBarWidth)
       innerWidth = sideBarWidth + contentWidth
-      
+
       averageMargin = (outerWidth - contentWidth) // 2
       leftMargin =
           if averageMargin < sideBarWidth
@@ -68,11 +66,11 @@ content tagContent tagResponse search outerWidth =
       asyncElm =
           flow down
           [ paragraphs asyncElm1
-          , pairing tagField (Text.asText tagContent.string)
+          , pairing tagField (show tagContent.string)
           , paragraphs asyncElm2
-          , pairing (code "map length tags") (Text.asText <| String.length tagContent.string)
-          , pairing (code "map reverse tags") (Text.asText <| String.reverse tagContent.string)
-          , pairing (code "map requestTag tags") (Text.asText <| requestTagSimple tagContent.string)
+          , pairing (code "map length tags") (show <| String.length tagContent.string)
+          , pairing (code "map reverse tags") (show <| String.reverse tagContent.string)
+          , pairing (code "map requestTag tags") (show <| requestTagSimple tagContent.string)
           , paragraphs asyncElm3
           , pairing (code "send (map requestTag tags)") (showResponse tagResponse)
           , paragraphs asyncElm4
@@ -88,10 +86,10 @@ content tagContent tagResponse search outerWidth =
       , paragraphs outro
       ]
 
-tagResults : Signal (Http.Response String)
+tagResults : Varying (Http.Response String)
 tagResults =
   Signal.subscribe tagSearch
-    |> Signal.map (.string >> getTag)
+    |> Varying.map (.string >> getTag)
     |> Http.send
 
 
@@ -110,8 +108,8 @@ searchBox = Signal.constant (color red (spacer 200 40))
 
 
 main =
-  Signal.map2 (skeleton "Learn") 
-    (Signal.map3 content (Signal.subscribe tagSearch) tagResults searchBox)
+  Varying.map2 (skeleton "Learn")
+    (Varying.map3 content (Signal.subscribe tagSearch) tagResults searchBox)
     Window.dimensions
 
 
@@ -516,7 +514,7 @@ if you do not have any experience reading academic papers. You can also email
 tags : Signal.Channel Field.Content
 tags = Signal.channel Field.noContent
 
-code = Text.centered << Text.monospace << Text.fromString
+code = centered << Text.monospace << Text.fromString
 box w e = container w 40 middle e
 
 requestTagSimple t = if t == "" then "" else "api.flickr.com/?tags=" ++ t

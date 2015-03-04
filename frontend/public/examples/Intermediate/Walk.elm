@@ -3,7 +3,6 @@ import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Keyboard
 import Markdown
-import Signal
 import Time exposing (..)
 import Window
 
@@ -85,16 +84,16 @@ view (w,h) {x,y,vx,vy,dir} =
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 view Window.dimensions (Signal.foldp update hero input)
+  Varying.map2 view Window.dimensions (Signal.foldp update hero input)
 
 
-input : Signal (Time, { x:Int, y:Int }, Bool)
-input =
-  Signal.sampleOn delta (Signal.map3 (,,) delta Keyboard.arrows Keyboard.shift)
+output : Varying (Time, { x:Int, y:Int }, Bool)
+output =
+  Signal.sampleOn delta (Varying.map3 (,,) delta Keyboard.arrows Keyboard.shift)
 
 
-delta : Signal Time
+delta : Varying Time
 delta =
-  Signal.map (\t -> t / 20) (fps 25)
+  Varying.map (\t -> t / 20) (fps 25)

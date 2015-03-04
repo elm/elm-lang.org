@@ -2,7 +2,6 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Mouse
-import Signal
 import Text exposing (..)
 import Time exposing (..)
 import Window
@@ -36,13 +35,13 @@ pinkGradient =
 
 -- SIGNALS
 main =
-  Signal.map2 view Window.dimensions (Signal.foldp update ((0,0),(0,0)) input)
+  Varying.map2 view Window.dimensions (Signal.foldp update ((0,0),(0,0)) input)
 
-input =
+output =
   let floatify (x,y) = (toFloat x, toFloat y)
-      clickPos = Signal.map floatify (Signal.sampleOn Mouse.clicks Mouse.position)
+      clickPos = Varying.map floatify (Signal.sampleOn Mouse.clicks Mouse.position)
   in
       Signal.merge
-        (Signal.map Click clickPos)
-        (Signal.map TimeDelta (40 `fpsWhen` (second `since` clickPos)))
+        (Varying.map Click clickPos)
+        (Varying.map TimeDelta (40 `fpsWhen` (second `since` clickPos)))
 

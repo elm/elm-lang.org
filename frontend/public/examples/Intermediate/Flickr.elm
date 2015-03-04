@@ -2,8 +2,6 @@ import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Http
 import Json.Decode exposing (..)
-import List
-import Signal
 import String
 import Window
 
@@ -37,24 +35,24 @@ view (w,h) searchContent imgSrc =
 {-| Pass in the current dimensions and image. All inputs are
 signals and will update automatically.
 -}
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map3 view
+  Varying.map3 view
       Window.dimensions
       (Signal.subscribe tagChan)
       results
 
 
-results : Signal (Maybe String)
+results : Varying (Maybe String)
 results =
   Signal.subscribe tagChan
-    |> Signal.map .string
+    |> Varying.map .string
     |> Signal.dropRepeats
-    |> Signal.map toPhotoRequest
+    |> Varying.map toPhotoRequest
     |> Http.send
-    |> Signal.map toSizeRequest
+    |> Varying.map toSizeRequest
     |> Http.send
-    |> Signal.map2 toPhotoSource Window.dimensions
+    |> Varying.map2 toPhotoSource Window.dimensions
 
 
 tagChan : Signal.Channel Field.Content

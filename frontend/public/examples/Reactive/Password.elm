@@ -1,12 +1,11 @@
 import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
-import Signal
 import Text exposing (plainText)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map display (Signal.subscribe password)
+  Varying.map display (Signal.subscribe password)
 
 
 password : Signal.Channel Field.Content

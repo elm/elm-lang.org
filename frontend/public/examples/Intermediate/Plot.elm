@@ -3,23 +3,22 @@ import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import List exposing (..)
-import Signal
-import Text exposing (..)
+import Mailbox as Mb
 
 
 ----  Put it all on screen  ----
 
-style : Signal.Channel Style
-style =
-  Signal.channel Line
+loopback style : Stream.WritableStream Style
 
-points : Signal.Channel (List (Float,Float))
-points =
-  Signal.channel (snd (head pointOptions))
+loopback points : Stream.WritableStream (List (Float,Float))
 
-main : Signal Element
+
+main : Varying Element
 main =
-  Signal.map2 view (Signal.subscribe style) (Signal.subscribe points)
+  Varying.map2 view
+    (Stream.toVarying Line style.stream)
+    (Stream.toVarying Line points.stream)
+
 
 view : Style -> List (Float,Float) -> Element
 view currentStyle currentPoints =
@@ -27,8 +26,8 @@ view currentStyle currentPoints =
     [ plot currentStyle 400 400 currentPoints
     , flow right
         [ plainText "Options: "
-        , Input.dropDown (Signal.send points) pointOptions
-        , Input.dropDown (Signal.send style) styleOptions
+        , Input.dropDown (Mb.message points) pointOptions
+        , Input.dropDown (Mb.message style) styleOptions
         ]
     ]
 

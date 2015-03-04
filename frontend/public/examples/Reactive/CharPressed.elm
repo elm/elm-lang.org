@@ -3,13 +3,12 @@
 import Char
 import Graphics.Element exposing (..)
 import Keyboard
-import Signal
 import Text exposing (..)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map display Keyboard.lastPressed
+  Varying.map display Keyboard.lastPressed
 
 
 display : Int -> Element

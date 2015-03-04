@@ -1,13 +1,12 @@
 import Color exposing (..)
 import Graphics.Element exposing (..)
 import Graphics.Input.Field exposing (Content, noContent, field, defaultStyle, Direction(..))
-import Signal
 import String
 import Text
 import Window
 
-main : Signal Element
-main = Signal.map2 view Window.dimensions (Signal.subscribe content)
+main : Varying Element
+main = Varying.map2 view Window.dimensions (Signal.subscribe content)
 
 content : Signal.Channel Content
 content = Signal.channel noContent

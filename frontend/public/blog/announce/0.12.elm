@@ -1,19 +1,17 @@
 import Graphics.Element exposing (..)
-import List
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
 
-port title : String
-port title = "Elm 0.12 - Interactive UI"
+output title : String
+output title = "Elm 0.12 - Interactive UI"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Varying.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything : Int -> Element

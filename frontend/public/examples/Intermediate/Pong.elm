@@ -4,7 +4,6 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Keyboard
-import Signal
 import Text
 import Time exposing (..)
 import Window
@@ -12,22 +11,22 @@ import Window
 -- SIGNALS
 
 main =
-  Signal.map2 view Window.dimensions gameState
+  Varying.map2 view Window.dimensions gameState
 
-gameState : Signal Game
+gameState : Varying Game
 gameState =
   Signal.foldp update defaultGame input
 
 delta =
-  Signal.map inSeconds (fps 35)
+  Varying.map inSeconds (fps 35)
 
-input : Signal Input
-input =
+output : Varying Input
+output =
   Signal.sampleOn delta <|
-    Signal.map4 Input
+    Varying.map4 Input
       Keyboard.space
-      (Signal.map .y Keyboard.wasd)
-      (Signal.map .y Keyboard.arrows)
+      (Varying.map .y Keyboard.wasd)
+      (Varying.map .y Keyboard.arrows)
       delta
 
 

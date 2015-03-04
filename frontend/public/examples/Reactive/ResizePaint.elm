@@ -3,13 +3,12 @@
 -- while maintaining its aspect ratio.
 
 import Graphics.Element exposing (..)
-import Signal
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map resizeablePaint Window.dimensions
+  Varying.map resizeablePaint Window.dimensions
 
 
 resizeablePaint : (Int,Int) -> Element

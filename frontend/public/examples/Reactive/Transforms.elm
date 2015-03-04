@@ -2,12 +2,11 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Mouse
-import Signal exposing (Signal, map2)
 import Text exposing (asText)
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
   map2 scene Mouse.position Window.dimensions
 

@@ -1,13 +1,12 @@
 import Color exposing (..)
 import Graphics.Element exposing (..)
 import Graphics.Input exposing (dropDown)
-import Signal
 import Text
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map display (Signal.subscribe style)
+  Varying.map display (Signal.subscribe style)
 
 
 style : Signal.Channel (Text.Text -> Text.Text)

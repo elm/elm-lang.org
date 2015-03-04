@@ -1,11 +1,8 @@
 module Website.Tiles (examples, intermediate, webgl) where
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List
-import Native.RedirectHack
-import Signal
-import Website.ColorScheme (..)
+import Website.ColorScheme exposing (..)
 
 
 examples w exs =
@@ -23,14 +20,6 @@ row examples =
     |> flow right
 
 
-clicks : Signal.Channel String
-clicks =
-  Signal.channel ""
-
-
-bad =
-  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
-
 intermediate name =
   ("Intermediate/" ++ name, "/edit/examples/Intermediate/" ++ name ++ ".elm")
 
@@ -45,8 +34,4 @@ example (picture, location) =
           |> color clr
   in
     link location <|
-      Input.customButton
-          (Signal.send clicks location)
           (btn mediumGrey)
-          (btn accent1)
-          (btn accent3)

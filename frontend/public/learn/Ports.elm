@@ -1,17 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme
 import Window
 
-port title : String
-port title = "Ports"
+output title : String
+output title = "Ports"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" (\w -> width (min 600 w) intro) <~ Window.dimensions
+  Varying.map (skeleton "Learn" (\w -> width (min 600 w) intro)) Window.dimensions
 
 
 intro : Element
@@ -32,7 +31,7 @@ the specifics of what you can and cannot do with ports.
 To send messages from JavaScript to Elm, you use an incoming port like this:
 
 ```haskell
-port addUser : Signal (String, UserRecord)
+output addUser : Varying (String, UserRecord)
 ```
 
 This means we now have a signal in Elm called `addUser` that is updated
@@ -52,8 +51,8 @@ well in Elm.
 To send messages from Elm to JavaScript, you define an outgoing port like this:
 
 ```haskell
-port requestUser : Signal String
-port requestUser =
+output requestUser : Varying String
+output requestUser =
     signalOfUsersWeWantMoreInfoOn
 ```
 
@@ -93,7 +92,7 @@ colloquial data structures in both Elm and JS.
 
 The particular types that can be sent in and out of ports is quite flexible,
 covering [all valid JSON values](http://www.json.org/). Specifically, incoming
-ports can handle all the following Elm types:
+inputs can handle all the following Elm types:
 
   * **Booleans and Strings** &ndash; both exist in Elm and JS!
   * **Numbers** &ndash; Elm ints and floats correspond to JS numbers

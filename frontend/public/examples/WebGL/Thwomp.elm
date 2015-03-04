@@ -9,20 +9,19 @@ import Math.Vector3 exposing (..)
 import Math.Vector3 as V3
 import Math.Matrix4 exposing (..)
 import Mouse
-import Signal
 import WebGL exposing (..)
 import Window
 
 
 -- SIGNALS
 
-main : Signal Element
+main : Varying Element
 main =
     let faceTexture = loadTexture "/texture/thwomp_face.jpg"
         sideTexture = loadTexture "/texture/thwomp_side.jpg"
-        perspectiveMatrix  = Signal.map2 perspective Window.dimensions Mouse.position
+        perspectiveMatrix  = Varying.map2 perspective Window.dimensions Mouse.position
     in
-        Signal.map4 (view face sides) Window.dimensions faceTexture sideTexture perspectiveMatrix
+        Varying.map4 (view face sides) Window.dimensions faceTexture sideTexture perspectiveMatrix
 
 
 -- MESHES - define the mesh for a Thwomp's face

@@ -4,17 +4,15 @@ import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import List exposing (..)
 import Markdown
-import Maybe exposing (withDefault)
-import Signal
 import Touch
 import Window
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map2 scene
+  Varying.map2 scene
     Window.dimensions
-    (Signal.map Dict.values (Signal.foldp addN Dict.empty Touch.touches))
+    (Varying.map Dict.values (Signal.foldp addN Dict.empty Touch.touches))
 
 
 addN : List Touch.Touch -> Dict.Dict Int (List (Int,Int)) -> Dict.Dict Int (List (Int,Int))
@@ -24,7 +22,7 @@ addN touches dict =
 
 add1 : Touch.Touch -> Dict.Dict Int (List (Int,Int)) -> Dict.Dict Int (List (Int,Int))
 add1 touch dict =
-  let oldPoints = withDefault [] (Dict.get touch.id dict)
+  let oldPoints = Maybe.withDefault [] (Dict.get touch.id dict)
       newPoint = (touch.x, touch.y)
   in
       Dict.insert touch.id (newPoint :: oldPoints) dict

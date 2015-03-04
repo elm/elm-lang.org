@@ -1,6 +1,4 @@
 import Graphics.Element exposing (..)
-import Signal
-import Signal exposing (Signal)
 import Text
 import Time
 import Window
@@ -18,7 +16,7 @@ Task: Redefine `UserInput` to include all of the information you need.
 type alias UserInput = {}
 
 
-userInput : Signal UserInput
+userInput : Varying UserInput
 userInput =
     Signal.constant {}
 
@@ -90,21 +88,21 @@ The following code puts it all together and shows it on screen.
 
 ------------------------------------------------------------------------------}
 
-delta : Signal Float
+delta : Varying Float
 delta =
     Time.fps 30
 
 
-input : Signal Input
-input =
-    Signal.sampleOn delta (Signal.map2 Input delta userInput)
+output : Varying Input
+output =
+    Signal.sampleOn delta (Varying.map2 Input delta userInput)
 
 
-gameState : Signal GameState
+gameState : Varying GameState
 gameState =
     Signal.foldp stepGame defaultGame input
 
 
-main : Signal Element
+main : Varying Element
 main =
-    Signal.map2 display Window.dimensions gameState
+    Varying.map2 display Window.dimensions gameState

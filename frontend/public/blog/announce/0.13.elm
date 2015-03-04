@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
-port title : String
-port title = "Elm 0.13 - Architecture Improvements"
+output title : String
+output title = "Elm 0.13 - Architecture Improvements"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Varying.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -190,7 +189,7 @@ term, it may be worthwhile to consider switching to `(>>)` or `(|>)`.
 
 Elm uses [ports][] to communicate with JavaScript. You can now use type aliases
 when defining ports. This makes it much nicer to send large records through
-ports.
+inputs.
 
 There is now a `--bundle-runtime` flag which creates stand-alone Elm programs.
 It adds the runtime system to the generated code, so you do not need to link

@@ -3,10 +3,8 @@
 
 import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text exposing (asText)
 
 
-main : Signal Element
+main : Varying Element
 main =
-  Signal.map asText (Signal.sampleOn Mouse.clicks Mouse.position)
+  Varying.map show (Stream.sample always Mouse.position Mouse.clicks)

@@ -1,15 +1,17 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Intro to Lists and Records"
 
-main : Signal Element
+output title : String
+output title =
+    "Intro to Lists and Records"
+
+
+main : Varying Element
 main =
-  skeleton "Learn" everything <~ Window.dimensions
+  Varying.map (skeleton "Learn" everything) Window.dimensions
 
 
 everything : Int -> Element
@@ -52,7 +54,7 @@ you are about to learn how to work with lists and records.
 The following video and [practice problems](#practice-problems)
 are designed to help you dive into lists and records.
 
-The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try) 
+The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try)
 to follow along and start experimenting on your own.
 """
 

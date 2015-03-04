@@ -1,17 +1,16 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 import Website.Skeleton exposing (skeleton)
 import Window
 
 
-port title : String
-port title = "Understanding Types"
+output title : String
+output title = "Understanding Types"
 
 
-main : Signal Element
+main : Varying Element
 main =
-  skeleton "Learn" content <~ Window.dimensions
+  Varying.map (skeleton "Learn" content) Window.dimensions
 
 
 content : Int -> Element

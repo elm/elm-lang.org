@@ -1,14 +1,13 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal exposing (Signal, (<~))
 
 import Website.Skeleton exposing (skeleton)
 import Window
 
-port title : String
-port title = "Successful Install!"
+output title : String
+output title = "Successful Install!"
 
-main = skeleton "" everything <~ Window.dimensions
+main = Varying.map (skeleton "" everything) Window.dimensions
 
 everything wid =
   let w  = truncate (toFloat wid * 0.8)

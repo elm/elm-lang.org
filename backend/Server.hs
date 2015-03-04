@@ -229,7 +229,7 @@ compileFile filePath =
   do  compilerResult <-
         runErrorT $
           Utils.run "elm-make" [ "--yes", "frontend" </> "public" </> filePath ]
-  
+
       case compilerResult of
         Left msg ->
           do  putStrLn ""

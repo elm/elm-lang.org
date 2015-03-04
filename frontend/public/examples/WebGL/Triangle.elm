@@ -1,7 +1,6 @@
 import Graphics.Element exposing (..)
 import Math.Vector3 exposing (..)
 import Math.Matrix4 exposing (..)
-import Signal
 import Time exposing (..)
 import WebGL exposing (..)
 
@@ -22,9 +21,9 @@ mesh =
 
 -- Create the scene
 
-main : Signal Element
+main : Varying Element
 main =
-    Signal.map view (Signal.foldp (+) 0 (fps 30))
+    Varying.map view (Signal.foldp (+) 0 (fps 30))
 
 
 view : Float -> Element

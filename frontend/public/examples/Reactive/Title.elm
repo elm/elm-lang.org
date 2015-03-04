@@ -1,12 +1,11 @@
 import Graphics.Element exposing (..)
 import Markdown
-import Signal
 import Time exposing (..)
 
 
-port title : Signal String
-port title =
-  Signal.map toString (every second)
+output title : Varying String
+output title =
+  Varying.map toString (every second)
 
 
 main : Element
