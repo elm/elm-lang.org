@@ -3,17 +3,23 @@ import Website.Message exposing (report)
 
 main = report <| Markdown.toElement """
 
-# Online Editor
+# Elm 0.15 alpha
 
-Write and compile code online!
+[Check out the change log][changes]! Syntax for imports and ports
+is a bit different and there were some API changes in core.
 
-  * <a href="/edit/examples/Elements/HelloWorld.elm" target="_top">Hello World!</a>
-  * <a href="/edit/examples/Reactive/Position.elm" target="_top">Mouse</a>
-  * <a href="/edit/examples/Intermediate/Clock.elm" target="_top">Clock</a>
+  [changes]: https://github.com/elm-lang/core/blob/master/changelog.md
 
-For more guidance check out:
+Here are some example programs that demonstrate Promises:
 
-  * <a href="/Examples.elm" target="_top">More examples</a>
-  * <a href="/Learn.elm" target="_top">Learning resources</a>
+  * Http -
+    <a href="/edit/examples/" target="_top">example</a>
+    / <a href="https://github.com/evancz/" target="_top">API</a>
+  * Console -
+    <a href="/edit/examples/" target="_top">example</a>
+    / <a href="https://github.com/evancz/" target="_top">API</a>
+  * Local Storage -
+    <a href="/edit/examples/" target="_top">example</a>
+    / <a href="https://github.com/evancz/" target="_top">API</a>
 
 """
