@@ -5,21 +5,16 @@ main = report <| Markdown.toElement """
 
 # Elm 0.15 alpha
 
-[Check out the change log][changes]! Syntax for imports and ports
-is a bit different and there were some API changes in core.
+Check out the change logs:
 
-  [changes]: https://github.com/elm-lang/core/blob/master/changelog.md
+  * <a href="https://github.com/elm-lang/elm-compiler/blob/master/changelog.md" target="_top">
+    Changes to compiler / syntax</a>
+  * <a href="https://github.com/elm-lang/core/blob/master/changelog.md" target="_top">
+    Changes to the core libraries</a>
 
-Here are some example programs that demonstrate Promises:
+Here are some example programs:
 
-  * Http -
-    <a href="/edit/examples/" target="_top">example</a>
-    / <a href="https://github.com/evancz/" target="_top">API</a>
-  * Console -
-    <a href="/edit/examples/" target="_top">example</a>
-    / <a href="https://github.com/evancz/" target="_top">API</a>
-  * Local Storage -
-    <a href="/edit/examples/" target="_top">example</a>
-    / <a href="https://github.com/evancz/" target="_top">API</a>
+  * <a href="/edit/examples/ZipCodes.elm" target="_top">Zip Code Lookup</a>
+  * <a href="/edit/examples/Flickr.elm" target="_top">Flickr Search</a>
 
 """
