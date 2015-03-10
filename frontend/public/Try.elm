@@ -7,6 +7,7 @@ main = report <| Markdown.toElement """
 
 Check out the change logs:
 
+  * <a href="/Draft-Announcement.elm" target="_top">Very rough draft announcement</a>
   * <a href="https://github.com/elm-lang/elm-compiler/blob/master/changelog.md" target="_top">
     Changes to compiler / syntax</a>
   * <a href="https://github.com/elm-lang/core/blob/master/changelog.md" target="_top">
