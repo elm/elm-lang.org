@@ -36,7 +36,7 @@ content = Markdown.toHtml """
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Promises</div></div>
 </h1>
 
-<div style="color:red; text-align:center;">THIS IS A DRAFT, NOT INDENDED FOR DISTRIBUTION!</div>
+<div style="color:red; text-align:center;">THIS IS A DRAFT, NOT INTENDED FOR DISTRIBUTION!</div>
 
 Elm now has support for promises. A `Promise` is a promise to run some
 computation *later*. Let&rsquo;s look at an example in which we want to fetch
@@ -150,7 +150,7 @@ The `Signal` module has been split into two separate concepts:
 
 There is nothing fundamentally new here, the underlying implementation is
 pretty much unchanged. The big difference is that the `Signal` API has been
-split accross the `Stream` and `Varying` modules, hopefully clarifying things.
+split across the `Stream` and `Varying` modules, hopefully clarifying things.
 
 ### Channel becomes Mailbox
 
