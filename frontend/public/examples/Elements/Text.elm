@@ -10,4 +10,4 @@ main =
     ]
 
 -- Challenge: can you rewrite this example so the code is less
--- repetative? Try using map to factor out common patterns.
+-- repetitive? Try using map to factor out common patterns.
