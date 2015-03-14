@@ -51,11 +51,11 @@ main =
     (Varying.fromStream (Err "A valid US zip code is 5 numbers.") results)
 
 
-loopback query : Stream.Mailbox String
+input query : Stream.Input String
 
 
-loopback results : Stream (Result String (List String))
-loopback results <-
+input results : Stream (Result String (List String))
+input results from
   Stream.map lookupZipCode query.stream
 
 

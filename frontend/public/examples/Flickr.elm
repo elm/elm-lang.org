@@ -54,12 +54,12 @@ main =
     (Stream.toVarying "waiting.gif" <| Stream.filterMap Result.toMaybe results)
 
 
-loopback results : Stream (Result Http.Error String)
-loopback results <-
+input results : Stream (Result Http.Error String)
+input results from
   Stream.sample getImage Window.dimensions query.stream
 
 
-loopback query : Stream.Mailbox String
+input query : Stream.Input String
 
 
 getImage : (Int,Int) -> String -> Promise Http.Error String
