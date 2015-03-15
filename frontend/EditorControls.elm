@@ -47,7 +47,9 @@ hintBody maybeHint =
     Nothing -> []
     Just (name, facts) ->
         [ text "Hint: "
-        , a [ href "http://package.elm-lang.org/packages/elm-lang/core/latest/List#map" ]
+        , a [ href "http://package.elm-lang.org/packages/elm-lang/core/latest/List#map"
+            , target "_top"
+            ]
             [ text name ]
         ]
 
