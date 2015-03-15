@@ -15,7 +15,7 @@ import qualified Utils
 
 htmlSkeleton :: Bool -> String -> H.Html -> H.Html
 htmlSkeleton userGenerated title scripts =
-  H.docTypeHtml $ do 
+  H.docTypeHtml $ do
     H.head $ do
       H.meta ! A.charset "UTF-8"
       H.title (H.toHtml title)
@@ -83,5 +83,8 @@ js source =
         Left msg ->
           return $ "{ \"error\": " ++ show msg ++ " }"
 
-        Right (_, jsSource) ->
-          return $ "{ \"success\": " ++ show jsSource ++ " }"
+        Right (moduleName, jsSource) ->
+          return $
+              "{ \"name\": " ++ show moduleName ++
+              ", \"success\": " ++ show jsSource ++
+              " }"

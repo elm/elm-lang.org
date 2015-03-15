@@ -45,6 +45,7 @@ main =
       setupLogging
       args <- cmdArgs flags
       precompile
+      compileEditorControls
       httpServe (setPort (port args) defaultConfig) $
           ifTop (serveHtml (Editor.empty "50%,50%"))
           <|> route [ ("edit", edit)
@@ -229,7 +230,7 @@ compileFile filePath =
 
       case compilerResult of
         Left msg ->
-          do  putStrLn ""
+          do  putStrLn $ "Problem compiling " ++ filePath
               hPutStrLn stderr msg
 
         Right _ ->
@@ -239,3 +240,19 @@ compileFile filePath =
               let html = Generate.htmlSkeleton False fileName (Generate.scripts "Main" jsSource)
               createDirectoryIfMissing True (dropFileName ("artifacts" </> filePath))
               Text.writeFile ("artifacts" </> filePath) (BlazeText.renderHtml html)
+
+
+compileEditorControls :: IO ()
+compileEditorControls =
+  do  let args =
+            [ "--yes"
+            , "frontend" </> "EditorControls.elm"
+            , "--output=" ++ "artifacts/editor-controls.js"
+            ]
+      result <- runErrorT $ Utils.run "elm-make" args
+
+      case result of
+        Right _ -> return ()
+        Left msg ->
+          do  putStrLn "Problem compiling frontend/EditorControls.elm"
+              hPutStrLn stderr msg

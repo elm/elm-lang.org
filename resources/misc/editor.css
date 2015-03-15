@@ -1,14 +1,14 @@
-body { margin: 0; }
+html, head, body {
+  padding: 0;
+  margin: 0;
+}
 
-#toggle_link { text-decoration:none; color:rgb(180,180,180); }
+/* CODE MIRROR */
 
-a:link, a:visited {text-decoration: none; color: rgb(15,102,230);}
-a:active {text-decoration: none}
-a:hover {text-decoration: underline; color: rgb(234,21,122);}
+.CodeMirror {
+  height: 100%
+}
 
-.CodeMirror { height: 100% }
-
-// form { margin-bottom: 0; }
 .zoom-80  { font-size:  80%; }
 .zoom-100 { font-size: 100%; }
 .zoom-150 { font-size: 150%; }
@@ -18,41 +18,81 @@ a:hover {text-decoration: underline; color: rgb(234,21,122);}
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: 40px;
+    bottom: 0;
 }
 
-#always_on { padding: 5px 0; }
-#editor_options { padding: 2px 0; }
 
-#always_on *, #editor_options * {
-  vertical-align: middle;
-}
+/* CONTROLS */
 
-#options {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-}
-
-.option {
-  background-color: rgb(216,221,225);
-  font-family: calibri, helvetica, arial, sans-serif;
+.options {
+  font-family: consolas, monospace;
   font-size: 14px;
-  width: 100%;
-  border-top: 1px solid rgb(150,150,150);
+  background-color: #333;
+  height: 36px;
+  border-bottom: 4px solid #555;
+  vertical-align: middle;
+  line-height: 36px;
+}
+
+.button {
+  width: 100px;
+  display: block;
+  float: right;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+}
+
+.blue {
+  border-bottom: 4px solid #4472B9;
+}
+
+.blue:hover {
+  background-color: #4472B9;
+}
+
+.green {
+  border-bottom: 4px solid #4CA454;
+}
+
+.green:hover {
+  background-color: #4CA454;
+}
+
+.purple {
+  border-bottom: 4px solid #9351A6;
+}
+
+.purple:hover {
+  background-color: #9351A6;
+}
+
+.hint {
+  display: block;
+  float: left;
   overflow: hidden;
-}
-
-.type {
-  font-size: 13px; 
-  color: black;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  height: 15px;
-  margin: 0;
-  padding: 2px 4px;
+  color: #aaa;
+  margin: 0 20px;
+  height: 36px;
 }
 
-// Markdown styling
+.hint > a {
+  color: #aaa;
+}
+
+.hint > a:hover {
+  color: #ccc;
+}
+
+.hint > a:active {
+  color: #eee;
+}
+
+
+/* MARKDOWN */
 
 .doc {
   margin: 4px;
