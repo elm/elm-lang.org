@@ -68,15 +68,12 @@ function initEditor()
 	var controls = Elm.embed(Elm.EditorControls, controlsDiv);
 	controls.outputs.compile.subscribe(compile);
 	controls.outputs.hotSwap.subscribe(hotSwap);
-	controls.outputs.lights.subscribe(function() {
-		var theme = editor.getOption('theme');
-		editor.setOption('theme', theme === 'mbo' ? 'elegant' : 'mbo');
-	});
+	controls.outputs.lights.subscribe(toggleTheme);
 
 	editor = CodeMirror.fromTextArea(document.getElementById('input'), {
 		lineNumbers: true,
 		matchBrackets: true,
-		theme: 'mbo',
+		theme: getTheme(),
 		tabMode: 'shift',
 		extraKeys: {
 			'Ctrl-Enter': compile,
@@ -91,4 +88,22 @@ function initEditor()
 	{
 		editor.focus();
 	}
+}
+
+
+// THEMES
+
+var THEME_KEY = 'theme'
+
+function getTheme()
+{
+	return localStorage.getItem(THEME_KEY) || 'mbo';
+}
+
+function toggleTheme()
+{
+	var theme = getTheme();
+	var newTheme = theme === 'mbo' ? 'elegant' : 'mbo';
+	editor.setOption('theme', newTheme);
+	localStorage.setItem(THEME_KEY, newTheme);
 }
