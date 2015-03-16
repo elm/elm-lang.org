@@ -1,11 +1,11 @@
 import Char
-import Command exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
 import String
+import Task exposing (..)
 
 
 -- VIEW
@@ -59,7 +59,7 @@ input results from
   Stream.map lookupZipCode query.stream
 
 
-lookupZipCode : String -> Command String (List String)
+lookupZipCode : String -> Task String (List String)
 lookupZipCode query =
   let toUrl =
         if String.length query == 5 && String.all Char.isDigit query

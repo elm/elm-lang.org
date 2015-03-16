@@ -1,10 +1,10 @@
-import Command exposing (..)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
 import String
+import Task exposing (..)
 import Window
 
 
@@ -62,7 +62,7 @@ input results from
 input query : Stream.Input String
 
 
-getImage : (Int,Int) -> String -> Command Http.Error String
+getImage : (Int,Int) -> String -> Task Http.Error String
 getImage dimensions tag =
   let searchArgs =
         [ ("sort", "random"), ("per_page", "10"), ("tags", tag) ]
@@ -125,7 +125,7 @@ flickr method args =
 
 -- HANDLE RESPONSES
 
-selectPhoto : List Photo -> Command Http.Error Photo
+selectPhoto : List Photo -> Task Http.Error Photo
 selectPhoto photos =
   case photos of
     photo :: _ -> succeed photo
@@ -133,7 +133,7 @@ selectPhoto photos =
       fail (Http.UnexpectedPayload "expecting 1 or more photos from Flickr")
 
 
-pickSize : (Int,Int) -> List Size -> Command Http.Error String
+pickSize : (Int,Int) -> List Size -> Task Http.Error String
 pickSize (width,height) sizes =
   let sizeRating size =
         let penalty =
