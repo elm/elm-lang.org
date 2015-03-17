@@ -234,8 +234,7 @@ loadDocs =
 docsFor : String -> Task Http.Error ()
 docsFor packageName =
   let url =
-        "http://package.elm-lang.org/packages/"
-        ++ packageName ++ "/latest/documentation.json"
+        "/packages/" ++ packageName ++ ".json"
   in
       Http.get (package packageName) url
         `andThen` Stream.send docs.address
