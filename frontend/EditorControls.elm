@@ -121,16 +121,24 @@ moduleToDocs modul =
         "http://package.elm-lang.org/packages/"
         ++ modul.packageName ++ "/latest/" ++ modul.name ++ "#" ++ name
 
-      toKeyValue name =
+      nameToPair name =
         let fullName = modul.name ++ "." ++ name
             info = Info fullName (urlTo name)
         in
             [ (name, info)
             , (fullName, info)
             ]
+
+      typeToPair type' tag =
+        let fullName = modul.name ++ "." ++ tag
+            info = Info fullName (urlTo type')
+        in
+            [ (tag, info)
+            , (fullName, info)
+            ]
   in
-      modul.values.aliases ++ modul.values.types ++ modul.values.values
-        |> List.concatMap toKeyValue
+      List.concatMap nameToPair (modul.values.aliases ++ modul.values.values)
+      ++ List.concatMap (\(type', tags) -> List.concatMap (typeToPair type') tags) modul.values.types
 
 
 
@@ -196,7 +204,7 @@ type alias Module =
 
 type alias Values =
     { aliases : List String
-    , types : List String
+    , types : List (String, List String)
     , values : List String
     }
 
@@ -206,12 +214,16 @@ type alias Values =
 package : String -> JS.Decoder Package
 package packageName =
   let name =
-        "name" := JS.string
+          "name" := JS.string
+
+      type' =
+          JS.object2 (,) name
+            ("cases" := JS.list (JS.tuple2 always JS.string JS.value))
 
       values =
           JS.object3 Values
             ("aliases" := JS.list name)
-            ("types" := JS.list name)
+            ("types" := JS.list type')
             ("values" := JS.list name)
   in
       JS.list (JS.object2 (Module packageName) name values)
