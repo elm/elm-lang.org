@@ -1,5 +1,5 @@
 var editor;
-
+var refreshImports = function() {};
 
 // COMPILE
 
@@ -7,6 +7,7 @@ function compile()
 {
 	var form = document.getElementById('inputForm');
 	form.submit();
+	refreshImports();
 }
 
 
@@ -32,6 +33,7 @@ function hotSwap()
 				top.output.eval(js);
 				var module = top.output.eval('Elm.' + result.name);
 				top.output.runningElmModule = top.output.runningElmModule.swap(module);
+				refreshImports();
 			}
 			else
 			{
@@ -93,6 +95,10 @@ function initEditor()
 		var token = getToken();
 		controls.inputs.tokens.send(token);
 	});
+	refreshImports = function() {
+		controls.inputs.rawImports.send(parseImports());
+	};
+	refreshImports();
 }
 
 
@@ -153,6 +159,38 @@ function expandRight(line, end, string)
 		return string + token.string;
 	}
 	return string;
+}
+
+
+// IMPORTS
+
+function parseImports()
+{
+	var value = editor.doc.getValue();
+	var regex = /(?:^|\n)import\s([\w\.]+)(?:\sas\s(\w+))?(?:\sexposing\s*\(((?:\s*(?:\w+|\(.+\))\s*,)*)\s*((?:\.\.|\w+|\(.+\)))\s*\))?/g;
+
+	var imports = [];
+	while (match = regex.exec(value))
+	{
+		var exposedString = match[3] + match[4];
+		var exposed = null;
+		if (exposedString)
+		{
+			exposed = exposedString.split(',').map(function(variable) {
+				var trimmed = variable.trim();
+				return trimmed[0] === '('
+					? trimmed.slice(1,-1).trim()
+					: trimmed;
+
+			});
+		}
+		imports.push({
+			name: match[1],
+			alias: match[2] || null,
+			exposed: exposed
+		});
+	}
+	return imports;
 }
 
 

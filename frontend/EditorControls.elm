@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
+import Set
 import Task exposing (..)
 import Window
 
@@ -85,6 +86,7 @@ foreign output lights =
 type alias HintState =
     { rawDocs : Package
     , docs : Docs
+    , imports : Dict.Dict String Import
     , hints : List Info
     }
 
@@ -102,21 +104,26 @@ emptyState : HintState
 emptyState =
     { rawDocs = []
     , docs = Dict.empty
+    , imports = defaultImports
     , hints = []
     }
 
 
-packageToDocs : Package -> Docs
-packageToDocs moduleList =
-  let insert (token, info) dict =
+toDocs : Dict.Dict String Import -> Package -> Docs
+toDocs imports moduleList =
+  let getInfo modul =
+          Maybe.map (moduleToDocs modul) (Dict.get modul.name imports)
+
+      insert (token, info) dict =
           Dict.update token (\value -> Just (info :: Maybe.withDefault [] value)) dict
   in
-      List.concatMap moduleToDocs moduleList
+      List.filterMap getInfo moduleList
+        |> List.concat
         |> List.foldl insert Dict.empty
 
 
-moduleToDocs : Module -> List (String, Info)
-moduleToDocs modul =
+moduleToDocs : Module -> Import -> List (String, Info)
+moduleToDocs modul { alias, exposed } =
   let urlTo name =
         "http://package.elm-lang.org/packages/"
         ++ modul.packageName ++ "/latest/" ++ modul.name ++ "#" ++ name
@@ -124,10 +131,18 @@ moduleToDocs modul =
       nameToPair name =
         let fullName = modul.name ++ "." ++ name
             info = Info fullName (urlTo name)
+            localName = Maybe.withDefault modul.name alias ++ "." ++ name
+            pairs = [(localName, info)]
         in
-            [ (name, info)
-            , (fullName, info)
-            ]
+            case exposed of
+              None ->
+                  pairs
+
+              Some set ->
+                  if Set.member name set then (name, info) :: pairs else pairs
+
+              All ->
+                  (name, info) :: pairs
 
       typeToPair type' tag =
         let fullName = modul.name ++ "." ++ tag
@@ -155,13 +170,16 @@ hints =
 
 actions : Stream Action
 actions =
-    Stream.merge
-      (Stream.map CursorMove tokens)
-      (Stream.map AddDocs docs.stream)
+    Stream.mergeMany
+      [ Stream.map CursorMove tokens
+      , Stream.map AddDocs docs.stream
+      , Stream.map UpdateImports imports
+      ]
 
 
 type Action
     = AddDocs Package
+    | UpdateImports (Dict.Dict String Import)
     | CursorMove (Maybe String)
 
 
@@ -173,8 +191,14 @@ updateHint action state =
         in
             { state |
                 rawDocs <- newRawDocs,
-                docs <- packageToDocs newRawDocs
+                docs <- toDocs state.imports newRawDocs
             }
+
+    UpdateImports imports ->
+        { state |
+            imports <- imports,
+            docs <- toDocs imports state.rawDocs
+        }
 
     CursorMove Nothing ->
         { state |
@@ -250,3 +274,56 @@ docsFor packageName =
   in
       Http.get (package packageName) url
         `andThen` Stream.send docs.address
+
+
+-- IMPORTS
+
+imports : Stream (Dict.Dict String Import)
+imports =
+  let toDict list =
+        Dict.union (Dict.fromList (List.map toImport list)) defaultImports
+  in
+      Stream.map toDict rawImports
+
+
+(=>) name exposed =
+    (name, Import Nothing exposed)
+
+
+defaultImports : Dict.Dict String Import
+defaultImports =
+  Dict.fromList
+    [ "Basics" => All
+    , "List" => Some (Set.fromList ["List", "::"])
+    , "Maybe" => Some (Set.singleton "Maybe")
+    , "Result" => Some (Set.singleton "Result")
+    , "Stream" => Some (Set.singleton "Stream")
+    , "Varying" => Some (Set.singleton "Varying")
+    ]
+
+
+foreign input rawImports : Stream (List RawImport)
+
+type alias RawImport =
+    { name : String
+    , alias : Maybe String
+    , exposed : Maybe (List String)
+    }
+
+
+type alias Import =
+    { alias : Maybe String, exposed : Exposed }
+
+
+type Exposed = None | Some (Set.Set String) | All
+
+
+toImport : RawImport -> (String, Import)
+toImport { name, alias, exposed } =
+  let exposedSet =
+          case exposed of
+            Nothing -> None
+            Just [".."] -> All
+            Just vars -> Some (Set.fromList vars)
+  in
+      (name, Import alias exposedSet)
