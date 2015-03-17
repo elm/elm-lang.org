@@ -74,21 +74,21 @@ html, head, body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #aaa;
+  color: #888;
   margin: 0 20px;
   height: 36px;
 }
 
 .hint > a {
-  color: #aaa;
+  color: #888;
 }
 
 .hint > a:hover {
-  color: #ccc;
+  color: #aaa;
 }
 
 .hint > a:active {
-  color: #eee;
+  color: #ccc;
 }
 
 

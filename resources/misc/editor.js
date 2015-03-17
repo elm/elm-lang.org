@@ -69,6 +69,7 @@ function initEditor()
 	controls.outputs.compile.subscribe(compile);
 	controls.outputs.hotSwap.subscribe(hotSwap);
 	controls.outputs.lights.subscribe(toggleTheme);
+	controls.inputs.init.send(42);
 
 	editor = CodeMirror.fromTextArea(document.getElementById('input'), {
 		lineNumbers: true,
@@ -88,6 +89,11 @@ function initEditor()
 	{
 		editor.focus();
 	}
+	editor.on('cursorActivity', function() {
+		var position = editor.getCursor(true);
+		var token = editor.getTokenAt(position);
+		controls.inputs.tokens.send(token.type ? token.string : null);
+	});
 }
 
 
