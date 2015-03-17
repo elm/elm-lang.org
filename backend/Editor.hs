@@ -52,7 +52,6 @@ editor filePath code =
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-5.0/theme/elegant.css"
         H.link ! A.rel "stylesheet" ! A.href "/codemirror-5.0/theme/mbo.css"
         H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/misc/editor.css"
-        H.script ! A.type_ "text/javascript" ! A.src "/misc/showdown.js" $ mempty
         H.script ! A.type_ "text/javascript" ! A.src "/misc/editor.js" $ mempty
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
