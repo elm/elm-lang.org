@@ -90,10 +90,70 @@ function initEditor()
 		editor.focus();
 	}
 	editor.on('cursorActivity', function() {
-		var position = editor.getCursor(true);
-		var token = editor.getTokenAt(position);
-		controls.inputs.tokens.send(token.type ? token.string : null);
+		var token = getToken();
+		console.log(token);
+		controls.inputs.tokens.send(token);
 	});
+}
+
+
+// TOKENS
+
+function getToken() {
+	var position = editor.getCursor();
+	var line = position.line;
+
+	// get the nearest token
+	var token = editor.getTokenAt(position);
+	if (!token.type)
+	{
+		token = editor.getTokenAt({ line: line, ch: position.ch + 1 });
+	}
+
+	// detect if token is a qualified variable and format it for Elm
+	if (token.type === 'variable')
+	{
+		return expandLeft(line, token.start, token.string);
+	}
+	if (token.string === '.' || token.type === 'variable-2')
+	{
+		return expandRight(line, token.end, expandLeft(line, token.start, token.string));
+	}
+	return null;
+}
+
+
+function expandLeft(line, start, string)
+{
+	var token = editor.getTokenAt({ line: line, ch: start });
+	if (start === token.start)
+	{
+		return string;
+	}
+	if (token.string === '.' || token.type === 'variable-2')
+	{
+		return expandLeft(line, token.start - 1, token.string + string);
+	}
+	return string;
+}
+
+
+function expandRight(line, end, string)
+{
+	var token = editor.getTokenAt({ line: line, ch: end + 1 });
+	if (end === token.end)
+	{
+		return string;
+	}
+	if (token.string === '.' || token.type === 'variable-2')
+	{
+		return expandRight(line, token.end, string + token.string);
+	}
+	if (token.type === 'variable')
+	{
+		return string + token.string;
+	}
+	return string;
 }
 
 
