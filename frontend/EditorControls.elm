@@ -54,7 +54,7 @@ viewHintList hints =
 
 viewHint : Info -> Html
 viewHint hint =
-    a [ href hint.href, target "_top" ] [ text hint.name ]
+    a [ href hint.href, target "_blank" ] [ text hint.name ]
 
 
 -- INPUT / OUTPUT
