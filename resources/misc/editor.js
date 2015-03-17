@@ -91,7 +91,6 @@ function initEditor()
 	}
 	editor.on('cursorActivity', function() {
 		var token = getToken();
-		console.log(token);
 		controls.inputs.tokens.send(token);
 	});
 }
