@@ -209,7 +209,7 @@ this easier to read.
 
 ### Forms and Functions
 
-Whenever your code starts to look ugly or repetative, it is likely
+Whenever your code starts to look ugly or repetitive, it is likely
 that you need to create a function to help out. In the example above
 we can make a function for creating squares.
 
