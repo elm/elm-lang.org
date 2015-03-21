@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
+import Port
 import Set
 import Task exposing (..)
 import Window
@@ -26,19 +27,19 @@ view outerWidth hints =
     , div
         [ class "button blue"
         , title "Compile and run the fresh code (Ctrl-Enter)"
-        , onClick (Stream.message compileClicks.address ())
+        , onClick (Port.message compile.address ())
         ]
         [ text "Compile" ]
     , div
         [ class "button green"
         , title "Keep the state, change the behavior (Ctrl-Shift-Enter)"
-        , onClick (Stream.message hotSwapClicks.address ())
+        , onClick (Port.message hotSwap.address ())
         ]
         [ text "Hot Swap" ]
     , div
         [ class "button purple"
         , title "Switch editor color scheme"
-        , onClick (Stream.message lightsClicks.address ())
+        , onClick (Port.message lights.address ())
         ]
         [ text "Lights" ]
     ]
@@ -58,27 +59,11 @@ viewHint hint =
     a [ href hint.href, target "_blank" ] [ text hint.name ]
 
 
--- INPUT / OUTPUT
+-- OUTBOUND PORTS
 
-input compileClicks : Stream.Input ()
-
-foreign output compile : Stream ()
-foreign output compile =
-    compileClicks.stream
-
-
-input hotSwapClicks : Stream.Input ()
-
-foreign output hotSwap : Stream ()
-foreign output hotSwap =
-    hotSwapClicks.stream
-
-
-input lightsClicks : Stream.Input ()
-
-foreign output lights : Stream ()
-foreign output lights =
-    lightsClicks.stream
+port compile : Port.OutboundPort ()
+port hotSwap : Port.OutboundPort ()
+port lights : Port.OutboundPort ()
 
 
 -- HINTS
@@ -159,7 +144,7 @@ moduleToDocs modul { alias, exposed } =
 
 -- wiring
 
-foreign input tokens : Stream (Maybe String)
+port tokens : Port.InboundPort (Maybe String)
 
 
 hints : Varying (List Info)
@@ -171,7 +156,7 @@ hints =
 actions : Stream Action
 actions =
     Stream.mergeMany
-      [ Stream.map CursorMove tokens
+      [ Stream.map CursorMove tokens.stream
       , Stream.map AddDocs docs.stream
       , Stream.map UpdateImports imports
       ]
@@ -215,7 +200,7 @@ updateHint action state =
 
 -- DOCUMENTATION
 
-input docs : Stream.Input Package
+port docs : Port.Port Package
 
 
 type alias Package = List Module
@@ -255,16 +240,8 @@ package packageName =
 
 -- Load Docs
 
-foreign input init : Stream Int
-
-input ignored : Stream (Result Http.Error (List ()))
-input ignored from
-    Stream.map (always loadDocs) init
-
-
-loadDocs : Task Http.Error (List ())
-loadDocs =
-    sequence (List.map docsFor ["elm-lang/core", "evancz/elm-html", "evancz/elm-markdown"])
+perform
+  sequence (List.map docsFor ["elm-lang/core", "evancz/elm-html", "evancz/elm-markdown"])
 
 
 docsFor : String -> Task Http.Error ()
@@ -273,7 +250,7 @@ docsFor packageName =
         "/packages/" ++ packageName ++ ".json"
   in
       Http.get (package packageName) url
-        `andThen` Stream.send docs.address
+        `andThen` Port.send docs.address
 
 
 -- IMPORTS
@@ -283,7 +260,7 @@ imports =
   let toDict list =
         Dict.union (Dict.fromList (List.map toImport list)) defaultImports
   in
-      Stream.map toDict rawImports
+      Stream.map toDict rawImports.stream
 
 
 (=>) name exposed =
@@ -302,7 +279,7 @@ defaultImports =
     ]
 
 
-foreign input rawImports : Stream (List RawImport)
+port rawImports : Port.InboundPort (List RawImport)
 
 type alias RawImport =
     { name : String

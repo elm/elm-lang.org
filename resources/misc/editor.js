@@ -68,10 +68,9 @@ function initEditor()
 {
 	var controlsDiv = document.getElementById('controls');
 	var controls = Elm.embed(Elm.EditorControls, controlsDiv);
-	controls.outputs.compile.subscribe(compile);
-	controls.outputs.hotSwap.subscribe(hotSwap);
-	controls.outputs.lights.subscribe(toggleTheme);
-	controls.inputs.init.send(42);
+	controls.ports.compile.subscribe(compile);
+	controls.ports.hotSwap.subscribe(hotSwap);
+	controls.ports.lights.subscribe(toggleTheme);
 
 	editor = CodeMirror.fromTextArea(document.getElementById('input'), {
 		lineNumbers: true,
@@ -93,10 +92,11 @@ function initEditor()
 	}
 	editor.on('cursorActivity', function() {
 		var token = getToken();
-		controls.inputs.tokens.send(token);
+		controls.ports.tokens.send(token);
 	});
 	refreshImports = function() {
-		controls.inputs.rawImports.send(parseImports());
+		var imports = parseImports();
+		controls.ports.rawImports.send(imports);
 	};
 	refreshImports();
 }

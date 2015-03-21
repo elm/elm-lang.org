@@ -3,6 +3,7 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
+import Port
 import String
 import Task exposing (..)
 import Window
@@ -13,10 +14,10 @@ import Window
 view : Int -> String -> String -> Html
 view h string imgUrl =
   div [ style (imgStyle h imgUrl) ]
-    [ input'
+    [ input
         [ placeholder "Flickr Query"
         , Attr.value string
-        , on "input" targetValue (Stream.message query.address)
+        , on "input" targetValue (Port.message query.address)
         , style myStyle
         ]
         []
@@ -51,15 +52,19 @@ main =
   Varying.map3 view
     Window.height
     (Stream.toVarying "" query.stream)
-    (Stream.toVarying "waiting.gif" <| Stream.filterMap Result.toMaybe results)
+    (Stream.toVarying "waiting.gif" <| Stream.filterMap Result.toMaybe results.stream)
 
 
-input results : Stream (Result Http.Error String)
-input results from
-  Stream.sample getImage Window.dimensions query.stream
+port results : Port.Port (Result Http.Error String)
+
+perform
+  Task.subscribe
+    (Stream.sample getImage Window.dimensions query.stream) <| \task ->
+        (task `andThen` (Ok >> Port.send results.address))
+          `onError` (Err >> Port.send results.address)
 
 
-input query : Stream.Input String
+port query : Port.Port String
 
 
 getImage : (Int,Int) -> String -> Task Http.Error String

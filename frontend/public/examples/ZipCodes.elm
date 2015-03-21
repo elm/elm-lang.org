@@ -4,6 +4,7 @@ import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
 import JavaScript.Decode as JS exposing ((:=))
+import Port
 import String
 import Task exposing (..)
 
@@ -13,10 +14,10 @@ import Task exposing (..)
 view : String -> Result String (List String) -> Html
 view string result =
   let field =
-        input'
+        input
           [ placeholder "Zip Code"
           , value string
-          , on "input" targetValue (Stream.message query.address)
+          , on "input" targetValue (Port.message query.address)
           , myStyle
           ]
           []
@@ -48,15 +49,17 @@ myStyle =
 main =
   Varying.map2 view
     (Varying.fromStream "" query.stream)
-    (Varying.fromStream (Err "A valid US zip code is 5 numbers.") results)
+    (Varying.fromStream (Err "A valid US zip code is 5 numbers.") results.stream)
 
 
-input query : Stream.Input String
+port query : Port.Port String
 
+port results : Port.Port (Result String (List String))
 
-input results : Stream (Result String (List String))
-input results from
-  Stream.map lookupZipCode query.stream
+perform
+  Task.subscribe (Stream.map lookupZipCode query.stream) <| \task ->
+    (task `andThen` (Ok >> Port.send results.address))
+      `onError` (Err >> Port.send results.address)
 
 
 lookupZipCode : String -> Task String (List String)
