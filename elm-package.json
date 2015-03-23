@@ -13,5 +13,6 @@
         "evancz/elm-html": "1.1.0 <= v < 2.0.0",
         "evancz/elm-http": "1.0.0 <= v < 2.0.0",
         "evancz/elm-markdown": "1.1.2 <= v < 2.0.0"
-    }
+    },
+    "elm-version": "0.15.0 <= v < 0.16.0"
 }
