@@ -57,11 +57,9 @@ main =
 
 port results : Port.Port (Result Http.Error String)
 
-perform
-  Task.subscribe
-    (Stream.sample getImage Window.dimensions query.stream) <| \task ->
-        (task `andThen` (Ok >> Port.send results.address))
-          `onError` (Err >> Port.send results.address)
+
+perform Port.sendResults results.address <|
+    Stream.sample getImage Window.dimensions query.stream
 
 
 port query : Port.Port String

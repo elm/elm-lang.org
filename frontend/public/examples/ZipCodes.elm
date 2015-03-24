@@ -56,10 +56,8 @@ port query : Port.Port String
 
 port results : Port.Port (Result String (List String))
 
-perform
-  Task.subscribe (Stream.map lookupZipCode query.stream) <| \task ->
-    (task `andThen` (Ok >> Port.send results.address))
-      `onError` (Err >> Port.send results.address)
+perform Port.sendResults results.address <|
+    Stream.map lookupZipCode query.stream
 
 
 lookupZipCode : String -> Task String (List String)
