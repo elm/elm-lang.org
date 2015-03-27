@@ -13,7 +13,7 @@ import Window
 
 
 main =
-  Varying.map2 view Window.width hints
+  Signal.map2 view Window.width hints
 
 
 -- VIEW
@@ -147,10 +147,10 @@ moduleToDocs modul { alias, exposed } =
 port tokens : Port.InboundPort (Maybe String)
 
 
-hints : Varying (List Info)
+hints : Signal (List Info)
 hints =
   Stream.fold updateHint emptyState actions
-    |> Varying.map .hints
+    |> Signal.map .hints
 
 
 actions : Stream Action
@@ -274,8 +274,8 @@ defaultImports =
     , "List" => Some (Set.fromList ["List", "::"])
     , "Maybe" => Some (Set.singleton "Maybe")
     , "Result" => Some (Set.singleton "Result")
+    , "Signal" => Some (Set.singleton "Signal")
     , "Stream" => Some (Set.singleton "Stream")
-    , "Varying" => Some (Set.singleton "Varying")
     ]
 
 

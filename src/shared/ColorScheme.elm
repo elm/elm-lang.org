@@ -1,4 +1,4 @@
-module Website.ColorScheme where 
+module ColorScheme where
 
 import Color exposing (rgb)
 

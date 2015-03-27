@@ -21,10 +21,10 @@ cabal-version:       >=1.10
 
 executable run-elm-website
   hs-source-dirs:
-    backend
+    src/backend
 
   main-is:
-    Server.hs
+    Main.hs
 
   ghc-options:
     -W -threaded -O2 -rtsopts "-with-rtsopts=-N -I4"
@@ -32,6 +32,7 @@ executable run-elm-website
   build-depends:
     aeson,
     base,
+    binary,
     blaze-html,
     blaze-markup,
     bytestring,
@@ -39,6 +40,7 @@ executable run-elm-website
     cmdargs,
     directory,
     elm-compiler,
+    elm-package,
     filepath,
     HTTP,
     mtl,

@@ -3,4 +3,5 @@ artifacts
 dist
 resources/docs.json
 log
+gen
 cabal.sandbox.config

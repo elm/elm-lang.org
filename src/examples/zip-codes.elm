@@ -47,9 +47,9 @@ myStyle =
 -- WIRING
 
 main =
-  Varying.map2 view
-    (Varying.fromStream "" query.stream)
-    (Varying.fromStream (Err "A valid US zip code is 5 numbers.") results.stream)
+  Signal.map2 view
+    (Signal.fromStream "" query.stream)
+    (Signal.fromStream (Err "A valid US zip code is 5 numbers.") results.stream)
 
 
 port query : Port.Port String

@@ -47,12 +47,12 @@ imgStyle h src =
 
 -- WIRING
 
-main : Varying Html
+main : Signal Html
 main =
-  Varying.map3 view
+  Signal.map3 view
     Window.height
-    (Stream.toVarying "" query.stream)
-    (Stream.toVarying "waiting.gif" <| Stream.filterMap Result.toMaybe results.stream)
+    (Stream.toSignal "" query.stream)
+    (Stream.toSignal "waiting.gif" <| Stream.filterMap Result.toMaybe results.stream)
 
 
 port results : Port.Port (Result Http.Error String)

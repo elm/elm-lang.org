@@ -1,7 +1,7 @@
-module Website.Message (report) where
+module Message (report) where
 
 import Graphics.Element exposing (..)
-import Website.ColorScheme as C
+import ColorScheme as C
 import Window
 
 
@@ -24,4 +24,4 @@ box e =
 
 
 report msg =
-    Varying.map (scene msg) Window.dimensions
+    Signal.map (scene msg) Window.dimensions

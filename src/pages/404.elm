@@ -1,5 +1,5 @@
 import Markdown
-import Website.Message exposing (report)
+import Message exposing (report)
 
 main = report <| Markdown.toElement """
 
