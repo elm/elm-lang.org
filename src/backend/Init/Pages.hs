@@ -1,14 +1,15 @@
 module Init.Pages (init) where
 
-import Control.Monad (forM)
+import Control.Monad (when)
 import Elm.Utils ((|>))
 import Prelude hiding (init)
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>), (<.>), dropExtension, hasExtension, joinPath, takeExtension)
-import System.IO (hFlush, stdout)
+import qualified Text.Blaze.Html.Renderer.String as Blaze
 
 import qualified Init.FileTree as FT
-import Init.Helpers (make)
+import Init.Helpers (make, write)
+import qualified Generate
 
 
 init :: IO [(FilePath, FilePath)]
@@ -16,18 +17,30 @@ init =
   do  files <- getFiles ("src" </> "pages") ".elm"
 
       let numFiles = length files
-      result <-
-        forM (zip [1..] files) $ \(index, name) ->
-          do  putStr $ "\rPrepping file " ++ show index ++ " of " ++ show numFiles
-              hFlush stdout
-              let input = "src" </> "pages" </> name <.> "elm"
-              let output = FT.file ["pages"] name "js"
-              make input output
-              return (name, output)
+      result <- mapM (initFile numFiles) (zip [1..] files)
 
-      putStrLn ""
+      putStrLn "done\n"
       return result
 
+
+initFile :: Int -> (Int, String) -> IO (String, FilePath)
+initFile numFiles (index, name) =
+  do  write $ "\rSetting up pages (" ++ show index ++ " of " ++ show numFiles ++ ") "
+
+      let input = "src" </> "pages" </> name <.> "elm"
+      let midput = FT.file ["pages"] name "js"
+      let output = FT.file ["pages"] name "html"
+
+      ran <- make input midput
+      when ran $ do
+          jsSource <- readFile midput
+          writeFile output
+              (Blaze.renderHtml (Generate.serverHtml name jsSource))
+
+      return (name, output)
+
+
+-- COLLECT FILES
 
 getFiles :: FilePath -> String -> IO [FilePath]
 getFiles root ext =

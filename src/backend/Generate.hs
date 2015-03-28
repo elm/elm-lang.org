@@ -25,7 +25,7 @@ js result =
 
 -- HTML
 
-serverHtml :: String -> Text.Text -> H.Html
+serverHtml :: String -> String -> H.Html
 serverHtml name jsSource =
     htmlSkeleton False name $
       do  H.script $ preEscapedToMarkup jsSource

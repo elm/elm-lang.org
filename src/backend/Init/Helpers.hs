@@ -13,10 +13,11 @@ write str =
   hPutStr stdout str >> hFlush stdout
 
 
-make :: FilePath -> FilePath -> IO ()
+make :: FilePath -> FilePath -> IO Bool
 make input output =
   do  outdated <- isOutdated input output
       when outdated (makeForReal input output)
+      return outdated
 
 
 makeForReal :: FilePath -> FilePath -> IO ()

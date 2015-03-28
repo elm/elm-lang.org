@@ -37,7 +37,6 @@ router compiler pages =
         -- top-bar routes
         [ ("guide", guide)
         , ("examples/:name", examples)
-        , ("packages", packages)
 
         -- discoverable routes
         , ("try", try)
@@ -56,11 +55,9 @@ servePages :: [(FilePath, FilePath)] -> Snap ()
 servePages pairs =
     route (map servePage pairs)
   where
-    servePage (path, jsFile) =
+    servePage (path, html) =
         ( BS.pack path
-        , ifTop $ do
-              jsSource <- liftIO (Text.readFile jsFile)
-              serveHtml (Generate.serverHtml path jsSource)
+        , ifTop (serveFile html)
         )
 
 
@@ -91,11 +88,6 @@ examples =
           <|> dir "result" (return "result")
 
       serveIfExists (FT.file ["examples",directory] name "html")
-
-
-packages :: Snap ()
-packages =
-  undefined
 
 
 -- discoverable routes
@@ -145,8 +137,7 @@ hotswap compiler =
 error404 :: Snap ()
 error404 =
   do  modifyResponse (setResponseStatus 404 "Not found")
-      jsSource <- liftIO (Text.readFile (FT.file ["pages"] "404" "js"))
-      serveHtml (Generate.serverHtml "Oops!" jsSource)
+      serveFile (FT.file ["pages"] "404" "html")
 
 
 -- HELPERS

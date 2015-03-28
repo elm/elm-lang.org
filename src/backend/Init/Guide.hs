@@ -59,7 +59,7 @@ initChapter name =
                 exitFailure
 
 
-generateHtml :: String -> IO ()
+generateHtml :: String -> IO Bool
 generateHtml name =
   do  write "."
       make

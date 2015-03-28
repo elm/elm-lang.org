@@ -134,7 +134,7 @@ code name source =
 
 -- INIT RESULT FILES
 
-initResult :: String -> IO ()
+initResult :: String -> IO Bool
 initResult name =
   make
     ("src" </> "examples" </> name <.> "elm")
