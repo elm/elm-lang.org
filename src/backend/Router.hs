@@ -145,7 +145,8 @@ hotswap compiler =
 error404 :: Snap ()
 error404 =
   do  modifyResponse (setResponseStatus 404 "Not found")
-      writeBS "404 - not found"
+      jsSource <- liftIO (Text.readFile (FT.file ["pages"] "404" "js"))
+      serveHtml (Generate.serverHtml "Oops!" jsSource)
 
 
 -- HELPERS
