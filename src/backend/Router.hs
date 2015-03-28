@@ -4,15 +4,13 @@ module Router (router) where
 import Control.Applicative ((<|>))
 import Control.Monad.Error (liftIO)
 import qualified Data.ByteString.Char8 as BS
-import qualified Data.Text.IO as Text
 import Snap.Core
-    ( Snap, MonadSnap, dir, getParam, getQueryParam, getRequest, ifTop
-    , modifyResponse, pass, route, rqPathInfo, setContentType
-    , setResponseStatus, writeBS, writeBuilder
+    ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, route
+    , setContentType, setResponseStatus, writeBS, writeBuilder
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
-import System.FilePath ((</>), (<.>))
+import System.FilePath ((</>))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html.Renderer.Utf8 as Blaze
 
