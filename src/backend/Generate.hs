@@ -71,7 +71,7 @@ htmlSkeleton userGenerated title scripts =
       H.meta ! A.charset "UTF-8"
       H.title (H.toHtml title)
       favicon
-      H.style $ preEscapedToMarkup standardStyle
+      H.link ! A.rel "stylesheet" ! A.href "/assets/style.css"
       when (not userGenerated) $
         do  googleAnalytics
             H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
@@ -98,31 +98,3 @@ googleAnalytics =
         \\n\
         \ga('create', 'UA-25827182-1', 'auto');\n\
         \ga('send', 'pageview');\n"
-
-
-standardStyle :: Text.Text
-standardStyle =
-    "html,head,body { padding:0; margin:0; }\n\
-    \body { font-family: 'Lucida Grande','Trebuchet MS','Bitstream Vera Sans',Verdana,Helvetica,sans-serif; }\n\
-    \a {\n\
-    \  color: #1184CE;\n\
-    \  text-decoration: none;\n\
-    \}\n\
-    \a:hover {\n\
-    \  text-decoration: underline;\n\
-    \  color: rgb(234,21,122);\n\
-    \}\n\
-    \h1,h2,h3,h4 { font-weight:normal; font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; }\n\
-    \p, li {\n\
-    \  font-size: 14px !important;\n\
-    \  line-height: 1.5em !important;\n\
-    \}\n\
-    \pre {\n\
-    \  margin: 0;\n\
-    \  padding: 10px;\n\
-    \  background-color: rgb(254,254,254);\n\
-    \  border-style: solid;\n\
-    \  border-width: 1px;\n\
-    \  border-color: rgb(245,245,245);\n\
-    \  border-radius: 6px;\n\
-    \}\n"

@@ -24,10 +24,11 @@ router
     -> [(FilePath,FilePath)]
     -> Snap ()
 router compiler pages =
-  ifTop root
+  ifTop (serveFile (FT.file ["pages"] "home" "html"))
     <|> servePages pages
     <|> route routes
     <|> dir "editor" (serveDirectoryWith simpleDirectoryConfig ("gen" </> "editor"))
+    <|> dir "assets" (serveDirectoryWith simpleDirectoryConfig "assets")
     <|> serveDirectoryWith simpleDirectoryConfig "resources"
     <|> error404
   where
@@ -57,13 +58,6 @@ servePages pairs =
         ( BS.pack path
         , ifTop (serveFile html)
         )
-
-
--- top-bar routes
-
-root :: Snap ()
-root =
-  try
 
 
 guide :: Snap ()

@@ -1,0 +1,60 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro|Source+Code+Pro);
+
+html, head, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+
+/* top bar */
+
+#tabs {
+  padding: 1em;
+  background-color: #60B5CC;
+}
+
+#tabs ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: center;
+}
+
+#tabs li {
+  display: inline-block;
+}
+
+.tab {
+  text-decoration: none;
+  color: #34495E;
+  padding-bottom: 3px;
+  margin: 0 1.5em;
+  font-size: 20px;
+}
+
+.tab:hover,
+.tab.current {
+  border-bottom: 3px solid #34495e;
+}
+
+
+/* splash */
+
+#splash {
+  padding: 1em;
+  background-color: #60B5CC;
+  color: white;
+  text-align: center;
+}
+
+#splash a {
+  text-decoration: none;
+  border-bottom: 3px solid white;
+  color: white;
+}
+
+
