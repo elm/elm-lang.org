@@ -1,26 +1,14 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
+import TopBar
 
 
 main =
-  div [] [ topBar, splash ]
+  div [] [ TopBar.topBar "home", splash ]
 
 
 (=>) = (,)
-
-
-topBar =
-  div [ id "tabs" ]
-    [
-      ul [] (List.map tab [ "examples", "docs", "community", "blog" ])
-    ]
-
-
-tab name =
-  li []
-    [ a [ class "tab", href ("/" ++ name) ] [ text name ]
-    ]
 
 
 splash =
