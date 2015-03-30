@@ -25,9 +25,9 @@ tab name =
 
 splash =
   div [ class "navigation", id "splash" ]
-    [ div [ size 100 20 ] [ text "elm" ]
-    , div [ size 26 4 ] [ text "writing great code should be easy" ]
-    , div [ size 16 4 ] [ text "the best of functional programming in your browser" ]
+    [ div [ size 100 16 ] [ text "elm" ]
+    , div [ size 26 8 ] [ text "the best of functional programming in your browser" ]
+    , div [ size 16 4 ] [ text "writing great code should be easy ... now it is" ]
     , div [ size 26 30 ] [ a [ href "/try" ] [ text "install" ] ]
     ]
 
