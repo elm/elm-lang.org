@@ -5,5 +5,5 @@ import TopBar
 
 
 main =
-  div [] [ TopBar.topBar "examples" ]
+  div [] [ TopBar.topBar "docs" ]
 

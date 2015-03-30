@@ -1,14 +1,9 @@
-import Markdown
-import Message exposing (report)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
-main = report <| Markdown.toElement """
+import TopBar
 
-# Elm
 
-Temporary home page
+main =
+  div [] [ TopBar.topBar "community" ]
 
-  * [try](/try)
-  * [examples](/examples)
-  * [guide](/guide)
-
-"""
