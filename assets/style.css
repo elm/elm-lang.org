@@ -15,7 +15,7 @@ body {
 
 #tabs {
   padding: 1em;
-  background-color: #60B5CC;
+  background-color: hsl(175, 90%, 55%);
 }
 
 #tabs ul {
@@ -32,14 +32,14 @@ body {
 .tab {
   text-decoration: none;
   color: #34495E;
-  padding-bottom: 3px;
+  padding-bottom: 12px;
   margin: 0 1.5em;
   font-size: 20px;
 }
 
 .tab:hover,
 .tab.current {
-  border-bottom: 3px solid #34495e;
+  border-bottom: 3px solid #34495E;
 }
 
 
@@ -47,7 +47,7 @@ body {
 
 #splash {
   padding: 1em;
-  background-color: #60B5CC;
+  background-color: hsl(175, 90%, 55%);
   color: white;
   text-align: center;
 }
@@ -64,10 +64,8 @@ body {
 pre {
   font-family: 'Source Code Pro', monospace;
   margin: 0;
-  padding: 10px;
-  background-color: rgb(254,254,254);
-  border-style: solid;
-  border-width: 1px;
-  border-color: rgb(245,245,245);
-  border-radius: 6px;
+  padding: 8px;
+  padding-left: 20px;
+  margin-left: 20px;
+  border-left: 4px solid hsl(175, 90%, 55%);
 }
