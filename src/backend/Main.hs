@@ -34,8 +34,8 @@ main =
 
       FileTree.init
       Examples.init
-      pages <- Pages.init
       Guide.init
+      pages <- Pages.init
       compiler <- Compiler.init
 
       httpServe
