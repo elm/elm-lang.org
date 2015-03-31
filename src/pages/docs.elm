@@ -2,6 +2,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import String
 
+import Center
 import TopBar
 import Outline
 
@@ -9,7 +10,7 @@ import Outline
 main =
   div []
     [ TopBar.topBar "docs"
-    , ul [] (List.map viewChapter Outline.outline)
+    , ul [ Center.style "600px" ] (List.map viewChapter Outline.outline)
     ]
 
 

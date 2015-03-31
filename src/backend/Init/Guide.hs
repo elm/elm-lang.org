@@ -92,17 +92,14 @@ toElm markdown =
   unlines
     [ "import Html exposing (..)"
     , "import Html.Attributes exposing (..)"
-    , "import Markdown"
+    , "import Center"
     , "import Outline"
     , "import TopBar"
     , ""
     , "main ="
-    , "  div [] [ TopBar.topBar \"docs\", div [ myStyle ] [ info ] ]"
+    , "  div [] [ TopBar.topBar \"docs\", Center.markdown \"600px\" info ]"
     , ""
-    , "myStyle ="
-    , "  style [ (\"width\", \"600px\"), (\"display\", \"block\"), (\"margin\", \"0 auto\") ]"
-    , ""
-    , "info = Markdown.toHtml \"\"\"\n" ++ markdown ++ "\n\"\"\""
+    , "info = \"\"\"\n" ++ markdown ++ "\n\"\"\""
     ]
 
 
