@@ -7,7 +7,7 @@ import System.FilePath ((</>), (<.>))
 import Prelude hiding (init)
 
 import qualified Init.FileTree as FT
-import Init.Helpers (make, write, isOutdated)
+import Init.Helpers (makeWithStyle, write, isOutdated)
 
 
 -- CHAPTERS
@@ -62,7 +62,7 @@ initChapter name =
 generateHtml :: String -> IO Bool
 generateHtml name =
   do  write "."
-      make
+      makeWithStyle
         (FT.file ["guide", "elm"] name "elm")
         (FT.file ["guide", "html"] name "html")
 
@@ -90,10 +90,19 @@ toSubtitle line =
 toElm :: String -> String
 toElm markdown =
   unlines
-    [ "import Markdown"
+    [ "import Html exposing (..)"
+    , "import Html.Attributes exposing (..)"
+    , "import Markdown"
     , "import Outline"
+    , "import TopBar"
     , ""
-    , "main = Markdown.toHtml \"\"\"\n" ++ markdown ++ "\n\"\"\""
+    , "main ="
+    , "  div [] [ TopBar.topBar \"docs\", div [ myStyle ] [ info ] ]"
+    , ""
+    , "myStyle ="
+    , "  style [ (\"width\", \"600px\"), (\"display\", \"block\"), (\"margin\", \"0 auto\") ]"
+    , ""
+    , "info = Markdown.toHtml \"\"\"\n" ++ markdown ++ "\n\"\"\""
     ]
 
 

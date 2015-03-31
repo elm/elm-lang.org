@@ -1,11 +1,14 @@
-module Init.Helpers (isOutdated, make, write) where
+module Init.Helpers (isOutdated, make, makeWithStyle, write) where
 
 import Control.Monad.Error (runErrorT, when)
-import System.Directory (doesFileExist, getModificationTime)
+import System.Directory (doesFileExist, getModificationTime, removeFile)
+import System.FilePath (splitExtension)
 import System.Exit (exitFailure)
 import System.IO (hFlush, hPutStr, hPutStrLn, stderr, stdout)
+import qualified Text.Blaze.Html.Renderer.String as Blaze
 
 import qualified Elm.Utils as Utils
+import qualified Generate
 
 
 write :: String -> IO ()
@@ -17,6 +20,26 @@ make :: FilePath -> FilePath -> IO Bool
 make input output =
   do  outdated <- isOutdated input output
       when outdated (makeForReal input output)
+      return outdated
+
+
+makeWithStyle :: FilePath -> FilePath -> IO Bool
+makeWithStyle input output =
+  do  outdated <- isOutdated input output
+
+      when outdated $
+        do  let (name, ext) = splitExtension output
+            let jsOutput = name ++ ".js"
+
+            makeForReal input jsOutput
+            case ext of
+              ".js" -> return ()
+              ".html" ->
+                do  jsSource <- readFile jsOutput
+                    writeFile output
+                        (Blaze.renderHtml (Generate.serverHtml name jsSource))
+                    removeFile jsOutput
+
       return outdated
 
 

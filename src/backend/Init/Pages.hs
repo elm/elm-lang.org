@@ -5,11 +5,9 @@ import Elm.Utils ((|>))
 import Prelude hiding (init)
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>), (<.>), dropExtension, hasExtension, joinPath, takeExtension)
-import qualified Text.Blaze.Html.Renderer.String as Blaze
 
 import qualified Init.FileTree as FT
-import Init.Helpers (make, write)
-import qualified Generate
+import Init.Helpers (makeWithStyle, write)
 
 
 init :: IO [(FilePath, FilePath)]
@@ -28,14 +26,9 @@ initFile numFiles (index, name) =
   do  write $ "\rSetting up pages (" ++ show index ++ " of " ++ show numFiles ++ ") "
 
       let input = "src" </> "pages" </> name <.> "elm"
-      let midput = FT.file ["pages"] name "js"
       let output = FT.file ["pages"] name "html"
 
-      ran <- make input midput
-      when ran $ do
-          jsSource <- readFile midput
-          writeFile output
-              (Blaze.renderHtml (Generate.serverHtml name jsSource))
+      makeWithStyle input output
 
       return (name, output)
 
