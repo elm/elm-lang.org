@@ -19,7 +19,7 @@ splash =
     , div [ size 26 30 ]
         [ a [ href "/try" ] [ text "try" ]
         , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
-        , a [ href "/try" ] [ text "install" ]
+        , a [ href "/install" ] [ text "install" ]
         ]
     ]
 
