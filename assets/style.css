@@ -15,7 +15,7 @@ body {
 
 #tabs {
   padding: 1em;
-  background-color: hsl(175, 90%, 55%);
+  background-color: #4CA454;
 }
 
 #tabs ul {
@@ -47,7 +47,7 @@ body {
 
 #splash {
   padding: 1em;
-  background-color: hsl(175, 90%, 55%);
+  background-color: #4CA454;
   color: white;
   text-align: center;
 }
@@ -67,5 +67,5 @@ pre {
   padding: 8px;
   padding-left: 20px;
   margin-left: 20px;
-  border-left: 4px solid hsl(175, 90%, 55%);
+  border-left: 4px solid #4CA454;
 }
