@@ -21,12 +21,16 @@ community = Markdown.toElement """
 
 ### Mailing list
 
-[list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
+[elm-dev]: https://groups.google.com/forum/?fromgroups#!forum/elm-dev "development mailing list"
+[elm-discuss]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "general mailing list"
 
-The [mailing list][list] is a great place for friendly discussion! Common
-activities include discussing API design, reviewing blog posts and libraries,
-and finding projects to collaborate on. Share code snippets with
-[share-elm.com](http://www.share-elm.com).
+The mailing lists are a great place for friendly discussion! The two primary
+lists are for general discussion about the language [elm-discuss][elm-discuss]
+and for discussions pertaining to the development of the language itself
+[elm-dev][elm-dev]. We welcome you to subscribe to and participate in both
+mailing lists! Common activities include discussing API design, reviewing
+blog posts and libraries, and finding projects to collaborate on. Share code
+snippets with [share-elm.com](http://www.share-elm.com).
 
 This list is all about learning and improvement, so even if you know a lot
 about Elm or functional programming, be humble and open to learning new things
