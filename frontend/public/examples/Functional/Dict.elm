@@ -9,9 +9,7 @@ can be quite helpful for creating complex dictionaries.
 -----------------------------------------------------------}
 
 import Dict
-import Graphics.Element (..)
-import List (foldl, map, (::))
-import Text (asText, plainText)
+import Graphics.Element exposing (..)
 
 
 type alias Tree =
@@ -45,7 +43,7 @@ add key value dict =
 
 groupBy : (a -> comparable) -> (a -> value) -> List a -> Dict.Dict comparable (List value)
 groupBy getKey getValue values =
-    foldl (\v d -> add (getKey v) (getValue v) d) Dict.empty values
+    List.foldl (\v d -> add (getKey v) (getValue v) d) Dict.empty values
 
 
 familyToGenera : Dict.Dict String (List String)
@@ -55,15 +53,15 @@ familyToGenera =
 
 display : (String, a) -> Element
 display (family, genera) =
-    width 100 (plainText family) `beside` asText genera
+    width 100 (show family) `beside` show genera
 
 
 header : Element
 header =
-    plainText "Trees: Genera in each Family"
+    show "Trees: Genera in each Family"
 
 
 main : Element
 main =
     flow down
-        (header :: map display (Dict.toList familyToGenera))
+        (header :: List.map display (Dict.toList familyToGenera))

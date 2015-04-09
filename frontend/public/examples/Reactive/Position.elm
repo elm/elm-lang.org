@@ -1,9 +1,7 @@
-import Graphics.Element (..)
-import Signal (Signal, map)
+import Graphics.Element exposing (..)
 import Mouse
-import Text (asText)
 
 
 main : Signal Element
 main =
-  map asText Mouse.position
+  Signal.map show Mouse.position

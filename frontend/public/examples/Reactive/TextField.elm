@@ -1,23 +1,21 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
-import Signal
 import String
-import Text (plainText)
 
 
-content : Signal.Channel Field.Content
+content : Signal.Mailbox Field.Content
 content =
-  Signal.channel Field.noContent
+  Signal.mailbox Field.noContent
 
 
 main : Signal Element
 main =
-  Signal.map scene (Signal.subscribe content)
+  Signal.map scene content.signal
 
 
 scene : Field.Content -> Element
 scene fieldContent =
    flow down
-   [ Field.field Field.defaultStyle (Signal.send content) "Type here!" fieldContent
-   , plainText (String.reverse fieldContent.string)
+   [ Field.field Field.defaultStyle (Signal.message content.address) "Type here!" fieldContent
+   , show (String.reverse fieldContent.string)
    ]

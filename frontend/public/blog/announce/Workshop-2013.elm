@@ -1,11 +1,9 @@
 import Color
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
 import Text
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -14,7 +12,7 @@ port title = "Elm Workshop 2013"
 
 main : Signal Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Signal.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything : Int -> Element
@@ -59,8 +57,8 @@ talks w =
 
 
 talk w (title,speaker) =
-    let title' = Text.plainText title
-        speaker' = Text.leftAligned << Text.color Color.darkGrey <| Text.fromString speaker
+    let title' = leftAligned (Text.fromString title)
+        speaker' = leftAligned (Text.color Color.darkGrey (Text.fromString speaker))
         padding = 30
         lineHeight = heightOf title' + 4
         speakerWidth = widthOf speaker'

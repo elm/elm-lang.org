@@ -1,8 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
 
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 import Graphics.Input as Input
 
@@ -12,7 +11,7 @@ port title = "Upgrade Time: Elm 0.6"
 
 main : Signal Element
 main =
-  skeleton "Blog" (\w -> width (min 600 w) intro) <~ Window.dimensions
+  Signal.map (skeleton "Blog" (\w -> width (min 600 w) intro)) Window.dimensions
 
 
 intro : Element

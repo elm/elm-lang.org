@@ -1,10 +1,8 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal ((<~))
-import Text
 import Window
 
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 
@@ -12,8 +10,10 @@ import Website.ColorScheme as C
 port title : String
 port title = "Blog"
 
+
 main =
-  skeleton "Blog" content <~ Window.dimensions
+  Signal.map (skeleton "Blog" content) Window.dimensions
+
 
 content outer =
     let center elem =

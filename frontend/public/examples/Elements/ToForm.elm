@@ -1,10 +1,9 @@
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import Text (plainText)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 
 
 main : Element
 main =
   collage 200 200
-    [ rotate (degrees 20) (toForm (plainText "Any element can go here!"))
+    [ rotate (degrees 20) (toForm (show "Any element can go here!"))
     ]

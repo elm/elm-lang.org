@@ -1,8 +1,6 @@
-import Graphics.Element (..)
-import List
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -11,7 +9,7 @@ port title = "Intro to Programming"
 
 main : Signal Element
 main =
-  skeleton "Learn" everything <~ Window.dimensions
+  Signal.map (skeleton "Learn" everything) Window.dimensions
 
 
 everything : Int -> Element
@@ -330,7 +328,7 @@ problems = Markdown.toElement """
 The standard equation is
 <img src="http://upload.wikimedia.org/math/3/a/e/3ae71ab3eb71d3d182a3b9e437fba6ee.png"
      style="width:100px; height:20px;"></img>
-but to make it easier to *find x*, we can write it as 
+but to make it easier to *find x*, we can write it as
 <img src="http://upload.wikimedia.org/math/3/b/8/3b84a4234e90bf69db1029281d06e174.png"
      style="width:114px; height:21px;"></img>
 </div>

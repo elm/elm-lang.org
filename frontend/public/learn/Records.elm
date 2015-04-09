@@ -1,16 +1,14 @@
-import Graphics.Element (..)
-import List
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
 import Text
-import Website.ColorScheme (accent1)
-import Website.Skeleton (skeleton)
+import Website.ColorScheme exposing (accent1)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
 port title = "Elm - Extensible Records"
 
-main = skeleton "Learn" (content << min 600) <~ Window.dimensions
+main = Signal.map (skeleton "Learn" (content << min 600)) Window.dimensions
 
 content w = 
   flow down
@@ -406,8 +404,8 @@ used safely!
 evaluate wid pairs =
   let f (a,b) =
         let w = wid // 2
-            c = Text.leftAligned (Text.monospace (Text.fromString a))
-            d = Text.leftAligned (Text.monospace (Text.fromString b))
+            c = leftAligned (Text.monospace (Text.fromString a))
+            d = leftAligned (Text.monospace (Text.fromString b))
             h = 10 + max (heightOf c) (heightOf d)
         in
             flow right
@@ -421,7 +419,7 @@ evaluate wid pairs =
         Text.fromString "&rArr;"
           |> Text.color accent1
           |> Text.height 3
-          |> Text.leftAligned
+          |> leftAligned
 
       h = List.sum (List.map heightOf es)
   in

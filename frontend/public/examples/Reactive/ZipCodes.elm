@@ -1,9 +1,8 @@
 import Char
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Http
 import Maybe
-import Signal
 import String
 import Text
 
@@ -13,16 +12,16 @@ main =
   let msg = Text.plainText "Enter a valid zip code, such as 12345 or 90210."
       output fieldContent url response =
         flow down
-          [ Field.field Field.defaultStyle (Signal.send content) "Zip Code" fieldContent
+          [ Field.field Field.defaultStyle (Signal.message content.address) "Zip Code" fieldContent
           , Maybe.withDefault msg (Maybe.map (always (display response)) url)
           ]
   in
-      Signal.map3 output (Signal.subscribe content) url responses
+      Signal.map3 output content.signal url responses
 
 
-content : Signal.Channel Field.Content
+content : Signal.Mailbox Field.Content
 content =
-  Signal.channel Field.noContent
+  Signal.mailbox Field.noContent
 
 
 -- Display a response
@@ -30,9 +29,9 @@ content =
 display : Http.Response String -> Element
 display response = 
   case response of
-    Http.Success address -> Text.leftAligned (Text.monospace (Text.fromString address))
+    Http.Success address -> leftAligned (Text.monospace (Text.fromString address))
     Http.Waiting -> image 16 16 "waiting.gif"
-    Http.Failure _ _ -> Text.asText response
+    Http.Failure _ _ -> show response
 
 
 -- Send requests based on user input
@@ -44,7 +43,7 @@ responses =
 
 url : Signal (Maybe String)
 url =
-  Signal.map toUrl (Signal.subscribe content)
+  Signal.map toUrl content.signal
 
 
 toUrl : Field.Content -> Maybe String

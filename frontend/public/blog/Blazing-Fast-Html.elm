@@ -1,7 +1,6 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -10,7 +9,7 @@ port title = "Blazing Fast HTML"
 
 main : Signal Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Signal.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything wid =
@@ -190,7 +189,7 @@ example, a list of user profiles can be nicely abstracted with something like
 this:
 
 ```haskell
-import Html (..)
+import Html exposing (..)
 
 profiles : List User -> Html
 profiles users =

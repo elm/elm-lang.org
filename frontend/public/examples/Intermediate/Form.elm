@@ -1,10 +1,8 @@
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Graphics.Input as Input
 import Http
-import List
-import Signal
 import String
 import Text
 import Window
@@ -94,7 +92,7 @@ header : Element
 header =
   Text.fromString "Example Sign Up"
     |> Text.height 32
-    |> Text.leftAligned
+    |> leftAligned
 
 
 viewForm : Model -> Element
@@ -109,17 +107,17 @@ viewForm model =
       , viewErrors model
       , container 300 50 midRight <|
           size 60 30 <|
-            Input.button (Signal.send updateChan Submit) "Submit"
+            Input.button (Signal.message updateChan.address Submit) "Submit"
       ]
 
 
 viewField : String -> Field.Content -> (Field.Content -> Update) -> Element
 viewField label content toUpdate =
   flow right
-    [ container 140 36 midRight (Text.plainText label)
+    [ container 140 36 midRight (show label)
     , container 220 36 middle <|
         size 180 26 <|
-          Field.field Field.defaultStyle (Signal.send updateChan << toUpdate) "" content
+          Field.field Field.defaultStyle (Signal.message updateChan.address << toUpdate) "" content
     ]
 
 
@@ -140,7 +138,7 @@ viewError : String -> Element
 viewError msg =
   Text.fromString msg
     |> Text.color red
-    |> Text.centered
+    |> centered
     |> width 360
 
 
@@ -153,19 +151,19 @@ main =
 
 model : Signal Model
 model =
-  Signal.subscribe updateChan
+  updateChan.signal
     |> Signal.foldp update emptyModel
 
 
-updateChan : Signal.Channel Update
+updateChan : Signal.Mailbox Update
 updateChan =
-  Signal.channel Submit
+  Signal.mailbox Submit
 
 
 port redirect : Signal String
 port redirect =
-    Signal.map2 toUrl (Signal.subscribe updateChan) model
-      |> Signal.keepIf (not << String.isEmpty) ""
+    Signal.map2 toUrl updateChan.signal model
+      |> Signal.filter (not << String.isEmpty) ""
 
 
 toUrl : Update -> Model -> String

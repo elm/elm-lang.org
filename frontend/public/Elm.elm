@@ -1,10 +1,9 @@
 import Color
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
 import Text
-import Website.Widgets (bigLogo, installButtons, button)
-import Website.Skeleton (skeleton)
+import Website.Widgets exposing (bigLogo, installButtons, button)
+import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 import Window
@@ -12,10 +11,10 @@ import Window
 port title : String
 port title = "Elm - functional web programming"
 
-main = skeleton "" content <~ Window.dimensions
+main = Signal.map (skeleton "" content) Window.dimensions
 
 tagLine =
-    Text.leftAligned <|
+    leftAligned <|
         Text.fromString "A " ++
         Text.link "/learn/What-is-FRP.elm" (Text.fromString "functional reactive") ++
         Text.fromString " language for interactive applications"

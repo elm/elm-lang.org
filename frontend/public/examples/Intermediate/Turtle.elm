@@ -1,9 +1,8 @@
 -- Move the Turtle around with the arrow keys.
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Keyboard
-import Signal
-import Time (..)
+import Time exposing (..)
 import Window
 
 -- MODEL

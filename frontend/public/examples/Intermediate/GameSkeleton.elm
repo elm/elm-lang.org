@@ -1,9 +1,7 @@
-import Graphics.Element (..)
-import Signal
-import Signal (Signal)
-import Text
+import Graphics.Element exposing (..)
 import Time
 import Window
+
 
 {-- Part 1: Model the user input ----------------------------------------------
 
@@ -80,7 +78,7 @@ Task: redefine `display` to use the GameState you defined in part 2.
 
 display : (Int,Int) -> GameState -> Element
 display (w,h) gameState =
-    Text.asText gameState
+    show gameState
 
 
 

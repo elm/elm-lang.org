@@ -1,5 +1,4 @@
-import Graphics.Element (..)
-import List
+import Graphics.Element exposing (..)
 import Text
 
 {-----------------------------------------------------------------
@@ -79,7 +78,7 @@ display name f value =
     name ++ " (" ++ toString value ++ ") &rArr;\n    " ++ toString (f value) ++ "\n "
         |> Text.fromString
         |> Text.monospace
-        |> Text.leftAligned
+        |> leftAligned
   
 
 {-----------------------------------------------------------------

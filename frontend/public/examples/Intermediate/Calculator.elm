@@ -1,9 +1,8 @@
 import Char
-import Color (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Result
-import Signal
 import String
 import Text
 import Window
@@ -11,16 +10,16 @@ import Window
 
 main : Signal Element
 main =
-  Signal.subscribe commands
+  commands.signal
     |> Signal.foldp update (Start zero)
     |> Signal.map2 calculator Window.dimensions
 
 
 -- INPUTS
 
-commands : Signal.Channel Command
+commands : Signal.Mailbox Command
 commands =
-  Signal.channel Clear
+  Signal.mailbox Clear
 
 
 -- MODEL
@@ -112,7 +111,7 @@ button background foreground w h command name =
                       |> color black
                    , color (rgba 0 0 0 alpha) (spacer w h)
                    ]
-    in  Input.customButton (Signal.send commands command) (btn 0) (btn 0.05) (btn 0.1)
+    in  Input.customButton (Signal.message commands.address command) (btn 0) (btn 0.05) (btn 0.1)
 
 lightButton : Int -> Int -> Command -> String -> Element
 lightButton = button lightGrey black
@@ -135,7 +134,7 @@ txt p clr string =
       |> Text.color clr
       |> Text.typeface ["Helvetica Neue","Sans-serif"]
       |> Text.height (p * buttonSize)
-      |> Text.leftAligned
+      |> leftAligned
 
 
 -- UPDATE

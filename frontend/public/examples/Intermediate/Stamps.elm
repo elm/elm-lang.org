@@ -1,10 +1,7 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (map, (::))
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text (..)
 import Window
 
 
@@ -28,6 +25,6 @@ scene (w,h) locs =
             |> rotate (toFloat x)
   in
       layers
-        [ collage w h (map drawPentagon locs)
-        , plainText "Click to stamp a pentagon."
+        [ collage w h (List.map drawPentagon locs)
+        , show "Click to stamp a pentagon."
         ]

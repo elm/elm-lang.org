@@ -1,12 +1,9 @@
-import Color (..)
-import Graphics.Element (..)
-import List
-import List ((::))
+import Color exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
 import Mouse
-import Signal
 import Text
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme as C
 import Window
 
@@ -112,11 +109,11 @@ entry w1 w2 v1 v2 =
 
 
 example w1 w2 code =
-  Signal.map (\info -> entry w1 w2 (Text.leftAligned (Text.monospace (Text.fromString code))) (Text.asText info))
+  Signal.map (\info -> entry w1 w2 (leftAligned (Text.monospace (Text.fromString code))) (show info))
 
 
 examples1 =
-  let title = Text.leftAligned << Text.bold << Text.fromString
+  let title = leftAligned << Text.bold << Text.fromString
       example' = example 200 140
   in
       [ Signal.constant (entry 200 140 (title "Source Code") (title "Value"))

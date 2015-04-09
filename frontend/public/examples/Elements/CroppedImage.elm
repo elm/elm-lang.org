@@ -1,4 +1,4 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 
 -- croppedImage cuts a rectangle that starts at the given
 -- coordinates and has the given dimensions. It can later

@@ -1,9 +1,8 @@
 -- A set is a container that has no duplicates.
 
-import Graphics.Element (..)
-import List
+import Graphics.Element exposing (..)
 import Set
-import Text (asText)
+
 
 xs : Set.Set Int
 xs =
@@ -18,7 +17,7 @@ ys =
 main : Element
 main =
   flow down <|
-    List.map asText
+    List.map show
      [ xs
      , ys
      , Set.insert 42 xs

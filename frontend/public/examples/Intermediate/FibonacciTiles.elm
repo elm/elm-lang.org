@@ -1,7 +1,5 @@
-import Color (rgb)
-import Graphics.Element (..)
-import List
-import Text (asText)
+import Color exposing (rgb)
+import Graphics.Element exposing (..)
 
 
 ------ Create squares  ----
@@ -14,12 +12,12 @@ fibHelp a b n =
 
 
 fibSquare : Int -> Element
-fibSquare n = 
+fibSquare n =
   let fN = fib n
       len = fN * 15
       clr = rgb ((85*n) % 256) ((36*n) % 256) ((51*n) % 256)
   in
-      color clr <| container len len middle (asText fN)
+      color clr <| container len len middle (show fN)
 
 
 ----  Combine squares  ----
@@ -34,7 +32,7 @@ combine n tiles =
   let dir = ith (n % List.length dirs) dirs
   in
       dir tiles (fibSquare n)
-    
+
 
 ----  Put it all together  ----
 

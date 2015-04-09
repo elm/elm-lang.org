@@ -1,7 +1,6 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.ColorScheme
 import Window
 
@@ -11,7 +10,7 @@ port title = "Embed Elm in HTML"
 
 main : Signal Element
 main =
-  skeleton "Learn" (\w -> width (min 600 w) intro) <~ Window.dimensions
+  Signal.map (skeleton "Learn" (\w -> width (min 600 w) intro)) Window.dimensions
 
 
 intro : Element

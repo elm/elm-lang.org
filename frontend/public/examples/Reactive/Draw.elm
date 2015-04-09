@@ -1,11 +1,9 @@
-import Color (..)
+import Color exposing (..)
 import Dict
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Maybe (withDefault)
-import Signal
+import Maybe exposing (withDefault)
 import Touch
 import Window
 
@@ -19,7 +17,7 @@ main =
 
 addN : List Touch.Touch -> Dict.Dict Int (List (Int,Int)) -> Dict.Dict Int (List (Int,Int))
 addN touches dict =
-  foldl add1 dict touches
+  List.foldl add1 dict touches
 
 
 add1 : Touch.Touch -> Dict.Dict Int (List (Int,Int)) -> Dict.Dict Int (List (Int,Int))
@@ -33,7 +31,7 @@ add1 touch dict =
 scene : (Int,Int) -> List (List (Int,Int)) -> Element
 scene (w,h) paths =
   let float (a,b) = (toFloat a, toFloat -b)
-      pathForms = group (map (traced thickLine << path << map float) paths)
+      pathForms = group (List.map (traced thickLine << path << List.map float) paths)
       picture = collage w h [ move (float (-w // 2, -h // 2)) pathForms ]
   in
       layers [ picture, message ]

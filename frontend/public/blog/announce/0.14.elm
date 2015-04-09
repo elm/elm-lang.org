@@ -1,14 +1,13 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
 port title : String
 port title = "Elm 0.14"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Signal.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid

@@ -1,6 +1,5 @@
 
-import List ((::))
-import Text (asText)
+import Graphics.Element exposing (show)
 
 
 length : List a -> Int
@@ -13,4 +12,4 @@ length list =
 
 
 main =
-  asText (length [1..9])
+  show (length [1..9])

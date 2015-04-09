@@ -1,8 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Widgets (button)
-import Website.Skeleton (skeleton)
+import Website.Widgets exposing (button)
+import Website.Skeleton exposing (skeleton)
 import Website.BigTiles as Tile
 import Website.ColorScheme as C
 
@@ -12,7 +11,7 @@ import Window
 port title : String
 port title = "Install"
 
-main = skeleton "Install" content <~ Window.dimensions
+main = Signal.map (skeleton "Install" content) Window.dimensions
 
 content outer =
     let center elem =

@@ -1,11 +1,10 @@
-import Graphics.Element (..)
-import List (..)
-import Text (asText)
+import Graphics.Element exposing (..)
+import List exposing (..)
 
 
 main : Element
 main =
-  asText (quicksort [5,3,8,1,9,4,7])
+  show (quicksort [5,3,8,1,9,4,7])
 
 
 quicksort : List comparable -> List comparable

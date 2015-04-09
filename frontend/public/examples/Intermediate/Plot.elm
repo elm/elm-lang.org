@@ -1,34 +1,32 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List (..)
-import Signal
-import Text (..)
+import List exposing (map, map2)
 
 
 ----  Put it all on screen  ----
 
-style : Signal.Channel Style
+style : Signal.Mailbox Style
 style =
-  Signal.channel Line
+  Signal.mailbox Line
 
-points : Signal.Channel (List (Float,Float))
+points : Signal.Mailbox (List (Float,Float))
 points =
-  Signal.channel (snd (head pointOptions))
+  Signal.mailbox (snd (head pointOptions))
 
 main : Signal Element
 main =
-  Signal.map2 view (Signal.subscribe style) (Signal.subscribe points)
+  Signal.map2 view style.signal points.signal
 
 view : Style -> List (Float,Float) -> Element
 view currentStyle currentPoints =
   flow down
     [ plot currentStyle 400 400 currentPoints
     , flow right
-        [ plainText "Options: "
-        , Input.dropDown (Signal.send points) pointOptions
-        , Input.dropDown (Signal.send style) styleOptions
+        [ show "Options: "
+        , Input.dropDown (Signal.message points.address) pointOptions
+        , Input.dropDown (Signal.message style.address) styleOptions
         ]
     ]
 

@@ -1,7 +1,5 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text (asText)
 
 
 -- Mouse.isDown is true whenever the left mouse button
@@ -9,7 +7,7 @@ import Text (asText)
 
 main : Signal Element
 main =
-    Signal.map asText Mouse.isDown
+    Signal.map show Mouse.isDown
 
 
 -- Try clicking. The boolean value will update automatically.

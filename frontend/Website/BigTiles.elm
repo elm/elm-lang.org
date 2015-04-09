@@ -1,11 +1,9 @@
 module Website.BigTiles (examples, example) where
 
 import Color
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List
 import Native.RedirectHack
-import Signal
 import Text
 import Website.ColorScheme as C
 
@@ -24,20 +22,20 @@ row examples =
     |> flow right
 
 
-clicks : Signal.Channel String
+clicks : Signal.Mailbox String
 clicks =
-  Signal.channel ""
+  Signal.mailbox ""
 
 
 bad =
-  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
+  Signal.map Native.RedirectHack.redirect clicks.signal
 
 
 sourceCode clr =
   Text.fromString "Source Code"
     |> Text.height 10
     |> Text.color clr
-    |> Text.centered
+    |> centered
     |> container 200 20 middle
 
 
@@ -51,14 +49,14 @@ example (w,h) (picture, demo, source) =
               Just src ->
                   link src <|
                     Input.customButton
-                        (Signal.send clicks src)
+                        (Signal.message clicks.address src)
                         (sourceCode C.mediumGrey)
                         (sourceCode Color.lightCharcoal)
                         (sourceCode Color.lightCharcoal)
 
     in  flow down
         [ link demo <|
-          Input.customButton (Signal.send clicks demo) (btn "png") (btn "gif") (btn "png")
+          Input.customButton (Signal.message clicks.address demo) (btn "png") (btn "gif") (btn "png")
         , sourceLink
         ]
 

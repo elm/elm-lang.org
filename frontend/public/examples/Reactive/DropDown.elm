@@ -1,18 +1,17 @@
-import Color (..)
-import Graphics.Element (..)
-import Graphics.Input (dropDown)
-import Signal
+import Color exposing (..)
+import Graphics.Element exposing (..)
+import Graphics.Input exposing (dropDown)
 import Text
 
 
 main : Signal Element
 main =
-  Signal.map display (Signal.subscribe style)
+  Signal.map display style.signal
 
 
-style : Signal.Channel (Text.Text -> Text.Text)
+style : Signal.Mailbox (Text.Text -> Text.Text)
 style =
-  Signal.channel identity
+  Signal.mailbox identity
 
 
 display : (Text.Text -> Text.Text) -> Element
@@ -20,8 +19,8 @@ display transform =
   let msg = Text.fromString "Choose a style for the following text: "
   in
       flow down
-        [ Text.leftAligned (msg ++ transform (Text.fromString "Hello, World!"))
-        , dropDown (Signal.send style) options
+        [ leftAligned (msg ++ transform (Text.fromString "Hello, World!"))
+        , dropDown (Signal.message style.address) options
         ]
 
 

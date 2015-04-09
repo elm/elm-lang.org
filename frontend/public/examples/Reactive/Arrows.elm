@@ -1,9 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Keyboard
-import Signal (Signal, map)
-import Text (asText)
 
 
 main : Signal Element
 main =
-  map asText Keyboard.arrows
+  Signal.map show Keyboard.arrows

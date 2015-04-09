@@ -1,22 +1,20 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
-import Signal
-import Text (plainText)
 
 
 main : Signal Element
 main =
-  Signal.map display (Signal.subscribe password)
+  Signal.map display password.signal
 
 
-password : Signal.Channel Field.Content
+password : Signal.Mailbox Field.Content
 password =
-  Signal.channel Field.noContent
+  Signal.mailbox Field.noContent
 
 
 display : Field.Content -> Element
 display content =
   flow down
-    [ Field.password Field.defaultStyle (Signal.send password) "Password" content
-    , plainText ("Your password is: " ++ content.string)
+    [ Field.password Field.defaultStyle (Signal.message password.address) "Password" content
+    , show ("Your password is: " ++ content.string)
     ]

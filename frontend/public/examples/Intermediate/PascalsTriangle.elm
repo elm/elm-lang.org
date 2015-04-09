@@ -1,8 +1,6 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (..)
-import Signal
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Text
 import Window
 
@@ -12,16 +10,20 @@ main =
 
 
 triangle w =
-  let style =
-        toString >> Text.fromString >> Text.monospace >> Text.centered >> width w
+  let style numbers =
+        toString numbers
+          |> Text.fromString
+          |> Text.monospace
+          |> centered
+          |> width w
   in
-      flow down (map style (pascals 8))
+      flow down (List.map style (pascals 8))
 
 -- Try changing the value passed to 'pascals' above.
 
 
 pascals depth =
-  scanl (\_ lastLevel -> nextLevel lastLevel) [1] [1..depth-1]
+  List.scanl (\_ lastLevel -> nextLevel lastLevel) [1] [1..depth-1]
 
 nextLevel level =
-  map2 (+) (0 :: level) (level ++ [0])
+  List.map2 (+) (0 :: level) (level ++ [0])

@@ -1,11 +1,10 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input.Field as Field
 import Http
-import Json.Decode (..)
-import List
-import Signal
+import Json.Decode exposing (..)
 import String
 import Window
+
 
 -- VIEW
 
@@ -22,7 +21,7 @@ view (w,h) searchContent imgSrc =
       currentField =
         Field.field
             Field.defaultStyle
-            (Signal.send tagChan)
+            (Signal.message tagChan.address)
             "Flickr Instant Search"
             searchContent
   in
@@ -41,13 +40,13 @@ main : Signal Element
 main =
   Signal.map3 view
       Window.dimensions
-      (Signal.subscribe tagChan)
+      tagChan.signal
       results
 
 
 results : Signal (Maybe String)
 results =
-  Signal.subscribe tagChan
+  tagChan.signal
     |> Signal.map .string
     |> Signal.dropRepeats
     |> Signal.map toPhotoRequest
@@ -57,9 +56,9 @@ results =
     |> Signal.map2 toPhotoSource Window.dimensions
 
 
-tagChan : Signal.Channel Field.Content
+tagChan : Signal.Mailbox Field.Content
 tagChan =
-  Signal.channel Field.noContent
+  Signal.mailbox Field.noContent
 
 
 -- JSON

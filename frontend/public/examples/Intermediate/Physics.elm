@@ -1,10 +1,8 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal
-import Text (..)
-import Time (..)
+import Time exposing (..)
 
 
 ---- Put it together and show it ----
@@ -44,8 +42,8 @@ sunAndEarth =
   Signal.map sunAndEarthAt time
 
 sunAndEarthAt angle =
-  let earth = group [ filled lightBlue (circle 20), toForm (plainText "Earth") ]
-      sun = group [ filled lightYellow (circle 35), toForm (plainText "Sun") ]
+  let earth = group [ filled lightBlue (circle 20), toForm (show "Earth") ]
+      sun = group [ filled lightYellow (circle 35), toForm (show "Sun") ]
   in
       collage 300 200
         [ earth

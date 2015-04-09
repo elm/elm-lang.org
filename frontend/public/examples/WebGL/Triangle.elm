@@ -1,9 +1,8 @@
-import Graphics.Element (..)
-import Math.Vector3 (..)
-import Math.Matrix4 (..)
-import Signal
-import Time (..)
-import WebGL (..)
+import Graphics.Element exposing (..)
+import Math.Vector3 exposing (..)
+import Math.Matrix4 exposing (..)
+import Time exposing (..)
+import WebGL exposing (..)
 
 
 -- Create a mesh with two triangles

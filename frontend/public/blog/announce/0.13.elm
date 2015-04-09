@@ -1,14 +1,13 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Website.Tiles as Tile
 import Window
 
 port title : String
 port title = "Elm 0.13 - Architecture Improvements"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Signal.map (skeleton "Blog" everything) Window.dimensions
 
 everything wid =
     let w = min 600 wid
@@ -58,7 +57,7 @@ new syntax in mind when you are updating your code for 0.13.
 
 Another result of this architecture improvement is that the error messages for
 ambiguous variables work properly now. For example, the following code will
-tell you that your use of `map` is ambiguous: 
+tell you that your use of `map` is ambiguous:
 
 ```haskell
 import List (map)

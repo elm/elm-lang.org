@@ -1,8 +1,7 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import Signal
-import Time (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
+import Time exposing (..)
 
 
 main =

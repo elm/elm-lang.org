@@ -1,10 +1,7 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text (plainText)
 import Window
 
 
@@ -15,23 +12,24 @@ main =
 
 view : (Int,Int) -> (Int,Int) -> Element
 view (x,y) (w,h) =
-  pieChart (map toFloat [x,y,w,h])
+  pieChart (List.map toFloat [x,y,w,h])
 
 
 pieChart : List Float -> Element
 pieChart numbers =
   let fracs = normalize numbers
-      offsets = scanl (+) 0 fracs
+      offsets = List.scanl (+) 0 fracs
   in
       collage 300 300 <|
-      concat (map3 (pieSlice 100) colors offsets fracs) ++ [ filled white (circle 70) ]
+        List.concat (List.map3 (pieSlice 100) colors offsets fracs)
+        ++ [ filled white (circle 70) ]
 
 
 pieSlice : Float -> Color -> Float -> Float -> List Form
 pieSlice radius colr offset angle =
   let makePoint t = fromPolar (radius, degrees (360 * offset + t))
   in
-      [ filled colr <| polygon ((0,0) :: map makePoint[ 0 .. 360 * angle ])
+      [ filled colr <| polygon ((0,0) :: List.map makePoint[ 0 .. 360 * angle ])
       , toForm (asPercent angle)
           |> move (fromPolar (radius*1.25, turns (offset + angle/2)))
       ]
@@ -39,7 +37,7 @@ pieSlice radius colr offset angle =
 
 asPercent : Float -> Element
 asPercent fraction =
-  plainText <| toString (toFloat (truncate (fraction * 100))) ++ "%"
+  show (toString (toFloat (truncate (fraction * 100))) ++ "%")
 
 
 colors : List Color
@@ -51,6 +49,6 @@ colors =
 
 normalize : List Float -> List Float
 normalize xs =
-  let total = sum xs
+  let total = List.sum xs
   in
-      map (\x -> x/total) xs
+      List.map (\x -> x/total) xs

@@ -17,7 +17,8 @@ So our example expands out to something like this:
 
 ----------------------------------------------------------------}
 
-import Text (asText)
+import Graphics.Element exposing (show)
+
 
 -- simple functions
 
@@ -38,4 +39,4 @@ squareIsOdd =
     square >> isEven >> not
 
 
-main = asText (squareIsOdd 3)
+main = show (squareIsOdd 3)

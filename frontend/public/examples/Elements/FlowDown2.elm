@@ -1,6 +1,4 @@
-import Graphics.Element (..)
-import List
-import Text (plainText)
+import Graphics.Element exposing (..)
 
 
 main : Element
@@ -10,7 +8,7 @@ main =
 
 content : List Element
 content =
-  [ plainText "Bears, Oh My!"
+  [ show "Bears, Oh My!"
   , image 200 200 "/yogi.jpg"
   , image 472 315 "/shells.jpg"
   ]

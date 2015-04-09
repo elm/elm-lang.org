@@ -1,8 +1,7 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
 
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -10,7 +9,7 @@ port title = "Elm 0.4: Graphics Upgrade"
 
 
 main : Signal Element
-main = skeleton "Blog" page <~ Window.dimensions
+main = Signal.map (skeleton "Blog" page) Window.dimensions
 
 
 page : Int -> Element

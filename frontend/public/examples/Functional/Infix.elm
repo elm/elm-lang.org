@@ -13,7 +13,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import Text (asText)
+import Graphics.Element exposing (show)
 
 
 plusA x y = x + y
@@ -26,4 +26,4 @@ plusD = (+)
 
 
 main =
-  asText ((+) 4 7)
+  show ((+) 4 7)

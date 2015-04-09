@@ -1,5 +1,5 @@
 import Markdown
-import Time (..)
+import Time exposing (..)
 
 
 port log : Signal Float

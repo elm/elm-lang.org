@@ -2,8 +2,7 @@
 -- Show an image that resizes to fit the window
 -- while maintaining its aspect ratio.
 
-import Graphics.Element (..)
-import Signal
+import Graphics.Element exposing (..)
 import Window
 
 

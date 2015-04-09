@@ -1,7 +1,6 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 
@@ -11,7 +10,7 @@ port title = "Intro to Graphics"
 
 main : Signal Element
 main =
-  skeleton "Learn" everything <~ Window.dimensions
+  Signal.map (skeleton "Learn" everything) Window.dimensions
 
 
 everything : Int -> Element

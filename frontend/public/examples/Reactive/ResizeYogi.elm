@@ -1,9 +1,8 @@
 
 -- Show an image of Yogi that resizes while maintaining its aspect ratio.
 
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Mouse
-import Signal
 
 
 main : Signal Element

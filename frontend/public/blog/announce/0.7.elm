@@ -1,7 +1,6 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
@@ -10,7 +9,7 @@ port title = "Elm 0.7 - Extensible Records"
 
 main : Signal Element
 main =
-  skeleton "Blog" scene <~ Window.dimensions
+  Signal.map (skeleton "Blog" scene) Window.dimensions
 
 
 scene : Int -> Element
@@ -68,7 +67,7 @@ and enjoyable read. I highly recommend reading it!
 The following is a brief overview and some notes on the expressiveness of
 Elm&rsquo;s records. If you just want an overview of the syntax,
 [see here][syntax], and for a comprehensive introduction to records in
-Elm, [see here][overview]. 
+Elm, [see here][overview].
 
  [syntax]: /learn/Syntax.elm#records "Record Syntax"
  [overview]: /learn/Records.elm "Overview of Records"
@@ -221,13 +220,17 @@ lift2 scene signal1 signal2
 scene <~ signal1 ~ signal2
 
 
-values  = (,,) <~ count (every second)
-                ~ sampleOn Mouse.clicks Mouse.position
-                ~ delay second (count Mouse.clicks)
+values =
+  (,,)
+      <~ count (every second)
+      ~ sampleOn Mouse.clicks Mouse.position
+      ~ delay second (count Mouse.clicks)
 
-values' = lift3 (,,) (count (every second))
-                     (sampleOn Mouse.clicks Mouse.position)
-                     (delay second (count Mouse.clicks))
+values' =
+  lift3 (,,)
+      (count (every second))
+      (sampleOn Mouse.clicks Mouse.position)
+      (delay second (count Mouse.clicks))
 ```
 
 I do not really advocate switching over to `(<~)` and `(~)` entirely.
@@ -292,7 +295,7 @@ if-expressions. Yay!
 ## Wrap-up
 
 Thanks to Dobes for taking a look at the record system early on and finding
-a bunch of bugs! Thanks to John for pushing for a nicer way to `lift`! 
+a bunch of bugs! Thanks to John for pushing for a nicer way to `lift`!
 
 We also have been discussing a nice way to construct records. See
 [this discussion][github] if you would like to see what we have been

@@ -1,23 +1,22 @@
-import Color (..)
-import Graphics.Element (..)
-import Graphics.Input.Field (Content, noContent, field, defaultStyle, Direction(..))
-import Signal
+import Color exposing (..)
+import Graphics.Element exposing (..)
+import Graphics.Input.Field exposing (Content, noContent, field, defaultStyle, Direction(..))
 import String
 import Text
 import Window
 
 main : Signal Element
-main = Signal.map2 view Window.dimensions (Signal.subscribe content)
+main = Signal.map2 view Window.dimensions content.signal
 
-content : Signal.Channel Content
-content = Signal.channel noContent
+content : Signal.Mailbox Content
+content = Signal.mailbox noContent
 
 view : (Int,Int) -> Content -> Element
 view (w,h) fieldContent =
   let viewText str =
         Text.fromString str
           |> Text.color lightGrey
-          |> Text.centered
+          |> centered
           |> width 300
           |> container 300 60 middle
   in
@@ -32,7 +31,7 @@ view (w,h) fieldContent =
 
 myField : (Content -> Content) -> String -> Content -> Element
 myField handler placeHolder fieldContent =
-  field defaultStyle (Signal.send content << handler) placeHolder fieldContent
+  field defaultStyle (Signal.message content.address << handler) placeHolder fieldContent
     |> container 300 50 middle
 
 reverse : Content -> Content

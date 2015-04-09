@@ -1,10 +1,9 @@
 module Website.Widgets (bigLogo, logoImage, installButtons, button, headerFaces) where
 
 import Color
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
 import Native.RedirectHack
-import Signal
 import Text
 import Website.ColorScheme as C
 
@@ -26,7 +25,7 @@ bigLogo =
   let name =
         Text.fromString "elm"
           |> Text.height 60
-          |> Text.leftAligned
+          |> leftAligned
   in
     flow right
       [ logoImage 80 80
@@ -44,20 +43,20 @@ installButtons w =
 
 -- implementation
 
-clicks : Signal.Channel String
+clicks : Signal.Mailbox String
 clicks =
-  Signal.channel ""
+  Signal.mailbox ""
 
 
 bad =
-  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
+  Signal.map Native.RedirectHack.redirect clicks.signal
 
 
 button : Int -> Int -> String -> String -> Element
 button outerWidth innerWidth href msg =
     let box' = box innerWidth msg in
     container outerWidth 100 middle << link href <|
-    Input.customButton (Signal.send clicks href)
+    Input.customButton (Signal.message clicks.address href)
         (box' C.lightGrey C.mediumGrey)
         (box' C.lightGrey C.accent1)
         (box' C.mediumGrey C.accent1)
@@ -70,7 +69,7 @@ box w msg c1 c2 =
             |> Text.color Color.charcoal
             |> Text.typeface faces
             |> Text.height 26
-            |> Text.leftAligned
+            |> leftAligned
     in
         container (w-2) 48 middle words
             |> color c1

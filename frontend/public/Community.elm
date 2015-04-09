@@ -1,14 +1,13 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 
 import Window
 
 port title : String
 port title = "Community"
 
-main = skeleton "Community" content <~ Window.dimensions
+main = Signal.map (skeleton "Community" content) Window.dimensions
 
 content outer =
     let center elem =

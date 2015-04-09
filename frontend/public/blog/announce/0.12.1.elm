@@ -1,13 +1,12 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
 port title : String
 port title = "Elm 0.12.1 - Arrays"
 
-main = skeleton "Blog" everything <~ Window.dimensions
+main = Signal.map (skeleton "Blog" everything) Window.dimensions
 
 everything w =
     width (min 600 w) intro

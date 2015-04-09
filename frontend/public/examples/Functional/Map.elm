@@ -9,9 +9,8 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import List
-import Text (asText)
+import Graphics.Element exposing (show)
 
 
 main =
-  asText (List.map (\n -> n^2) [1..5])
+  show (List.map (\n -> n^2) [1..5])

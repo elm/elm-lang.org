@@ -11,12 +11,11 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import List
-import Text (asText)
+import Graphics.Element exposing (show)
 
 
 main =
-  asText (List.filter isEven [1..10])
+  show (List.filter isEven [1..10])
 
 
 isEven : Int -> Bool

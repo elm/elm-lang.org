@@ -1,4 +1,4 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 
 
 -- opacity : Float -> Element -> Element

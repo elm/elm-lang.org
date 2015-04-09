@@ -1,13 +1,10 @@
-import Graphics.Element (..)
-import List
-import List ((::))
+import Graphics.Element exposing (..)
 import Markdown
-import Signal
 import Text
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (accent4)
+import Website.Skeleton exposing (skeleton)
+import Website.ColorScheme exposing (accent4)
 import Website.Tiles as Tile
-import Website.Widgets (headerFaces)
+import Website.Widgets exposing (headerFaces)
 import Window
 
 
@@ -226,12 +223,12 @@ reactive = addFolder "Reactive/"
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (Text.fromString name)
 toLinks (title, links) =
   flow right
-   [ width 150 (Text.plainText <| "    " ++ title)
-   , Text.leftAligned << Text.join (Text.fromString ", ") <| List.map example links
+   [ width 150 (leftAligned (Text.fromString ("    " ++ title)))
+   , leftAligned << Text.join (Text.fromString ", ") <| List.map example links
    ]
 
 subsection w (name,info) =
   flow down << List.intersperse (spacer w 6) << List.map (width w) <|
-    (tag name << Text.leftAligned << Text.typeface headerFaces << Text.bold <| Text.fromString name) ::
+    (tag name << leftAligned << Text.typeface headerFaces << Text.bold <| Text.fromString name) ::
     spacer 0 0 ::
     List.map toLinks info ++ [spacer w 12]

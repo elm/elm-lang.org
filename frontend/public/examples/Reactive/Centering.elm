@@ -1,7 +1,5 @@
-import Graphics.Element (..)
-import Signal
+import Graphics.Element exposing (..)
 import Window
-import Text (..)
 
 
 main : Signal Element
@@ -11,7 +9,7 @@ main =
 
 view : (Int,Int) -> Element
 view (w,h) =
-  container w h middle (plainText "Hello, World!")
+  container w h middle (show "Hello, World!")
 
 
 -- Try changing the size of your browser window.

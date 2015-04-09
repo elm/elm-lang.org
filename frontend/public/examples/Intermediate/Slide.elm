@@ -1,10 +1,8 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Mouse
-import Signal
-import Text (..)
-import Time (..)
+import Time exposing (..)
 import Window
 
 
@@ -26,7 +24,7 @@ view (w,h) (target,(x,y)) =
             |> gradient pinkGradient
             |> move (x - toFloat w / 2, toFloat h / 2 - y)
         ]
-    , plainText "Click anywhere and the circle will follow."
+    , show "Click anywhere and the circle will follow."
     ]
 
 pinkGradient =

@@ -23,14 +23,13 @@ A Pos can be created with:
 
   absolute : Int -> Pos
   relative : Float -> Pos
- 
+
 ----------------------------------------------------------------------}
 
-import Color (..)
-import Graphics.Element (..)
-import Text (plainText)
+import Color exposing (..)
+import Graphics.Element exposing (..)
 
 
 main : Element
 main =
-  color grey (container 300 300 middle (plainText "Try this with html."))
+  color grey (container 300 300 middle (show "Try this with html."))

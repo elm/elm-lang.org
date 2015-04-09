@@ -1,12 +1,11 @@
 -- See this document for more information on making Pong:
 -- http://elm-lang.org/blog/Pong.elm
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Keyboard
-import Signal
 import Text
-import Time (..)
+import Time exposing (..)
 import Window
 
 -- SIGNALS
@@ -161,7 +160,7 @@ view (w,h) {state,ball,player1,player2} =
 
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
-txt f = Text.fromString >> Text.color textGreen >> Text.monospace >> f >> Text.leftAligned
+txt f = Text.fromString >> Text.color textGreen >> Text.monospace >> f >> leftAligned
 msg = "SPACE to start, WS and &uarr;&darr; to move"
 make obj shape =
     shape

@@ -1,10 +1,9 @@
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
+import Website.Skeleton exposing (skeleton)
 import Window
 
-main = skeleton "Learn" content <~ Window.dimensions
+main = Signal.map (skeleton "Learn" content) Window.dimensions
 
 content outer =
   let w = 600

@@ -1,12 +1,10 @@
-import Graphics.Element (..)
-import Http (..)
-import List
-import Math.Vector2 (Vec2)
-import Math.Vector3 (..)
-import Math.Matrix4 (..)
-import Signal
-import Time (..)
-import WebGL (..)
+import Graphics.Element exposing (..)
+import Http exposing (..)
+import Math.Vector2 exposing (Vec2)
+import Math.Vector3 exposing (..)
+import Math.Matrix4 exposing (..)
+import Time exposing (..)
+import WebGL exposing (..)
 
 
 -- SIGNALS
@@ -33,7 +31,7 @@ crate =
 
 
 rotatedFace : (Float,Float) -> List (Triangle { pos:Vec3, coord:Vec3 })
-rotatedFace (angleX,angleY) = 
+rotatedFace (angleX,angleY) =
     let x = makeRotate (degrees angleX) (vec3 1 0 0)
         y = makeRotate (degrees angleY) (vec3 0 1 0)
         t = x `mul` y `mul` makeTranslate (vec3 0 0 1)

@@ -1,10 +1,8 @@
-import Graphics.Collage (..)
-import Graphics.Element (..)
-import List
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Markdown
-import Signal (Signal, (<~))
-import Website.Skeleton (skeleton)
-import Website.ColorScheme (..)
+import Website.Skeleton exposing (skeleton)
+import Website.ColorScheme exposing (..)
 import Window
 
 port title : String
@@ -13,7 +11,7 @@ port title = "Elm 0.8"
 
 main : Signal Element
 main =
-  skeleton "Blog" everything <~ Window.dimensions
+  Signal.map (skeleton "Blog" everything) Window.dimensions
 
 
 everything wid =

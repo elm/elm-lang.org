@@ -1,10 +1,9 @@
-import Color (..)
-import Graphics.Collage (..)
-import Graphics.Element (..)
+import Color exposing (..)
+import Graphics.Collage exposing (..)
+import Graphics.Element exposing (..)
 import Keyboard
 import Markdown
-import Signal
-import Time (..)
+import Time exposing (..)
 import Window
 
 

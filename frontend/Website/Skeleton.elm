@@ -1,13 +1,11 @@
 module Website.Skeleton where
 
 import Color
-import Graphics.Element (..)
+import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List
 import Native.RedirectHack
-import Signal
 import Text
-import Website.Widgets (headerFaces, logoImage)
+import Website.Widgets exposing (headerFaces, logoImage)
 import Website.ColorScheme as C
 
 
@@ -21,7 +19,7 @@ skeleton localName bodyFunc (w,h) =
        , container w bodyHeight midTop body
        , spacer w 80
        , color C.mediumGrey (spacer w 1)
-       , color C.lightGrey <| container w 50 middle <| Text.centered footerWords
+       , color C.lightGrey <| container w 50 middle <| centered footerWords
        ]
 
 footerWords =
@@ -61,7 +59,7 @@ logo =
                 Text.fromString "elm"
                   |> Text.height 24
                   |> Text.color clr
-                  |> Text.leftAligned
+                  |> leftAligned
           in
             color C.lightGrey <| 
             flow right
@@ -72,7 +70,7 @@ logo =
     in
         link "/" <|
         Input.customButton
-            (Signal.send clicks "/")
+            (Signal.message clicks.address "/")
             (btn Color.charcoal)
             (btn Color.black)
             (btn Color.black)
@@ -91,13 +89,13 @@ paths =
   , ("Install"  , "/Install.elm")
   ]
 
-clicks : Signal.Channel String
+clicks : Signal.Mailbox String
 clicks =
-  Signal.channel ""
+  Signal.mailbox ""
 
 
 bad =
-  Signal.map Native.RedirectHack.redirect (Signal.subscribe clicks)
+  Signal.map Native.RedirectHack.redirect clicks.signal
 
 
 tab localName (name, href) =
@@ -108,7 +106,7 @@ tab localName (name, href) =
           let words =
                 Text.fromString name
                   |> Text.color clr
-                  |> Text.leftAligned
+                  |> leftAligned
           in
             flow down
               [ color C.lightGrey <| container (widthOf words + 20) 40 middle words
@@ -117,7 +115,7 @@ tab localName (name, href) =
   in
     link href <|
       Input.customButton
-          (Signal.send clicks href)
+          (Signal.message clicks.address href)
           (btn Color.charcoal)
           (btn Color.black)
           (btn Color.black)

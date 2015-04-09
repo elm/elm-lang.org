@@ -12,8 +12,7 @@ Overview:
 
 ----------------------------------------------------------------}
 
-import List ((::))
-import Text (asText)
+import Graphics.Element exposing (show)
 
 
 zip : List a -> List b -> List (a,b)
@@ -24,4 +23,4 @@ zip listX listY =
 
 
 main =
-  asText (zip ["Tom", "Sue", "Bob"] [45, 31, 26])
+  show (zip ["Tom", "Sue", "Bob"] [45, 31, 26])
