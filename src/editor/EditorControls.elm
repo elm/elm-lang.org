@@ -37,7 +37,7 @@ view outerWidth hints =
         ]
         [ text "Hot Swap" ]
     , div
-        [ class "button purple"
+        [ class "button yellow"
         , title "Switch editor color scheme"
         , onClick (Port.message lights.address ())
         ]

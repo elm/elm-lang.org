@@ -47,27 +47,27 @@ html, head, body {
 }
 
 .blue {
-  border-bottom: 4px solid #4472B9;
+  border-bottom: 4px solid #60B5CC;
 }
 
 .blue:hover {
-  background-color: #4472B9;
+  background-color: #60B5CC;
 }
 
 .green {
-  border-bottom: 4px solid #4CA454;
+  border-bottom: 4px solid #7FD13B;
 }
 
 .green:hover {
-  background-color: #4CA454;
+  background-color: #7FD13B;
 }
 
-.purple {
-  border-bottom: 4px solid #9351A6;
+.yellow {
+  border-bottom: 4px solid #F0AD00;
 }
 
-.purple:hover {
-  background-color: #9351A6;
+.yellow:hover {
+  background-color: #F0AD00;
 }
 
 .hint {
