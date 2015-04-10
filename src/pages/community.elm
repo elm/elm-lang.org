@@ -1,6 +1,4 @@
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Markdown
 
 import Center
 import TopBar
