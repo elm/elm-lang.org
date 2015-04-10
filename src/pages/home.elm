@@ -17,12 +17,16 @@ view w =
   div []
     [ TopBar.topBar "home"
     , splash
-    , Html.fromElement (stuff w)
+    , debuggerSection w
+    , bulletSection w
+    , exampleSection w
     ]
 
 
 (=>) = (,)
 
+
+-- SPLASH
 
 splash =
   div [ id "splash" ]
@@ -44,117 +48,90 @@ size height padding =
     ]
 
 
-stuff outer =
-  let inner = 600
-      half = inner // 2
-      center elem =
-          container outer (heightOf elem) middle elem
-      centerText msg =
-          let msg' = E.width inner msg
-          in  center msg'
-  in
-  flow down
-    [ spacer outer 30
-    , center threeKeywords
-    , spacer outer 60
-    , centerText exampleText
-    , container outer 500 middle <| exampleBlock 860
-    , center (btn outer 260 "/Examples.elm" "More Examples")
-    , spacer outer 60
-    , E.width outer debuggerTitle
-    , centerText debuggerText
-    , center debuggerBlock
-    , center <| flow right
-        [ btn 220 180 "/try" "Edit"
-        , btn 220 180 "http://debug.elm-lang.org/try" "Debug"
+-- CODE SNIPPET / DEBUGGER
+
+debuggerSection w =
+  section []
+    [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Great code, great tools" ]
+    , p [] [ text "travel time dude" ]
+    , a [href "/blog/introducing-elm-reactor"]
+        [ img [ src "/screenshot/Home/Debugger.png" ] []
         ]
     ]
 
-btn w h src txt =
-  container w h middle (centered (Text.link src (Text.fromString txt)))
 
-threeKeywords =
-    flow right
-    [ E.width 260 functional
-    , spacer 40 10
-    , E.width 260 reactive
-    , spacer 40 10
-    , E.width 260 compatible
+-- FEATURES
+
+bulletSection w =
+  section []
+    [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Features"]
+    , bulletRow w bulletsRowOne
+    , bulletRow w bulletsRowTwo
     ]
 
-functional = Markdown.toElement """
-<div style="text-align: center; font-size: 2em;">Functional</div>
 
-Features like immutability and type inference help you write code that is short,
-fast, and maintainable. Elm makes them [easy to learn](/Learn.elm) too.
-
-"""
-
-reactive = Markdown.toElement """
-<div style="text-align: center; font-size: 2em;">Reactive</div>
-
-Elm is based on the idea of [Functional Reactive
-Programming](/learn/What-is-FRP.elm). Create highly interactive applications
-without messy callbacks or a tangle of shared state.
-"""
-
-compatible = Markdown.toElement """
-<div style="text-align: center; font-size: 2em;">Compatible</div>
-
-Elm compiles to HTML, CSS, and JavaScript. It is easy to [use HTML][html] and
-[interop with JS][ports], so it is simple to write part of your application in Elm.
-
-[html]: /blog/Blazing-Fast-Html.elm
-[ports]: /learn/Ports.elm
-
-"""
-
-exampleText = Markdown.toElement """
-
-<div style="text-align: center; font-size: 3em;">Examples</div>
-
-Elm is great for [2D](/blog/Pong.elm) and
-[3D](https://github.com/johnpmayer/elm-webgl) games,
-[diagrams](https://github.com/seliopou/elm-d3), widgets, and
-[websites](/blog/Blazing-Fast-Html.elm). In addition to the larger
-examples showcased here, there are tons of [educational examples](/Examples.elm)
-to help you learn Elm by reading and modifying simple programs.
-
-"""
-
-exampleBlock w =
-    --Tile.examples w
-    show
-    [ [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", Nothing)
-      , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", Just "https://github.com/jcollard/elmtris")
-      , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
-      , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
-      ]
-    , [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
-      , ("Home/DreamWriter", "http://dreamwriter.io", Just "https://github.com/rtfeldman/dreamwriter")
-      , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", Just "https://github.com/elm-lang/package.elm-lang.org")
-      , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
-      ]
+bulletRow w (one, two, three) =
+  let sidePad = toString ((w-1020) // 2) ++ "px"
+  in
+  section [ style [ "height" => "240px", "padding" => ("0 " ++ sidePad) ] ]
+    [ section [ style [ "float" => "left", "width" => "300px" ] ] one
+    , section [ style [ "float" => "left", "width" => "300px", "padding" => "0 60px" ] ] two
+    , section [ style [ "float" => "left", "width" => "300px" ] ] three
     ]
 
-debuggerTitle = Markdown.toElement """
 
-<div style="text-align: center; font-size: 3em;">Time Traveling Debugger</div>
+bulletsRowOne =
+  ( [ h2 [] [ text "No runtime exceptions"]
+    , p []
+      [ text "Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
+      , a [href "http://package.elm-lang.org/packages/elm-lang/core/1.1.0/Debug#crash"] [code [] [text "crash"]]
+      , text "."
+      ]
+    , p [] [text "Seriously. You read that right."]
+    ]
+  , [ h2 [] [text "Blazing fast rendering"]
+    , p [] [text "The elm-html View library outperforms even React.js in TodoMVC benchmarks. Optimizing your View is easy with lazy. Elm is designed to make building high-performance UIs a straightforward experience."]
+    ]
+  , [ h2 [] [text "Libraries with guarantees"]
+    , p [] [text "The Elm Package Manager enforces semantic versioning. Any breaking API changes are detected automatically and cannot reach the repository without a major version bump. You can upgrade with confidence."]
+    ]
+  )
 
-"""
 
-debuggerText = Markdown.toElement """
+bulletsRowTwo =
+  ( [ h2 [] [text "Clean syntax"]
+    , p [] [text "No semicolons. No mandatory parentheses for function calls. Everything is an expression. For even more concise code there’s also destructuring assignment, pattern matching, automatic currying, and more."]
+    ]
+  , [ h2 [] [text "Smooth JavaScript interop"]
+    , p [] [text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple Ports system, your Elm code can communicate with JavaScript without sacrificing guarantees."]
+    ]
+  , [ h2 [] [text "Time-traveling debugger"]
+    , p [] [text "What if you could pause time and replay all recent user inputs? What if you could make a code change and watch the results replay without a page refresh? Try it out and see for yourself!"]
+    ]
+  )
 
-Elm's [Time Traveling Debugger][debug] makes debugging and exploration easy.
-It also allows [hot-swapping](/blog/Interactive-Programming.elm), so you
-can modify running programs. [Elm Reactor][reactor] bundles up all these
-features for use with your favorite code editor.
 
-[debug]: http://debug.elm-lang.org
-[reactor]: /blog/Introducing-Elm-Reactor.elm
+-- EXAMPLES
 
-"""
+exampleSection w =
+  section []
+    [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Examples"]
+    , section [] <|
+        List.map example
+        [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", Nothing)
+        , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", Just "https://github.com/jcollard/elmtris")
+        , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
+        , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
+        ]
+    , section [] <|
+        List.map example
+        [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
+        , ("Home/DreamWriter", "http://dreamwriter.io", Just "https://github.com/rtfeldman/dreamwriter")
+        , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", Just "https://github.com/elm-lang/package.elm-lang.org")
+        , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
+        ]
+    ]
 
-debuggerBlock =
-    --Tile.example (860,260)
-    show ("Home/Debugger", "/blog/Introducing-Elm-Reactor.elm", Nothing)
+
+example (imgSrc, demo, maybeCode) =
+    a [href demo] [img [src ("/screenshot/" ++ imgSrc ++ ".png")] []]
