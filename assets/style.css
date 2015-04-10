@@ -69,3 +69,10 @@ a:hover {
   border-bottom: 3px solid white;
   color: white;
 }
+
+
+/* code */
+
+code {
+  font-family: 'Source Code Mono', monospace;
+}

@@ -52,12 +52,41 @@ size height padding =
 
 debuggerSection w =
   section []
-    [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Great code, great tools" ]
-    , p [] [ text "travel time dude" ]
-    , a [href "/blog/introducing-elm-reactor"]
-        [ img [ src "/screenshot/Home/Debugger.png" ] []
+    [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Hello HTML" ]
+    , p [ style [ "text-align" => "center" ] ]
+        [ code
+            [ class "lang-haskell hljs"
+            , style [ "display" => "inline-block", "border-radius" => "10px", "padding" => "20px" ]
+            ]
+            [ span [class "hljs-title"] [text "main"]
+            , text " = span [class "
+            , span [class "hljs-string"] [text "\"welcome-message\""]
+            , text "] [text "
+            , span [class "hljs-string"] [text "\"Hello, World!\""]
+            , text "]"
+            ]
+        ]
+    , div [ style [ "display" => "block", "margin" => "2em auto 0", "width" => "600px" ] ]
+        [ p [ style [ "text-align" => "center" ] ]
+            [ text "Writing HTML is super easy with "
+            , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/"] [ code [] [text "elm-html"] ]
+            , text ". Not only does it render "
+            , a [href "/blog/Blazing-Fast-Html.elm"] [text "extremely fast"]
+            , text ", it also guides you towards "
+            , a [href "https://github.com/evancz/elm-architecture-tutorial/"] [text "well-architected code"]
+            , text "."
+            ]
         ]
     ]
+
+
+codeBlock = """
+
+```haskell
+main = span [class "welcome-message"] [text "Hello, World!"]
+```
+
+"""
 
 
 -- FEATURES
