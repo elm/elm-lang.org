@@ -3,8 +3,7 @@ import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
-import JavaScript.Decode as JS exposing ((:=))
-import Port
+import Json.Decode as Json exposing ((:=))
 import String
 import Task exposing (..)
 
@@ -17,7 +16,7 @@ view string result =
         input
           [ placeholder "Zip Code"
           , value string
-          , on "input" targetValue (Port.message query.address)
+          , on "input" targetValue (Signal.message query.address)
           , myStyle
           ]
           []
@@ -47,17 +46,23 @@ myStyle =
 -- WIRING
 
 main =
-  Signal.map2 view
-    (Signal.fromStream "" query.stream)
-    (Signal.fromStream (Err "A valid US zip code is 5 numbers.") results.stream)
+  Signal.map2 view query.signal results.signal
 
 
-port query : Port.Port String
+query : Signal.Mailbox String
+query =
+  Signal.mailbox ""
 
-port results : Port.Port (Result String (List String))
 
-perform Port.sendResults results.address <|
-    Stream.map lookupZipCode query.stream
+results : Signal.Mailbox (Result String (List String))
+results =
+  Signal.mailbox (Err "A valid US zip code is 5 numbers.")
+
+
+port requests : Signal (Task x ())
+port requests =
+  Signal.map lookupZipCode query.signal
+    |> Signal.map (\task -> Task.toResult task `andThen` Signal.send results.address)
 
 
 lookupZipCode : String -> Task String (List String)
@@ -70,11 +75,11 @@ lookupZipCode query =
       toUrl `andThen` (mapError (always "Not found :(") << Http.get places)
 
 
-places : JS.Decoder (List String)
+places : Json.Decoder (List String)
 places =
   let place =
-        JS.object2 (\city state -> city ++ ", " ++ state)
-          ("place name" := JS.string)
-          ("state" := JS.string)
+        Json.object2 (\city state -> city ++ ", " ++ state)
+          ("place name" := Json.string)
+          ("state" := Json.string)
   in
-      "places" := JS.list place
+      "places" := Json.list place

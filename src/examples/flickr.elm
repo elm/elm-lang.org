@@ -2,8 +2,7 @@ import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 import Html.Events exposing (..)
 import Http
-import JavaScript.Decode as JS exposing ((:=))
-import Port
+import Json.Decode as Json exposing ((:=))
 import String
 import Task exposing (..)
 import Window
@@ -17,7 +16,7 @@ view h string imgUrl =
     [ input
         [ placeholder "Flickr Query"
         , Attr.value string
-        , on "input" targetValue (Port.message query.address)
+        , on "input" targetValue (Signal.message query.address)
         , style myStyle
         ]
         []
@@ -49,20 +48,28 @@ imgStyle h src =
 
 main : Signal Html
 main =
-  Signal.map3 view
-    Window.height
-    (Stream.toSignal "" query.stream)
-    (Stream.toSignal "waiting.gif" <| Stream.filterMap Result.toMaybe results.stream)
+  Signal.map3 view Window.height query.signal results.signal
 
 
-port results : Port.Port (Result Http.Error String)
+results : Signal.Mailbox String
+results =
+  Signal.mailbox "waiting.gif"
 
 
-perform Port.sendResults results.address <|
-    Stream.sample getImage Window.dimensions query.stream
+port requestImgs : Signal (Task Http.Error ())
+port requestImgs =
+  query.signal
+    |> sample getImage Window.dimensions
+    |> Signal.map (\task -> task `andThen` Signal.send results.address)
 
 
-port query : Port.Port String
+sample f sampled events =
+  Signal.sampleOn events (Signal.map2 f sampled events)
+
+
+query : Signal.Mailbox String
+query =
+  Signal.mailbox ""
 
 
 getImage : (Int,Int) -> String -> Task Http.Error String
@@ -94,22 +101,22 @@ type alias Size =
     }
 
 
-photoList : JS.Decoder (List Photo)
+photoList : Json.Decoder (List Photo)
 photoList =
-  JS.at ["photos","photo"] <| JS.list <|
-      JS.object2 Photo
-        ("id" := JS.string)
-        ("title" := JS.string)
+  Json.at ["photos","photo"] <| Json.list <|
+      Json.object2 Photo
+        ("id" := Json.string)
+        ("title" := Json.string)
 
 
-sizeList : JS.Decoder (List Size)
+sizeList : Json.Decoder (List Size)
 sizeList =
   let number =
-        JS.oneOf [ JS.int, JS.customDecoder JS.string String.toInt ]
+        Json.oneOf [ Json.int, Json.customDecoder Json.string String.toInt ]
   in
-      JS.at ["sizes","size"] <| JS.list <|
-          JS.object3 Size
-            ("source" := JS.string)
+      Json.at ["sizes","size"] <| Json.list <|
+          Json.object3 Size
+            ("source" := Json.string)
             ("width" := number)
             ("height" := number)
 
