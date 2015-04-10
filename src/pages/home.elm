@@ -114,24 +114,31 @@ bulletsRowTwo =
 -- EXAMPLES
 
 exampleSection w =
+  let sidePad = toString ((w-960) // 2) ++ "px"
+  in
   section []
     [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Examples"]
-    , section [] <|
+    , section [ style [ "height" => "300px", "padding" => ("0 " ++ sidePad) ] ] <|
         List.map example
-        [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", Nothing)
-        , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", Just "https://github.com/jcollard/elmtris")
-        , ("Home/Vessel", "https://slawrence.github.io/vessel", Just "https://github.com/slawrence/vessel")
-        , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", Just "https://github.com/evancz/first-person-elm")
+        [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", "evancz", "")
+        , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", "jcollard", "https://github.com/jcollard/elmtris")
+        , ("Home/Vessel", "https://slawrence.github.io/vessel", "slawrence", "https://github.com/slawrence/vessel")
+        , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", "evancz", "https://github.com/evancz/first-person-elm")
         ]
-    , section [] <|
+    , section [ style [ "height" => "300px", "padding" => ("0 " ++ sidePad) ] ] <|
         List.map example
-        [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", Just "https://github.com/evancz/elm-todomvc")
-        , ("Home/DreamWriter", "http://dreamwriter.io", Just "https://github.com/rtfeldman/dreamwriter")
-        , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", Just "https://github.com/elm-lang/package.elm-lang.org")
-        , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", Nothing)
+        [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", "evancz", "https://github.com/evancz/elm-todomvc")
+        , ("Home/DreamWriter", "http://dreamwriter.io", "rtfeldman", "https://github.com/rtfeldman/dreamwriter")
+        , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", "evancz", "https://github.com/elm-lang/package.elm-lang.org")
+        , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", "stygianguest", "https://github.com/stygianguest/Sierpinski")
         ]
     ]
 
 
-example (imgSrc, demo, maybeCode) =
-    a [href demo] [img [src ("/screenshot/" ++ imgSrc ++ ".png")] []]
+example (imgSrc, demo, author, code) =
+  section [ style [ "display" => "block", "float" => "left", "width" => "200px", "padding" => "0 20px" ] ]
+    [ a [href demo] [img [style ["padding-bottom" => "0.5em"], src ("/screenshot/" ++ imgSrc ++ ".png")] []]
+    , p [style [ "display" => "block", "float" => "left", "margin" => "0" ]]
+        [text "by ", a [href ("http://github.com/" ++ author)] [text author]]
+    , a [href code, style ["text-transform" => "lowercase", "display" => "block", "float" => "right"]] [text "source"]
+    ]
