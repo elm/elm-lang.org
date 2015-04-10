@@ -5,8 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import JavaScript.Decode as JS exposing ((:=))
-import Port
+import Json.Decode as Json exposing ((:=))
 import Set
 import Task exposing (..)
 import Window
@@ -27,19 +26,19 @@ view outerWidth hints =
     , div
         [ class "button blue"
         , title "Compile and run the fresh code (Ctrl-Enter)"
-        , onClick (Port.message compile.address ())
+        , onClick (Signal.message compileMailbox.address ())
         ]
         [ text "Compile" ]
     , div
         [ class "button green"
         , title "Keep the state, change the behavior (Ctrl-Shift-Enter)"
-        , onClick (Port.message hotSwap.address ())
+        , onClick (Signal.message hotSwapMailbox.address ())
         ]
         [ text "Hot Swap" ]
     , div
         [ class "button yellow"
         , title "Switch editor color scheme"
-        , onClick (Port.message lights.address ())
+        , onClick (Signal.message lightsMailbox.address ())
         ]
         [ text "Lights" ]
     ]
@@ -61,9 +60,26 @@ viewHint hint =
 
 -- OUTBOUND PORTS
 
-port compile : Port.OutboundPort ()
-port hotSwap : Port.OutboundPort ()
-port lights : Port.OutboundPort ()
+compileMailbox = Signal.mailbox ()
+hotSwapMailbox = Signal.mailbox ()
+lightsMailbox = Signal.mailbox ()
+
+
+port compile : Signal ()
+port compile =
+  compileMailbox.signal
+
+
+port hotSwap : Signal ()
+port hotSwap =
+  hotSwapMailbox.signal
+
+
+port lights : Signal ()
+port lights =
+  lightsMailbox.signal
+
+
 
 
 -- HINTS
@@ -144,21 +160,21 @@ moduleToDocs modul { alias, exposed } =
 
 -- wiring
 
-port tokens : Port.InboundPort (Maybe String)
+port tokens : Signal (Maybe String)
 
 
 hints : Signal (List Info)
 hints =
-  Stream.fold updateHint emptyState actions
+  Signal.foldp updateHint emptyState actions
     |> Signal.map .hints
 
 
-actions : Stream Action
+actions : Signal Action
 actions =
-    Stream.mergeMany
-      [ Stream.map CursorMove tokens.stream
-      , Stream.map AddDocs docs.stream
-      , Stream.map UpdateImports imports
+    Signal.mergeMany
+      [ Signal.map CursorMove tokens
+      , Signal.map AddDocs docs.signal
+      , Signal.map UpdateImports imports
       ]
 
 
@@ -200,7 +216,9 @@ updateHint action state =
 
 -- DOCUMENTATION
 
-port docs : Port.Port Package
+docs : Signal.Mailbox Package
+docs =
+  Signal.mailbox []
 
 
 type alias Package = List Module
@@ -220,27 +238,28 @@ type alias Values =
 
 -- Documentation JSON
 
-package : String -> JS.Decoder Package
+package : String -> Json.Decoder Package
 package packageName =
   let name =
-          "name" := JS.string
+          "name" := Json.string
 
       type' =
-          JS.object2 (,) name
-            ("cases" := JS.list (JS.tuple2 always JS.string JS.value))
+          Json.object2 (,) name
+            ("cases" := Json.list (Json.tuple2 always Json.string Json.value))
 
       values =
-          JS.object3 Values
-            ("aliases" := JS.list name)
-            ("types" := JS.list type')
-            ("values" := JS.list name)
+          Json.object3 Values
+            ("aliases" := Json.list name)
+            ("types" := Json.list type')
+            ("values" := Json.list name)
   in
-      JS.list (JS.object2 (Module packageName) name values)
+      Json.list (Json.object2 (Module packageName) name values)
 
 
 -- Load Docs
 
-perform
+port doStuff : Task Http.Error (List ())
+port doStuff =
   sequence (List.map docsFor ["elm-lang/core", "evancz/elm-html", "evancz/elm-markdown"])
 
 
@@ -250,17 +269,17 @@ docsFor packageName =
         "/packages/" ++ packageName ++ ".json"
   in
       Http.get (package packageName) url
-        `andThen` Port.send docs.address
+        `andThen` Signal.send docs.address
 
 
 -- IMPORTS
 
-imports : Stream (Dict.Dict String Import)
+imports : Signal (Dict.Dict String Import)
 imports =
   let toDict list =
         Dict.union (Dict.fromList (List.map toImport list)) defaultImports
   in
-      Stream.map toDict rawImports.stream
+      Signal.map toDict rawImports
 
 
 (=>) name exposed =
@@ -279,7 +298,7 @@ defaultImports =
     ]
 
 
-port rawImports : Port.InboundPort (List RawImport)
+port rawImports : Signal (List RawImport)
 
 type alias RawImport =
     { name : String

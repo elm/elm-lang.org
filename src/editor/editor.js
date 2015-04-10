@@ -67,7 +67,7 @@ function hotSwap()
 function initEditor()
 {
 	var controlsDiv = document.getElementById('controls');
-	var controls = Elm.embed(Elm.EditorControls, controlsDiv);
+	var controls = Elm.embed(Elm.EditorControls, controlsDiv, { rawImports: [], tokens: null });
 	controls.ports.compile.subscribe(compile);
 	controls.ports.hotSwap.subscribe(hotSwap);
 	controls.ports.lights.subscribe(toggleTheme);
