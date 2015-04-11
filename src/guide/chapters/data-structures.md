@@ -7,7 +7,8 @@ many values, and those values must all have the same type. For example,
 
 ```haskell
 numbers : List Int
-numbers = [1,2,3]
+numbers =
+  [ 1, 2, 3 ]
 ```
 
 This could be read &ldquo;`numbers` has type list of ints.&rdquo; If you
@@ -15,7 +16,8 @@ wanted to represent a list of names:
 
 ```haskell
 names : List String
-names = ["Alice", "Bob", "Chuck"]
+names =
+  [ "Alice", "Bob", "Chuck" ]
 ```
 
 Again, the key thing is that all elements of the list have exactly the
@@ -67,7 +69,12 @@ book1 =
 We can use type aliases to make things a bit clearer.
 
 ```haskell
-type alias Book = { title : String, author : String, pages : Int }
+type alias Book =
+    { title : String
+    , author : String
+    , pages : Int
+    }
+
 
 book2 : Book
 book2 =
@@ -75,6 +82,7 @@ book2 =
   , author = "Hesse"
   , pages = 558
   }
+
 
 books : List Book
 books =

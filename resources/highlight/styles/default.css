@@ -75,12 +75,13 @@
   color: #cc99cc;
 }
 
-.hljs {
+.hljs, .lang-haskell {
   display: block;
   overflow-x: auto;
   background: #2d2d2d;
   color: #cccccc;
-  padding: 0.5em;
+  padding: 1em;
+  border-radius: 6px;
   -webkit-text-size-adjust: none;
 }
 

@@ -129,18 +129,20 @@ with `not`, it is specialized to have the type:
 
 ```haskell
 -- map : (Bool -> Bool) -> List Bool -> List Bool
+
 nots : List Bool -> List Bool
 nots bools =
-  map not bools
+    map not bools
 ```
 
 And when it is used with `round` it is specialized to have the type:
 
 ```haskell
 -- map : (Float -> Int) -> List Float -> List Int
+
 rounds : List Float -> List Int
 rounds floats =
-  map length floats
+    map round floats
 ```
 
 These are some of the &ldquo;many forms&rdquo; of the `map` function. The type
@@ -156,7 +158,7 @@ specialize `map` to make this work, the type variable `a` ends up not matching!
 
 ```haskell
 map : ( a   ->  b  ) -> List a      -> List b
-map : (Bool -> Bool) -> List String -> List Bool   -- Type Error!!!
+map : (Bool -> Bool) -> List String -> List Bool   -- Error!!!
 ```
 
 Type variable `a` cannot be a `Bool` and a `String`! This is when types
