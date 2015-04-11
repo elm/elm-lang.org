@@ -18,60 +18,62 @@ blog = """
 
 ### Articles
 
- * [Introducing Elm Reactor](/blog/Introducing-Elm-Reactor.elm)
- * [Blazing Fast HTML](/blog/Blazing-Fast-Html.elm)
+ * [Introducing Elm Reactor](/blog/introducing-elm-reactor)
+ * [Blazing Fast HTML](/blog/blazing-fast-html)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
  * [Elm package manager](/blog/announce/PackageManager.elm)
  * [Elm REPL](/blog/announce/Repl.elm)
- * [Hot-swapping in Elm](/blog/Interactive-Programming.elm)
+ * [Hot-swapping in Elm](/blog/interactive-programming)
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
- * [Escape from Callback Hell](/learn/Escape-from-Callback-Hell.elm)
- * [Making Pong](/blog/Pong.elm)
+ * [Escape from Callback Hell](/blog/escape-from-callback-hell)
+ * [Making Pong](/blog/pong)
 
 ### Release Notes
 
-* <code>[0.14.1][141]            &nbsp;Jan 2015&nbsp; </code>HTML through main, Elm Reactor improvements
-* <code>[0.14][14]        &nbsp;&nbsp; Dec &nbsp; &nbsp; &nbsp; </code>Package Manager, Parallel Builds, better JSON interop
-* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Architecture improvements and Elm Reactor integration
-* <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
-* <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
-* <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
-* <code>[0.11][11]        &nbsp;&nbsp; Jan 2014&nbsp; </code>Ports: drastically improved FFI
-* <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>`elm-get` integration
-* <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
-* <code>[0.9][9]    &nbsp;&nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; </code>Fast and reliable type inference
-* <code>[0.8][8]    &nbsp;&nbsp;&nbsp; May &nbsp; &nbsp; &nbsp; </code>HTML/JS integration
-* <code>[0.7.1][71]             &nbsp; Feb &nbsp; &nbsp; &nbsp; </code>Touch, Either, Keyboard
-* <code>[0.7][7]    &nbsp;&nbsp;&nbsp; Jan 2013&nbsp; </code>Extensible records
-* <code>[0.6][6]    &nbsp;&nbsp;&nbsp; Dec &nbsp; &nbsp; &nbsp; </code>Whitespace sensitivity
-* <code>[0.5][5]    &nbsp;&nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Dictionaries, Sets, and Automata
-* <code>[0.4][4]    &nbsp;&nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Markdown
-* <code>[0.3.6][36]             &nbsp; Aug &nbsp; &nbsp; &nbsp; </code>JSON support
-* <code>[0.3.5][35]             &nbsp; Jun &nbsp; &nbsp; &nbsp; </code>JavaScript FFI
-* <code>[0.3][3]    &nbsp;&nbsp;&nbsp; Jun &nbsp; &nbsp; &nbsp; </code>Modules
-* <code> 0.1        &nbsp;&nbsp;&nbsp; Apr 2012&nbsp; </code>Initial Release
+* <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
+* <code>[0.14.1][141]            &nbsp; Jan 2015 &nbsp; </code>HTML through main
+* <code>[0.14][14]        &nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Package manager, parallel builds, JSON
+* <code>[0.13][13]        &nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Elm Reactor
+* <code>[0.12.3][123]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>3D rendering with WebGL
+* <code>[0.12.1][121]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast Immutable Arrays
+* <code>[0.12][12]        &nbsp; &nbsp; Mar &nbsp; &nbsp; &nbsp; &nbsp;</code>Interactive UI Elements that are easy and pure
+* <code>[0.11][11]        &nbsp; &nbsp; Jan 2014 &nbsp; </code>Ports: drastically improved FFI
+* <code>[0.10.1][101]            &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>elm-get integration
+* <code>[0.10][10]        &nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Strings, Colors, Operators
+* <code>[0.9][9]    &nbsp;&nbsp; &nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast and reliable type inference
+* <code>[0.8][8]    &nbsp;&nbsp; &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>HTML/JS integration
+* <code>[0.7.1][71]        &nbsp;&nbsp; Feb &nbsp; &nbsp; &nbsp; &nbsp;</code>Touch, Either, Keyboard
+* <code>[0.7][7]    &nbsp;&nbsp; &nbsp; Jan 2013 &nbsp; </code>Extensible records
+* <code>[0.6][6]    &nbsp;&nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Whitespace sensitivity
+* <code>[0.5][5]    &nbsp;&nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Dictionaries, Sets, and Automata
+* <code>[0.4][4]    &nbsp;&nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Markdown
+* <code>0.3.6              &nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>JSON support
+* <code>0.3.5              &nbsp;&nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>JavaScript FFI
+* <code>0.3         &nbsp;&nbsp; &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Modules
+* <code> 0.1        &nbsp;&nbsp; &nbsp; Apr 2012 &nbsp; </code>Initial Release
 
-  [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/ "Modules"
-  [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/ "JavaScript Integration"
-  [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/ "JSON"
-  [4]:  /blog/announce/0.4.0.elm "Graphics Upgrade"
-  [5]:  /blog/announce/0.5.0.elm "Libraries"
-  [6]:  /blog/announce/0.6.elm "Time, Date, and Syntax"
-  [7]:  /blog/announce/0.7.elm "Extensible Records & More"
-  [71]: /blog/announce/0.7.1.elm "Touch, Keyboard, Either, etc."
-  [8]:  /blog/announce/0.8.elm "HTML/JS integration"
-  [9]:  /blog/announce/0.9.elm "type inference"
-  [10]: /blog/announce/0.10.elm "native strings"
-  [101]: /blog/announce/0.10.1.elm "elm-get integration"
-  [11]: /blog/announce/0.11.elm "ports"
-  [12]: /blog/announce/0.12.elm "user input"
-  [121]: /blog/announce/0.12.1.elm "Fast Immutable Arrays"
-  [123]: /blog/announce/0.12.3.elm "3D rendering with WebGL"
-  [13]: /blog/announce/0.13.elm
-  [14]: /blog/announce/0.14.elm
+  [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
+  [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
+  [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/
+  [4]:  /blog/release/0.4.0
+  [5]:  /blog/release/0.5.0
+  [6]:  /blog/release/0.6
+  [7]:  /blog/release/0.7
+  [71]: /blog/release/0.7.1
+  [8]:  /blog/release/0.8
+  [9]:  /blog/release/0.9
+  [10]: /blog/release/0.10
+  [101]: /blog/release/0.10.1
+  [11]: /blog/release/0.11
+  [12]: /blog/release/0.12
+  [121]: /blog/release/0.12.1
+  [123]: /blog/release/0.12.3
+  [13]: /blog/release/0.13
+  [14]: /blog/release/0.14
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
+  [15]: /blog/release/0.15
 
 ### Conference Videos
 
