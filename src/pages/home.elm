@@ -56,7 +56,7 @@ debuggerSection w =
     , p [ style [ "text-align" => "center" ] ]
         [ code
             [ class "lang-haskell hljs"
-            , style [ "display" => "inline-block", "border-radius" => "10px", "padding" => "20px" ]
+            , style [ "display" => "inline-block", "border-radius" => "16px", "padding" => "24px 48px" ]
             ]
             [ span [class "hljs-title"] [text "main"]
             , text " = span [class "
