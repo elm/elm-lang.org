@@ -10,8 +10,35 @@ import Outline
 main =
   div []
     [ TopBar.topBar "docs"
-    , ul [ Center.style "600px" ] (List.map viewChapter Outline.outline)
+    , Center.markdown "600px" directions
+--    , ul [ Center.style "600px" ] (List.map viewChapter Outline.outline)
     ]
+
+
+directions = """
+
+# Documentation
+
+
+## Tutorials
+
+  * [Reading Elm code](/)
+  * [Building widgets](https://github.com/evancz/elm-architecture-tutorial/)
+  * [Making Pong](/)
+
+
+## About Elm
+
+  * [Complete Guide to Elm](/)
+  * [Syntax Reference](/learn/syntax)
+
+
+## API References
+
+  * [Standard Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
+  * [Community Libraries](http://package.elm-lang.org/packages)
+
+"""
 
 
 viewChapter : (String, List String) -> Html
