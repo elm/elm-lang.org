@@ -71,7 +71,7 @@ debuggerSection w =
             [ text "Writing HTML is super easy with "
             , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/"] [ code [] [text "elm-html"] ]
             , text ". Not only does it render "
-            , a [href "/blog/Blazing-Fast-Html.elm"] [text "extremely fast"]
+            , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
             , text ", it also guides you towards "
             , a [href "https://github.com/evancz/elm-architecture-tutorial/"] [text "well-architected code"]
             , text "."
@@ -113,16 +113,28 @@ bulletsRowOne =
   ( [ h2 [] [ text "No runtime exceptions"]
     , p []
       [ text "Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
-      , a [href "http://package.elm-lang.org/packages/elm-lang/core/1.1.0/Debug#crash"] [code [] [text "crash"]]
+      , a [href "http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash"] [code [] [text "crash"]]
       , text "."
       ]
     , p [] [text "Seriously. You read that right."]
     ]
   , [ h2 [] [text "Blazing fast rendering"]
-    , p [] [text "The elm-html View library outperforms even React.js in TodoMVC benchmarks. Optimizing your View is easy with lazy. Elm is designed to make building high-performance UIs a straightforward experience."]
+    , p []
+        [ text "The "
+        , a [href "/blog/blazing-fast-html"] [text "elm-html"]
+        , text " library outperforms even React.js in "
+        , a [href "http://evancz.github.io/todomvc-perf-comparison/"] [text "TodoMVC benchmarks"]
+        , text ", and it is super simple to optimize your code by sprinkling in some "
+        , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy"] [code [] [text "lazy"]]
+        , text " rendering."
+        ]
     ]
   , [ h2 [] [text "Libraries with guarantees"]
-    , p [] [text "The Elm Package Manager enforces semantic versioning. Any breaking API changes are detected automatically and cannot reach the repository without a major version bump. You can upgrade with confidence."]
+    , p []
+        [ text "Semantic versioning is automatically enforced for all "
+        , a [href "http://package.elm-lang.org/"] [text "community libraries"]
+        , text ". Elm's package manager detects any API changes, so breaking API changes never sneak into patches. You can upgrade with confidence."
+        ]
     ]
   )
 
