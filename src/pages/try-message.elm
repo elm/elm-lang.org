@@ -3,17 +3,21 @@ import Message exposing (report)
 
 main = report <| Markdown.toElement """
 
-# Elm 0.15 alpha
+# Online Editor
 
-Check out the change logs:
+Write and compile code online!
 
-  * <a href="/blog/draft-announcement" target="_top">Very rough draft announcement</a>
-  * <a href="https://github.com/elm-lang/elm-compiler/blob/master/changelog.md" target="_top">
-    Changes to compiler / syntax</a>
-  * <a href="https://github.com/elm-lang/core/blob/master/changelog.md" target="_top">
-    Changes to the core libraries</a>
+  * <a href="/examples/HelloWorld" target="_top">Hello World!</a>
+  * <a href="/examples/Position" target="_top">Mouse</a>
+  * <a href="/examples/Clock" target="_top">Clock</a>
 
-Here are some example programs:
+For more guidance check out:
+
+  * <a href="/examples" target="_top">More examples</a>
+  * <a href="/docs" target="_top">Learning resources</a>
+
+
+Here are the example programs for 0.15:
 
   * <a href="/examples/zip-codes" target="_top">Zip Code Lookup</a>
   * <a href="/examples/flickr" target="_top">Flickr Search</a>
