@@ -16,7 +16,17 @@ community = """
 
 # Community
 
-### Mailing list
+  * [Community Packages](http://package.elm-lang.org/)
+  * [Mailing list][list]
+  * [Reddit][reddit]
+  * [IRC][irc]
+  * [Twitter][twitter]
+  * [Potential projects](https://github.com/elm-lang/projects)
+  * [Contribution guidelines](https://github.com/elm-lang/elm-compiler/blob/master/CONTRIBUTING.md)
+
+<br>
+
+## Mailing list
 
 [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
 
@@ -30,14 +40,14 @@ about Elm or functional programming, be humble and open to learning new things
 from anyone! Try to read some old emails to get a feel for the culture and who
 everyone is.
 
-### Reddit
+## Reddit
 
 [reddit]: http://www.reddit.com/r/elm
 
 Check out [/r/elm][reddit] to find out about new libraries and read blog posts.
 Or even better, use it to announce libraries and post your own blog posts!
 
-### IRC
+## IRC
 
 [irc]: http://webchat.freenode.net/?channels=elm
 
@@ -51,7 +61,7 @@ a question well, you should start by asking some questions yourself! This way
 we can avoid XY problems, and better yet, have a culture that is kind and
 respectful to everyone.
 
-### Twitter
+## Twitter
 
 [twitter]: https://twitter.com/elmlang
 
@@ -59,7 +69,7 @@ Both [@elmlang][twitter] and [@czaplic](https://twitter.com/czaplic) tweet about
 Elm a lot. The #elmlang hashtag is commonly used. Using #elm is okay, but people
 tweet about weird stuff with that one sometimes.
 
-### Real Life
+## Real Life
 
 [Evan Czaplicki](http://github.com/evancz) will periodically organize [Elm user
 group](http://www.meetup.com/Elm-user-group-SF/) meetups in SF to talk about
@@ -71,7 +81,7 @@ would both be great places for meetups. The European community is also quite
 strong. We had [Elm Workshop](/blog/announce/Workshop-2013.elm) in 2013
 with speakers and attendees from all over Europe, so more of this!
 
-### Contribute
+## Contribute
 
 There are a bunch of projects in [the elm-lang
 organization](http://github.com/elm-lang), including the compiler, REPL, server,
