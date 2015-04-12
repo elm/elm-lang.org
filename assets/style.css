@@ -76,3 +76,20 @@ a:hover {
 code {
   font-family: 'Source Code Mono', monospace;
 }
+
+
+/* blogs */
+
+.author {
+  padding-top: 1em;
+  color: #ddd;
+  display: block;
+  width: 600px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.author a {
+  color: #ddd;
+  text-decoration: underline;
+}
