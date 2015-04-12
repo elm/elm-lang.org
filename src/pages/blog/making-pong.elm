@@ -173,11 +173,21 @@ velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
 share some code later on.
 
 ```haskell
-type alias Object a = { a | x:Float, y:Float, vx:Float, vy:Float }
+type alias Object a =
+    { a |
+        x : Float,
+        y : Float,
+        vx : Float,
+        vy : Float
+    }
 
-type alias Ball = Object {}
 
-type alias Player = Object { score:Int }
+type alias Ball =
+    Object {}
+
+
+type alias Player =
+    Object { score : Int }
 ```
 
 Both `Ball` and `Player` have a position and velocity, but notice that a
@@ -244,7 +254,8 @@ near n c m =
 -- is the ball within a paddle?
 within : Ball -> Player -> Bool
 within ball player =
-    (ball.x |> near player.x 8) && (ball.y |> near player.y 20)
+    near player.x 8 ball.x
+    && near player.y 20 ball.y
 
 
 -- change the direction of a velocity based on collisions
@@ -275,12 +286,15 @@ stepObj t ({x,y,vx,vy} as obj) =
 stepBall : Time -> Ball -> Player -> Player -> Ball
 stepBall t ({x,y,vx,vy} as ball) player1 player2 =
   if not (ball.x |> near 0 halfWidth)
-  then { ball | x <- 0, y <- 0 }
-  else
-    let vx' = stepV vx (ball `within` player1) (ball `within` player2)
-        vy' = stepV vy (y < 7-halfHeight) (y > halfHeight-7)
-    in
-        stepObj t { ball | vx <- vx', vy <- vy' }
+    then { ball | x <- 0, y <- 0 }
+    else
+      stepObj t
+        { ball |
+            vx <-
+              stepV vx (ball `within` player1) (ball `within` player2)
+            vy <-
+              stepV vy (y < 7-halfHeight) (y > halfHeight-7)
+        }
 
 
 -- step a player forward, making sure it does not fly off the court
@@ -304,8 +318,11 @@ stepGame input game =
     {space,paddle1,paddle2,delta} = input
     {state,ball,player1,player2} = game
 
-    score1 = if ball.x >  halfWidth then 1 else 0
-    score2 = if ball.x < -halfWidth then 1 else 0
+    score1 =
+        if ball.x > halfWidth then 1 else 0
+
+    score2 =
+        if ball.x < -halfWidth then 1 else 0
 
     state' =
         if  | space            -> Play
@@ -317,8 +334,8 @@ stepGame input game =
             then ball
             else stepBall delta ball player1 player2
 
-      player1' = stepPlyr delta paddle1 score1 player1
-      player2' = stepPlyr delta paddle2 score2 player2
+    player1' = stepPlyr delta paddle1 score1 player1
+    player2' = stepPlyr delta paddle2 score2 player2
   in
       { game |
           state   <- state',
