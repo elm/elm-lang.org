@@ -69,10 +69,10 @@ debuggerSection w =
     , div [ style [ "display" => "block", "margin" => "2em auto 0", "width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
             [ text "Writing HTML is super easy with "
-            , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/"] [ code [] [text "elm-html"] ]
+            , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/"] [text "elm-html"]
             , text ". Not only does it render "
             , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
-            , text ", it also guides you towards "
+            , text ", it also quietly guides you towards "
             , a [href "https://github.com/evancz/elm-architecture-tutorial/"] [text "well-architected code"]
             , text "."
             ]
@@ -111,12 +111,10 @@ bulletRow w (one, two, three) =
 
 bulletsRowOne =
   ( [ h2 [] [ text "No runtime exceptions"]
-    , p []
-      [ text "Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
+    , p [] [text "Yes, you read that right, no runtime exceptions. Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
       , a [href "http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash"] [code [] [text "crash"]]
       , text "."
       ]
-    , p [] [text "Seriously. You read that right."]
     ]
   , [ h2 [] [text "Blazing fast rendering"]
     , p []
@@ -144,7 +142,10 @@ bulletsRowTwo =
     , p [] [text "No semicolons. No mandatory parentheses for function calls. Everything is an expression. For even more concise code there’s also destructuring assignment, pattern matching, automatic currying, and more."]
     ]
   , [ h2 [] [text "Smooth JavaScript interop"]
-    , p [] [text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple Ports system, your Elm code can communicate with JavaScript without sacrificing guarantees."]
+    , p []
+        [ text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple "
+        , a [href "/learn/ports"] [text "ports"]
+        , text " system, your Elm code can communicate with JavaScript without sacrificing guarantees."]
     ]
   , [ h2 [] [text "Time-traveling debugger"]
     , p [] [text "What if you could pause time and replay all recent user inputs? What if you could make a code change and watch the results replay without a page refresh? Try it out and see for yourself!"]
