@@ -34,12 +34,18 @@ responsive. It also provides a way to wrap up tons of browser APIs in Elm.
 
 [csharp]: https://msdn.microsoft.com/en-us/library/hh191443.aspx
 
-So as of today, we have a new library called [elm-http][] that makes it really
-pleasant to grab JSON and strings from servers, but in the next few months the
-community is going to be filling in a lot of gaps by creating libraries for
-APIs like local storage, geolocation, dropbox.js, firebase, etc. etc. Easy
-interop is super important to making people productive, so this is a huge step
-for Elm.
+So as of today, we have a couple new packages that make practical development
+easier:
+
+  * [elm-http][] &mdash; get JSON and strings from servers with a nice high-level API.
+  * [history](/) &mdash; easily navigate browser history from Elm
+  * [router](/) &mdash; generate pages dynamically based on the URL
+
+This is just the start though. In the next weeks and months, the community is
+going to be filling in a lot of gaps by creating libraries for APIs like local
+storage, geolocation, dropbox.js, firebase, etc. etc.
+
+[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
 
 This release also marks a milestone for Elm in the sense that the fundamentals
 are pretty much worked out. As soon as this release goes out, I am going to
@@ -98,12 +104,15 @@ expressive power.
 So how do these tasks work? As a simple example, let’s get the README for
 Elm's core libraries.
 
-```elm
+```haskell
 import Http
+
+pkgUrl =
+  "http://package.elm-lang.org/packages/elm-lang/core/latest/README.md"
 
 getReadme : Task Http.Error String
 getReadme =
-    Http.getString "http://package.elm-lang.org/packages/elm-lang/core/latest/README.md"
+  Http.getString pkgUrl
 ```
 
 So `getReadme` is a `Task` that we can give to the runtime. When the runtime
@@ -123,7 +132,7 @@ a bit clunky. This release introduces improved syntax that will let you cut a
 bunch of lines from your import section. As a brief preview, here are the two
 extremes of the syntax:
 
-```elm
+```haskell
 import List
 
 import Html.Attributes as Attr exposing (..)
@@ -155,7 +164,7 @@ been using collages to render complex circuits. The performance bottleneck for
 them was text rendering, so thanks to [James Smith](https://github.com/jazmit),
 we added a simple function that let us render to canvas much more efficiently:
 
-```elm
+```haskell
 text : Text -> Form
 ```
 
