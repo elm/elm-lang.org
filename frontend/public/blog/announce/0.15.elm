@@ -38,14 +38,16 @@ So as of today, we have a couple new packages that make practical development
 easier:
 
   * [elm-http][] &mdash; get JSON and strings from servers with a nice high-level API.
-  * [history](/) &mdash; easily navigate browser history from Elm
-  * [router](/) &mdash; generate pages dynamically based on the URL
+  * [elm-history][] &mdash; easily navigate browser history from Elm
+  * [elm-router][] &mdash; generate pages dynamically based on the URL
 
 This is just the start though. In the next weeks and months, the community is
 going to be filling in a lot of gaps by creating libraries for APIs like local
 storage, geolocation, dropbox.js, firebase, etc. etc.
 
 [elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
+[elm-history]: https://github.com/TheSeamau5/elm-history/
+[elm-router]: https://github.com/TheSeamau5/elm-router/
 
 This release also marks a milestone for Elm in the sense that the fundamentals
 are pretty much worked out. As soon as this release goes out, I am going to
@@ -172,6 +174,14 @@ text : Text -> Form
 We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/latest/Text)
 API but get a lot better performance. Looking forward to seeing this used in
 practice!
+
+As part of this change, we moved `leftAligned`, `centered`, and `rightAligned`
+to the `Graphics.Element` library. We also renamed `Text.asText` to
+`Graphics.Element.show` and straight up removed `Text.plainText`. The goal here
+is to define an abstract representation of text in the `Text` module that can
+be rendered in many different contexts. Sometimes that is with `Graphics.Collage`,
+sometimes with `Graphics.Element`, but that should be handled by *those*
+libraries.
 
 
 ## Towards &ldquo;No Runtime Errors&rdquo;
