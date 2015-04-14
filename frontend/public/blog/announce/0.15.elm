@@ -34,20 +34,22 @@ responsive. It also provides a way to wrap up tons of browser APIs in Elm.
 
 [csharp]: https://msdn.microsoft.com/en-us/library/hh191443.aspx
 
-So as of today, we have a couple new packages that make practical development
+Thanks to tasks, we have a couple new packages that make practical development
 easier:
 
   * [elm-http][] &mdash; get JSON and strings from servers with a nice high-level API.
   * [elm-history][] &mdash; easily navigate browser history from Elm
   * [elm-router][] &mdash; generate pages dynamically based on the URL
 
-This is just the start though. In the next weeks and months, the community is
-going to be filling in a lot of gaps by creating libraries for APIs like local
-storage, geolocation, dropbox.js, firebase, etc. etc.
-
 [elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
 [elm-router]: https://github.com/TheSeamau5/elm-router/
+
+Knowing the monstrosity that is XMLHttpRequest, it is really great to see that
+functionality exposed in [elm-html][] without the atrocious parts. In any case,
+this is just the start! In the next weeks and months, the community is going to
+be filling in a lot of gaps by creating libraries for APIs like local storage,
+geolocation, dropbox.js, firebase, etc. etc.
 
 This release also marks a milestone for Elm in the sense that the fundamentals
 are pretty much worked out. As soon as this release goes out, I am going to
