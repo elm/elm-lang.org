@@ -107,6 +107,8 @@ between them if they are blocked. As a simple example, let’s get the README
 for Elm&rsquo;s core libraries from the
 [Elm Package Catalog](http://package.elm-lang.org/).
 
+[rts]: http://en.wikipedia.org/wiki/Runtime_system
+
 ```haskell
 import Http
 
