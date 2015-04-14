@@ -330,14 +330,14 @@ send : Address a -> a -> Task x ()
 ```
 
 You provide an address and a value to send, and when the task is performed,
-that value shows up at the corresponding mailbox. It&rdquo;s kinda like real
+that value shows up at the corresponding mailbox. It&rsquo;s kinda like real
 mailboxes! The second way is to create a message that *someone else* can send.
 
 ```haskell
 message : Address a -> a -> Message
 ```
 
-In this case, we just *create* a message. It has an address and it has a
+In this case, we just create a message. It has an address and it has a
 value, but like an envelope in real life, someone still needs to send it!
 We use this with functions like `onClick` and `onBlur` from
 [`Html.Events`][events] so that they can send the `Message` at the appropriate
