@@ -79,13 +79,13 @@ working fine. We have noticed a couple really nice benefits so far:
 
   * Refactoring is super easy in the Elm section. In JS or CoffeeScript,
     changing a function name or changing a data representation usually causes
-    a cascade of changes that are super hard to track down, even when you have
+    a cascade of changes that are quite hard to track down, even when you have
     great test coverage. In Elm, you can be confident that the compiler will
     tell you *all* the places that need to be updated as a result of your
     changes. Richard can change stuff in Elm and be shockingly confident that
     it will not quietly break some seemingly unrelated feature.
 
-  * Rendering is super fast. [elm-html][] makes it really simple to optimize
+  * Rendering is extremely fast. [elm-html][] makes it really simple to optimize
     by just sprinkling [`lazy`][lazy] into your rendering code.
 
 [lazy]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy
@@ -254,8 +254,9 @@ are upgrading your code, keep an eye out for:
 
 ## Faster Text Rendering
 
-One of our commercial users has been using collages to render complex circuits.
-The performance bottleneck for them was text rendering, so thanks to
+One of our commercial users, [CircuitHub](https://www.circuithub.com/), has
+been using collages to render complex circuits. The performance bottleneck
+for them was text rendering, so thanks to
 [James Smith](https://github.com/jazmit), we added a simple function that let
 us render to canvas much more efficiently:
 
