@@ -168,20 +168,38 @@ them was text rendering, so thanks to [James Smith](https://github.com/jazmit),
 we added a simple function that let us render to canvas much more efficiently:
 
 ```haskell
-text : Text -> Form
+Graphics.Collage.text : Text -> Form
 ```
 
 We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/latest/Text)
-API but get a lot better performance. Looking forward to seeing this used in
-practice!
+API but we then render direct to canvas to get much better performance. I am
+looking forward to seeing this used in practice!
 
-As part of this change, we moved `leftAligned`, `centered`, and `rightAligned`
-to the `Graphics.Element` library. We also renamed `Text.asText` to
-`Graphics.Element.show` and straight up removed `Text.plainText`. The goal here
-is to define an abstract representation of text in the `Text` module that can
-be rendered in many different contexts. Sometimes that is with `Graphics.Collage`,
-sometimes with `Graphics.Element`, but that should be handled by *those*
+As part of this change, we moved a few functions out of the `Text` library to
+clean up the API. Here is a rough listing of stuff that has moved:
+
+```haskell
+module Graphics.Element where
+
+leftAligned : Text -> Element
+centered : Text -> Element
+rightAligned : Text -> Element
+
+show : a -> Element   -- was Text.asText
+
+...
+```
+
+The goal here is to make `Text` an abstract representation that can be rendered
+in many different contexts. Sometimes that is with `Graphics.Collage`,
+sometime that is with `Graphics.Element`, but that should be handled by *those*
 libraries.
+
+Keep an eye out for this when you are upgrading! You will need to mess with any
+uses of `leftAligned` to get everything working. In the process of upgrading
+this website to Elm 0.15 I found this often reduced the number of imports I
+needed by quite a lot, especially in smaller beginner examples that used
+`asText`.
 
 
 ## Towards &ldquo;No Runtime Errors&rdquo;
@@ -189,15 +207,15 @@ libraries.
 We are currently at a point where you *practically* never get runtime errors
 in Elm. I mean, you can do it, but you have to try really hard.
 
-For example, there are a few historical relics in the `List` library that *can*
-cause a crash if they are given an empty list. Stuff like `head`, `tail`,
-`maximum`, `minimum`, and `foldl1`. This is primarily because older languages
-in the tradition of Elm made this choice and it felt weird to diverge,
+That said, there are a few historical relics in the `List` library that *can*
+cause a crash if they are given an empty list. Stuff like `head` and `tail` are
+pretty easy to run into if you are a beginner. This is primarily because older
+languages in the tradition of Elm made this choice and it felt weird to diverge,
 especially when Elm was younger. This release replaces these cases with
 functions that give back a `Maybe` and sets us up for avoiding unintended
 runtime errors *entirely*.
 
-The new `List` library looks like this:
+So the new `List` library looks like this:
 
 ```haskell
 head : List a -> Maybe a
