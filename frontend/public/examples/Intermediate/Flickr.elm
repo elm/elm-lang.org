@@ -1,150 +1,153 @@
-import Graphics.Element exposing (..)
-import Graphics.Input.Field as Field
+import Html exposing (..)
+import Html.Attributes as Attr exposing (..)
+import Html.Events exposing (..)
 import Http
-import Json.Decode exposing (..)
+import Json.Decode as Json exposing ((:=))
 import String
+import Task exposing (..)
 import Window
 
 
 -- VIEW
 
-view : (Int,Int) -> Field.Content -> Maybe String -> Element
-view (w,h) searchContent imgSrc =
-  let currentImage =
-        case imgSrc of
-          Just src ->
-              fittedImage w (h-100) src
-
-          Nothing ->
-              container w (h-100) middle (image 16 16 "/waiting.gif")
-
-      currentField =
-        Field.field
-            Field.defaultStyle
-            (Signal.message tagChan.address)
-            "Flickr Instant Search"
-            searchContent
-  in
-      flow down
-        [ container w 100 middle currentField
-        , currentImage
+view : Int -> String -> String -> Html
+view h string imgUrl =
+  div [ style (imgStyle h imgUrl) ]
+    [ input
+        [ placeholder "Flickr Query"
+        , Attr.value string
+        , on "input" targetValue (Signal.message query.address)
+        , style myStyle
         ]
+        []
+    ]
 
 
--- SIGNALS
+myStyle : List (String, String)
+myStyle =
+    [ ("width", "100%")
+    , ("height", "40px")
+    , ("padding", "10px 0")
+    , ("font-size", "2em")
+    , ("text-align", "center")
+    ]
 
-{-| Pass in the current dimensions and image. All inputs are
-signals and will update automatically.
--}
-main : Signal Element
+
+imgStyle : Int -> String -> List (String, String)
+imgStyle h src =
+    [ ("background-image", "url('" ++ src ++ "')")
+    , ("background-repeat", "no-repeat")
+    , ("background-attachment", "fixed")
+    , ("background-position", "center")
+    , ("width", "100%")
+    , ("height", toString h ++ "px")
+    ]
+
+
+-- WIRING
+
+main : Signal Html
 main =
-  Signal.map3 view
-      Window.dimensions
-      tagChan.signal
-      results
+  Signal.map3 view Window.height query.signal results.signal
 
 
-results : Signal (Maybe String)
+query : Signal.Mailbox String
+query =
+  Signal.mailbox ""
+
+
+results : Signal.Mailbox String
 results =
-  tagChan.signal
-    |> Signal.map .string
-    |> Signal.dropRepeats
-    |> Signal.map toPhotoRequest
-    |> Http.send
-    |> Signal.map toSizeRequest
-    |> Http.send
-    |> Signal.map2 toPhotoSource Window.dimensions
+  Signal.mailbox "waiting.gif"
 
 
-tagChan : Signal.Mailbox Field.Content
-tagChan =
-  Signal.mailbox Field.noContent
+port updateResults : Signal (Task Http.Error ())
+port updateResults =
+  Signal.map2 getImage Window.dimensions query.signal
+    |> Signal.sampleOn query.signal
+    |> Signal.map (\task -> task `andThen` Signal.send results.address)
 
 
--- JSON
+getImage : (Int,Int) -> String -> Task Http.Error String
+getImage dimensions tag =
+  let searchArgs =
+        [ ("sort", "random"), ("per_page", "10"), ("tags", tag) ]
+  in
+      Http.get photoList (flickr "search" searchArgs)
+        `andThen`
+            selectPhoto
+        `andThen` \photo ->
+            Http.get sizeList (flickr "getSizes" [ ("photo_id", photo.id) ])
+        `andThen`
+            pickSize dimensions
 
-type alias Photo = { id:String, title:String }
 
-photoList : Decoder (List Photo)
+-- JSON DECODERS
+
+type alias Photo =
+    { id : String
+    , title : String
+    }
+
+
+type alias Size =
+    { source : String
+    , width : Int
+    , height : Int
+    }
+
+
+photoList : Json.Decoder (List Photo)
 photoList =
-  at ["photos","photo"] <| list <|
-      object2 Photo
-        ("id" := string)
-        ("title" := string)
+  Json.at ["photos","photo"] <| Json.list <|
+      Json.object2 Photo
+        ("id" := Json.string)
+        ("title" := Json.string)
 
 
-type alias Size = { source:String, width:Int, height:Int }
-
-sizeList : Decoder (List Size)
+sizeList : Json.Decoder (List Size)
 sizeList =
   let number =
-        oneOf [ int, customDecoder string String.toInt ]
+        Json.oneOf [ Json.int, Json.customDecoder Json.string String.toInt ]
   in
-      at ["sizes","size"] <| list <|
-          object3 Size
-            ("source" := string)
+      Json.at ["sizes","size"] <| Json.list <|
+          Json.object3 Size
+            ("source" := Json.string)
             ("width" := number)
             ("height" := number)
 
 
-decodeResponse : Decoder a -> Http.Response String -> Result String a
-decodeResponse decoder response =
-    case response of
-      Http.Success str ->
-          decodeString decoder str
+--  FLICKR URLS
 
-      _ -> Err (toString response)
-
-
---  REQUEST LOGIC
-
-{-| The standard parts of a Flickr API request. -}
-flickrRequest : String -> String
-flickrRequest args =
-    "https://api.flickr.com/services/rest/?format=json"
-    ++ "&nojsoncallback=1&api_key=9be5b08cd8168fa82d136aa55f1fdb3c"
-    ++ args
+flickr : String -> List (String, String) -> String
+flickr method args =
+  Http.url "https://api.flickr.com/services/rest/" <|
+    [ ("format", "json")
+    , ("nojsoncallback", "1")
+    , ("api_key", "9be5b08cd8168fa82d136aa55f1fdb3c")
+    , ("method", "flickr.photos." ++ method)
+    ] ++ args
 
 
-{-| From a tag, create a GET request for relevant photos. -}
-toPhotoRequest : String -> Http.Request String
-toPhotoRequest tag =
-  let args = "&method=flickr.photos.search&sort=random&per_page=10&tags="
-  in
-      Http.get (if tag == "" then "" else flickrRequest args ++ tag)
+-- HANDLE RESPONSES
+
+selectPhoto : List Photo -> Task Http.Error Photo
+selectPhoto photos =
+  case photos of
+    photo :: _ -> succeed photo
+    [] ->
+      fail (Http.UnexpectedPayload "expecting 1 or more photos from Flickr")
 
 
-{-| From a list of photos, just take the first one you see and create a GET
-request for the sizes available.
--}
-toSizeRequest : Http.Response String -> Http.Request String
-toSizeRequest json =
-    case decodeResponse photoList json of
-      Err _ ->
-        Http.get ""
-
-      Ok photos ->
-        case photos of
-          photo :: _ ->
-            Http.get (flickrRequest "&method=flickr.photos.getSizes&photo_id=" ++ photo.id)
-
-          [] ->
-            Http.get ""
-
-
-{-| From a list of photo sizes, choose the one closest to current window size. -}
-toPhotoSource : (Int,Int) -> Http.Response String -> Maybe String
-toPhotoSource (width,height) json =
-    case decodeResponse sizeList json of
-      Err msg ->
-        Nothing
-
-      Ok sizes ->
-        let sizeRating =
-              if width > height
-                  then (\size -> abs (width - size.width))
-                  else (\size -> abs (height - size.height))
+pickSize : (Int,Int) -> List Size -> Task Http.Error String
+pickSize (width,height) sizes =
+  let sizeRating size =
+        let penalty =
+              if size.width > width || size.height > height then 400 else 0
         in
-            case List.sortBy sizeRating sizes of
-              size :: _ -> Just size.source
-              [] -> Nothing
+            abs (width - size.width) + abs (height - size.height) + penalty
+  in
+      case List.sortBy sizeRating sizes of
+        size :: _ -> succeed size.source
+        [] ->
+          fail (Http.UnexpectedPayload "expecting 1 or more image sizes to choose from")
