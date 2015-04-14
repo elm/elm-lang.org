@@ -94,15 +94,8 @@ great benefits that make it worthwhile to use Elm in the first place?&rdquo;
 ## Tasks
 
 This release introduces **tasks** which let us describe asynchronous effects
-and manages errors. The programmer creates a task, and hands it to Elm&rsquo;s
-[runtime system][rts] to do all the dirty work. Think of handing a list of
-tasks to a personal assistant, and they just go off and work on it. Maybe they
-will fail, maybe they will succeed. You just hear about it when they are done.
-This lets us keep all the benefits that make Elm great, but add a lot of
-expressive power.
-
-So how do these tasks work? As a simple example, let’s get the README for
-Elm's core libraries.
+and manages errors. As a simple example, let’s get the README for Elm&rsquo;s
+core libraries.
 
 ```haskell
 import Http
@@ -115,11 +108,19 @@ getReadme =
   Http.getString pkgUrl
 ```
 
-So `getReadme` is a `Task` that we can give to the runtime. When the runtime
-gets a hold of it, the task will either fail with an [`Http.Error`][error] or
+So `getReadme` is a `Task` that can be performed at some point in the future.
+At that time the task will either fail with an [`Http.Error`][error] or
 succeed with a string of markdown.
 
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
+
+To actually perform a task, you send it out a [port][]. Currently Richard sends
+certain values out to CoffeeScript which performs all sorts of effects and then
+lets Elm know about it once they are done. That means some logic ends up in
+CoffeeScript. Tasks let you describe all that logic in Elm, so Richard can
+describe the whole task in Elm and send it to Elm&rsquo;s [runtime system][rts]
+which will go through and make it all happen. The end result is the same, but
+now Richard has a code base that is easier to refactor and debug!
 
 To learn more about tasks, check out [the tutorial](/learn/Tasks.elm)!
 
@@ -173,7 +174,84 @@ API but get a lot better performance. Looking forward to seeing this used in
 practice!
 
 
-##
+## Towards &ldquo;No Runtime Errors&rdquo;
+
+We are currently at a point where you *practically* never get runtime errors
+in Elm. I mean, you can do it, but you have to try really hard.
+
+For example, there are a few historical relics in the `List` library that *can*
+cause a crash if they are given an empty list. Stuff like `head`, `tail`,
+`maximum`, `minimum`, and `foldl1`. This is primarily because older languages
+in the tradition of Elm made this choice and it felt weird to diverge,
+especially when Elm was younger. This release replaces these cases with
+functions that give back a `Maybe` and sets us up for avoiding unintended
+runtime errors *entirely*.
+
+The new `List` library looks like this:
+
+```haskell
+head : List a -> Maybe a
+tail : List a -> Maybe a
+
+maximum : List comparable -> Maybe comparable
+minimum : List comparable -> Maybe comparable
+```
+
+We are planning to add two functions to `Maybe` in a later release to help make
+it really pleasant to *always* return a `Maybe` when a function may fail.
+
+```haskell
+(?) : Maybe a -> a -> a
+unsafe : Maybe a -> a
+```
+
+The first one is just an alias for `withDefault` so you can say things like this:
+
+```haskell
+head numberList ? 0
+```
+
+If you want to get the head of a list of numbers *or* just go with zero if it
+is empty. This is really cool, but (1) I am worried about adding too many infix
+operators and (2) I am not sure exactly what precedence this operator should
+have. If we see people complaining about it being a pain to work with functions
+that return maybes, that will be good evidence that we should go for it.
+
+The `unsafe` function is more questionable, because it extracts a value or
+crashes. It is nice because it makes this risk very explicit and you can easily
+search through your code and identify all of them, but it is bad in that it
+permits crashes! There are a tiny set of cases where you *know* it is going to
+be fine and might want this. As a very contrived example:
+
+```haskell
+unsafe (head [1,2,3]) == 1
+```
+
+We know we are going to get a value because we have an explicit non-empty list.
+This can happen in a few situations in reality. Imagine you have a `Dict` and
+the values are lists. You would never put an empty list in your dictionary,
+that would be silly, so you know you can always get elements of the list. Or
+maybe you do some analysis of the keys in a dictionary to pick one out and then
+want to look up the corresponding value. You know it is in there because you
+got the key from the dictionary!
+
+So for those of you using Elm, please define these functions yourself for now
+and tell us how it goes. Do you need them? Are they generally bad? Do you have
+some good examples of when they are handy? I don't want to add these things to
+the standard libraries lightly, so share your evidence with us!
+
+
+## Thank you
+
+More so than normal, this release went through a pretty crazy design and
+exploration phase, so I want to give a huge thank you to everyone who was part
+of that process. I think we put together a ton of great ideas that will make
+their way into Elm soon enough! I also want to apologize about how crazy the
+list got during that time, sorry about that!
+
+Thank you to [Elm User Group SF](http://www.meetup.com/Elm-user-group-SF/)
+which worked with some pre-release versions of 0.15 to vet the tasks API and
+start making some new packages for browser APIs.
 
 """
 
