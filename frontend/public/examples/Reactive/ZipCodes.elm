@@ -1,54 +1,88 @@
 import Char
-import Graphics.Element exposing (..)
-import Graphics.Input.Field as Field
+import Html exposing (..)
+import Html.Attributes as Attr exposing (..)
+import Html.Events exposing (..)
 import Http
-import Maybe
+import Json.Decode as Json exposing ((:=))
 import String
-import Text
+import Task exposing (..)
 
 
-main : Signal Element
-main =
-  let msg = Text.plainText "Enter a valid zip code, such as 12345 or 90210."
-      output fieldContent url response =
-        flow down
-          [ Field.field Field.defaultStyle (Signal.message content.address) "Zip Code" fieldContent
-          , Maybe.withDefault msg (Maybe.map (always (display response)) url)
+-- VIEW
+
+view : String -> Result String (List String) -> Html
+view string result =
+  let field =
+        input
+          [ placeholder "Zip Code"
+          , value string
+          , on "input" targetValue (Signal.message query.address)
+          , myStyle
           ]
+          []
+
+      messages =
+        case result of
+          Err msg ->
+              [ div [ myStyle ] [ text msg ] ]
+
+          Ok cities ->
+              List.map (\city -> div [ myStyle ] [ text city ]) cities
   in
-      Signal.map3 output content.signal url responses
+      div [] (field :: messages)
 
 
-content : Signal.Mailbox Field.Content
-content =
-  Signal.mailbox Field.noContent
+myStyle : Attribute
+myStyle =
+  style
+    [ ("width", "100%")
+    , ("height", "40px")
+    , ("padding", "10px 0")
+    , ("font-size", "2em")
+    , ("text-align", "center")
+    ]
 
 
--- Display a response
+-- WIRING
 
-display : Http.Response String -> Element
-display response = 
-  case response of
-    Http.Success address -> leftAligned (Text.monospace (Text.fromString address))
-    Http.Waiting -> image 16 16 "waiting.gif"
-    Http.Failure _ _ -> show response
+main =
+  Signal.map2 view query.signal results.signal
 
 
--- Send requests based on user input
-
-responses : Signal (Http.Response String)
-responses =
-  Http.sendGet (Signal.map (Maybe.withDefault "") url)
+query : Signal.Mailbox String
+query =
+  Signal.mailbox ""
 
 
-url : Signal (Maybe String)
-url =
-  Signal.map toUrl content.signal
+results : Signal.Mailbox (Result String (List String))
+results =
+  Signal.mailbox (Err "A valid US zip code is 5 numbers.")
 
 
-toUrl : Field.Content -> Maybe String
-toUrl content =
-  let s = content.string in
-  if String.length s == 5 && String.all Char.isDigit s
-      then Just ("http://zip.elevenbasetwo.com/v2/US/" ++ s)
-      else Nothing
+port sender : Signal (Task x ())
+port sender =
+  let send rawZip =
+        Task.toResult (lookupZipCode rawZip)
+          `andThen` Signal.send results.address
+  in
+      Signal.map send query.signal
+
+
+lookupZipCode : String -> Task String (List String)
+lookupZipCode query =
+  let toUrl =
+        if String.length query == 5 && String.all Char.isDigit query
+          then succeed ("http://api.zippopotam.us/us/" ++ query)
+          else fail "Give me a valid US zip code!"
+  in
+      toUrl `andThen` (mapError (always "Not found :(") << Http.get places)
+
+
+places : Json.Decoder (List String)
+places =
+  let place =
+        Json.object2 (\city state -> city ++ ", " ++ state)
+          ("place name" := Json.string)
+          ("state" := Json.string)
+  in
+      "places" := Json.list place
