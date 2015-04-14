@@ -297,6 +297,71 @@ needed by quite a lot, especially in smaller beginner examples that used
 `asText`.
 
 
+## Introducing Mailboxes
+
+[The Elm Architecture][arch] is all about creating nestable and reusable
+components. In 0.14 this meant using channels and the [local-channel][]
+package. The terminology and API were kind of messy because parts of it evolved
+*after* 0.14 came out, making things seem artificially complex. So with 0.15
+we are revamping this whole API so that it is centralized and easier to learn.
+
+[arch]: https://github.com/evancz/elm-architecture-tutorial/#the-elm-architecture
+[local-channel]: http://package.elm-lang.org/packages/evancz/local-channel/latest
+
+The new `Signal` library introduces the concept of a `Mailbox`.
+
+```haskell
+type alias Mailbox =
+    { address : Address a
+    , signal : Signal a
+    }
+```
+
+A mailbox has two key parts: (1) an address that you can send messages to and
+(2) a signal that updates whenever a message is received. This means you can
+have `onClick` handlers in your HTML report to a particular address, thus
+feeding values back into your program as a signal.
+
+There are two ways to talk to a particular mailbox. The first is to just send
+a message.
+
+```haskell
+send : Address a -> a -> Task x ()
+```
+
+You provide an address and a value to send, and when the task is performed,
+that value shows up at the corresponding mailbox. It&rdquo;s kinda like real
+mailboxes! The second way is to create a message that *someone else* can send.
+
+```haskell
+message : Address a -> a -> Message
+```
+
+In this case, we just *create* a message. It has an address and it has a
+value, but like an envelope in real life, someone still needs to send it!
+We use this with functions like `onClick` and `onBlur` from
+[`Html.Events`][events] so that they can send the `Message` at the appropriate
+time.
+
+[events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
+
+We should have some tutorials coming that do a better job explaining what is
+going on with mailboxes and why they are important! For those of you with 0.14
+code to upgrade, first take a look at [the whole API][mailbox] to get a feel
+for it. The core concepts are pretty much the same, so the changes are mostly
+find and replace:
+
+[mailbox]: http://45.55.164.161:8000/packages/elm-lang/core/2.0.0/Signal#Mailbox
+
+  * `Signal.Channel` becomes `Signal.Mailbox` in your types
+  * `Signal.channel` becomes `Signal.mailbox` when creating mailboxes
+  * `Signal.send` becomes `Signal.message` in your event handlers
+  * `(Signal.subscribe channel)` becomes `mailbox.signal`
+  * Any talk of `LocalChannel` is replaced by `Address` and [`forwardTo`][forwardTo]
+
+[forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#forwardTo
+
+
 ## Thank you
 
 More so than normal, this release went through a pretty crazy design and
