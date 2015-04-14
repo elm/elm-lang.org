@@ -289,8 +289,10 @@ needed by quite a lot, especially in smaller beginner examples that used
 More so than normal, this release went through a pretty crazy design and
 exploration phase, so I want to give a huge thank you to everyone who was part
 of that process. I think we put together a ton of great ideas that will make
-their way into Elm soon enough! I also want to apologize about how crazy the
-list got during that time, sorry about that!
+their way into Elm soon enough! I also want to apologize about how crazy [the
+mailing list][list] got during that time, sorry about that!
+
+[list]: https://groups.google.com/forum/#!forum/elm-discuss
 
 Thank you to [Elm User Group SF](http://www.meetup.com/Elm-user-group-SF/)
 which worked with some pre-release versions of 0.15 to vet the tasks API and
