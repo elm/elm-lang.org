@@ -63,8 +63,9 @@ core libraries based on real-world usage of tasks.
 Since the release of [elm-html][], we have seen more and more people writing
 practical web apps in Elm. [Richard Feldman](https://twitter.com/rtfeldman)
 recently rewrote his writing app [Dreamwriter](https://dreamwriter.io/) from
-React and CoffeeScript to Elm and CoffeeScript, which has been a very
-interesting case study.
+[React and CoffeeScript](https://github.com/rtfeldman/dreamwriter-coffee/tree/strangeloop)
+to [Elm and CoffeeScript](https://github.com/rtfeldman/dreamwriter/tree/strangeloop),
+which has been a very interesting case study.
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
 
@@ -76,12 +77,13 @@ working fine. We have noticed a couple really nice benefits so far:
   * The bugs and crashes are always coming from the CoffeeScript code. The Elm
     code just does not cause runtime errors in practice.
 
-  * Refactoring is super easy in the Elm section. If some function or data
-    format needs to change, this usually causes a cascade of changes that are
-    super hard to track down in JS or CoffeeScript, even when you have great
-    test coverage. In Elm, you can be confident that the compiler will tell you
-    *all* the places that need to be updated as a result. You can change stuff
-    without fear of accidentally breaking some seemingly unrelated feature.
+  * Refactoring is super easy in the Elm section. In JS or CoffeeScript,
+    changing a function name or changing a data representation usually causes
+    a cascade of changes that are super hard to track down, even when you have
+    great test coverage. In Elm, you can be confident that the compiler will
+    tell you *all* the places that need to be updated as a result of your
+    changes. Richard can change stuff in Elm and be shockingly confident that
+    it will not quietly break some seemingly unrelated feature.
 
   * Rendering is super fast. [elm-html][] makes it really simple to optimize
     by just sprinkling [`lazy`][lazy] into your rendering code.
@@ -97,9 +99,13 @@ great benefits that make it worthwhile to use Elm in the first place?&rdquo;
 
 ## Tasks
 
-This release introduces **tasks** which let us describe asynchronous effects
-and manages errors. As a simple example, let’s get the README for Elm&rsquo;s
-core libraries.
+The biggest part of this release is introducing **tasks**. Tasks make it easy
+to describe asynchronous operations that may fail, like HTTP requests or
+writing to a database. Tasks also work like light-weight threads in Elm, so
+you can have a bunch running at the same time and the [runtime][rts] will hop
+between them if they are blocked. As a simple example, let’s get the README
+for Elm&rsquo;s core libraries from the
+[Elm Package Catalog](http://package.elm-lang.org/).
 
 ```haskell
 import Http
@@ -112,9 +118,9 @@ getReadme =
   Http.getString pkgUrl
 ```
 
-So `getReadme` is a `Task` that can be performed at some point in the future.
-At that time the task will either fail with an [`Http.Error`][error] or
-succeed with a string of markdown.
+So `getReadme` is a `Task` that can be performed by Elm&rsquo;s [runtime
+system][rts]. When we run the task, it will either fail with an
+[`Http.Error`][error] or succeed with a string of markdown.
 
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 
@@ -246,10 +252,10 @@ are upgrading your code, keep an eye out for:
 
 ## Faster Text Rendering
 
-One of our commercial users, [CircuitHub](https://www.circuithub.com/), has
-been using collages to render complex circuits. The performance bottleneck for
-them was text rendering, so thanks to [James Smith](https://github.com/jazmit),
-we added a simple function that let us render to canvas much more efficiently:
+One of our commercial users has been using collages to render complex circuits.
+The performance bottleneck for them was text rendering, so thanks to
+[James Smith](https://github.com/jazmit), we added a simple function that let
+us render to canvas much more efficiently:
 
 ```haskell
 Graphics.Collage.text : Text -> Form
