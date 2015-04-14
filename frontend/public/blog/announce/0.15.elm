@@ -27,12 +27,14 @@ content = Markdown.toElement """
 
 <span style="color:red;">DRAFT - NOT FOR DISTRIBUTION</span>
 
-This release introduces **Tasks**, a way to define complex asynchronous
-operations. Similar to [C#&rsquo;s tasks][csharp] and JavaScript&rsquo;s
-promises, it makes it simple to describe long-running effects and keep things
-responsive. It also provides a way to wrap up tons of browser APIs in Elm.
+This release introduces **tasks**, a way to define complex asynchronous
+operations. Similar to [C#&rsquo;s tasks][csharp] and [JavaScript&rsquo;s
+promises][promise], it makes it simple to describe long-running effects and
+keep things responsive. It also provides a way to wrap up tons of browser APIs
+in Elm.
 
 [csharp]: https://msdn.microsoft.com/en-us/library/hh191443.aspx
+[promise]: http://www.html5rocks.com/en/tutorials/es6/promises/
 
 Thanks to tasks, we have a couple new packages that make practical development
 easier:
@@ -46,15 +48,15 @@ easier:
 [elm-router]: https://github.com/TheSeamau5/elm-router/
 
 Knowing the monstrosity that is XMLHttpRequest, it is really great to see that
-functionality exposed in [elm-html][] without the atrocious parts. In any case,
+functionality exposed in [elm-http][] without the atrocious parts. In any case,
 this is just the start! In the next weeks and months, the community is going to
 be filling in a lot of gaps by creating libraries for APIs like local storage,
 geolocation, dropbox.js, firebase, etc. etc.
 
 This release also marks a milestone for Elm in the sense that the fundamentals
-are pretty much worked out. As soon as this release goes out, I am going to
+are pretty much worked out. As soon as this release goes out, we are going to
 begin focusing on improving documentation and making our testing tools great.
-I expect we will have one or two more releases before 1.0 to polish syntax and
+We expect we will have one or two more releases before 1.0 to polish syntax and
 core libraries based on real-world usage of tasks.
 
 
@@ -74,10 +76,10 @@ slowly expanding that core to cover as much as possible. This means he was able
 to switch over gradually, and leave things in CoffeeScript if they were
 working fine. We have noticed a couple really nice benefits so far:
 
-  * The bugs and crashes are always coming from the CoffeeScript code. The Elm
-    code just does not cause runtime errors in practice.
+  * The bugs and crashes are always coming from the CoffeeScript code. **The
+    Elm code just does not cause runtime errors in practice.**
 
-  * Refactoring is super easy in the Elm section. In JS or CoffeeScript,
+  * **Refactoring is super easy in the Elm section.** In JS or CoffeeScript,
     changing a function name or changing a data representation usually causes
     a cascade of changes that are quite hard to track down, even when you have
     great test coverage. In Elm, you can be confident that the compiler will
@@ -85,8 +87,8 @@ working fine. We have noticed a couple really nice benefits so far:
     changes. Richard can change stuff in Elm and be shockingly confident that
     it will not quietly break some seemingly unrelated feature.
 
-  * Rendering is extremely fast. [elm-html][] makes it really simple to optimize
-    by just sprinkling [`lazy`][lazy] into your rendering code.
+  * **Rendering is extremely fast.** [elm-html][] makes it really simple to
+    optimize by just sprinkling [`lazy`][lazy] into your rendering code.
 
 [lazy]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy
 
@@ -120,9 +122,9 @@ getReadme =
   Http.getString pkgUrl
 ```
 
-So `getReadme` is a `Task` that can be performed by Elm&rsquo;s [runtime
-system][rts]. When we run the task, it will either fail with an
-[`Http.Error`][error] or succeed with a string of markdown.
+So `getReadme` is a `Task` that can be performed by Elm&rsquo;s runtime. When
+we run the task, it will either fail with an [`Http.Error`][error] or succeed
+with a string of markdown.
 
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 
@@ -130,9 +132,9 @@ To actually perform a task, you send it out a [port][]. Currently Richard sends
 certain values out to CoffeeScript which performs all sorts of effects and then
 lets Elm know about it once they are done. That means some logic ends up in
 CoffeeScript. Tasks let you describe all that logic in Elm, so Richard can
-describe the whole task in Elm and send it to Elm&rsquo;s [runtime system][rts]
-which will go through and make it all happen. The end result is the same, but
-now Richard has a code base that is easier to refactor and debug!
+describe the whole task in Elm and send it to Elm&rsquo;s runtime which will
+go through and make it all happen. The end result is the same, but now Richard
+has a code base that is easier to refactor and debug!
 
 To learn more about tasks, check out [the tutorial](/learn/Tasks.elm)!
 
@@ -154,7 +156,7 @@ So the new `List` library looks like this:
 
 ```haskell
 head : List a -> Maybe a
-tail : List a -> Maybe a
+tail : List a -> Maybe (List a)
 
 maximum : List comparable -> Maybe comparable
 minimum : List comparable -> Maybe comparable
@@ -172,8 +174,8 @@ firstNumber =
 ```
 
 If you want to get the head of a list of numbers *or* just go with zero if it
-is empty. This is really cool, but (1) I am worried about adding too many infix
-operators and (2) I am not sure exactly what precedence this operator should
+is empty. This is really cool, but (1) we are worried about adding too many infix
+operators and (2) we are not sure exactly what precedence this operator should
 have. If we see people complaining about it being a pain to work with functions
 that return maybes, that will be good evidence that we should add `(?)` to the
 standard libraries.
@@ -194,7 +196,7 @@ never put an empty list in your dictionary, that would be silly, so you know
 you can always get elements of the list. I have seen this a few times
 programming in languages like Elm, and the `unsafe` function makes the risks
 extremely explicit. You can search through code for any occurances of `unsafe`
-and quickly identify any risks. It also is a good sigen of &ldquo;maybe you
+and quickly identify any risks. It also is a good sign of &ldquo;maybe you
 should try to say the same thing a different way?&rdquo; In any case, this
 feels similar in spirit to [`Debug.crash`][crash] which also makes risks very
 obvious.
@@ -217,11 +219,11 @@ bunch of lines from your import section. As a brief preview, let&rsquo;s look
 at the two extremes of the syntax. First we have the plain old import:
 
 ```haskell
-import List
+import Http
 ```
 
-With this, we can refer to any value in the `List` module as `List.map`
-or `List.filter`. Using qualified names like this is recommended, so this
+With this, we can refer to any value in the `Http` module as `Http.get`
+or `Http.post`. Using qualified names like this is recommended, so this
 should cover most typical cases. Sometimes you want to go crazy though, so on
 the other end of the spectrum, we have a way to choose a shorter prefix with
 `as` and a way to directly expose some values with `exposing`.
@@ -231,12 +233,12 @@ import Html.Attributes as Attr exposing (..)
 ```
 
 In this case we decided to expose *everything* in `Html.Attributes` so we can
-just say things like [`class`][class] and [`href`][href] directly. We also
+just say things like [`id`][id] and [`href`][href] directly. We also
 locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
 this [here](/learn/Modules.elm).
 
-[class]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#class
+[id]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#id
 [href]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#href
 [width]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#width
 
@@ -244,7 +246,7 @@ This seems like a tiny change, but it has made a huge difference in how it
 feels to work with imports. I have been really happy with it so far. When you
 are upgrading your code, keep an eye out for:
 
-  * Need to add `exposing` keyword
+  * Needing to add `exposing` keyword.
   * Importing the same module on two lines. This can now be reduced to one line.
   * Importing [default modules](https://github.com/elm-lang/core#default-imports).
     They come in by default, so there is no need to explicitly import `Signal`
@@ -300,8 +302,7 @@ needed by quite a lot, especially in smaller beginner examples that used
 More so than normal, this release went through a pretty crazy design and
 exploration phase, so I want to give a huge thank you to everyone who was part
 of that process. I think we put together a ton of great ideas that will make
-their way into Elm soon enough! I also want to apologize about how crazy [the
-mailing list][list] got during that time, sorry about that!
+their way into Elm soon enough!
 
 [list]: https://groups.google.com/forum/#!forum/elm-discuss
 
