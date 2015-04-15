@@ -29,9 +29,9 @@ content = Markdown.toElement """
 
 This release introduces **tasks**, a way to define complex asynchronous
 operations. Similar to [C#&rsquo;s tasks][csharp] and [JavaScript&rsquo;s
-promises][promise], it makes it simple to describe long-running effects and
-keep things responsive. It also provides a way to wrap up tons of browser APIs
-in Elm.
+promises][promise], tasks make it simple to describe long-running effects and
+keep things responsive. They also provides a way to wrap up tons of browser
+APIs in Elm.
 
 [csharp]: https://msdn.microsoft.com/en-us/library/hh191443.aspx
 [promise]: http://www.html5rocks.com/en/tutorials/es6/promises/
@@ -51,9 +51,9 @@ easier:
 
 Knowing the monstrosity that is XMLHttpRequest, it is really great to see that
 functionality exposed in [elm-http][] without the atrocious parts. In any case,
-this is just the start! In the next weeks and months, the community is going to
-be filling in a lot of gaps by creating libraries for APIs like local storage,
-geolocation, dropbox.js, firebase, etc. etc.
+this is just the start! In the next weeks and months, the Elm community is
+going to be filling in a lot of gaps by creating libraries for APIs like local
+storage, geolocation, dropbox.js, firebase, etc. etc.
 
 This release also marks a milestone for Elm in the sense that the fundamentals
 are pretty much worked out. As soon as this release goes out, we are going to
@@ -78,8 +78,8 @@ slowly expanding that core to cover as much as possible. This means he was able
 to switch over gradually, and leave things in CoffeeScript if they were
 working fine. We have noticed a couple really nice benefits so far:
 
-  * The bugs and crashes are always coming from the CoffeeScript code. **The
-    Elm code just does not cause runtime errors in practice.**
+  * **The Elm code just does not cause runtime errors in practice.**
+    The bugs and crashes are always coming from the CoffeeScript code.
 
   * **Refactoring is super easy in the Elm section.** In JS or CoffeeScript,
     changing a function name or changing a data representation usually causes
@@ -94,14 +94,13 @@ working fine. We have noticed a couple really nice benefits so far:
 
 [lazy]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy
 
-So Richard's question to me is &ldquo;how can we write more in Elm?&rdquo; Most
-of his bugs and hard to refactor code is in CoffeeScript. For him, he will have
-a better code base if he can move even more code into Elm. This release is
-answering the question &ldquo;how can we write more in Elm and *keep* all the
-great benefits that make it worthwhile to use Elm in the first place?&rdquo;
+At this point, Richard's big question is &ldquo;how can we write more in
+Elm?&rdquo; So this release is all about how we can write more in Elm and
+*keep* all the great benefits that make it worthwhile to use Elm in the first
+place.
 
 
-## Tasks
+## Introducing Tasks
 
 The biggest part of this release is introducing **tasks**. Tasks make it easy
 to describe asynchronous operations that may fail, like HTTP requests or
@@ -158,8 +157,8 @@ API but we then render direct to canvas to get much better performance. I am
 looking forward to seeing this used in practice!
 
 As part of this change, we moved a few functions out of the `Text` library to
-clean up the API. Here is a rough listing of stuff that has moved into the
-`Graphics.Element` library:
+clean up the API. Here is a rough listing of the functions that have moved
+into the `Graphics.Element` library:
 
 ```haskell
 leftAligned : Text -> Element
@@ -170,9 +169,8 @@ show : a -> Element   -- was Text.asText
 ```
 
 The goal here is to make `Text` an abstract representation that can be rendered
-in many different contexts. Sometimes you render with `Graphics.Collage`,
-sometimes with `Graphics.Element`, but that should be handled by *those*
-libraries.
+in many different contexts. The `Text` module should not know what an `Element`
+or a collage is.
 
 Keep an eye out for this when you are upgrading! You will need to mess with any
 uses of `leftAligned` to get everything working. In the process of upgrading
@@ -204,51 +202,16 @@ maximum : List comparable -> Maybe comparable
 minimum : List comparable -> Maybe comparable
 ```
 
-We are thinking of adding two functions to `Maybe` in a later release to help
-make it really pleasant to *always* return a `Maybe` when a function may fail.
-The first one is just an alias for `withDefault` which would work like this:
+This will mean beginners will be a lot less likely to get runtime errors, and
+hopefully help people form better habits.
 
-```haskell
-(?) : Maybe a -> a -> a
+Aside: We are considering adding two functions to the `Maybe` library
+([this][default] and [this][unsafe]) as part of the move towards &ldquo;no
+runtime errors&rdquo; so please share your relevant experiences and examples
+as you work with 0.15!
 
-firstNumber =
-    head numberList ? 0
-```
-
-If you want to get the head of a list of numbers *or* just go with zero if it
-is empty. This is really cool, but (1) we are worried about adding too many infix
-operators and (2) we are not sure exactly what precedence this operator should
-have. If we see people complaining about it being a pain to work with functions
-that return maybes, that will be good evidence that we should add `(?)` to the
-standard libraries.
-
-The second function is a lot more questionable:
-
-```haskell
-unsafe : Maybe a -> a
-
-firstNumber =
-    unsafe (head numberList)
-```
-
-The `unsafe` function extracts a value or crashes. But why? There are a tiny
-set of cases where you *know* it is going to be fine and might want this.
-For example, imagine you have a `Dict` and the values are lists. You would
-never put an empty list in your dictionary, that would be silly, so you know
-you can always get elements of the list. I have seen this a few times
-programming in languages like Elm, and the `unsafe` function makes the risks
-extremely explicit. You can search through code for any occurances of `unsafe`
-and quickly identify any risks. It also is a good sign of &ldquo;maybe you
-should try to say the same thing a different way?&rdquo; In any case, this
-feels similar in spirit to [`Debug.crash`][crash] which also makes risks very
-obvious.
-
-[crash]: http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash
-
-So for those of you using Elm, please define these functions yourself for now
-and tell us how it goes! Do you need them? Are they generally bad? Do you have
-some good examples of when they are handy? I don't want to add these things to
-the standard libraries lightly, so share your evidence with us!
+[default]: https://github.com/elm-lang/core/issues/216
+[unsafe]: https://github.com/elm-lang/core/issues/215
 
 
 ## Import Syntax
@@ -258,17 +221,17 @@ right thing to do&rdquo; but it made our existing import syntax feel a bit
 clunky. You needed a pretty big chunk of imports to get even basic programs
 running. This release introduces improved syntax that will let you cut a
 bunch of lines from your import section. As a brief preview, let&rsquo;s look
-at the two extremes of the syntax. First we have the plain old import:
+at the two extremes of the syntax. First we have a plain old import:
 
 ```haskell
 import Http
 ```
 
 With this, we can refer to any value in the `Http` module as `Http.get`
-or `Http.post`. Using qualified names like this is recommended, so this
-should cover most typical cases. Sometimes you want to go crazy though, so on
-the other end of the spectrum, we have a way to choose a shorter prefix with
-`as` and a way to directly expose some values with `exposing`.
+or `Http.post`. Using qualified names like this is recommended, so the simple
+import syntax should cover most typical cases. Sometimes you want to go crazy
+though, so on the other end of the spectrum, we have a way to choose a shorter
+prefix with `as` and a way to directly expose some values with `exposing`.
 
 ```haskell
 import Html.Attributes as Attr exposing (..)
@@ -278,15 +241,15 @@ In this case we decided to expose *everything* in `Html.Attributes` so we can
 just say things like [`id`][id] and [`href`][href] directly. We also
 locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
-this [here](/learn/Modules.elm).
+the new import syntax [here](/learn/Modules.elm).
 
 [id]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#id
 [href]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#href
 [width]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#width
 
-This seems like a tiny change, but it has made a huge difference in how it
-feels to work with imports. I have been really happy with it so far. When you
-are upgrading your code, keep an eye out for:
+This syntax seems like a minor change, but it has made a huge difference in how
+it feels to work with imports. I have been really happy with it so far. When
+you are upgrading your code, keep an eye out for:
 
   * Needing to add `exposing` keyword.
   * Importing the same module on two lines. This can now be reduced to one line.
