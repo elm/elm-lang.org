@@ -139,6 +139,46 @@ has a code base that is easier to refactor and debug!
 To learn more about tasks, check out [the tutorial](/learn/Tasks.elm)!
 
 
+## Faster Text Rendering
+
+One of our commercial users, [CircuitHub](https://www.circuithub.com/), has
+been using collages to render complex circuits. The performance bottleneck
+for them was text rendering, so thanks to
+[James Smith](https://github.com/jazmit), we added a simple function that let
+us render to canvas much more efficiently:
+
+```haskell
+Graphics.Collage.text : Text -> Form
+```
+
+We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/latest/Text)
+API but we then render direct to canvas to get much better performance. I am
+looking forward to seeing this used in practice!
+
+As part of this change, we moved a few functions out of the `Text` library to
+clean up the API. Here is a rough listing of stuff that has moved into the
+`Graphics.Element` library:
+
+```haskell
+leftAligned : Text -> Element
+centered : Text -> Element
+rightAligned : Text -> Element
+
+show : a -> Element   -- was Text.asText
+```
+
+The goal here is to make `Text` an abstract representation that can be rendered
+in many different contexts. Sometimes you render with `Graphics.Collage`,
+sometimes with `Graphics.Element`, but that should be handled by *those*
+libraries.
+
+Keep an eye out for this when you are upgrading! You will need to mess with any
+uses of `leftAligned` to get everything working. In the process of upgrading
+this website to Elm 0.15 I found this often reduced the number of imports I
+needed by quite a lot, especially in smaller beginner examples that used
+`asText`.
+
+
 ## Towards &ldquo;No Runtime Exceptions&rdquo;
 
 We are currently at a point where you *practically* never get runtime
@@ -252,49 +292,6 @@ are upgrading your code, keep an eye out for:
     They come in by default, so there is no need to explicitly import `Signal`
     or `List` unless you are doing something special. (We are planning to add
     warnings for this in a future release to make this easier!)
-
-
-## Faster Text Rendering
-
-One of our commercial users, [CircuitHub](https://www.circuithub.com/), has
-been using collages to render complex circuits. The performance bottleneck
-for them was text rendering, so thanks to
-[James Smith](https://github.com/jazmit), we added a simple function that let
-us render to canvas much more efficiently:
-
-```haskell
-Graphics.Collage.text : Text -> Form
-```
-
-We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/latest/Text)
-API but we then render direct to canvas to get much better performance. I am
-looking forward to seeing this used in practice!
-
-As part of this change, we moved a few functions out of the `Text` library to
-clean up the API. Here is a rough listing of stuff that has moved:
-
-```haskell
-module Graphics.Element where
-
-leftAligned : Text -> Element
-centered : Text -> Element
-rightAligned : Text -> Element
-
-show : a -> Element   -- was Text.asText
-
-...
-```
-
-The goal here is to make `Text` an abstract representation that can be rendered
-in many different contexts. Sometimes that is with `Graphics.Collage`,
-sometime that is with `Graphics.Element`, but that should be handled by *those*
-libraries.
-
-Keep an eye out for this when you are upgrading! You will need to mess with any
-uses of `leftAligned` to get everything working. In the process of upgrading
-this website to Elm 0.15 I found this often reduced the number of imports I
-needed by quite a lot, especially in smaller beginner examples that used
-`asText`.
 
 
 ## Introducing Mailboxes
