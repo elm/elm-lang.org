@@ -42,10 +42,12 @@ easier:
   * [elm-http][] &mdash; get JSON and strings from servers with a nice high-level API.
   * [elm-history][] &mdash; easily navigate browser history from Elm
   * [elm-router][] &mdash; generate pages dynamically based on the URL
+  * [elm-storage][] &mdash; work with local storage
 
 [elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
 [elm-router]: https://github.com/TheSeamau5/elm-router/
+[elm-storage]: https://github.com/TheSeamau5/elm-storage/
 
 Knowing the monstrosity that is XMLHttpRequest, it is really great to see that
 functionality exposed in [elm-http][] without the atrocious parts. In any case,
