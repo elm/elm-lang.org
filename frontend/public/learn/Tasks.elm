@@ -231,7 +231,7 @@ This exact function is actually used to load the README for packages in the
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 [epc]: http://package.elm-lang.org/
 
-```
+```haskell
 import Http
 import Markdown
 
