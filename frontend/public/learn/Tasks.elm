@@ -51,7 +51,7 @@ with it until we start putting it all together!
 Let’s start out with a very simple function for printing values out to the
 console:
 
-```elm
+```haskell
 print : a -> Task x ()
 ```
 
@@ -66,7 +66,7 @@ this.
 
 [port]: /learn/Ports.elm
 
-```elm
+```haskell
 module Counter where
 
 import Time exposing (second)
@@ -109,7 +109,7 @@ complex task? Something with many steps. It is possible to chain many tasks
 together with the `andThen` function. In the following example, to get the
 current time *and then* print it out.
 
-```elm
+```haskell
 -- task that succeeds with the current time
 getCurrentTime : Task x Time
 
@@ -123,7 +123,7 @@ This means we try to get the current time *and then* when that succeeds we
 print the time out. The key to chaining tasks together like this is the
 `andThen` function.
 
-```elm
+```haskell
 andThen : Task x a -> (a -> Task x b) -> Task x b
 ```
 
@@ -133,7 +133,7 @@ task. In our case this means taking the current time and printing it.
 
 It may be helpful to see the slightly more verbose version of our task chain:
 
-```elm
+```haskell
 printTime : Task x ()
 printTime =
   getCurrentTime `andThen` print
@@ -158,7 +158,7 @@ back into our program? We can use a [`Mailbox`][mb], just like when
 [mb]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#Mailbox
 [arch]: https://github.com/evancz/elm-architecture-tutorial/
 
-```elm
+```haskell
 type alias Mailbox a =
     { address : Address a
     , signal : Signal a
@@ -176,7 +176,7 @@ messages to a mailbox.
 
 [send]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#send
 
-```elm
+```haskell
 send : Address a -> a -> Task x ()
 ```
 
@@ -184,7 +184,7 @@ You provide an address and a value, and when the task is performed, that value
 shows up at the corresponding mailbox. It&rsquo;s kinda like real mailboxes!
 Let’s do a small example that uses `Mailbox` and `send`.
 
-```elm
+```haskell
 main : Signal Element
 main =
   Signal.map show contentMailbox.signal
@@ -216,7 +216,7 @@ servers. The [elm-http][] library provides everything you need for that, so
 let&rsquo;s try to get a feel for how it works with the `Http.getString`
 function.
 
-```elm
+```haskell
 Http.getString : String -> Task Http.Error String
 ```
 
@@ -287,7 +287,7 @@ into the contents of the elm-lang/core readme!
 Maybe show this example? Maybe it can help explain how badly we are not
 following typical indentation rules to make it look nicer?
 
-```elm
+```haskell
 getDuration : Task x Time
 getDuration =
   getCurrentTime
