@@ -30,7 +30,7 @@ content = Markdown.toElement """
 This release introduces **tasks**, a way to define complex asynchronous
 operations. Similar to [C#&rsquo;s tasks][csharp] and [JavaScript&rsquo;s
 promises][promise], tasks make it simple to describe long-running effects and
-keep things responsive. They also provides a way to wrap up tons of browser
+keep things responsive. They also provide a way to wrap up tons of browser
 APIs in Elm.
 
 [csharp]: https://msdn.microsoft.com/en-us/library/hh191443.aspx
@@ -50,15 +50,15 @@ easier:
 [elm-storage]: https://github.com/TheSeamau5/elm-storage/
 
 Knowing the monstrosity that is XMLHttpRequest, it is really great to see that
-functionality exposed in [elm-http][] without the atrocious parts. In any case,
-this is just the start! In the next weeks and months, the Elm community is
-going to be filling in a lot of gaps by creating libraries for APIs like local
-storage, geolocation, dropbox.js, firebase, etc. etc.
+functionality exposed in [elm-http][] without the atrocious parts. And this is
+just the start! In the next weeks and months, the Elm community is going to be
+filling in a lot of gaps by creating libraries for APIs like local storage,
+geolocation, dropbox.js, firebase, etc. etc.
 
 This release also marks a milestone for Elm in the sense that the fundamentals
-are pretty much worked out. As soon as this release goes out, we are going to
-begin focusing on improving documentation and making our testing tools great.
-We expect we will have one or two more releases before 1.0 to polish syntax and
+are pretty much worked out. As soon as this release goes out, we will be
+focusing on improving documentation and making our testing tools great. We
+expect we will have one or two more releases before 1.0 to polish syntax and
 core libraries based on real-world usage of tasks.
 
 
@@ -190,9 +190,9 @@ That said, there are a few historical relics in the `List` library that *can*
 cause a crash if they are given an empty list. Stuff like `head` and `tail` are
 pretty easy to run into if you are a beginner. This is primarily because older
 languages in the tradition of Elm made this choice and it felt weird to diverge,
-especially when Elm was younger. This release replaces these cases with
-functions that give back a `Maybe` and sets us up for avoiding unintended
-runtime exceptions *entirely*.
+especially when Elm was younger. This release changes these functions to give
+back a `Maybe` and sets us up for avoiding unintended runtime exceptions
+*entirely*.
 
 So the new `List` library looks like this:
 
