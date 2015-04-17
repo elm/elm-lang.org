@@ -4,11 +4,15 @@
 
 import Graphics.Element exposing (..)
 import Keyboard
+import Set
 
 
-display : List Int -> Element
+display : Set.Set Int -> Element
 display keyCodes =
-  show "You are holding down the following keys: " `beside` show keyCodes
+  flow right
+    [ show "You are holding down the following keys: "
+    , show (Set.toList keyCodes)
+    ]
 
 
 main : Signal.Signal Element
