@@ -7,7 +7,7 @@ import Keyboard
 
 main : Signal Element
 main =
-  Signal.map display Keyboard.lastPressed
+  Signal.map display Keyboard.presses
 
 
 display : Int -> Element
