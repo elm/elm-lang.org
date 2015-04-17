@@ -286,34 +286,36 @@ A mailbox has two key parts: (1) an address that you can send messages to and
 have `onClick` handlers in your HTML report to a particular address, thus
 feeding values back into your program as a signal.
 
-There are two ways to talk to a particular mailbox. The first is to just send
-a message.
+There are a few ways to talk to a particular mailbox. The most common is via
+the event handlers in [`Html.Events`][events]. For example, the `onClick`
+function takes an address to and a value to send.
+
+[events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
+
+```haskell
+onClick : Address a -> a -> Attribute
+```
+
+So if we say `(onClick addr 42)` Elm will send the value `42` to the mailbox
+with address `addr` whenever the user clicks the corresponding HTML element.
+This lets us feed user input from the UI into our program. This pattern is
+described in more detail in [the architecture tutorial][arch].
+
+The second most common way comes in handy when you are working with packages
+like [elm-http][] that use tasks.
 
 ```haskell
 send : Address a -> a -> Task x ()
 ```
 
-You provide an address and a value to send, and when the task is performed,
-that value shows up at the corresponding mailbox. It&rsquo;s kinda like real
-mailboxes! The second way is to create a message that *someone else* can send.
+You provide an address and a value to send, creating a task. When that task is
+performed, that value shows up at the corresponding mailbox. It&rsquo;s kinda
+like real mailboxes!
 
-```haskell
-message : Address a -> a -> Message
-```
-
-In this case, we just create a message. It has an address and it has a
-value, but like an envelope in real life, someone still needs to send it!
-We use this with functions like `onClick` and `onBlur` from
-[`Html.Events`][events] so that they can send the `Message` at the appropriate
-time.
-
-[events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
-
-We should have some tutorials coming that do a better job explaining what is
-going on with mailboxes and why they are important! For those of you with 0.14
-code to upgrade, first take a look at [the whole API][mailbox] to get a feel
-for it. The core concepts are pretty much the same, so the changes are mostly
-find and replace:
+Check out [the task tutorial](/learn/Tasks.elm) for more some more examples and
+explanation of mailboxes. For those of you with 0.14 code to upgrade, first
+take a look at [the whole API][mailbox] to get a feel for it. The core concepts
+are pretty much the same, so the changes are mostly find and replace:
 
 [mailbox]: http://45.55.164.161:8000/packages/elm-lang/core/2.0.0/Signal#Mailbox
 
@@ -322,6 +324,7 @@ find and replace:
   * `Signal.send` becomes `Signal.message` in your event handlers
   * `(Signal.subscribe channel)` becomes `mailbox.signal`
   * Any talk of `LocalChannel` is replaced by `Address` and [`forwardTo`][forwardTo]
+  * Handlers like `onClick` have a simpler API with the latest [elm-html][]
 
 [forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#forwardTo
 
