@@ -42,9 +42,18 @@ they are blocked.
 [rts]: http://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
-requests. The first few sections are explaining the building blocks, so stick
-with it until we start putting it all together!
+requests. To get started, install the `evancz/task-tutorial` package in your
+working directory by running the following command:
 
+```bash
+elm-package install evancz/task-tutorial
+```
+
+This exposes the `TaskTutorial` module which has [a friendly
+values][task-tutorial] that will help build a foundation for working with
+tasks.
+
+[task-tutorial]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial
 
 ## Basic Example
 
@@ -55,11 +64,13 @@ console:
 print : a -> Task x ()
 ```
 
-We give the `print` function a value, and it gives back a `Task` that can
-be performed at some point and will print that value out. The `x` is a
+We give the [`print`][print] function a value, and it gives back a `Task` that
+can be performed at some point and will print that value out. The `x` is a
 placeholder that normally says what kind of errors can happen, but try not to
 get hung up on it too much at this point. We will come back to it! The
 important thing is that we have a task for printing stuff out.
+
+[print]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial#print
 
 To actually make the task happen, we give it to a [port][], which looks like
 this.
@@ -67,8 +78,7 @@ this.
 [port]: /learn/Ports.elm
 
 ```haskell
-module Counter where
-
+import TaskTutorial exposing (print)
 import Time exposing (second)
 
 
@@ -90,12 +100,12 @@ port runner =
   printTasks
 ```
 
-When we initialize the `Counter` module we will see the current time printed
-out every second. The `printTasks` signal is creating a bunch of tasks, but
-that does not do anything on its own. Just like in real life, creating a task
-does not mean the task magically happens. I can write &ldquo;buy more
-milk&rdquo; on my todo list as many times as I want, but I still need to go to
-the grocery store and buy it if I want the milk to appear in my refrigerator.
+When we initialize this module we will see the current time printed out every
+second. The `printTasks` signal is creating a bunch of tasks, but that does not
+do anything on its own. Just like in real life, creating a task does not mean
+the task magically happens. I can write &ldquo;buy more milk&rdquo; on my todo
+list as many times as I want, but I still need to go to the grocery store and
+buy it if I want the milk to appear in my refrigerator.
 
 So in Elm, tasks are not run until we hand them to the runtime through a port.
 This is similar to sending a record or list out a port, but instead of handing
@@ -104,24 +114,40 @@ it to some JavaScript callback, the runtime just performs the task.
 
 ## Chaining Tasks
 
-In the example above we used `print` but what if we want to create a more
-complex task? Something with many steps. It is possible to chain many tasks
-together with the `andThen` function. In the following example, to get the
-current time *and then* print it out.
+In the example above we used [`print`][print] but what if we want to create a
+more complex task? Something with many steps.
+
+First let’s introduce [`getCurrentTime`][now] so we can do more than print!
+
+[now]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial#getCurrentTime
+
 
 ```haskell
--- task that succeeds with the current time
 getCurrentTime : Task x Time
+```
 
+This is a task that just gives you the current time. You run it, it tells you
+what time it is. Now what we want to do is run [`getCurrentTime`][now] and
+then [`print`][print] it out. Let’s look at the finished product and then
+work through all the new parts.
+
+```haskell
+import TaskTutorial exposing (getCurrentTime, print)
 
 port runner : Task x ()
 port runner =
   getCurrentTime `andThen` print
 ```
 
-This means we try to get the current time *and then* when that succeeds we
-print the time out. The key to chaining tasks together like this is the
-`andThen` function.
+First, notice the infrequently-used backtick syntax which let’s us treat normal
+functions as infix operators. As another example, `(add 3 4)` is the same as
+``(3 `add` 4)``. So saying ``(getCurrentTime `andThen` print)`` is the same as
+saying `(andThen getCurrentTime print)` but it does not read as nicely!
+
+Okay, now that we know that [`andThen`][andThen] is a normal function that
+takes two arguments, let’s see the type.
+
+[andThen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#andThen
 
 ```haskell
 andThen : Task x a -> (a -> Task x b) -> Task x b
@@ -146,6 +172,10 @@ printTimeVerbose =
 
 These are both exactly the same, but in the second one, it is a bit more
 explicit that we are waiting for a `time` and then printing it out.
+
+The [`andThen`][andThen] function is extremely important when using tasks
+because it let’s us build complex chains. We will be seeing more of it in
+future examples!
 
 
 ## Communicating with Mailboxes
