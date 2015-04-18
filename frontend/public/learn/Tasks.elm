@@ -42,8 +42,13 @@ they are blocked.
 [rts]: http://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
-requests. To get started, install the `evancz/task-tutorial` package in your
-working directory by running the following command:
+requests with the [elm-http][] package. This API is a ton nicer than
+XMLHttpRequest and has some benefits over JavaScript&rsquo;s promises when
+it comes to error handling. But like I said, we will build up to this slowly
+so stick with this tutorial until then!
+
+To get started, install the `evancz/task-tutorial` package in your working
+directory by running the following command:
 
 ```bash
 elm-package install evancz/task-tutorial
@@ -72,8 +77,10 @@ important thing is that we have a task for printing stuff out.
 
 [print]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial#print
 
-To actually make the task happen, we give it to a [port][], which looks like
-this.
+To actually *perform* a task, we hand it to a [port][]. Think of ports as a
+way of asking the Elm runtime to do something for you. In this case, it means
+*run the task*. So let’s see an example that puts `print` together with ports
+to print out the current time every second.
 
 [port]: /learn/Ports.elm
 
@@ -111,6 +118,9 @@ So in Elm, tasks are not run until we hand them to the runtime through a port.
 This is similar to sending a record or list out a port, but instead of handing
 it to some JavaScript callback, the runtime just performs the task.
 
+We can give a port either a task or a signal of tasks. When you give a signal,
+all the tasks will be performed in order without overlapping.
+
 
 ## Chaining Tasks
 
@@ -142,7 +152,8 @@ port runner =
 First, notice the infrequently-used backtick syntax which let’s us treat normal
 functions as infix operators. As another example, `(add 3 4)` is the same as
 ``(3 `add` 4)``. So saying ``(getCurrentTime `andThen` print)`` is the same as
-saying `(andThen getCurrentTime print)` but it does not read as nicely!
+saying `(andThen getCurrentTime print)`. The only thing is that it reads a bit
+more like English when using the backtick syntax.
 
 Okay, now that we know that [`andThen`][andThen] is a normal function that
 takes two arguments, let’s see the type.
@@ -183,10 +194,12 @@ future examples!
 So far we have just been performing tasks and throwing away the result. But
 what if we are getting some information from a server and need to bring that
 back into our program? We can use a [`Mailbox`][mb], just like when
-[constructing UIs][arch] that need to talk back!
+[constructing UIs][arch] that need to talk back! Here is the definition from
+the [`Signal`][signal] module:
 
 [mb]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#Mailbox
 [arch]: https://github.com/evancz/elm-architecture-tutorial/
+[signal]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal
 
 ```haskell
 type alias Mailbox a =
@@ -241,7 +254,7 @@ useful example!
 
 ## HTTP Tasks
 
-One of the most common thing you will want to do in a web app is talk to
+One of the most common things you will want to do in a web app is talk to
 servers. The [elm-http][] library provides everything you need for that, so
 let&rsquo;s try to get a feel for how it works with the `Http.getString`
 function.
@@ -256,7 +269,7 @@ resource that lives at that location as a `String`. Looking at the type of the
 will either fail with some [`Http.Error`][error] or succeed with a `String`.
 
 This exact function is actually used to load the README for packages in the
-[Elm Package Catalog][epc]. Let’s look at the code far that!
+[Elm Package Catalog][epc]. Let’s look at the code for that!
 
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 [epc]: http://package.elm-lang.org/
