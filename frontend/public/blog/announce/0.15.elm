@@ -25,8 +25,6 @@ content = Markdown.toElement """
 <div style="padding-top:4px;font-size:0.5em;font-weight:normal">Asynchrony with Tasks</div></div>
 </h1>
 
-<span style="color:red;">DRAFT - NOT FOR DISTRIBUTION</span>
-
 This release introduces **tasks**, a way to define complex asynchronous
 operations. Similar to [C#&rsquo;s tasks][csharp] and [JavaScript&rsquo;s
 promises][promise], tasks make it simple to describe long-running effects and
@@ -327,6 +325,44 @@ are pretty much the same, so the changes are mostly find and replace:
   * Handlers like `onClick` have a simpler API with the latest [elm-html][]
 
 [forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#forwardTo
+
+
+## Return of the `elm` command
+
+With the introduction of the parallel build tool `elm-make` the stand-alone
+`elm` command disappeared for a bit. Well now it is back! Similar to the `git`
+command it serves as a way to get to all the relevant command line tools, and
+lets you extend these tools in a seamless way. When you run the `elm` command
+alone, it will tell you all the possibilities available to you:
+
+```
+Elm Platform 0.15 - a way to run all Elm tools
+
+Usage: elm <command> [<args>]
+
+Available commands include:
+
+  make      Compile an Elm file or project into JS or HTML
+  package   Manage packages from <http://package.elm-lang.org>
+  reactor   Develop with compile-on-refresh and time-travel debugging
+  repl      A REPL for running individual expressions
+
+You can learn more about a specific command by running things like:
+
+  elm make --help
+  elm package --help
+  elm <command> --help
+
+In all these cases we are simply running 'elm-<command>' so if you create an
+executable named 'elm-foobar' you will be able to run it as 'elm foobar' as
+long as it appears on your PATH.
+```
+
+I hope this message will make it easier for people to get started with Elm.
+Even after programming for many many years, I sometimes feel very helpless
+after installing a new command line tool or learning about some existing
+command. I hope the `elm` command will make it really clear what can be done
+and give some hints about how to learn more.
 
 
 ## Thank you
