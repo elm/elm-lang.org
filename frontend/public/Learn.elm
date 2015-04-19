@@ -34,6 +34,9 @@ documentation.
 * [Understanding Types](/learn/Understanding-Types.elm) &mdash; primitive values, data structures, and functions
 * [Union Types](/learn/Union-Types.elm) &mdash; mixing different kinds of values
 * [Records](/learn/Records.elm) &mdash; values with named fields, sort of like objects
+
+### Signals
+
 * [Signals](/learn/What-is-FRP.elm) &mdash; key concepts behind signals
 * [Using Signals](/learn/Using-Signals.elm) &mdash; common patterns and pitfalls
 
@@ -43,6 +46,10 @@ documentation.
   &mdash; a simple pattern that scales extrodinarily well and is easy to
   understand, test, and maintain. Use it!
 
+
+### Tasks
+
+* [Tasks Tutorial](/learn/Tasks.elm) &mdash; foundation for HTTP and other effects
 
 ### Interop
 
