@@ -41,12 +41,13 @@ blog = Markdown.toElement """
 
 ### Release Notes
 
-* <code>[0.14.1][141]            &nbsp;Jan 2015&nbsp; </code>HTML through main, Elm Reactor improvements
-* <code>[0.14][14]        &nbsp;&nbsp; Dec &nbsp; &nbsp; &nbsp; </code>Package Manager, Parallel Builds, better JSON interop
-* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Architecture improvements and Elm Reactor integration
+* <code>[0.15][15]        &nbsp;&nbsp; Apr 2015&nbsp; </code>Tasks
+* <code>[0.14.1][141]            &nbsp;Jan 2015&nbsp; </code>HTML through main
+* <code>[0.14][14]        &nbsp;&nbsp; Dec &nbsp; &nbsp; &nbsp; </code>Package Manager, Parallel Builds
+* <code>[0.13][13]        &nbsp;&nbsp; Sep &nbsp; &nbsp; &nbsp; </code>Elm Reactor integration
 * <code>[0.12.3][123]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>3D rendering with WebGL
 * <code>[0.12.1][121]            &nbsp;May &nbsp; &nbsp; &nbsp; </code>Fast Immutable Arrays
-* <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements that are easy and pure
+* <code>[0.12][12]        &nbsp;&nbsp; Mar &nbsp; &nbsp; &nbsp; </code>Interactive UI Elements
 * <code>[0.11][11]        &nbsp;&nbsp; Jan 2014&nbsp; </code>Ports: drastically improved FFI
 * <code>[0.10.1][101]            &nbsp;Dec &nbsp; &nbsp; &nbsp; </code>`elm-get` integration
 * <code>[0.10][10]        &nbsp;&nbsp; Oct &nbsp; &nbsp; &nbsp; </code>Strings, Colors, Operators
@@ -81,6 +82,7 @@ blog = Markdown.toElement """
   [13]: /blog/announce/0.13.elm
   [14]: /blog/announce/0.14.elm
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
+  [15]: /blog/announce/0.15.elm
 
 ### Conference Videos
 
