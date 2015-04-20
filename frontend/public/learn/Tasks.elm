@@ -42,10 +42,14 @@ they are blocked.
 [rts]: http://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
-requests with the [elm-http][] package. This API is a ton nicer than
-XMLHttpRequest and has some benefits over JavaScript&rsquo;s promises when
-it comes to error handling. But like I said, we will build up to this slowly
-so stick with this tutorial until then!
+requests with the [elm-http][] package, like looking up [zip codes][zip] and
+querying [flickr][]. This API is a ton nicer than XMLHttpRequest and has some
+benefits over JavaScript&rsquo;s promises when it comes to error handling. But
+like I said, we will build up to this slowly so stick with this tutorial until
+then!
+
+[zip]: /edit/examples/Reactive/ZipCodes.elm
+[flickr]: /edit/examples/Intermediate/Flickr.elm
 
 To get started, install the `evancz/task-tutorial` package in your working
 directory by running the following command:
