@@ -22,6 +22,7 @@ body outer =
   in
     container outer (heightOf b) middle b
 
+
 content =
   let w = 600
       exs = [ ("Display",elements), ("React",reactive), ("Compute",functional) ]
@@ -32,6 +33,7 @@ content =
       , Tile.examples w intermediates
       , width w projects
       ]
+
 
 words = Markdown.toElement """
 
@@ -108,46 +110,57 @@ intermediates =
         , ex [ "Physics", "Stamps" ]
         ]
 
+
 addFolder folder lst =
   let add (x,y) = (x, folder ++ y ++ ".elm")
       f (n,xs) = (n, List.map add xs)
   in  List.map f lst
 
+
 elements = addFolder "Elements/"
   [ ("Words",
-        [ ("Text", "HelloWorld")
-        , ("Markdown", "Markdown")
-        ])
+      [ ("Text", "HelloWorld")
+      , ("Markdown", "Markdown")
+      ]
+    )
   , ("Images",
-        [ ("Images", "Image")
-        , ("Fitted", "FittedImage")
-        , ("Cropped", "CroppedImage")
-        ])
+      [ ("Images", "Image")
+      , ("Fitted", "FittedImage")
+      , ("Cropped", "CroppedImage")
+      ]
+    )
   , ("Formatting",
-        [ ("Size"    , "Size")
-        , ("Opacity" , "Opacity")
-        , ("Text"    , "Text")
-        , ("Typeface", "Typeface")
-        ])
+      [ ("Size"    , "Size")
+      , ("Opacity" , "Opacity")
+      , ("Text"    , "Text")
+      , ("Typeface", "Typeface")
+      ]
+    )
   , ("Layout",
-        [ ("Simple Flow", "FlowDown1a")
-        , ("Flow Down"  , "FlowDown2")
-        , ("Layers"     , "Layers")
-        ])
+      [ ("Simple Flow", "FlowDown1a")
+      , ("Flow Down"  , "FlowDown2")
+      , ("Layers"     , "Layers")
+      ]
+    )
   , ("Positioning",
-        [ ("Containers", "Position")
-        , ("Spacers"   , "Spacer")
-        ])
-  , ("2D Shapes", [ ("Lines"     , "Lines")
-                  , ("Shapes"    , "Shapes")
-                  , ("Elements"  , "ToForm")
-                  , ("Transforms", "Transforms")
-                  ])
-  , ("2D Fills", [ ("Color"    , "Color")
-                 , ("Gradient", "LinearGradient")
-                 , ("Radial Gradient", "RadialGradient")
-                 , ("Texture"  , "Texture")
-                 ])
+      [ ("Containers", "Position")
+      , ("Spacers"   , "Spacer")
+      ]
+    )
+  , ("2D Shapes",
+      [ ("Lines"     , "Lines")
+      , ("Shapes"    , "Shapes")
+      , ("Elements"  , "ToForm")
+      , ("Transforms", "Transforms")
+      ]
+    )
+  , ("2D Fills",
+      [ ("Color"    , "Color")
+      , ("Gradient", "LinearGradient")
+      , ("Radial Gradient", "RadialGradient")
+      , ("Texture"  , "Texture")
+      ]
+    )
   ]
 
 
@@ -157,76 +170,101 @@ functional = addFolder "Functional/"
       , ("List Length", "Length")
       , ("Zip"        , "Zip")
       , ("Quick Sort" , "QuickSort")
-      ])
+      ]
+    )
   , ("Functions",
       [ ("Functions"  , "Anonymous")
       , ("Application", "Application")
       , ("Composition", "Composition")
       , ("Infix Ops"  , "Infix")
-      ])
+      ]
+    )
   , ("Higher-Order",
       [ ("Map"    , "Map")
       , ("Fold"   , "Sum")
       , ("Filter" , "Filter")
-      ])
+      ]
+    )
   , ("Union Types",
       [ ("Maybe", "Maybe")
       , ("Boolean Expressions", "BooleanExpressions")
       , ("Tree", "Tree")
-      ])
+      ]
+    )
   , ("Libraries",
-        [ ("Dict", "Dict")
-        , ("Set", "Set")
-        ])
+      [ ("Dict", "Dict")
+      , ("Set", "Set")
+      ]
+    )
   ]
 
+
 reactive = addFolder "Reactive/"
-  [ ("Mouse",  [ ("Position", "Position")
-               , ("Presses"    , "IsDown")
-               , ("Clicks"    , "CountClicks")
-               , ("Yogi", "ResizeYogi")
-               , ("Track", "Transforms")
-               ])
-  ,("Keyboard",[ ("Arrows"     , "Arrows")
-               , ("wasd"       , "Wasd")
-               , ("Keys Down"  , "KeysDown")
-               , ("Key Presses", "CharPressed")
-               ])
-  , ("Touch",  [ ("Raw", "Touches")
-               , ("Touches", "Touch")
-               , ("Taps", "Taps")
-               , ("Draw", "Draw")
-               ])
-  , ("Window", [ ("Size", "ResizePaint")
-               , ("Centering", "Centering")
-               ])
-  , ("Time",   [ ("FPS"     , "Fps")
-               , ("FPS when", "FpsWhen")
-               , ("Every"   , "Every")
-               ])
-  , ("Input",  [ ("Text", "TextField")
-               , ("Password"  , "Password")
-               , ("Checkbox", "CheckBox")
-               , ("Drop Down", "DropDown")
-               ])
+  [ ("Mouse",
+      [ ("Position", "Position")
+      , ("Presses"    , "IsDown")
+      , ("Clicks"    , "CountClicks")
+      , ("Yogi", "ResizeYogi")
+      , ("Track", "Transforms")
+      ]
+    )
+  , ("Keyboard",
+      [ ("Arrows"     , "Arrows")
+      , ("wasd"       , "Wasd")
+      , ("Keys Down"  , "KeysDown")
+      , ("Key Presses", "CharPressed")
+      ]
+    )
+  , ("Touch",
+      [ ("Raw", "Touches")
+      , ("Touches", "Touch")
+      , ("Taps", "Taps")
+      , ("Draw", "Draw")
+      ]
+    )
+  , ("Window",
+      [ ("Size", "ResizePaint")
+      , ("Centering", "Centering")
+      ]
+    )
+  , ("Time",
+      [ ("FPS"     , "Fps")
+      , ("FPS when", "FpsWhen")
+      , ("Every"   , "Every")
+      ]
+    )
+  , ("Input",
+      [ ("Text", "TextField")
+      , ("Password"  , "Password")
+      , ("Checkbox", "CheckBox")
+      , ("Drop Down", "DropDown")
+      ]
+    )
 --  , ("Random", [ ("Randomize", "Randomize") ])
 --  , ("Http",   [ ("Zip Codes", "ZipCodes") ])
-  , ("Filters",[ ("Sample", "SampleOn")
-               , ("Numbers Only", "Filter")
-               ])
-  , ("Ports"
-    , [ ("Set Title","Title")
+  , ("Filters",
+      [ ("Sample", "SampleOn")
+      , ("Numbers Only", "Filter")
+      ]
+    )
+  , ("Ports",
+      [ ("Set Title","Title")
       , ("Redirect","Redirect")
       ]
     )
   ]
 
-example (name, loc) = Text.link ("/edit/examples/" ++ loc) (Text.fromString name)
+
+example (name, loc) =
+  Text.link ("/edit/examples/" ++ loc) (Text.fromString name)
+
+
 toLinks (title, links) =
   flow right
    [ width 150 (leftAligned (Text.fromString ("    " ++ title)))
    , leftAligned << Text.join (Text.fromString ", ") <| List.map example links
    ]
+
 
 subsection w (name,info) =
   flow down << List.intersperse (spacer w 6) << List.map (width w) <|
