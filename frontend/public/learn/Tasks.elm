@@ -322,17 +322,13 @@ So assuming the Elm Package Catalog responds, we will see a blank screen turn
 into the contents of the elm-lang/core readme!
 
 
-## More to come...
+## More Chaining
 
-  * How to read lots of `andThen` chained together. Trick: when you start an
-    anonymous function, it captures everything afterwards.
-
-  * Talk about error handling with `onError`
-
-  * Talk about functions like `Task.sequence`
-
-Maybe show this example? Maybe it can help explain how badly we are not
-following typical indentation rules to make it look nicer?
+We have seen `andThen` used to chain two tasks together, but what if we want
+to chain lots of tasks? This can end up looking a bit odd, so you can bend the
+typical rules about indentation to make it look nicer. Let’s look at an example
+that chains a bunch of tasks together to measure how long it takes to evaluate
+the `(fibonacci 20)` expression:
 
 ```haskell
 getDuration : Task x Time
@@ -342,4 +338,99 @@ getDuration =
     `andThen` \\fib -> getCurrentTime
     `andThen` \\end -> succeed (end - start)
 ```
+
+This reads fairly naturally. Get the current time, run the fibonacci function,
+get the current time again, and then succeed with the difference between the
+start and end time.
+
+You might be wondering &ldquo;why is `start` in scope two tasks later?&rdquo;
+The trick here is that an anonymous function includes everything after the
+arrow. So if we were to put parentheses on our `getDuration` function, it
+would look like this:
+
+```haskell
+getDuration : Task x Time
+getDuration =
+  getCurrentTime
+    `andThen` (\\start -> succeed (fibonacci 20)
+    `andThen` (\\fib -> getCurrentTime
+    `andThen` (\\end -> succeed (end - start))))
+```
+
+Now you can really see how weird our indentation is! The point is that you will
+see this chaining pattern relatively often because it lets you keep a bunch of
+variables in scope for many different tasks.
+
+
+## Error Handling
+
+So far we have only really considered tasks that succeed, but what happens when
+an HTTP request comes back with a 404 or some JSON cannot be decoded? There are
+two main ways to handle errors with tasks. The first is the
+[`onError`][onError] function:
+
+[onError]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#onError
+
+```haskell
+onError : Task x a -> (x -> Task y a) -> Task y a
+```
+
+Notice that it looks very similar to `andThen` but it only gets activated when
+there is an error. So if we want to recover from a bad JSON request, we could
+write something like this:
+
+```haskell
+import Http
+import Json.Decode as Json
+
+
+get : Task Http.Error (List String)
+get =
+  Http.get (Json.list Json.String) "http://example.com/hat-list.json"
+
+
+safeGet : Task x (List String)
+safeGet =
+  get `onError` (\err -> succeed [])
+```
+
+With the `get` task, we can potentially fail with an `Http.Error` but when
+we add recovery with `onError` we end up with the `safeGet` task which will
+always succeed. When a task always succeeds, it is not possible to pin down
+the error type. The type could be anything, we will never know because it will
+never happen. That is why you see the free type variable `x` in the type of
+`safeGet`.
+
+The second approach to error handling is to use functions like
+[`Task.toMaybe`][toMaybe] and [`Task.toResult`][toResult].
+
+[toMaybe]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#toMaybe
+[toResult]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#toResult
+
+```haskell
+toMaybe : Task x a -> Task y (Maybe a)
+toMaybe task =
+  Task.map Just task `onError` \\_ -> succeed Nothing
+
+
+toResult : Task x a -> Task y (Result x a)
+toResult task =
+  Task.map Ok task `onError` \\msg -> succeed (Err msg)
+```
+
+Sometimes you might want to do your error handling with the more typical
+`Maybe` and `Result` types, especially if you are working with APIs that are
+expecting these kinds of values. This also lets you do all of your chaining
+with `andThen`.
+
+
+## Further Learning
+
+Now that we have a foundation in chaining tasks with `andThen` and handling
+errors, start taking a look at some of the examples out in the wild. Try to
+adapt them to your case.
+
+  * [zip codes][zip]
+  * [flickr][]
+
 """
