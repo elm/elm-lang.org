@@ -391,7 +391,7 @@ get =
 
 safeGet : Task x (List String)
 safeGet =
-  get `onError` (\err -> succeed [])
+  get `onError` (\\err -> succeed [])
 ```
 
 With the `get` task, we can potentially fail with an `Http.Error` but when
@@ -418,10 +418,26 @@ toResult task =
   Task.map Ok task `onError` \\msg -> succeed (Err msg)
 ```
 
-Sometimes you might want to do your error handling with the more typical
-`Maybe` and `Result` types, especially if you are working with APIs that are
-expecting these kinds of values. This also lets you do all of your chaining
-with `andThen`.
+This is essentially promoting any errors to the success case. Let’s see it in
+action.
+
+```haskell
+import Http
+import Json.Decode as Json
+
+
+get : Task Http.Error (List String)
+get =
+  Http.get (Json.list Json.String) "http://example.com/hat-list.json"
+
+
+get' : Task x (Result Http.Error (List String))
+get' =
+  Task.toResult get
+```
+
+With `get'` we can do our error handling with the `Result` type, which can
+come in handy especially if you are working with certain APIs.
 
 
 ## Further Learning
