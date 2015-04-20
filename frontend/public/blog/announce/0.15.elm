@@ -288,7 +288,7 @@ feeding values back into your program as a signal.
 
 There are a few ways to talk to a particular mailbox. The most common is via
 the event handlers in [`Html.Events`][events]. For example, the `onClick`
-function takes an address to and a value to send.
+function takes an address to send to and a value to send.
 
 [events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
 
