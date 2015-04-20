@@ -11,13 +11,16 @@ style : Signal.Mailbox Style
 style =
   Signal.mailbox Line
 
+
 points : Signal.Mailbox (List (Float,Float))
 points =
   Signal.mailbox (snd (head pointOptions))
 
+
 main : Signal Element
 main =
   Signal.map2 view style.signal points.signal
+
 
 view : Style -> List (Float,Float) -> Element
 view currentStyle currentPoints =
@@ -35,6 +38,7 @@ view currentStyle currentPoints =
 
 type Style = Points | Line
 
+
 styleOptions : List (String, Style)
 styleOptions =
   [ ("Line Graph", Line)
@@ -47,6 +51,7 @@ styleOptions =
 lissajous : Float -> Float -> Float -> (Float,Float)
 lissajous m n t =
   (cos (m*t), sin (n*t))
+
 
 pointOptions : List (String, List (Float,Float))
 pointOptions =
@@ -61,21 +66,26 @@ pointOptions =
   , ("Scattered"  , graph (\x -> x + tan x) range)
   ]
 
+
 range : List Float
 range =
   map toFloat [ -10 .. 10 ]
+
 
 piRange : List Float
 piRange =
   map (\x -> toFloat x / 40 * pi) [-40..40]
 
+
 offRange : List Float
 offRange =
   map (\x -> toFloat x / 5) [-20..10]
 
+
 graph : (Float -> Float) -> List Float -> List (Float,Float)
 graph f range =
   map2 (,) range (map f range)
+
 
 polarGraph : (Float -> Float) -> List Float -> List (Float,Float)
 polarGraph f thetas =
