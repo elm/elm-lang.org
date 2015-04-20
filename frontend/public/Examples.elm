@@ -214,10 +214,11 @@ reactive = addFolder "Reactive/"
   , ("Filters",[ ("Sample", "SampleOn")
                , ("Numbers Only", "Filter")
                ])
-  , ("Ports",  [ ("Logging","Log")
-               , ("Set Title","Title")
-               , ("Redirect","Redirect")
-               ])
+  , ("Ports"
+    , [ ("Set Title","Title")
+      , ("Redirect","Redirect")
+      ]
+    )
   ]
 
 example (name, loc) = Text.link ("/edit/examples/" ++ loc) (Text.fromString name)
