@@ -361,7 +361,7 @@ long as it appears on your PATH.
 ```
 
 I hope this message will make it easier for people to get started with Elm.
-Even after programming for many many years, I sometimes feel very helpless
+Even after programming for quite a few years, I sometimes feel very helpless
 after installing a new command line tool or learning about some existing
 command. I hope the `elm` command will make it really clear what can be done
 and give some hints about how to learn more.
