@@ -5,6 +5,7 @@ import Http
 import Json.Decode as Json exposing ((:=))
 import String
 import Task exposing (..)
+import Time
 import Window
 
 
@@ -64,8 +65,17 @@ results =
 port updateResults : Signal (Task Http.Error ())
 port updateResults =
   Signal.map2 getImage Window.dimensions query.signal
-    |> Signal.sampleOn query.signal
+    |> Signal.sampleOn trigger
     |> Signal.map (\task -> task `andThen` Signal.send results.address)
+
+
+trigger : Signal Bool
+trigger =
+  let stamped = Time.timestamp query.signal
+      delayed = Time.delay 500 stamped
+  in
+      Signal.map2 (==) stamped delayed
+        |> Signal.filter identity True
 
 
 getImage : (Int,Int) -> String -> Task Http.Error String
