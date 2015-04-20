@@ -27,7 +27,7 @@ footerWords =
   in
      Text.color (Color.rgb 145 145 145) <|
        wordLink "written in Elm and " "https://github.com/elm-lang/elm-lang.org" "open source" "" ++
-       wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-14"
+       wordLink " / " "https://github.com/evancz" "Evan Czaplicki" " &copy;2011-15"
 
 heading localName outer =
   let inner = min 800 outer
