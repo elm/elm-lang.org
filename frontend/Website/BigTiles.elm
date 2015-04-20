@@ -3,7 +3,6 @@ module Website.BigTiles (examples, example) where
 import Color
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import Native.RedirectHack
 import Text
 import Website.ColorScheme as C
 
@@ -20,15 +19,6 @@ row examples =
   List.map (example (200,200)) examples
     |> List.intersperse (spacer 20 200)
     |> flow right
-
-
-clicks : Signal.Mailbox String
-clicks =
-  Signal.mailbox ""
-
-
-bad =
-  Signal.map Native.RedirectHack.redirect clicks.signal
 
 
 sourceCode clr =
@@ -48,15 +38,10 @@ example (w,h) (picture, demo, source) =
               Nothing -> spacer 200 20
               Just src ->
                   link src <|
-                    Input.customButton
-                        (Signal.message clicks.address src)
-                        (sourceCode C.mediumGrey)
-                        (sourceCode Color.lightCharcoal)
-                        (sourceCode Color.lightCharcoal)
+                    sourceCode C.mediumGrey
 
     in  flow down
-        [ link demo <|
-          Input.customButton (Signal.message clicks.address demo) (btn "png") (btn "gif") (btn "png")
+        [ link demo <| btn "png"
         , sourceLink
         ]
 

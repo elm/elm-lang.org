@@ -3,7 +3,6 @@ module Website.Widgets (bigLogo, logoImage, installButtons, button, headerFaces)
 import Color
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import Native.RedirectHack
 import Text
 import Website.ColorScheme as C
 
@@ -43,23 +42,10 @@ installButtons w =
 
 -- implementation
 
-clicks : Signal.Mailbox String
-clicks =
-  Signal.mailbox ""
-
-
-bad =
-  Signal.map Native.RedirectHack.redirect clicks.signal
-
-
 button : Int -> Int -> String -> String -> Element
 button outerWidth innerWidth href msg =
-    let box' = box innerWidth msg in
     container outerWidth 100 middle << link href <|
-    Input.customButton (Signal.message clicks.address href)
-        (box' C.lightGrey C.mediumGrey)
-        (box' C.lightGrey C.accent1)
-        (box' C.mediumGrey C.accent1)
+        box innerWidth msg C.lightGrey C.mediumGrey
 
 
 box : Int -> String -> Color.Color -> Color.Color -> Element

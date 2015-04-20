@@ -3,7 +3,6 @@ module Website.Skeleton where
 import Color
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import Native.RedirectHack
 import Text
 import Website.Widgets exposing (headerFaces, logoImage)
 import Website.ColorScheme as C
@@ -61,19 +60,14 @@ logo =
                   |> Text.color clr
                   |> leftAligned
           in
-            color C.lightGrey <| 
+            color C.lightGrey <|
             flow right
               [ logoImage 30 30
               , spacer 4 30
               , container (widthOf name) 30 middle name
               ]
     in
-        link "/" <|
-        Input.customButton
-            (Signal.message clicks.address "/")
-            (btn Color.charcoal)
-            (btn Color.black)
-            (btn Color.black)
+        link "/" <| btn Color.charcoal
 
 
 tabs localName =
@@ -88,14 +82,6 @@ paths =
   , ("Blog"     , "/Blog.elm")
   , ("Install"  , "/Install.elm")
   ]
-
-clicks : Signal.Mailbox String
-clicks =
-  Signal.mailbox ""
-
-
-bad =
-  Signal.map Native.RedirectHack.redirect clicks.signal
 
 
 tab localName (name, href) =
@@ -113,9 +99,4 @@ tab localName (name, href) =
               , color accent (spacer (widthOf words + 20) h)
               ]
   in
-    link href <|
-      Input.customButton
-          (Signal.message clicks.address href)
-          (btn Color.charcoal)
-          (btn Color.black)
-          (btn Color.black)
+    link href <| btn Color.charcoal
