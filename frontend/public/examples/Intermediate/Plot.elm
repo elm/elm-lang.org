@@ -2,7 +2,7 @@ import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import Graphics.Input as Input
-import List exposing (map, map2)
+import List exposing (map, map2, unzip)
 
 
 ----  Put it all on screen  ----
@@ -14,7 +14,7 @@ style =
 
 points : Signal.Mailbox (List (Float,Float))
 points =
-  Signal.mailbox (snd (head pointOptions))
+  Signal.mailbox lissajous
 
 
 main : Signal Element
@@ -48,15 +48,18 @@ styleOptions =
 
 ----  Many graphs for display  ----
 
-lissajous : Float -> Float -> Float -> (Float,Float)
-lissajous m n t =
-  (cos (m*t), sin (n*t))
+lissajous : List (Float,Float)
+lissajous =
+  let point m n t =
+        (cos (m*t), sin (n*t))
+  in
+      map (point 3 2) piRange
 
 
 pointOptions : List (String, List (Float,Float))
 pointOptions =
   [ ("r = cos(4t)", polarGraph (\t -> cos (4*t)) piRange)
-  , ("Lissajous"  , map (lissajous 3 2) piRange)
+  , ("Lissajous"  , lissajous)
   , ("Circle"     , map (\t -> (cos t, sin t)) piRange)
   , ("x^2"        , graph (\x -> x*x) range)
   , ("x^2 + x - 9", graph (\x -> x*x + x - 9) offRange)
@@ -116,3 +119,12 @@ plot style w h points =
           |> move (-200,-200)
       ]
 
+
+minimum : List Float -> Float
+minimum numbers =
+  Maybe.withDefault 0 (List.minimum numbers)
+
+
+maximum : List Float -> Float
+maximum numbers =
+  Maybe.withDefault 0 (List.maximum numbers)
