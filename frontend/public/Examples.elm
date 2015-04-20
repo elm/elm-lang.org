@@ -104,7 +104,7 @@ intermediates =
         [ ex [ "Mario", "Walk", "Pong", "Turtle" ]
         , ex [ "TextReverse", "Calculator", "Form", "Flickr" ]
         , ex [ "Clock", "Plot", "SlideShow", "PieChart" ]
-        , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+--        , gl [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
         , ex [ "Physics", "Stamps" ]
         ]
 
