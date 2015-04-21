@@ -1,7 +1,8 @@
-import Markdown
+
 import Message exposing (report)
 
-main = report <| Markdown.toElement """
+
+main = report """
 
 <h1><div>Poem 404
 <div style="font-size:0.5em;font-weight:normal">Page Not Found</div></div>

@@ -2,11 +2,12 @@ module Message (report) where
 
 import Graphics.Element exposing (..)
 import ColorScheme as C
+import Markdown
 import Window
 
 
 scene msg (w,h) =
-  container w h middle (box <| width 300 msg)
+  container w h middle (box <| width 300 (Markdown.toElement msg))
     |> color C.mediumGrey
 
 
