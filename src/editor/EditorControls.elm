@@ -26,19 +26,19 @@ view outerWidth hints =
     , div
         [ class "button blue"
         , title "Compile and run the fresh code (Ctrl-Enter)"
-        , onClick (Signal.message compileMailbox.address ())
+        , onClick compileMailbox.address ()
         ]
         [ text "Compile" ]
     , div
         [ class "button green"
         , title "Keep the state, change the behavior (Ctrl-Shift-Enter)"
-        , onClick (Signal.message hotSwapMailbox.address ())
+        , onClick hotSwapMailbox.address ()
         ]
         [ text "Hot Swap" ]
     , div
         [ class "button yellow"
         , title "Switch editor color scheme"
-        , onClick (Signal.message lightsMailbox.address ())
+        , onClick lightsMailbox.address ()
         ]
         [ text "Lights" ]
     ]
