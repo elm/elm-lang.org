@@ -11,7 +11,10 @@ main =
   div []
     [ TopBar.topBar "docs"
     , Center.markdown "600px" directions
---    , ul [ Center.style "600px" ] (List.map viewChapter Outline.outline)
+    , div [ Center.style "600px" ]
+        [ h2 [id "complete-guide"] [text "Complete Guide"]
+        , ul [] (List.map viewChapter Outline.outline)
+        ]
     ]
 
 
@@ -20,23 +23,18 @@ directions = """
 # Documentation
 
 
-## Tutorials
+## Quick Start
 
   * [Reading Elm code](/)
   * [Building widgets](https://github.com/evancz/elm-architecture-tutorial/)
   * [Making Pong](/)
 
 
-## About Elm
+## References
 
-  * [Complete Guide to Elm](/)
-  * [Syntax Reference](/learn/syntax)
-
-
-## API References
-
-  * [Standard Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
-  * [Community Libraries](http://package.elm-lang.org/packages)
+  * [Community Packages](http://package.elm-lang.org)
+  * [Core Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
+  * [Syntax](/learn/syntax)
 
 """
 
@@ -45,9 +43,9 @@ viewChapter : (String, List String) -> Html
 viewChapter (title, sections) =
   li []
     [ a [href ("/guide/" ++ format title)] [text title]
-    , ul []
-        (List.map (\name -> li [] [ text name ]) sections)
+    , ul [] (List.map (\name -> li [] [ text name ]) sections)
     ]
+
 
 format str =
   String.toLower str
