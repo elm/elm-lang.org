@@ -321,7 +321,7 @@ map2 (,) Mouse.x Mouse.y
 (,) <~ Mouse.x ~ Mouse.y
 
 map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
+scene <~ fps 50 ~ sampleOn Mouse.clicks ~ Mouse.position
 ```
 
 More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
