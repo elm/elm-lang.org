@@ -116,20 +116,30 @@ code name source =
     H.html $ do
       H.head $ do
         H.title . toHtml $ name
-        H.link ! A.rel "stylesheet" ! A.href "/codemirror-5.0/lib/codemirror.css"
-        H.script ! A.src "/codemirror-5.0/lib/codemirror.js" $ mempty
-        H.script ! A.src "/codemirror-5.0/mode/elm/elm.js" $ mempty
-        H.script ! A.src "/editor/controls.js" $ mempty
-        H.link ! A.rel "stylesheet" ! A.href "/codemirror-5.0/theme/elegant.css"
-        H.link ! A.rel "stylesheet" ! A.href "/codemirror-5.0/theme/mbo.css"
-        H.link ! A.rel "stylesheet" ! A.type_ "text/css" ! A.href "/editor/editor.css"
-        H.script ! A.type_ "text/javascript" ! A.src "/editor/editor.js" $ mempty
+        css "/assets/codemirror-5.0/lib/codemirror.css"
+        css "/assets/codemirror-5.0/theme/elegant.css"
+        css "/assets/codemirror-5.0/theme/mbo.css"
+        css "/editor/editor.css"
+        js "/assets/codemirror-5.0/lib/codemirror.js"
+        js "/assets/codemirror-5.0/mode/elm/elm.js"
+        js "/editor/controls.js"
+        js "/editor/editor.js"
       H.body $ do
         H.form ! A.id "inputForm" ! A.action "/compile" ! A.method "post" ! A.target "output" $ do
            H.div ! A.id "controls" $ ""
            H.div ! A.id "editor_box" $
              H.textarea ! A.name "input" ! A.id "input" $ toHtml source
         H.script ! A.type_ "text/javascript" $ "initEditor();"
+
+
+css :: H.AttributeValue -> Html
+css href =
+  H.link ! A.rel "stylesheet" ! A.href href
+
+
+js :: H.AttributeValue -> Html
+js src =
+  H.script ! A.src src $ mempty
 
 
 -- INIT RESULT FILES
