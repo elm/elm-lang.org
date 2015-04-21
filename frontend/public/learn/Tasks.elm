@@ -90,7 +90,9 @@ to print out the current time every second.
 
 ```haskell
 import TaskTutorial exposing (print)
-import Time exposing (second)
+import Time exposing (second, Time)
+import Task exposing (Task)
+import Graphics.Element exposing (show)
 
 
 -- A signal that updates to the current time every second
