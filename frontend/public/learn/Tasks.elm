@@ -283,6 +283,8 @@ This exact function is actually used to load the README for packages in the
 ```haskell
 import Http
 import Markdown
+import Html exposing (Html)
+import Task exposing (Task, andThen)
 
 
 main : Signal Html
