@@ -312,7 +312,7 @@ You provide an address and a value to send, creating a task. When that task is
 performed, that value shows up at the corresponding mailbox. It&rsquo;s kinda
 like real mailboxes!
 
-Check out [the task tutorial](/learn/Tasks.elm) for more some more examples and
+Check out [the task tutorial](/learn/Tasks.elm) for more examples and
 explanation of mailboxes. For those of you with 0.14 code to upgrade, first
 take a look at [the whole API][mailbox] to get a feel for it. The core concepts
 are pretty much the same, so the changes are mostly find and replace:
