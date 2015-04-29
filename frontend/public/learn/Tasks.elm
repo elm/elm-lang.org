@@ -5,7 +5,7 @@ import Website.Tiles as Tile
 import Window
 
 port title : String
-port title = "Elm 0.15"
+port title = "Tasks"
 
 
 main =
