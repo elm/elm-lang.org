@@ -78,7 +78,7 @@ Then run the following commands:
 ```bash
 cabal update
 cabal install cabal-install
-cabal install -j elm-compiler-0.15 elm-package-0.5 elm-make-0.1.1
+cabal install -j elm-compiler-0.15 elm-package-0.5 elm-make-0.1.2
 cabal install -j elm-repl-0.4.1 elm-reactor-0.3.1
 ```
 
