@@ -43,7 +43,7 @@ documentation.
 ### Architecture
 
 * [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial#the-elm-architecture)
-  &mdash; a simple pattern that scales extrodinarily well and is easy to
+  &mdash; a simple pattern that scales extraordinarily well and is easy to
   understand, test, and maintain. Use it!
 
 
@@ -93,5 +93,3 @@ documentation.
  [pldi]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html "PLDI 2013 paper"
  [ctas]: https://www.youtube.com/watch?v=Agu6jipKfYw
 """
-
-
