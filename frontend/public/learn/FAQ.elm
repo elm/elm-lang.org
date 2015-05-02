@@ -46,7 +46,7 @@ and [JavaScript](#javascript)
 * [Graphics.Collage](http://package.elm-lang.org/packages/elm-lang/core/latest/Graphics-Collage)
   uses Cartesian coordinates, so positive y is up and the origin at the center of the canvas.
 
-* [Elm is not lazy](http://www.testblogpleaseignore.com/2012/06/22/the-trouble-with-frp-and-laziness/).
+* [Elm is not lazy](https://groups.google.com/forum/#!topic/elm-discuss/9XxV9L0zoA0).
 
 * Signals are not monads in Elm. There is no `join : Signal (Signal a) -> Signal a`.
   [This conference talk](https://www.youtube.com/watch?v=Agu6jipKfYw) explains
