@@ -90,7 +90,7 @@ be on your PATH. If not, then they should be in `~/.cabal/bin` which you can
 [add-path]: http://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path
 
 **If you use Haskell for other stuff**, it would be best to use cabal
-sandboxes for the install process. These were released with cabal 0.18 and will
+sandboxes for the install process. These were released with cabal 1.18 and will
 let you use [this install script][script].
 
 [script]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs#L1-L31
