@@ -68,8 +68,8 @@ debuggerSection w =
         ]
     , div [ style [ "display" => "block", "margin" => "2em auto 0", "width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
-            [ text "Writing HTML is super easy with "
-            , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/"] [text "elm-html"]
+            [ text "Writing HTML apps is super easy with "
+            , a [href "https://github.com/evancz/start-app/blob/master/README.md"] [text "start-app"]
             , text ". Not only does it render "
             , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
             , text ", it also quietly guides you towards "
