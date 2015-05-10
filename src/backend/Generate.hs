@@ -2,7 +2,6 @@
 module Generate (serverHtml, userHtml, js) where
 
 import Control.Monad (forM_, when)
-import qualified Data.Text as Text
 import Text.Blaze (preEscapedToMarkup)
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H

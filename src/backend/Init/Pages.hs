@@ -1,6 +1,5 @@
 module Init.Pages (init) where
 
-import Control.Monad (when)
 import Elm.Utils ((|>))
 import Prelude hiding (init)
 import System.Directory (getDirectoryContents)
