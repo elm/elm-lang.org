@@ -1,6 +1,6 @@
 module Init.Helpers (isOutdated, make, makeWithStyle, write) where
 
-import Control.Monad.Error (runErrorT, when)
+import Control.Monad.Except (runExceptT, when)
 import System.Directory (doesFileExist, getModificationTime, removeFile)
 import System.FilePath (splitExtension)
 import System.Exit (exitFailure)
@@ -46,7 +46,7 @@ makeWithStyle input output =
 makeForReal :: FilePath -> FilePath -> IO ()
 makeForReal input output =
   do  compilerResult <-
-        runErrorT $
+        runExceptT $
           Utils.run "elm-make" [ "--yes", input, "--output=" ++ output ]
 
       case compilerResult of

@@ -2,7 +2,7 @@
 module Router (router) where
 
 import Control.Applicative ((<|>))
-import Control.Monad.Error (liftIO)
+import Control.Monad.Trans (liftIO)
 import qualified Data.ByteString.Char8 as BS
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, route
