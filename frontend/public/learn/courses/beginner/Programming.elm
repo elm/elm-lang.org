@@ -71,11 +71,14 @@ for skimming or review or whatever.
 Every coder’s first program is “Hello World!”. Welcome to the club!
 
 ```haskell
+import Text (..)
+
 main = asText "Hello World!"
 ```
 
 `main` is what gets shown on screen. `asText` will turn anything
 into text that can be shown on screen.
+When you do the following steps, keep `import Text (..)` at the top of editor.
 
 
 ### Numbers
