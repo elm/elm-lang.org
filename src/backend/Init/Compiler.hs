@@ -4,8 +4,7 @@ module Init.Compiler (init) where
 -- read all the resulting interfaces
 -- return a "compile" function and a .js file of all the stuff
 
-import Control.Monad.Error (ErrorT, liftIO, runErrorT, throwError)
-import Control.Monad.Identity (runIdentity)
+import Control.Monad.Except (ExceptT, liftIO, runExceptT, throwError)
 import qualified Data.Binary as Binary
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Map as Map
@@ -31,7 +30,7 @@ import qualified Init.FileTree as FT
 init :: IO (String -> Either String (String, String))
 init =
   do  write "Setting up compiler ..."
-      result <- runErrorT getInterfaces
+      result <- runExceptT getInterfaces
       case result of
         Left msg ->
             do  putStrLn " something went wrong!"
@@ -48,15 +47,32 @@ compile
     -> String
     -> Either String (String, String)
 compile interfaces elmSource =
-  do  (name, _) <- runIdentity (runErrorT (Compiler.parseDependencies elmSource))
-      (_, jsSource) <- Compiler.compile "evancz" "elm-lang" elmSource interfaces
+  case rawCompile interfaces elmSource of
+    Right v ->
+        Right v
+    Left msgs ->
+        Left (concatMap (Compiler.errorToString "" elmSource) msgs)
+
+
+rawCompile
+    :: Map.Map Module.Name Module.Interface
+    -> String
+    -> Either [Compiler.Error] (String, String)
+rawCompile interfaces elmSource =
+  do  (name, _) <- Compiler.parseDependencies elmSource
+
+      let (_warnings, either) =
+            Compiler.compile "evancz" "elm-lang" elmSource interfaces
+
+      (_, jsSource) <- either
+
       return (Module.nameToString name, jsSource)
 
 
 -- GET ALL RELEVANT INTERFACES
 
 getInterfaces
-    :: ErrorT String IO (Map.Map Module.Name Module.Interface)
+    :: ExceptT String IO (Map.Map Module.Name Module.Interface)
 getInterfaces =
   do  Utils.run "elm-package" ["install", "--yes"]
 
@@ -77,7 +93,7 @@ getInterfaces =
 
 readDependencies
     :: (N.Name, V.Version)
-    -> ErrorT String IO (N.Name, V.Version, [Module.Name])
+    -> ExceptT String IO (N.Name, V.Version, [Module.Name])
 readDependencies (name, version) =
   do  desc <- Desc.read path
       return (name, version, Desc.exposed desc)
@@ -103,7 +119,7 @@ toElmSource deps =
 
 readInterfaces
     :: (N.Name, V.Version)
-    -> ErrorT String IO [(Module.Name, Module.Interface)]
+    -> ExceptT String IO [(Module.Name, Module.Interface)]
 readInterfaces package =
   do  let directory = directoryFor package
       contents <- liftIO (getDirectoryContents directory)
