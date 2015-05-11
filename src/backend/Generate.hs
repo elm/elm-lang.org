@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Generate (serverHtml, userHtml, js) where
 
-import Control.Monad (forM_, when)
-import Text.Blaze (preEscapedToMarkup)
+import Control.Monad (when)
+import qualified Text.Blaze as Blaze
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
@@ -27,7 +27,7 @@ js result =
 serverHtml :: String -> String -> H.Html
 serverHtml name jsSource =
     htmlSkeleton False name $
-      do  H.script $ preEscapedToMarkup jsSource
+      do  H.script $ Blaze.preEscapedToMarkup jsSource
           H.script "var runningElmModule = Elm.fullscreen(Elm.Main);"
 
 
@@ -39,26 +39,16 @@ userHtml compilerResult =
 
     Left err ->
         htmlSkeleton True "Oops!" $
-            H.span ! A.style "font-family: monospace;" $
-                forM_ (lines err) $ \line ->
-                    do  preEscapedToMarkup (addSpaces line)
-                        H.br
+            H.pre ! A.style "margin: 0; padding: 8px;" $
+                  Blaze.toMarkup err
 
 
 scripts :: H.ToMarkup a => String -> a -> H.Html
 scripts moduleName jsSource =
   do  H.script ! A.src "/editor/everything.js" $ ""
-      H.script $ preEscapedToMarkup jsSource
-      H.script $ preEscapedToMarkup $
+      H.script $ Blaze.preEscapedToMarkup jsSource
+      H.script $ Blaze.preEscapedToMarkup $
           "var runningElmModule = Elm.fullscreen(Elm." ++  moduleName ++ ");"
-
-
-addSpaces :: String -> String
-addSpaces str =
-  case str of
-    ' ' : ' ' : rest -> " &nbsp;" ++ addSpaces rest
-    c : rest -> c : addSpaces rest
-    [] -> []
 
 
 -- CREATE HTML DOCUMENTS
