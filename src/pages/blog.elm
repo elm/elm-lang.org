@@ -57,23 +57,23 @@ blog = """
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
   [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/
-  [4]:  /blog/release/0.4.0
-  [5]:  /blog/release/0.5.0
-  [6]:  /blog/release/0.6
-  [7]:  /blog/release/0.7
-  [71]: /blog/release/0.7.1
-  [8]:  /blog/release/0.8
-  [9]:  /blog/release/0.9
-  [10]: /blog/release/0.10
-  [101]: /blog/release/0.10.1
-  [11]: /blog/release/0.11
-  [12]: /blog/release/0.12
-  [121]: /blog/release/0.12.1
-  [123]: /blog/release/0.12.3
-  [13]: /blog/release/0.13
-  [14]: /blog/release/0.14
+  [4]:  /blog/announce/0.4.0
+  [5]:  /blog/announce/0.5.0
+  [6]:  /blog/announce/0.6
+  [7]:  /blog/announce/0.7
+  [71]: /blog/announce/0.7.1
+  [8]:  /blog/announce/0.8
+  [9]:  /blog/announce/0.9
+  [10]: /blog/announce/0.10
+  [101]: /blog/announce/0.10.1
+  [11]: /blog/announce/0.11
+  [12]: /blog/announce/0.12
+  [121]: /blog/announce/0.12.1
+  [123]: /blog/announce/0.12.3
+  [13]: /blog/announce/0.13
+  [14]: /blog/announce/0.14
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
-  [15]: /blog/release/0.15
+  [15]: /blog/announce/0.15
 
 ### Conference Videos
 
