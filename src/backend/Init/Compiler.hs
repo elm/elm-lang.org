@@ -62,7 +62,7 @@ rawCompile interfaces elmSource =
   do  (name, _) <- Compiler.parseDependencies elmSource
 
       let (_warnings, either) =
-            Compiler.compile "evancz" "elm-lang" elmSource interfaces
+            Compiler.compile "evancz" "elm-lang" True elmSource interfaces
 
       (_, jsSource) <- either
 
