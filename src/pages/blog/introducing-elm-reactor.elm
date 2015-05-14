@@ -16,7 +16,8 @@ main =
   Blog.blog
     "Time Travel made Easy"
     "Introducing Elm Reactor"
-    { name = "Michael James", url = "http://github.com/michaelbjames" }
+    Blog.michael
+    (Blog.Date 2014 9 24)
     body
 
 

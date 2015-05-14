@@ -17,7 +17,8 @@ main =
   Blog.blog
     "Making Pong"
     "An intro to games in Elm"
-    { name = "Evan Czaplicki", url = "https://twitter.com/czaplic" }
+    Blog.evan
+    (Blog.Date 2012 12 14)
     [ Center.markdown "600px" content ]
 
 

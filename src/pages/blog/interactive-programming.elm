@@ -16,7 +16,8 @@ main =
   Blog.blog
     "Interactive Programming"
     "Hot-swapping in Elm"
-    { name = "Evan Czaplicki", url = "https://twitter.com/czaplic" }
+    Blog.evan
+    (Blog.Date 2013 9 5)
     body
 
 

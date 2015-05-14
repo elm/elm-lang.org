@@ -17,7 +17,8 @@ main =
   Blog.blog
     "Blazing Fast HTML"
     "Virtual DOM in Elm"
-    { name = "Evan Czaplicki", url = "https://twitter.com/czaplic" }
+    Blog.evan
+    (Blog.Date 2014 7 23)
     [ Center.markdown "600px" content ]
 
 
