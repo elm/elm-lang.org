@@ -9,7 +9,7 @@ import Markdown
 
 
 markdown width string =
-  div [ style width ] [ Markdown.toHtml string ]
+  div [ class "content", style width ] [ Markdown.toHtml string ]
 
 
 style width =

@@ -10,6 +10,11 @@ body {
   color: #34495E;
 }
 
+h1, h2, h3, h4 {
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
+}
+
 
 a {
   color: #60B5CC;
@@ -18,6 +23,19 @@ a {
 a:hover {
   text-decoration: underline;
   color: rgb(234,21,122);
+}
+
+.content li {
+  margin-bottom: 6px;
+}
+
+.guide li ul {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.guide li li {
+  list-style-type: none;
 }
 
 
