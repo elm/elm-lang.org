@@ -34,7 +34,7 @@ directions = """
 
   * [Community Packages](http://package.elm-lang.org)
   * [Core Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
-  * [Syntax](/learn/syntax)
+  * [Syntax](/docs/syntax)
 
 """
 
