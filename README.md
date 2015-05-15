@@ -32,15 +32,15 @@ You can run `cabal clean` to clear out all cached build information and start fr
 
 ### Project Structure
 
-- `public/` &mdash; all of the .elm files used for the site. This makes up the
-  majority of client-side code.  You can change/delete the existing files and
-  add entirely new files. The changes, deletions, and additions will be served
-  automatically.
+- `frontend/public/` &mdash; all of the .elm files used for the site. This makes
+  up the majority of client-side code.  You can change/delete the existing files
+  and add entirely new files. The changes, deletions, and additions will be
+  served automatically.
 
 - `resources/` &mdash; the various resources needed for Elm. This is where you
   put all of your non-Elm content, like images, videos, JavaScript code, etc.
 
-- `server/` &mdash; the Haskell files responsible for serving everything from
+- `backend/` &mdash; the Haskell files responsible for serving everything from
   .elm files to images. Look here if you need to change how a particular
   resource is served or if you want to disable some of the sites features (such
   as the online editor).
