@@ -21,12 +21,12 @@ blog = """
  * [Introducing Elm Reactor](/blog/introducing-elm-reactor)
  * [Blazing Fast HTML](/blog/blazing-fast-html)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
- * [Elm package manager](/blog/announce/PackageManager.elm)
- * [Elm REPL](/blog/announce/Repl.elm)
+ * [Elm package manager](/blog/announce/package-manager)
+ * [Elm REPL](/blog/announce/repl)
  * [Hot-swapping in Elm](/blog/interactive-programming)
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
- * [Elm &hearts; Prezi](/blog/announce/Elm-and-Prezi.elm)
+ * [Elm &hearts; Prezi](/blog/announce/elm-and-prezi)
  * [Escape from Callback Hell](/blog/escape-from-callback-hell)
  * [Making Pong](/blog/making-pong)
 
@@ -57,8 +57,8 @@ blog = """
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
   [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/
-  [4]:  /blog/announce/0.4.0
-  [5]:  /blog/announce/0.5.0
+  [4]:  /blog/announce/0.4
+  [5]:  /blog/announce/0.5
   [6]:  /blog/announce/0.6
   [7]:  /blog/announce/0.7
   [71]: /blog/announce/0.7.1
