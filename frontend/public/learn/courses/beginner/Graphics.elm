@@ -110,13 +110,21 @@ Lookin&rsquo; good.
 
 ### Text
 
-In the first class, we used `asText` to show
+In the first class, we used `show` to show
 very simple values, but it always used a monospace font.
 It is not great for normal blocks of text. For that we use
 [Markdown](http://daringfireball.net/projects/markdown/), a
 nice format for describing styled text:
 
+Note: If you are not using the online editor but elm-reactor instead you need to
+install the Markdown package, otherwise `import Markdown` will result in an
+error. You can do this by running `elm-package install evancz/elm-markdown` in
+your project directory (where the elm-package.json is located). In the online
+editor, you do not need to worry about this as the package is pre-installed
+there.
+
 ```haskell
+import Markdown
 main = Markdown.toElement \"\"\"
 
 # Making Fancy Text
@@ -234,7 +242,7 @@ on elements as long as they live in the wild-west of forms where there is no
 easy stacking.
 
 ```haskell
-main = collage 400 400 [ toForm (asText 42) ]
+main = collage 400 400 [ toForm (show 42) ]
 ```
 
 The `toForm` function will convert any element into a form. From there, we can move

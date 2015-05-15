@@ -49,6 +49,8 @@ same material. Neither assume any prior knowledge of programming.
 I recommend starting with the video, but either way,
 **you can use the [online editor](http://elm-lang.org/try) to follow along**
 and start experimenting on your own.
+
+Note: Some of the syntax used in the video is outdated.
 """
 
 video = Markdown.toElement """
@@ -71,11 +73,16 @@ for skimming or review or whatever.
 Every coder’s first program is “Hello World!”. Welcome to the club!
 
 ```haskell
-main = asText "Hello World!"
+import Graphics.Element exposing (..)
+main = show "Hello World!"
 ```
 
-`main` is what gets shown on screen. `asText` will turn anything
-into text that can be shown on screen.
+The first line imports some basic functions we need (in this case, the function
+show from elm-core). `main` is what gets shown on screen. `show` will turn
+anything into text that can be shown on screen.
+
+Note that we will omit the line with the `import` statement in the following
+examples but it needs to be there all the time.
 
 
 ### Numbers
@@ -83,13 +90,13 @@ into text that can be shown on screen.
 You can also do simple mathematics.
 
 ```haskell
-main = asText 42
+main = show 42
 ```
 
 Addition uses the plus sign.
 
 ```haskell
-main = asText (2 + 2)
+main = show (2 + 2)
 ```
 
 This is similar to using a graphing calculator or doing math on paper.
@@ -98,13 +105,13 @@ Note that `*` means multiply, `/` means divide, and `^` means “to the power of
 This is 3 times 4 over 2
 
 ```haskell
-main = asText (3 * 4 / 2)
+main = show (3 * 4 / 2)
 ```
 
 Here we compute (3<sup>2</sup> + 4<sup>2</sup>)
 
 ```haskell
-main = asText (3^2 + 4^2)
+main = show (3^2 + 4^2)
 ```
 
 ### Strings
@@ -112,7 +119,7 @@ main = asText (3^2 + 4^2)
 Strings are sequences of letters. We can put them together with the `++` operator.
 
 ```haskell
-main = asText ("Hello " ++ "Steve!")
+main = show ("Hello " ++ "Steve!")
 ```
 
 ### Lists
@@ -120,13 +127,13 @@ Lists are a sequence of things. All the things must be the same type
 of thing though! For instance, the list can be all numbers:
 
 ```haskell
-main = asText [1,2,3]
+main = show [1,2,3]
 ```
 
 Or a list can be all strings:
 
 ```haskell
-main = asText ["Sally", "Steve", "Tom"]
+main = show ["Sally", "Steve", "Tom"]
 ```
 
 Note: square braces, curly braces, and parentheses are all mean
@@ -137,52 +144,52 @@ Note: square braces, curly braces, and parentheses are all mean
 This is a fancy way to say that we can talk about things being `True` and `False`.
 
 ```haskell
-main = asText True
+main = show True
 ```
 
 If something can be `True` or `False`, it can also be `not True` or `not False`!
 
 ```haskell
-main = asText (not False)
+main = show (not False)
 ```
 
 Boolean logic also lets us compare things. Is 2 less than 4?
 
 ```haskell
-main = asText (2 < 4)
+main = show (2 < 4)
 ```
 
 Is 2 + 2 equal to 5?
 
 ```haskell
-main = asText (2 + 2 == 5)
+main = show (2 + 2 == 5)
 ```
 
 Is it true that 3<sup>2</sup> + 4<sup>2</sup> = 5<sup>2</sup>?
 
 ```haskell
-main = asText (3^2 + 4^2 == 5^2)
+main = show (3^2 + 4^2 == 5^2)
 ```
 
 Does capitalization matter? (Hint: YES!!!)
 
 ```haskell
-main = asText ("Hello" == "hello")
+main = show ("Hello" == "hello")
 ```
 
 ### Conditionals
 Now we are going to use boolean logic for something more useful.
 
 ```haskell
-main = asText (if True then 42 else 11)
+main = show (if True then 42 else 11)
 ```
 
 Let’s recreate [this scene](http://www.youtube.com/watch?v=SiMHTK15Pik)
 from Dragon Ball Z.
 
 ```haskell
-main = asText (if 9500 < 9000 then "meh"
-                              else "It's over 9000!!!")
+main = show (if 9500 < 9000 then "meh"
+                            else "It's over 9000!!!")
 ```
 
 ### Variables
@@ -191,7 +198,7 @@ like to use in two places.
 
 ```haskell
 number = 2 + 2
-main = asText (number + number)
+main = show (number + number)
 ```
 
 We just made up the name `number`. We could have called it anything we want!
@@ -199,7 +206,7 @@ A more descriptive name would be `four`, but the program works exactly the same.
 
 ```haskell
 four = 2 + 2
-main = asText (four + four)
+main = show (four + four)
 ```
 
 We can even choose names like `fish` and `tree` if we want, but it is best
@@ -209,23 +216,23 @@ Maybe we want to save someones name so it is easier to change:
 
 ```haskell
 name = "Steve"
-main = asText ("Hello " ++ name ++ "!")
+main = show ("Hello " ++ name ++ "!")
 ```
 
 Maybe we want to give custom greetings depending on who we are talking to:
 
 ```haskell
 name = "Steve"
-main = asText (if name == "Steve" then "Hey friend!"
-                                  else "Hello " ++ name ++ "!")
+main = show (if name == "Steve" then "Hey friend!"
+                                else "Hello " ++ name ++ "!")
 ```
 
 Let’s rewrite our scene from Dragon Ball Z with a variable:
 
 ```haskell
 powerLevel = 9001
-main = asText (if powerLevel < 9000 then "meh"
-                                    else "It's over 9000!!!")
+main = show (if powerLevel < 9000 then "meh"
+                                  else "It's over 9000!!!")
 ```
 
 ### Functions
@@ -239,7 +246,7 @@ hello name =
     if name == "Steve" then "Hey friend!"
                        else "Hello " ++ name ++ "!"
 
-main = asText [ hello "Sally", hello "Tom", hello "Steve" ]
+main = show [ hello "Sally", hello "Tom", hello "Steve" ]
 ```
 
 We can also make it easier to react to someone’s power level by writing a
@@ -249,28 +256,28 @@ function called `react`.
 react powerLevel =
     if powerLevel < 9000 then "meh" else "It's over 9000!!!"
 
-main = asText [ react 10, react 1000, react 10000 ]
+main = show [ react 10, react 1000, react 10000 ]
 ```
 
 There are a lot of built-in functions like `sqrt`, which takes the square root
 of a number.
 
 ```haskell
-main = asText (sqrt 25)
+main = show (sqrt 25)
 ```
 
 Here is a function that increments numbers by one.
 
 ```haskell
 increment n = n + 1
-main = asText [ increment 3, increment 4, increment 41 ]
+main = show [ increment 3, increment 4, increment 41 ]
 ```
 
 Maybe you want to average two numbers.
 
 ```haskell
 average n m = (n + m) / 2
-main = asText [ average 3 4, average 5 12 ]
+main = show [ average 3 4, average 5 12 ]
 ```
 
 ### Functions that depend on themselves!
@@ -294,7 +301,7 @@ And when you turn this into code, it looks very very similar!
 factorial n =
     if n == 0 then 1 else n * factorial (n-1)
 
-main = asText (factorial 3)
+main = show (factorial 3)
 ```
 
 That was a quick overview of the basics of programming. To practice these
@@ -336,9 +343,11 @@ but to make it easier to *find x*, we can write it as
 Let’s write a function that takes an `a` and `b` and computes `c`.
 
 ```haskell
+import Graphics.Element exposing (show)
+
 hypotenuse a b = ???
 
-main = asText [hypotenuse 3 4, hypotenuse 5 12, hypotenuse 8 15]
+main = show [hypotenuse 3 4, hypotenuse 5 12, hypotenuse 8 15]
 -- the answer should be [5,13,17]
 ```
 
@@ -369,11 +378,13 @@ Your challenge is to write a function that tells you if the three
 arguments are in increasing order.
 
 ```haskell
+import Graphics.Element exposing (show)
+
 isIncreasing a b c = ???
 
-main = asText [ isIncreasing 1 2 3
-              , isIncreasing 1 4 9
-              , isIncreasing 1 4 0 ]
+main = show [ isIncreasing 1 2 3
+            , isIncreasing 1 4 9
+            , isIncreasing 1 4 0 ]
 ```
 
 The answer should be `[True,True,False]`.
@@ -403,15 +414,17 @@ The mathier way to say this is like this:
 Okay, so your challenge is to compute the *n<sup>th</sup>* Fibonacci number.
 
 ```haskell
+import Graphics.Element exposing (show)
+
 fibonacci n = ???
 
-main = asText [ fibonacci 0
-              , fibonacci 1
-              , fibonacci 2
-              , fibonacci 3
-              , fibonacci 4
-              , fibonacci 5
-              , fibonacci 6 ]
+main = show [ fibonacci 0
+            , fibonacci 1
+            , fibonacci 2
+            , fibonacci 3
+            , fibonacci 4
+            , fibonacci 5
+            , fibonacci 6 ]
 -- The result should be [0,1,1,2,3,5,8]
 ```
 
