@@ -1,7 +1,6 @@
 -- Try adding the ability to crouch or to land on top of the crate.
 
 import Graphics.Element exposing (..)
-import Http exposing (..)
 import Keyboard
 import Math.Vector2 exposing (Vec2)
 import Math.Vector3 exposing (..)
@@ -10,6 +9,9 @@ import Math.Matrix4 exposing (..)
 import Time exposing (..)
 import WebGL exposing (..)
 import Window
+import Text exposing (..)
+import Signal exposing (..)
+import Task exposing (..)
 
 
 -- MODEL
@@ -101,11 +103,20 @@ main =
     let person = Signal.foldp update defaultPerson inputs
         entities =
             Signal.map2 world
-                (loadTexture "/texture/woodCrate.jpg")
+                texture.signal
                 (Signal.map2 perspective Window.dimensions person)
     in
         Signal.map2 view Window.dimensions entities
 
+
+texture : Mailbox (Maybe Texture)
+texture =
+    mailbox Nothing
+
+port fetchTexture : Task Error ()
+port fetchTexture =
+    loadTexture "/texture/woodCrate.jpg" `andThen` \tex ->
+    send texture.address (Just tex)
 
 inputs : Signal Inputs
 inputs =
@@ -136,17 +147,16 @@ position = midLeftAt (absolute 40) (relative 0.5)
 
 message : Element
 message =
-    plainText <|
+    leftAligned <| fromString <|
         "Walk around with a first person perspective.\n"
         ++ "Arrows keys to move, space bar to jump."
 
 
-world : Response Texture -> Mat4 -> List Entity
-world response perspective =
-    case response of
-        Waiting     -> []
-        Failure _ _ -> []
-        Success tex ->
+world : Maybe Texture -> Mat4 -> List Entity
+world texture perspective =
+    case texture of
+        Nothing  -> []
+        Just tex ->
             [entity vertexShader fragmentShader crate { crate=tex, perspective=perspective }]
 
 
@@ -167,7 +177,7 @@ rotatedFace (angleXZ,angleYZ) =
         y = makeRotate (degrees angleYZ) i
         t = x `mul` y
     in
-        List.map (map (\v -> {v | position <- transform t v.position })) face
+        List.map (WebGL.map (\v -> {v | position <- transform t v.position })) face
 
 
 face : List (Triangle Vertex)

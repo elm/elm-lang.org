@@ -1,21 +1,31 @@
 import Graphics.Element exposing (..)
-import Http exposing (..)
 import Math.Vector2 exposing (Vec2)
 import Math.Vector3 exposing (..)
 import Math.Matrix4 exposing (..)
 import Time exposing (..)
 import WebGL exposing (..)
+import Signal exposing (..)
+import Task exposing (..)
 
 
 -- SIGNALS
 
 main : Signal Element
 main =
-    let texture = loadTexture "/texture/woodCrate.jpg"
-    in
-        Signal.map perspective angle
-          |> Signal.map2 view texture
-          |> Signal.map (webgl (400,400))
+    Signal.map perspective angle
+      |> Signal.map2 view texture.signal
+      |> Signal.map (webgl (400,400))
+
+
+texture : Mailbox (Maybe Texture)
+texture =
+    mailbox Nothing
+
+
+port fetchTexture : Task Error ()
+port fetchTexture =
+    loadTexture "/texture/woodCrate.jpg" `andThen` \tex ->
+    send texture.address (Just tex)
 
 
 angle : Signal Float
@@ -36,7 +46,7 @@ rotatedFace (angleX,angleY) =
         y = makeRotate (degrees angleY) (vec3 0 1 0)
         t = x `mul` y `mul` makeTranslate (vec3 0 0 1)
     in
-        List.map (map (\x -> {x | pos <- transform t x.pos })) face
+        List.map (WebGL.map (\x -> {x | pos <- transform t x.pos })) face
 
 
 face : List (Triangle { pos:Vec3, coord:Vec3 })
@@ -55,7 +65,9 @@ face =
 
 perspective : Float -> Mat4
 perspective angle =
-    List.foldr1 mul
+    List.foldr
+        mul
+        Math.Matrix4.identity
         [ perspectiveMatrix
         , camera
         , makeRotate (3*angle) (vec3 0 1 0)
@@ -73,12 +85,14 @@ camera =
     makeLookAt (vec3 0 0 5) (vec3 0 0 0) (vec3 0 1 0)
 
 
-view : Response Texture -> Mat4 -> List Entity
-view response perspective =
-    case response of
-      Waiting     -> []
-      Failure _ _ -> []
-      Success tex -> [entity vertexShader fragmentShader crate { crate = tex, perspective = perspective }]
+view : Maybe Texture -> Mat4 -> List Entity
+view texture perspective =
+  case texture of
+
+    Just tex ->
+      [entity vertexShader fragmentShader crate { crate = tex, perspective = perspective }]
+
+    _ -> []
 
 
 -- SHADERS
