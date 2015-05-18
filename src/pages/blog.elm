@@ -77,15 +77,20 @@ blog = """
 
 ### Conference Videos
 
-* [StrangeLoop 2013][sl2013] &mdash; The best one so far! Teaches the basics of
-  graphics and FRP in Elm and builds up to implementing a basic [Mario
-  game](/edit/examples/Intermediate/Mario.elm) *and* it is pretty fun to watch.
-* [mloc.js 2013][mlocjs] &mdash; a less polished version of the StrangeLoop 2013 talk.
-* [StrangeLoop 2012][sl2012] &mdash; First conference talk ever. Covers the basics of
-  graphics and FRP before Elm even had its record system!
+* [Controlling Time and Space][sl2014] &mdash; categorizes the many
+  formulations of FRP, showing how they relate to Elm and what benefits you
+  get from doing it the Elm way.
 
- [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
- [mlocjs]: http://www.ustream.tv/recorded/29330499
- [sl2012]: http://www.infoq.com/presentations/Elm
+* [Functional Reactive Programming in Elm][sl2013] &mdash; Teaches the basics
+  of graphics and FRP in Elm and builds up to implementing a basic [Mario
+  game](/edit/examples/Intermediate/Mario.elm) *and* it is pretty fun to watch.
+
+* [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
+  Covers the basics of graphics and FRP before Elm even had its record system!
+
+[sl2014]: https://youtu.be/Agu6jipKfYw
+[sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
+[mlocjs]: http://www.ustream.tv/recorded/29330499
+[sl2012]: http://www.infoq.com/presentations/Elm
 
 """
