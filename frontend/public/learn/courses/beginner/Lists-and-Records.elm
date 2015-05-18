@@ -51,7 +51,7 @@ you are about to learn how to work with lists and records.
 The following video and [practice problems](#practice-problems)
 are designed to help you dive into lists and records.
 
-The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try) 
+The video is followed by some exercises. You can use the [online editor](http://elm-lang.org/try)
 to follow along and start experimenting on your own.
 """
 
@@ -72,6 +72,16 @@ intro = Markdown.toElement """
 These problems will challenge you to use and expand upon your knowledge of
 lists and records. Remember that case expressions and pattern matching are
 your friends!
+
+You can use the following code stub to work on the problems:
+
+```haskell
+import Graphics.Element exposing (show)
+
+product list = ???
+
+main = show (product [1, 2, 3])
+```
 
   1. Write `product` which gets the product of a list:
 
