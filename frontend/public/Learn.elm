@@ -68,12 +68,6 @@ documentation.
 
 [elm-html]: /blog/Blazing-Fast-Html.elm
 
-### Beginner Classes
-
-* [Intro to Programming](/learn/courses/beginner/Programming.elm) &mdash; assumes no knowledge of programming
-* [Intro to Graphics](/learn/courses/beginner/Graphics.elm) &mdash; builds upon &ldquo;Intro to Programming&rdquo; to draw things
-* [Intro to Lists and Records](/learn/courses/beginner/Lists-and-Records.elm) &mdash; getting deeper into programming concepts in Elm
-
 
 ### Advanced Info on FRP
 
