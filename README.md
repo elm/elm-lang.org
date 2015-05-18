@@ -31,7 +31,7 @@ You can run `cabal clean` to clear out all cached build information and start fr
 
 ### Project Structure
 
-- `public/` &mdash; all of the .elm files used for the site. This makes up the
+- `frontend/public/` &mdash; all of the .elm files used for the site. This makes up the
   majority of client-side code.  You can change/delete the existing files and
   add entirely new files. The changes, deletions, and additions will be served
   automatically.
