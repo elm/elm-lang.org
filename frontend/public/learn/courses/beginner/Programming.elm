@@ -34,6 +34,8 @@ pageTitle = Markdown.toElement """
 <br/>
 <div style="font-family: futura, 'century gothic', 'twentieth century', calibri, verdana, helvetica, arial; text-align: center;">
 <div style="font-size: 4em;">Introduction to Programming</div>
+<strong>Note: the contents of this tutorial are out of date and do not apply to the most recent version of Elm; the examples below
+will not work "out of the box" but require some adaptation. This document will be updated in due time.</strong>
 </div>
 """
 
