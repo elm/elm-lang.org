@@ -46,7 +46,7 @@ viewSection (title, examples) =
 
 viewExample : (String, String) -> Html
 viewExample (name, url) =
-  li [] [ a [href url] [text name] ]
+  li [] [ a [href ("/examples/" ++ url)] [text name] ]
 
 
 -- EXAMPLES
@@ -73,17 +73,17 @@ visuals =
 core : List Section
 core =
   [ "functions" =>
-      [ "apply" => "apply"
-      , "forward apply" => "forward-apply"
+      [ "use them" => "functions"
       , "infixes" => "infix"
-      , "composition" => "composition"
-      , "anonymous" => "anonymous"
+      , "use fewer parens" => "forward-apply"
+      , "define your own" => "define-functions"
       ]
   , "recursion" =>
       [ "factorial" => "factorial"
       , "list length" => "length"
       , "zip" => "zip"
       , "quick sort" => "quick-sort"
+      , "merge sort" => "merge-sort"
       ]
   , "union types" =>
       [ "maybe" => "maybe"
