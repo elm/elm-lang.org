@@ -24,9 +24,9 @@ directions = """
 
 ### Quick Start
 
-  * [Reading Elm code](/)
-  * [Building widgets](https://github.com/evancz/elm-architecture-tutorial/)
-  * [Making Pong](/)
+  * [For JS users](/docs/from-javascript)
+  * [Make an HTML app](https://github.com/evancz/start-app)
+  * [Make Pong](/blog/making-pong)
 
 ### References
 
