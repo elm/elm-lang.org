@@ -79,8 +79,7 @@ core =
       , "define your own" => "define-functions"
       ]
   , "recursion" =>
-      [ "factorial" => "factorial"
-      , "list length" => "length"
+      [ "list length" => "length"
       , "zip" => "zip"
       , "quick sort" => "quick-sort"
       , "merge sort" => "merge-sort"
