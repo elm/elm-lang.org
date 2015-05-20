@@ -40,7 +40,7 @@ you see new syntax or features!
 
 view : String -> List Section -> Html
 view title sections =
-  div [ style ["width" => "300px"] ]
+  div [ class "examples", style ["width" => "300px"] ]
     [ h3 [] [text title]
     , ul [] (List.map viewSection sections)
     ]

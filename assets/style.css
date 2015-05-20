@@ -25,9 +25,15 @@ a:hover {
   color: rgb(234,21,122);
 }
 
+
+/* content */
+
 .content li {
   margin-bottom: 6px;
 }
+
+
+/* guide */
 
 .guide li ul {
   margin: 16px 0;
@@ -35,6 +41,23 @@ a:hover {
 }
 
 .guide li li {
+  list-style-type: none;
+}
+
+
+/* examples */
+
+.examples li {
+  margin-bottom: 4px;
+}
+
+.examples li ul {
+  margin-top: 6px;
+  margin-bottom: 20px;
+  padding-left: 1em;
+}
+
+.examples li li {
   list-style-type: none;
 }
 
