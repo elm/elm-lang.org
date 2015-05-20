@@ -11,9 +11,10 @@ main =
     , Center.markdown "600px" content
     , div [ Center.style "600px" ]
         [ h1 [] [text "Examples"]
-        , ul [] (List.map viewSection core)
-        , ul [] (List.map viewSection visuals)
-        , ul [] (List.map viewSection signals)
+        , view "Core" core
+        , view "HTML" html
+        , view "2D Graphics" visuals
+        , view "Signals" signals
         ]
     ]
 
@@ -35,6 +36,14 @@ you see new syntax or features!
 
 
 -- VIEW EXAMPLES
+
+view : String -> List Section -> Html
+view title sections =
+  div []
+    [ h3 [] [text title]
+    , ul [] (List.map viewSection sections)
+    ]
+
 
 viewSection : Section -> Html
 viewSection (title, examples) =
@@ -85,7 +94,7 @@ core =
       , "merge sort" => "merge-sort"
       ]
   , "union types" =>
-      [ "maybe" => "maybe"
+      [ "either" => "either"
       , "binary tree" => "binary-tree"
       , "boolean expressions" => "boolean-expressions"
       ]
@@ -93,6 +102,19 @@ core =
       [ "list" => "list"
       , "dict" => "dict"
       , "set" => "set"
+      ]
+  ]
+
+
+html : List Section
+html =
+  [ "basics" =>
+      [ "Hello, World!" => "hello-world"
+      , "tags" => "tags"
+      ]
+  , "interactive" =>
+      [ "counter" => "counter"
+      , "text reverser" => "text-reverse"
       ]
   ]
 
