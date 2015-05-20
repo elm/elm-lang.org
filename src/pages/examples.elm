@@ -115,6 +115,7 @@ html =
   , "interactive" =>
       [ "counter" => "counter"
       , "text reverser" => "text-reverse"
+      , "checkboxes" => "checkboxes"
       ]
   ]
 
