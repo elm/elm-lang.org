@@ -1,8 +1,7 @@
-import Graphics.Element exposing (..)
+import Graphics.Element exposing (show)
 import List exposing (filter)
 
 
-main : Element
 main =
   show (quicksort [5,3,8,1,9,4,7])
 

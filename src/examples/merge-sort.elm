@@ -1,8 +1,6 @@
 import Graphics.Element exposing (..)
-import List exposing (..)
 
 
-main : Element
 main =
   show (mergesort [5,3,8,1,9,4,7])
 
