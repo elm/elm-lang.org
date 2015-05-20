@@ -109,8 +109,8 @@ core =
 html : List Section
 html =
   [ "basics" =>
-      [ "Hello, World!" => "hello-world"
-      , "tags" => "tags"
+      [ "hello world!" => "hello-html"
+      , "unordered list" => "unordered-list"
       ]
   , "interactive" =>
       [ "counter" => "counter"
