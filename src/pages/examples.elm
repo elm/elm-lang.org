@@ -10,11 +10,12 @@ main =
     [ TopBar.topBar "examples"
     , Center.markdown "600px" content
     , div [ Center.style "600px" ]
-        [ h1 [] [text "Examples"]
-        , view "Core" core
-        , view "HTML" html
-        , view "2D Graphics" visuals
-        , view "Signals" signals
+        [ div [ style [ "display" => "flex", "flex-wrap" => "wrap" ] ]
+            [ view "Core" core
+            , view "HTML" html
+            , view "2D Graphics" visuals
+            , view "Signals" signals
+            ]
         ]
     ]
 
@@ -39,7 +40,7 @@ you see new syntax or features!
 
 view : String -> List Section -> Html
 view title sections =
-  div []
+  div [ style ["width" => "300px"] ]
     [ h3 [] [text title]
     , ul [] (List.map viewSection sections)
     ]
