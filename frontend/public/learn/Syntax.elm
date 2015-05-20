@@ -202,9 +202,9 @@ squares = map (\\n -> n^2) [1..100]
 
 ### Infix Operators
 
-You can create custom infix operators. The default
+You can create custom infix operators. The tighter 
 [precedence](http://en.wikipedia.org/wiki/Order_of_operations)
-is 9 and the default
+is 0 and the default precedence is 9. The default
 [associativity](http://en.wikipedia.org/wiki/Operator_associativity)
 is left, but you can set your own.
 You cannot override the built-in operators though.
