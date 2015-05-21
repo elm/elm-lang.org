@@ -122,11 +122,11 @@ html =
 signals : List Section
 signals =
   [ "mouse" =>
-      [ "position" => "position"
-      , "presses" => "isDown"
-      , "clicks" => "countClicks"
-      , "yogi" => "resizeYogi"
-      , "track" => "transforms"
+      [ "position" => "mouse-position"
+      , "is down" => "mouse-is-down"
+      , "clicks" => "mouse-clicks"
+      , "yogi" => "resize-yogi"
+      , "tracker" => "mouse-tracker"
       ]
   , "keyboard" =>
       [ "arrows" => "arrows"
