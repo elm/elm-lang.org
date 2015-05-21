@@ -99,11 +99,6 @@ core =
       , "binary tree" => "binary-tree"
       , "boolean expressions" => "boolean-expressions"
       ]
-  , "containers" =>
-      [ "list" => "list"
-      , "dict" => "dict"
-      , "set" => "set"
-      ]
   ]
 
 
@@ -114,9 +109,11 @@ html =
       , "unordered list" => "unordered-list"
       ]
   , "interactive" =>
-      [ "counter" => "counter"
-      , "text reverser" => "text-reverse"
+      [ "buttons" => "buttons"
+      , "field" => "field"
+      , "password" => "password"
       , "checkboxes" => "checkboxes"
+      , "radio buttons" => "radio-buttons"
       ]
   ]
 
