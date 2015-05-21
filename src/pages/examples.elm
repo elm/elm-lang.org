@@ -130,6 +130,7 @@ signals =
       , "clicks" => "mouse-clicks"
       , "yogi" => "resize-yogi"
       , "tracker" => "mouse-tracker"
+      , "stamps" => "stamps"
       ]
   , "window" =>
       [ "size" => "resize-paint"
