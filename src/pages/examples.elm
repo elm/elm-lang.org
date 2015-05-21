@@ -116,6 +116,9 @@ html =
       , "checkboxes" => "checkboxes"
       , "radio buttons" => "radio-buttons"
       ]
+  , "larger examples" =>
+      [ "calculator" => "calculator"
+      ]
   ]
 
 
