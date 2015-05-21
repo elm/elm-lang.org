@@ -107,6 +107,7 @@ html =
   [ "basics" =>
       [ "hello world!" => "hello-html"
       , "unordered list" => "unordered-list"
+      , "markdown" => "markdown"
       ]
   , "interactive" =>
       [ "buttons" => "buttons"
