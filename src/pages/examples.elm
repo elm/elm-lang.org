@@ -135,8 +135,8 @@ signals =
   , "keyboard" =>
       [ "arrows" => "arrows"
       , "wasd" => "wasd"
-      , "keys Down" => "keysDown"
-      , "key Presses" => "charPressed"
+      , "keys down" => "keys"
+      , "key presses" => "key-presses"
       ]
   , "time" =>
       [ "fPS" => "fps"
