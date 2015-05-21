@@ -128,21 +128,15 @@ signals =
       , "yogi" => "resize-yogi"
       , "tracker" => "mouse-tracker"
       ]
+  , "window" =>
+      [ "size" => "resize-paint"
+      , "centering" => "centering"
+      ]
   , "keyboard" =>
       [ "arrows" => "arrows"
       , "wasd" => "wasd"
       , "keys Down" => "keysDown"
       , "key Presses" => "charPressed"
-      ]
-  , "touch" =>
-      [ "raw" => "touches"
-      , "touches" => "touch"
-      , "taps" => "taps"
-      , "draw" => "draw"
-      ]
-  , "window" =>
-      [ "size" => "resizePaint"
-      , "centering" => "centering"
       ]
   , "time" =>
       [ "fPS" => "fps"
