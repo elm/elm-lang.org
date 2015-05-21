@@ -139,7 +139,6 @@ signals =
       , "key presses" => "key-presses"
       ]
   , "time" =>
-      [ "fPS" => "fps"
-      , "every" => "every"
+      [ "clock" => "clock"
       ]
   ]
