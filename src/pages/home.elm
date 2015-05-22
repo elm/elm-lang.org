@@ -92,7 +92,7 @@ main = span [class "welcome-message"] [text "Hello, World!"]
 -- FEATURES
 
 bulletSection w =
-  section []
+  section [id "features"]
     [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Features"]
     , bulletRow w bulletsRowOne
     , bulletRow w bulletsRowTwo
@@ -100,12 +100,10 @@ bulletSection w =
 
 
 bulletRow w (one, two, three) =
-  let sidePad = toString ((w-1020) // 2) ++ "px"
-  in
-  section [ style [ "height" => "240px", "padding" => ("0 " ++ sidePad) ] ]
-    [ section [ style [ "float" => "left", "width" => "300px" ] ] one
-    , section [ style [ "float" => "left", "width" => "300px", "padding" => "0 60px" ] ] two
-    , section [ style [ "float" => "left", "width" => "300px" ] ] three
+  section [class "row"]
+    [ section [ style [ "width" => "30%" ] ] one
+    , section [ style [ "width" => "30%" ] ] two
+    , section [ style [ "width" => "30%" ] ] three
     ]
 
 
