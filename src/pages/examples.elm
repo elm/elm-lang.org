@@ -83,6 +83,13 @@ visuals =
       , "fancier layout" => "layout-fancy"
       , "centering" => "centering"
       ]
+  , "3D graphics" =>
+      [ "triangle" => "triangle"
+      , "cube" => "cube"
+      , "crate" => "crate"
+      , "thwomp" => "thwomp"
+      , "first person" => "first-person"
+      ]
   ]
 
 
