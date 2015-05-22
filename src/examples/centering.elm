@@ -1,15 +1,35 @@
+
+{----------------------------------------------------------------------
+
+Using `container` puts a box around an element, allowing you to
+clarify where it should be positioned.
+
+    container : Int -> Int -> Position -> Element -> Element
+
+The first two arguments specify the size of the container.
+The third argument is the position of the contained element.
+The simplest options for Position are:
+
+    topLeft, topRight, bottomLeft, bottomRight : Position
+  middle, midLeft, midRight, midTop, midBottom : Position
+
+If you need to set an absolute or relative position you can use:
+
+                   middleAt : Pos -> Pos -> Position
+    topLeftAt, bottomLeftAt : Pos -> Pos -> Position
+  topRightAt, bottomRightAt : Pos -> Pos -> Position
+
+A Pos can be created with:
+
+  absolute : Int -> Pos
+  relative : Float -> Pos
+
+----------------------------------------------------------------------}
+
+import Color exposing (lightPurple)
 import Graphics.Element exposing (..)
-import Window
 
 
-main : Signal Element
+main : Element
 main =
-  Signal.map view Window.dimensions
-
-
-view : (Int,Int) -> Element
-view (w,h) =
-  container w h middle (show "Hello, World!")
-
-
--- Try changing the size of your browser window.
+  color lightPurple (container 300 300 middle (show "Try this with html."))

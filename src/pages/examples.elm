@@ -13,7 +13,7 @@ main =
         [ div [ style [ "display" => "flex", "flex-wrap" => "wrap" ] ]
             [ view "Core" core
             , view "HTML" html
-            , view "2D Graphics" visuals
+            , view "Visuals" visuals
             , view "Signals" signals
             ]
         ]
@@ -66,7 +66,7 @@ type alias Section = (String, List (String, String))
 
 visuals : List Section
 visuals =
-  [ "collage" =>
+  [ "2D graphics" =>
       [ "lines" => "lines"
       , "shapes" => "shapes"
       , "text" => "collage-text"
@@ -76,6 +76,12 @@ visuals =
       , "linear gradient" => "linear-gradient"
       , "radial gradient" => "radial-gradient"
       , "texture" => "texture"
+      ]
+  , "layout" =>
+      [ "hello world" => "hello-element"
+      , "simple layout" => "layout-simple"
+      , "fancier layout" => "layout-fancy"
+      , "centering" => "centering"
       ]
   ]
 
@@ -134,7 +140,7 @@ signals =
       ]
   , "window" =>
       [ "size" => "resize-paint"
-      , "centering" => "centering"
+      , "centering" => "window-centering"
       ]
   , "keyboard" =>
       [ "arrows" => "arrows"
