@@ -99,20 +99,20 @@ bulletSection w =
     ]
 
 fluidList : Int -> Int -> List (List Html) -> Html
-fluidList w maxColumns bulletList =
+fluidList itemWidth maxColumns itemList =
     let 
         toPx : Int -> String
         toPx num = (toString num) ++ "px"        
         bulletStyle =
             [ "display" => "inline-block"
-            , "width" => toPx w
+            , "width" => toPx itemWidth
             , "vertical-align" => "top"
             , "text-align" => "left"
             , "margin" => ("0 " ++ toPx gutter)
             ]
         gutter = 15
     in
-    section [style ["max-width" => toPx (w*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]] (List.map (section [style bulletStyle]) bulletList)
+    section [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]] (List.map (section [style bulletStyle]) itemList)
 
 bulletsRowOne : List (List Html)
 bulletsRowOne =
