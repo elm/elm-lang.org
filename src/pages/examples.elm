@@ -10,12 +10,11 @@ main =
     [ TopBar.topBar "examples"
     , Center.markdown "600px" content
     , div [ Center.style "600px" ]
-        [ div [ style [ "display" => "flex", "flex-wrap" => "wrap" ] ]
-            [ view "Core" core
-            , view "HTML" html
-            , view "Visuals" visuals
-            , view "Signals" signals
-            ]
+        [ view "Core" core
+        , view "HTML" html
+        , view "Visuals" visuals
+        , view "Signals" signals
+        , view "Games" games
         ]
     ]
 
@@ -40,7 +39,10 @@ you see new syntax or features!
 
 view : String -> List Section -> Html
 view title sections =
-  div [ class "examples", style ["width" => "300px"] ]
+  div
+    [ class "examples"
+    , style ["width" => "300px", "display" => "inline-block", "vertical-align" => "top"]
+    ]
     [ h3 [] [text title]
     , ul [] (List.map viewSection sections)
     ]
@@ -137,7 +139,10 @@ html =
 
 signals : List Section
 signals =
-  [ "mouse" =>
+  [ "time" =>
+      [ "clock" => "clock"
+      ]
+  , "mouse" =>
       [ "position" => "mouse-position"
       , "is down" => "mouse-is-down"
       , "clicks" => "mouse-clicks"
@@ -155,7 +160,17 @@ signals =
       , "keys down" => "keys"
       , "key presses" => "key-presses"
       ]
-  , "time" =>
-      [ "clock" => "clock"
+  ]
+
+
+games : List Section
+games =
+  [ "simple" =>
+      [ "short mario" => "short-mario"
+      , "idiomatic mario" => "idiomatic-mario"
+      , "pong" => "pong"
+      ]
+  , "community" =>
+      [
       ]
   ]
