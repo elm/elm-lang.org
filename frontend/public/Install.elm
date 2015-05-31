@@ -32,8 +32,9 @@ header = Markdown.toElement """
 
 # Install
 
-There are handy installers for Windows and Mac, but you will need to [build
-from source](#build-from-source) on other platforms.
+There are handy installers for Windows and Mac. On other platforms you can
+[use the npm installer](https://www.npmjs.com/package/elm) or [build from
+source](#build-from-source).
 
 """
 
