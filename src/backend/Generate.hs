@@ -2,6 +2,9 @@
 module Generate (serverHtml, userHtml, js) where
 
 import Control.Monad (when)
+import Data.Aeson ((.=))
+import qualified Data.Aeson as Json
+import qualified Data.ByteString.Lazy.Char8 as LBS
 import qualified Text.Blaze as Blaze
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
@@ -10,16 +13,17 @@ import qualified Text.Blaze.Html5.Attributes as A
 
 -- JS
 
-js :: Either String (String,String) -> String
+js :: Either Json.Value (String,String) -> Json.Value
 js result =
+  Json.object $
   case result of
     Left msg ->
-        "{ \"error\": " ++ show msg ++ " }"
+        [ "error" .= msg ]
 
     Right (moduleName, jsSource) ->
-        "{ \"name\": " ++ show moduleName ++
-        ", \"success\": " ++ show jsSource ++
-        " }"
+        [ "name" .= moduleName
+        , "success" .= jsSource
+        ]
 
 
 -- HTML
@@ -31,7 +35,7 @@ serverHtml name jsSource =
           H.script "var runningElmModule = Elm.fullscreen(Elm.Main);"
 
 
-userHtml :: Either String (String, String) -> H.Html
+userHtml :: Either Json.Value (String, String) -> H.Html
 userHtml compilerResult =
   case compilerResult of
     Right (moduleName, jsSource) ->
@@ -39,8 +43,17 @@ userHtml compilerResult =
 
     Left err ->
         htmlSkeleton True "Oops!" $
-            H.pre ! A.style "margin: 0; padding: 8px;" $
-                  Blaze.toMarkup err
+          do  H.script ! A.src "/editor/errors.js" $ ""
+              H.script $ Blaze.toMarkup (errorJs err)
+
+
+errorJs :: Json.Value -> String
+errorJs err =
+  "var textarea = self.parent.input.document.getElementById('input');\n\
+  \Elm.fullscreen(Elm.Errors, {\n\
+  \    sourceCode: textarea.value,\n\
+  \    errors: " ++ LBS.unpack (Json.encode err) ++ "\n\
+  \});"
 
 
 scripts :: H.ToMarkup a => String -> a -> H.Html

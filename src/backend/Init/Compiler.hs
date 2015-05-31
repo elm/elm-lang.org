@@ -5,6 +5,7 @@ module Init.Compiler (init) where
 -- return a "compile" function and a .js file of all the stuff
 
 import Control.Monad.Except (ExceptT, liftIO, runExceptT, throwError)
+import qualified Data.Aeson as Json
 import qualified Data.Binary as Binary
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Map as Map
@@ -27,7 +28,7 @@ import qualified Init.FileTree as FT
 
 -- INITIALIZE THE COMPILER
 
-init :: IO (String -> Either String (String, String))
+init :: IO (String -> Either Json.Value (String, String))
 init =
   do  write "Setting up compiler ..."
       result <- runExceptT getInterfaces
@@ -45,28 +46,27 @@ init =
 compile
     :: Map.Map Module.Name Module.Interface
     -> String
-    -> Either String (String, String)
+    -> Either Json.Value (String, String)
 compile interfaces elmSource =
-  case rawCompile interfaces elmSource of
-    Right v ->
-        Right v
-    Left msgs ->
-        Left (concatMap (Compiler.errorToString "" elmSource) msgs)
+  do  (name, _) <-
+          jsonErr Compiler.dummyDealiaser
+              (Compiler.parseDependencies elmSource)
 
-
-rawCompile
-    :: Map.Map Module.Name Module.Interface
-    -> String
-    -> Either [Compiler.Error] (String, String)
-rawCompile interfaces elmSource =
-  do  (name, _) <- Compiler.parseDependencies elmSource
-
-      let (_warnings, either) =
+      let (dealiaser, _warnings, either) =
             Compiler.compile "evancz" "elm-lang" True elmSource interfaces
 
-      (_, jsSource) <- either
+      (_, jsSource) <- jsonErr dealiaser either
 
       return (Module.nameToString name, jsSource)
+
+
+jsonErr :: Compiler.Dealiaser -> Either [Compiler.Error] a -> Either Json.Value a
+jsonErr dealiaser result =
+  let
+    toJson =
+      Compiler.errorToJson dealiaser ""
+  in
+    either (Left . Json.toJSON . map toJson) Right result
 
 
 -- GET ALL RELEVANT INTERFACES
@@ -74,7 +74,7 @@ rawCompile interfaces elmSource =
 getInterfaces
     :: ExceptT String IO (Map.Map Module.Name Module.Interface)
 getInterfaces =
-  do  Utils.run "elm-package" ["install", "--yes"]
+  do  --Utils.run "elm-package" ["install", "--yes"]
 
       desc <- Desc.read "elm-package.json"
       solution <- Solution.read "elm-stuff/exact-dependencies.json"
