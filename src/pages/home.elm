@@ -80,15 +80,6 @@ debuggerSection w =
     ]
 
 
-codeBlock = """
-
-```haskell
-main = span [class "welcome-message"] [text "Hello, World!"]
-```
-
-"""
-
-
 -- FEATURES
 
 bulletSection w =
