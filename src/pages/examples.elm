@@ -156,10 +156,7 @@ html =
 
 signals : List Section
 signals =
-  [ "time" =>
-      [ "clock" ==> "clock"
-      ]
-  , "mouse" =>
+  [ "mouse" =>
       [ "position" ==> "mouse-position"
       , "is down" ==> "mouse-is-down"
       , "clicks" ==> "mouse-clicks"
@@ -177,6 +174,9 @@ signals =
       , "keys down" ==> "keys"
       , "key presses" ==> "key-presses"
       ]
+  , "time" =>
+      [ "clock" ==> "clock"
+      ]
   ]
 
 
@@ -189,6 +189,10 @@ games =
       , "pong" ==> "pong"
       ]
   , "community" =>
-      [
+      [ "Tetris" => Foreign "https://github.com/jcollard/elmtris"
+      , "Breakout" => Foreign "https://github.com/Dobiasd/Breakout#breakout--play-it"
+      , "Maze" => Foreign "https://github.com/Dobiasd/Maze#maze--play-it"
+      , "Concentration" => Foreign "https://github.com/Dobiasd/Demoscene-Concentration"
+      , "Froggy" => Foreign "https://github.com/thSoft/froggy"
       ]
   ]
