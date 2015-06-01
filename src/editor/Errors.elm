@@ -51,12 +51,17 @@ view sourceCode errors =
 
 viewError : String -> Error -> Html
 viewError sourceCode error =
-  div []
+  div [style ["white-space" => "pre", "font-size" => "14px"]]
     [ h2 [] [text error.tag]
-    , pre [] [text error.overview]
-    , code [] (grabRegion sourceCode error.region error.subregion)
-    , pre [] [text error.details]
+    , pcode [] [text error.overview]
+    , pcode []
+        (grabRegion sourceCode error.region error.subregion)
+    , pcode [] [text error.details]
     ]
+
+
+pcode attrs html =
+  p [] [code attrs html]
 
 
 -- GRAB REGION
@@ -68,15 +73,13 @@ grabRegion sourceCode region maybeSubregion =
       div [] <|
       case grabSubregion maybeSubregion lineInfo of
         Nothing ->
-            [text line]
+            if region.start.line == region.end.line then
+              codeHighlight region.start.column region.end.column line
+            else
+              [text line]
 
         Just (start, end) ->
-            [ text (String.left start line)
-            , span
-                [style ["color" => "red"]]
-                [text (String.slice start end line)]
-            , text (String.dropLeft end line)
-            ]
+            codeHighlight start end line
 
     lines =
       String.split "\n" sourceCode
@@ -87,6 +90,20 @@ grabRegion sourceCode region maybeSubregion =
         |> List.map formatLine
   in
     numberedLines
+
+
+codeHighlight : Int -> Int -> String -> List Html
+codeHighlight rawStart rawEnd line =
+  let
+    start = rawStart - 1
+    end = rawEnd - 1
+  in
+    [ text (String.left start line)
+    , span
+        [style ["color" => "red"]]
+        [text (String.slice start end line)]
+    , text (String.dropLeft end line)
+    ]
 
 
 -- SUBREGIONS
@@ -102,10 +119,10 @@ grabSubregion maybeSubregion lineInfo =
 startColumn : Region -> (Int, String) -> Maybe Int
 startColumn region (number, _) =
   if region.start.line == number then
-    Just (region.start.column - 1)
+    Just region.start.column
 
   else if region.start.line < number then
-    Just 0
+    Just 1
 
   else
     Nothing
