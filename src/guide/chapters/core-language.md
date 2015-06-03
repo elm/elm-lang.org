@@ -273,11 +273,14 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 Working with pairs of numbers is the most common case, but tuples are generally useful for grouping information. For example, you can use them to represent a book, holding the title, author, and number of pages.
 
 ```haskell
-> ( "Demian", "Hesse", 176 )
+> book = ( "Demian", "Hesse", 176 )
 ("Demian","Hesse",176)
 
 > getTitle (title, author, pages) = title
 <function>
+
+> getTitle book
+"Demian"
 ```
 
 This illustrates that you can hold many different values, each with a different type. But when the data structure starts becoming more complicated, it is often best to use records instead tuples.
@@ -330,17 +333,14 @@ So we can pass any record in as long is it has an `age` field that holds a numbe
 It is often useful to update the values in a record.
 
 ```haskell
-> { point | x <- 1 }
-{ x = 1, y = 0 }
-
-> { point | y <- 4 }
-{ x = 0, y = 4 }
-
 > { bill | name <- "Nye" }
 { age = 56, name = "Nye" }
+
+> { bill | age <- 22 }
+{ age = 22, name = "Gates" }
 ```
 
-You can update as many fields as you want, separating each update by a comma. It is important to notice that we do not make *destructive* updates. In other words, when we update some fields of `point` we actually create a new record rather than overwriting the existing one. Elm makes this efficient by sharing as much content as possible. If you update one of ten fields, the new record will share all of the nine unchanged values.
+It is important to notice that we do not make *destructive* updates. In other words, when we update some fields of `bill` we actually create a new record rather than overwriting the existing one. Elm makes this efficient by sharing as much content as possible. If you update one of ten fields, the new record will share all of the nine unchanged values.
 
 
 ### Comparing Records and Objects
