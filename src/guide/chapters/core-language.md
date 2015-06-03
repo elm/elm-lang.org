@@ -12,6 +12,8 @@ Elm REPL 0.4.1 (Elm Platform 0.15)
 >
 ```
 
+> **Note:** The REPL will print out the type of the result, but for the sake of introducing concepts gradually, we will elide the types in the REPL examples in this section.
+
 We will cover [values](#values), [functions](#functions), [lists](#lists), [tuples](#tuples), and [records](#records) which all correspond pretty closely with structures in languages like JavaScript, Python, and Java.
 
 
@@ -21,54 +23,52 @@ Lets get started with some math. Here is some addition, subtraction, and multipl
 
 ```haskell
 > 2 + 2
-4 : number
+4
 
 > 99 - 1
-98 : number
+98
 
 > 2 * 3
-6 : number
+6
 ```
 
 It looks just like what you would type into a calculator.
-
-> **Note:** The REPL is printing out the result of our input along with a *type* that tells us what type of value we are looking at. In this case, our results are all numbers. You can read the colon as &ldquo;has type&rdquo; so the result `(4 : number)` is pronounced &ldquo;four has type number&rdquo;. We will get into types more at a later time, so don't worry about this too much right now!
 
 When you do more complex math, it follows the normal order of operations. You can also add parentheses to clarify the order.
 
 ```haskell
 > 2 + 3 * 4
-14 : number
+14
 
 > (2 + 3) * 4
-20 : number
+20
 ```
 
 Elm makes a distinction between integers and floating point numbers. You can think of it as a distinction between whole numbers and fractions. This is particularly important for division. Elm has floating point division which works on fractions and produces fractions.
 
 ```haskell
 > 9 / 2
-4.5 : Float
+4.5
 ```
 
 Seems pretty normal! Elm also has integer division which always results in an integer. If there is a remainder, it gets thrown away.
 
 ```haskell
 > 9 // 2
-4 : Int
+4
 ```
 
 Okay, so working with numbers is pretty natural. Strings look pretty similar:
 
 ```haskell
 > "hello"
-"hello" : String
+"hello"
 
 > "hello" ++ "world"
-"helloworld" : String
+"helloworld"
 
 > "hello" ++ " world"
-"hello world" : String
+"hello world"
 ```
 
 Elm uses the `(++)` operator to put strings together. Notice that both strings are preserved exactly as is when they are put together so when we combine `"hello"` and `"world"` the result has no spaces!
@@ -80,13 +80,13 @@ Functions are a way to make reusable chunks of code. One of the coolest thing ab
 
 ```haskell
 > double n = n + n
-<function> : number -> number
+<function>
 
 > double 4
-8 : number
+8
 
 > double (5 + 1)
-12 : number
+12
 ```
 
 We defined a function `double` and used it a few times. Whenever we see `double` we can think of it as a find-and-replace operation, so when we evaluate `(double 4)` it happens in the following three steps.
@@ -120,16 +120,16 @@ Okay, now that we have seen a basic function and learned how it gets evaluated, 
 
 ```haskell
 > isNegative n = n < 0
-<function> : number -> Bool
+<function>
 
 > isNegative 4
-False : Bool
+False
 
 > isNegative -7
-True : Bool
+True
 
 > isNegative (double -3)
-True : Bool
+True
 ```
 
 The `isNegative` function takes in some number and checks if it is less than zero. This will result in `True` or `False` which are called boolean values, or `Bool` for short.
@@ -146,16 +146,16 @@ Lets try a slightly fancier function that finds the average of two numbers.
 
 ```haskell
 > average a b = (a + b) / 2
-<function> : Float -> Float -> Float
+<function>
 
 > average 10 20
-15 : Float
+15
 
 > average (1 + 1) (10 - 7)
-2.5 : Float
+2.5
 
 > isNegative (average (double -2) 2)
-True : Bool
+True
 ```
 
 The `average` function takes two arguments, otherwise it is exactly the same as the functions we have seen before. Lets walk through the evaluation steps for the trickier use of `average`.
@@ -194,10 +194,10 @@ When you want to do have conditional behavior in Elm, you use an if-expression.
 
 ```haskell
 > if True then "hello" else "world"
-"hello" : String
+"hello"
 
 > if False then "hello" else "world"
-"world" : String
+"world"
 ```
 
 The keywords `if` `then` `else` are used to separate the conditional and the two branches so we do not need any parentheses or curly braces. Now lets make a function that tells us if a number is over 9000.
@@ -205,13 +205,13 @@ The keywords `if` `then` `else` are used to separate the conditional and the two
 ```haskell
 > over9000 powerLevel = \\
 |   if powerLevel > 9000 then "It's over 9000!!!" else "meh"
-<function> : number -> String
+<function>
 
 > over9000 42
-"meh" : String
+"meh"
 
 > over9000 100000
-"It's over 9000!!!" : String
+"It's over 9000!!!"
 ```
 
 > **Note:** Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define.
@@ -227,25 +227,25 @@ Lists can hold many values, and those values must all have the same type. Here a
 
 ```haskell
 > names = [ "Alice", "Bob", "Chuck" ]
-["Alice","Bob","Chuck"] : List String
+["Alice","Bob","Chuck"]
 
 > List.isEmpty names
-False : Bool
+False
 
 > List.length names
-3 : Int
+3
 
 > List.reverse names
-["Chuck","Bob","Alice"] : List String
+["Chuck","Bob","Alice"]
 
 > numbers = [1,4,3,2]
-[1,4,3,2] : List number
+[1,4,3,2]
 
 > List.sort numbers
-[1,2,3,4] : List number
+[1,2,3,4]
 
 > List.map double numbers
-[2,8,6,4] : List number
+[2,8,6,4]
 ```
 
 Again, the key thing is that all elements of the list have exactly the same type.
@@ -253,60 +253,181 @@ Again, the key thing is that all elements of the list have exactly the same type
 
 ## Tuples
 
-Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. The most common use is for representing a point:
+Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. The most common use is for representing a 2D point:
 
 ```haskell
 > ( 3.0, 4.0 )
-( 3.0, 4.0 ) : (Float, Float)
+( 3.0, 4.0 )
+
+> distance ( x, y ) ( x', y' ) = \\
+|   sqrt ((x-x')^2 + (y-y')^2)
+<function>
+
+> distance (0,0) (0,3)
+3
+
+> distance (0,0) (3,4)
+5
 ```
 
-This pair of integers is the most basic tuple. Tuples are mainly for grouping information, so you could use them to represent a book, holding the title, author, and number of pages.
+Working with pairs of numbers is the most common case, but tuples are generally useful for grouping information. For example, you can use them to represent a book, holding the title, author, and number of pages.
 
 ```haskell
-book : (String,String,Int)
-book =
-  ("Demian","Hesse",176)
+> ( "Demian", "Hesse", 176 )
+("Demian","Hesse",176) : ( String, String, number )
+
+> getTitle (title, author, pages) = \\
+|   title
+<function> : ( String, String, number ) -> String
 ```
 
-This illustrates that you can hold many different values, each with a different type. When the data structure becomes more complicated or specific, it is often best to use records instead tuples.
+This illustrates that you can hold many different values, each with a different type. But when the data structure starts becoming more complicated, it is often best to use records instead tuples.
 
 
 ## Records
 
-Elm also has [records][records] which let you have more structured values. Say you want to make a list of high quality books. We can put them in a record that has a title, author, and number of pages:
+A records is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm!
+
+
+### Basic Usage
+
+A record is a lightweight labeled data structure. Here are a bunch of examples that we will use throughout this section.
 
 ```haskell
-book1 : { title : String, author : String, pages : Int }
-book1 =
-  { title = "Demian"
-  , author = "Hesse"
-  , pages = 176
-  }
+> point2D = { x = 0, y = 0 }
+{ x = 0, y = 0 }
+
+> point3D = { x = 3, y = 4, z = 5 }
+{ x = 3, y = 4, z = 5 }
+
+> bill = { name = "Gates", age = 57 }
+{ age = 57, name = "Gates" }
+
+> steve = { name = "Jobs" , age = 56 }
+{ age = 56, name = "Jobs" }
+
+> larry = { name = "Page" , age = 39 }
+{ age = 39, name = "Page" }
+
+> people = [ bill, steve, larry ]
+[{ age = 57, name = "Gates" },{ age = 56, name = "Jobs" },{ age = 39, name = "Page" }]
 ```
 
-We can use type aliases to make things a bit clearer.
+There are a number of ways to access records:
 
 ```haskell
-type alias Book =
-    { title : String
-    , author : String
-    , pages : Int
-    }
+> point2D.x
+0
 
+> bill.name
+"Gates"
 
-book2 : Book
-book2 =
-  { title = "Magister Ludi"
-  , author = "Hesse"
-  , pages = 558
-  }
+> .name bill
+"Gates"
 
-
-books : List Book
-books =
-  [ book1, book2 ]
+> List.map .age people
+[57,56,39]
 ```
 
-In the tuple version of the book, it was unclear from the type which `String` was the title and which was the author. You would have to read some code or do some experiment to figure it out. With records, it is totally clear and extracting a title is as simple as saying `book2.title`.
+The first way to access records is fairly standard, appearing in many languages. No spaces are permitted on either side of the dot with this method.
 
+Elm also has a version of record access that works like a function. By starting the variable with a dot, you are saying please access the field with the following name, so `.name` accesses the `name` field of the record. So when we map `.age` over our list of `people` we go and access their ages one at a time.
+
+The only requirement is that the accessor is used on a record that actually has that field, the other fields in the record do not matter. So it is perfectly acceptable to say any of the following:
+
+```haskell
+> .x point2D
+0
+
+> .x point3D
+3
+
+> .x { x = 4 }
+4
+```
+
+
+### Pattern Matching
+
+It is also possible to pattern match on records:
+
+```haskell
+dist {x,y} = sqrt (x^2 + y^2)
+
+under50 {age} = age < 50
+```
+
+The first function takes any record that has both an `x` and `y` field and
+computes the distance to the origin. The second takes any record that has an
+`age` and determines if it is less than 50. We can use these functions as follows:
+
+matches w =
+  evaluate w
+  [ ("dist point2D", "0")
+  , ("dist point3D", "5")
+  , ("under50 bill", "False")
+  , ("any under50 people", "True")
+  ]
+
+
+These patterns can appear in let expressions, lambda expressions,
+and case expressions.
+
+### Updating Records
+
+It is often useful to &ldquo;update&rdquo; the values in a record.
+
+
+updating w =
+  evaluate w
+  [ ("{ point2D | y <- 1 }", "{ x=0, y=1 }")
+  , ("{ point3D | x <- 0, y <- 0 }", "{ x=0, y=0, z=12 }")
+  , ("{ steve | name <- \"Wozniak\" }", "{ name=\"Wozniak\", age=56 }")
+  ]
+
+
+You can update as many fields as you want, separating each update by a comma.
+You can even change the type of value in a field. Say the user inputs a bunch
+of personal data producing a record. It would be nice to convert some of the
+strings into numbers if possible. This is no problem:
+
+```haskell
+rawInput =
+  { name = "Tom"
+  , country = "Finland"
+  , age = "34"
+  , height = "1.9"
+  }
+
+prettify person =
+  { person |
+      age <- readInt person.age,
+      height <- readFloat person.height
+  }
+
+input = prettify rawInput
+```
+
+We started with a record in which `(person.age : String)`, providing little
+information about the validity of the input. The result is that
+`(person.age : Maybe Int)`, fully capturing the type of input we are dealing
+with and whether or not it is valid.
+
+The update functions allow you to write fairly elaborate update functions
+with little trouble.
+
+
+### Comparing Records and Objects
+
+Records in Elm are *similar* to objects in JavaScript, but there are some crucial differences. The major differences are that with records:
+
+- You cannot ask for a field that does not exist.
+- No field will ever be undefined or null.
+- You cannot create recursive records with a `this` or `self` keyword.
+
+Elm encourages a strict separation of data and logic, and the ability to say `this` is primarily used to break this separation. This is a systematic problem in Object Oriented languages that Elm is purposely avoiding.
+
+Records also support &ldquo;[structural typing][st]&rdquo; which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
+
+ [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 
