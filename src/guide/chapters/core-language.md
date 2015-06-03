@@ -256,11 +256,11 @@ Again, the key thing is that all elements of the list have exactly the same type
 Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. The most common use is for representing a 2D point:
 
 ```haskell
-> ( 3.0, 4.0 )
-( 3.0, 4.0 )
+> (3,4)
+( 3, 4 )
 
-> distance ( x, y ) ( x', y' ) = \\
-|   sqrt ((x-x')^2 + (y-y')^2)
+> distance (a,b) (x,y) = \\
+|   sqrt ( (a-x)^2 + (b-y)^2 )
 <function>
 
 > distance (0,0) (0,3)
@@ -274,11 +274,10 @@ Working with pairs of numbers is the most common case, but tuples are generally 
 
 ```haskell
 > ( "Demian", "Hesse", 176 )
-("Demian","Hesse",176) : ( String, String, number )
+("Demian","Hesse",176)
 
-> getTitle (title, author, pages) = \\
-|   title
-<function> : ( String, String, number ) -> String
+> getTitle (title, author, pages) = title
+<function>
 ```
 
 This illustrates that you can hold many different values, each with a different type. But when the data structure starts becoming more complicated, it is often best to use records instead tuples.
@@ -286,135 +285,62 @@ This illustrates that you can hold many different values, each with a different 
 
 ## Records
 
-A records is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm!
+A records is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm! Lets see some basic examples.
 
-
-### Basic Usage
-
-A record is a lightweight labeled data structure. Here are a bunch of examples that we will use throughout this section.
 
 ```haskell
-> point2D = { x = 0, y = 0 }
-{ x = 0, y = 0 }
+> point = { x = 3, y = 4 }
+{ x = 3, y = 4 }
 
-> point3D = { x = 3, y = 4, z = 5 }
-{ x = 3, y = 4, z = 5 }
+> point.x
+3
 
 > bill = { name = "Gates", age = 57 }
 { age = 57, name = "Gates" }
 
-> steve = { name = "Jobs" , age = 56 }
-{ age = 56, name = "Jobs" }
-
-> larry = { name = "Page" , age = 39 }
-{ age = 39, name = "Page" }
-
-> people = [ bill, steve, larry ]
-[{ age = 57, name = "Gates" },{ age = 56, name = "Jobs" },{ age = 39, name = "Page" }]
-```
-
-There are a number of ways to access records:
-
-```haskell
-> point2D.x
-0
-
 > bill.name
 "Gates"
+```
 
+So we can create records using curly braces and access fields using a dot. Elm also has a version of record access that works like a function. By starting the variable with a dot, you are saying please access the field with the following name, so `.name` accesses the `name` field of the record.
+
+```haskell
 > .name bill
 "Gates"
 
-> List.map .age people
-[57,56,39]
+> List.map .name [bill,bill,bill]
+["Gates","Gates","Gates"]
 ```
 
-The first way to access records is fairly standard, appearing in many languages. No spaces are permitted on either side of the dot with this method.
-
-Elm also has a version of record access that works like a function. By starting the variable with a dot, you are saying please access the field with the following name, so `.name` accesses the `name` field of the record. So when we map `.age` over our list of `people` we go and access their ages one at a time.
-
-The only requirement is that the accessor is used on a record that actually has that field, the other fields in the record do not matter. So it is perfectly acceptable to say any of the following:
+When it comes to making functions with records, you can do some pattern matching to make things a bit lighter.
 
 ```haskell
-> .x point2D
-0
+> under70 {age} = age < 70
+<function> 
 
-> .x point3D
-3
+> under70 bill
+True
 
-> .x { x = 4 }
-4
+> under70 { species = "Triceratops", age = 68000000 }
+False
 ```
 
+So we can pass any record in as long is it has an `age` field that holds a number.
 
-### Pattern Matching
-
-It is also possible to pattern match on records:
+It is often useful to update the values in a record.
 
 ```haskell
-dist {x,y} = sqrt (x^2 + y^2)
+> { point | x <- 1 }
+{ x = 1, y = 0 }
 
-under50 {age} = age < 50
+> { point | y <- 4 }
+{ x = 0, y = 4 }
+
+> { bill | name <- "Nye" }
+{ age = 56, name = "Nye" }
 ```
 
-The first function takes any record that has both an `x` and `y` field and
-computes the distance to the origin. The second takes any record that has an
-`age` and determines if it is less than 50. We can use these functions as follows:
-
-matches w =
-  evaluate w
-  [ ("dist point2D", "0")
-  , ("dist point3D", "5")
-  , ("under50 bill", "False")
-  , ("any under50 people", "True")
-  ]
-
-
-These patterns can appear in let expressions, lambda expressions,
-and case expressions.
-
-### Updating Records
-
-It is often useful to &ldquo;update&rdquo; the values in a record.
-
-
-updating w =
-  evaluate w
-  [ ("{ point2D | y <- 1 }", "{ x=0, y=1 }")
-  , ("{ point3D | x <- 0, y <- 0 }", "{ x=0, y=0, z=12 }")
-  , ("{ steve | name <- \"Wozniak\" }", "{ name=\"Wozniak\", age=56 }")
-  ]
-
-
-You can update as many fields as you want, separating each update by a comma.
-You can even change the type of value in a field. Say the user inputs a bunch
-of personal data producing a record. It would be nice to convert some of the
-strings into numbers if possible. This is no problem:
-
-```haskell
-rawInput =
-  { name = "Tom"
-  , country = "Finland"
-  , age = "34"
-  , height = "1.9"
-  }
-
-prettify person =
-  { person |
-      age <- readInt person.age,
-      height <- readFloat person.height
-  }
-
-input = prettify rawInput
-```
-
-We started with a record in which `(person.age : String)`, providing little
-information about the validity of the input. The result is that
-`(person.age : Maybe Int)`, fully capturing the type of input we are dealing
-with and whether or not it is valid.
-
-The update functions allow you to write fairly elaborate update functions
-with little trouble.
+You can update as many fields as you want, separating each update by a comma. It is important to notice that we do not make *destructive* updates. In other words, when we update some fields of `point` we actually create a new record rather than overwriting the existing one. Elm makes this efficient by sharing as much content as possible. If you update one of ten fields, the new record will share all of the nine unchanged values.
 
 
 ### Comparing Records and Objects
@@ -427,7 +353,7 @@ Records in Elm are *similar* to objects in JavaScript, but there are some crucia
 
 Elm encourages a strict separation of data and logic, and the ability to say `this` is primarily used to break this separation. This is a systematic problem in Object Oriented languages that Elm is purposely avoiding.
 
-Records also support &ldquo;[structural typing][st]&rdquo; which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
+Records also support [structural typing][st] which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
 
  [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 
