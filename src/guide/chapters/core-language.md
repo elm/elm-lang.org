@@ -1,175 +1,214 @@
+
 # Core Language
 
-This page will go through some of the basic values in Elm, including primitives,
-data structures, and functions. It focuses on understanding their types, which
-can be hard to learn just by example and has big benefits once you get into the
-swing of things.
+This section will walk you through Elm's simple core language. The aim is to build a strong understanding of the basics so you have a good foundation when you start working with graphics and interactivity.
 
+To follow along [get everything installed](/install) and start up `elm repl` in the terminal. It should look like this:
+
+```haskell
+Elm REPL 0.4.1 (Elm Platform 0.15)
+  See usage examples at <https://github.com/elm-lang/elm-repl>
+  Type :help for help, :exit to exit
+>
+```
 
 ## Values
 
-The basic building blocks of Elm are a set of primitive values that include
-strings, booleans, and numbers. For example, the number 42 is an integer. So
-to write down the type we say:
+Lets get started with some math. Here is some addition, subtraction, and multiplication.
 
 ```haskell
-42 : Int
+> 2 + 2
+4 : number
+
+> 99 - 1
+98 : number
+
+> 2 * 3
+6 : number
 ```
 
-This is read, &ldquo;42 has type `Int`&rdquo;. The term `Int` is the abbreviation
-for integers. The same works for all types of primitive values:
+It looks just like what you would type into a calculator.
+
+> **Note:** The REPL is printing out the result of our input along with a *type* that tells us what type of value we are looking at. In this case, our results are all numbers. You can read the colon as &ldquo;has type&rdquo; so the result `(4 : number)` is pronounced &ldquo;four has type number&rdquo;. We will get into types more at a later time, so don't worry about this too much right now!
+
+When you do more complex math, it follows the normal order of operations. You can also add parentheses to clarify the order.
 
 ```haskell
-True    : Bool      -- True is a boolean value
-3.1415  : Float     -- pi is a floating point number
-'x'     : Char      -- 'x' is a character
-"Alice" : String    -- "Alice" is a string of characters
+> 2 + 3 * 4
+14 : number
+
+> (2 + 3) * 4
+20 : number
 ```
 
-You would read each entry as &ldquo;True has type Bool&rdquo;,
-&ldquo;3.1415 has type float&rdquo;, etc. The basic types are
-all slightly abbreviated, and this convention has become so widespread in
-programming languages that there is no going back. It may be confusing
-at first, but it turns out to be quite nice.
+Elm makes a distinction between integers and floating point numbers. You can think of it as a distinction between whole numbers and fractions. This is particularly important for division. Elm has floating point division which works on fractions and produces fractions.
 
-One thing to note, a floating point number is any number with a decimal point.
-Its name reflects some of its technical details, but they are not super
-important. The main thing to know is that a `Float` is not 100% accurate, at
-some point it stops keeping track of very, very small fractions. It is also
-important to know that an `Int` and a `Float` are not the same thing! They
-are both numbers, but they are represented differently and have different
-properties.
+```haskell
+> 9 / 2
+4.5 : Float
+```
+
+Seems pretty normal! Elm also has integer division which always results in an integer. If there is a remainder, it gets thrown away.
+
+```haskell
+> 9 // 2
+4 : Int
+```
+
+Okay, so working with numbers is pretty natural. Strings look pretty similar:
+
+```haskell
+> "hello"
+"hello" : String
+
+> "hello" ++ "world"
+"helloworld" : String
+
+> "hello" ++ " world"
+"hello world" : String
+```
+
+Elm uses the `(++)` operator to put strings together. Notice that both strings are preserved exactly as is when they are put together so when we combine `"hello"` and `"world"` the result has no spaces!
 
 
 ## Functions
 
-So far we have only looked at unchanging values, but this is *functional*
-programming! What about functions?!
-
-One of the simplest functions is the boolean `not`. Here is how you would
-implement it from scratch:
+Functions are a way to make reusable chunks of code. One of the coolest thing about functions in Elm is that you can think of them as simple find-and-replace operations. Just substitute in the body of the function and everything will work out! Lets start with a function that doubles numbers.
 
 ```haskell
-not : Bool -> Bool
-not boolean =
-    if boolean then False else True
+> double n = n + n
+<function> : number -> number
+
+> double 4
+8 : number
+
+> double (5 + 1)
+12 : number
 ```
 
-So `not` is a function that takes in a boolean and gives back a boolean.
-This would be read as &ldquo;`not` has type `Bool` to `Bool`&rdquo;.
+We defined a function `double` and used it a few times. Whenever we see `double` we can think of it as a find-and-replace operation, so when we evaluate `(double 4)` it happens in the following three steps.
 
-Another example is the `length` function which figures out the length of a list.
+  * `double 4`
+  * `4 + 4`
+  * `8`
+
+We start with `(double 4)` and then swap in the meaning of `(double n)` by replacing all occurances of `n` with `4`. This gives us our second step `(4 + 4)`. From here it is just some addition to get to `8`, the third and final step of evaluation.
+
+The same process happens in more complex expressions like `(double (5 + 1))`. For that expression, evaluation takes the following steps:
+
+  * `double (5 + 1)`
+  * `double 6`
+  * `6 + 6`
+  * `12`
+
+Notice that we turn `(5 + 1)` into `6` *before* doing the find-and-replace with `double`. This is really important and can save us a lot of work if `n` is used multiple times. Lets see how evaluation would proceed if we did the find-and-replace sooner:
+
+  * `double (5 + 1)`
+  * `(5 + 1) + (5 + 1)`
+  * `6 + (5 + 1)`
+  * `6 + 6`
+  * `12`
+
+Notice that we have to evaluate `(5 + 1)` twice. It is always going to be `6` so we are wasting our time figuring it out again! This is especially important as we start doing more complex stuff. `(5 + 1)` only takes one step, but imagine something that takes a thousand steps, or a million! At that scale, doing things twice is pretty wasteful.
+
+> **Note:** For people with a background in languages like Java or JavaScript or Python, you will notice that function application looks different in Elm. Instead of wrapping all arguments in parentheses and separating them with commas, we use spaces to apply the function. So `(add(3,4))` becomes `(add 3 4)` which ends up avoiding a bunch of parens and commas as things get bigger. Ultimately, this looks much cleaner once you get used to it!
+
+Okay, now that we have seen a basic function and learned how it gets evaluated, lets define a few more functions for practice. This next function figures out if a number is negative or not.
 
 ```haskell
-length : List a -> Int
-length list =
-    case list of
-      [] -> 0
-      first :: rest -> 1 + length rest
+> isNegative n = n < 0
+<function> : number -> Bool
+
+> isNegative 4
+False : Bool
+
+> isNegative -7
+True : Bool
+
+> isNegative (double -3)
+True : Bool
 ```
 
-A lower case type is called a *type variable*. A type variable means
-&ldquo;any type can go here&rdquo;. Since `length` never looks at any
-of the values in the list, it can work on any kind of list!
+The `isNegative` function takes in some number and checks if it is less than zero. This will result in `True` or `False` which are called boolean values, or `Bool` for short.
 
-People will say that `length` is a *polymorphic function*. If you pretend you
-know greek, you can think of it as a function with &ldquo;many forms&rdquo;.
-This is all just code words for a type that has *type variables* in it
-(the lower case ones).
+Again, it is just like defining a find-and-replace rule, so the evaluation of the fanciest case goes through the following steps:
 
-Functions can have multiple arguments. For example, the `drop` function
-takes in a number of elements to drop and a list. It then returns the
-shortened list. For example, it is true that
-`(drop 2 [1,2,3,4] == [3,4])`. The type of `drop` is:
+  * `isNegative (double -3)`
+  * `isNegative (-3 + -3)`
+  * `isNegative -6`
+  * `-6 < 0`
+  * `True`
+
+Lets try a slightly fancier function that finds the average of two numbers.
 
 ```haskell
-drop : Int -> List a -> List a
+> average a b = (a + b) / 2
+<function> : Float -> Float -> Float
+
+> average 10 20
+15 : Float
+
+> average (1 + 1) (10 - 7)
+2.5 : Float
+
+> isNegative (average (double -2) 2)
+True : Bool
 ```
 
-When you see multiple arrows, you can think of a bunch of argument types
-ending with the return type. So you can think of `drop` as a function that
-takes two arguments and returns a list. Notice that we use the same type variable
-for the input list `List a` and the output list `List a`. That means if you give
-an integer list `List Int`, you must get back an integer list `List Int`!
+The `average` function takes two arguments, otherwise it is exactly the same as the functions we have seen before. Lets walk through the evaluation steps for the trickier use of `average`.
 
-### Higher-order Functions
+  * `average (1 + 1) (10 - 7)`
+  * `average 2 (10 - 7)`
+  * `average 2 3`
+  * `(2 + 3) / 2`
+  * `5 / 2`
+  * `2.5`
 
-There are some functions that take functions as arguments. One of the most
-common examples of this is the `map` function. It applies a function to every
-element of a list.
+Again, we fully evaluate the arguments before doing the find-and-replace. The evaluation process follows the same rules when we are using lots of functions together, as in the fanciest use of `average`.
 
-```haskell
-map not [True,False]   -- returns [False,True]
-map round [4.2,7.9]    -- returns [4,8]
-```
+  * `isNegative (average (double -2) 2)`
+  * `isNegative (average (-2 + -2) 2)`
+  * `isNegative (average -4 2)`
+  * `isNegative ((-4 + 2) / 2)`
+  * `isNegative (-2 / 2)`
+  * `isNegative -1`
+  * `-1 < 0`
+  * `True`
 
-In the first example, all of the boolean values in the list become *not* that
-value. In the second example, all of the floating point numbers are rounded to
-the nearest integer.
+Hopefully showing the evaluation order has helped clarify exactly how to think about a snippet of Elm code! As we start looking at more and more complex code, it can be helpful to go through these steps to make sure you know exactly what is going on.
 
-The `map` function has the following type:
+So the key takeaways from this section are that:
 
-```haskell
-map : (a -> b) -> List a -> List b
-```
+  1. Elm functions are like find-and-replace operations.
+  2. All expressions have a simple evaluation order that minimizes work.
 
-The first argument is a function from `a`&rsquo;s to `b`&rsquo;s, the second
-argument is a list of `a`&rsquo;s, and the return value is a transformed list
-of `b`&rsquo;s.
-
-The types of `not` and `round` are:
-
-```haskell
-not : Bool -> Bool
-round : Float -> Int
-```
-
-The `map` function can be specialized for each case. When `map` is used
-with `not`, it is specialized to have the type:
-
-```haskell
--- map : (Bool -> Bool) -> List Bool -> List Bool
-
-nots : List Bool -> List Bool
-nots bools =
-    map not bools
-```
-
-And when it is used with `round` it is specialized to have the type:
-
-```haskell
--- map : (Float -> Int) -> List Float -> List Int
-
-rounds : List Float -> List Int
-rounds floats =
-    map round floats
-```
-
-These are some of the &ldquo;many forms&rdquo; of the `map` function. The type
-variables make `map` very flexible, but they also ensure that you cannot use
-it in an undefined way. So the compiler would yell at you if you tried to do
-
-```haskell
-map not ["tree","france"]    -- Type Error!!!
-```
-
-Applying `not` to a string does not make any sense! So when you try to
-specialize `map` to make this work, the type variable `a` ends up not matching!
-
-```haskell
-map : ( a   ->  b  ) -> List a      -> List b
-map : (Bool -> Bool) -> List String -> List Bool   -- Error!!!
-```
-
-Type variable `a` cannot be a `Bool` and a `String`! This is when types
-begin to become extremely useful! For every expression you write, the type
-checker is making sure that your code makes sense. In practice, that means
-that the primary errors you will make will be logical errors: writing code
-that is valid but it does not do what you intended. Many programmers find
-that this kind of error is quite rare, so it is common that if it
-compiles, it works!
+Now that we have defined a few functions and learned how they work, lets introduce some more language constructs.
 
 
 ## If
 
-## Let
+When you want to do have conditional behavior in Elm, you use an if-expression.
+
+```haskell
+> if True then "hello" else "world"
+"hello" : String
+
+> if False then "hello" else "world"
+"world" : String
+```
+
+The keywords `if` `then` `else` are used to separate the conditional and the two branches so we do not need any parentheses or curly braces. Now lets make a function that tells us if a number is over 9000.
+
+```haskell
+> over9000 powerLevel = \\
+|   if powerLevel > 9000 then "It's over 9000!!!" else "meh"
+<function> : number -> String
+
+> over9000 42
+"meh" : String
+
+> over9000 100000
+"It's over 9000!!!" : String
+```
+
+> **Note:** Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define.

@@ -3,10 +3,11 @@ module Router (router) where
 
 import Control.Applicative ((<|>))
 import Control.Monad.Trans (liftIO)
+import qualified Data.Aeson as Json
 import qualified Data.ByteString.Char8 as BS
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, route
-    , setContentType, setResponseStatus, writeBS, writeBuilder
+    , setContentType, setResponseStatus, writeBuilder, writeLBS
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
@@ -20,7 +21,7 @@ import qualified Init.Guide as Guide
 
 
 router
-    :: (String -> Either String (String,String))
+    :: (String -> Either Json.Value (String,String))
     -> [(FilePath,FilePath)]
     -> Snap ()
 router compiler pages =
@@ -112,18 +113,18 @@ code =
       serveIfExists (FT.file ["examples","code"] name "html")
 
 
-compile :: (String -> Either String (String,String)) -> Snap ()
+compile :: (String -> Either Json.Value (String,String)) -> Snap ()
 compile compiler =
   do  elmSource <- demandParam "input"
       serveHtml (Generate.userHtml (compiler elmSource))
 
 
-hotswap :: (String -> Either String (String,String)) -> Snap ()
+hotswap :: (String -> Either Json.Value (String,String)) -> Snap ()
 hotswap compiler =
   do  elmSource <- demandParam "input"
       modifyResponse $ setContentType "application/javascript"
       let json = Generate.js (compiler elmSource)
-      writeBS (BS.pack json)
+      writeLBS (Json.encode json)
 
 
 error404 :: Snap ()

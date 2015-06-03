@@ -22,6 +22,9 @@ init =
       make
         ("src" </> "editor" </> "EditorControls" <.> "elm")
         (FT.file ["editor"] "controls" "js")
+      make
+        ("src" </> "editor" </> "Errors" <.> "elm")
+        (FT.file ["editor"] "errors" "js")
       copyFile
         ("src" </> "editor" </> "editor" <.> "css")
         (FT.file ["editor"] "editor" "css")
