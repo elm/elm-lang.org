@@ -69,9 +69,13 @@ pretty solid workflow going!
 <span id="build-from-source"></span>
 ## Build from Source
 
-The following instructions should work on any platform, from Windows to Ubuntu.
-It requires getting the Haskell compiler, but you can uninstall that after you
-have the executables you need.
+Elm is written in Haskell; to build it from source, you'll need to get the
+Haskell compiler, but you can uninstall that after you have the executables
+you need.
+
+On Linux, you'll also need development versions of the C libraries `zlib` and
+`tinfo` to build Elm. You can install these on Debian-based systems, such as
+Ubuntu, with `sudo apt-get install libz-dev libtinfo-dev`.
 
 **If you have never used Haskell**, first download the [Haskell Platform][hp].
 Then run the following commands:
