@@ -135,7 +135,7 @@ examples : List (List Html)
 examples =
   [ example
       "Home/Mario"
-      "/edit/examples/Intermediate/Mario.elm"
+      "/examples/short-mario"
       "evancz"
       ""
   , example
@@ -188,10 +188,18 @@ exampleSection =
 
 example : String -> String -> String -> String -> List Html
 example imgSrc demo author code =
-  [ a [href demo] [img [style ["padding-bottom" => "0.5em"], src ("/screenshot/" ++ imgSrc ++ ".png")] []]
-  , p [style [ "display" => "block", "float" => "left", "margin" => "0" ]]
-      [text "by ", a [href ("http://github.com/" ++ author)] [text author]]
-  , a [href code, style ["text-transform" => "lowercase", "display" => "block", "float" => "right"]] [text "source"]
+  [ a [ href demo, style ["display" => "block"] ]
+      [ img
+          [style [], src ("/screenshot/" ++ imgSrc ++ ".png")]
+          []
+      ]
+  , p [style ["display" => "block", "float" => "left", "margin" => "0", "height" => "60px"]]
+      [ text "by "
+      , a [href ("http://github.com/" ++ author)] [text author]
+      ]
+  , p [style ["display" => "block", "float" => "right", "margin" => "0", "height" => "60px"]]
+      [ a [href code] [text "source"]
+      ]
   ]
 
 
@@ -212,7 +220,7 @@ fluidList itemWidth maxColumns itemList =
         , "margin" => ("0 " ++ toPx gutter)
         ]
 
-    gutter = 15
+    gutter = 30
   in
     section
       [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]]
