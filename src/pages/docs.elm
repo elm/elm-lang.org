@@ -31,6 +31,7 @@ directions = """
 ### References
 
   * [Syntax](/docs/syntax)
+  * [Style Guide](/docs/style-guide)
   * [Core Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
   * [Community Packages](http://package.elm-lang.org)
 
