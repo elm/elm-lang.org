@@ -89,6 +89,8 @@ Functions are a way to make reusable chunks of code. One of the coolest thing ab
 12
 ```
 
+> **Note:** For people with a background in languages like Java or JavaScript or Python, you will notice that function application looks different in Elm. Instead of wrapping all arguments in parentheses and separating them with commas, we use spaces to apply the function. So `(add(3,4))` becomes `(add 3 4)` which ends up avoiding a bunch of parens and commas as things get bigger. Ultimately, this looks much cleaner once you get used to it!
+
 We defined a function `double` and used it a few times. Whenever we see `double` we can think of it as a find-and-replace operation, so when we evaluate `(double 4)` it happens in the following three steps.
 
   * `double 4`
@@ -113,8 +115,6 @@ Notice that we turn `(5 + 1)` into `6` *before* doing the find-and-replace with 
   * `12`
 
 Notice that we have to evaluate `(5 + 1)` twice. It is always going to be `6` so we are wasting our time figuring it out again! This is especially important as we start doing more complex stuff. `(5 + 1)` only takes one step, but imagine something that takes a thousand steps, or a million! At that scale, doing things twice is pretty wasteful.
-
-> **Note:** For people with a background in languages like Java or JavaScript or Python, you will notice that function application looks different in Elm. Instead of wrapping all arguments in parentheses and separating them with commas, we use spaces to apply the function. So `(add(3,4))` becomes `(add 3 4)` which ends up avoiding a bunch of parens and commas as things get bigger. Ultimately, this looks much cleaner once you get used to it!
 
 Okay, now that we have seen a basic function and learned how it gets evaluated, lets define a few more functions for practice. This next function figures out if a number is negative or not.
 
