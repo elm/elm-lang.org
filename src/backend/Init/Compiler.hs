@@ -74,7 +74,7 @@ jsonErr dealiaser result =
 getInterfaces
     :: ExceptT String IO (Map.Map Module.Name Module.Interface)
 getInterfaces =
-  do  --Utils.run "elm-package" ["install", "--yes"]
+  do  Utils.run "elm-package" ["install", "--yes"]
 
       desc <- Desc.read "elm-package.json"
       solution <- Solution.read "elm-stuff/exact-dependencies.json"
@@ -121,28 +121,41 @@ readInterfaces
     :: (N.Name, V.Version)
     -> ExceptT String IO [(Module.Name, Module.Interface)]
 readInterfaces package =
-  do  let directory = directoryFor package
+  do  let directory = buildArtifactsFor package
       contents <- liftIO (getDirectoryContents directory)
       let elmis = Maybe.mapMaybe isElmi contents
       mapM (readInterface directory) elmis
-  where
-    directoryFor (name, version) =
-        "elm-stuff"
-          </> "build-artifacts"
-          </> N.toFilePath name
-          </> V.toString version
 
-    isElmi file =
-      case splitExtension file of
-        (name, ".elmi") -> (,) file `fmap` Module.dehyphenate name
-        _ -> Nothing
 
-    readInterface directory (file, name) =
-      do  bits <- liftIO (LBS.readFile (directory </> file))
-          case Binary.decodeOrFail bits of
-            Right (_, _, value) ->
-                return (name, value)
-            Left _ ->
-                throwError $
-                    " messed up elmi file for " ++ Module.nameToString name
+buildArtifactsFor :: (N.Name, V.Version) -> FilePath
+buildArtifactsFor (name, version) =
+  "elm-stuff"
+    </> "build-artifacts"
+    </> N.toFilePath name
+    </> V.toString version
+
+
+isElmi :: FilePath -> Maybe (FilePath, Module.Name)
+isElmi file =
+  case splitExtension file of
+    (name, ".elmi") ->
+        (,) file `fmap` Module.dehyphenate name
+
+    _ ->
+        Nothing
+
+
+readInterface
+    :: FilePath
+    -> (FilePath, Module.Name)
+    -> ExceptT String IO (Module.Name, Module.Interface)
+readInterface directory (file, name) =
+  do  bits <- liftIO (LBS.readFile (directory </> file))
+      case Binary.decodeOrFail bits of
+        Right (_, _, value) ->
+            return (name, value)
+
+        Left _ ->
+            throwError $
+              " messed up elmi file for " ++ Module.nameToString name
 
