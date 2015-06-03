@@ -211,10 +211,7 @@ You cannot override the built-in operators though.
 
 ```haskell
 (?) : Maybe a -> a -> a
-maybe ? default =
-    case maybe of
-      Just x -> x
-      Nothing -> default
+maybe ? default = Maybe.withDefault default maybe
 
 infixr 8 ?
 ```
