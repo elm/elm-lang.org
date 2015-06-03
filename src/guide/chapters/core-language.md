@@ -12,6 +12,9 @@ Elm REPL 0.4.1 (Elm Platform 0.15)
 >
 ```
 
+We will cover [values](#values), [functions](#functions), [lists](#lists), [tuples](#tuples), and [records](#records) which all correspond pretty closely with structures in languages like JavaScript, Python, and Java.
+
+
 ## Values
 
 Lets get started with some math. Here is some addition, subtraction, and multiplication.
@@ -185,7 +188,7 @@ So the key takeaways from this section are that:
 Now that we have defined a few functions and learned how they work, lets introduce some more language constructs.
 
 
-## If
+## If Expressions
 
 When you want to do have conditional behavior in Elm, you use an if-expression.
 
@@ -212,3 +215,98 @@ The keywords `if` `then` `else` are used to separate the conditional and the two
 ```
 
 > **Note:** Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define.
+
+
+## Lists
+
+Lists are one of the most common data structures in Elm. Lists generally fill the same role as arrays in languages like JavaScript or Java, for holding a sequence of related things.
+
+Lists can hold many values, and those values must all have the same type. Here are a few examples that use functions from [the `List` library][list]:
+
+[list]: http://package.elm-lang.org/packages/elm-lang/core/latest/List
+
+```haskell
+> names = [ "Alice", "Bob", "Chuck" ]
+["Alice","Bob","Chuck"] : List String
+
+> List.isEmpty names
+False : Bool
+
+> List.length names
+3 : Int
+
+> List.reverse names
+["Chuck","Bob","Alice"] : List String
+
+> numbers = [1,4,3,2]
+[1,4,3,2] : List number
+
+> List.sort numbers
+[1,2,3,4] : List number
+
+> List.map double numbers
+[2,8,6,4] : List number
+```
+
+Again, the key thing is that all elements of the list have exactly the same type.
+
+
+## Tuples
+
+Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. The most common use is for representing a point:
+
+```haskell
+> ( 3.0, 4.0 )
+( 3.0, 4.0 ) : (Float, Float)
+```
+
+This pair of integers is the most basic tuple. Tuples are mainly for grouping information, so you could use them to represent a book, holding the title, author, and number of pages.
+
+```haskell
+book : (String,String,Int)
+book =
+  ("Demian","Hesse",176)
+```
+
+This illustrates that you can hold many different values, each with a different type. When the data structure becomes more complicated or specific, it is often best to use records instead tuples.
+
+
+## Records
+
+Elm also has [records][records] which let you have more structured values. Say you want to make a list of high quality books. We can put them in a record that has a title, author, and number of pages:
+
+```haskell
+book1 : { title : String, author : String, pages : Int }
+book1 =
+  { title = "Demian"
+  , author = "Hesse"
+  , pages = 176
+  }
+```
+
+We can use type aliases to make things a bit clearer.
+
+```haskell
+type alias Book =
+    { title : String
+    , author : String
+    , pages : Int
+    }
+
+
+book2 : Book
+book2 =
+  { title = "Magister Ludi"
+  , author = "Hesse"
+  , pages = 558
+  }
+
+
+books : List Book
+books =
+  [ book1, book2 ]
+```
+
+In the tuple version of the book, it was unclear from the type which `String` was the title and which was the author. You would have to read some code or do some experiment to figure it out. With records, it is totally clear and extracting a title is as simple as saying `book2.title`.
+
+

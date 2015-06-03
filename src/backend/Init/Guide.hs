@@ -16,7 +16,7 @@ chapters :: [String]
 chapters =
   [ "introduction"
   , "core-language"
-  , "data-structures"
+  , "understanding-types"
   , "functional-thinking"
   , "graphics"
   , "reactivity"
