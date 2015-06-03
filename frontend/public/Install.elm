@@ -90,6 +90,14 @@ be on your PATH. If not, then they should be in `~/.cabal/bin` which you can
 [hp]: http://hackage.haskell.org/platform/
 [add-path]: http://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path
 
+**To build the master branch**, use the [install script][script].  The
+executables will be put in `./Elm-Platform/master/bin/`:
+
+```
+wget https://raw.githubusercontent.com/elm-lang/elm-platform/master/src/BuildFromSource.hs
+runhaskell BuildFromSource.hs master
+```
+
 **If you use Haskell for other stuff**, it would be best to use cabal
 sandboxes for the install process. These were released with cabal 1.18 and will
 let you use [this install script][script].
