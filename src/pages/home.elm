@@ -10,16 +10,12 @@ import Center
 
 
 main =
-  Signal.map view Window.width
-
-
-view w =
   div []
     [ TopBar.topBar "home"
     , splash
-    , debuggerSection w
-    , bulletSection w
-    , exampleSection w
+    , debuggerSection
+    , bulletSection
+    , exampleSection
     ]
 
 
@@ -50,7 +46,7 @@ size height padding =
 
 -- CODE SNIPPET / DEBUGGER
 
-debuggerSection w =
+debuggerSection =
   section []
     [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Hello HTML" ]
     , p [ style [ "text-align" => "center" ] ]
@@ -66,7 +62,7 @@ debuggerSection w =
             , text "]"
             ]
         ]
-    , div [ style [ "display" => "block", "margin" => "2em auto 0", "width" => "600px" ] ]
+    , div [ style [ "display" => "block", "margin" => "2em auto 0", "max-width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
             [ text "Writing HTML apps is super easy with "
             , a [href "https://github.com/evancz/start-app/blob/master/README.md"] [text "start-app"]
@@ -82,24 +78,19 @@ debuggerSection w =
 
 -- FEATURES
 
-bulletSection w =
-  section [id "features"]
-    [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Features"]
-    , bulletRow w bulletsRowOne
-    , bulletRow w bulletsRowTwo
+bulletSection : Html
+bulletSection =
+  section []
+    [ h1
+        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
+        [text "Features"]
+    , fluidList 300 3 bullets
     ]
 
 
-bulletRow w (one, two, three) =
-  section [class "row"]
-    [ section [ style [ "width" => "30%" ] ] one
-    , section [ style [ "width" => "30%" ] ] two
-    , section [ style [ "width" => "30%" ] ] three
-    ]
-
-
-bulletsRowOne =
-  ( [ h2 [] [ text "No runtime exceptions"]
+bullets : List (List Html)
+bullets =
+  [ [ h2 [] [ text "No runtime exceptions"]
     , p [] [text "Yes, you read that right, no runtime exceptions. Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
       , a [href "http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash"] [code [] [text "crash"]]
       , text "."
@@ -123,11 +114,7 @@ bulletsRowOne =
         , text ". Elm's package manager detects any API changes, so breaking API changes never sneak into patches. You can upgrade with confidence."
         ]
     ]
-  )
-
-
-bulletsRowTwo =
-  ( [ h2 [] [text "Clean syntax"]
+  , [ h2 [] [text "Clean syntax"]
     , p [] [text "No semicolons. No mandatory parentheses for function calls. Everything is an expression. For even more concise code there’s also destructuring assignment, pattern matching, automatic currying, and more."]
     ]
   , [ h2 [] [text "Smooth JavaScript interop"]
@@ -139,37 +126,95 @@ bulletsRowTwo =
   , [ h2 [] [text "Time-traveling debugger"]
     , p [] [text "What if you could pause time and replay all recent user inputs? What if you could make a code change and watch the results replay without a page refresh? Try it out and see for yourself!"]
     ]
-  )
+  ]
 
 
 -- EXAMPLES
 
-exampleSection w =
-  let sidePad = toString ((w-960) // 2) ++ "px"
-  in
+examples : List (List Html)
+examples =
+  [ example
+      "Home/Mario"
+      "/edit/examples/Intermediate/Mario.elm"
+      "evancz"
+      ""
+  , example
+      "Home/Elmtris"
+      "http://people.cs.umass.edu/~jcollard/elmtris/"
+      "jcollard"
+      "https://github.com/jcollard/elmtris"
+  , example
+      "Home/Vessel"
+      "https://slawrence.github.io/vessel"
+      "slawrence"
+      "https://github.com/slawrence/vessel"
+  , example
+      "Home/FirstPerson"
+      "https://evancz.github.io/first-person-elm"
+      "evancz"
+      "https://github.com/evancz/first-person-elm"
+  , example
+      "Home/Todo"
+      "https://evancz.github.io/elm-todomvc"
+      "evancz"
+      "https://github.com/evancz/elm-todomvc"
+  , example
+      "Home/DreamWriter"
+      "http://dreamwriter.io"
+      "rtfeldman"
+      "https://github.com/rtfeldman/dreamwriter"
+  , example
+      "Home/Catalog"
+      "http://package.elm-lang.org/packages/elm-lang/core/latest"
+      "evancz"
+      "https://github.com/elm-lang/package.elm-lang.org"
+  , example
+      "Home/Fractal"
+      "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/"
+      "stygianguest"
+      "https://github.com/stygianguest/Sierpinski"
+  ]
+
+
+exampleSection : Html
+exampleSection =
   section []
-    [ h1 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [text "Examples"]
-    , section [ style [ "height" => "300px", "padding" => ("0 " ++ sidePad) ] ] <|
-        List.map example
-        [ ("Home/Mario", "/edit/examples/Intermediate/Mario.elm", "evancz", "")
-        , ("Home/Elmtris", "http://people.cs.umass.edu/~jcollard/elmtris/", "jcollard", "https://github.com/jcollard/elmtris")
-        , ("Home/Vessel", "https://slawrence.github.io/vessel", "slawrence", "https://github.com/slawrence/vessel")
-        , ("Home/FirstPerson", "https://evancz.github.io/first-person-elm", "evancz", "https://github.com/evancz/first-person-elm")
-        ]
-    , section [ style [ "height" => "300px", "padding" => ("0 " ++ sidePad) ] ] <|
-        List.map example
-        [ ("Home/Todo", "https://evancz.github.io/elm-todomvc", "evancz", "https://github.com/evancz/elm-todomvc")
-        , ("Home/DreamWriter", "http://dreamwriter.io", "rtfeldman", "https://github.com/rtfeldman/dreamwriter")
-        , ("Home/Catalog", "http://package.elm-lang.org/packages/elm-lang/core/latest", "evancz", "https://github.com/elm-lang/package.elm-lang.org")
-        , ("Home/Fractal", "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/", "stygianguest", "https://github.com/stygianguest/Sierpinski")
-        ]
+    [ h1
+        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
+        [text "Examples"]
+    , fluidList 200 4 examples
     ]
 
 
-example (imgSrc, demo, author, code) =
-  section [ style [ "display" => "block", "float" => "left", "width" => "200px", "padding" => "0 20px" ] ]
-    [ a [href demo] [img [style ["padding-bottom" => "0.5em"], src ("/screenshot/" ++ imgSrc ++ ".png")] []]
-    , p [style [ "display" => "block", "float" => "left", "margin" => "0" ]]
-        [text "by ", a [href ("http://github.com/" ++ author)] [text author]]
-    , a [href code, style ["text-transform" => "lowercase", "display" => "block", "float" => "right"]] [text "source"]
-    ]
+example : String -> String -> String -> String -> List Html
+example imgSrc demo author code =
+  [ a [href demo] [img [style ["padding-bottom" => "0.5em"], src ("/screenshot/" ++ imgSrc ++ ".png")] []]
+  , p [style [ "display" => "block", "float" => "left", "margin" => "0" ]]
+      [text "by ", a [href ("http://github.com/" ++ author)] [text author]]
+  , a [href code, style ["text-transform" => "lowercase", "display" => "block", "float" => "right"]] [text "source"]
+  ]
+
+
+-- FLUID LIST
+
+fluidList : Int -> Int -> List (List Html) -> Html
+fluidList itemWidth maxColumns itemList =
+  let
+    toPx : Int -> String
+    toPx num =
+      toString num ++ "px"
+
+    bulletStyle =
+        [ "display" => "inline-block"
+        , "width" => toPx itemWidth
+        , "vertical-align" => "top"
+        , "text-align" => "left"
+        , "margin" => ("0 " ++ toPx gutter)
+        ]
+
+    gutter = 15
+  in
+    section
+      [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]]
+      (List.map (section [style bulletStyle]) itemList)
+
