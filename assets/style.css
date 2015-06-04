@@ -151,3 +151,30 @@ blockquote {
 blockquote p {
   font-size: 14px;
 }
+
+
+/* comparison table */
+
+.comparison table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.comparison {
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #8C8C8C;
+  border-radius: 3px;
+}
+.comparison table td, .comparison table th {
+  padding: 3px 10px;
+}
+.comparison tr:nth-child(even) {
+  background: #fbfbfb;
+}
+.comparison table tbody td:first-child {
+  border-left: none;
+}
+.comparison table tbody tr:last-child td {
+  border-bottom: none;
+}
