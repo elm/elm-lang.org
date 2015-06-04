@@ -142,9 +142,10 @@ code {
 blockquote {
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  padding: 0 1em;
   border-radius: 6px;
-  background: #60B5CC none repeat scroll 0% 0%;
+  background-color: #ebebeb;
+  color: #6C7E8F;
 }
 
 blockquote p {
