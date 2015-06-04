@@ -26,7 +26,7 @@ directions = """
 
   * [For JS users](/docs/from-javascript)
   * [Make an HTML app](https://github.com/evancz/start-app)
-  * [Make Pong](/blog/making-pong)
+  * [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/)
 
 ### References
 
