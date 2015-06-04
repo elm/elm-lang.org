@@ -7,10 +7,10 @@ So far we have kind of glossed over types, but getting comfortable with them is 
 
 I find that types play at least two major roles in my code:
 
-  1. They **rule out runtime errors**. There may be *logical* bugs in a code path (the code does not do what you intended) but there are no *operational* bugs (calling a function that does not exist).
+  1. They **rule out runtime errors**. In practice, you just do not get any in Elm, it is pretty crazy. There may be *logical* bugs in a code path (the code does not do what you intended) but there are no *operational* bugs (calling a function that does not exist).
   2. They are a **refactoring assistant**. Whenever I change a core piece of code, Elm can give me a comprehensive list of all the code that is affected. Big refactors are shockingly quick and low-risk.
 
-As you have probably experienced, people who like types can talk about the benefits all day, so I'll spare you any more! The best way to convey this stuff is for you to experience it yourself in a reasonably sized application, so let's get started!
+As you have probably experienced, people who like types can talk about the benefits all day, so I'll spare you any more! The best way to convey this stuff is for you to experience it yourself in a decent-sized code-base, so let's get started!
 
 
 ## Primitives
