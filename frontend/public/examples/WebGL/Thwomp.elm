@@ -2,26 +2,36 @@
 -- http://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
 
 import Graphics.Element exposing (..)
-import Http exposing (..)
-import Math.Vector2 exposing (Vec2)
-import Math.Vector3 exposing (..)
-import Math.Vector3 as V3
 import Math.Matrix4 exposing (..)
+import Math.Vector2 exposing (Vec2)
+import Math.Vector3 as V3
+import Math.Vector3 exposing (..)
 import Mouse
+import Signal exposing (..)
 import WebGL exposing (..)
 import Window
+import Task exposing (..)
 
 
 -- SIGNALS
 
 main : Signal Element
 main =
-    let faceTexture = loadTexture "/texture/thwomp_face.jpg"
-        sideTexture = loadTexture "/texture/thwomp_side.jpg"
+    let
         perspectiveMatrix  = Signal.map2 perspective Window.dimensions Mouse.position
     in
-        Signal.map4 (view face sides) Window.dimensions faceTexture sideTexture perspectiveMatrix
+        Signal.map3 (view face sides) Window.dimensions textures.signal perspectiveMatrix
 
+
+textures : Mailbox (Maybe (Texture, Texture))
+textures =
+    mailbox Nothing
+
+port fetchTextures : Task Error ()
+port fetchTextures =
+  loadTexture "/texture/thwomp_face.jpg" `andThen` \faceTexture ->
+  loadTexture "/texture/thwomp_side.jpg" `andThen` \sideTexture ->
+  send textures.address (Just (faceTexture, sideTexture))
 
 -- MESHES - define the mesh for a Thwomp's face
 
@@ -45,7 +55,7 @@ rotatedSquare (angleXZ,angleYZ) =
         y = makeRotate (degrees angleYZ) i
         t = x `mul` y
     in
-        List.map (map (\v -> {v | position <- transform t v.position })) square
+        List.map (WebGL.map (\v -> {v | position <- transform t v.position })) square
 
 
 square : List (Triangle Vertex)
@@ -82,22 +92,22 @@ perspective (w',h') (x',y') =
 view : List (Triangle Vertex)
     -> List (Triangle Vertex)
     -> (Int,Int)
-    -> Response Texture
-    -> Response Texture
+    -> Maybe (Texture, Texture)
     -> Mat4
     -> Element
-view mesh1 mesh2 dimensions texture1 texture2 perspective =
-    webgl dimensions
-        (toEntity mesh1 texture1 perspective ++ toEntity mesh2 texture2 perspective)
+view mesh1 mesh2 dimensions textures perspective =
+  case textures of
+
+    Just (texture1, texture2) ->
+        webgl dimensions
+            (toEntity mesh1 texture1 perspective ++ toEntity mesh2 texture2 perspective)
+
+    _ -> webgl dimensions []
 
 
-toEntity : List (Triangle Vertex) -> Response Texture -> Mat4 -> List Entity
-toEntity mesh response perspective =
-    case response of
-        Waiting     -> []
-        Failure _ _ -> []
-        Success texture ->
-            [ entity vertexShader fragmentShader mesh { texture=texture, perspective=perspective } ]
+toEntity : List (Triangle Vertex) -> Texture -> Mat4 -> List Entity
+toEntity mesh texture perspective =
+  [ entity vertexShader fragmentShader mesh { texture=texture, perspective=perspective } ]
 
 
 -- SHADERS
