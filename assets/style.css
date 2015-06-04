@@ -136,3 +136,18 @@ code {
   color: #ddd;
   text-decoration: underline;
 }
+
+/* Notes */
+
+blockquote {
+  display: block;
+  overflow-x: auto;
+  padding: 0 1em;
+  border-radius: 6px;
+  background-color: #ebebeb;
+  color: #6C7E8F;
+}
+
+blockquote p {
+  font-size: 14px;
+}

@@ -5,15 +5,12 @@ So far we have kind of glossed over types, but getting comfortable with them is 
 
 > **Note:** The term &ldquo;types&rdquo; will be used to mean &ldquo;types as they appear in Elm&rdquo;. This is an important distinction because *types in Elm are very different than types in Java!* Many programmers have only seen types in Java, so their experience is roughly &ldquo;using types is verbose and annoying, and at the end of the day, I still get the same runtime errors and null pointer exceptions as in JavaScript or Python or Ruby. What's the point?!&rdquo; Most Elm programmers share all of these complaints about Java!
 
-The hard part of motivating types is that the major benefts are around taming complexity in large code bases. This is inherently hard to demonstrate in the small examples we need to start with! So to motivate this topic, here are a few of the high-level benefts that types give in Elm:
+I find that types play at least two major roles in my code:
 
-  * **Rule out runtime errors** &mdash; You just do not get runtime errors with Elm in practice. Elm's types guarantee that *every possible code path will work* if things compile. There may be *logical* bugs in a code path (the code does not do what you intended) but there are no *operational* bugs (calling a function that does not exist).
+  1. They **rule out runtime errors**. There may be *logical* bugs in a code path (the code does not do what you intended) but there are no *operational* bugs (calling a function that does not exist).
+  2. They are a **refactoring assistant**. Whenever I change a core piece of code, Elm can give me a comprehensive list of all the code that is affected. Big refactors are shockingly quick and low-risk.
 
-  * **Refactoring Assistant** &mdash; In dynamic languages like JavaScript and Python, changing a core piece of code that is used in 20 different places is a recipe for disaster. Even with great test coverage, you are bound to introduce sneaky runtime errors. In Elm, the compiler is able to give you comprehensive list of all code that is affected by your change, so a refactor that would be time-consuming and risky in a dynamic language becomes quick and easy in Elm.
-
-  * **Reduce Testing Burden** &mdash; Of course you cannot replace testing entirely, but by ruling out runtime errors, we eliminate an entire class of tests. In most languages you need to litter your code with dynamic tests for null pointers, and write a bunch of static tests to make sure the data flowing through your program has the right shape. All of these cases are subsumed by types in Elm, you don't have to worry about that anymore.
-
-As you have probably experienced, people who like types can talk about the benefits all day, so I'll spare you any more! The best way to convey this stuff is for you to experience it yourself, so let's get started!
+As you have probably experienced, people who like types can talk about the benefits all day, so I'll spare you any more! The best way to convey this stuff is for you to experience it yourself in a reasonably sized application, so let's get started!
 
 
 ## Primitives
@@ -42,9 +39,7 @@ Types become more interesting and useful when you start working with more compli
 
 ## Data Structures
 
-This section will cover lists, tuples, and [records][records]. It may help to find some examples or read some documentation on these data structures before continuing.
-
- [records]: /learn/Records.elm "Records in Elm"
+This section will cover lists, tuples, and records. It may help to find some examples or read some documentation on these data structures before continuing.
 
 ### Lists
 
@@ -123,6 +118,7 @@ books =
 ```
 
 In the tuple version of the book, it was unclear from the type which `String` was the title and which was the author. You would have to read some code or do some experiment to figure it out. With records, it is totally clear and extracting a title is as simple as saying `book1.title`.
+
 
 ## Functions
 

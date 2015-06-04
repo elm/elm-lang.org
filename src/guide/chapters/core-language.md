@@ -12,7 +12,7 @@ Elm REPL 0.4.1 (Elm Platform 0.15)
 >
 ```
 
-> **Note:** The REPL will print out the type of the result, but for the sake of introducing concepts gradually, we will elide the types in the REPL examples in this section.
+The REPL will print out the type of the result, but for the sake of introducing concepts gradually, we will leave them out in the REPL examples in this section.
 
 We will cover [values](#values), [functions](#functions), [lists](#lists), [tuples](#tuples), and [records](#records) which all correspond pretty closely with structures in languages like JavaScript, Python, and Java.
 
@@ -107,7 +107,7 @@ Now lets make a function that tells us if a number is over 9000.
 "It's over 9000!!!"
 ```
 
-> **Note:** Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define.
+Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define in normal code.
 
 
 ## Lists
