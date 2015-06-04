@@ -56,7 +56,7 @@ Unlike JavaScript, Elm makes a distinction between integers and floating point n
 
 ## Functions
 
-Lets start by writing a function `isNegative` that takes in some number and checks if it is less than zero. This will result will be `True` or `False`.
+Let's start by writing a function `isNegative` that takes in some number and checks if it is less than zero. The result will be `True` or `False`.
 
 ```haskell
 > isNegative n = n < 0
