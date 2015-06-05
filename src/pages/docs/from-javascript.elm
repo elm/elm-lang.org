@@ -1,14 +1,14 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
+import Blog
 import Center
-import TopBar
 
 
 main =
-  div []
-    [ TopBar.topBar "docs"
-    , Center.markdown "600px" content
+  Blog.docs
+    "From JavaScript?"
+    [ Center.markdown "800px" content
     , syntaxTable "Literals" literals
     , syntaxTable "Objects / Records" records
     , syntaxTable "Functions" functions
@@ -19,11 +19,9 @@ main =
 
 content = """
 
-# From JavaScript?
-
-The following tables show side-by-side mappings between JavaScript on the left
-and Elm on the right. A lot of things are very similar, especially once you get
-used to the relatively minor syntactic difference.
+The following tables show side-by-side mappings between JavaScript and Elm. A
+lot of things are very similar, especially once you get used to the relatively
+minor syntactic difference.
 
 """
 
@@ -35,10 +33,17 @@ syntaxTable subtitle comparisions =
     [ h2 [] [text subtitle]
     , div [class "comparison"]
         [ tbody []
-            [ table [] (List.map row comparisions)
+            [ table [] (header :: List.map row comparisions)
             ]
         ]
     , br [] []
+    ]
+
+
+header =
+  tr []
+    [ th [cellStyle] [text "JavaScript"]
+    , th [cellStyle] [text "Elm"]
     ]
 
 
@@ -53,6 +58,13 @@ cellStyle =
   style [ ("width", "400px"), ("padding", "6px") ]
 
 
+type Value = Code String | Message String
+
+
+vs js elm =
+  (Code js, Code elm)
+
+
 value v =
   case v of
     Code str ->
@@ -63,13 +75,6 @@ value v =
 
 
 -- COMPARISONS
-
-type Value = Code String | Message String
-
-
-vs js elm =
-  (Code js, Code elm)
-
 
 literals =
   [ "3" `vs` "3"
@@ -102,6 +107,7 @@ functions =
 controlFlow =
   [ "3 > 2 ? 'cat' : 'dog'" `vs` "if 3 > 2 then \"cat\" else \"dog\""
   , "var x = 42; ..." `vs` "let x = 42 in ..."
+  , (Code "return 42", Message "Everything is an expression, no need for return")
   ]
 
 
@@ -109,5 +115,6 @@ strings =
   [ "'abc' + '123'" `vs` "\"abc\" ++ \"123\""
   , "'abc'.length" `vs` "String.length \"abc\""
   , "'abc'.toUpperCase()" `vs` "String.toUpper \"abc\""
+  , "'abc' + 123" `vs` "\"abc\" ++ toString 123"
   ]
 

@@ -169,6 +169,9 @@ blockquote p {
 .comparison table td, .comparison table th {
   padding: 3px 10px;
 }
+.comparison th {
+  background: #dddddd;
+}
 .comparison tr:nth-child(even) {
   background: #fbfbfb;
 }
