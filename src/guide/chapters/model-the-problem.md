@@ -1,35 +1,91 @@
-# Functional Thinking
 
-This section goes through the features that are at the heart of writing great functional code. We will cover [union types](#union-types) which are like enums on steroids, [higher-order functions](#higher-order-functions) which help with code reuse and configuration, and [modules](#modules) which are the key tool in creating strong abstractions and modular code.
+# Model The Problem
 
-## Union Types
+Elm has a big emphasis on explicit modeling. The rough theory is that your life is going to be better if you write down the problem *before* you try to solve it.
 
-A union type is a way to put together many different types. If you have Java background, think of them as enums on steroids.
+The two most powerful modeling tools in Elm are records and union types. Records are not to crazy, so this section will focus on the many important uses of union types. As a rough outline, think of them as enums on steriods, or inheritence that does not suck.
 
 
-### Enumerating Possibilities
+## Contracts
 
-One common use of union types is to enumerate a couple possible states. Imagine we are creating a [todo list](http://evancz.github.io/elm-todomvc/) and want to create a filter on which tasks are visible. We can show all tasks, all the active tasks, or all the completed tasks. We can represent these three states like this:
+Types are an important tool for modeling. Think of them like a contract that can be checked by the compiler that says something like &ldquo;I only accept string arguments&rdquo; so you can make sure that bad data *never* gets in. This is a huge part of how we can rule out runtime errors in Elm.
+
+> **Note:** The term &ldquo;types&rdquo; will be used to mean &ldquo;types as they appear in Elm&rdquo;. This is an important distinction because *types in Elm are very different than types in Java!* Many programmers have only seen types in Java, so their experience is roughly &ldquo;using types is verbose and annoying, and at the end of the day, I still get the same runtime errors and null pointer exceptions as in JavaScript or Python or Ruby. What's the point?!&rdquo; Most Elm programmers share all of these complaints about Java!
+
+The way we write down these contracts is with &ldquo;type annotations&rdquo; where we define the exact shape of the data we are working with.
+
 
 ```haskell
-type Visibility
-    = All
-    | Active
-    | Completed
+fortyTwo : Int
+fortyTwo =
+  42
+
+
+names : List String
+names =
+  [ "Alice", "Bob", "Chuck" ]
+
+
+book : { title: String, author: String, pages: Int }
+book =
+  { title = "Demian", author = "Hesse", pages = 176 }
 ```
 
-This defines a new type `Visibility` with exactly three possible values: `All`, `Active`, and `Completed`. We use **case-expressions** to do different things depending which value we are working with:
+Here we are just describing the general shape of the data we are working with. `fortyTwo` is an integer, `names` is a list of strings, and `book` is a record with certain fields. Nothing crazy, just describing the shape of our data. This becomes much more valuable when you start using it with functions, where in many languages, getting the wrong kind of data can lead to a crash!
+
+```haskell
+import List exposing (sum, map, length)
+
+
+averageNameLength : List String -> Float
+averageNameLength names =
+  sum (map String.length names) / length names
+
+
+isLong : { record | pages : Int } -> Bool
+isLong book =
+  book.pages > 400
+```
+
+In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is defenitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that its a floating point number.
+
+The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
+
+So in both cases we are writing contracts that say &ldquo;I require input with this shape, and I will give you output with that shape.&rdquo; This is the essense of ruling out runtime errors in Elm. We always know what kind of values a function needs and what kind it produces, so we can just check that we always follow these rules.
+
+> **Note:** All of these types can be inferred, so you can leave off the type annotations and Elm can still check that data is flowing around in a way that works. This means you can just *not* write these contracts and still get all the benefits!
+
+So far we have seen some simple cases where we make sure our data is the right shape, but these contracts become extremely powerful when you start making your own types.
+
+
+## Enumerations
+
+It is quite common to create a type that enumerates a couple possible states. Imagine we are creating a [todo list](http://evancz.github.io/elm-todomvc/) and want to create a filter on which tasks are visible. We can show all tasks, all the active tasks, or all the completed tasks. We can represent these three states like this:
+
+```haskell
+type Visibility = All | Active | Completed
+```
+
+This defines a new type `Visibility` with exactly three possible values: `All`, `Active`, or `Completed`. This means that if you pass in something with type `Visibility` it must be one of these three things!
+
+We use **case-expressions** to do different things depending which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
 
 ```haskell
 toString : Visibility -> String
 toString visibility =
     case visibility of
-      All -> "All"
-      Active -> "Active"
-      Completed -> "Completed"
+      All ->
+          "All"
 
--- toString All       == "All"
--- toString Active    == "Active"
+      Active ->
+          "Active"
+
+      Completed ->
+          "Completed"
+
+
+-- toString All == "All"
+-- toString Active == "Active"
 -- toString Completed == "Completed"
 ```
 
@@ -38,17 +94,15 @@ The case-expression is saying, &ldquo;look at the structure of `visibility`. If 
 This fills the same role as &ldquo;enumerations&rdquo; in other languages, but union types are much more flexible than that!
 
 
-### Enumeration + Data
+## State Machines
 
-Okay, what if we want to represent whether someone is logged in or not? With union types we can say:
+Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggled between anonymous and logged in with a user name:
 
 ```haskell
-type User
-    = Anonymous
-    | LoggedIn String
+type User = Anonymous | LoggedIn String
 ```
 
-Notice that the `LoggedIn` value is associated with extra information! This is saying that a user is either `Anonymous` or they are `LoggedIn` and we know their user name. We can use that extra information with *case-expressions*. The following code turns user info into image resources for their picture.
+Notice that the `LoggedIn` value is associated with extra information! This is saying that a user is either `Anonymous` or they are `LoggedIn` and we know their user name. We can use that extra information with case-expressions. The following code turns user info into image resources for their picture.
 
 ```haskell
 userPhoto : User -> String
@@ -87,12 +141,12 @@ photos =
 --     ]
 ```
 
-All the users are turned into image resources. Okay, but union types can still do more!
+All the users are turned into image resources. So we saw a relatively simple state machine here, but you could imagine users having 5 different possible states, and we can model that in a really precise way that makes it really hard for errors to sneak in. Making little state machines like this is at the heart of making the most of types!
 
 
-### Putting Types Together
+## Union Types
 
-Union types are all about putting together different types. We have seen some special cases so far, but union types are much more flexible and are an extremely important part of programming in Elm.
+Another use of custom types is to put together a bunch of *different* types.
 
 Say you are creating a dashboard with three different kinds of widgets. One shows scatter plots, one shows recent log data, and one shows time plots. Type unions make it really easy to put together the data we need:
 
@@ -122,9 +176,7 @@ view widget =
 Depending on what kind of widget we are looking at, we will render it differently. Perhaps we want to get a bit trickier and have some time plots that are showed on a logarithmic scale. We can augment our `Widget` type a bit.
 
 ```haskell
-type Scale
-    = Normal
-    | Logarithmic
+type Scale = Normal | Logarithmic
 
 type Widget
     = ScatterPlot (List (Int, Int))
@@ -137,7 +189,7 @@ Notice that the `TimePlot` tag now has two pieces of data. Each tag can actually
 All of these strategies can be used if you are making a game and have a bunch of different bad guys. Goombas should update one way, but Koopa Troopas do something totally different. Use a union type to put them all together!
 
 
-### No more NULL
+## No NULL
 
 Tons of languages have a concept of `null`. Any time you think you have a `String` you just might have a `null` instead. Should you check? Did the person giving you the value check? Maybe it will be fine? Maybe it will crash your servers? I guess we will find out later!
 
@@ -165,7 +217,7 @@ toMonth rawString =
 Now our types explicitly tell everyone that you may end up with something besides an integer. You never have to wonder if there is a `null` value sneaking around. This may seem like a subtle improvement, but think about what your life will be like when you never have to hunt for a null pointer exception again!
 
 
-### Recursive Data Structures
+## Recursive Data Structures
 
 If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list) in C or Java you will appreciate how easy this is in Elm. The following union type represents a list. The front of a list can only be one of two things: empty or something followed by a list. We can turn this informal definition into a union type:
 
@@ -209,10 +261,7 @@ If we get an `Empty` value, the sum is 0. If we have a `Node` we add the first e
 
 On each line, we see one evaluation step. When we call `sum` it transforms the list based on whether it is looking at a `Node` or an `Empty` value.
 
-
-### Additional Resources on Union Types
-
-Union types let us easily create all sorts of data structures, like [binary trees][binary].
+Making lists is just the start, union types let us easily create all sorts of data structures, like [binary trees][binary].
 
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
@@ -222,11 +271,14 @@ type Tree a
     | Node a (Tree a) (Tree a)
 ```
 
-A tree is either empty or it is a node with a value and two children. This is actually a generalization of lists. You could represent lists by always having the left child be empty. There is way more discussion of trees in [this example][trees]. If you can do all of the exercises at the end of the example, consider yourself a capable user of union types.
+A tree is either empty or it is a node with a value and two children. Check out [this example][trees] to see some more examples of union types for data structures. If you can do all of the exercises at the end of the example, consider yourself a capable user of union types!
 
 [trees]: /examples/binary-tree
 
 > **Note:** Imagine doing this binary tree exercise in Java. We would probably be working with one super class and two sub classes just to define a tree in the first place! Imagine doing it in JavaScript. It is not quite as bad at first, but imagine trying to refactor the resulting code later if you need to change the core representation. Sneaky breakages everywhere!
+
+
+
 
 We can even model a programming language with union types! In this case, it is one that only deals with [Boolean algebra][algebra]:
 
@@ -247,7 +299,3 @@ false = And T (Not T)
 Once we have modeled the possible values we can define functions like `eval` which evaluates any `Boolean` to `True` or `False`. See [this example][bool] for more about representing boolean expressions.
 
 [bool]: /examples/boolean-expressions.elm
-
-## Higher-Order Functions
-
-## Modules
