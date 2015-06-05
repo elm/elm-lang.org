@@ -91,7 +91,7 @@ toString visibility =
 
 The case-expression is saying, &ldquo;look at the structure of `visibility`. If it is `All`, do this. If it is `Active`, do that. If it is `Completed` do this other thing.&rdquo;
 
-This fills the same role as &ldquo;enumerations&rdquo; in other languages, but union types are much more flexible than that!
+This fills the same role as &ldquo;enumerations&rdquo; in languages like Java or C++, but we can do much more than that!
 
 
 ## State Machines
@@ -144,9 +144,11 @@ photos =
 All the users are turned into image resources. So we saw a relatively simple state machine here, but you could imagine users having 5 different possible states, and we can model that in a really precise way that makes it really hard for errors to sneak in. Making little state machines like this is at the heart of making the most of types!
 
 
-## Union Types
+## Tagged Unions
 
-Another use of custom types is to put together a bunch of *different* types.
+Now lets try to put together a bunch of *different* types of data in a coherent way.
+
+> **Note:** These are sometimes called [tagged unions](http://en.wikipedia.org/wiki/Tagged_union) (or [ADTs](http://en.wikipedia.org/wiki/Algebraic_data_type) in certain communities).
 
 Say you are creating a dashboard with three different kinds of widgets. One shows scatter plots, one shows recent log data, and one shows time plots. Type unions make it really easy to put together the data we need:
 
@@ -186,7 +188,7 @@ type Widget
 
 Notice that the `TimePlot` tag now has two pieces of data. Each tag can actually hold a bunch of different types.
 
-All of these strategies can be used if you are making a game and have a bunch of different bad guys. Goombas should update one way, but Koopa Troopas do something totally different. Use a union type to put them all together!
+All of these strategies can be used if you are making a game and have a bunch of different bad guys. Goombas should update one way, but Koopa Troopas do something totally different. Use a tagged union to put them all together!
 
 
 ## Banishing NULL
@@ -226,12 +228,10 @@ This may seem like a subtle improvement, but imagine all the code you have where
 
 ## Recursive Data Structures
 
-If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list) in C or Java you will appreciate how easy this is in Elm. The following union type represents a list. The front of a list can only be one of two things: empty or something followed by a list. We can turn this informal definition into a union type:
+If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list) in C or Java you will appreciate how easy this is in Elm. The following type represents a list. The front of a list can only be one of two things: empty or something followed by a list. We can turn this informal definition into a type:
 
 ```haskell
-type List a
-    = Empty
-    | Node a (List a)
+type List a = Empty | Node a (List a)
 ```
 
 So this creates a type called `List`. A list can either be empty or it can have one element (called the *head* of the list) and &ldquo;the rest of the list&rdquo; (called the *tail* of the list).
@@ -268,26 +268,21 @@ If we get an `Empty` value, the sum is 0. If we have a `Node` we add the first e
 
 On each line, we see one evaluation step. When we call `sum` it transforms the list based on whether it is looking at a `Node` or an `Empty` value.
 
-Making lists is just the start, union types let us easily create all sorts of data structures, like [binary trees][binary].
+Making lists is just the start, we can easily create all sorts of data structures, like [binary trees][binary].
 
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
 ```haskell
-type Tree a
-    = Empty
-    | Node a (Tree a) (Tree a)
+type Tree a = Empty | Node a (Tree a) (Tree a)
 ```
 
-A tree is either empty or it is a node with a value and two children. Check out [this example][trees] to see some more examples of union types for data structures. If you can do all of the exercises at the end of the example, consider yourself a capable user of union types!
+A tree is either empty or it is a node with a value and two children. Check out [this example][trees] to see some more examples of union types for data structures. If you can do all of the exercises at the end of the example, consider yourself a capable user of this feature!
 
 [trees]: /examples/binary-tree
 
 > **Note:** Imagine doing this binary tree exercise in Java. We would probably be working with one super class and two sub classes just to define a tree in the first place! Imagine doing it in JavaScript. It is not quite as bad at first, but imagine trying to refactor the resulting code later if you need to change the core representation. Sneaky breakages everywhere!
 
-
-
-
-We can even model a programming language with union types! In this case, it is one that only deals with [Boolean algebra][algebra]:
+We can even model a programming language as data if we want to go really crazy! In this case, it is one that only deals with [Boolean algebra][algebra]:
 
 [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
