@@ -6,6 +6,7 @@ import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BSC
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Text.Lazy.IO as Text
+import qualified Data.Text.Encoding as E
 import Control.Applicative
 import Control.Monad.Error
 import GHC.Conc
@@ -83,8 +84,8 @@ hotswap =
   where
     serve src =
       do  modifyResponse $ setContentType "application/javascript"
-          result <- liftIO . Generate.js $ BSC.unpack src
-          writeBS (BSC.pack result)
+          result <- liftIO . Generate.js $ E.utf8decode $ BS.unpack src
+          writeBS (BS.pack $ E.utf8encode result)
 
 
 compile :: Snap ()
@@ -92,7 +93,7 @@ compile =
     maybe error404 serve =<< getParam "input"
   where
     serve src =
-      do  result <- liftIO . Generate.html "Compiled Elm" $ BSC.unpack src
+      do  result <- liftIO . Generate.html "Compiled Elm" $ E.utf8decode $ BS.unpack src
           serveHtml result
 
 
