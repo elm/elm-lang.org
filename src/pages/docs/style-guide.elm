@@ -1,19 +1,17 @@
 import Html exposing (..)
 
+import Blog
 import Center
-import TopBar
 
 
 main =
-  div []
-    [ TopBar.topBar "docs"
-    , Center.markdown "600px" content
+  Blog.docs
+    "Style Guide"
+    [ Center.markdown "600px" content
     ]
 
 
 content = """
-
-# Style Guide
 
 **Goal:** a consistent style that is easy to read and produces clean diffs.
 This means trading aggressively compact code for regularity and ease of
