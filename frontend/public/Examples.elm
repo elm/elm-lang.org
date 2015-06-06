@@ -81,6 +81,8 @@ as templates for your own project!
    frontend and backend code for the package website
  * [Reddit Time Machine](https://github.com/Dobiasd/RedditTimeMachine) &mdash;
    Check out what was up on reddit days/weeks/months ago, by Tobias Hermann
+ * [EditGym](https://github.com/Dobiasd/EditGym) &mdash;
+   text editing training, by Tobias Hermann
  * [EAN/UPC-A Barcode Generator](https://github.com/Dobiasd/Barcode-Generator) &mdash;
    with addon2/addon5 and real-time output, by Tobias Hermann
 
