@@ -1,10 +1,11 @@
 module Init.Guide (init, chapters) where
 
 import Control.Monad (when)
-import Data.Maybe (mapMaybe)
+import qualified Data.Maybe as Maybe
+import Prelude hiding (init)
 import System.Exit (exitFailure)
 import System.FilePath ((</>), (<.>))
-import Prelude hiding (init)
+import System.Process (readProcess)
 
 import qualified Init.FileTree as FT
 import Init.Helpers (makeWithStyle, write, isOutdated)
@@ -14,13 +15,10 @@ import Init.Helpers (makeWithStyle, write, isOutdated)
 
 chapters :: [String]
 chapters =
-  [ "introduction"
-  , "core-language"
+  [ "core-language"
   , "model-the-problem"
-  , "graphics"
-  , "reactivity"
   , "architecture"
-  , "tasks"
+  , "reactivity"
   ]
 
 
@@ -42,7 +40,7 @@ initChapter name =
   do  let input = "src" </> "guide" </> "chapters" </> name <.> "md"
       markdown <- readFile input
       let mdLines = lines markdown
-      case mapMaybe toTitle mdLines of
+      case Maybe.mapMaybe toTitle mdLines of
         [] ->
             do  putStrLn $ " no title found for '" ++ name ++ "'!\n"
                 exitFailure
@@ -51,7 +49,7 @@ initChapter name =
             do  let output = FT.file ["guide","elm"] name "elm"
                 outdated <- isOutdated input output
                 when outdated (writeFile output (toElm markdown))
-                return (title, mapMaybe toSubtitle mdLines)
+                return (title, Maybe.mapMaybe toSubtitle mdLines)
 
         _ ->
             do  putStrLn $ " fould multiple titles for '" ++ name ++ "'!\n"
