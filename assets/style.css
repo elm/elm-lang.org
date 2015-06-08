@@ -47,6 +47,11 @@ a:hover {
   list-style-type: none;
 }
 
+.guide li li a {
+  color: #34495E;
+  text-decoration: none;
+}
+
 
 /* examples */
 

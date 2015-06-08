@@ -28,6 +28,7 @@ quickStart = """
   * [For JS users](/docs/from-javascript)
   * [Make an HTML app](https://github.com/evancz/start-app)
   * [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/)
+  * [TodoMVC](https://github.com/evancz/elm-todomvc)
 
 ### References
 
@@ -67,10 +68,19 @@ advancedStuff = """
 
 viewChapter : (String, List String) -> Html
 viewChapter (title, sections) =
-  li []
-    [ a [href ("/guide/" ++ format title)] [text title]
-    , ul [] (List.map (\name -> li [] [ text name ]) sections)
-    ]
+  let
+    url =
+      "/guide/" ++ format title
+
+    viweSection name =
+      li []
+        [ a [href (url ++ "#" ++ format name)] [text name]
+        ]
+  in
+    li []
+      [ a [href url] [text title]
+      , ul [] (List.map viweSection sections)
+      ]
 
 
 format str =
