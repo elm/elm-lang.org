@@ -5,7 +5,6 @@ import qualified Data.Maybe as Maybe
 import Prelude hiding (init)
 import System.Exit (exitFailure)
 import System.FilePath ((</>), (<.>))
-import System.Process (readProcess)
 
 import qualified Init.FileTree as FT
 import Init.Helpers (makeWithStyle, write, isOutdated)
