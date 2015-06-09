@@ -75,7 +75,7 @@
   color: #cc99cc;
 }
 
-.hljs, .lang-haskell {
+.hljs, .lang-haskell, .lang-javascript, .lang-bash {
   display: block;
   overflow-x: auto;
   background: #2d2d2d;
