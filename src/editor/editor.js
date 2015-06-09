@@ -124,6 +124,10 @@ function getToken() {
 	{
 		return expandRight(line, token.end, expandLeft(line, token.start, token.string));
 	}
+	if (token.type === 'builtin')
+	{
+		return token.string;
+	}
 	return null;
 }
 
