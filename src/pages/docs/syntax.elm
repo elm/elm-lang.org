@@ -421,13 +421,4 @@ Experimental port handlers:
  * `stdout` logs to stdout in node.js and to console in browser
  * `stderr` logs to stderr in node.js and to console in browser
 
-### Things *not* in Elm
-
-Elm currently does not support:
-
-- operator sections such as `(+1)`
-- guarded definitions or guarded cases. Use the multi-way if for this.
-- `where` clauses
-- any sort of `do` or `proc` notation
-
 """
