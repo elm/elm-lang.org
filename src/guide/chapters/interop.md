@@ -136,14 +136,3 @@ The particular types that can be sent in and out of ports is quite flexible, cov
   * **Json**    &ndash; [`Json.Value`](http://package.elm-lang.org/packages/elm-lang/core/latest/Json) corresponds to arbitrary JSON
 
 All conversions are symmetric and type safe. If someone tries to give a badly typed value to Elm it will throw an error in JS immediately. By having a border check like this, Elm code can continue to guarantee that you will never have type errors at runtime.
-
-Outgoing ports let you export all of the values listed above with one important addition: first-order functions! If you wrote a nice parser or library in Elm, you can use those functions directly in JS. The mapping between Elm and JS function looks like this:
-
-```haskell
-add x y = x + y
-```
-```javascript
-function add(x,y) { return x + y; }
-```
-
-You lose currying on the JS side, but the goal of this whole feature is to produce *colloquial* values in both Elm and JS. One important restriction on exporting functions is that they must be *first-order* functions. Things like `map` and `foldl` cannot be exported because the Elm compiler may eventually perform optimizations that assume purity, and higher-order functions allow you to introduce impure functions which *could* be executed in an unexpected order.
