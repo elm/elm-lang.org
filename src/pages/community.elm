@@ -78,7 +78,7 @@ list know if you want to give a talk or organize more frequent meetings!
 
 There are also a ton of Elm folks on the East coast, so Boston and New York
 would both be great places for meetups. The European community is also quite
-strong. We had [Elm Workshop](/blog/announce/Workshop-2013.elm) in 2013
+strong. We had [Elm Workshop](https://www.youtube.com/channel/UCzbnVYNyCwES9u3dqYZ-0WQ) in 2013
 with speakers and attendees from all over Europe, so more of this!
 
 ## Contribute
