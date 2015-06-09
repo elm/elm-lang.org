@@ -12,7 +12,7 @@ main =
 
 resizeableYogi : Int -> Element
 resizeableYogi n =
-  image n n "/yogi.jpg"
+  image n n "/imgs/yogi.jpg"
 
 
 edgeLength : Signal Int
