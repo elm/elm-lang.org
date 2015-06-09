@@ -36,7 +36,6 @@ This syntax reference is a minimal introduction to:
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
 - [JavaScript FFI](#javascript-ffi)
-- [Things *not* in Elm](#things-not-in-elm)
 
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
