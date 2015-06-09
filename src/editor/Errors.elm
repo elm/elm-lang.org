@@ -49,6 +49,11 @@ type alias Position =
   }
 
 
+getRegion : Error -> Region
+getRegion error =
+  Maybe.withDefault error.region error.subregion
+
+
 -- VIEW
 
 (=>) = (,)
@@ -56,7 +61,10 @@ type alias Position =
 
 view : String -> List Error -> Html
 view sourceCode errors =
-  div [] (List.map (viewError sourceCode) errors)
+  errors
+    |> List.sortBy (\e -> (getRegion e).start.line)
+    |> List.map (viewError sourceCode)
+    |> div []
 
 
 viewError : String -> Error -> Html
@@ -64,7 +72,7 @@ viewError sourceCode error =
   div [style ["white-space" => "pre", "font-size" => "14px"]]
     [ div [ style [ "border-top" => "2px solid black", "height" => "40px"]]
         [ h2 [style ["margin" => "10px 0 0 0", "display" => "inline-block"]] [text error.tag]
-        , a [ onClick jump.address (Maybe.withDefault error.region error.subregion)
+        , a [ onClick jump.address (getRegion error)
             , href "javascript:void(0)"
             , style ["float" => "right", "padding" => "1em"]
             ]
