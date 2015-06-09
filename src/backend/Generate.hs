@@ -50,10 +50,18 @@ userHtml compilerResult =
 errorJs :: Json.Value -> String
 errorJs err =
   "var textarea = self.parent.input.document.getElementById('input');\n\
-  \Elm.fullscreen(Elm.Errors, {\n\
+  \var errors = Elm.fullscreen(Elm.Errors, {\n\
   \    sourceCode: textarea.value,\n\
   \    errors: " ++ LBS.unpack (Json.encode err) ++ "\n\
-  \});"
+  \});\n\
+  \var editor = self.parent.input.editor;\n\
+  \errors.ports.jumpTo.subscribe(function(region) {\n\
+  \    editor.setSelection(position(region.start), position(region.end));\n\
+  \    editor.focus();\n\
+  \});\n\
+  \function position(pos) {\n\
+  \    return { line: pos.line - 1, ch: pos.column - 1 };\n\
+  \}"
 
 
 scripts :: H.ToMarkup a => String -> a -> H.Html

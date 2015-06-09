@@ -2,6 +2,7 @@ module Errors where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import String
 
 
@@ -14,6 +15,15 @@ main =
 port sourceCode : String
 
 port errors : List Error
+
+
+port jumpTo : Signal Region
+port jumpTo =
+  jump.signal
+
+
+jump =
+  Signal.mailbox (Region (Position 0 0) (Position 0 0))
 
 
 -- MODEL
@@ -52,7 +62,14 @@ view sourceCode errors =
 viewError : String -> Error -> Html
 viewError sourceCode error =
   div [style ["white-space" => "pre", "font-size" => "14px"]]
-    [ h2 [] [text error.tag]
+    [ div []
+        [ h2 [style ["display" => "inline-block", "padding-right" => "2em"]] [text error.tag]
+        , a [ onClick jump.address (Maybe.withDefault error.region error.subregion)
+            , href "javascript:void(0)"
+            , style ["display" => "inline-block"]
+            ]
+            [text "jump to error"]
+        ]
     , pcode [] [text error.overview]
     , pcode []
         (grabRegion sourceCode error.region error.subregion)
