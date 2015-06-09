@@ -18,6 +18,7 @@ chapters =
   , "model-the-problem"
   , "architecture"
   , "reactivity"
+  , "interop"
   ]
 
 
