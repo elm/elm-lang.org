@@ -18,7 +18,7 @@ blog = """
 
 ### Articles
 
- * [Introducing Elm Reactor](/blog/introducing-elm-reactor)
+ * [Time Travel made Easy](/blog/time-travel-made-easy)
  * [Blazing Fast HTML](/blog/blazing-fast-html)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
  * [Elm package manager](/blog/announce/package-manager)
