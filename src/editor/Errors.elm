@@ -62,18 +62,20 @@ view sourceCode errors =
 viewError : String -> Error -> Html
 viewError sourceCode error =
   div [style ["white-space" => "pre", "font-size" => "14px"]]
-    [ div []
-        [ h2 [style ["display" => "inline-block", "padding-right" => "2em"]] [text error.tag]
+    [ div [ style [ "border-top" => "2px solid black", "height" => "40px"]]
+        [ h2 [style ["margin" => "10px 0 0 0", "display" => "inline-block"]] [text error.tag]
         , a [ onClick jump.address (Maybe.withDefault error.region error.subregion)
             , href "javascript:void(0)"
-            , style ["display" => "inline-block"]
+            , style ["float" => "right", "padding" => "1em"]
             ]
             [text "jump to error"]
         ]
     , pcode [] [text error.overview]
-    , pcode []
-        (grabRegion sourceCode error.region error.subregion)
+    , div [style ["padding" => "1em 0", "background-color" => "#fafafa"]]
+        [ code [] (grabRegion sourceCode error.region error.subregion)
+        ]
     , pcode [] [text error.details]
+    , br [] []
     ]
 
 
@@ -86,8 +88,17 @@ pcode attrs html =
 grabRegion : String -> Region -> Maybe Region -> List Html
 grabRegion sourceCode region maybeSubregion =
   let
+    maxNumWidth =
+      String.length (toString region.end.line)
+
     formatLine ((number, line) as lineInfo) =
+      let
+        n = toString number
+        lineNumber =
+          String.repeat (maxNumWidth - String.length n) " " ++ n ++ "| "
+      in
       div [] <|
+      span [style ["color" => "#A68383"]] [text lineNumber] ::
       case grabSubregion maybeSubregion lineInfo of
         Nothing ->
             if region.start.line == region.end.line then
