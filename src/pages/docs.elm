@@ -7,6 +7,11 @@ import TopBar
 import Outline
 
 
+port title : String
+port title =
+  "Elm Docs"
+
+
 main =
   div []
     [ TopBar.topBar "docs"

@@ -5,6 +5,11 @@ import Center
 import TopBar
 
 
+port title : String
+port title =
+  "Elm Examples"
+
+
 main =
   div []
     [ TopBar.topBar "examples"
