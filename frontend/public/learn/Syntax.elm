@@ -210,9 +210,10 @@ is left, but you can set your own.
 You cannot override the built-in operators though.
 
 ```haskell
-f <| x = f x
+(?) : Maybe a -> a -> a
+maybe ? default = Maybe.withDefault default maybe
 
-infixr 0 <|
+infixr 8 ?
 ```
 
 Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
