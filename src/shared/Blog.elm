@@ -1,5 +1,7 @@
 module Blog (blog, docs, evan, michael, Date) where
 
+import Debug
+import Dict
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 
@@ -17,7 +19,11 @@ blog title subtitle author date body =
     , div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
         [ div [ style [ "font-size" => "4em" ] ] [text title]
         , div [ style [ "font-size" => "1.5em" ] ] [text subtitle]
-        , div [ class "author" ] [ text "by ", a [href author.url] [text author.name] ]
+        , div [ class "author" ]
+            [ text "by "
+            , a [href author.url] [text author.name]
+            , text (" / " ++ dateToString date)
+            ]
         ]
     , div [] body
     ]
@@ -65,3 +71,30 @@ type alias Date =
     }
 
 
+dateToString : Date -> String
+dateToString date =
+  case Dict.get date.month months of
+    Nothing ->
+      Debug.crash "invalid date"
+
+    Just month ->
+      toString date.day ++ " " ++ month ++ " " ++ toString date.year
+
+
+
+months : Dict.Dict Int String
+months =
+  Dict.fromList
+    [ 1 => "Jan"
+    , 2 => "Feb"
+    , 3 => "Mar"
+    , 4 => "Apr"
+    , 5 => "May"
+    , 6 => "June"
+    , 7 => "July"
+    , 8 => "Aug"
+    , 9 => "Sep"
+    , 10 => "Oct"
+    , 11 => "Nov"
+    , 12 => "Dec"
+    ]
