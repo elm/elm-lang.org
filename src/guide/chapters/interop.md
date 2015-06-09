@@ -10,7 +10,9 @@ Elm can be embedded directly in a `<div>`. This lets you easily integrate Elm in
 
 Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm). Compiling it with:
 
-    elm-make Stamper.elm
+```bash
+elm-make Stamper.elm
+```
 
 will result in a file named `elm.js`. This JS file contains everything necessary for embedding in HTML.
 
@@ -35,7 +37,7 @@ Note that `Window.dimensions` and `Mouse.position` will be relative to the `<div
 
 Now that you can embed an Elm program, learn how to communicate between Elm and JS with [ports](/learn/Ports.elm).
 
-## Other ways to embed Elm
+### Other ways to embed Elm
 
 The example above embeds in a `<div>` but it is also possible to create Elm components that run fullscreen and ones that have no graphics at all. You generate the HTML automatically by specifying an HTML output file with `elm-make Stamper.elm --output=Main.html`
 
@@ -73,8 +75,15 @@ port addUser : Signal (String, UserRecord)
 This means we now have a signal in Elm called `addUser` that is updated by some code in JavaScript. To actually send messages to this port, we would write something like this in JavaScript:
 
 ```javascript
-myapp.ports.addUser.send([ "Tom", { age: 32, job: "lumberjack" } ]);
-myapp.ports.addUser.send([ "Sue", { age: 37, job: "accountant" } ]);
+myapp.ports.addUser.send([
+    "Tom",
+    { age: 32, job: "lumberjack" }
+]);
+
+myapp.ports.addUser.send([
+    "Sue",
+    { age: 37, job: "accountant" }
+]);
 ```
 
 This sends two updates to Elm, automatically converting to values that work well in Elm.
