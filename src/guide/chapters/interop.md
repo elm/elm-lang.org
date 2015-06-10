@@ -6,15 +6,15 @@ Interop is extremely important for any language that compiles to JavaScript. To 
 
 ## HTML Embedding
 
-Elm can be embedded directly in a `<div>`. This lets you easily integrate Elm into a larger JS project. An embedded Elm program is called a &ldquo;component&rdquo;. This document shows how to embed Elm in HTML, and all of the following code [is available](https://gist.github.com/evancz/8456627).
+Elm can be embedded directly in a `<div>`. This lets you easily integrate Elm into a larger JS project. All of the following code [is available](https://gist.github.com/evancz/8456627).
 
-Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm). Compiling it with:
+Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm). Compile it with:
 
 ```bash
 elm-make Stamper.elm
 ```
 
-will result in a file named `elm.js`. This JS file contains everything necessary for embedding in HTML.
+This will result in a file named `elm.js`. This JS file contains everything necessary for embedding in HTML.
 
 In our HTML file [`EmbeddedElm.html`](https://gist.github.com/evancz/8456627#file-embeddedelm-html), we add a `<script>` below the `<body>` that includes the following code:
 
@@ -35,11 +35,9 @@ That's it!
 
 Note that `Window.dimensions` and `Mouse.position` will be relative to the `<div>`, not the entire page. This means the `Stamper` code still fill the `<div>` entirely and handle clicks appropriately.
 
-Now that you can embed an Elm program, learn how to communicate between Elm and JS with [ports](/learn/Ports.elm).
-
 ### Other ways to embed Elm
 
-The example above embeds in a `<div>` but it is also possible to create Elm components that run fullscreen and ones that have no graphics at all. You generate the HTML automatically by specifying an HTML output file with `elm-make Stamper.elm --output=Main.html`
+The example above embeds in a `<div>` but it is also possible to create Elm components that run fullscreen and ones that have no graphics at all:
 
 ```javascript
 // fullscreen version of Stamper
@@ -49,12 +47,11 @@ Elm.fullscreen(Elm.Stamper);
 Elm.worker(Elm.Stamper);
 ```
 
-The version that has no graphics is useful for:
+You can also generate the HTML automatically by specifying an HTML output file with
 
- * Writing logic in Elm but handling graphics with something else.
- * Using Elm with [node.js](http://nodejs.org/).
-
-Furthermore, all of these Elm components can communicate with JavaScript via &ldquo;ports&rdquo;. [Read more about ports](/learn/Ports.elm) to see how to do this in more detail.
+```bash
+elm-make Stamper.elm --output=Main.html
+```
 
 
 ## Ports
