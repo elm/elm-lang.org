@@ -1,33 +1,18 @@
 
 # Architecture
 
-This tutorial outlines the general architecture you will see in all
-[Elm](http://elm-lang.org/)
-programs, from [TodoMVC](https://github.com/evancz/elm-todomvc)
-to [dreamwriter](https://github.com/rtfeldman/dreamwriter#dreamwriter).
+This tutorial outlines the general architecture you will see in all Elm programs, from [TodoMVC](https://github.com/evancz/elm-todomvc) to [dreamwriter](https://github.com/rtfeldman/dreamwriter#dreamwriter).
 
-We will learn a very simple architecture pattern that serves as an infinitely
-nestable building block. It is great for modularity, code reuse, and testing.
-Ultimately, this pattern makes it easy to create complex webapps in a way that
-stays modular. We will start with the basic pattern in a small example and slowly
-build on those core principles.
+We will learn a very simple architecture pattern that serves as an infinitely nestable building block. It is great for modularity, code reuse, and testing. Ultimately, this pattern makes it easy to create complex webapps in a way that stays modular. We will start with the basic pattern in a small example and slowly build on those core principles.
 
-One very interesting aspect of this architecture is that it *emerges* from
-Elm naturally. The language design itself leads you towards this architecture
-whether you have read this document and know the benefits or not. I actually
-discovered this pattern just using Elm and have been shocked by its simplicity
-and power.
+One very interesting aspect of this architecture is that it *emerges* from Elm naturally. The language design itself leads you towards this architecture whether you have read this document and know the benefits or not. I actually discovered this pattern just using Elm and have been shocked by its simplicity and power.
 
-**Note**: To follow along with this tutorial with code,
-[install Elm](http://elm-lang.org/Install.elm) and fork this repo. Each
-example in the tutorial gives instructions of how to run the code.
+**Note**: To follow along with this tutorial with code, [install Elm](/install) and clone the [elm-architecture-tutorial repo](https://github.com/evancz/elm-architecture-tutorial/). Each example we see in this section will use code from that repo. Follow along, it really helps!
+
 
 ## The Basic Pattern
 
-The logic of every Elm program will break up into three cleanly separated
-parts: model, update, and view. You can pretty reliably start with the
-following skeleton and then iteratively fill in details for your particular
-case.
+The logic of every Elm program will break up into three cleanly separated parts: model, update, and view. You can pretty reliably start with the following skeleton and then iteratively fill in details for your particular case.
 
 ```haskell
 -- MODEL
@@ -56,7 +41,38 @@ view =
 This tutorial is all about this pattern and small variations and extensions.
 
 
-## Example 1: A Counter
+## Starting the Program
+
+Pretty much all Elm programs will have a small bit of code that drives the whole application:
+
+```haskell
+main =
+  StartApp.start { model = 0, update = update, view = view }
+```
+
+We are using the [`StartApp`](https://github.com/evancz/start-app) package to wire together our initial model with the update and view functions. We will dive into how this works in [the next section](/guide/reactivity) so do not worry about it too much right now!
+
+The key to wiring up your application is the concept of an `Address`. Every
+event handler in our `view` function reports to a particular address. It just
+sends chunks of data along. The `StartApp` package monitors all the messages
+coming in to this address and feeds them into the `update` function. The model
+gets updated and [elm-html][] takes care of rendering the changes efficiently.
+
+This means values flow through an Elm program in only one direction, something
+like this:
+
+![Signal Graph Summary](diagrams/signal-graph-summary.png)
+
+The blue part is our core Elm program which is exactly the model/update/view
+pattern we have been discussing so far. When programming in Elm, you can
+mostly think inside this box and make great progress.
+
+Notice we are not *performing* actions as they get sent back to our app. We
+are simply sending some data over. This separation is a key detail, keeping
+our logic totally separate from our view code.
+
+
+## 1 - A Counter
 
 Our first example is a simple counter that can be incremented or decremented.
 To see it in action, navigate into directory `1/`, run `elm-reactor`, and then
@@ -127,42 +143,7 @@ from now on will be a slight variation on this basic pattern: `Model`, `update`,
 `view`.
 
 
-## Starting the Program
-
-Pretty much all Elm programs will have a small bit of code that drives the
-whole application. In example 1 the snippet looks like this:
-
-```haskell
-main =
-  StartApp.start { model = 0, update = update, view = view }
-```
-
-We are use the [`StartApp`](https://github.com/evancz/start-app) package to
-wire together our initial model with the update and view functions. It is a
-small wrapper around Elm's [signals](http://elm-lang.org/learn/Using-Signals.elm)
-so that you do not need to dive into that concept yet.
-
-The key to wiring up your application is the concept of an `Address`. Every
-event handler in our `view` function reports to a particular address. It just
-sends chunks of data along. The `StartApp` package monitors all the messages
-coming in to this address and feeds them into the `update` function. The model
-gets updated and [elm-html][] takes care of rendering the changes efficiently.
-
-This means values flow through an Elm program in only one direction, something
-like this:
-
-![Signal Graph Summary](diagrams/signal-graph-summary.png)
-
-The blue part is our core Elm program which is exactly the model/update/view
-pattern we have been discussing so far. When programming in Elm, you can
-mostly think inside this box and make great progress.
-
-Notice we are not *performing* actions as they get sent back to our app. We
-are simply sending some data over. This separation is a key detail, keeping
-our logic totally separate from our view code.
-
-
-## Example 2: A Pair of Counters
+## 2 - A Pair of Counters
 
 In example 1 we created a basic counter, but how does that pattern scale when
 we want *two* counters? Can we keep things modular? To see example 2 in action,
@@ -274,7 +255,7 @@ more. We can take the `CounterPair` module, expose the key values and
 functions, and create a `CounterPairPair` or whatever it is we need.
 
 
-## Example 3: A Dynamic List of Counters
+## 3 - A Dynamic List of Counters
 
 A pair of counters is cool, but what about a list of counters where we can add
 and remove counters as we see fit? Can this pattern work for that too?
@@ -390,7 +371,7 @@ Counters are very simple, but the pattern would work exactly the same if you
 had a list of user profiles or tweets or newsfeed items or product details.
 
 
-## Example 4: A Fancier List of Counters
+## 4 - A Fancier List of Counters
 
 Okay, keeping things simple and modular on a dynamic list of counters is pretty
 cool, but instead of a general remove button, what if each counter had its own
