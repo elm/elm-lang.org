@@ -55,7 +55,8 @@ debuggerSection =
   section []
     [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Hello HTML" ]
     , p [ style [ "text-align" => "center" ] ]
-        [ code
+        [ a [href "/examples/hello-world", style ["display" => "inline-block"]]
+          [ code
             [ class "lang-haskell hljs"
             , style [ "display" => "inline-block", "border-radius" => "16px", "padding" => "24px 48px" ]
             ]
@@ -66,6 +67,7 @@ debuggerSection =
             , span [class "hljs-string"] [text "\"Hello, World!\""]
             , text "]"
             ]
+          ]
         ]
     , div [ style [ "display" => "block", "margin" => "2em auto 0", "max-width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
