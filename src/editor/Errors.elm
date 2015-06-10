@@ -79,7 +79,7 @@ viewError sourceCode error =
             [text "jump to error"]
         ]
     , pcode [] [text error.overview]
-    , div [style ["padding" => "1em 0", "background-color" => "#fafafa"]]
+    , div [style ["padding" => "1em 0", "background-color" => "#e6e6e6"]]
         [ code [] (grabRegion sourceCode error.region error.subregion)
         ]
     , pcode [] [text error.details]
