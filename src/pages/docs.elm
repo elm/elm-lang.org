@@ -95,4 +95,6 @@ viewChapter (title, sections) =
 
 format str =
   String.toLower str
+    |> String.split " - "
+    |> String.join " "
     |> String.map (\c -> if c == ' ' then '-' else c)
