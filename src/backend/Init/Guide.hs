@@ -48,7 +48,8 @@ initChapter name =
         [title] ->
             do  let output = FT.file ["guide","elm"] name "elm"
                 outdated <- isOutdated input output
-                when outdated (writeFile output (toElm title markdown))
+                let content = unlines (filter notTitle mdLines)
+                when outdated (writeFile output (toElm title content))
                 return (title, Maybe.mapMaybe toSubtitle mdLines)
 
         _ ->
@@ -75,6 +76,11 @@ toTitle line =
         Nothing
 
 
+notTitle :: String -> Bool
+notTitle line =
+  Maybe.isNothing (toTitle line)
+
+
 toSubtitle :: String -> Maybe String
 toSubtitle line =
   case line of
@@ -89,6 +95,7 @@ toElm title markdown =
   unlines
     [ "import Html exposing (..)"
     , "import Html.Attributes exposing (..)"
+    , "import Blog"
     , "import Center"
     , "import Outline"
     , "import TopBar"
@@ -98,7 +105,7 @@ toElm title markdown =
     , "  " ++ show title
     , ""
     , "main ="
-    , "  div [] [ TopBar.topBar \"docs\", Center.markdown \"600px\" info ]"
+    , "  Blog.docs " ++ show title ++ " [ Center.markdown \"600px\" info ]"
     , ""
     , "info = \"\"\"\n" ++ markdown ++ "\n\"\"\""
     ]
