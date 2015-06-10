@@ -48,7 +48,7 @@ initChapter name =
         [title] ->
             do  let output = FT.file ["guide","elm"] name "elm"
                 outdated <- isOutdated input output
-                when outdated (writeFile output (toElm markdown))
+                when outdated (writeFile output (toElm title markdown))
                 return (title, Maybe.mapMaybe toSubtitle mdLines)
 
         _ ->
@@ -84,14 +84,18 @@ toSubtitle line =
         Nothing
 
 
-toElm :: String -> String
-toElm markdown =
+toElm :: String -> String -> String
+toElm title markdown =
   unlines
     [ "import Html exposing (..)"
     , "import Html.Attributes exposing (..)"
     , "import Center"
     , "import Outline"
     , "import TopBar"
+    , ""
+    , "port title : String"
+    , "port title ="
+    , "  " ++ show title
     , ""
     , "main ="
     , "  div [] [ TopBar.topBar \"docs\", Center.markdown \"600px\" info ]"
