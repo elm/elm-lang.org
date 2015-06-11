@@ -7,6 +7,7 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode as Json exposing ((:=))
 import Set
+import String
 import Task exposing (..)
 import Window
 
@@ -127,7 +128,7 @@ moduleToDocs : Module -> Import -> List (String, Info)
 moduleToDocs modul { alias, exposed } =
   let urlTo name =
         "http://package.elm-lang.org/packages/"
-        ++ modul.packageName ++ "/latest/" ++ modul.name ++ "#" ++ name
+        ++ modul.packageName ++ "/latest/" ++ dotToHyphen modul.name ++ "#" ++ name
 
       nameToPair name =
         let fullName = modul.name ++ "." ++ name
@@ -156,6 +157,10 @@ moduleToDocs modul { alias, exposed } =
       List.concatMap nameToPair (modul.values.aliases ++ modul.values.values)
       ++ List.concatMap (\(type', tags) -> List.concatMap (typeToPair type') tags) modul.values.types
 
+
+dotToHyphen : String -> String
+dotToHyphen string =
+  String.map (\c -> if c == '.' then '-' else c) string
 
 
 -- wiring
