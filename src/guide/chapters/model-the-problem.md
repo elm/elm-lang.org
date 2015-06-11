@@ -300,4 +300,4 @@ false = And T (Not T)
 
 Once we have modeled the possible values we can define functions like `eval` which evaluates any `Boolean` to `True` or `False`. See [this example][bool] for more about representing boolean expressions.
 
-[bool]: /examples/boolean-expressions.elm
+[bool]: /examples/boolean-expressions

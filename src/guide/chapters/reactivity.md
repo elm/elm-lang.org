@@ -93,8 +93,8 @@ benefits over JavaScript&rsquo;s promises when it comes to error handling. But
 like I said, we will build up to this slowly so stick with this tutorial until
 then!
 
-[zip]: /edit/examples/Reactive/ZipCodes.elm
-[flickr]: /edit/examples/Intermediate/Flickr.elm
+[zip]: /examples/zip-codes
+[flickr]: /examples/flickr
 
 To get started, install the `evancz/task-tutorial` package in your working
 directory by running the following command:
@@ -131,7 +131,7 @@ way of asking the Elm runtime to do something for you. In this case, it means
 *run the task*. So let’s see an example that puts `print` together with ports
 to print out the current time every second.
 
-[port]: /learn/Ports.elm
+[port]: /guide/interop
 
 ```haskell
 import TaskTutorial exposing (print)
