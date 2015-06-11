@@ -14,6 +14,7 @@ main =
         , view "HTML" html
         , view "Visuals" visuals
         , view "Signals" signals
+        , view "Tasks" tasks
         , view "Games" games
         ]
     ]
@@ -176,6 +177,15 @@ signals =
       ]
   , "time" =>
       [ "clock" ==> "clock"
+      ]
+  ]
+
+
+tasks : List Section
+atasks =
+  [ "HTTP" =>
+      [ "zip codes" ==> "zip-codes"
+      , "flickr" ==> "flickr"
       ]
   ]
 
