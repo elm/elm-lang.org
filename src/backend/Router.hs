@@ -6,8 +6,8 @@ import Control.Monad.Trans (liftIO)
 import qualified Data.Aeson as Json
 import qualified Data.ByteString.Char8 as BS
 import Snap.Core
-    ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, route
-    , setContentType, setResponseStatus, writeBuilder, writeLBS
+    ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, redirect'
+    , route, setContentType, setResponseStatus, writeBuilder, writeLBS
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
@@ -31,6 +31,7 @@ router compiler pages =
     <|> dir "editor" (serveDirectoryWith simpleDirectoryConfig ("gen" </> "editor"))
     <|> dir "assets" (serveDirectoryWith simpleDirectoryConfig "assets")
     <|> serveDirectoryWith simpleDirectoryConfig "resources"
+    <|> redirects
     <|> error404
   where
     routes =
@@ -153,3 +154,74 @@ serveHtml :: MonadSnap m => H.Html -> m ()
 serveHtml html =
   do  modifyResponse $ setContentType "text/html"
       writeBuilder (Blaze.renderHtmlBuilder html)
+
+
+-- REDIRECTS
+
+(==>) old new =
+  (old, redirect' new 301)
+
+
+redirects :: MonadSnap m => m ()
+redirects =
+  route $
+    map versionRedirect versions
+    ++
+    [ "Blog.elm" ==> "blog"
+    , "Community.elm" ==> "community"
+    , "Examples.elm" ==> "examples"
+    , "Get-Started.elm" ==> "docs"
+    , "Install.elm" ==> "install"
+    , "Learn.elm" ==> "docs"
+    , "blog/Introducing-Elm-Reactor.elm" ==> "blog/time-travel-made-easy"
+    , "blog/Blazing-Fast-Html.elm" ==> "blog/blazing-fast-html"
+    , "/blog/announce/PackageManager.elm" ==> "/blog/announce/package-manager"
+    , "/blog/announce/Repl.elm" ==> "/blog/announce/repl"
+    , "/blog/Interactive-Programming.elm" ==> "/blog/interactive-programming"
+    , "/blog/announce/Elm-and-Prezi.elm" ==> "/blog/announce/elm-and-prezi"
+    , "/learn/Escape-from-Callback-Hell.elm" ==> "/learn/escape-from-callback-hell"
+    , "/blog/Pong.elm" ==> "/blog/making-pong"
+    , "learn/Syntax.elm" ==> "docs/syntax"
+    , "learn/FAQ.elm" ==> "docs/from-javascript"
+    , "learn/Understanding-Types.elm" ==> "guide/model-the-problem"
+    , "learn/Union-Types.elm" ==> "guide/model-the-problem"
+    , "learn/Records.elm" ==> "docs/records"
+    , "learn/What-is-FRP.elm" ==> "guide/reactivity" -- TODO
+    , "learn/Using-Signals.elm" ==> "guide/reactivity" -- TODO
+    , "learn/Tasks.elm" ==> "guide/reactivity#tasks"
+    , "learn/Components.elm" ==> "guide/interop"
+    , "learn/Ports.elm" ==> "guide/interop"
+    ]
+
+
+versions :: [String]
+versions =
+  [ "0.4.0"
+  , "0.5.0"
+  , "0.6"
+  , "0.7"
+  , "0.7.1"
+  , "0.8"
+  , "0.9"
+  , "0.10"
+  , "0.10.1"
+  , "0.11"
+  , "0.12"
+  , "0.12.1"
+  , "0.12.3"
+  , "0.13"
+  , "0.14"
+  , "0.15"
+  ]
+
+
+versionRedirect :: MonadSnap m => String -> (BS.ByteString, m ())
+versionRedirect version =
+  let
+    old =
+      "blog/announce/" ++ version ++ ".elm"
+
+    new =
+      "blog/announce/" ++ version ++ ".elm"
+  in
+    BS.pack old ==> BS.pack new
