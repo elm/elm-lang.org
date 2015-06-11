@@ -26,7 +26,7 @@
   "values": [
     {
       "name": "a",
-      "comment": "Represents a hyperlink , linking to another resource.",
+      "comment": "Represents a hyperlink, linking to another resource.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -66,7 +66,7 @@
     },
     {
       "name": "abbr",
-      "comment": "Represents an abbreviation or an acronym ; the expansion of the\nabbreviation can be represented in the title attribute.",
+      "comment": "Represents an abbreviation or an acronym; the expansion of the\nabbreviation can be represented in the title attribute.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -466,7 +466,7 @@
     },
     {
       "name": "br",
-      "comment": "Represents a line break .",
+      "comment": "Represents a line break.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -666,7 +666,7 @@
     },
     {
       "name": "code",
-      "comment": "Represents computer code .",
+      "comment": "Represents computer code.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -1346,7 +1346,7 @@
     },
     {
       "name": "form",
-      "comment": "Represents a form , consisting of controls, that can be submitted to a\nserver for processing.",
+      "comment": "Represents a form, consisting of controls, that can be submitted to a\nserver for processing.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "object",
-      "comment": "Represents an external resource , which is treated as an image, an HTML\nsub-document, or an external resource to be processed by a plug-in.",
+      "comment": "Represents an external resource, which is treated as an image, an HTML\nsub-document, or an external resource to be processed by a plug-in.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -2528,7 +2528,7 @@
     },
     {
       "name": "optgroup",
-      "comment": "Represents a set of options , logically grouped.",
+      "comment": "Represents a set of options, logically grouped.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -2888,7 +2888,7 @@
     },
     {
       "name": "rt",
-      "comment": "Represents the text of a ruby annotation .",
+      "comment": "Represents the text of a ruby annotation.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -2968,7 +2968,7 @@
     },
     {
       "name": "s",
-      "comment": "Represents content that is no longer accurate or relevant .",
+      "comment": "Represents content that is no longer accurate or relevant.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -3128,7 +3128,7 @@
     },
     {
       "name": "small",
-      "comment": "Represents a side comment , that is, text like a disclaimer or a\ncopyright, which is not essential to the comprehension of the document.",
+      "comment": "Represents a side comment, that is, text like a disclaimer or a\ncopyright, which is not essential to the comprehension of the document.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -3208,7 +3208,7 @@
     },
     {
       "name": "span",
-      "comment": "Represents text with no specific meaning. This has to be used when no other\ntext-semantic element conveys an adequate meaning, which, in this case, is\noften brought by global attributes like class, lang, or dir.",
+      "comment": "Represents text with no specific meaning. This has to be used when no other\ntext-semantic element conveys an adequate meaning, which, in this case, is\noften brought by global attributes like `class`, `lang`, or `dir`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -3328,7 +3328,7 @@
     },
     {
       "name": "summary",
-      "comment": "Represents a summary , caption , or legend for a given `details`.",
+      "comment": "Represents a summary, caption, or legend for a given `details`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -4052,7 +4052,7 @@
     },
     {
       "name": "wbr",
-      "comment": "Represents a line break opportunity , that is a suggested point for\nwrapping text in order to improve readability of text split on several lines.",
+      "comment": "Represents a line break opportunity, that is a suggested point for\nwrapping text in order to improve readability of text split on several lines.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -4161,7 +4161,7 @@
     },
     {
       "name": "align",
-      "comment": "Specifies the horizontal alignment of a `caption`, `col`, `colgroup`,\n`hr`, `iframe`, `img`, `table`, `tbody`,  `td`,  `tfoot` , `th`, `thead`, or\n`tr`.",
+      "comment": "Specifies the horizontal alignment of a `caption`, `col`, `colgroup`,\n`hr`, `iframe`, `img`, `table`, `tbody`,  `td`,  `tfoot`, `th`, `thead`, or\n`tr`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -4206,7 +4206,7 @@
     },
     {
       "name": "attribute",
-      "comment": "Create arbitrary HTML *attributes*. Maps onto JavaScript&rsquo;s\n`setAttribute` function under the hood.\n\n    import Json.Encode (string)\n\n    greeting : Html\n    greeting =\n        div [ attribute \"class\" (string \"greeting\") ] [\n          text \"Hello!\"\n        ]\n\nNotice that you must give the *attribute* name, so we use `class` as it would\nbe in HTML, not `className` as it would appear in JS.",
+      "comment": "Create arbitrary HTML *attributes*. Maps onto JavaScript&rsquo;s\n`setAttribute` function under the hood.\n\n    greeting : Html\n    greeting =\n        div [ attribute \"class\" \"greeting\" ] [\n          text \"Hello!\"\n        ]\n\nNotice that you must give the *attribute* name, so we use `class` as it would\nbe in HTML, not `className` as it would appear in JS.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -4832,7 +4832,7 @@
         "tag": "lambda",
         "in": {
           "tag": "type",
-          "name": "String"
+          "name": "Bool"
         },
         "out": {
           "tag": "type",
@@ -5177,7 +5177,7 @@
         "tag": "lambda",
         "in": {
           "tag": "type",
-          "name": "Bool"
+          "name": "String"
         },
         "out": {
           "tag": "type",
@@ -5187,7 +5187,7 @@
     },
     {
       "name": "property",
-      "comment": "Create arbitrary *properties*.\n\n    import Json.Encode (string)\n\n    greeting : Html\n    greeting =\n        div [ property \"className\" (string \"greeting\") ] [\n          text \"Hello!\"\n        ]\n\nNotice that you must give the *property* name, so we use `className` as it\nwould be in JavaScript, not `class` as it would appear in HTML.",
+      "comment": "Create arbitrary *properties*.\n\n    import JavaScript.Encode (string)\n\n    greeting : Html\n    greeting =\n        div [ property \"className\" (string \"greeting\") ] [\n          text \"Hello!\"\n        ]\n\nNotice that you must give the *property* name, so we use `className` as it\nwould be in JavaScript, not `class` as it would appear in HTML.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -5494,12 +5494,12 @@
     },
     {
       "name": "step",
-      "comment": "Add a step size to an `input`.",
+      "comment": "Add a step size to an `input`. Use `step \"any\"` to allow any floating-point\nnumber to be used in the input.",
       "type": {
         "tag": "lambda",
         "in": {
           "tag": "type",
-          "name": "Int"
+          "name": "String"
         },
         "out": {
           "tag": "type",
@@ -5628,7 +5628,7 @@
     },
     {
       "name": "usemap",
-      "comment": "Specify the element ID of a `map` that should be used for an `img`,\n`input`, or `object`.",
+      "comment": "Specify the hash name reference of a `map` that should be used for an `img`\nor `object`. A hash name reference is a hash symbol followed by the element's name or id.\nE.g. `\"#planet-map\"`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -5691,7 +5691,7 @@
 ,
 {
   "name": "Html.Events",
-  "comment": "\nIt is often helpful to create an [ADT][] so you can have many different kinds\nof events as seen in the [TodoMVC][] example.\n\n[ADT]: http://elm-lang.org/learn/Pattern-Matching.elm\n[TodoMVC]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm\n\n# All Events\n@docs on, targetValue, targetChecked, keyCode\n\n# Focus Helpers\n@docs onBlur, onFocus, onSubmit\n\n# Keyboard Helpers\n@docs onKeyUp, onKeyDown, onKeyPress\n\n# Mouse Helpers\n@docs onClick, onDoubleClick, onMouseMove,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut",
+  "comment": "\nIt is often helpful to create an [Union Type][] so you can have many different kinds\nof events as seen in the [TodoMVC][] example.\n\n[Union Type]: http://elm-lang.org/learn/Union-Types.elm\n[TodoMVC]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm\n\n# Focus Helpers\n@docs onBlur, onFocus, onSubmit\n\n# Keyboard Helpers\n@docs onKeyUp, onKeyDown, onKeyPress\n\n# Mouse Helpers\n@docs onClick, onDoubleClick, onMouseMove,\n      onMouseDown, onMouseUp,\n      onMouseEnter, onMouseLeave,\n      onMouseOver, onMouseOut\n\n# All Events\n@docs on, targetValue, targetChecked, keyCode",
   "aliases": [],
   "types": [],
   "values": [
@@ -5710,28 +5710,6 @@
             "name": "Int"
           }
         ]
-      }
-    },
-    {
-      "name": "messageOn",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "Signal.Message"
-          },
-          "out": {
-            "tag": "type",
-            "name": "Attribute"
-          }
-        }
       }
     },
     {
@@ -5785,12 +5763,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5800,12 +5794,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5815,12 +5825,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5830,36 +5856,23 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Attribute"
-        }
-      }
-    },
-    {
-      "name": "onKey",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
           "tag": "lambda",
           "in": {
-            "tag": "lambda",
-            "in": {
-              "tag": "type",
-              "name": "Int"
-            },
-            "out": {
-              "tag": "type",
-              "name": "Signal.Message"
-            }
+            "tag": "var",
+            "name": "a"
           },
           "out": {
             "tag": "type",
@@ -5874,19 +5887,35 @@
       "type": {
         "tag": "lambda",
         "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
           "tag": "lambda",
           "in": {
-            "tag": "type",
-            "name": "Int"
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Int"
+            },
+            "out": {
+              "tag": "var",
+              "name": "a"
+            }
           },
           "out": {
             "tag": "type",
-            "name": "Signal.Message"
+            "name": "Attribute"
           }
-        },
-        "out": {
-          "tag": "type",
-          "name": "Attribute"
         }
       }
     },
@@ -5896,19 +5925,35 @@
       "type": {
         "tag": "lambda",
         "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
           "tag": "lambda",
           "in": {
-            "tag": "type",
-            "name": "Int"
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Int"
+            },
+            "out": {
+              "tag": "var",
+              "name": "a"
+            }
           },
           "out": {
             "tag": "type",
-            "name": "Signal.Message"
+            "name": "Attribute"
           }
-        },
-        "out": {
-          "tag": "type",
-          "name": "Attribute"
         }
       }
     },
@@ -5918,19 +5963,35 @@
       "type": {
         "tag": "lambda",
         "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
           "tag": "lambda",
           "in": {
-            "tag": "type",
-            "name": "Int"
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Int"
+            },
+            "out": {
+              "tag": "var",
+              "name": "a"
+            }
           },
           "out": {
             "tag": "type",
-            "name": "Signal.Message"
+            "name": "Attribute"
           }
-        },
-        "out": {
-          "tag": "type",
-          "name": "Attribute"
         }
       }
     },
@@ -5940,12 +6001,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5955,12 +6032,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5970,12 +6063,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -5985,12 +6094,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -6000,12 +6125,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -6015,12 +6156,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -6030,12 +6187,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },
@@ -6045,12 +6218,28 @@
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "type",
-          "name": "Signal.Message"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal.Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         },
         "out": {
-          "tag": "type",
-          "name": "Attribute"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Attribute"
+          }
         }
       }
     },

@@ -1,23 +1,9 @@
 [
 {
   "name": "Array",
-  "comment": "A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr",
+  "comment": "A library for fast immutable arrays. The elements in an array must have the\nsame type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast\nreads, updates, and appends.\n\n# Creating Arrays\n@docs empty, repeat, initialize, fromList\n\n# Basics\n@docs isEmpty, length, push, append\n\n# Get and Set\n@docs get, set\n\n# Taking Arrays Apart\n@docs slice, toList, toIndexedList\n\n# Mapping, Filtering, and Folding\n@docs map, indexedMap, filter, foldl, foldr",
   "aliases": [],
-  "types": [
-    {
-      "name": "Array",
-      "comment": "",
-      "args": [
-        "a"
-      ],
-      "cases": [
-        [
-          "Array",
-          []
-        ]
-      ]
-    }
-  ],
+  "types": [],
   "values": [
     {
       "name": "append",
@@ -271,7 +257,7 @@
     },
     {
       "name": "get",
-      "comment": "Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing\n\nThe `(?)` operator from the `Maybe` library makes it easy to give a default\nvalue.",
+      "comment": "Return Just the element at the index or Nothing if the index is out of range.\n\n    get  0 (fromList [0,1,2]) == Just 0\n    get  2 (fromList [0,1,2]) == Just 2\n    get  5 (fromList [0,1,2]) == Nothing\n    get -1 (fromList [0,1,2]) == Nothing",
       "type": {
         "tag": "lambda",
         "in": {
@@ -398,6 +384,30 @@
               }
             ]
           }
+        }
+      }
+    },
+    {
+      "name": "isEmpty",
+      "comment": "Determine if an array is empty.\n\n    isEmpty empty == True",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Array"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Bool"
         }
       }
     },
@@ -1223,7 +1233,7 @@
           }
         }
       },
-      "associativity": "left",
+      "associativity": "right",
       "precedence": 8
     },
     {
@@ -2468,202 +2478,7 @@
   "name": "Color",
   "comment": "Library for working with colors. Includes\n[RGB](https://en.wikipedia.org/wiki/RGB_color_model) and\n[HSL](http://en.wikipedia.org/wiki/HSL_and_HSV) creation, gradients, and\nbuilt-in names.\n\n# Creation\n@docs rgb, rgba, hsl, hsla, greyscale, grayscale, complement\n\n# Gradients\n@docs linear, radial\n\n# Extracting Colors\n@docs toRgb, toHsl\n\n# Built-in Colors\nThese colors come from the [Tango\npalette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines)\nwhich provides aesthetically reasonable defaults for colors. Each color also\ncomes with a light and dark version.\n\n### Standard\n@docs red, orange, yellow, green, blue, purple, brown\n\n### Light\n@docs lightRed, lightOrange, lightYellow, lightGreen, lightBlue, lightPurple, lightBrown\n\n### Dark\n@docs darkRed, darkOrange, darkYellow, darkGreen, darkBlue, darkPurple, darkBrown\n\n### Eight Shades of Grey\nThese colors are a compatible series of shades of grey, fitting nicely\nwith the Tango palette.\n@docs white, lightGrey, grey, darkGrey, lightCharcoal, charcoal, darkCharcoal, black\n\nThese are identical to the *grey* versions. It seems the spelling is regional, but\nthat has never helped me remember which one I should be writing.\n@docs lightGray, gray, darkGray",
   "aliases": [],
-  "types": [
-    {
-      "name": "Gradient",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Linear",
-          [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "app",
-                  "func": {
-                    "tag": "type",
-                    "name": "_Tuple2"
-                  },
-                  "args": [
-                    {
-                      "tag": "type",
-                      "name": "Float"
-                    },
-                    {
-                      "tag": "type",
-                      "name": "Color"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        ],
-        [
-          "Radial",
-          [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "app",
-                  "func": {
-                    "tag": "type",
-                    "name": "_Tuple2"
-                  },
-                  "args": [
-                    {
-                      "tag": "type",
-                      "name": "Float"
-                    },
-                    {
-                      "tag": "type",
-                      "name": "Color"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        ]
-      ]
-    },
-    {
-      "name": "Color",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "RGBA",
-          [
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            }
-          ]
-        ],
-        [
-          "HSLA",
-          [
-            {
-              "tag": "type",
-              "name": "Float"
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            },
-            {
-              "tag": "type",
-              "name": "Float"
-            }
-          ]
-        ]
-      ]
-    }
-  ],
+  "types": [],
   "values": [
     {
       "name": "black",
@@ -2793,28 +2608,6 @@
       }
     },
     {
-      "name": "fmod",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Float"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "Int"
-          },
-          "out": {
-            "tag": "type",
-            "name": "Float"
-          }
-        }
-      }
-    },
-    {
       "name": "gray",
       "comment": "",
       "type": {
@@ -2892,52 +2685,6 @@
             "out": {
               "tag": "type",
               "name": "Color"
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "hslToRgb",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Float"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "Float"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "type",
-              "name": "Float"
-            },
-            "out": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple3"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
             }
           }
         }
@@ -3281,52 +3028,6 @@
       }
     },
     {
-      "name": "rgbToHsl",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Int"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "Int"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "type",
-              "name": "Int"
-            },
-            "out": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple3"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                },
-                {
-                  "tag": "type",
-                  "name": "Float"
-                }
-              ]
-            }
-          }
-        }
-      }
-    },
-    {
       "name": "rgba",
       "comment": "Create RGB colors with an alpha component for transparency.\nThe alpha component is specified with numbers between 0 and 1.",
       "type": {
@@ -3473,7 +3174,7 @@
 ,
 {
   "name": "Date",
-  "comment": "Library for working with dates. Email the mailing list if you encounter\nissues with internationalization or locale formatting.\n\n# Conversions\n@docs fromString, toTime, fromTime\n\n# Extractions\n@docs year, month, Month, day, dayOfWeek, Day, hour, minute, second",
+  "comment": "Library for working with dates. Email the mailing list if you encounter\nissues with internationalization or locale formatting.\n\n# Conversions\n@docs fromString, toTime, fromTime\n\n# Extractions\n@docs year, month, Month, day, dayOfWeek, Day, hour, minute, second, millisecond",
   "aliases": [],
   "types": [
     {
@@ -3565,17 +3266,6 @@
           []
         ]
       ]
-    },
-    {
-      "name": "Date",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Date",
-          []
-        ]
-      ]
     }
   ],
   "values": [
@@ -3655,6 +3345,21 @@
     {
       "name": "hour",
       "comment": "Extract the hour of a given date. Given the date 23 June 1990 at 11:45AM\nthis returns the integer `11`.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Date"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Int"
+        }
+      }
+    },
+    {
+      "name": "millisecond",
+      "comment": "Extract the millisecond of a given date. Given the date 23 June 1990 at 11:45:30.123AM\nthis returns the integer `123`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -3873,13 +3578,13 @@
 ,
 {
   "name": "Dict",
-  "comment": "A dictionary mapping unique keys to values. The keys can be any comparable\ntype. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or\nlists of comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time. Dictionary\nequality with `(==)` is unreliable and should not be used.\n\n# Build\n@docs empty, singleton, insert, update, remove\n\n# Query\n@docs member, get\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs keys, values, toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition",
+  "comment": "A dictionary mapping unique keys to values. The keys can be any comparable\ntype. This includes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or\nlists of comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time. Dictionary\nequality with `(==)` is unreliable and should not be used.\n\n# Build\n@docs empty, singleton, insert, update, remove\n\n# Query\n@docs isEmpty, member, get\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs keys, values, toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition",
   "aliases": [],
   "types": [],
   "values": [
     {
       "name": "diff",
-      "comment": "Keep a key-value pair when its key does not appear in the second dictionary.\nPreference is given to the first dictionary.",
+      "comment": "Keep a key-value pair when its key does not appear in the second dictionary.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -4354,6 +4059,34 @@
               }
             ]
           }
+        }
+      }
+    },
+    {
+      "name": "isEmpty",
+      "comment": "Determine if a dictionary is empty.\n\n    isEmpty empty == True",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Dict"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "comparable"
+            },
+            {
+              "tag": "var",
+              "name": "v"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Bool"
         }
       }
     },
@@ -4895,7 +4628,7 @@
 ,
 {
   "name": "Graphics.Element",
-  "comment": "Graphical elements that snap together to build complex widgets and layouts.\nEach Element is a rectangle with a known width and height, making them easy to\ncombine and position.\n\n# Images\n@docs image, fittedImage, croppedImage, tiledImage\n\n# Styling\n@docs width, height, size, color, opacity, link, tag\n\n# Inspection\n@docs widthOf, heightOf, sizeOf\n\n# Layout\n@docs flow, up, down, left, right, inward, outward\n\n## Layout Aliases\nThere are also some convenience functions for working\nwith `flow` in specific cases:\n\n@docs layers, above, below, beside\n\n# Positioning\n@docs empty, spacer, container\n\n## Specific Positions\n\nTo create a `Position` you can use any of the built-in positions\nwhich cover nine common positions.\n@docs middle, midTop, midBottom, midLeft, midRight, topLeft, topRight,\n      bottomLeft, bottomRight\n\nIf you need more precision, you can create custom positions.\n\n@docs absolute, relative, middleAt, midTopAt, midBottomAt, midLeftAt,\n      midRightAt, topLeftAt, topRightAt, bottomLeftAt, bottomRightAt",
+  "comment": "Graphical elements that snap together to build complex widgets and layouts.\nEach Element is a rectangle with a known width and height, making them easy to\ncombine and position.\n\n# Show Anything\n@docs show\n\n# Images\n@docs image, fittedImage, croppedImage, tiledImage\n\n# Text\nEach of the following functions places [`Text`](Text) into a box. The function\nyou use determines the alignment of the text.\n\n@docs leftAligned, rightAligned, centered, justified\n\n# Styling\n@docs width, height, size, color, opacity, link, tag\n\n# Inspection\n@docs widthOf, heightOf, sizeOf\n\n# Layout\n@docs flow, up, down, left, right, inward, outward\n\n## Layout Aliases\nThere are also some convenience functions for working\nwith `flow` in specific cases:\n\n@docs layers, above, below, beside\n\n# Positioning\n@docs empty, spacer, container\n\n## Specific Positions\n\nTo create a `Position` you can use any of the built-in positions\nwhich cover nine common positions.\n@docs middle, midTop, midBottom, midLeft, midRight, topLeft, topRight,\n      bottomLeft, bottomRight\n\nIf you need more precision, you can create custom positions.\n\n@docs absolute, relative, middleAt, midTopAt, midBottomAt, midLeftAt,\n      midRightAt, topLeftAt, topRightAt, bottomLeftAt, bottomRightAt",
   "aliases": [
     {
       "name": "Position",
@@ -4960,284 +4693,9 @@
           ]
         ]
       }
-    },
-    {
-      "name": "Properties",
-      "comment": "",
-      "args": [],
-      "type": {
-        "tag": "record",
-        "extension": null,
-        "fields": [
-          [
-            "id",
-            {
-              "tag": "type",
-              "name": "Int"
-            }
-          ],
-          [
-            "width",
-            {
-              "tag": "type",
-              "name": "Int"
-            }
-          ],
-          [
-            "height",
-            {
-              "tag": "type",
-              "name": "Int"
-            }
-          ],
-          [
-            "opacity",
-            {
-              "tag": "type",
-              "name": "Float"
-            }
-          ],
-          [
-            "color",
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Maybe"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Color"
-                }
-              ]
-            }
-          ],
-          [
-            "href",
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ],
-          [
-            "tag",
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ],
-          [
-            "hover",
-            {
-              "tag": "type",
-              "name": "_Tuple0"
-            }
-          ],
-          [
-            "click",
-            {
-              "tag": "type",
-              "name": "_Tuple0"
-            }
-          ]
-        ]
-      }
     }
   ],
-  "types": [
-    {
-      "name": "Direction",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "DUp",
-          []
-        ],
-        [
-          "DDown",
-          []
-        ],
-        [
-          "DLeft",
-          []
-        ],
-        [
-          "DRight",
-          []
-        ],
-        [
-          "DIn",
-          []
-        ],
-        [
-          "DOut",
-          []
-        ]
-      ]
-    },
-    {
-      "name": "Pos",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Absolute",
-          [
-            {
-              "tag": "type",
-              "name": "Int"
-            }
-          ]
-        ],
-        [
-          "Relative",
-          [
-            {
-              "tag": "type",
-              "name": "Float"
-            }
-          ]
-        ]
-      ]
-    },
-    {
-      "name": "Three",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "P",
-          []
-        ],
-        [
-          "Z",
-          []
-        ],
-        [
-          "N",
-          []
-        ]
-      ]
-    },
-    {
-      "name": "ImageStyle",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Plain",
-          []
-        ],
-        [
-          "Fitted",
-          []
-        ],
-        [
-          "Cropped",
-          [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Int"
-                },
-                {
-                  "tag": "type",
-                  "name": "Int"
-                }
-              ]
-            }
-          ]
-        ],
-        [
-          "Tiled",
-          []
-        ]
-      ]
-    },
-    {
-      "name": "ElementPrim",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Image",
-          [
-            {
-              "tag": "type",
-              "name": "ImageStyle"
-            },
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        ],
-        [
-          "Container",
-          [
-            {
-              "tag": "type",
-              "name": "Position"
-            },
-            {
-              "tag": "type",
-              "name": "Element"
-            }
-          ]
-        ],
-        [
-          "Flow",
-          [
-            {
-              "tag": "type",
-              "name": "Direction"
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Element"
-                }
-              ]
-            }
-          ]
-        ],
-        [
-          "Spacer",
-          []
-        ],
-        [
-          "RawHtml",
-          []
-        ],
-        [
-          "Custom",
-          []
-        ]
-      ]
-    }
-  ],
+  "types": [],
   "values": [
     {
       "name": "above",
@@ -5377,6 +4835,21 @@
             "tag": "type",
             "name": "Position"
           }
+        }
+      }
+    },
+    {
+      "name": "centered",
+      "comment": "Center text in the text block. There is equal spacing on either side of a\nline of text.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Text"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
         }
       }
     },
@@ -5638,6 +5111,21 @@
       }
     },
     {
+      "name": "justified",
+      "comment": "Align text along the left and right sides of the text block. Word spacing is\nadjusted to make this possible.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Text"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
+        }
+      }
+    },
+    {
       "name": "layers",
       "comment": "Layer elements on top of each other, starting from the bottom:\n`layers == flow outward`",
       "type": {
@@ -5667,6 +5155,21 @@
       "type": {
         "tag": "type",
         "name": "Direction"
+      }
+    },
+    {
+      "name": "leftAligned",
+      "comment": "Align text along the left side of the text block. This is sometimes known as\n*ragged right*.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Text"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
+        }
       }
     },
     {
@@ -5892,6 +5395,36 @@
       "type": {
         "tag": "type",
         "name": "Direction"
+      }
+    },
+    {
+      "name": "rightAligned",
+      "comment": "Align text along the right side of the text block. This is sometimes known\nas *ragged left*.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Text"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
+        }
+      }
+    },
+    {
+      "name": "show",
+      "comment": "Convert anything to its textual representation and make it displayable in\nthe browser. Excellent for debugging.\n\n    main : Element\n    main =\n      show \"Hello World!\"\n\n    show value =\n        leftAligned (Text.monospace (Text.fromString (toString value)))",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "var",
+          "name": "a"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
+        }
       }
     },
     {
@@ -6134,7 +5667,7 @@
 ,
 {
   "name": "Graphics.Collage",
-  "comment": "The collage API is for freeform graphics. You can move, rotate, scale, etc.\nall sorts of forms including lines, shapes, images, and elements.\n\nCollages use the same coordinate system you might see in an algebra or physics\nproblem. The origin (0,0) is at the center of the collage, not the top left\ncorner as in some other graphics libraries. Furthermore, the y-axis points up,\nso moving a form 10 units in the y-axis will move it up on screen.\n\n# Unstructured Graphics\n@docs collage\n \n# Creating Forms\n@docs toForm, filled, textured, gradient, outlined, traced\n \n# Transforming Forms\n@docs move, moveX, moveY, scale, rotate, alpha\n \n# Grouping Forms\nGrouping forms makes it easier to write modular graphics code. You can create\na form that is a composite of many subforms. From there it is easy to transform\nit as a single unit.\n\n@docs group, groupTransform\n \n# Shapes\n@docs rect, oval, square, circle, ngon, polygon\n\n# Paths\n@docs segment, path\n \n# Line Styles\n@docs solid, dashed, dotted, LineStyle, LineCap, LineJoin, defaultLine",
+  "comment": "The collage API is for freeform graphics. You can move, rotate, scale, etc.\nall sorts of forms including lines, shapes, images, and elements.\n\nCollages use the same coordinate system you might see in an algebra or physics\nproblem. The origin (0,0) is at the center of the collage, not the top left\ncorner as in some other graphics libraries. Furthermore, the y-axis points up,\nso moving a form 10 units in the y-axis will move it up on screen.\n\n# Unstructured Graphics\n@docs collage\n\n# Creating Forms\n@docs toForm, filled, textured, gradient, outlined, traced, text, outlinedText\n\n# Transforming Forms\n@docs move, moveX, moveY, scale, rotate, alpha\n\n# Grouping Forms\nGrouping forms makes it easier to write modular graphics code. You can create\na form that is a composite of many subforms. From there it is easy to transform\nit as a single unit.\n\n@docs group, groupTransform\n\n# Shapes\n@docs rect, oval, square, circle, ngon, polygon\n\n# Paths\n@docs segment, path\n\n# Line Styles\n@docs solid, dashed, dotted, LineStyle, LineCap, LineJoin, defaultLine",
   "aliases": [
     {
       "name": "Shape",
@@ -6316,129 +5849,6 @@
   ],
   "types": [
     {
-      "name": "ShapeStyle",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Line",
-          [
-            {
-              "tag": "type",
-              "name": "LineStyle"
-            }
-          ]
-        ],
-        [
-          "Fill",
-          [
-            {
-              "tag": "type",
-              "name": "FillStyle"
-            }
-          ]
-        ]
-      ]
-    },
-    {
-      "name": "BasicForm",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "FPath",
-          [
-            {
-              "tag": "type",
-              "name": "LineStyle"
-            },
-            {
-              "tag": "type",
-              "name": "Path"
-            }
-          ]
-        ],
-        [
-          "FShape",
-          [
-            {
-              "tag": "type",
-              "name": "ShapeStyle"
-            },
-            {
-              "tag": "type",
-              "name": "Shape"
-            }
-          ]
-        ],
-        [
-          "FImage",
-          [
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Int"
-                },
-                {
-                  "tag": "type",
-                  "name": "Int"
-                }
-              ]
-            },
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        ],
-        [
-          "FElement",
-          [
-            {
-              "tag": "type",
-              "name": "Element"
-            }
-          ]
-        ],
-        [
-          "FGroup",
-          [
-            {
-              "tag": "type",
-              "name": "Transform2D"
-            },
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Form"
-                }
-              ]
-            }
-          ]
-        ]
-      ]
-    },
-    {
       "name": "LineJoin",
       "comment": "The shape of the &ldquo;joints&rdquo; of a line, where each line segment\nmeets. `Sharp` takes an argument to limit the length of the joint. This\ndefaults to 10.",
       "args": [],
@@ -6478,40 +5888,6 @@
         [
           "Padded",
           []
-        ]
-      ]
-    },
-    {
-      "name": "FillStyle",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Solid",
-          [
-            {
-              "tag": "type",
-              "name": "Color"
-            }
-          ]
-        ],
-        [
-          "Texture",
-          [
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        ],
-        [
-          "Grad",
-          [
-            {
-              "tag": "type",
-              "name": "Gradient"
-            }
-          ]
         ]
       ]
     }
@@ -6649,21 +6025,6 @@
             "tag": "type",
             "name": "Form"
           }
-        }
-      }
-    },
-    {
-      "name": "form",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "BasicForm"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Form"
         }
       }
     },
@@ -6859,6 +6220,28 @@
           "in": {
             "tag": "type",
             "name": "Shape"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Form"
+          }
+        }
+      }
+    },
+    {
+      "name": "outlinedText",
+      "comment": "Create some outlined text. Since we are just outlining the text, the color\nis taken from the `LineStyle` attribute instead of the `Text`.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "LineStyle"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Text"
           },
           "out": {
             "tag": "type",
@@ -7093,55 +6476,6 @@
       }
     },
     {
-      "name": "sprite",
-      "comment": "Create a sprite from a sprite sheet. It cuts out a rectangle\nat a given position.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Int"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "Int"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "_Tuple2"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "Int"
-                },
-                {
-                  "tag": "type",
-                  "name": "Int"
-                }
-              ]
-            },
-            "out": {
-              "tag": "lambda",
-              "in": {
-                "tag": "type",
-                "name": "String"
-              },
-              "out": {
-                "tag": "type",
-                "name": "Form"
-              }
-            }
-          }
-        }
-      }
-    },
-    {
       "name": "square",
       "comment": "A square with a given edge length.",
       "type": {
@@ -7153,6 +6487,21 @@
         "out": {
           "tag": "type",
           "name": "Shape"
+        }
+      }
+    },
+    {
+      "name": "text",
+      "comment": "Create some text. Details like size and color are part of the `Text` value\nitself, so you can mix colors and sizes and fonts easily.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Text"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Form"
         }
       }
     },
@@ -7220,13 +6569,13 @@
 ,
 {
   "name": "Graphics.Input",
-  "comment": "This module is for creating input widgets such as buttons and text fields.\nAll functions in this library report to a [`Signal.Channel`](Signal#send).\n\n# Basic Input Elements\n\nTo learn about text fields, see the\n[`Graphics.Input.Field`](Graphics-Input-Field) library.\n\n@docs button, customButton, checkbox, dropDown\n\n# Clicks and Hovers\n@docs clickable, hoverable",
+  "comment": "This module is for creating input widgets such as buttons and text fields.\nAll functions in this library report to a [`Signal.Mailbox`](Signal#message).\n\n# Basic Input Elements\n\nTo learn about text fields, see the\n[`Graphics.Input.Field`](Graphics-Input-Field) library.\n\n@docs button, customButton, checkbox, dropDown\n\n# Clicks and Hovers\n@docs clickable, hoverable",
   "aliases": [],
   "types": [],
   "values": [
     {
       "name": "button",
-      "comment": "Create a standard button. The following example begins making a basic\ncalculator:\n\n    type Keys = Number Int | Plus | Minus | Clear\n\n    keys : Signal.Channel Keys\n    keys = Signal.channel Clear\n\n    calculator : Element\n    calculator =\n        flow right\n          [ button (Signal.send keys (Number 1)) \"1\"\n          , button (Signal.send keys (Number 2)) \"2\"\n          , button (Signal.send keys    Plus   ) \"+\"\n          ]\n\nIf the user presses the \"+\" button, `keys.signal` will update to `Plus`. If the\nusers presses \"2\", `keys.signal` will update to `(Number 2)`.",
+      "comment": "Create a standard button. The following example begins making a basic\ncalculator:\n\n    type Keys = Number Int | Plus | Minus | Clear\n\n    keys : Signal.Mailbox Keys\n    keys = Signal.mailbox Clear\n\n    calculator : Element\n    calculator =\n        flow right\n          [ button (Signal.message keys.address (Number 1)) \"1\"\n          , button (Signal.message keys.address (Number 2)) \"2\"\n          , button (Signal.message keys.address    Plus   ) \"+\"\n          ]\n\nIf the user presses the \"+\" button, `keys.signal` will update to `Plus`. If the\nusers presses \"2\", `keys.signal` will update to `(Number 2)`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7248,7 +6597,7 @@
     },
     {
       "name": "checkbox",
-      "comment": "Create a checkbox. The following example creates three synced checkboxes:\n\n    check : Signal.Channel Bool\n    check = Signal.channel False\n\n    boxes : Bool -\u003e Element\n    boxes checked =\n        let box = container 40 40 middle (checkbox (Signal.send check) checked)\n        in\n            flow right [ box, box, box ]\n\n    main : Signal Element\n    main = boxes \u003c~ Signal.subscribe check",
+      "comment": "Create a checkbox. The following example creates three synced checkboxes:\n\n    check : Signal.Mailbox Bool\n    check = Signal.mailbox False\n\n    boxes : Bool -\u003e Element\n    boxes checked =\n        let box = container 40 40 middle (checkbox (Signal.message check.address) checked)\n        in\n            flow right [ box, box, box ]\n\n    main : Signal Element\n    main = boxes \u003c~ check.signal",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7277,7 +6626,7 @@
     },
     {
       "name": "clickable",
-      "comment": "Detect mouse clicks on a specific `Element`. In the following example,\nwe will create a clickable picture called `cat`.\n\n    type Picture = Cat | Hat\n\n    picture : Signal.Channel Picture\n    picture = Signal.channel Cat\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |\u003e clickable (Signal.send picture Cat)\n\n    hat : Element\n    hat =\n      image 30 30 \"/hat.jpg\"\n        |\u003e clickable (Signal.send picture Hat)\n\nWhen the user clicks on the `cat` element, `picture.signal` receives\nan update containing the value `Cat`. When the user clicks on the `hat` element,\n`picture.signal` receives an update containing the value `Hat`. This lets you\ndistinguish which element was clicked. In a more complex example, they could be\ndistinguished with IDs or more complex data structures.",
+      "comment": "Detect mouse clicks on a specific `Element`. In the following example,\nwe will create a clickable picture called `cat`.\n\n    type Picture = Cat | Hat\n\n    picture : Signal.Mailbox Picture\n    picture = Signal.mailbox Cat\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |\u003e clickable (Signal.message picture.address Cat)\n\n    hat : Element\n    hat =\n      image 30 30 \"/hat.jpg\"\n        |\u003e clickable (Signal.message picture.address Hat)\n\nWhen the user clicks on the `cat` element, `picture.signal` receives\nan update containing the value `Cat`. When the user clicks on the `hat` element,\n`picture.signal` receives an update containing the value `Hat`. This lets you\ndistinguish which element was clicked. In a more complex example, they could be\ndistinguished with IDs or more complex data structures.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7299,7 +6648,7 @@
     },
     {
       "name": "customButton",
-      "comment": "Same as `button` but lets you customize buttons to look however you want.\n\n    click : Signal.Channel ()\n    click = Signal.channel ()\n\n    prettyButton : Element\n    prettyButton =\n        customButton (Signal.send click ())\n            (image 100 40 \"/button_up.jpg\")\n            (image 100 40 \"/button_hover.jpg\")\n            (image 100 40 \"/button_down.jpg\")",
+      "comment": "Same as `button` but lets you customize buttons to look however you want.\n\n    click : Signal.Mailbox ()\n    click = Signal.mailbox ()\n\n    prettyButton : Element\n    prettyButton =\n        customButton (Signal.message click.address ())\n            (image 100 40 \"/button_up.jpg\")\n            (image 100 40 \"/button_hover.jpg\")\n            (image 100 40 \"/button_down.jpg\")",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7335,7 +6684,7 @@
     },
     {
       "name": "dropDown",
-      "comment": "Create a drop-down menu.  The following drop-down lets you choose your\nfavorite British sport:\n\n    type Sport = Football | Cricket | Snooker\n\n    sport : Signal.Channel (Maybe Sport)\n    sport = Signal.channel Nothing\n\n    sportDropDown : Element\n    sportDropDown =\n        dropDown (Signal.send sport)\n          [ (\"\"        , Nothing)\n          , (\"Football\", Just Football)\n          , (\"Cricket\" , Just Cricket)\n          , (\"Snooker\" , Just Snooker)\n          ]\n\nIf the user selects \"Football\" from the drop down menue, `Signal.subscribe sport`\nwill update to `Just Football`.",
+      "comment": "Create a drop-down menu.  The following drop-down lets you choose your\nfavorite British sport:\n\n    type Sport = Football | Cricket | Snooker\n\n    sport : Signal.Mailbox (Maybe Sport)\n    sport = Signal.mailbox Nothing\n\n    sportDropDown : Element\n    sportDropDown =\n        dropDown (Signal.message sport.address)\n          [ (\"\"        , Nothing)\n          , (\"Football\", Just Football)\n          , (\"Cricket\" , Just Cricket)\n          , (\"Snooker\" , Just Snooker)\n          ]\n\nIf the user selects \"Football\" from the drop down menue, `sport.signal`\nwill update to `Just Football`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7386,7 +6735,7 @@
     },
     {
       "name": "hoverable",
-      "comment": "Detect mouse hovers over a specific `Element`. In the following example,\nwe will create a hoverable picture called `cat`.\n\n    hover : Signal.Channel Bool\n    hover = Signal.channel False\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |\u003e hoverable (Signal.send hover)\n\nWhen the mouse hovers above the `cat` element, `hover.signal` will become\n`True`. When the mouse leaves it, `hover.signal` will become `False`.",
+      "comment": "Detect mouse hovers over a specific `Element`. In the following example,\nwe will create a hoverable picture called `cat`.\n\n    hover : Signal.Mailbox Bool\n    hover = Signal.mailbox False\n\n    cat : Element\n    cat =\n      image 30 30 \"/cat.jpg\"\n        |\u003e hoverable (Signal.message hover.address)\n\nWhen the mouse hovers above the `cat` element, `hover.signal` will become\n`True`. When the mouse leaves it, `hover.signal` will become `False`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7684,7 +7033,7 @@
     },
     {
       "name": "field",
-      "comment": "Create a text field. The following example creates a time-varying element\ncalled `nameField`. As the user types their name, the field will be updated\nto match what they have entered.\n\n    name : Signal.Channel Content\n    name = Signal.channel noContent\n\n    nameField : Signal Element\n    nameField =\n        field defaultStyle (Signal.send name) \"Name\" \u003c~ Signal.subscribe name\n\nWhen we use the `field` function, we first give it a visual style. This is\nthe first argument so that it is easier to define your own custom field\n(`myField = field myStyle`). The next two arguments are a `Handle` and a\nhandler function that processes or augments events before sending them along\nto the associated `Input`. In the example above we use the `identity` function to\npass events along unchanged to the `name` `Input`. We then provide the\nplace-holder message to use when no input has been provided yet. Finally,\nwe give the current `Content` of the field. This argument is last because\nit is most likely to change frequently, making function composition easier.",
+      "comment": "Create a text field. The following example creates a time-varying element\ncalled `nameField`. As the user types their name, the field will be updated\nto match what they have entered.\n\n    name : Signal.Mailbox Content\n    name = Signal.mailbox noContent\n\n    nameField : Signal Element\n    nameField =\n        field defaultStyle (Signal.message name.address) \"Name\" \u003c~ name.signal\n\nWhen we use the `field` function, we first give it a visual style. This is\nthe first argument so that it is easier to define your own custom field\n(`myField = field myStyle`). The next two arguments are a `Handle` and a\nhandler function that processes or augments events before sending them along\nto the associated `Input`. In the example above we use the `identity` function to\npass events along unchanged to the `name` `Input`. We then provide the\nplace-holder message to use when no input has been provided yet. Finally,\nwe give the current `Content` of the field. This argument is last because\nit is most likely to change frequently, making function composition easier.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -7811,332 +7160,8 @@
 }
 ,
 {
-  "name": "Http",
-  "comment": "A library for asynchronous HTTP requests. See the `WebSocket`\nlibrary if you have very strict latency requirements.\n\n# Sending Requests\n@docs send, sendGet\n\n# Creating Requests\n@docs get, post, request\n\n# Responses\n@docs Response",
-  "aliases": [
-    {
-      "name": "Request",
-      "comment": "",
-      "args": [
-        "a"
-      ],
-      "type": {
-        "tag": "record",
-        "extension": null,
-        "fields": [
-          [
-            "verb",
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ],
-          [
-            "url",
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ],
-          [
-            "body",
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ],
-          [
-            "headers",
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "app",
-                  "func": {
-                    "tag": "type",
-                    "name": "_Tuple2"
-                  },
-                  "args": [
-                    {
-                      "tag": "type",
-                      "name": "String"
-                    },
-                    {
-                      "tag": "type",
-                      "name": "String"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        ]
-      }
-    }
-  ],
-  "types": [
-    {
-      "name": "Response",
-      "comment": "The datatype for responses. Success contains only the returned message.\nFailures contain both an error code and an error message.",
-      "args": [
-        "a"
-      ],
-      "cases": [
-        [
-          "Success",
-          [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        ],
-        [
-          "Waiting",
-          []
-        ],
-        [
-          "Failure",
-          [
-            {
-              "tag": "type",
-              "name": "Int"
-            },
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        ]
-      ]
-    }
-  ],
-  "values": [
-    {
-      "name": "get",
-      "comment": "Create a GET request to the given url.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Request"
-          },
-          "args": [
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "post",
-      "comment": "Create a POST request to the given url, carrying the given data.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "String"
-          },
-          "out": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "Request"
-            },
-            "args": [
-              {
-                "tag": "type",
-                "name": "String"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "name": "request",
-      "comment": "Create a customized request. Arguments are request type (get, post, put,\ndelete, etc.), target url, data, and a list of additional headers.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "String"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "type",
-              "name": "String"
-            },
-            "out": {
-              "tag": "lambda",
-              "in": {
-                "tag": "app",
-                "func": {
-                  "tag": "type",
-                  "name": "List"
-                },
-                "args": [
-                  {
-                    "tag": "app",
-                    "func": {
-                      "tag": "type",
-                      "name": "_Tuple2"
-                    },
-                    "args": [
-                      {
-                        "tag": "type",
-                        "name": "String"
-                      },
-                      {
-                        "tag": "type",
-                        "name": "String"
-                      }
-                    ]
-                  }
-                ]
-              },
-              "out": {
-                "tag": "app",
-                "func": {
-                  "tag": "type",
-                  "name": "Request"
-                },
-                "args": [
-                  {
-                    "tag": "type",
-                    "name": "String"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "send",
-      "comment": "Performs an HTTP request with the given requests. Produces a signal\nthat carries the responses.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Request"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "a"
-                }
-              ]
-            }
-          ]
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Response"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "String"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "sendGet",
-      "comment": "Performs an HTTP GET request with the given urls. Produces a signal\nthat carries the responses.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "type",
-              "name": "String"
-            }
-          ]
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Response"
-              },
-              "args": [
-                {
-                  "tag": "type",
-                  "name": "String"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-,
-{
   "name": "Json.Decode",
-  "comment": "A way to turn JSON strings and JS values into Elm values.\n\n# Run a Decoder\n@docs decodeString, decodeValue\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array,\n  tuple1, tuple2, tuple3, tuple4, tuple5, tuple6, tuple7, tuple8\n\n# Objects\n@docs (:=), at,\n  object1, object2, object3, object4, object5, object6, object7, object8,\n  keyValuePairs, dict\n\n# Oddly Shaped Values\n@docs maybe, oneOf, map, fail, succeed, andThen\n\n# \"Creative\" Values\n@docs value, customDecoder",
+  "comment": "A way to turn Json values into Elm values. A `Decoder a` represents a\ndecoding operation that will either produce a value of type `a`, or fail.\n\n# Run a Decoder\n@docs decodeString, decodeValue\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array,\n  tuple1, tuple2, tuple3, tuple4, tuple5, tuple6, tuple7, tuple8\n\n# Objects\n@docs (:=), at,\n  object1, object2, object3, object4, object5, object6, object7, object8,\n  keyValuePairs, dict\n\n# Oddly Shaped Values\n@docs maybe, oneOf, map, fail, succeed, andThen\n\n# \"Creative\" Values\n@docs value, customDecoder",
   "aliases": [
     {
       "name": "Value",
@@ -8144,7 +7169,7 @@
       "args": [],
       "type": {
         "tag": "type",
-        "name": "JsonEncode.Value"
+        "name": "JsEncode.Value"
       }
     }
   ],
@@ -8304,7 +7329,7 @@
     },
     {
       "name": "at",
-      "comment": "Access a nested field, making it easy to dive into big structures. This is\nreally a helper function so you do not need to write `(:=)` so many times.\n\n    -- object.target.value = 'hello'\n\n    value : Decoder String\n    value =\n        at [\"target\", \"value\"] string\n\n    at fields decoder =\n        List.foldr (:=) decoder fields",
+      "comment": "Access a nested field, making it easy to dive into big structures. This is\nreally a helper function so you do not need to write `(:=)` so many times.\n\n    -- object.target.value = 'hello'\n    value : Decoder String\n    value =\n        at [\"target\", \"value\"] string\n\nIt is defined as\n\n    at fields decoder =\n        List.foldr (:=) decoder fields",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8564,7 +7589,7 @@
     },
     {
       "name": "fail",
-      "comment": "A decoder that always fails. Useful when paired with `andThen` or `oneOf`\nto improve error messages when things go wrong. For example, the following\ndecoder is able to provide a much more specific error message when `fail` is\nthe last option.\n\n    point : (Float,Float)\n    point =\n        oneOf\n        [ tuple2 (,) float float\n        , object2 (,) (\"x\" := float) (\"y\" := float)\n        , fail \"expecting some kind of point\"\n        ]",
+      "comment": "A decoder that always fails. Useful when paired with `andThen` or `oneOf`\nto improve error messages when things go wrong. For example, the following\ndecoder is able to provide a much more specific error message when `fail` is\nthe last option.\n\n    point : Decoder (Float,Float)\n    point =\n        oneOf\n        [ tuple2 (,) float float\n        , object2 (,) (\"x\" := float) (\"y\" := float)\n        , fail \"expecting some kind of point\"\n        ]",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8622,7 +7647,7 @@
     },
     {
       "name": "keyValuePairs",
-      "comment": "Turn any object into a list of key-value pairs.\n\n    -- { tom: 89, sue: 92, bill: 97, ... }\n    grades : Decoder (List (String, Int))\n    grades =\n        keyValuePairs int",
+      "comment": "Turn any object into a list of key-value pairs. Fails if _any_ key can't be\ndecoded with the given decoder.\n\n    -- { tom: 89, sue: 92, bill: 97, ... }\n    grades : Decoder (List (String, Int))\n    grades =\n        keyValuePairs int",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8677,7 +7702,7 @@
     },
     {
       "name": "list",
-      "comment": "Extract a list from a JS array.\n\n    -- [1,2,3,4]\n\n    numbers : Decoder [Int]\n    numbers =\n        list int",
+      "comment": "Extract a List from a JS array.\n\n    -- [1,2,3,4]\n\n    numbers : Decoder [Int]\n    numbers =\n        list int",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8766,7 +7791,7 @@
     },
     {
       "name": "maybe",
-      "comment": "Great for handling optional fields. The following code decodes JSON\nobjects that may not have a profession field.\n\n    -- { name: \"Tom\", age: 31, profession: \"plumber\" }\n    -- { name: \"Sue\", age: 42 }\n\n    type alias Person =\n        { name : String\n        , age : Int\n        , profession : Maybe String\n        }\n\n    person : Decoder Person\n    person =\n        object3 Person\n          (\"name\" := string)\n          (\"age\" := int)\n          (maybe (\"profession\" := string))",
+      "comment": "Extract a Maybe value, wrapping successes with `Just` and turning any\nfailure in `Nothing`. If you are expecting that a field can sometimes be `null`,\nit's better to check for it [explictly](#null), as this function will swallow\nerros from ill-formed JSON.\n\nThe following code decodes JSON objects that may not have a profession field.\n\n    -- profession: Just \"plumber\"\n    -- { name: \"Tom\", age: 31, profession: \"plumber\" }\n    -- profession: Nothing\n    -- { name: \"Sue\", age: 42 }\n    -- { name: \"Amy\", age: 27, profession: null }\n    -- { name: \"Joe\", age: 36, profession: [\"something\", \"unexpected\"] }\n\n    type alias Person =\n        { name : String\n        , age : Int\n        , profession : Maybe String\n        }\n\n    person : Decoder Person\n    person =\n        object3 Person\n          (\"name\" := string)\n          (\"age\" := int)\n          (maybe (\"profession\" := string))",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8808,7 +7833,7 @@
     },
     {
       "name": "null",
-      "comment": "Extract a null value. Primarily useful for creating *other* decoders.\n\n    nullOr : Decoder a -\u003e Decoder (Maybe a)\n    nullOr decoder =\n        oneOf\n        [ null Nothing\n        , map Just decoder\n        ]\n\n\n    numbers : Decoder [Int]\n    numbers =\n        list (oneOf [ int, null 0 ])",
+      "comment": "Decode null as the value given, and fail otherwise. Primarily useful for\ncreating *other* decoders.\n\n    numbers : Decoder [Int]\n    numbers =\n        list (oneOf [ int, null 0 ])\n\nThis decoder treats `null` as `Nothing`, and otherwise tries to produce a\n`Just`.\n\n    nullOr : Decoder a -\u003e Decoder (Maybe a)\n    nullOr decoder =\n        oneOf\n        [ null Nothing\n        , map Just decoder\n        ]",
       "type": {
         "tag": "lambda",
         "in": {
@@ -8949,7 +7974,7 @@
     },
     {
       "name": "object3",
-      "comment": "Use two different decoders on a JS value. This is nice for extracting\nmultiple fields from an object.\n\n    type alias Task = { task : String, id : Int, completed : Bool }\n\n    point : Decoder (Float,Float)\n    point =\n        object3 Task\n          (\"task\" := string)\n          (\"id\" := int)\n          (\"completed\" := bool)",
+      "comment": "Use three different decoders on a JS value. This is nice for extracting\nmultiple fields from an object.\n\n    type alias Job = { name : String, id : Int, completed : Bool }\n\n    point : Decoder Job\n    point =\n        object3 Job\n          (\"name\" := string)\n          (\"id\" := int)\n          (\"completed\" := bool)",
       "type": {
         "tag": "lambda",
         "in": {
@@ -9852,7 +8877,7 @@
     },
     {
       "name": "oneOf",
-      "comment": "Try out a couple different decoders. This is helpful when you are dealing\nwith something with a very strange shape and when `andThen` does not help\nnarrow things down so you can be more targeted.\n\n    -- [ [3,4], { x:0, y:0 }, [5,12] ]\n\n    points : Decoder (List (Float,Float))\n    points =\n        list point\n\n    point : (Float,Float)\n    point =\n        oneOf\n        [ tuple2 (,) float float\n        , object2 (,) (\"x\" := float) (\"y\" := float)\n        ]",
+      "comment": "Try out multiple different decoders. This is helpful when you are dealing\nwith something with a very strange shape and when `andThen` does not help\nnarrow things down so you can be more targeted.\n\n    -- [ [3,4], { x:0, y:0 }, [5,12] ]\n\n    points : Decoder (List (Float,Float))\n    points =\n        list point\n\n    point : Decoder (Float,Float)\n    point =\n        oneOf\n        [ tuple2 (,) float float\n        , object2 (,) (\"x\" := float) (\"y\" := float)\n        ]",
       "type": {
         "tag": "lambda",
         "in": {
@@ -9935,7 +8960,7 @@
     },
     {
       "name": "tuple1",
-      "comment": "",
+      "comment": "Handle an array with exactly one element.\n\n    authorship : Decoder String\n    authorship =\n        oneOf\n          [ tuple1 (\\author -\u003e \"Author: \" ++ author) string\n          , list string |\u003e map (\\authors -\u003e \"Co-authors: \" ++ String.join \", \" authors)\n          ]",
       "type": {
         "tag": "lambda",
         "in": {
@@ -9982,7 +9007,7 @@
     },
     {
       "name": "tuple2",
-      "comment": "Handle an array with exactly two values. Useful for points and simple\npairs.\n\n    -- [3,4] or [0,0]\n    point : Decoder (Float,Float)\n    point =\n        tuple2 (,) float float\n\n    -- [\"John\",\"Doe\"] or [\"Hermann\",\"Hesse\"]\n    name : Decoder Name\n    name =\n        tuple2 Name string string\n\n    type alias Name = { first : String, last : String }",
+      "comment": "Handle an array with exactly two elements. Useful for points and simple\npairs.\n\n    -- [3,4] or [0,0]\n    point : Decoder (Float,Float)\n    point =\n        tuple2 (,) float float\n\n    -- [\"John\",\"Doe\"] or [\"Hermann\",\"Hesse\"]\n    name : Decoder Name\n    name =\n        tuple2 Name string string\n\n    type alias Name = { first : String, last : String }",
       "type": {
         "tag": "lambda",
         "in": {
@@ -10052,7 +9077,7 @@
     },
     {
       "name": "tuple3",
-      "comment": "Handle an array with exactly three values.\n\n    -- [3,4,5] or [0,0,0]\n    point3D : Decoder (Float,Float,Float)\n    point3D =\n        tuple3 (,,) float float float",
+      "comment": "Handle an array with exactly three elements.\n\n    -- [3,4,5] or [0,0,0]\n    point3D : Decoder (Float,Float,Float)\n    point3D =\n        tuple3 (,,) float float float",
       "type": {
         "tag": "lambda",
         "in": {
@@ -10975,7 +10000,7 @@
 ,
 {
   "name": "Json.Encode",
-  "comment": "Library for turning Elm values into JSON values.\n\n# Encoding\n@docs encode\n\n# Primatives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object",
+  "comment": "Library for turning Elm values into Json values.\n\n# Encoding\n@docs encode\n\n# Primitives\n@docs string, int, float, bool, null\n\n# Arrays\n@docs list, array\n\n# Objects\n@docs object",
   "aliases": [],
   "types": [
     {
@@ -11054,7 +10079,7 @@
     },
     {
       "name": "float",
-      "comment": "",
+      "comment": "Encode a Float. `Infinity` and `NaN` are encoded as `null`.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -11171,7 +10196,7 @@
 ,
 {
   "name": "Keyboard",
-  "comment": "Library for working with keyboard input.\n\n# Representing Keys\n@docs KeyCode\n\n# Directions\n@docs arrows, wasd, directions\n\n# Specific Keys\nThe following signals are `True` when the particular key is pressed and `False`\notherwise.\n\n@docs enter, space, ctrl, shift, alt, meta\n\n# General Keypresses\n@docs isDown, keysDown, lastPressed",
+  "comment": "Library for working with keyboard input.\n\n# Representing Keys\n@docs KeyCode\n\n# Directions\n@docs arrows, wasd\n\n# Specific Keys\nThe following signals are `True` when the particular key is pressed and `False`\notherwise.\n\n@docs enter, space, ctrl, shift, alt, meta\n\n# General Keypresses\n@docs isDown, keysDown, presses",
   "aliases": [
     {
       "name": "KeyCode",
@@ -11253,67 +10278,6 @@
       }
     },
     {
-      "name": "directions",
-      "comment": "Custom key directions to support different locales. The order is up, down,\nleft, right.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "KeyCode"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "type",
-            "name": "KeyCode"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "type",
-              "name": "KeyCode"
-            },
-            "out": {
-              "tag": "lambda",
-              "in": {
-                "tag": "type",
-                "name": "KeyCode"
-              },
-              "out": {
-                "tag": "app",
-                "func": {
-                  "tag": "type",
-                  "name": "Signal"
-                },
-                "args": [
-                  {
-                    "tag": "record",
-                    "extension": null,
-                    "fields": [
-                      [
-                        "x",
-                        {
-                          "tag": "type",
-                          "name": "Int"
-                        }
-                      ],
-                      [
-                        "y",
-                        {
-                          "tag": "type",
-                          "name": "Int"
-                        }
-                      ]
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
       "name": "enter",
       "comment": "",
       "type": {
@@ -11356,7 +10320,7 @@
     },
     {
       "name": "keysDown",
-      "comment": "List of keys that are currently down.",
+      "comment": "Set of keys that are currently down.",
       "type": {
         "tag": "app",
         "func": {
@@ -11368,7 +10332,7 @@
             "tag": "app",
             "func": {
               "tag": "type",
-              "name": "List"
+              "name": "Set.Set"
             },
             "args": [
               {
@@ -11376,23 +10340,6 @@
                 "name": "KeyCode"
               }
             ]
-          }
-        ]
-      }
-    },
-    {
-      "name": "lastPressed",
-      "comment": "The latest key that has been pressed.",
-      "type": {
-        "tag": "app",
-        "func": {
-          "tag": "type",
-          "name": "Signal"
-        },
-        "args": [
-          {
-            "tag": "type",
-            "name": "KeyCode"
           }
         ]
       }
@@ -11410,6 +10357,23 @@
           {
             "tag": "type",
             "name": "Bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "presses",
+      "comment": "The latest key that has been pressed.",
+      "type": {
+        "tag": "app",
+        "func": {
+          "tag": "type",
+          "name": "Signal"
+        },
+        "args": [
+          {
+            "tag": "type",
+            "name": "KeyCode"
           }
         ]
       }
@@ -11486,7 +10450,7 @@
 ,
 {
   "name": "List",
-  "comment": "A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, foldr1, foldl1, scanl, scanl1\n\n# Sorting\n@docs sort, sortBy, sortWith",
+  "comment": "A library for manipulating lists of values. Every value in a\nlist must have the same type.\n\n# Basics\n@docs isEmpty, length, reverse, member\n\n# Sub-lists\n@docs head, tail, filter, take, drop\n\n# Putting Lists Together\n@docs repeat, (::), append, concat, intersperse\n\n# Taking Lists Apart\n@docs partition, unzip\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\nIf you can think of a legitimate use of `mapN` where `N` is 6 or more, please\nlet us know on [the list](https://groups.google.com/forum/#!forum/elm-discuss).\nThe current sentiment is that it is already quite error prone once you get to\n4 and possibly should be approached another way.\n\n# Special Maps\n@docs filterMap, concatMap, indexedMap\n\n# Folding\n@docs foldr, foldl\n\n# Special Folds\n@docs sum, product, maximum, minimum, all, any, scanl\n\n# Sorting\n@docs sort, sortBy, sortWith",
   "aliases": [],
   "types": [],
   "values": [
@@ -11951,51 +10915,6 @@
       }
     },
     {
-      "name": "foldl1",
-      "comment": "Reduce a list from the left without a base case. List must be non-empty.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "var",
-              "name": "a"
-            },
-            "out": {
-              "tag": "var",
-              "name": "a"
-            }
-          }
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "List"
-            },
-            "args": [
-              {
-                "tag": "var",
-                "name": "a"
-              }
-            ]
-          },
-          "out": {
-            "tag": "var",
-            "name": "a"
-          }
-        }
-      }
-    },
-    {
       "name": "foldr",
       "comment": "Reduce a list from the right.\n\n    foldr (+) 0 [1,2,3] == 6",
       "type": {
@@ -12048,53 +10967,8 @@
       }
     },
     {
-      "name": "foldr1",
-      "comment": "Reduce a list from the right without a base case. List must be non-empty.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "var",
-              "name": "a"
-            },
-            "out": {
-              "tag": "var",
-              "name": "a"
-            }
-          }
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "List"
-            },
-            "args": [
-              {
-                "tag": "var",
-                "name": "a"
-              }
-            ]
-          },
-          "out": {
-            "tag": "var",
-            "name": "a"
-          }
-        }
-      }
-    },
-    {
       "name": "head",
-      "comment": "Extract the first element of a list. List must be non-empty.\n\n    head [1,2,3] == 1",
+      "comment": "Extract the first element of a list.\n\n    head [1,2,3] == Just 1\n    head [] == Nothing",
       "type": {
         "tag": "lambda",
         "in": {
@@ -12111,8 +10985,17 @@
           ]
         },
         "out": {
-          "tag": "var",
-          "name": "a"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Maybe"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
         }
       }
     },
@@ -12725,7 +11608,7 @@
     },
     {
       "name": "maximum",
-      "comment": "Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == 4",
+      "comment": "Find the maximum element in a non-empty list.\n\n    maximum [1,4,2] == Just 4\n    maximum []      == Nothing",
       "type": {
         "tag": "lambda",
         "in": {
@@ -12742,71 +11625,17 @@
           ]
         },
         "out": {
-          "tag": "var",
-          "name": "comparable"
-        }
-      }
-    },
-    {
-      "name": "maybeCons",
-      "comment": "",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Maybe"
           },
-          "out": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "Maybe"
-            },
-            "args": [
-              {
-                "tag": "var",
-                "name": "b"
-              }
-            ]
-          }
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "b"
-                }
-              ]
-            },
-            "out": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "List"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "b"
-                }
-              ]
+          "args": [
+            {
+              "tag": "var",
+              "name": "comparable"
             }
-          }
+          ]
         }
       }
     },
@@ -12843,7 +11672,7 @@
     },
     {
       "name": "minimum",
-      "comment": "Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == 1",
+      "comment": "Find the minimum element in a non-empty list.\n\n    minimum [3,2,1] == Just 1\n    minimum []      == Nothing",
       "type": {
         "tag": "lambda",
         "in": {
@@ -12860,8 +11689,17 @@
           ]
         },
         "out": {
-          "tag": "var",
-          "name": "comparable"
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Maybe"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "comparable"
+            }
+          ]
         }
       }
     },
@@ -13084,60 +11922,6 @@
       }
     },
     {
-      "name": "scanl1",
-      "comment": "Same as scanl but it doesn't require a base case. List must be non-empty.\n\n    scanl1 (+) [1,2,3,4] == [1,3,6,10]",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "var",
-              "name": "a"
-            },
-            "out": {
-              "tag": "var",
-              "name": "a"
-            }
-          }
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "List"
-            },
-            "args": [
-              {
-                "tag": "var",
-                "name": "a"
-              }
-            ]
-          },
-          "out": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "List"
-            },
-            "args": [
-              {
-                "tag": "var",
-                "name": "a"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "name": "sort",
       "comment": "Sort values from lowest to highest\n\n    sort [3,1,5] == [1,3,5]",
       "type": {
@@ -13297,7 +12081,7 @@
     },
     {
       "name": "tail",
-      "comment": "Extract the elements after the head of the list. List must be non-empty.\n\n    tail [1,2,3] == [2,3]",
+      "comment": "Extract the rest of the list.\n\n    tail [1,2,3] == Just [2,3]\n    tail [] == Nothing",
       "type": {
         "tag": "lambda",
         "in": {
@@ -13317,12 +12101,21 @@
           "tag": "app",
           "func": {
             "tag": "type",
-            "name": "List"
+            "name": "Maybe"
           },
           "args": [
             {
-              "tag": "var",
-              "name": "a"
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "List"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
             }
           ]
         }
@@ -14239,17 +13032,6 @@
               "name": "Int"
             }
           ]
-        ]
-      ]
-    },
-    {
-      "name": "Regex",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Regex",
-          []
         ]
       ]
     }
@@ -15233,7 +14015,7 @@
 ,
 {
   "name": "Set",
-  "comment": "A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time. Set equality with\n`(==)` is unreliable and should not be used.\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs member\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition",
+  "comment": "A set of unique values. The values can be any comparable type. This\nincludes `Int`, `Float`, `Time`, `Char`, `String`, and tuples or lists\nof comparable types.\n\nInsert, remove, and query operations all take *O(log n)* time. Set equality with\n`(==)` is unreliable and should not be used.\n\n# Build\n@docs empty, singleton, insert, remove\n\n# Query\n@docs isEmpty, member\n\n# Combine\n@docs union, intersect, diff\n\n# Lists\n@docs toList, fromList\n\n# Transform\n@docs map, foldl, foldr, filter, partition",
   "aliases": [
     {
       "name": "Set",
@@ -15606,6 +14388,30 @@
       }
     },
     {
+      "name": "isEmpty",
+      "comment": "Determine if a set is empty.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Set"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "comparable"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Bool"
+        }
+      }
+    },
+    {
       "name": "map",
       "comment": "Map a function onto a set, creating a new set with no duplicates.",
       "type": {
@@ -15903,51 +14709,59 @@
 ,
 {
   "name": "Signal",
-  "comment": "The library for general signal manipulation. Includes mapping, merging,\nfilters, past-dependence, and helpers for handling inputs from the UI.\n\nSome useful functions for working with time (e.g. setting FPS) and combining\nsignals and time (e.g.  delaying updates, getting timestamps) can be found in\nthe [`Time`](Time) library.\n\n# Merging\n@docs merge, mergeMany\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Fancy Mapping\n@docs (\u003c~), (~)\n\n# Past-Dependence\n@docs foldp\n\n# Filters\n@docs keepIf, dropIf, keepWhen, dropWhen, dropRepeats, sampleOn\n\n# Channels\n@docs channel, send, subscribe\n\n# Constants\n@docs constant",
-  "aliases": [],
-  "types": [
+  "comment": "A *signal* is a value that changes over time. For example, we can\nthink of the mouse position as a pair of numbers that is changing over time,\nwhenever the user moves the mouse.\n\n    Mouse.position : Signal (Int,Int)\n\nAnother signal is the `Element` or `Html` we want to show on screen.\n\n    main : Signal Html\n\nAs the `Html` changes, the user sees different things on screen automatically.\n\nSome useful functions for working with time (e.g. setting FPS) and combining\nsignals and time (e.g. timestamps) can be found in the [`Time`](Time) library.\n\n# Merging\n@docs merge, mergeMany\n\n# Mapping\n@docs map, map2, map3, map4, map5\n\n# Fancy Mapping\n@docs (\u003c~), (~)\n\n# Past-Dependence\n@docs foldp\n\n# Filters\n@docs filter, filterMap, dropRepeats, sampleOn\n\n# Mailboxes\n@docs Mailbox, mailbox, message, forwardTo, send\n\n# Constants\n@docs constant",
+  "aliases": [
     {
-      "name": "Message",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Message",
-          []
-        ]
-      ]
-    },
-    {
-      "name": "Channel",
-      "comment": "",
+      "name": "Mailbox",
+      "comment": "An `Mailbox` is a communication hub. It is made up of\n\n  * an `Address` that you can send messages to\n  * a `Signal` of messages sent to the mailbox",
       "args": [
         "a"
       ],
-      "cases": [
-        [
-          "Channel",
-          []
+      "type": {
+        "tag": "record",
+        "extension": null,
+        "fields": [
+          [
+            "address",
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Address"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ],
+          [
+            "signal",
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Signal"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ]
         ]
-      ]
-    },
-    {
-      "name": "Signal",
-      "comment": "",
-      "args": [
-        "a"
-      ],
-      "cases": [
-        [
-          "Signal",
-          []
-        ]
-      ]
+      }
     }
   ],
+  "types": [],
   "values": [
     {
       "name": "\u003c~",
-      "comment": "An alias for `map`. A prettier way to apply a function to the current value\nof a signal.",
+      "comment": "An alias for `map`. A prettier way to apply a function to the current value\nof a signal.\n\n    main : Signal Html\n    main =\n      view \u003c~ model\n\n    model : Signal Model\n\n    view : Model -\u003e Html",
       "type": {
         "tag": "lambda",
         "in": {
@@ -15995,32 +14809,8 @@
       "precedence": 4
     },
     {
-      "name": "channel",
-      "comment": "Create a signal channel that you can `send` messages to. To receive these\nmessages, `subscribe` to the channel and turn it into a normal signal. The\nprimary use case is receiving updates from UI elements such as buttons and\ntext fields. The argument is a default value for the custom signal.\n\nNote: This is an inherently impure function, so `(channel ())`\nand `(channel ())` produce two different channels.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "var",
-          "name": "a"
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Channel"
-          },
-          "args": [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "constant",
-      "comment": "Create a constant signal that never changes.",
+      "comment": "Create a signal that never changes. This can be useful if you need\nto pass a combination of signals and normal values to a function:\n\n    map3 view Window.dimensions Mouse.position (constant initialModel)",
       "type": {
         "tag": "lambda",
         "in": {
@@ -16043,8 +14833,41 @@
       }
     },
     {
-      "name": "dropIf",
-      "comment": "Filter out some updates. The given function decides whether we should\ndrop an update. If we drop all updates, we use the default value provided.\nThe following example drops all even numbers and has an initial value of\none.\n\n    numbers : Signal Int\n\n    isEven : Int -\u003e Bool\n\n    odds : Signal Int\n    odds =\n        dropIf isEven 1 numbers",
+      "name": "dropRepeats",
+      "comment": "Drop updates that repeat the current value of the signal.\n\n    numbers : Signal Int\n\n    noDups : Signal Int\n    noDups =\n        dropRepeats numbers\n\n    --  numbers =\u003e 0 0 3 3 5 5 5 4 ...\n    --  noDups  =\u003e 0   3   5     4 ...\n\nThe signal should not be a signal of functions, or a record that contains a\nfunction (you'll get a runtime error since functions cannot be equated).",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "filter",
+      "comment": "Filter out some updates. The given function decides whether we should\n*keep* an update. If no updates ever flow through, we use the default value\nprovided. The following example only keeps even numbers and has an initial\nvalue of zero.\n\n    numbers : Signal Int\n\n    isEven : Int -\u003e Bool\n\n    evens : Signal Int\n    evens =\n        filter isEven 0 numbers",
       "type": {
         "tag": "lambda",
         "in": {
@@ -16097,61 +14920,35 @@
       }
     },
     {
-      "name": "dropRepeats",
-      "comment": "Drop updates that repeat the current value of the signal.\n\n    numbers : Signal Int\n\n    noDups : Signal Int\n    noDups =\n        dropRepeats numbers\n\n    --  numbers =\u003e 0 0 3 3 5 5 5 4 ...\n    --  noDups  =\u003e 0   3   5     4 ...\n\nThe signal should not be a signal of functions, or a record that contains a\nfunction (you'll get a runtime error since functions cannot be equated).",
+      "name": "filterMap",
+      "comment": "Filter out some updates. When the filter function gives back `Just` a\nvalue, we send that value along. When it returns `Nothing` we drop it.\nIf the initial value of the incoming signal turns into `Nothing`, we use the\ndefault value provided. The following example keeps only strings that can be\nread as integers.\n\n    userInput : Signal String\n\n    toInt : String -\u003e Maybe Int\n\n    numbers : Signal Int\n    numbers =\n        filterMap toInt 0 userInput",
       "type": {
         "tag": "lambda",
         "in": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
           },
-          "args": [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "dropWhen",
-      "comment": "Drop events when the first signal is true. You provide a default value\njust in case that signal is *always* true and we drop all updates.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
+          "out": {
+            "tag": "app",
+            "func": {
               "tag": "type",
-              "name": "Bool"
-            }
-          ]
+              "name": "Maybe"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "b"
+              }
+            ]
+          }
         },
         "out": {
           "tag": "lambda",
           "in": {
             "tag": "var",
-            "name": "a"
+            "name": "b"
           },
           "out": {
             "tag": "lambda",
@@ -16177,7 +14974,7 @@
               "args": [
                 {
                   "tag": "var",
-                  "name": "a"
+                  "name": "b"
                 }
               ]
             }
@@ -16247,118 +15044,79 @@
       }
     },
     {
-      "name": "keepIf",
-      "comment": "Filter out some updates. The given function decides whether we should\nkeep an update. If no updates ever flow through, we use the default value\nprovided. The following example only keeps even numbers and has an initial\nvalue of zero.\n\n    numbers : Signal Int\n\n    isEven : Int -\u003e Bool\n\n    evens : Signal Int\n    evens =\n        keepIf isEven 0 numbers",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "type",
-            "name": "Bool"
-          }
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
-            "tag": "lambda",
-            "in": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Signal"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "a"
-                }
-              ]
-            },
-            "out": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Signal"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "a"
-                }
-              ]
-            }
-          }
-        }
-      }
-    },
-    {
-      "name": "keepWhen",
-      "comment": "Keep updates when the first signal is true. You provide a default value\njust in case that signal is *never* true and no updates make it through. For\nexample, here is how you would capture mouse drags.\n\n    dragPosition : Signal (Int,Int)\n    dragPosition =\n        keepWhen Mouse.isDown (0,0) Mouse.position",
+      "name": "forwardTo",
+      "comment": "Create a new address. This address will tag each message it receives\nand then forward it along to some other address.\n\n    type Action = Undo | Remove Int\n\n    port actions : Mailbox Action\n\n    removeAddress : Address Int\n    removeAddress =\n        forwardTo actions.address Remove\n\nIn this case we have a general `address` that many people may send\nmessages to. The new `removeAddress` tags all messages with the `Remove` tag\nbefore forwarding them along to the more general `address`. This means\nsome parts of our application can know *only* about `removeAddress` and not\ncare what other kinds of `Actions` are possible.",
       "type": {
         "tag": "lambda",
         "in": {
           "tag": "app",
           "func": {
             "tag": "type",
-            "name": "Signal"
+            "name": "Address"
           },
           "args": [
             {
-              "tag": "type",
-              "name": "Bool"
+              "tag": "var",
+              "name": "b"
             }
           ]
         },
         "out": {
           "tag": "lambda",
           "in": {
-            "tag": "var",
-            "name": "a"
-          },
-          "out": {
             "tag": "lambda",
             "in": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Signal"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "a"
-                }
-              ]
+              "tag": "var",
+              "name": "a"
             },
             "out": {
-              "tag": "app",
-              "func": {
-                "tag": "type",
-                "name": "Signal"
-              },
-              "args": [
-                {
-                  "tag": "var",
-                  "name": "a"
-                }
-              ]
+              "tag": "var",
+              "name": "b"
             }
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Address"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
           }
         }
       }
     },
     {
+      "name": "mailbox",
+      "comment": "Create a mailbox you can send messages to. The primary use case is\nreceiving updates from tasks and UI elements. The argument is a default value\nfor the custom signal.\n\nNote: Creating new signals is inherently impure, so `(mailbox ())` and\n`(mailbox ())` produce two different mailboxes.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "var",
+          "name": "a"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Mailbox"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "map",
-      "comment": "Apply a function to the current value of a signal.\n\n    mouseIsUp : Signal Bool\n    mouseIsUp =\n        map not Mouse.isDown\n\n    main : Signal Element\n    main =\n        map toElement Mouse.position",
+      "comment": "Apply a function to a signal.\n\n    mouseIsUp : Signal Bool\n    mouseIsUp =\n        map not Mouse.isDown\n\n    main : Signal Element\n    main =\n        map toElement Mouse.position",
       "type": {
         "tag": "lambda",
         "in": {
@@ -16405,7 +15163,7 @@
     },
     {
       "name": "map2",
-      "comment": "Apply a function to the current value of two signals. The function is\nreevaluated whenever *either* signal changes. In the following example, we\nfigure out the `aspectRatio` of the window by combining the current width and\nheight.\n\n    ratio : Int -\u003e Int -\u003e Float\n    ratio width height =\n        toFloat width / toFloat height\n\n    aspectRatio : Signal Float\n    aspectRatio =\n        map2 ratio Window.width Window.height",
+      "comment": "Apply a function to the current value of two signals. The function\nis reevaluated whenever *either* signal changes. In the following example, we\nfigure out the `aspectRatio` of the window by combining the current width and\nheight.\n\n    ratio : Int -\u003e Int -\u003e Float\n    ratio width height =\n        toFloat width / toFloat height\n\n    aspectRatio : Signal Float\n    aspectRatio =\n        map2 ratio Window.width Window.height",
       "type": {
         "tag": "lambda",
         "in": {
@@ -16913,6 +15671,37 @@
       }
     },
     {
+      "name": "message",
+      "comment": "Create a message that may be sent to a `Mailbox` at a later time.\n\nMost importantly, this lets us create APIs that can send values to ports\n*without* allowing people to run arbitrary tasks.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Address"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Message"
+          }
+        }
+      }
+    },
+    {
       "name": "sampleOn",
       "comment": "Sample from the second input every time an event occurs on the first input.\nFor example, `(sampleOn Mouse.clicks (Time.every Time.second))` will give the\napproximate time of the latest click.",
       "type": {
@@ -16963,14 +15752,14 @@
     },
     {
       "name": "send",
-      "comment": "Create a `Message` that can be sent to a `Channel` with a handler like\n`Html.onclick` or `Html.onblur`. This doesn't actually send the message; it just\ncreates the message to be sent.\n\n    import Html\n\n    type Update = NoOp | Add Int | Remove Int\n\n    updates : Channel Update\n    updates = channel NoOp\n\n    addButton : Html.Html\n    addButton =\n        Html.button\n            [ onclick (send updates (Add 1)) ]\n            [ Html.text \"Add 1\" ]",
+      "comment": "Send a message to an `Address`.\n\n    type Action = Undo | Remove Int\n\n    address : Address Action\n\n    requestUndo : Task x ()\n    requestUndo =\n        send address Undo\n\nThe `Signal` associated with `address` will receive the `Undo` message\nand push it through the Elm program.",
       "type": {
         "tag": "lambda",
         "in": {
           "tag": "app",
           "func": {
             "tag": "type",
-            "name": "Channel"
+            "name": "Address"
           },
           "args": [
             {
@@ -16986,48 +15775,32 @@
             "name": "a"
           },
           "out": {
-            "tag": "type",
-            "name": "Message"
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "_Tuple0"
+                },
+                "args": []
+              }
+            ]
           }
         }
       }
     },
     {
-      "name": "subscribe",
-      "comment": "Receive all the messages sent to a `Channel` as a `Signal`. The following\nexample shows how you would set up a system that uses a `Channel`.\n\n    -- initialState : Model\n    -- type Update = NoOp | ...\n    -- step : Update -\u003e Model -\u003e Model\n    -- view : Channel Update -\u003e Model -\u003e Element\n\n    updates : Channel Update\n    updates = channel NoOp\n\n    main : Signal Element\n    main =\n      map\n        (view updates)\n        (foldp step initialState (subscribe updates))\n\nThe `updates` channel appears twice in `main` because it serves as a bridge\nbetween your view and your signals. In the view you `send` to it, and in signal\nworld you `subscribe` to it.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Channel"
-          },
-          "args": [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        },
-        "out": {
-          "tag": "app",
-          "func": {
-            "tag": "type",
-            "name": "Signal"
-          },
-          "args": [
-            {
-              "tag": "var",
-              "name": "a"
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "~",
-      "comment": "Intended to be paired with the `(\u003c~)` operator, this makes it possible for\nmany signals to flow into a function. Think of it as a fancy alias for `mapN`.\nFor example, the following declarations are equivalent:\n\n    main : Signal Element\n    main =\n      scene \u003c~ Window.dimensions ~ Mouse.position\n\n    main : Signal Element\n    main =\n      map2 scene Window.dimensions Mouse.position\n\nYou can use this pattern for as many signals as you want by using `(~)` a bunch\nof times, so you can go higher than `map5` if you need to.",
+      "comment": "Intended to be paired with the `(\u003c~)` operator, this makes it possible for\nmany signals to flow into a function. Think of it as a fancy alias for\n`mapN`. For example, the following declarations are equivalent:\n\n    main : Signal Element\n    main =\n      scene \u003c~ Window.dimensions ~ Mouse.position\n\n    main : Signal Element\n    main =\n      map2 scene Window.dimensions Mouse.position\n\nYou can use this pattern for as many signals as you want by using `(~)` a bunch\nof times, so you can go higher than `map5` if you need to.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -18106,8 +16879,1198 @@
 }
 ,
 {
+  "name": "Task",
+  "comment": "\n\n# Basics\n@docs succeed, fail\n\n# Mapping\n@docs map, map2, map3, map4, map5, andMap\n\n# Chaining\n@docs andThen, sequence\n\n# Errors\n@docs onError, mapError, toMaybe, fromMaybe, toResult, fromResult\n\n# Threads\n@docs spawn, sleep",
+  "aliases": [],
+  "types": [],
+  "values": [
+    {
+      "name": "andMap",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "a"
+              },
+              "out": {
+                "tag": "var",
+                "name": "b"
+              }
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "b"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "andThen",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "a"
+            },
+            "out": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            }
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "b"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "fail",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "var",
+          "name": "x"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "fromMaybe",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "var",
+          "name": "x"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Maybe"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "fromResult",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Result"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "map",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "var",
+            "name": "b"
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "b"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "map2",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "b"
+            },
+            "out": {
+              "tag": "var",
+              "name": "result"
+            }
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            },
+            "out": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "result"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "map3",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "b"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "c"
+              },
+              "out": {
+                "tag": "var",
+                "name": "result"
+              }
+            }
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "Task"
+                },
+                "args": [
+                  {
+                    "tag": "var",
+                    "name": "x"
+                  },
+                  {
+                    "tag": "var",
+                    "name": "c"
+                  }
+                ]
+              },
+              "out": {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "Task"
+                },
+                "args": [
+                  {
+                    "tag": "var",
+                    "name": "x"
+                  },
+                  {
+                    "tag": "var",
+                    "name": "result"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "map4",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "b"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "c"
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "var",
+                  "name": "d"
+                },
+                "out": {
+                  "tag": "var",
+                  "name": "result"
+                }
+              }
+            }
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "Task"
+                },
+                "args": [
+                  {
+                    "tag": "var",
+                    "name": "x"
+                  },
+                  {
+                    "tag": "var",
+                    "name": "c"
+                  }
+                ]
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "app",
+                  "func": {
+                    "tag": "type",
+                    "name": "Task"
+                  },
+                  "args": [
+                    {
+                      "tag": "var",
+                      "name": "x"
+                    },
+                    {
+                      "tag": "var",
+                      "name": "d"
+                    }
+                  ]
+                },
+                "out": {
+                  "tag": "app",
+                  "func": {
+                    "tag": "type",
+                    "name": "Task"
+                  },
+                  "args": [
+                    {
+                      "tag": "var",
+                      "name": "x"
+                    },
+                    {
+                      "tag": "var",
+                      "name": "result"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "map5",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "b"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "c"
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "var",
+                  "name": "d"
+                },
+                "out": {
+                  "tag": "lambda",
+                  "in": {
+                    "tag": "var",
+                    "name": "e"
+                  },
+                  "out": {
+                    "tag": "var",
+                    "name": "result"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "Task"
+                },
+                "args": [
+                  {
+                    "tag": "var",
+                    "name": "x"
+                  },
+                  {
+                    "tag": "var",
+                    "name": "c"
+                  }
+                ]
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "app",
+                  "func": {
+                    "tag": "type",
+                    "name": "Task"
+                  },
+                  "args": [
+                    {
+                      "tag": "var",
+                      "name": "x"
+                    },
+                    {
+                      "tag": "var",
+                      "name": "d"
+                    }
+                  ]
+                },
+                "out": {
+                  "tag": "lambda",
+                  "in": {
+                    "tag": "app",
+                    "func": {
+                      "tag": "type",
+                      "name": "Task"
+                    },
+                    "args": [
+                      {
+                        "tag": "var",
+                        "name": "x"
+                      },
+                      {
+                        "tag": "var",
+                        "name": "e"
+                      }
+                    ]
+                  },
+                  "out": {
+                    "tag": "app",
+                    "func": {
+                      "tag": "type",
+                      "name": "Task"
+                    },
+                    "args": [
+                      {
+                        "tag": "var",
+                        "name": "x"
+                      },
+                      {
+                        "tag": "var",
+                        "name": "result"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "mapError",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "x"
+          },
+          "out": {
+            "tag": "var",
+            "name": "y"
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "x"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "y"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "onError",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "x"
+            },
+            "out": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "y"
+                },
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Task"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "y"
+              },
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "sequence",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "List"
+          },
+          "args": [
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Task"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "List"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "sleep",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Time"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "_Tuple0"
+              },
+              "args": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "spawn",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "y"
+            },
+            {
+              "tag": "type",
+              "name": "ThreadID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "succeed",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "var",
+          "name": "a"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "toMaybe",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "y"
+            },
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Maybe"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "toResult",
+      "comment": "",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "x"
+            },
+            {
+              "tag": "var",
+              "name": "a"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "y"
+            },
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Result"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "x"
+                },
+                {
+                  "tag": "var",
+                  "name": "a"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+,
+{
   "name": "Text",
-  "comment": "A library for styling and displaying text. While the `String` library\nfocuses on representing and manipulating strings of character strings, the\n`Text` library focuses on how those strings should look on screen. It lets\nyou make text bold or italic, set the typeface, set the text size, etc.\n\n# Creating Text\n@docs fromString, empty, append, concat, join\n\n# Creating Elements\n\nEach of the following functions places `Text` into a box. The function you use\ndetermines the alignment of the text.\n\n@docs leftAligned, rightAligned, centered, justified\n\n# Links and Style\n@docs link, Style, style, defaultStyle, Line\n\n# Convenience Functions\n\nThere are two convenience functions for creating an `Element` which can be\nuseful when debugging or prototyping:\n\n@docs plainText, asText\n\nThere are also a bunch of functions to set parts of a `Style` individually:\n\n@docs typeface, monospace, height, color, bold, italic, line",
+  "comment": "A library for styling and displaying text. While the `String` library\nfocuses on representing and manipulating strings of character strings, the\n`Text` library focuses on how those strings should look on screen. It lets\nyou make text bold or italic, set the typeface, set the text size, etc.\n\n# Creating Text\n@docs fromString, empty, append, concat, join\n\n# Links and Style\n@docs link, typeface, monospace, height, color, bold, italic, line, Line,\n    style, Style, defaultStyle",
   "aliases": [
     {
       "name": "Style",
@@ -18209,17 +18172,6 @@
           []
         ]
       ]
-    },
-    {
-      "name": "Text",
-      "comment": "",
-      "args": [],
-      "cases": [
-        [
-          "Text",
-          []
-        ]
-      ]
     }
   ],
   "values": [
@@ -18246,21 +18198,6 @@
       }
     },
     {
-      "name": "asText",
-      "comment": "Convert anything to its textual representation and make it displayable in\nthe browser. Excellent for debugging.\n\n    asText value = leftAligned (monospace (fromString (toString value)))",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "var",
-          "name": "a"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
-        }
-      }
-    },
-    {
       "name": "bold",
       "comment": "Make text bold.\n\n    fromString \"sometimes you want \" ++ bold (fromString \"emphasis\")",
       "type": {
@@ -18272,21 +18209,6 @@
         "out": {
           "tag": "type",
           "name": "Text"
-        }
-      }
-    },
-    {
-      "name": "centered",
-      "comment": "Center text in the text block. There is equal spacing on either side of a\nline of text.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Text"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
         }
       }
     },
@@ -18436,36 +18358,6 @@
       }
     },
     {
-      "name": "justified",
-      "comment": "Align text along the left and right sides of the text block. Word spacing is\nadjusted to make this possible.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Text"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
-        }
-      }
-    },
-    {
-      "name": "leftAligned",
-      "comment": "Align text along the left side of the text block. This is sometimes known as\n*ragged right*.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Text"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
-        }
-      }
-    },
-    {
       "name": "line",
       "comment": "Put lines on text.\n\n    line Under   (fromString \"underlined\")\n    line Over    (fromString \"overlined\")\n    line Through (fromString \"strike out\")",
       "type": {
@@ -18510,14 +18402,6 @@
       }
     },
     {
-      "name": "markdown",
-      "comment": "for internal use only",
-      "type": {
-        "tag": "type",
-        "name": "Element"
-      }
-    },
-    {
       "name": "monospace",
       "comment": "Switch to a monospace typeface. Good for code snippets.\n\n    monospace (fromString \"foldl (+) 0 [1,2,3]\")",
       "type": {
@@ -18529,36 +18413,6 @@
         "out": {
           "tag": "type",
           "name": "Text"
-        }
-      }
-    },
-    {
-      "name": "plainText",
-      "comment": "Display a string with no styling.\n\n    plainText string = leftAligned (fromString string)",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
-        }
-      }
-    },
-    {
-      "name": "rightAligned",
-      "comment": "Align text along the right side of the text block. This is sometimes known\nas *ragged left*.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "Text"
-        },
-        "out": {
-          "tag": "type",
-          "name": "Element"
         }
       }
     },
@@ -18676,7 +18530,7 @@
     },
     {
       "name": "every",
-      "comment": "Takes a time interval t. The resulting signal is the current time, updated\nevery t.",
+      "comment": "Takes a time interval `t`. The resulting signal is the current time, updated\nevery `t`.\n\nNote: Calling `every 100` twice gives two independently running timers.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -18700,7 +18554,7 @@
     },
     {
       "name": "fps",
-      "comment": "Takes desired number of frames per second (fps). The resulting signal\ngives a sequence of time deltas as quickly as possible until it reaches\nthe desired FPS. A time delta is the time between the last frame and the\ncurrent frame.",
+      "comment": "Takes desired number of frames per second (FPS). The resulting signal\ngives a sequence of time deltas as quickly as possible until it reaches\nthe desired FPS. A time delta is the time between the last frame and the\ncurrent frame.\n\nNote: Calling `fps 30` twice gives two independently running timers.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -18724,7 +18578,7 @@
     },
     {
       "name": "fpsWhen",
-      "comment": "Same as the fps function, but you can turn it on and off. Allows you\nto do brief animations based on user input without major inefficiencies.\nThe first time delta after a pause is always zero, no matter how long\nthe pause was. This way summing the deltas will actually give the amount\nof time that the output signal has been running.",
+      "comment": "Same as the `fps` function, but you can turn it on and off. Allows you\nto do brief animations based on user input without major inefficiencies.\nThe first time delta after a pause is always zero, no matter how long\nthe pause was. This way summing the deltas will actually give the amount\nof time that the output signal has been running.",
       "type": {
         "tag": "lambda",
         "in": {
@@ -18896,7 +18750,7 @@
     },
     {
       "name": "timestamp",
-      "comment": "Add a timestamp to any signal. Timestamps increase monotonically. When you\ncreate `(timestamp Mouse.x)`, an initial timestamp is produced. The timestamp\nupdates whenever `Mouse.x` updates.\n\nTimestamp updates are tied to individual events, so\n`(timestamp Mouse.x)` and `(timestamp Mouse.y)` will always have the same\ntimestamp because they rely on the same underlying event (`Mouse.position`).",
+      "comment": "Add a timestamp to any signal. Timestamps increase monotonically. When you\ncreate `(timestamp Mouse.x)`, an initial timestamp is produced. The timestamp\nupdates whenever `Mouse.x` updates.\n\nTimestamp updates are tied to individual events, so `(timestamp Mouse.x)` and\n`(timestamp Mouse.y)` will always have the same timestamp because they rely on\nthe same underlying event (`Mouse.position`).",
       "type": {
         "tag": "lambda",
         "in": {
@@ -19306,55 +19160,6 @@
           "out": {
             "tag": "type",
             "name": "Transform2D"
-          }
-        }
-      }
-    }
-  ]
-}
-,
-{
-  "name": "WebSocket",
-  "comment": "A library for low latency HTTP communication. See the HTTP library for\nstandard requests like GET, POST, etc. The API of this library is likely to\nchange to make it more flexible.\n\n# Open a Connection\n@docs connect",
-  "aliases": [],
-  "types": [],
-  "values": [
-    {
-      "name": "connect",
-      "comment": "Create a web-socket. The first argument is the URL of the desired\nweb-socket server. The input signal holds the outgoing messages,\nand the resulting signal contains the incoming ones.",
-      "type": {
-        "tag": "lambda",
-        "in": {
-          "tag": "type",
-          "name": "String"
-        },
-        "out": {
-          "tag": "lambda",
-          "in": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "Signal"
-            },
-            "args": [
-              {
-                "tag": "type",
-                "name": "String"
-              }
-            ]
-          },
-          "out": {
-            "tag": "app",
-            "func": {
-              "tag": "type",
-              "name": "Signal"
-            },
-            "args": [
-              {
-                "tag": "type",
-                "name": "String"
-              }
-            ]
           }
         }
       }

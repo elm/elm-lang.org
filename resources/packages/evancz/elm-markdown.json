@@ -73,7 +73,7 @@
     },
     {
       "name": "toElement",
-      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    intro : Element    \n    intro =\n        Markdown.toElement \"\"\"\n    \n    # Time Travel Made Easy\n\n    Elm Reactor grew out of my internship working on Elm at Prezi this summer...\n\n    \"\"\"",
+      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    intro : Element\n    intro =\n        Markdown.toElement \"\"\"\n\n    # Time Travel Made Easy\n\n    Elm Reactor grew out of my internship working on Elm at Prezi this summer...\n\n    \"\"\"",
       "type": {
         "tag": "lambda",
         "in": {
@@ -110,7 +110,7 @@
     },
     {
       "name": "toHtml",
-      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    bodyParagraph : Html\n    bodyParagraph =\n        Markdown.toHtml \"\"\"\n    \n    # Changing History\n\n    In addition to time travel, Elm Reactor lets you change history...\n\n    \"\"\"",
+      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    bodyParagraph : Html\n    bodyParagraph =\n        Markdown.toHtml \"\"\"\n\n    # Changing History\n\n    In addition to time travel, Elm Reactor lets you change history...\n\n    \"\"\"",
       "type": {
         "tag": "lambda",
         "in": {

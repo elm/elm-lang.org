@@ -265,7 +265,15 @@ package packageName =
 
 port doStuff : Task Http.Error (List ())
 port doStuff =
-  sequence (List.map docsFor ["elm-lang/core", "evancz/elm-html", "evancz/elm-markdown"])
+  sequence <| List.map docsFor <|
+    [ "elm-lang/core"
+    , "evancz/elm-html"
+    , "evancz/elm-markdown"
+    , "evancz/elm-http"
+    , "evancz/start-app"
+    , "johnpmayer/elm-linear-algebra"
+    , "johnpmayer/elm-webgl"
+    ]
 
 
 docsFor : String -> Task Http.Error ()

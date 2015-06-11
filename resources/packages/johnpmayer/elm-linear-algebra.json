@@ -1,0 +1,2210 @@
+[
+{
+  "name": "Math.Vector2",
+  "comment": "A high performance linear algebra library using native JS arrays. Geared\ntowards 3D graphics and use with `Graphics.WebGL`. All vectors are immutable.\n\n# Create\n@docs vec2\n\n# Get and Set\nThe set functions create a new copy of the vector, updating a single field.\n\n@docs getX, getY, setX, setY\n\n# Operations\n@docs add, sub, negate, scale, dot, normalize, direction,\n      length, lengthSquared, distance, distanceSquared\n\n# Conversions\n@docs toTuple, fromTuple, toRecord, fromRecord",
+  "aliases": [],
+  "types": [
+    {
+      "name": "Vec2",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Vec2",
+          []
+        ]
+      ]
+    }
+  ],
+  "values": [
+    {
+      "name": "add",
+      "comment": "Vector addition: a + b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "direction",
+      "comment": "The normalized direction from a to b: (a - b) / |a - b|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "distance",
+      "comment": "The distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "distanceSquared",
+      "comment": "The square of the distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "dot",
+      "comment": "The dot product of a and b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "fromRecord",
+      "comment": "Convert a record to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec2"
+        }
+      }
+    },
+    {
+      "name": "fromTuple",
+      "comment": "Convert a tuple to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple2"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec2"
+        }
+      }
+    },
+    {
+      "name": "getX",
+      "comment": "Extract the x component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getY",
+      "comment": "Extract the y component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "length",
+      "comment": "The length of the given vector: |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "lengthSquared",
+      "comment": "The square of the length of the given vector: |a| * |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "negate",
+      "comment": "Vector negation: -a",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec2"
+        }
+      }
+    },
+    {
+      "name": "normalize",
+      "comment": "A unit vector with the same direction as the given vector: a / |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec2"
+        }
+      }
+    },
+    {
+      "name": "scale",
+      "comment": "Multiply the vector by a scalar: s * v",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "setX",
+      "comment": "Update the x component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "setY",
+      "comment": "Update the y component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "sub",
+      "comment": "Vector subtraction: a - b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec2"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    },
+    {
+      "name": "toRecord",
+      "comment": "Convert a vector to a record.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        }
+      }
+    },
+    {
+      "name": "toTuple",
+      "comment": "Convert a vector to a tuple.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec2"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple2"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "vec2",
+      "comment": "Creates a new 2-element vector with the given values.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec2"
+          }
+        }
+      }
+    }
+  ]
+}
+,
+{
+  "name": "Math.Vector3",
+  "comment": "A high performance linear algebra library using native JS arrays. Geared\ntowards 3D graphics and use with `Graphics.WebGL`. All vectors are immutable.\n\n# Create\n@docs vec3, i, j, k\n\n# Get and Set\nThe set functions create a new copy of the vector, updating a single field.\n\n@docs getX, getY, getZ, setX, setY, setZ\n\n# Operations\n@docs add, sub, negate, scale, dot, cross, normalize, direction,\n      length, lengthSquared, distance, distanceSquared\n\n# Conversions\n@docs toTuple, fromTuple, toRecord, fromRecord",
+  "aliases": [],
+  "types": [
+    {
+      "name": "Vec3",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Vec3",
+          []
+        ]
+      ]
+    }
+  ],
+  "values": [
+    {
+      "name": "add",
+      "comment": "Vector addition: a + b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "cross",
+      "comment": "The cross product of a and b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "direction",
+      "comment": "The normalized direction from a to b: (a - b) / |a - b|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "distance",
+      "comment": "The distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "distanceSquared",
+      "comment": "The square of the distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "dot",
+      "comment": "The dot product of a and b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "fromRecord",
+      "comment": "Convert a record to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "z",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec3"
+        }
+      }
+    },
+    {
+      "name": "fromTuple",
+      "comment": "Convert a tuple to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple3"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec3"
+        }
+      }
+    },
+    {
+      "name": "getX",
+      "comment": "Extract the x component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getY",
+      "comment": "Extract the y component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getZ",
+      "comment": "Extract the z component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "i",
+      "comment": "The unit vector &icirc; which points in the x direction: `vec3 1 0 0`",
+      "type": {
+        "tag": "type",
+        "name": "Vec3"
+      }
+    },
+    {
+      "name": "j",
+      "comment": "The unit vector &jcirc; which points in the y direction: `vec3 0 1 0`",
+      "type": {
+        "tag": "type",
+        "name": "Vec3"
+      }
+    },
+    {
+      "name": "k",
+      "comment": "The unit vector k&#0770; which points in the z direction: `vec3 0 0 1`",
+      "type": {
+        "tag": "type",
+        "name": "Vec3"
+      }
+    },
+    {
+      "name": "length",
+      "comment": "The length of the given vector: |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "lengthSquared",
+      "comment": "The square of the length of the given vector: |a| * |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "negate",
+      "comment": "Vector negation: -a",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec3"
+        }
+      }
+    },
+    {
+      "name": "normalize",
+      "comment": "A unit vector with the same direction as the given vector: a / |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec3"
+        }
+      }
+    },
+    {
+      "name": "scale",
+      "comment": "Multiply the vector by a scalar: s * v",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "setX",
+      "comment": "Update the x component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "setY",
+      "comment": "Update the y component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "setZ",
+      "comment": "Update the z component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "sub",
+      "comment": "Vector subtraction: a - b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "toRecord",
+      "comment": "Convert a vector to a record.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "z",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        }
+      }
+    },
+    {
+      "name": "toTuple",
+      "comment": "Convert a vector to a tuple.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple3"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "vec3",
+      "comment": "Creates a new 3-element vector with the given values.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Vec3"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+,
+{
+  "name": "Math.Vector4",
+  "comment": "A high performance linear algebra library using native JS arrays. Geared\ntowards 3D graphics and use with `Graphics.WebGL`. All vectors are immutable.\n\n# Create\n@docs vec4\n\n# Get and Set\nThe set functions create a new copy of the vector, updating a single field.\n\n@docs getX, getY, setX, setY\n\n# Operations\n@docs add, sub, negate, scale, dot, normalize, direction,\n      length, lengthSquared, distance, distanceSquared\n\n# Conversions\n@docs toTuple, fromTuple, toRecord, fromRecord",
+  "aliases": [],
+  "types": [
+    {
+      "name": "Vec4",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Vec4",
+          []
+        ]
+      ]
+    }
+  ],
+  "values": [
+    {
+      "name": "add",
+      "comment": "Vector addition: a + b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "direction",
+      "comment": "The normalized direction from a to b: (a - b) / |a - b|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "distance",
+      "comment": "The distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "distanceSquared",
+      "comment": "The square of the distance between two vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "dot",
+      "comment": "The dot product of a and b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Float"
+          }
+        }
+      }
+    },
+    {
+      "name": "fromRecord",
+      "comment": "Convert a record to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "z",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "w",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec4"
+        }
+      }
+    },
+    {
+      "name": "fromTuple",
+      "comment": "Convert a tuple to a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple4"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec4"
+        }
+      }
+    },
+    {
+      "name": "getW",
+      "comment": "Extract the w component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getX",
+      "comment": "Extract the x component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getY",
+      "comment": "Extract the y component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "getZ",
+      "comment": "Extract the z component of a vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "length",
+      "comment": "The length of the given vector: |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "lengthSquared",
+      "comment": "The square of the length of the given vector: |a| * |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Float"
+        }
+      }
+    },
+    {
+      "name": "negate",
+      "comment": "Vector negation: -a",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec4"
+        }
+      }
+    },
+    {
+      "name": "normalize",
+      "comment": "A unit vector with the same direction as the given vector: a / |a|",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Vec4"
+        }
+      }
+    },
+    {
+      "name": "scale",
+      "comment": "Multiply the vector by a scalar: s * v",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "setW",
+      "comment": "Update the w component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "setX",
+      "comment": "Update the x component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "setY",
+      "comment": "Update the y component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "setZ",
+      "comment": "Update the z component of a vector, returning a new vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "sub",
+      "comment": "Vector subtraction: a - b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec4"
+          }
+        }
+      }
+    },
+    {
+      "name": "toRecord",
+      "comment": "Convert a vector to a record.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "record",
+          "fields": [
+            [
+              "x",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "y",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "z",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ],
+            [
+              "w",
+              {
+                "tag": "type",
+                "name": "Float"
+              }
+            ]
+          ],
+          "extension": null
+        }
+      }
+    },
+    {
+      "name": "toTuple",
+      "comment": "Convert a vector to a tuple.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec4"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple4"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            },
+            {
+              "tag": "type",
+              "name": "Float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "vec4",
+      "comment": "Creates a new 4-element vector with the given x, y, z, and w values.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Float"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Vec4"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+,
+{
+  "name": "Math.Matrix4",
+  "comment": "A high performance linear algebra library using native JS arrays. Geared\ntowards 3D graphics and use with `Graphics.WebGL`. All matrices are immutable.\n\nThis library uses the convention that the prefix `make` is creating a new\narray, whereas without the prefix, you are applying some transform to an\nexisting matrix.\n\n# Create\n\n@docs identity\n\n# Operations\n\n@docs inverseOrthonormal, mul, mulAffine, transpose, makeBasis, transform\n\n# Projections\n\n@docs makeFrustrum, makePerspective, makeOrtho, makeOrtho2D, makeLookAt\n\n# Apply Transformations\n\n@docs rotate, scale, scale3, translate, translate3\n\n# Create Transformations\n\n@docs makeRotate, makeScale, makeScale3, makeTranslate, makeTranslate3",
+  "aliases": [],
+  "types": [
+    {
+      "name": "Mat4",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Mat4",
+          []
+        ]
+      ]
+    }
+  ],
+  "values": [
+    {
+      "name": "identity",
+      "comment": "A matrix with all 0s, except 1s on the diagonal.",
+      "type": {
+        "tag": "type",
+        "name": "Mat4"
+      }
+    },
+    {
+      "name": "inverseOrthonormal",
+      "comment": "Computes the inverse of the given matrix m, assuming that the matrix is\northonormal.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Mat4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Mat4"
+        }
+      }
+    },
+    {
+      "name": "makeBasis",
+      "comment": "Creates a transform from a basis consisting of 3 linearly independent vectors.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Vec3"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Mat4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeFrustrum",
+      "comment": "Creates a matrix for a projection frustum with the given parameters.\n\nParameters: \n\n * left - the left coordinate of the frustum\n * right- the right coordinate of the frustum\n * bottom - the bottom coordinate of the frustum\n * top - the top coordinate of the frustum\n * znear - the near z distance of the frustum \n * zfar - the far z distance of the frustum",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Float"
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "type",
+                  "name": "Float"
+                },
+                "out": {
+                  "tag": "lambda",
+                  "in": {
+                    "tag": "type",
+                    "name": "Float"
+                  },
+                  "out": {
+                    "tag": "lambda",
+                    "in": {
+                      "tag": "type",
+                      "name": "Float"
+                    },
+                    "out": {
+                      "tag": "type",
+                      "name": "Mat4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeLookAt",
+      "comment": "\nCreates a transformation matrix for a camera.\n\nParameters:\n\n * eye - The location of the camera\n * center - The location of the focused object\n * up - The \"up\" direction according to the camera",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Vec3"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Mat4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeOrtho",
+      "comment": "\nCreates a matrix for an orthogonal frustum projection with the given parameters.\n\nParameters:\n\n * left - the left coordinate of the frustum\n * right- the right coordinate of the frustum\n * bottom - the bottom coordinate of the frustum \n * top - the top coordinate of the frustum\n * znear - the near z distance of the frustum\n * zfar - the far z distance of the frustum",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Float"
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "type",
+                  "name": "Float"
+                },
+                "out": {
+                  "tag": "lambda",
+                  "in": {
+                    "tag": "type",
+                    "name": "Float"
+                  },
+                  "out": {
+                    "tag": "type",
+                    "name": "Mat4"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeOrtho2D",
+      "comment": "Creates a matrix for a 2D orthogonal frustum projection with the given\nparameters. `znear` and `zfar` are assumed to be -1 and 1, respectively.\n\nParameters:\n\n * left - the left coordinate of the frustum\n * right- the right coordinate of the frustum\n * bottom - the bottom coordinate of the frustum\n * top - the top coordinate of the frustum",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Float"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Mat4"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makePerspective",
+      "comment": "Creates a matrix for a perspective projection with the given parameters.\n\nParameters:\n\n * fovy - field of view in the y axis, in degrees\n * aspect - aspect ratio\n * znear - the near z distance of the projection\n * zfar - the far z distance of the projection",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Float"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Mat4"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeRotate",
+      "comment": "Creates a transformation matrix for rotation in radians about the\n3-element vector axis.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Mat4"
+          }
+        }
+      }
+    },
+    {
+      "name": "makeScale",
+      "comment": "Creates a transformation matrix for scaling each of the x, y, and z axes by\nthe amount given in the corresponding element of the 3-element vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Mat4"
+        }
+      }
+    },
+    {
+      "name": "makeScale3",
+      "comment": "Creates a transformation matrix for scaling by 3 scalar values, one for\neach of the x, y, and z directions.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Mat4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "makeTranslate",
+      "comment": "Creates a transformation matrix for translating each of the x, y, and z\naxes by the amount given in the corresponding element of the 3-element vector.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Mat4"
+        }
+      }
+    },
+    {
+      "name": "makeTranslate3",
+      "comment": "\nCreates a transformation matrix for translating by 3 scalar values, one for\neach of the x, y, and z directions.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Mat4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "mul",
+      "comment": "Matrix multiplcation: a * b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Mat4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Mat4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Mat4"
+          }
+        }
+      }
+    },
+    {
+      "name": "mulAffine",
+      "comment": "Matrix multiplication, assuming a and b are affine: a * b",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Mat4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Mat4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Mat4"
+          }
+        }
+      }
+    },
+    {
+      "name": "rotate",
+      "comment": "Concatenates a rotation in radians about an axis to the given matrix.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Mat4"
+            },
+            "out": {
+              "tag": "type",
+              "name": "Mat4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "scale",
+      "comment": "Concatenates a scaling to the given matrix.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Mat4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Mat4"
+          }
+        }
+      }
+    },
+    {
+      "name": "scale3",
+      "comment": "Concatenates a scaling to the given matrix.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Mat4"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Mat4"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "transform",
+      "comment": "Multiply a vector by a 4x4 matrix: m * v",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Mat4"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Vec3"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Vec3"
+          }
+        }
+      }
+    },
+    {
+      "name": "translate",
+      "comment": "\nConcatenates a translation to the given matrix.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Vec3"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Mat4"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Mat4"
+          }
+        }
+      }
+    },
+    {
+      "name": "translate3",
+      "comment": "\nConcatenates a translation to the given matrix.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Float"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "Float"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "type",
+              "name": "Float"
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "type",
+                "name": "Mat4"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Mat4"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "transpose",
+      "comment": "\"Flip\" the matrix across the diagonal by swapping row index and column\nindex.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Mat4"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Mat4"
+        }
+      }
+    }
+  ]
+}
+
+]
