@@ -187,7 +187,7 @@ signals =
 
 
 tasks : List Section
-atasks =
+tasks =
   [ "HTTP" =>
       [ "zip codes" ==> "zip-codes"
       , "flickr" ==> "flickr"
