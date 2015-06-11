@@ -5,11 +5,14 @@ module Init.Compiler (init) where
 -- return a "compile" function and a .js file of all the stuff
 
 import Control.Monad.Except (ExceptT, liftIO, runExceptT, throwError)
+import Control.Exception (SomeException, catch)
 import qualified Data.Aeson as Json
+import qualified Data.Aeson.Types as Json
 import qualified Data.Binary as Binary
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
+import qualified Data.Text as Text
 import qualified Elm.Compiler as Compiler
 import qualified Elm.Compiler.Module as Module
 import qualified Elm.Package.Description as Desc
@@ -21,6 +24,7 @@ import Prelude hiding (init)
 import System.Exit (exitFailure)
 import System.Directory (getDirectoryContents, removeFile)
 import System.FilePath ((</>), splitExtension)
+import System.IO.Unsafe (unsafePerformIO)
 
 import Init.Helpers (make, write)
 import qualified Init.FileTree as FT
@@ -48,6 +52,7 @@ compile
     -> String
     -> Either Json.Value (String, String)
 compile interfaces elmSource =
+  try $
   do  (name, _) <-
           jsonErr Compiler.dummyDealiaser
               (Compiler.parseDependencies elmSource)
@@ -67,6 +72,43 @@ jsonErr dealiaser result =
       Compiler.errorToJson dealiaser ""
   in
     either (Left . Json.toJSON . map toJson) Right result
+
+
+try :: Either Json.Value (String, String)
+    -> Either Json.Value (String, String)
+try either =
+  let
+    giveError e =
+      return (Left (compilerCrash (show (e :: SomeException))))
+  in
+    unsafePerformIO ((either `seq` return either) `catch` giveError)
+
+
+compilerCrash :: String -> Json.Value
+compilerCrash msg =
+  let
+    zero =
+      Json.object [ "line" ==> (0 :: Int), "column" ==> (0 :: Int) ]
+  in
+    Json.toJSON $ (:[]) $ Json.object $
+      [ "region" ==> Json.object [ "start" ==> zero, "end" ==> zero ]
+      , "subregion" ==> Json.Null
+      , "tag" ==> "COMPILER ERROR"
+      , "overview" ==>
+          ( "Looks like you ran into an issue with the compiler!\n"
+            ++ "It crashed with the following message:\n\n"
+            ++ msg
+          )
+      , "details" ==>
+          "Maybe it was <https://github.com/elm-lang/elm-compiler/issues/832>\n\n\
+          \If not, try to find it at <https://github.com/elm-lang/elm-compiler/issues>\n\
+          \and open a new issue if it seems like you found an unknown bug."
+      ]
+
+
+(==>) :: Json.ToJSON a => String -> a -> Json.Pair
+(==>) field value =
+  (Text.pack field, Json.toJSON value)
 
 
 -- GET ALL RELEVANT INTERFACES
