@@ -167,30 +167,30 @@ redirects =
   route $
     map versionRedirect versions
     ++
-    [ "Blog.elm" ==> "blog"
-    , "Community.elm" ==> "community"
-    , "Examples.elm" ==> "examples"
-    , "Get-Started.elm" ==> "docs"
-    , "Install.elm" ==> "install"
-    , "Learn.elm" ==> "docs"
-    , "blog/Introducing-Elm-Reactor.elm" ==> "blog/time-travel-made-easy"
-    , "blog/Blazing-Fast-Html.elm" ==> "blog/blazing-fast-html"
+    [ "Blog.elm" ==> "/blog"
+    , "Community.elm" ==> "/community"
+    , "Examples.elm" ==> "/examples"
+    , "Get-Started.elm" ==> "/docs"
+    , "Install.elm" ==> "/install"
+    , "Learn.elm" ==> "/docs"
+    , "blog/Introducing-Elm-Reactor.elm" ==> "/blog/time-travel-made-easy"
+    , "blog/Blazing-Fast-Html.elm" ==> "/blog/blazing-fast-html"
     , "/blog/announce/PackageManager.elm" ==> "/blog/announce/package-manager"
     , "/blog/announce/Repl.elm" ==> "/blog/announce/repl"
     , "/blog/Interactive-Programming.elm" ==> "/blog/interactive-programming"
     , "/blog/announce/Elm-and-Prezi.elm" ==> "/blog/announce/elm-and-prezi"
     , "/learn/Escape-from-Callback-Hell.elm" ==> "/learn/escape-from-callback-hell"
     , "/blog/Pong.elm" ==> "/blog/making-pong"
-    , "learn/Syntax.elm" ==> "docs/syntax"
-    , "learn/FAQ.elm" ==> "docs/from-javascript"
-    , "learn/Understanding-Types.elm" ==> "guide/model-the-problem"
-    , "learn/Union-Types.elm" ==> "guide/model-the-problem"
-    , "learn/Records.elm" ==> "docs/records"
-    , "learn/What-is-FRP.elm" ==> "guide/reactivity" -- TODO
-    , "learn/Using-Signals.elm" ==> "guide/reactivity" -- TODO
-    , "learn/Tasks.elm" ==> "guide/reactivity#tasks"
-    , "learn/Components.elm" ==> "guide/interop"
-    , "learn/Ports.elm" ==> "guide/interop"
+    , "learn/Syntax.elm" ==> "/docs/syntax"
+    , "learn/FAQ.elm" ==> "/docs/from-javascript"
+    , "learn/Understanding-Types.elm" ==> "/guide/model-the-problem"
+    , "learn/Union-Types.elm" ==> "/guide/model-the-problem"
+    , "learn/Records.elm" ==> "/docs/records"
+    , "learn/What-is-FRP.elm" ==> "/guide/reactivity" -- TODO
+    , "learn/Using-Signals.elm" ==> "/guide/reactivity" -- TODO
+    , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
+    , "learn/Components.elm" ==> "/guide/interop"
+    , "learn/Ports.elm" ==> "/guide/interop"
     ]
 
 
@@ -222,6 +222,6 @@ versionRedirect version =
       "blog/announce/" ++ version ++ ".elm"
 
     new =
-      "blog/announce/" ++ version ++ ".elm"
+      "/blog/announce/" ++ version ++ ".elm"
   in
     BS.pack old ==> BS.pack new
