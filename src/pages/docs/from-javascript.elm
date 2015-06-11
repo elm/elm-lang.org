@@ -5,6 +5,11 @@ import Blog
 import Center
 
 
+port title : String
+port title =
+  "Elm From JavaScript"
+
+
 main =
   Blog.docs
     "From JavaScript?"
