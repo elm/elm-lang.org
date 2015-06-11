@@ -12,30 +12,30 @@ type alias Vertex = { position : Vec3, color : Vec3 }
 
 mesh : List (Triangle Vertex)
 mesh =
-    [ ( Vertex (vec3 0  0 0) (vec3 1 0 0)
-      , Vertex (vec3 1  1 0) (vec3 0 1 0)
-      , Vertex (vec3 1 -1 0) (vec3 0 0 1)
-      )
-    ]
+  [ ( Vertex (vec3 0  0 0) (vec3 1 0 0)
+    , Vertex (vec3 1  1 0) (vec3 0 1 0)
+    , Vertex (vec3 1 -1 0) (vec3 0 0 1)
+    )
+  ]
 
 
 -- Create the scene
 
 main : Signal Element
 main =
-    Signal.map view (Signal.foldp (+) 0 (fps 30))
+  Signal.map view (Signal.foldp (+) 0 (fps 30))
 
 
 view : Float -> Element
 view t =
-    webgl (400,400)
+  webgl (400,400)
     [ entity vertexShader fragmentShader mesh { perspective = perspective (t / 1000) } ]
 
 
 perspective : Float -> Mat4
 perspective t =
-    mul (makePerspective 45 1 0.01 100)
-        (makeLookAt (vec3 (4 * cos t) 0 (4 * sin t)) (vec3 0 0 0) (vec3 0 1 0))
+  mul (makePerspective 45 1 0.01 100)
+      (makeLookAt (vec3 (4 * cos t) 0 (4 * sin t)) (vec3 0 0 0) (vec3 0 1 0))
 
 
 -- Shaders

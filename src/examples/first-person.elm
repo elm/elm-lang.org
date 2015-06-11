@@ -1,20 +1,17 @@
 -- Try adding the ability to crouch or to land on top of the crate.
 
 import Graphics.Element exposing (..)
-import Text exposing (..)
-import Task exposing (Task)
 import Http exposing (..)
 import Keyboard
 import Math.Vector2 exposing (Vec2)
 import Math.Vector3 exposing (..)
 import Math.Vector3 as V3
 import Math.Matrix4 exposing (..)
+import Task exposing (Task)
+import Text
 import Time exposing (..)
 import WebGL exposing (..)
 import Window
-import Text exposing (..)
-import Signal exposing (..)
-import Task exposing (..)
 
 
 -- MODEL
@@ -35,172 +32,183 @@ eyeLevel = 2
 
 defaultPerson : Person
 defaultPerson =
-    { position = vec3 0 eyeLevel -10
-    , velocity = vec3 0 0 0
-    }
+  { position = vec3 0 eyeLevel -10
+  , velocity = vec3 0 0 0
+  }
 
 
 -- UPDATE
 
 update : Inputs -> Person -> Person
 update (isJumping, directions, dt) person =
-    person
-        |> walk directions
-        |> jump isJumping
-        |> gravity dt
-        |> physics dt
+  person
+    |> walk directions
+    |> jump isJumping
+    |> gravity dt
+    |> physics dt
 
 
 walk : { x:Int, y:Int } -> Person -> Person
 walk directions person =
-    if getY person.position > eyeLevel
-      then person
-      else
-        let vx = toFloat -directions.x
-            vz = toFloat  directions.y
-        in
-            { person |
-                velocity <- vec3 vx (getY person.velocity) vz
-            }
+  if getY person.position > eyeLevel then
+    person
+  else
+    let
+      vx = toFloat -directions.x
+      vz = toFloat  directions.y
+    in
+      { person |
+          velocity <- vec3 vx (getY person.velocity) vz
+      }
 
 
 jump : Bool -> Person -> Person
 jump isJumping person =
-    if not isJumping || getY person.position > eyeLevel
-      then person
-      else
-        let (vx,_,vz) = toTuple person.velocity
-        in
-            { person |
-                velocity <- vec3 vx 2 vz
-            }
+  if not isJumping || getY person.position > eyeLevel then
+    person
+  else
+    let
+      (vx,_,vz) = toTuple person.velocity
+    in
+      { person |
+          velocity <- vec3 vx 2 vz
+      }
 
 
 physics : Float -> Person -> Person
 physics dt person =
-    let position = person.position `add` V3.scale dt person.velocity
-        (x,y,z) = toTuple position
-    in
-        { person |
-            position <-
-                if y < eyeLevel then vec3 x eyeLevel z else position
-        }
+  let
+    position =
+      person.position `add` V3.scale dt person.velocity
+
+    (x,y,z) = toTuple position
+  in
+    { person |
+        position <-
+            if y < eyeLevel then vec3 x eyeLevel z else position
+    }
 
 
 gravity : Float -> Person -> Person
 gravity dt person =
-    if getY person.position <= eyeLevel
-      then person
-      else
-        let v = toRecord person.velocity
-        in
-            { person |
-                velocity <- vec3 v.x (v.y - 2 * dt) v.z
-            }
+  if getY person.position <= eyeLevel then
+    person
+  else
+    let
+      v = toRecord person.velocity
+    in
+      { person |
+          velocity <- vec3 v.x (v.y - 2 * dt) v.z
+      }
 
 
 -- SIGNALS
 
-textureMbx : Signal.Mailbox (Maybe Texture)
-textureMbx = Signal.mailbox Nothing
-
-port texturePrt : Task x ()
-port texturePrt =
-  loadTexture "/texture/woodCrate.jpg"
-  |> Task.toMaybe >> flip Task.andThen (Signal.send textureMbx.address)
-
-
 world : Maybe Texture -> Mat4 -> List Entity
-world mTex perspective =
-  mTex
-  |> Maybe.map (\tex ->
-    [entity vertexShader fragmentShader crate { crate=tex, perspective=perspective }])
-  |> Maybe.withDefault []
+world maybeTexture perspective =
+  case maybeTexture of
+    Nothing ->
+        []
+
+    Just tex ->
+        [entity vertexShader fragmentShader crate { crate=tex, perspective=perspective }]
+
 
 main : Signal Element
 main =
-    let person = Signal.foldp update defaultPerson inputs
-        entities =
-            Signal.map2 world
-                textureMbx.signal
-                (Signal.map2 perspective Window.dimensions person)
-    in
-        Signal.map2 view Window.dimensions entities
+  let
+    person =
+      Signal.foldp update defaultPerson inputs
+
+    entities =
+      Signal.map2 world
+        texture.signal
+        (Signal.map2 perspective Window.dimensions person)
+  in
+    Signal.map2 view Window.dimensions entities
 
 
-texture : Mailbox (Maybe Texture)
+texture : Signal.Mailbox (Maybe Texture)
 texture =
-    mailbox Nothing
+  Signal.mailbox Nothing
 
-port fetchTexture : Task Error ()
+
+port fetchTexture : Task WebGL.Error ()
 port fetchTexture =
-    loadTexture "/texture/woodCrate.jpg" `andThen` \tex ->
-    send texture.address (Just tex)
+  loadTexture "/texture/woodCrate.jpg"
+    `Task.andThen` \tex -> Signal.send texture.address (Just tex)
+
 
 inputs : Signal Inputs
 inputs =
-    let dt = Signal.map (\t -> t/500) (fps 25)
-    in
-        Signal.map3 (,,) Keyboard.space Keyboard.arrows dt
-          |> Signal.sampleOn dt
+  let
+    dt = Signal.map (\t -> t/500) (fps 25)
+  in
+    Signal.map3 (,,) Keyboard.space Keyboard.arrows dt
+      |> Signal.sampleOn dt
 
 
 -- VIEW
 
 perspective : (Int,Int) -> Person -> Mat4
 perspective (w,h) person =
-    mul (makePerspective 45 (toFloat w / toFloat h) 0.01 100)
-        (makeLookAt person.position (person.position `add` k) j)
+  mul (makePerspective 45 (toFloat w / toFloat h) 0.01 100)
+      (makeLookAt person.position (person.position `add` k) j)
 
 
 view : (Int,Int) -> List Entity -> Element
 view (w,h) entities =
-    layers
-        [ webgl (w,h) entities
-        , container w 100 position message
-        ]
+  layers
+    [ webgl (w,h) entities
+    , container w 100 position message
+    ]
 
 
-position = midLeftAt (absolute 40) (relative 0.5)
+position =
+  midLeftAt (absolute 40) (relative 0.5)
 
 
 message : Element
 message =
-    leftAligned << monospace << fromString <|
-        "Walk around with a first person perspective.\n"
-        ++ "Arrows keys to move, space bar to jump."
+  leftAligned <| Text.monospace <| Text.fromString <|
+      "Walk around with a first person perspective.\n"
+      ++ "Arrows keys to move, space bar to jump."
 
 
 -- Define the mesh for a crate
 
 type alias Vertex =
-    { position:Vec3, coord:Vec3 }
+    { position : Vec3
+    , coord : Vec3
+    }
 
 
 crate : List (Triangle Vertex)
 crate =
-    List.concatMap rotatedFace [ (0,0), (90,0), (180,0), (270,0), (0,90), (0,-90) ]
+  List.concatMap rotatedFace [ (0,0), (90,0), (180,0), (270,0), (0,90), (0,-90) ]
 
 
 rotatedFace : (Float,Float) -> List (Triangle Vertex)
 rotatedFace (angleXZ,angleYZ) =
-    let x = makeRotate (degrees angleXZ) j
-        y = makeRotate (degrees angleYZ) i
-        t = x `mul` y
-    in
-        List.map (WebGL.map (\v -> {v | position <- transform t v.position })) face
+  let
+    x = makeRotate (degrees angleXZ) j
+    y = makeRotate (degrees angleYZ) i
+    t = x `mul` y
+  in
+    List.map (WebGL.map (\v -> {v | position <- transform t v.position })) face
 
 
 face : List (Triangle Vertex)
 face =
-    let topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
-        topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
-        bottomLeft  = Vertex (vec3 -1 -1 1) (vec3 0 0 0)
-        bottomRight = Vertex (vec3  1 -1 1) (vec3 1 0 0)
-    in
-        [ (topLeft,topRight,bottomLeft)
-        , (bottomLeft,topRight,bottomRight)
-        ]
+  let
+    topLeft     = Vertex (vec3 -1  1 1) (vec3 0 1 0)
+    topRight    = Vertex (vec3  1  1 1) (vec3 1 1 0)
+    bottomLeft  = Vertex (vec3 -1 -1 1) (vec3 0 0 0)
+    bottomRight = Vertex (vec3  1 -1 1) (vec3 1 0 0)
+  in
+    [ (topLeft,topRight,bottomLeft)
+    , (bottomLeft,topRight,bottomRight)
+    ]
 
 
 -- Shaders
@@ -220,6 +228,7 @@ void main () {
 
 |]
 
+
 fragmentShader : Shader {} { u | crate:Texture } { vcoord:Vec2 }
 fragmentShader = [glsl|
 
@@ -232,5 +241,3 @@ void main () {
 }
 
 |]
-
---}

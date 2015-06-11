@@ -2,52 +2,38 @@
 -- http://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
 
 import Graphics.Element exposing (..)
-import Task exposing (Task)
 import Http exposing (..)
 import Math.Vector2 exposing (Vec2)
-import Math.Vector3 exposing (..)
-import Math.Vector3 as V3
+import Math.Vector3 as V3 exposing (..)
 import Math.Matrix4 exposing (..)
 import Mouse
+import Task exposing (Task)
 import WebGL exposing (..)
 import Window
-import Task exposing (..)
 
 
 -- SIGNALS
 
-faceTextureMbx : Signal.Mailbox (Maybe Texture)
-faceTextureMbx = Signal.mailbox Nothing
-
-sideTextureMbx : Signal.Mailbox (Maybe Texture)
-sideTextureMbx = Signal.mailbox Nothing
-
-port texturePrt : Task x ()
-port texturePrt =
-  loadTexture "/texture/thwomp_face.jpg"
-  |> Task.toMaybe >> flip Task.andThen (Signal.send faceTextureMbx.address)
-  >> Task.spawn -- don't wait for the request to finish
-  >> flip Task.andThen (\_ -> loadTexture "/texture/thwomp_side.jpg")
-  >> Task.toMaybe >> flip Task.andThen (Signal.send sideTextureMbx.address)
-
 main : Signal Element
 main =
-    let faceTexture = faceTextureMbx.signal
-        sideTexture = sideTextureMbx.signal
-        perspectiveMatrix  = Signal.map2 perspective Window.dimensions Mouse.position
-    in
-        Signal.map3 (view face sides) Window.dimensions textures.signal perspectiveMatrix
+  let
+    perspectiveMatrix =
+      Signal.map2 perspective Window.dimensions Mouse.position
+  in
+    Signal.map3 (view face sides) Window.dimensions textures.signal perspectiveMatrix
 
 
-textures : Mailbox (Maybe (Texture, Texture))
+textures : Signal.Mailbox (Maybe Texture, Maybe Texture)
 textures =
-    mailbox Nothing
+  Signal.mailbox (Nothing, Nothing)
 
-port fetchTextures : Task Error ()
+
+port fetchTextures : Task WebGL.Error ()
 port fetchTextures =
-  loadTexture "/texture/thwomp_face.jpg" `andThen` \faceTexture ->
-  loadTexture "/texture/thwomp_side.jpg" `andThen` \sideTexture ->
-  send textures.address (Just (faceTexture, sideTexture))
+  loadTexture "/texture/thwomp_face.jpg" `Task.andThen` \faceTexture ->
+  loadTexture "/texture/thwomp_side.jpg" `Task.andThen` \sideTexture ->
+  Signal.send textures.address (Just faceTexture, Just sideTexture)
+
 
 -- MESHES - define the mesh for a Thwomp's face
 
@@ -108,11 +94,10 @@ perspective (w',h') (x',y') =
 view : List (Triangle Vertex)
     -> List (Triangle Vertex)
     -> (Int,Int)
-    -> Maybe Texture
-    -> Maybe Texture
+    -> (Maybe Texture, Maybe Texture)
     -> Mat4
     -> Element
-view mesh1 mesh2 dimensions texture1 texture2 perspective =
+view mesh1 mesh2 dimensions (texture1, texture2) perspective =
     webgl dimensions
         (toEntity mesh1 texture1 perspective ++ toEntity mesh2 texture2 perspective)
 
