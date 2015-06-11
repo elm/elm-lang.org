@@ -1,0 +1,399 @@
+[
+{
+  "name": "WebGL",
+  "comment": "The WebGL API is for high performance rendering. Definitely read about\n[how WebGL works](https://github.com/johnpmayer/elm-webgl/blob/master/README.md)\nand look at some examples before trying to do too much with just the\ndocumentation provided here.\n\n# Triangles\n@docs Triangle, map, map2\n\n# Entities\n@docs entity\n\n# WebGL Element\n@docs webgl\n\n# Loading Textures\n@docs loadTexture\n\n# Unsafe Shader Creation (for library writers)\n@docs unsafeShader",
+  "aliases": [
+    {
+      "name": "Triangle",
+      "comment": "Triangles are the basic building blocks of a mesh. You can put them together\nto form any shape. Each corner of a triangle is called a *vertex* and contains a\nbunch of *attributes* that describe that particular corner. These attributes can\nbe things like position and color.\n\nSo when you create a `Triangle` you are really providing three sets of attributes\nthat describe the corners of a triangle.",
+      "args": [
+        "attributes"
+      ],
+      "type": {
+        "tag": "app",
+        "func": {
+          "tag": "type",
+          "name": "_Tuple3"
+        },
+        "args": [
+          {
+            "tag": "var",
+            "name": "attributes"
+          },
+          {
+            "tag": "var",
+            "name": "attributes"
+          },
+          {
+            "tag": "var",
+            "name": "attributes"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "Entity",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Entity",
+          []
+        ]
+      ]
+    },
+    {
+      "name": "Error",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Error",
+          []
+        ]
+      ]
+    },
+    {
+      "name": "Texture",
+      "comment": "",
+      "args": [],
+      "cases": [
+        [
+          "Texture",
+          []
+        ]
+      ]
+    },
+    {
+      "name": "Shader",
+      "comment": "Shader is a phantom data type. Don't instantiate it yourself. See below.",
+      "args": [
+        "attributes",
+        "uniforms",
+        "varyings"
+      ],
+      "cases": [
+        [
+          "Shader",
+          []
+        ]
+      ]
+    }
+  ],
+  "values": [
+    {
+      "name": "entity",
+      "comment": "Packages a vertex shader, a fragment shader, a mesh, and uniform variables\nas an `Entity`. This specifies a full rendering pipeline to be run on the GPU.\nYou can read more about the pipeline\n[here](https://github.com/johnpmayer/elm-webgl/blob/master/README.md).\n\nValues will be cached intelligently, so if you have already sent a shader or\nmesh to the GPU, it will not be resent. This means it is fairly cheap to create\nnew entities if you are reusing shaders and meshes that have been used before.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Shader"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "attributes"
+            },
+            {
+              "tag": "var",
+              "name": "uniforms"
+            },
+            {
+              "tag": "var",
+              "name": "varyings"
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Shader"
+            },
+            "args": [
+              {
+                "tag": "record",
+                "fields": [],
+                "extension": null
+              },
+              {
+                "tag": "var",
+                "name": "uniforms"
+              },
+              {
+                "tag": "var",
+                "name": "varyings"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "List"
+              },
+              "args": [
+                {
+                  "tag": "app",
+                  "func": {
+                    "tag": "type",
+                    "name": "Triangle"
+                  },
+                  "args": [
+                    {
+                      "tag": "var",
+                      "name": "attributes"
+                    }
+                  ]
+                }
+              ]
+            },
+            "out": {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "uniforms"
+              },
+              "out": {
+                "tag": "type",
+                "name": "Entity"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "loadTexture",
+      "comment": "Loads a texture from the given url. PNG and JPEG are known to work, but\nother formats have not been as well-tested yet.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Task"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Error"
+            },
+            {
+              "tag": "type",
+              "name": "Texture"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "map",
+      "comment": "Apply a function to each vertex. This lets you transform the set of\nattributes associated with each corner of a triangle.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "var",
+            "name": "b"
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Triangle"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Triangle"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "b"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "map2",
+      "comment": "Combine two triangles by putting each of their vertices together with\na given function.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "lambda",
+          "in": {
+            "tag": "var",
+            "name": "a"
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "var",
+              "name": "b"
+            },
+            "out": {
+              "tag": "var",
+              "name": "c"
+            }
+          }
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "Triangle"
+            },
+            "args": [
+              {
+                "tag": "var",
+                "name": "a"
+              }
+            ]
+          },
+          "out": {
+            "tag": "lambda",
+            "in": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Triangle"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "b"
+                }
+              ]
+            },
+            "out": {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Triangle"
+              },
+              "args": [
+                {
+                  "tag": "var",
+                  "name": "c"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "unsafeShader",
+      "comment": "Shaders are programs for running many computations on the GPU in parallel.\nThey are written in a language called\n[GLSL](http://en.wikipedia.org/wiki/OpenGL_Shading_Language). Read more about\nshaders [here](https://github.com/johnpmayer/elm-webgl/blob/master/README.md).\n\nNormally you specify a shader with a `shader` block. This is because shaders\nmust be compiled before they are used, imposing an overhead that it is best to\navoid in general. This function lets you create a shader with a raw string of\nGLSL. It is intended specifically for libary writers who want to create shader\ncombinators.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Shader"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "attribute"
+            },
+            {
+              "tag": "var",
+              "name": "uniform"
+            },
+            {
+              "tag": "var",
+              "name": "varying"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "webgl",
+      "comment": "Render a WebGL scene with the given dimensions and entities. Shaders and\nmeshes are cached so that they do not get resent to the GPU, so it should be\nrelatively cheap to create new entities out of existing values.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "_Tuple2"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Int"
+            },
+            {
+              "tag": "type",
+              "name": "Int"
+            }
+          ]
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "app",
+            "func": {
+              "tag": "type",
+              "name": "List"
+            },
+            "args": [
+              {
+                "tag": "type",
+                "name": "Entity"
+              }
+            ]
+          },
+          "out": {
+            "tag": "type",
+            "name": "Element"
+          }
+        }
+      }
+    }
+  ]
+}
+
+]

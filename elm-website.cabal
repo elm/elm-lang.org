@@ -21,10 +21,10 @@ cabal-version:       >=1.10
 
 executable run-elm-website
   hs-source-dirs:
-    backend
+    src/backend
 
   main-is:
-    Server.hs
+    Main.hs
 
   ghc-options:
     -W -threaded -O2 -rtsopts "-with-rtsopts=-N -I4"
@@ -32,16 +32,18 @@ executable run-elm-website
   build-depends:
     aeson,
     base,
+    binary,
     blaze-html,
     blaze-markup,
     bytestring,
     containers,
     cmdargs,
     directory,
-    elm-compiler,
+    elm-compiler >= 0.15 && < 0.16,
+    elm-package,
     filepath,
     HTTP,
-    mtl,
+    mtl >= 2.2.1 && < 3,
     process,
     snap-core,
     snap-server,

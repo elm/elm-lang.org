@@ -1,0 +1,188 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro|Source+Code+Pro);
+
+html, head, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #293c4b;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+a {
+  color: #60B5CC;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: rgb(234,21,122);
+}
+
+
+/* content */
+
+.content li {
+  margin-bottom: 6px;
+}
+
+
+/* guide */
+
+.guide li ul {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.guide li li {
+  list-style-type: none;
+}
+
+.guide li li a {
+  color: #34495E;
+  text-decoration: none;
+}
+
+
+/* examples */
+
+.examples li {
+  margin-bottom: 4px;
+}
+
+.examples li ul {
+  margin-top: 6px;
+  margin-bottom: 20px;
+  padding-left: 1em;
+}
+
+.examples li li {
+  list-style-type: none;
+}
+
+
+/* top bar */
+
+#tabs {
+  padding: 1em;
+  background-color: #60B5CC;
+}
+
+#tabs ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: center;
+}
+
+#tabs li {
+  display: inline-block;
+}
+
+.tab {
+  text-decoration: none;
+  color: #34495E;
+  padding-bottom: 13px;
+  margin: 0 1.5em;
+  font-size: 20px;
+}
+
+.tab:hover,
+.tab.current {
+  text-decoration: none;
+  color: #34495E;
+  border-bottom: 3px solid #34495E;
+}
+
+
+/* splash */
+
+#splash {
+  padding: 1em;
+  background-color: #60B5CC;
+  color: white;
+  text-align: center;
+}
+
+#splash a {
+  text-decoration: none;
+  border-bottom: 3px solid white;
+  color: white;
+}
+
+
+/* code */
+
+code {
+  font-family: 'Source Code Mono', monospace;
+}
+
+/* blogs */
+
+.author {
+  padding-top: 1em;
+  color: #ddd;
+  display: block;
+  width: 600px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.author a {
+  color: #ddd;
+  text-decoration: underline;
+}
+
+/* Notes */
+
+blockquote {
+  display: block;
+  overflow-x: auto;
+  padding: 0 1em;
+  border-radius: 6px;
+  background-color: #ebebeb;
+  color: #6C7E8F;
+}
+
+blockquote p {
+  font-size: 14px;
+}
+
+
+/* comparison table */
+
+.comparison table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.comparison {
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #8C8C8C;
+  border-radius: 3px;
+}
+.comparison table td, .comparison table th {
+  padding: 3px 10px;
+}
+.comparison th {
+  background: #dddddd;
+}
+.comparison tr:nth-child(even) {
+  background: #fbfbfb;
+}
+.comparison table tbody td:first-child {
+  border-left: none;
+}
+.comparison table tbody tr:last-child td {
+  border-bottom: none;
+}
