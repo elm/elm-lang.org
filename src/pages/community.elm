@@ -26,6 +26,7 @@ community = """
   * [Reddit][reddit]
   * [IRC][irc]
   * [Twitter][twitter]
+  * [Real Life](http://www.meetup.com/Elm-user-group-SF/)
   * [Potential projects](https://github.com/elm-lang/projects)
   * [Contribution guidelines](https://github.com/elm-lang/elm-compiler/blob/master/CONTRIBUTING.md)
 
