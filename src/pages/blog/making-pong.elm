@@ -30,7 +30,7 @@ This post has two major goals:
      Programming](/learn/What-is-FRP.elm) (FRP) for games.
   2. Teach you how to make games with Elm.
 
-In this post we will be looking into [Pong in Elm](/edit/examples/Intermediate/Pong.elm):
+In this post we will be looking into [Pong in Elm](/examples/pong):
 a functional game written in Elm, playable in any modern browser.
 
 ## Functional Game Design
@@ -86,7 +86,7 @@ structure! I provide both [the source code for Pong][src] and [an empty
 skeleton for game creation][skeleton] which can both be a starting point for
 playing around with your own ideas.
 
- [src]: /edit/examples/Intermediate/Pong.elm
+ [src]: /examples/pong
  [skeleton]: https://github.com/elm-lang/elm-lang.org/blob/master/frontend/public/examples/Intermediate/GameSkeleton.elm
 
 Let&rsquo;s get into the code!
@@ -412,7 +412,7 @@ main =
     Signal.map2 display Window.dimensions gameState
 ```
 
-And that is it, [Pong in Elm](/edit/examples/Intermediate/Pong.elm)!
+And that is it, [Pong in Elm](/examples/pong)!
 
 <br/>
 
