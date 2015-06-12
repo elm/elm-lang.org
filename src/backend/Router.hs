@@ -4,7 +4,7 @@ module Router (router) where
 import Control.Applicative ((<|>))
 import Control.Monad.Trans (liftIO)
 import qualified Data.Aeson as Json
-import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.UTF8 as Utf8
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, redirect'
     , route, setContentType, setResponseStatus, writeBuilder, writeLBS
@@ -57,7 +57,7 @@ servePages pairs =
     route (map servePage pairs)
   where
     servePage (path, html) =
-        ( BS.pack path
+        ( Utf8.fromString path
         , ifTop (serveFile html)
         )
 
@@ -68,7 +68,7 @@ guide =
     <|> route (map chapterToRoute Guide.chapters)
   where
     chapterToRoute name =
-        ( BS.pack name
+        ( Utf8.fromString name
         , ifTop (serveFile (FT.file ["guide","html"] name "html"))
         )
 
@@ -136,10 +136,10 @@ error404 =
 
 -- HELPERS
 
-demandParam :: BS.ByteString -> Snap String
+demandParam :: Utf8.ByteString -> Snap String
 demandParam param =
   do  maybeBS <- getParam param
-      maybe pass (return . BS.unpack) maybeBS
+      maybe pass (return . Utf8.toString) maybeBS
 
 
 serveIfExists :: FilePath -> Snap ()
@@ -215,7 +215,7 @@ versions =
   ]
 
 
-versionRedirect :: MonadSnap m => String -> (BS.ByteString, m ())
+versionRedirect :: MonadSnap m => String -> (Utf8.ByteString, m ())
 versionRedirect version =
   let
     old =
@@ -224,4 +224,4 @@ versionRedirect version =
     new =
       "/blog/announce/" ++ version ++ ".elm"
   in
-    BS.pack old ==> BS.pack new
+    Utf8.fromString old ==> Utf8.fromString new

@@ -48,4 +48,5 @@ executable run-elm-website
     snap-core,
     snap-server,
     text,
-    unordered-containers
+    unordered-containers,
+    utf8-string

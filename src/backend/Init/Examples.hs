@@ -119,6 +119,7 @@ code name source =
     H.html $ do
       H.head $ do
         H.title . toHtml $ name
+        H.meta ! A.charset "utf-8"
         css "/assets/codemirror-5.0/lib/codemirror.css"
         css "/assets/codemirror-5.0/theme/elegant.css"
         css "/assets/codemirror-5.0/theme/mbo.css"
