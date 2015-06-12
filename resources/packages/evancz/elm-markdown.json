@@ -1,0 +1,151 @@
+[
+{
+  "name": "Markdown",
+  "comment": "A library for markdown parsing. This is just an Elm API built on top of the\n[marked](https://github.com/chjj/marked) project which focuses on speed.\n\n# Parsing Markdown\n@docs toElement, toHtml\n\n# Parsing with Custom Options\n@docs Options, defaultOptions, toElementWith, toHtmlWith",
+  "aliases": [
+    {
+      "name": "Options",
+      "comment": "Some parser options so you can tweak things for your particular case.\n\n  * `githubFlavored` &mdash; overall reasonable improvements on the original\n    markdown parser as described [here][gfm]. This includes stuff like [fenced\n    code blocks][fenced]. There are some odd parts though, such as [tables][]\n    and a setting to turn all newlines into newlines in the resulting output,\n    so there are settings to turn those on or off based on your preference.\n\n  * `sanitize` &mdash; this determines if all HTML should be escaped. If you\n    are parsing user markdown or user input can somehow reach the markdown\n    parser, you should almost certainly turn on sanitation. If it is just you\n    writing markdown, turning sanitation off is a nice way to do some HTML\n    tricks if it is needed.\n\n  * `smartypants` &mdash; This will automatically upgrade quotes to the\n    prettier versions and turn dashes into [em dashes or en dashes][dash]\n\n\n[gfm]: https://help.github.com/articles/github-flavored-markdown/\n[fenced]: https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks\n[tables]: https://help.github.com/articles/github-flavored-markdown/#tables\n[dash]: http://en.wikipedia.org/wiki/Dash",
+      "args": [],
+      "type": {
+        "tag": "record",
+        "extension": null,
+        "fields": [
+          [
+            "githubFlavored",
+            {
+              "tag": "app",
+              "func": {
+                "tag": "type",
+                "name": "Maybe"
+              },
+              "args": [
+                {
+                  "tag": "record",
+                  "extension": null,
+                  "fields": [
+                    [
+                      "tables",
+                      {
+                        "tag": "type",
+                        "name": "Bool"
+                      }
+                    ],
+                    [
+                      "breaks",
+                      {
+                        "tag": "type",
+                        "name": "Bool"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            "sanitize",
+            {
+              "tag": "type",
+              "name": "Bool"
+            }
+          ],
+          [
+            "smartypants",
+            {
+              "tag": "type",
+              "name": "Bool"
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "types": [],
+  "values": [
+    {
+      "name": "defaultOptions",
+      "comment": "The `Options` used by the `toElement` and `toHtml` functions.\n\n    { githubFlavored = Just { tables = False, breaks = False }\n    , sanitize = False\n    , smartypants = False\n    }",
+      "type": {
+        "tag": "type",
+        "name": "Options"
+      }
+    },
+    {
+      "name": "toElement",
+      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    intro : Element\n    intro =\n        Markdown.toElement \"\"\"\n\n    # Time Travel Made Easy\n\n    Elm Reactor grew out of my internship working on Elm at Prezi this summer...\n\n    \"\"\"",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Element"
+        }
+      }
+    },
+    {
+      "name": "toElementWith",
+      "comment": "Maybe you want to get prettier quotes with a simple syntax. You can use\nmodified parsing options.\n\n    options : Options\n    options =\n        { defaultOptions | smartypants \u003c- True }\n\n    toSmartElement : String -\u003e Element\n    toSmartElement markdown =\n        Markdown.toElementWith options markdown",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Options"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "String"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Element"
+          }
+        }
+      }
+    },
+    {
+      "name": "toHtml",
+      "comment": "Turn a markdown string into an HTML element, using the `defaultOptions`.\n\n    bodyParagraph : Html\n    bodyParagraph =\n        Markdown.toHtml \"\"\"\n\n    # Changing History\n\n    In addition to time travel, Elm Reactor lets you change history...\n\n    \"\"\"",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "String"
+        },
+        "out": {
+          "tag": "type",
+          "name": "Html"
+        }
+      }
+    },
+    {
+      "name": "toHtmlWith",
+      "comment": "Maybe you want to parse user input into markdown. To stop them from adding\n`\u003cscript\u003e` tags, you can use modified parsing options.\n\n    options : Options\n    options =\n        { defaultOptions | sanitize \u003c- True }\n\n    toMarkdown : String -\u003e Html\n    toMarkdown userInput =\n        Markdown.toHtmlWith options userInput",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "type",
+          "name": "Options"
+        },
+        "out": {
+          "tag": "lambda",
+          "in": {
+            "tag": "type",
+            "name": "String"
+          },
+          "out": {
+            "tag": "type",
+            "name": "Html"
+          }
+        }
+      }
+    }
+  ]
+}
+
+]

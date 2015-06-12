@@ -1,0 +1,121 @@
+[
+{
+  "name": "StartApp",
+  "comment": "This module makes it super simple to get started making a typical web-app.\nIt is designed to work perfectly with [the Elm Architecture][arch] which\ndescribes a simple architecture pattern that makes testing and refactoring\nshockingly pleasant. Definititely read [the tutorial][arch] to get started!\n\n[arch]: https://github.com/evancz/elm-architecture-tutorial/\n\n# Define your App\n@docs App\n\n# Run your App\n@docs start",
+  "aliases": [
+    {
+      "name": "App",
+      "comment": "An app has three key components:\n\n  * `model` &mdash; a big chunk of data fully describing your application.\n\n  * `view` &mdash; a way to show your model on screen. It takes in two\n    arguments. One is the model, which contains *all* the information about our\n    app. The other is an [`Address`][address] that helps us handle user input.\n    Whenever there is a click or key press, we send a message to the address\n    describing what happened and where.\n\n  * `update` &mdash; a function to update your model. Whenever a UI event\n    occurs, is routed through the `Address` to this update function. We take\n    in the message and the current model, then we give back a new model!\n\n[The Elm Architecture][arch] augments this basic pattern to give you all the\nmodularity you want. But since we have whole model in one place makes, it is\nalso really easy to support features like *save* and *undo* that can be quite\nhard in other languages.\n\n[address]: http://package.elm-lang.org/packages/elm-lang/core/2.0.1/Signal#Mailbox\n[arch]: https://github.com/evancz/elm-architecture-tutorial/",
+      "args": [
+        "model",
+        "action"
+      ],
+      "type": {
+        "tag": "record",
+        "extension": null,
+        "fields": [
+          [
+            "model",
+            {
+              "tag": "var",
+              "name": "model"
+            }
+          ],
+          [
+            "view",
+            {
+              "tag": "lambda",
+              "in": {
+                "tag": "app",
+                "func": {
+                  "tag": "type",
+                  "name": "Address"
+                },
+                "args": [
+                  {
+                    "tag": "var",
+                    "name": "action"
+                  }
+                ]
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "var",
+                  "name": "model"
+                },
+                "out": {
+                  "tag": "type",
+                  "name": "Html"
+                }
+              }
+            }
+          ],
+          [
+            "update",
+            {
+              "tag": "lambda",
+              "in": {
+                "tag": "var",
+                "name": "action"
+              },
+              "out": {
+                "tag": "lambda",
+                "in": {
+                  "tag": "var",
+                  "name": "model"
+                },
+                "out": {
+                  "tag": "var",
+                  "name": "model"
+                }
+              }
+            }
+          ]
+        ]
+      }
+    }
+  ],
+  "types": [],
+  "values": [
+    {
+      "name": "start",
+      "comment": "This actually starts up your `App`. The following code sets up a counter\nthat can be incremented and decremented. You can read more about writing\nprograms like this [here](https://github.com/evancz/elm-architecture-tutorial/).\n\n    import Html exposing (div, button, text)\n    import Html.Events exposing (onClick)\n    import StartApp\n\n    main =\n      StartApp.start { model = model, view = view, update = update }\n\n    model = 0\n\n    view address model =\n      div []\n        [ button [ onClick address Decrement ] [ text \"-\" ]\n        , div [] [ text (toString model) ]\n        , button [ onClick address Increment ] [ text \"+\" ]\n        ]\n\n    type Action = Increment | Decrement\n\n    update action model =\n      case action of\n        Increment -\u003e model + 1\n        Decrement -\u003e model - 1\n\nNotice that the program cleanly breaks up into model, update, and view.\nThis means it is super easy to test your update logic independent of any\nrendering.",
+      "type": {
+        "tag": "lambda",
+        "in": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "App"
+          },
+          "args": [
+            {
+              "tag": "var",
+              "name": "model"
+            },
+            {
+              "tag": "var",
+              "name": "action"
+            }
+          ]
+        },
+        "out": {
+          "tag": "app",
+          "func": {
+            "tag": "type",
+            "name": "Signal"
+          },
+          "args": [
+            {
+              "tag": "type",
+              "name": "Html"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+
+]
