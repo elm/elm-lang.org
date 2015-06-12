@@ -197,17 +197,18 @@ squares = map (\\n -> n^2) [1..100]
 
 ### Infix Operators
 
-You can create custom infix operators. The default
-[precedence](http://en.wikipedia.org/wiki/Order_of_operations)
-is 9 and the default
-[associativity](http://en.wikipedia.org/wiki/Operator_associativity)
-is left, but you can set your own.
-You cannot override the built-in operators though.
+You can create custom infix operators.
+[Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
+9, where 9 is the tightest. The default precedence is 9 and the default
+[associativity](http://en.wikipedia.org/wiki/Operator_associativity) is left.
+You can set this yourself, but you cannot override built-in operators.
 
 ```haskell
-f <| x = f x
+(?) : Maybe a -> a -> a
+(?) maybe default =
+  Maybe.withDefault default maybe
 
-infixr 0 <|
+infixr 9 ?
 ```
 
 Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
@@ -229,8 +230,8 @@ dot' =
     |> scale 2
 ```
 
-Historical note: this is borrowed from F#, inspired by Unix pipes,
-improving upon Haskell&rsquo;s `($)`.
+Historical note: this is borrowed from F#, inspired by Unix pipes.
+
 
 ### Let Expressions
 
