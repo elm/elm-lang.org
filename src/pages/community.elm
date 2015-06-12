@@ -82,14 +82,20 @@ tweet about weird stuff with that one sometimes.
 ## Real Life
 
 [Evan Czaplicki](http://github.com/evancz) will periodically organize [Elm user
-group](http://www.meetup.com/Elm-user-group-SF/) meetups in SF to talk about
-language design or discuss upcoming features and challenges. Email the mailing
-list know if you want to give a talk or organize more frequent meetings!
+group](http://www.meetup.com/Elm-user-group-SF/) meetups in SF to learn and
+work on projects together. The format is great for supporting new users and
+encouraging interesting projects!
 
-There are also a ton of Elm folks on the East coast, so Boston and New York
-would both be great places for meetups. The European community is also quite
-strong. We had [Elm Workshop](https://www.youtube.com/channel/UCzbnVYNyCwES9u3dqYZ-0WQ) in 2013
-with speakers and attendees from all over Europe, so more of this!
+Think about organizing meetings in your city, it is fun!
+
+There are a ton of Elm folks on the East coast, so Boston and New York would
+both be great places for meetups. The European community is also quite strong,
+London in particular it seems. We had [Elm Workshop][workshop] in 2013
+with speakers and attendees from all over Europe, so I think it is worth a
+shot!
+
+[workshop]: https://www.youtube.com/channel/UCzbnVYNyCwES9u3dqYZ-0WQ
+
 
 ## Contribute
 
