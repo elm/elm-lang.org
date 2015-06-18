@@ -155,6 +155,7 @@ html =
       ]
   , "larger examples" =>
       [ "dynamic list" => Foreign "https://github.com/evancz/elm-architecture-tutorial/"
+      , "sign up" ==> "sign-up"
       , "todo list" => Foreign "https://github.com/evancz/elm-todomvc"
       ]
   ]
