@@ -47,7 +47,7 @@ isLong book =
   book.pages > 400
 ```
 
-In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is defenitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that its a floating point number.
+In the `averageNameLength` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `averageNameLength` function is defenitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that its a floating point number.
 
 The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
 
