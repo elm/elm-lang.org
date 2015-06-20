@@ -169,6 +169,7 @@ redirects =
     ++
     [ "Blog.elm" ==> "/blog"
     , "Community.elm" ==> "/community"
+    , "Elm.elm" ==> "/"
     , "Examples.elm" ==> "/examples"
     , "Get-Started.elm" ==> "/docs"
     , "Install.elm" ==> "/install"
@@ -224,6 +225,6 @@ versionRedirect version =
       "blog/announce/" ++ version ++ ".elm"
 
     new =
-      "/blog/announce/" ++ version ++ ".elm"
+      "/blog/announce/" ++ version
   in
     Utf8.fromString old ==> Utf8.fromString new
