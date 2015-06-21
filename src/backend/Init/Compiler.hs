@@ -57,10 +57,12 @@ compile interfaces elmSource =
           jsonErr Compiler.dummyDealiaser
               (Compiler.parseDependencies elmSource)
 
-      let (dealiaser, _warnings, either) =
-            Compiler.compile "evancz" "elm-lang" True elmSource interfaces
+      let context = Compiler.Context "evancz" "elm-lang" True False
 
-      (_, jsSource) <- jsonErr dealiaser either
+      let (dealiaser, _warnings, result) =
+            Compiler.compile context elmSource interfaces
+
+      (Compiler.Result _ _ jsSource) <- jsonErr dealiaser result
 
       return (Module.nameToString name, jsSource)
 
