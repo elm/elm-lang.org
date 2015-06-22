@@ -61,7 +61,7 @@ gets updated and [elm-html][] takes care of rendering the changes efficiently.
 This means values flow through an Elm program in only one direction, something
 like this:
 
-![Signal Graph Summary](/assets/diagrams/signal-graph-summary.png)
+<img src="/assets/diagrams/signal-graph-summary.png" alt="Signal Graph Summary" style="width: 100%;"/>
 
 The blue part is our core Elm program which is exactly the model/update/view
 pattern we have been discussing so far. When programming in Elm, you can
