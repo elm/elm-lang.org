@@ -23,6 +23,7 @@ blog = """
 
 ### Articles
 
+ * [Rethinking Type Errors](/blog/rethinking-type-errors)
  * [Time Travel made Easy](/blog/time-travel-made-easy)
  * [Blazing Fast HTML](/blog/blazing-fast-html)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
@@ -37,22 +38,23 @@ blog = """
 
 ### Release Notes
 
+* <code>[0.15.1][151]            &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Dramatically improved error messages
 * <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
 * <code>[0.14.1][141]            &nbsp; Jan 2015 &nbsp; </code>HTML through main
 * <code>[0.14][14]        &nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Package manager, parallel builds, JSON
-* <code>[0.13][13]        &nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Elm Reactor
+* <code>[0.13][13]        &nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Debugging with elm-reactor
 * <code>[0.12.3][123]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>3D rendering with WebGL
 * <code>[0.12.1][121]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast Immutable Arrays
 * <code>[0.12][12]        &nbsp; &nbsp; Mar &nbsp; &nbsp; &nbsp; &nbsp;</code>Interactive UI Elements
-* <code>[0.11][11]        &nbsp; &nbsp; Jan 2014 &nbsp; </code>Ports: drastically improved FFI
-* <code>[0.10.1][101]            &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>elm-get integration
+* <code>[0.11][11]        &nbsp; &nbsp; Jan 2014 &nbsp; </code>Drastically improved FFI with ports
+* <code>[0.10.1][101]            &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Package manager integration
 * <code>[0.10][10]        &nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Strings, Colors, Operators
 * <code>[0.9][9]    &nbsp;&nbsp; &nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast and reliable type inference
 * <code>[0.8][8]    &nbsp;&nbsp; &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>HTML/JS integration
-* <code>[0.7.1][71]        &nbsp;&nbsp; Feb &nbsp; &nbsp; &nbsp; &nbsp;</code>Touch, Either, Keyboard
+* <code>[0.7.1][71]        &nbsp;&nbsp; Feb &nbsp; &nbsp; &nbsp; &nbsp;</code>Libraries for touch, either, and keyboard
 * <code>[0.7][7]    &nbsp;&nbsp; &nbsp; Jan 2013 &nbsp; </code>Extensible records
 * <code>[0.6][6]    &nbsp;&nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Whitespace sensitivity
-* <code>[0.5][5]    &nbsp;&nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Dictionaries, Sets, and Automata
+* <code>[0.5][5]    &nbsp;&nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Libraries for dictionaries, sets, and automata
 * <code>[0.4][4]    &nbsp;&nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Markdown
 * <code>0.3.6              &nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>JSON support
 * <code>0.3.5              &nbsp;&nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>JavaScript FFI
@@ -79,6 +81,7 @@ blog = """
   [14]: /blog/announce/0.14
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
   [15]: /blog/announce/0.15
+  [151]: /blog/rethinking-type-errors
 
 ### Conference Videos
 
