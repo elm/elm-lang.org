@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro|Source+Code+Pro);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic|Source+Code+Pro);
 
 html, head, body {
   margin: 0;
@@ -6,13 +6,14 @@ html, head, body {
 }
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   color: #293c4b;
 }
 
 h1, h2, h3, h4 {
   margin-top: 1.2em;
   margin-bottom: 0.8em;
+  font-weight: normal;
 }
 
 p {
