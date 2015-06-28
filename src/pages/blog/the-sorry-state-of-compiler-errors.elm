@@ -48,7 +48,7 @@ excited about our progress so far.
 
 This post is going to go through a couple concrete user experience problems
 that show up in every compiler I have used, showing how Elm 0.15.1 is starting
-to improve the sorry state of compiler errors!
+to improve the sorry state of compiler errors.
 
 
 ## Finding the Relevant Code
