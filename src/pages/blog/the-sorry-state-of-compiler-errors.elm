@@ -31,6 +31,8 @@ image url =
 
 content = """
 
+<span style="color: red;">DRAFT - NOT FOR DISTRIBUTION</span>
+
 Folks who prefer dynamicly-typed languages are generally of the opinion that
 **working with compiler error messages sucks**. Now before anyone goes into a
 tired treatise about the virtues and benefits of types, think about the actual
