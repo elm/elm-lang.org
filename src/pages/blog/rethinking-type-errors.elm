@@ -6,21 +6,21 @@ import Center
 
 
 port title : String
-port title = "Rethinking Type Errors in Elm"
+port title = "The Sorry State of Compiler Errors"
 
 
 main =
   Blog.blog
-    "Rethinking Type Errors in Elm"
-    "How small tweaks made a huge difference"
+    "The Sorry State of Compiler Errors"
+    ""
     Blog.evan
     (Blog.Date 2015 6 29)
     [ Center.markdown "600px" content
-    , image "/assets/blog/error-messages/arg.png"
-    , Center.markdown "600px" argComment
+    , image "/assets/blog/error-messages/naming.png"
+    , Center.markdown "600px" formattingComment
+    , image "/assets/blog/error-messages/missing-field.png"
+    , Center.markdown "600px" hintComment
     , image "/assets/blog/error-messages/list.png"
-    , Center.markdown "600px" listComment
-    , image "/assets/blog/error-messages/if.png"
     , Center.markdown "600px" rest
     ]
 
@@ -31,121 +31,202 @@ image url =
 
 content = """
 
-When people start out with typed languages, they often feel antagonized by the
-compiler.
+Folks who prefer dynamicly-typed languages are generally of the opinion that
+**working with compiler error messages sucks**. Now before anyone goes into a
+tired treatise about the virtues and benefits of types, think about the actual
+concern here. A lot of compiler error messages actually *do* suck. Some of them
+suck quite a lot. What happens when we accept that there is a problem here and
+try to do better?
 
-> Check out this program I wrote!<br>`...NO`<br>Does it work if I change
-this?<br>`...NO`<br>What if I mess with this thing?<br>`...NO`<br>Maybe you want
-this?<br>`......YES`
+Ease of use is a major priority in Elm, so I recently took a couple weeks to
+really focus on this. I learned that **you can make a shockingly huge
+difference just by thinking about the user experience**. I am not ready to
+claim that we totally solved things and have the best error messages ever, but
+[many](https://twitter.com/rtfeldman/status/614552569327697921)
+[folks](https://twitter.com/andrewdotnich/status/613237997014638592) are very
+excited about our progress so far.
 
-Why is the compiler such an unhelpful jerk?!
-
-Ease-of-use is a major priority in Elm, so I wanted to do better. I had heard
-that improving error messages in type inferred languages was a very hard
-*technical* problem, but as I worked on it, I found that **you can make massive
-improvements by reframing it as a *user experience* problem.** It is truly
-shocking how much better error messages get when you think about the fact that
-they are going to be read by a human being.
-
-So as of Elm 0.15.1 our error messages are dramatically improved. This means
-Elm is easier than ever to learn and use!
-
-
-## The New Messages
-
-Lets look at a couple examples that illustrate some key aspects of the new
-error messages.
-
-First, lets try calling a function with a bad argument.
-
-"""
+This post is going to go through a couple concrete user experience problems
+that show up in every compiler I have used, showing how Elm 0.15.1 is starting
+to improve the sorry state of compiler errors!
 
 
-argComment = """
+## Finding the Relevant Code
 
-**The error shows the code exactly as you wrote it.** It displays the line
-number and underlines the root of the issue. Having a one-to-one mapping
-between code and error messages means it is much easier to hop between these
-two contexts, no mental translations are necessary! Turns out clang uses the
-same technique to great effect.
+Before you can resolve an error, you need to find the code causing it. Seems pretty
+obvious.
 
-Okay, now lets try to have a list with a mix of types that are not wrapped up
-in a [tagged union](/guide/model-the-problem#tagged-unions).
+With many compilers you get a location like `program.x:43:22` that you have to
+decipher. Where is that file? Which one is the line? Which is the column? Okay,
+let me scan through my code. You also often get a pretty-printed version of the
+problematic code, but it looks nothing like the code you wrote. You again need
+to do a mental transformation to find it. I would put this at 3 to 10 seconds
+under normal circumstances.
+
+So a lot of time is lost:
+
+  * mentally translating row and column numbers into an actual file position
+  * mapping pretty-printed code onto actual code to verify that position
+
+The new Elm 0.15.1 error messages combat both problems directly.
 
 """
 
 
-listComment = """
+formattingComment = """
 
-**Every message has a useful hint.** In this case, we can tell you exactly
-which element of the list is causing issues. I found that generating such
-specific error messages required no significant changes to the type inference
-algorithm and imposed no noticable performance cost. We just add an extra bit
-of info to each type constraint. I was shocked to find out that such huge
-improvements could be made nearly for free.
+**The error shows the code exactly as you wrote it.** In this example, we have
+some code to view users as HTML, but we misspelled `List.map`. The error
+message shows the exact code you wrote along *and* the corresponding line
+numbers. Users can ask “does this look like that?” without really needing much
+concious analysis of lines and columns and code.
 
-Now lets see an example where an `if` leads us to two different types.
+This alone makes a huge difference in how it *feels* to work with a compiler.
+I have met a few folks switched from gcc to clang mostly because of a feature
+like this!
+
+
+## Helpful Hints
+
+Now that the error has been located, we need to fix it. But what is actually
+going wrong?
+
+With many compilers, you get a bunch of poorly formatted gobbledygook. It tells
+you about what went wrong during *compilation*. Saying “these two types do not
+match” is exactly went wrong for the compiler, but how the hell does that relate
+to my code?! Again, you are doing a mental translation from “the compiler is
+angry” to some specific chunk of code.
+
+The Elm 0.15.1 messages try to cut this traslation time down to as short as
+possible by providing specific context and hints.
+
+"""
+
+
+hintComment = """
+
+**Every message has a useful hint.** In this case, we tell you that the
+first argument to function `isOver50` is causing problems and it has to do with
+missing a field named `age`. Pretty spot on!
+
+This is actually a pretty common type of bug when you are doing refactors in
+a decent size codebase. You maybe change the shape of a “person” but forget
+about one or two functions that rely on the old definition. In this case, maybe
+we decided that our code would be better overall if we tracked a person’s `age`
+a bit differently.
+
+This “bugs by refactor” risk exists in pretty much any language to some extent.
+In [the equivalent JS code][js], you would just have to hope that tests catch
+this. In fact, the JS version of `isOver50` thinks an ageless person is under
+50, a very sneaky bug! You would eventually find out about the missing `age`
+field, but probably weeks later in a bug report. The risks introduced by a
+refactor of thing in JS often means that people just refactor less, even if it
+is “the right thing to do” by other metrics.
+
+[js]: http://jsbin.com/xaheloboti/1/edit?js,console
+
+Point is, having this extra line of defence in Elm is only truly nice if it
+*feels* nice to use, and we think adding extra context makes a huge difference.
+Whether you prefer static or dynamic languages, nobody wants a confusing and
+rude gatekeeper.
+
+> **Technical Note:** I found that generating such specific error messages
+required no significant changes to the type inference algorithm and imposed no
+noticable performance cost. We just add an extra bit of info to each type
+constraint. I was shocked to find out that such huge improvements could be made
+nearly for free.
+
+
+## Colors and Formatting
+
+So far we have two pretty solid improvements, but we can do better by thinking
+about the experience of actually reading the error message.
+
+When we read code, **color is a huge usability improvement.** It provides some
+redundant information that helps us recognize patterns more quickly. This can
+definitely help us emphasize certain things and make skimming easier. I mean,
+just check out how I am using bold phrases to draw your attention to certain
+ideas!
+
+When we read prose, **layout has a major impact on our experience.** Reading
+10 pages of text with no paragraph breaks would just be hard. So whitespace
+can help improve clarity. Furthermore, **context helps us understand what is
+happening.** When reading a technical text, it is always easier if the author
+has defined the terms they are using and the specific issue they are
+addressing. It makes the details much more concrete.
+
+Again, lets look at how the Elm 0.15.1 messages use these observations to
+improve error messages. This example tries to make a list of user pictures, but
+we mix up HTML and raw strings.
 
 """
 
 
 rest = """
 
-**Hints explain *why* something is an error.** In this case, the error explains
-that both branches of an `if` need to result in the same type of value, guiding
-you towards a fix.
+We use color in two ways here. The red draws your attention to the problem. It
+is very easy to scan for that and filter out all other information. The blue
+serves as a visual separator between error messages. I just want to look at one
+message at a time, and these lines make sure I can easily find a single chunk.
 
-These improvements are live in [the online editor](/try), so try playing with
-[the examples](/examples) to see what it feels like when your error messages
-are this nice!
-
-
-## Help us improve!
-
-We made a lot of progress with Elm 0.15.1 but we can definitely keep improving!
-This is why we set up the [error-message-catalog][emc]. It is a collection of
-Elm programs that trigger error messages, and it has already been a huge help
-in finding problems and patterns and evaluating improvements.
-
-[emc]: https://github.com/evancz/error-message-catalog
-
-So if you run into an error message that is confusing, open an issue about it!
-The [error-message-catalog][emc] is all about making your life better, and your
-feedback makes that possible!
+We use layout to reveal detail as needed. General context is *above* the code.
+It is very short and hints at what is wrong in the code snippet. Sometimes that
+will be enough, which is great! If not, more specific hints are *below* the
+code. Here we provide more hints and context. We also try to frontload the best
+hints, so you read them first.
 
 
 ## Towards an IDE
 
-Elm 0.15.1 introduces the `--report` flag to elm-make, allowing you to ask for
-all your error messages and warnings to be spit out as JSON. The hope is that
-an editor or IDE can use the compiler as a background service. I know elm-make
-is quite fast, so perhaps it will be fast enough to support a proper IDE
-experience. I’m not sure, but now we have the foundation to try it out and see!
+So we have seen a bunch of ways to improve life in the terminal, but I began
+this project with the goal of building compiler support for nice editor and IDE
+features. We can do a lot on the terminal, but features like “jump to
+definition” and red squigles in your actual code are a whole ’nother level of
+ease of use. Elm 0.15.1 makes some progress on that too! When you add the
+`--report=json` flag, our build tool can now spit out JSON error messages that
+are easy to read in to any editor plugin out there.
+
+Joseph Hager has actually started implementing some of these things in his
+[elm-vim][] plugin.
+
+[elm-vim]: https://github.com/ajhager/elm-vim
+
+VIDEO DEMO
+
+I have done a bit in [the online editor](/try) as well to hint at what is
+possible. So when you try out any of [the examples](/examples) you will see
+hints in the top left linking you to documentation and error messages with a
+“jump to error” button that makes finding the relevant code even easier!
+
+I am very excited to see the community start getting these features working in
+[all the Elm editor plugins](/install) that are out there! If you this
+something you get excited about, there has never been a better time to start
+collaborating on these tools. I am looking forward to a nice feedback loop
+between me and the editor developers so I can start supporting more cool editor
+features with the compiler and core tools.
 
 
-## Stumbling Upon Success
+## Final Thoughts
 
-Like I said at the beginning, the key was reframing a *technical* problem as a
-*user experience* problem. As I write this up, I am realizing that we use this
-technique all the time in Elm, whether its the time-traveling debugger or
-automatic semantic versioning. When you reframe things around the user, you
-can create experiences that seemed impossible before.
+It is kind of shocking how much better things get when you focus on the user.
+I mean, on some level, it is not shocking at all though. Most terminal tools
+came into existence well before our industry really started focusing on making
+apps and websites feel great for their users. We all collectively realized that
+a hard to use app or website is bad for business, but the same lessons have not
+really percolated down to tools like compilers and build tools yet. Hopefully
+I have demonstrated that it is not too hard to do better!
 
-In this case, the key insights were made possible by airplanes. International
-flights in particular create magical mental state where programming becomes way
-easier. I imagine it is like temporarily becoming the programming version of a
-[rap god](https://youtu.be/XbGs_qK2PQA). So whenever I go on a long flight, I
-work on a big refactoring project. Something that would resolve some
-longstanding issue, be acheivable without internet access, and generally be
-fun.
+Speaking of doing better, we set up the [error-message-catalog][emc] to keep
+improving in Elm. It is collection of Elm programs that trigger error messages.
+It has already been a huge help in finding problems and patterns and evaluating
+improvements. So if you run into an error message that is confusing, open an
+issue about it! The [error-message-catalog][emc] is all about making your life
+better, and your feedback makes that possible!
 
-On a recent trip to Beijing, I decided to spit out all error messages as JSON.
-I wanted these messages to be available for editors or IDEs to do red underlines
-on errors. That would be pretty cool! Thanks to China’s Great Firewall, it
-turned out that my internet access was actually quite limited for a whole week.
-Great news for me!
+[emc]: https://github.com/evancz/error-message-catalog
 
-...
+Now go try out Elm’s new error messages in [the online editor](/examples) or
+[on your machine](/install), and see what it feels like!
 
 
 """
