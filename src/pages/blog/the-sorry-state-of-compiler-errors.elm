@@ -60,13 +60,10 @@ With many compilers you get a location like `program.x:43:22` that you have to
 decipher. Where is that file? Which one is the line? Which is the column? Okay,
 let me scan through my code. You also often get a pretty-printed version of the
 problematic code, but it looks nothing like the code you wrote. You again need
-to do a mental transformation to find it. I would put this at 3 to 10 seconds
-under normal circumstances.
+to do a mental transformation to find it. So a lot of time is lost:
 
-So a lot of time is lost:
-
-  * mentally translating row and column numbers into an actual file position
-  * mapping pretty-printed code onto actual code to verify that position
+  * converting row and column numbers into an actual file position
+  * converting pretty-printed code onto actual code to verify that position
 
 The new Elm 0.15.1 error messages combat both problems directly.
 
@@ -95,7 +92,7 @@ With many compilers, you get a bunch of poorly formatted gobbledygook. It tells
 you about what went wrong during *compilation*. Saying “these two types do not
 match” is exactly went wrong for the compiler, but how the hell does that relate
 to my code?! Again, you are doing a mental translation from “the compiler is
-angry” to some specific chunk of code.
+angry” to something actually useful. Why not try to do that automatically?
 
 The Elm 0.15.1 messages try to cut this traslation time down to as short as
 possible by providing specific context and hints.
@@ -111,23 +108,21 @@ missing a field named `age`. Pretty spot on!
 
 This is actually a pretty common type of bug when you are doing refactors in
 a decent size codebase. You maybe change the shape of a “person” but forget
-about one or two functions that rely on the old definition. In this case, maybe
-we decided that our code would be better overall if we tracked a person’s `age`
-a bit differently.
+about one or two functions that rely on the old definition.
 
-This “bugs by refactor” risk exists in pretty much any language to some extent.
-In [the equivalent JS code][js], you would just have to hope that tests catch
-this. In fact, the JS version of `isOver50` thinks an ageless person is under
-50, a very sneaky bug! You would eventually find out about the missing `age`
-field, but probably weeks later in a bug report. The risks introduced by a
-refactor of thing in JS often means that people just refactor less, even if it
-is “the right thing to do” by other metrics.
+This “bugs by refactor” risk exists in pretty much every language to some
+extent. In [the equivalent JS code][js], you would just have to hope that tests
+catch this. In fact, the JS version of `isOver50` thinks an ageless person is
+under 50, a very sneaky bug! You would eventually find out about the missing
+`age` field, but probably weeks later in a bug report. The risks introduced by
+a refactor of thing in JS often means that people just refactor less, even if
+it is “the right thing to do” by other metrics.
 
 [js]: http://jsbin.com/xaheloboti/1/edit?js,console
 
 Point is, having this extra line of defence in Elm is only truly nice if it
 *feels* nice to use, and we think adding extra context makes a huge difference.
-Whether you prefer static or dynamic languages, nobody wants a confusing and
+Whether you are using a compiler or interpreter, nobody wants a confusing and
 rude gatekeeper.
 
 > **Technical Note:** I found that generating such specific error messages
@@ -214,7 +209,7 @@ came into existence well before our industry really started focusing on making
 apps and websites feel great for their users. We all collectively realized that
 a hard to use app or website is bad for business, but the same lessons have not
 really percolated down to tools like compilers and build tools yet. Hopefully
-I have demonstrated that it is not too hard to do better!
+I have demonstrated that we can do better!
 
 Speaking of doing better, we set up the [error-message-catalog][emc] to keep
 improving in Elm. It is collection of Elm programs that trigger error messages.
@@ -226,7 +221,7 @@ better, and your feedback makes that possible!
 [emc]: https://github.com/evancz/error-message-catalog
 
 Now go try out Elm’s new error messages in [the online editor](/examples) or
-[on your machine](/install), and see what it feels like!
+[on your machine](/install). See what it feels like!
 
 
 """
