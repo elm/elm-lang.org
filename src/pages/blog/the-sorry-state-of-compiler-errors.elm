@@ -31,8 +31,6 @@ image url =
 
 content = """
 
-<span style="color: red;">DRAFT - NOT FOR DISTRIBUTION</span>
-
 Folks who prefer dynamicly-typed languages are generally of the opinion that
 **working with compiler error messages sucks**. Now before anyone goes into a
 tired treatise about the virtues and benefits of types, think about the actual
@@ -182,14 +180,24 @@ ease of use. Elm 0.15.1 makes some progress on that too! When you add the
 `--report=json` flag, our build tool can now spit out JSON error messages that
 are easy to read in to any editor plugin out there.
 
-Joseph Hager has actually started implementing some of these things in his
-[elm-vim][] plugin.
+Joseph Hager has already done some amazing work bringing this information into
+his [elm-vim][] plugin:
 
 [elm-vim]: https://github.com/ajhager/elm-vim
 
-VIDEO DEMO
+<iframe
+  src="https://player.vimeo.com/video/132107269?color=49c180&title=0&byline=0&portrait=0"
+  width="500"
+  height="281"
+  frameborder="0"
+  style="padding: 0 50px;"
+  webkitallowfullscreen
+  mozallowfullscreen
+  allowfullscreen></iframe>
 
-I have done a bit in [the online editor](/try) as well to hint at what is
+(This is really exciting, great job!)
+
+I have also done a bit in [the online editor](/try) as well to hint at what is
 possible. So when you try out any of [the examples](/examples) you will see
 hints in the top left linking you to documentation and error messages with a
 “jump to error” button that makes finding the relevant code even easier!
