@@ -12,7 +12,7 @@ port title = "The Sorry State of Compiler Errors"
 main =
   Blog.blog
     "The Sorry State of Compiler Errors"
-    ""
+    "and how we can do better"
     Blog.evan
     (Blog.Date 2015 6 29)
     [ Center.markdown "600px" content
@@ -76,13 +76,13 @@ formattingComment = """
 
 **The error shows the code exactly as you wrote it.** In this example, we have
 some code to view users as HTML, but we misspelled `List.map`. The error
-message shows the exact code you wrote along *and* the corresponding line
-numbers. Users can ask “does this look like that?” without really needing much
-concious analysis of lines and columns and code.
+message shows the exact code you wrote *and* the corresponding line numbers.
+Users can ask “does this look like that?” without really needing much conscious
+analysis of lines and columns and code.
 
 This alone makes a huge difference in how it *feels* to work with a compiler.
-I have met a few folks switched from gcc to clang mostly because of a feature
-like this!
+I have met a few folks who switched from gcc to clang mostly because of a
+feature like this!
 
 
 ## Helpful Hints
@@ -96,16 +96,16 @@ match” is exactly went wrong for the compiler, but how the hell does that rela
 to my code?! Again, you are doing a mental translation from “the compiler is
 angry” to something actually useful. Why not try to do that automatically?
 
-The Elm 0.15.1 messages try to cut this traslation time down to as short as
-possible by providing specific context and hints.
+The Elm 0.15.1 messages try to minimize this translation time by providing
+specific context and hints.
 
 """
 
 
 hintComment = """
 
-**Every message has a useful hint.** In this case, we tell you that the
-first argument to function `isOver50` is causing problems and it has to do with
+**Every message has a useful hint.** In this case, we learn that the first
+argument to function `isOver50` is causing problems and it has to do with
 missing a field named `age`. Pretty spot on!
 
 This is actually a pretty common type of bug when you are doing refactors in
@@ -122,14 +122,14 @@ it is “the right thing to do” by other metrics.
 
 [js]: http://jsbin.com/xaheloboti/1/edit?js,console
 
-Point is, having this extra line of defence in Elm is only truly nice if it
-*feels* nice to use, and we think adding extra context makes a huge difference.
+Point is, having this extra line of defense in Elm is only truly nice if it
+*feels* nice to use, and I think adding extra context makes a huge difference.
 Whether you are using a compiler or interpreter, nobody wants a confusing and
 rude gatekeeper.
 
 > **Technical Note:** I found that generating such specific error messages
 required no significant changes to the type inference algorithm and imposed no
-noticable performance cost. We just add an extra bit of info to each type
+noticeable performance cost. I just added an extra bit of info to each type
 constraint. I was shocked to find out that such huge improvements could be made
 nearly for free.
 
@@ -169,8 +169,7 @@ message at a time, and these lines make sure I can easily find a single chunk.
 We use layout to reveal detail as needed. General context is *above* the code.
 It is very short and hints at what is wrong in the code snippet. Sometimes that
 will be enough, which is great! If not, more specific hints are *below* the
-code. Here we provide more hints and context. We also try to frontload the best
-hints, so you read them first.
+code.
 
 
 ## Towards an IDE
@@ -178,7 +177,7 @@ hints, so you read them first.
 So we have seen a bunch of ways to improve life in the terminal, but I began
 this project with the goal of building compiler support for nice editor and IDE
 features. We can do a lot on the terminal, but features like “jump to
-definition” and red squigles in your actual code are a whole ’nother level of
+definition” and red squiggles in your actual code are a whole ’nother level of
 ease of use. Elm 0.15.1 makes some progress on that too! When you add the
 `--report=json` flag, our build tool can now spit out JSON error messages that
 are easy to read in to any editor plugin out there.
@@ -196,11 +195,10 @@ hints in the top left linking you to documentation and error messages with a
 “jump to error” button that makes finding the relevant code even easier!
 
 I am very excited to see the community start getting these features working in
-[all the Elm editor plugins](/install) that are out there! If you this
-something you get excited about, there has never been a better time to start
-collaborating on these tools. I am looking forward to a nice feedback loop
-between me and the editor developers so I can start supporting more cool editor
-features with the compiler and core tools.
+[all the Elm editor plugins](/install) that are out there! If this is something
+you get excited about, there has never been a better time to start
+collaborating on these tools. I hope we will see nice feedback loop between
+editor features and compiler features!
 
 
 ## Final Thoughts
@@ -213,17 +211,15 @@ a hard to use app or website is bad for business, but the same lessons have not
 really percolated down to tools like compilers and build tools yet. Hopefully
 I have demonstrated that we can do better!
 
-Speaking of doing better, we set up the [error-message-catalog][emc] to keep
-improving in Elm. It is collection of Elm programs that trigger error messages.
+Speaking of doing better, I set up the [error-message-catalog][emc] to keep
+improving Elm. It is a collection of Elm programs that trigger error messages.
 It has already been a huge help in finding problems and patterns and evaluating
 improvements. So if you run into an error message that is confusing, open an
-issue about it! The [error-message-catalog][emc] is all about making your life
-better, and your feedback makes that possible!
+issue about it. Your feedback will help us keep improving!
 
 [emc]: https://github.com/evancz/error-message-catalog
 
 Now go try out Elm’s new error messages in [the online editor](/examples) or
 [on your machine](/install). See what it feels like!
-
 
 """
