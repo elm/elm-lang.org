@@ -118,7 +118,9 @@ bullets =
     , p []
         [ text "Semantic versioning is automatically enforced for all "
         , a [href "http://package.elm-lang.org/"] [text "community libraries"]
-        , text ". Elm's package manager detects any API changes, so breaking API changes never sneak into patches. You can upgrade with confidence."
+        , text ". Elm's package manager "
+        , a [href "https://twitter.com/czaplic/status/601826927838650369"] [text "detects any API changes"]
+        , text ", so breaking API changes never sneak into patches. You can upgrade with confidence."
         ]
     ]
   , [ h2 [] [text "Clean syntax"]
