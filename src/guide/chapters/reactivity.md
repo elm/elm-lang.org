@@ -20,7 +20,7 @@ Signals route events in the core logic of your application, which should use
 [start-app][] package, which is just a very simple wrapper around signals.
 
 You can think of signals as setting up a static [processing network][kpn],
-where a fixed set of inputs receive messages that propegate through the
+where a fixed set of inputs receive messages that propagate through the
 network, ultimately leading to outputs that handle stuff like efficiently
 rendering things on screen.
 
@@ -33,7 +33,7 @@ This is actually the shape of the processing network in most Elm programs.
 All of the state of our application lives in the `foldp`, and we mainly use
 signals on the borders to route incoming and outgoing events.
 
-> **Note:** You are probably thinking, &ldquo;All the state in one place?! What about encapsulation?!?!&rdquo; Before you close the tab, think about this like a database person: the hardest problems when managing state is **consistency**. How do I ensure that making a change in one component is properly propegated everywhere else? How do I know this component is looking at the latest state? As you have more and more components in your system, these questions become more and more complex. In your personal experience with JS, state inconsistencies are probably the primary source of bugs.
+> **Note:** You are probably thinking, &ldquo;All the state in one place?! What about encapsulation?!?!&rdquo; Before you close the tab, think about this like a database person: the hardest problems when managing state is **consistency**. How do I ensure that making a change in one component is properly propagated everywhere else? How do I know this component is looking at the latest state? As you have more and more components in your system, these questions become more and more complex. In your personal experience with JS, state inconsistencies are probably the primary source of bugs.
 
 **In Elm we separate consistency from modularity.** The big `foldp` is a
 centralized data store that ensures consistency, and [the Elm Architecture][arch]

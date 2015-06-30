@@ -138,7 +138,7 @@ rendering *faster* overall. It is crazy. Furthermore, `view` is a plain old
 function so we can get the full power of Elm&rsquo;s module system, test
 frameworks, and libraries when creating views.
 
-This pattern is the essense of architecting Elm programs. Every example we see
+This pattern is the essence of architecting Elm programs. Every example we see
 from now on will be a slight variation on this basic pattern: `Model`, `update`,
 `view`.
 
@@ -490,7 +490,7 @@ viewCounter address (id, model) =
 ```
 
 In our `viewCounter` function, we construct the `Counter.Context` to pass in
-all the nesessary forwarding addresses. In both cases we annotate each
+all the necessary forwarding addresses. In both cases we annotate each
 `Counter.Action` so that we know which counter to modify or remove.
 
 
