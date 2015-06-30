@@ -14,7 +14,7 @@ main =
     "The Sorry State of Compiler Errors"
     "and how we can do better"
     Blog.evan
-    (Blog.Date 2015 6 29)
+    (Blog.Date 2015 6 30)
     [ Center.markdown "600px" content
     , image "/assets/blog/error-messages/naming.png"
     , Center.markdown "600px" formattingComment
