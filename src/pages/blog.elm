@@ -23,7 +23,7 @@ blog = """
 
 ### Articles
 
- * [The Sorry State of Compiler Errors](/blog/the-sorry-state-of-compiler-errors)
+ * [Compiler Errors for Humans](/blog/compiler-errors-for-humans)
  * [Time Travel made Easy](/blog/time-travel-made-easy)
  * [Blazing Fast HTML](/blog/blazing-fast-html)
  * [Elm&rsquo;s Time Traveling Debugger](http://debug.elm-lang.org)
@@ -81,7 +81,7 @@ blog = """
   [14]: /blog/announce/0.14
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
   [15]: /blog/announce/0.15
-  [151]: /blog/the-sorry-state-of-compiler-errors
+  [151]: /blog/compiler-errors-for-humans
 
 ### Conference Videos
 

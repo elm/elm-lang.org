@@ -6,13 +6,13 @@ import Center
 
 
 port title : String
-port title = "The Sorry State of Compiler Errors"
+port title = "Compiler Errors for Humans"
 
 
 main =
   Blog.blog
-    "The Sorry State of Compiler Errors"
-    "and how we can do better"
+    "Compiler Errors for Humans"
+    "Rethinking the terminal UX in Elm 0.15.1"
     Blog.evan
     (Blog.Date 2015 6 30)
     [ Center.markdown "600px" content
