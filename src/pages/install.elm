@@ -25,7 +25,7 @@ install = """
 
   * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.pkg)
   * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.exe)
-  * Anywhere &mdash; [npm installer][npm] or [build from source][build]
+  * Anywhere &mdash; [npm installer][npm] (not yet updated to 0.15.1) or [build from source][build]
 
 [npm]: https://www.npmjs.com/package/elm
 [build]: https://github.com/elm-lang/elm-platform
