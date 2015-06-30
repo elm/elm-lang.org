@@ -31,7 +31,7 @@ image url =
 
 content = """
 
-Folks who prefer dynamicly-typed languages are generally of the opinion that
+Folks who prefer dynamically-typed languages are generally of the opinion that
 **working with compiler error messages sucks**. Now before anyone goes into a
 tired treatise about the virtues and benefits of types, think about the actual
 concern here. A lot of compiler error messages actually *do* suck. Some of them
