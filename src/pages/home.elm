@@ -174,7 +174,7 @@ examples =
       "https://github.com/evancz/elm-todomvc"
   , example
       "Home/DreamWriter"
-      "http://dreamwriter.io"
+      "http://dreamwriter.co"
       "rtfeldman"
       "https://github.com/rtfeldman/dreamwriter"
   , example
