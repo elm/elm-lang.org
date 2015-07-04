@@ -27,8 +27,11 @@ install = """
   * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.exe)
   * Anywhere &mdash; [npm installer][npm] (not yet updated to 0.15.1) or [build from source][build]
 
+Afterwards, visit the [get started page][get-started].
+
 [npm]: https://www.npmjs.com/package/elm
 [build]: https://github.com/elm-lang/elm-platform
+[get-started]: http://elm-lang.org/Get-Started.elm
 
 ## Syntax Highlighting
 
