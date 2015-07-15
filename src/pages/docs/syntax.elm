@@ -247,6 +247,19 @@ in
 Let-expressions are indentation sensitive.
 Each definition should align with the one above it.
 
+You may include type annotations in let-expressions:
+
+```haskell
+let
+    n : Int
+    n = 42
+    
+    addN : Int -> Int
+    addN a = a + n
+in
+    addN 10
+```
+
 ### Applying Functions
 
 ```haskell
