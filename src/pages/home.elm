@@ -151,7 +151,7 @@ examples =
       "Home/Mario"
       "/examples/short-mario"
       "evancz"
-      ""
+      "http://elm-lang.org/examples/short-mario"
   , example
       "Home/Elmtris"
       "http://people.cs.umass.edu/~jcollard/elmtris/"
