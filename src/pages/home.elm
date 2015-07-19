@@ -149,9 +149,9 @@ examples : List (List Html)
 examples =
   [ example
       "Home/Mario"
-      "/examples/short-mario"
+      "/examples/mario"
       "evancz"
-      ""
+      "/examples/mario"
   , example
       "Home/Elmtris"
       "http://people.cs.umass.edu/~jcollard/elmtris/"
