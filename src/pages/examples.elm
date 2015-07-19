@@ -199,8 +199,7 @@ tasks =
 games : List Section
 games =
   [ "simple" =>
-      [ "short mario" ==> "short-mario"
-      , "idiomatic mario" ==> "idiomatic-mario"
+      [ "mario" ==> "mario"
       , "adventure" ==> "adventure"
       , "pong" ==> "pong"
       ]
