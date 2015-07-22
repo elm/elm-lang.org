@@ -55,7 +55,7 @@ Making an immutable data structure fast is often a matter of figuring out
 how to represent it as some kind of tree. One way to make these trees faster
 is to increase the &ldquo;branching factor&rdquo;.
 
-<img src="/trees.png"
+<img src="/assets/diagrams/trees.png"
      style="width:500px; height:200px; display:block; margin: 0 auto;">
 
 The tree on the left has a branching factor *b* of 2. This means you need to
