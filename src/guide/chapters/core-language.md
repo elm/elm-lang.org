@@ -165,7 +165,7 @@ This can be quite handy, but when things start becoming more complicated, it is 
 
 ## Records
 
-A records is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm! Lets see some basic examples.
+A record is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm! Lets see some basic examples.
 
 
 ```haskell
