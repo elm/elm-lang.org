@@ -33,7 +33,7 @@ The `Elm.embed` function takes two arguments:
 
 That's it!
 
-Note that `Window.dimensions` and `Mouse.position` will be relative to the `<div>`, not the entire page. This means the `Stamper` code still fill the `<div>` entirely and handle clicks appropriately.
+Note that `Window.dimensions` and `Mouse.position` will be relative to the `<div>`, not the entire page. This means the `Stamper` code still fills the `<div>` entirely and handles clicks appropriately.
 
 ### Other ways to embed Elm
 
