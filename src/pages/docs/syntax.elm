@@ -149,8 +149,8 @@ Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
 For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
 
-  [exp]: /learn/Records.elm "Records in Elm"
-  [v7]:  /blog/announce/0.7.elm "Elm version 0.7"
+  [exp]: /docs/records "Records in Elm"
+  [v7]:  /blog/announce/0.7 "Elm version 0.7"
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```haskell
@@ -320,7 +320,7 @@ map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
 scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
-More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift-)
+More info can be found [here](/blog/announce/0.7#do-you-even-lift-)
 and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 
 ### Modules

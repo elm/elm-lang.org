@@ -109,7 +109,7 @@ as [Joe Collard is](https://github.com/jcollard/elm-random).
 I also added the [`Regex`](http://package.elm-lang.org/packages/elm-lang/core/latest/Regex)
 library for searching through strings. It seemed like
 a logical step after Elm [got a proper string representation in
-0.10](/blog/announce/0.10.elm). Note: I decided to call it `Regex` rather
+0.10](/blog/announce/0.10). Note: I decided to call it `Regex` rather
 than `RegExp` to distinguish between the [monstrosity that is
 regex](http://stackoverflow.com/a/1732454) and [beauty and joy of regular
 expressions](http://www.amazon.com/Introduction-Theory-Computation-Michael-Sipser/dp/0534950973).

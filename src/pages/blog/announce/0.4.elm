@@ -93,7 +93,7 @@ I had no idea such a simple addition could have such a positive impact!
 
  [1]: http://daringfireball.net/projects/markdown/dingus "Markdown"
  [2]: /edit/examples/Elements/Markdown.elm "Elm+Markdown example"
- [blog]: /edit/blog/announce/0.4.0.elm "Edit Announcement"
+ [blog]: https://github.com/elm-lang/elm-lang.org/blob/master/src/pages/blog/announce/0.4.elm
 
 ## Games: Elements, Sprites, and Textures
 

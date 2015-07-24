@@ -30,7 +30,7 @@ and `String` libraries too.
  [array]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
 
 This release also simplifies all JavaScript related libraries.
-With [the release of ports in 0.11](/blog/announce/0.11.elm), it became much
+With [the release of ports in 0.11](/blog/announce/0.11), it became much
 easier to communicate with JavaScript, so some older libraries became redundant
 and confusing. After deleting a bunch of code, [the `Json` library][json] came
 out simpler and more useful. This release also makes it possible to send

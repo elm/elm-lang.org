@@ -17,7 +17,7 @@ main =
 
 content = """
 
-[The 0.9 release](/blog/announce/0.9.elm) touched almost every part of
+[The 0.9 release](/blog/announce/0.9) touched almost every part of
 the compiler, and since then, a lot of rough patches have been discovered
 and fixed. These improvements warrant a proper release on their own, but
 there are also a number of important new features and improvements that

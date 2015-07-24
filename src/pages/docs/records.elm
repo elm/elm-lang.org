@@ -264,7 +264,7 @@ group.op [1,2] [3,4]           -- [1,2,3,4]
 I suspect that this can be used for some really cool stuff! It should
 make it possible to gain some of the flexibility of first-class modules
 and typeclasses, as described in
-[this announcement](/blog/announce/0.7.elm).
+[this announcement](/blog/announce/0.7).
 
 ## Record Types
 

@@ -42,14 +42,14 @@ Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
 [install][] and use right now.
 
 [debug]: http://debug.elm-lang.org/
-[13]: /blog/announce/0.13.elm
-[install]: /Install.elm
+[13]: /blog/announce/0.13
+[install]: /install
 
 Check out the following video to see Elm Reactor in action when debugging a
 [TodoMVC app][todo] written with [elm-html][html]:
 
 [todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
-[html]: /blog/Blazing-Fast-Html.elm
+[html]: /blog/blazing-fast-html
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
 <iframe width="600"
@@ -216,8 +216,8 @@ fun to change the size and shape of each stamp.
 Elm Reactor will work with any pure Elm project. Use it with  [elm-html][],
 [elm-webgl][], [elm-d3][], or any other renderer.
 
-[elm-html]: /blog/Blazing-Fast-Html.elm
-[elm-webgl]: /blog/announce/0.12.3.elm
+[elm-html]: /blog/blazing-fast-html
+[elm-webgl]: /blog/announce/0.12.3
 [elm-d3]: https://github.com/seliopou/elm-d3
 
 <img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-html.png">
@@ -255,7 +255,7 @@ send values out of ports, avoiding unwanted side-effects like writing to disk
 many times as we rewind. Some ports are safe to replay though, so maybe more
 nuance is needed.
 
-[ports]: /learn/Ports.elm
+[ports]: /guide/interop#ports
 
 * **Hot-swapping** - Hot-swapping lets you keep the current state of a program
 but change its future behavior. Some fast-paced Elm games may want this feature
@@ -263,7 +263,7 @@ to avoid the cost of replaying all events when swapping code. This has
 already been implemented for Elm [as described here][hotswap], so the technical
 part should be straight-forward.
 
-[hotswap]: /blog/Interactive-Programming.elm
+[hotswap]: /blog/interactive-programming
 
 * **Save Event Sequences** - Elm Reactor already saves inputs to a program. If
 you could give these inputs to someone else, you could easily file an

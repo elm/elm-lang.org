@@ -24,7 +24,7 @@ content1 = """
 The past few months have focused on making Elm great for industrial use. You
 can see this in recent releases like the [REPL](/blog/announce/Repl.elm), the
 [package manager](/blog/announce/PackageManager.elm), and the [drastically
-improved JS interop](/blog/announce/0.11.elm). But working with input elements
+improved JS interop](/blog/announce/0.11). But working with input elements
 has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-videos)
 I always get questions along the lines of, &ldquo;that
 [Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
