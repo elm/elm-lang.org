@@ -13,7 +13,7 @@ main =
 
 resizeablePaint : (Int,Int) -> Element
 resizeablePaint (w,h) =
-  fittedImage w h "/paint.jpg"
+  fittedImage w h "/imgs/paint.jpg"
 
 
 
