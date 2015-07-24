@@ -320,7 +320,7 @@ map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
 scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
 ```
 
-More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift)
+More info can be found [here](/blog/announce/0.7.elm#do-you-even-lift-)
 and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 
 ### Modules
