@@ -26,7 +26,7 @@ or Java, but with some key distinctions.
 The structure of the following document is as follows:
 
 - [Comparison with Objects](#comparison-of-records-and-objects)
-- [What is a Record?](#what-is-a-record)
+- [What is a Record?](#what-is-a-record-)
 - [Record Access](#access)
 - [Pattern Matching for Records](#pattern-matching)
 - [Updating Fields](#updating-records)
