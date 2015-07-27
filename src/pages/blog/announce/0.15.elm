@@ -267,7 +267,7 @@ we are revamping this whole API so that it is centralized and easier to learn.
 The new `Signal` library introduces the concept of a `Mailbox`.
 
 ```haskell
-type alias Mailbox =
+type alias Mailbox a =
     { address : Address a
     , signal : Signal a
     }
