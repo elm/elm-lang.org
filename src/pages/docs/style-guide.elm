@@ -50,7 +50,7 @@ Always bring the body of the declaration down one line.
 
 ### Good
 
-```haskell
+```elm
 homeDirectory : String
 homeDirectory =
   "/root/files"
@@ -79,7 +79,7 @@ the result will still look quite nice.
 
 ### Bad
 
-```haskell
+```elm
 homeDirectory = "/root/files"
 
 eval boolean = case boolean of
@@ -105,7 +105,7 @@ Do not be a maniac with indentation. Simplicity will be better in the long run.
 
 ### Good
 
-```haskell
+```elm
 type Boolean
     = Literal Bool
     | Not Boolean
@@ -126,7 +126,7 @@ type alias Graph =
 
 ### Bad
 
-```haskell
+```elm
 type Boolean = Literal Bool
              | Not Boolean
              | And Boolean Boolean

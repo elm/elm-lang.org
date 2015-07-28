@@ -104,7 +104,7 @@ We can represent the state of the SPACE key with a boolean value. Up and down
 can be represented by an integer in { -1, 0, 1 }. So to represent the game
 like this:
 
-```haskell
+```elm
 type alias Input =
     { space : Bool
     , paddle1 : Int
@@ -119,7 +119,7 @@ frames-per-second and gives a sequence of time deltas that gets as close to the
 desired FPS as possible. If the browser can not keep up, the time deltas will
 slow down gracefully.
 
-```haskell
+```elm
 delta : Signal Time
 delta =
     Signal.map inSeconds (fps 35)
@@ -130,7 +130,7 @@ all inputs.
 
  [keyboard]: http://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard
 
-```haskell
+```elm
 input : Signal Input
 input =
     Signal.sampleOn delta <|
@@ -163,7 +163,7 @@ just comes down to the dimensions of the court to know when the ball should
 bounce and where the paddles should stop. We will also define halfway points
 which are commonly used.
 
-```haskell
+```elm
 (gameWidth,gameHeight) = (600,400)
 (halfWidth,halfHeight) = (300,200)
 ```
@@ -173,7 +173,7 @@ structures so that they share a lot of structure. Both have a position and
 velocity, so thanks to [structural typing](/learn/Records.elm) in Elm, we can
 share some code later on.
 
-```haskell
+```elm
 type alias Object a =
     { a |
         x : Float,
@@ -199,7 +199,7 @@ a break. We do this with a [union type](/learn/Union-Types.elm)
 which we can later extend if we want more game states for speeding up gameplay
 or whatever else.
 
-```haskell
+```elm
 type State = Play | Pause
 ```
 
@@ -207,7 +207,7 @@ We now have a way to model balls, players, and the game state, so we just need
 to put it together. We define a `Game` that includes all of these things and
 then create a default game state.
 
-```haskell
+```elm
 type alias Game =
     { state : State
     , ball : Ball
@@ -244,7 +244,7 @@ functions. This next chunk of code defines some not-so-interesting helper
 functions: `near` and `within` for detecting collisions and `stepV` for safely
 stepping velocity.
 
-```haskell
+```elm
 -- are n and m near each other?
 -- specifically are they within c of each other?
 near : Float -> Float -> Float -> Bool
@@ -273,7 +273,7 @@ share code between `stepBall` and `stepPlyr`. `stepObj` changes an objects
 position based on its velocity, so `stepBall` and `stepPlyr` can just focus
 on how their velocities change.
 
-```haskell
+```elm
 -- step the position of an object based on its velocity and a timestep
 stepObj : Time -> Object a -> Object a
 stepObj t ({x,y,vx,vy} as obj) =
@@ -312,7 +312,7 @@ Now that we have the `stepBall` and `stepPlyr` helper functions, we can define
 a step function for the entire game. Here we are stepping our game forward based
 on inputs from the world.
 
-```haskell
+```elm
 stepGame : Input -> Game -> Game
 stepGame input game =
   let
@@ -349,7 +349,7 @@ stepGame input game =
 Finally we put together the inputs, the default game, and the step function to
 define `gameState`.
 
-```haskell
+```elm
 gameState : Signal Game
 gameState =
     Signal.foldp stepGame defaultGame input
@@ -369,7 +369,7 @@ that the `displayObj` function allows us to share some code for rendering balls
 and players. The rest of the code is more about drawing the pong court and
 displaying scores and instructions nicely.
 
-```haskell
+```elm
 -- helper values
 pongGreen = rgb 60 100 60
 textGreen = rgb 160 200 160
@@ -407,7 +407,7 @@ display (w,h) {state,ball,player1,player2} =
 Now that we have a way to display a particular game state, we just
 apply it to our `gameState` that changes over time.
 
-```haskell
+```elm
 main =
     Signal.map2 display Window.dimensions gameState
 ```

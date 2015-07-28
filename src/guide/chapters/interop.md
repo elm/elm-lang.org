@@ -65,7 +65,7 @@ Ports are a general purpose way to communicate with JavaScript. They let you sen
 
 To send messages from JavaScript to Elm, you use an incoming port like this:
 
-```haskell
+```elm
 port addUser : Signal (String, UserRecord)
 ```
 
@@ -90,7 +90,7 @@ This sends two updates to Elm, automatically converting to values that work well
 
 To send messages from Elm to JavaScript, you define an outgoing port like this:
 
-```haskell
+```elm
 port requestUser : Signal String
 port requestUser =
     signalOfUsersWeWantMoreInfoOn

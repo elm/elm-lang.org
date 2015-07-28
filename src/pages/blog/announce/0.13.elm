@@ -39,7 +39,7 @@ The code that manages importing and exporting ADTs has been improved a lot. As
 part of those fixes, there is now a new syntax for importing and exporting
 ADTs. Let's look at a couple cases:
 
-```haskell
+```elm
 import Maybe ( Maybe(..) )    -- the type and all constructors
 
 import Maybe ( Maybe(Just) )  -- the type and some constructors
@@ -55,7 +55,7 @@ Another result of this architecture improvement is that the error messages for
 ambiguous variables work properly now. For example, the following code will
 tell you that your use of `map` is ambiguous:
 
-```haskell
+```elm
 import List (map)
 import Set (map)
 
@@ -66,7 +66,7 @@ It does not know if you mean `List.map` or `Set.map`. If you have defined your
 own version of `map` within the module, that version will take precedence.
 So the following code is unambiguous:
 
-```haskell
+```elm
 import List (..)
 import Set (..)
 
@@ -118,7 +118,7 @@ section is devoted to explaining that choice.
 
 Function composition is now done with the following operators:
 
-```haskell
+```elm
 (>>) : (a -> b) -> (b -> c) -> (a -> c)
 
 (<<) : (b -> c) -> (a -> b) -> (a -> c)
@@ -130,7 +130,7 @@ function compositions that read left to right.
 
 Here is an illustration of mixing function composition with record accessors:
 
-```haskell
+```elm
 -- Old way
 filter (not . .checked) entries
 
@@ -144,7 +144,7 @@ code in more typical situations:
 
 [mario]: /edit/examples/Intermediate/Mario.elm
 
-```haskell
+```elm
 -- Haskell-inspired way
 step (dt, keys) =
     physics dt . walk keys . gravity dt . jump keys

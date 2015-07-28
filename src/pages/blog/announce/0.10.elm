@@ -74,7 +74,7 @@ Pattern matching now happens with
 destructures strings without exposing any implementation details.
 For example, finding the length of a string looks like this:
 
-```haskell
+```elm
 uncons : String -> Maybe (Char,String)
 
 length string =
@@ -128,7 +128,7 @@ left-, non-, or right- respectively. From there you add precedence and
 the name of the operator. Let's see how it works, taking Elm&rsquo;s signal
 operators as an example:
 
-```haskell
+```elm
 infixl 4 <~
 infixl 4 ~
 ```
@@ -137,7 +137,7 @@ This declares that the `(<~)` and `(~)` operators are left associative and have
 precedence four. &ldquo;Left associative&rdquo; means parentheses are added from
 the left, so the following expressions are equivalent:
 
-```haskell
+```elm
 signal  = f <~ a ~ b ~ c
 signal' = (((f <~ a) ~ b) ~ c)
 ```
@@ -145,7 +145,7 @@ signal' = (((f <~ a) ~ b) ~ c)
 Left associativity is the default, but sometimes right associativity is very useful.
 Boolean *or* is a great example.
 
-```haskell
+```elm
 infixr 2 ||
 
 falseLeft  = (True || False) || False
@@ -159,7 +159,7 @@ associative ensures that we use the faster way when parentheses are left off.
 
 This also works for functions:
 
-```haskell
+```elm
 infixl 7 `div`
 ```
 

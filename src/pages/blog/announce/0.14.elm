@@ -111,7 +111,7 @@ become better teachers and story-tellers.
 
 The new type alias syntax looks like this:
 
-```haskell
+```elm
 type alias Point = { x:Float, y:Float }
 ```
 
@@ -126,7 +126,7 @@ your company has user IDs, and at first they were all integers, but later you
 realized that integers are not big enough and had to switch to strings. You
 might find yourself using a union type to represent this user ID:
 
-```haskell
+```elm
 type UserID = OldID Int | NewID String
 
 toNewID : UserID -> String
@@ -162,7 +162,7 @@ shows a bunch of examples.
 The special syntax for list types has been removed. Working with lists now
 looks more like this:
 
-```haskell
+```elm
 four : Int
 four = length [1,2,3,4]
 
@@ -192,7 +192,7 @@ working with lists.
 
 [thesis]: /papers/concurrent-frp.pdf
 
-```haskell
+```elm
 Signal.map  : (a -> b) -> Signal a -> Signal b
 Signal.map2 : (a -> b -> c) -> Signal a -> Signal b -> Signal c
 ```
@@ -202,14 +202,14 @@ Instead of having a bunch of `zip` and `zipWith` functions, everything has
 become a variation of `map`. When you want to put many lists together,
 combining values pairwise, you use the `map2` function.
 
-```haskell
+```elm
 List.map  : (a -> b) -> List a -> List b
 List.map2 : (a -> b -> c) -> List a -> List b -> List c
 ```
 
 So if you want to put two lists together, you write expressions like this:
 
-```haskell
+```elm
 List.map2 (,) [1,2,3] [1,2,3] == [(1,1), (2,2), (3,3)]
 List.map2 (+) [1,2,3] [1,2,3] == [2,4,6]
 ```
@@ -225,7 +225,7 @@ and [OCaml](http://caml.inria.fr/pub/docs/old-311/libref/List.html#VALmap2).
 This release also replaces the concept of an `Input` with `Signal.Channel`.
 The API is extremely close to the ports API:
 
-```haskell
+```elm
 channel : a -> Channel a
 subscribe : Channel a -> Signal a
 send : Channel a -> a -> Message
@@ -236,7 +236,7 @@ So now routing events in view code feels much more natural. If you are using
 
 [elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/latest
 
-```haskell
+```elm
 viewButton : Int -> Html
 viewButton id =
     button
@@ -260,7 +260,7 @@ great libraries for converting between JSON and Elm. The most crucial one is
 [`Json.Decode`][decode] which gives you tools for converting JSON strings
 to Elm. Here is a small example where we extract 2D coordinates from JSON.
 
-```haskell
+```elm
 import Json.Decode (..)
 
 type alias Point =
@@ -321,7 +321,7 @@ type there is called a `Result`.
 
 [result]: http://package.elm-lang.org/packages/elm-lang/core/latest/Result
 
-```haskell
+```elm
 type Result err value
     = Ok value
     | Err err

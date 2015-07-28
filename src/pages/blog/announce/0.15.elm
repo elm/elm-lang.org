@@ -102,7 +102,7 @@ for Elm&rsquo;s core libraries from the
 
 [rts]: http://en.wikipedia.org/wiki/Runtime_system
 
-```haskell
+```elm
 import Http
 
 pkgUrl =
@@ -142,7 +142,7 @@ for them was text rendering, so thanks to
 [James Smith](https://github.com/jazmit), we added a simple function that let
 us render to canvas much more efficiently:
 
-```haskell
+```elm
 Graphics.Collage.text : Text -> Form
 ```
 
@@ -154,7 +154,7 @@ As part of this change, we moved a few functions out of the `Text` library to
 clean up the API. Here is a rough listing of the functions that have moved
 into the `Graphics.Element` library:
 
-```haskell
+```elm
 leftAligned : Text -> Element
 centered : Text -> Element
 rightAligned : Text -> Element
@@ -188,7 +188,7 @@ back a `Maybe` and sets us up for avoiding unintended runtime exceptions
 
 So the new `List` library looks like this:
 
-```haskell
+```elm
 head : List a -> Maybe a
 tail : List a -> Maybe (List a)
 
@@ -217,7 +217,7 @@ running. This release introduces improved syntax that will let you cut a
 bunch of lines from your import section. As a brief preview, let&rsquo;s look
 at the two extremes of the syntax. First we have a plain old import:
 
-```haskell
+```elm
 import Http
 ```
 
@@ -227,7 +227,7 @@ import syntax should cover most typical cases. Sometimes you want to go crazy
 though, so on the other end of the spectrum, we have a way to choose a shorter
 prefix with `as` and a way to directly expose some values with `exposing`.
 
-```haskell
+```elm
 import Html.Attributes as Attr exposing (..)
 ```
 
@@ -266,7 +266,7 @@ we are revamping this whole API so that it is centralized and easier to learn.
 
 The new `Signal` library introduces the concept of a `Mailbox`.
 
-```haskell
+```elm
 type alias Mailbox a =
     { address : Address a
     , signal : Signal a
@@ -284,7 +284,7 @@ function takes an address to send to and a value to send.
 
 [events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
 
-```haskell
+```elm
 onClick : Address a -> a -> Attribute
 ```
 
@@ -296,7 +296,7 @@ described in more detail in [the architecture tutorial][arch].
 The second most common way comes in handy when you are working with packages
 like [elm-http][] that use tasks.
 
-```haskell
+```elm
 send : Address a -> a -> Task x ()
 ```
 

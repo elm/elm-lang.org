@@ -14,7 +14,7 @@ One very interesting aspect of this architecture is that it *emerges* from Elm n
 
 The logic of every Elm program will break up into three cleanly separated parts: model, update, and view. You can pretty reliably start with the following skeleton and then iteratively fill in details for your particular case.
 
-```haskell
+```elm
 -- MODEL
 
 type alias Model = { ... }
@@ -45,7 +45,7 @@ This tutorial is all about this pattern and small variations and extensions.
 
 Pretty much all Elm programs will have a small bit of code that drives the whole application:
 
-```haskell
+```elm
 main =
   StartApp.start { model = 0, update = update, view = view }
 ```
@@ -81,7 +81,7 @@ open [http://localhost:8000/Counter.elm?debug](http://localhost:8000/Counter.elm
 This code starts with a very simple model. We just need to keep track of a
 single number:
 
-```haskell
+```elm
 type alias Model = Int
 ```
 
@@ -89,7 +89,7 @@ When it comes to updating our model, things are relatively simple again. We
 define a set of actions that can be performed, and an `update` function to
 actually perform those actions:
 
-```haskell
+```elm
 type Action = Increment | Decrement
 
 update : Action -> Model -> Model
@@ -115,7 +115,7 @@ decrement button, a div showing the current count, and an increment button.
 
 [elm-html]: http://elm-lang.org/blog/Blazing-Fast-Html.elm
 
-```haskell
+```elm
 view : Signal.Address Action -> Model -> Html
 view address model =
   div []
@@ -155,7 +155,7 @@ thing about the Elm Architecture is that **we can reuse code with absolutely
 no changes**. We just create a self-contained `Counter` module that
 encapsulates all the implementation details:
 
-```haskell
+```elm
 module Counter (Model, init, Action, update, view) where
 
 type Model = ...
@@ -183,7 +183,7 @@ that were not made public.
 So now that we have our basic `Counter` module, we need to use it to create
 our `CounterPair`. As always, we start with a `Model`:
 
-```haskell
+```elm
 type alias Model =
     { topCounter : Counter.Model
     , bottomCounter : Counter.Model
@@ -204,7 +204,7 @@ Next we describe the set of `Actions` we would like to support. This time our
 features should be: reset all counters, update the top counter, or update the
 bottom counter.
 
-```haskell
+```elm
 type Action
     = Reset
     | Top Counter.Action
@@ -215,7 +215,7 @@ Notice that our [union type][] refers to the `Counter.Action` type, but we do
 not know the particulars of those actions. When we create our `update`
 function, we are mainly routing these `Counter.Actions` to the right place:
 
-```haskell
+```elm
 update : Action -> Model -> Model
 update action model =
   case action of
@@ -235,7 +235,7 @@ update action model =
 So now the final thing to do is create a `view` function that shows both of
 our counters on screen along with a reset button.
 
-```haskell
+```elm
 view : Signal.Address Action -> Model -> Html
 view address model =
   div []
@@ -267,14 +267,14 @@ and then open
 In this example we can reuse the `Counter` module exactly as it was in example
 2.
 
-```haskell
+```elm
 module Counter (Model, init, Action, update, view)
 ```
 
 That means we can just get started on our `CounterList` module. As always, we
 begin with our `Model`:
 
-```haskell
+```elm
 type alias Model =
     { counters : List ( ID, Counter.Model )
     , nextID : ID
@@ -295,7 +295,7 @@ but that is not the focus of this tutorial!) Our model also contains a
 Now we can define the set of `Actions` that can be performed on our model. We
 want to be able to add counters, remove counters, and update certain counters.
 
-```haskell
+```elm
 type Action
     = Insert
     | Remove
@@ -305,7 +305,7 @@ type Action
 Our `Action` [union type][] is shockingly close to the high-level description.
 Now we can define our `update` function.
 
-```haskell
+```elm
 update : Action -> Model -> Model
 update action model =
   case action of
@@ -343,7 +343,7 @@ Here is a high-level description of each case:
 
 All that is left to do now is to define the `view`.
 
-```haskell
+```elm
 view : Signal.Address Action -> Model -> Html
 view address model =
   let counters = List.map (viewCounter address) model.counters
@@ -390,7 +390,7 @@ different view of our underlying `Model`. This is pretty cool. We do not need
 to duplicate any code or do any crazy subtyping or overloading. We just add
 a new function to the public API to expose new functionality!
 
-```haskell
+```elm
 module Counter (Model, init, Action, update, view, viewWithRemoveButton, Context) where
 
 ...
@@ -421,7 +421,7 @@ Now that we have our new `viewWithRemoveButton`, we can create a `CounterList`
 module which puts all the individual counters together. The `Model` is the same
 as in example 3: a list of counters and a unique ID.
 
-```haskell
+```elm
 type alias Model =
     { counters : List ( ID, Counter.Model )
     , nextID : ID
@@ -433,7 +433,7 @@ type alias ID = Int
 Our set of actions is a bit different. Instead of removing any old counter, we
 want to remove a specific one, so the `Remove` case now holds an ID.
 
-```haskell
+```elm
 type Action
     = Insert
     | Remove ID
@@ -442,7 +442,7 @@ type Action
 
 The `update` function is pretty similar to example 4 as well.
 
-```haskell
+```elm
 update : Action -> Model -> Model
 update action model =
   case action of
@@ -472,7 +472,7 @@ before.
 
 Finally, we put it all together in the `view`:
 
-```haskell
+```elm
 view : Signal.Address Action -> Model -> Html
 view address model =
   let insert = button [ onClick address Insert ] [ text "Add" ]
@@ -510,7 +510,7 @@ information is needed. We can always add some `Context` to these functions and
 pass in all the additional information we need without complicating our
 `Model`.
 
-```haskell
+```elm
 update : Context -> Action -> Model -> Model
 view : Context' -> Model -> Html
 ```
@@ -533,7 +533,7 @@ you have a component that gets updated, and depending on the result, you need
 to change something else in your program. You can extend your `update` function
 to return extra information.
 
-```haskell
+```elm
 type Request = RefreshPage | Print
 
 update : Action -> Model -> (Model, Maybe Request)
@@ -543,7 +543,7 @@ Depending on the logic of the `update` we may be telling someone above us to
 refresh the content or print stuff out. The same sort of pattern can be used
 if a component can delete itself:
 
-```haskell
+```elm
 update : Action -> Model -> Maybe Model
 ```
 

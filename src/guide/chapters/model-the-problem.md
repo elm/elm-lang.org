@@ -15,7 +15,7 @@ Types are an important tool for modeling. Think of them like a contract that can
 The way we write down these contracts is with &ldquo;type annotations&rdquo; where we define the exact shape of the data we are working with.
 
 
-```haskell
+```elm
 fortyTwo : Int
 fortyTwo =
   42
@@ -33,7 +33,7 @@ book =
 
 Here we are just describing the general shape of the data we are working with. `fortyTwo` is an integer, `names` is a list of strings, and `book` is a record with certain fields. Nothing crazy, just describing the shape of our data. This becomes much more valuable when you start using it with functions, where in many languages, getting the wrong kind of data can lead to a crash!
 
-```haskell
+```elm
 import List exposing (sum, map, length)
 
 
@@ -62,7 +62,7 @@ So far we have seen some simple cases where we make sure our data is the right s
 
 It is quite common to create a type that enumerates a couple possible states. Imagine we are creating a [todo list](http://evancz.github.io/elm-todomvc/) and want to create a filter on which tasks are visible. We can show all tasks, all the active tasks, or all the completed tasks. We can represent these three states like this:
 
-```haskell
+```elm
 type Visibility = All | Active | Completed
 ```
 
@@ -70,7 +70,7 @@ This defines a new type `Visibility` with exactly three possible values: `All`, 
 
 We use **case-expressions** to do different things depending which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
 
-```haskell
+```elm
 toString : Visibility -> String
 toString visibility =
     case visibility of
@@ -98,13 +98,13 @@ This fills the same role as &ldquo;enumerations&rdquo; in languages like Java or
 
 Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggled between anonymous and logged in with a user name:
 
-```haskell
+```elm
 type User = Anonymous | LoggedIn String
 ```
 
 Notice that the `LoggedIn` value is associated with extra information! This is saying that a user is either `Anonymous` or they are `LoggedIn` and we know their user name. We can use that extra information with case-expressions. The following code turns user info into image resources for their picture.
 
-```haskell
+```elm
 userPhoto : User -> String
 userPhoto user =
     case user of
@@ -117,7 +117,7 @@ userPhoto user =
 
 If they are not logged in we show a dummy photo, but if they *are* logged in we show the photo we have saved. Now imagine we have a bunch of users all collaborating on a document and we want to show all their pictures.
 
-```haskell
+```elm
 activeUsers : List User
 activeUsers =
     [ Anonymous
@@ -129,7 +129,7 @@ activeUsers =
 
 We can mix data with very different shapes in the same list. If we combine the `userPhoto` function with our `activeUsers` list, we can get all the images we need:
 
-```haskell
+```elm
 photos =
     List.map userPhoto activeUsers
 
@@ -152,7 +152,7 @@ Now lets try to put together a bunch of *different* types of data in a coherent 
 
 Say you are creating a dashboard with three different kinds of widgets. One shows scatter plots, one shows recent log data, and one shows time plots. Type unions make it really easy to put together the data we need:
 
-```haskell
+```elm
 type Widget
     = ScatterPlot (List (Int, Int))
     | LogData (List String)
@@ -161,7 +161,7 @@ type Widget
 
 You can think of this as putting together three different types. Each type is &ldquo;tagged&rdquo; with a name like `ScatterPlot` or `LogData`. This lets us tell them apart when your program is running. Now we can write something to render a widget like this:
 
-```haskell
+```elm
 view : Widget -> Element
 view widget =
     case widget of
@@ -177,7 +177,7 @@ view widget =
 
 Depending on what kind of widget we are looking at, we will render it differently. Perhaps we want to get a bit trickier and have some time plots that are showed on a logarithmic scale. We can augment our `Widget` type a bit.
 
-```haskell
+```elm
 type Scale = Normal | Logarithmic
 
 type Widget
@@ -201,13 +201,13 @@ The inventor, Tony Hoare, has this to say about it:
 
 Elm sidesteps this problem entirely with a type called `Maybe`. You can think of it as making `null` explicit, so we *know* if we have to handle it.
 
-```haskell
+```elm
 type Maybe a = Just a | Nothing
 ```
 
 Notice that this type takes an argument `a` that we can fill in with any type we want. We can have types like `(Maybe Int)` which is either `Just` an integer or it is `Nothing`. For example, say we want to parse months from strings.
 
-```haskell
+```elm
 String.toInt : String -> Maybe Int
 
 
@@ -230,7 +230,7 @@ This may seem like a subtle improvement, but imagine all the code you have where
 
 If you have ever implemented a [linked list](https://en.wikipedia.org/wiki/Linked_list) in C or Java you will appreciate how easy this is in Elm. The following type represents a list. The front of a list can only be one of two things: empty or something followed by a list. We can turn this informal definition into a type:
 
-```haskell
+```elm
 type List a = Empty | Node a (List a)
 ```
 
@@ -244,7 +244,7 @@ List also takes a type as an argument, so we can create `(List Int)` or `(List S
 
 All of these have the same type, so they can be used in all the same places. So when we pattern match we can define what we want to do in each case. Say we want to compute the sum of all of the numbers in a list. The following function defines the logic for each possible scenario.
 
-```haskell
+```elm
 sum : List Int -> Int
 sum xs =
     case xs of
@@ -272,7 +272,7 @@ Making lists is just the start, we can easily create all sorts of data structure
 
  [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
-```haskell
+```elm
 type Tree a = Empty | Node a (Tree a) (Tree a)
 ```
 
@@ -286,7 +286,7 @@ We can even model a programming language as data if we want to go really crazy! 
 
 [algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
-```haskell
+```elm
 type Boolean
     = T
     | F

@@ -69,7 +69,7 @@ This library is based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than
 touching the DOM directly, we build an abstract version of it on each frame. We
 use the `node` function to create a cheap representation of what we want:
 
-```haskell
+```elm
 node : String -> List Attribute -> List Html -> Html
 ```
 
@@ -78,7 +78,7 @@ For HTML5 tags, there are helper functions such as `(div = node "div")` to make
 things look a lot cleaner. For example, here is how you can build a simple
 `profile` widget that shows a user&rsquo;s picture and name:
 
-```haskell
+```elm
 profile : User -> Html
 profile user =
     div [ class "profile" ]
@@ -125,7 +125,7 @@ As pioneered by React and Om, being *lazy* about diffing can lead to great
 performance improvements, especially if you have immutable data. For example,
 let&rsquo;s say we are rendering a list of tasks:
 
-```haskell
+```elm
 todoList : List Task -> Html
 todoList tasks =
     div [] (map todoItem tasks)
@@ -135,7 +135,7 @@ But we may know that on many updates, none of the tasks are changing. And if no
 task changes, the view must not be changing either. This is a perfect time to be
 `lazy`:
 
-```haskell
+```elm
 lazy : (a -> Html) -> a -> Html
 
 
@@ -177,7 +177,7 @@ This approach makes it incredibly simple to create reusable widgets. For
 example, a list of user profiles can be nicely abstracted with something like
 this:
 
-```haskell
+```elm
 import Html exposing (..)
 
 
@@ -203,7 +203,7 @@ If you want to create complex styles, those can be abstracted out and reused
 too! In the following example, we define a `font` and `background` that
 can be mixed and matched on any node.
 
-```haskell
+```elm
 -- small reusable CSS properties
 font : List (String, String)
 font =

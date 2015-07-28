@@ -74,7 +74,7 @@ Elm, [see here][overview].
 The following shows creation, access, restriction, and extension in that order.
 The comments show the result of the expression:
 
-```haskell
+```elm
 point2 = { x = 0, y = 0 }
 point3 = { x = 3, y = 4, z = 12 }
 book   = { title = "Steppenwolf", author = "Hesse" }
@@ -96,7 +96,7 @@ With restriction and extension it is possible to rename fields and update values
 There is also a special short-hand for updating fields that lets you do
 updates in bulk:
 
-```haskell
+```elm
 { book - title | name = book.title }    -- rename
 { book - title | title = "Demian" }     -- update
 
@@ -110,7 +110,7 @@ You can pattern match on records in function definitions and in let-expressions.
 You can alse use special field accessors. A field must be present if you use it,
 and it is fine if there are additional fields.
 
-```haskell
+```elm
 dist {x,y} = sqrt (x^2 + y^2)
 
 dist point3 == 5
@@ -125,7 +125,7 @@ an `x` and `y` field. And the value of `titles` is
 `["Steppenwolf","Demian","Gertrud"]`. You can also pattern match in let expressions
 and lambdas.
 
-```haskell
+```elm
 \\{x,y} -> (x,y)
 let {author} = book in ...
 ```
@@ -190,7 +190,7 @@ a bit lighter visually.
 
 The `(<~)` operator is exactly equivalent to `lift`.
 
-```haskell
+```elm
 (<~) : (a -> b) -> Signal a -> Signal b
 
 f <~ s = lift f s
@@ -198,7 +198,7 @@ f <~ s = lift f s
 
 The `(~)` operator allows you to apply a signal of functions to a signal of values.
 
-```haskell
+```elm
 (~) : Signal (a -> b) -> Signal a -> Signal b
 
 sf ~ s = lift2 (\\f x -> f x) sf s
@@ -207,7 +207,7 @@ sf ~ s = lift2 (\\f x -> f x) sf s
 This allows you to put together many signals quite easily. The following
 pairs of expressions are equivalent:
 
-```haskell
+```elm
 lift asText Mouse.position
 asText <~ Mouse.position
 
@@ -242,7 +242,7 @@ functors with the added benefit of not being extremely hideous.
 The multi-way if is simply a nicer way to write nested if expressions. So the
 following expression can be used anywhere, not just in definitions.
 
-```haskell
+```elm
 if | key == 40 -> n + 1
    | key == 38 -> n - 1
    | otherwise -> n
@@ -251,7 +251,7 @@ if | key == 40 -> n + 1
 This means that any existing guarded definitions will cease to work in their
 current form. Definitions will have to be converted as follows:
 
-```haskell
+```elm
 step key n
     | key == 40 = n + 1
     | key == 38 = n - 1

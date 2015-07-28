@@ -46,7 +46,7 @@ We build up these networks using a relatively focused API in the
 
 [signal]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal
 
-```haskell
+```elm
 map : (a -> b) -> Signal a -> Signal b
 
 filter : (a -> Bool) -> a -> Signal a -> Signal a
@@ -114,7 +114,7 @@ tasks.
 Let’s start out with a very simple function for printing values out to the
 console:
 
-```haskell
+```elm
 print : a -> Task x ()
 ```
 
@@ -133,7 +133,7 @@ to print out the current time every second.
 
 [port]: /guide/interop
 
-```haskell
+```elm
 import TaskTutorial exposing (print)
 import Time exposing (second, Time)
 import Task exposing (Task)
@@ -183,7 +183,7 @@ First let’s introduce [`getCurrentTime`][now] so we can do more than print!
 [now]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial#getCurrentTime
 
 
-```haskell
+```elm
 getCurrentTime : Task x Time
 ```
 
@@ -192,7 +192,7 @@ what time it is. Now what we want to do is run [`getCurrentTime`][now] and
 then [`print`][print] it out. Let’s look at the finished product and then
 work through all the new parts.
 
-```haskell
+```elm
 import TaskTutorial exposing (getCurrentTime, print)
 
 port runner : Task x ()
@@ -211,7 +211,7 @@ takes two arguments, let’s see the type.
 
 [andThen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#andThen
 
-```haskell
+```elm
 andThen : Task x a -> (a -> Task x b) -> Task x b
 ```
 
@@ -221,7 +221,7 @@ task. In our case this means taking the current time and printing it.
 
 It may be helpful to see the slightly more verbose version of our task chain:
 
-```haskell
+```elm
 printTime : Task x ()
 printTime =
   getCurrentTime `andThen` print
@@ -252,7 +252,7 @@ the [`Signal`][signal] module:
 [arch]: https://github.com/evancz/elm-architecture-tutorial/
 [signal]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal
 
-```haskell
+```elm
 type alias Mailbox a =
     { address : Address a
     , signal : Signal a
@@ -270,7 +270,7 @@ messages to a mailbox.
 
 [send]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#send
 
-```haskell
+```elm
 send : Address a -> a -> Task x ()
 ```
 
@@ -278,7 +278,7 @@ You provide an address and a value, and when the task is performed, that value
 shows up at the corresponding mailbox. It&rsquo;s kinda like real mailboxes!
 Let’s do a small example that uses `Mailbox` and `send`.
 
-```haskell
+```elm
 main : Signal Element
 main =
   Signal.map show contentMailbox.signal
@@ -310,7 +310,7 @@ servers. The [elm-http][] library provides everything you need for that, so
 let&rsquo;s try to get a feel for how it works with the `Http.getString`
 function.
 
-```haskell
+```elm
 Http.getString : String -> Task Http.Error String
 ```
 
@@ -325,7 +325,7 @@ This exact function is actually used to load the README for packages in the
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 [epc]: http://package.elm-lang.org/
 
-```haskell
+```elm
 import Http
 import Markdown
 import Html exposing (Html)
@@ -379,7 +379,7 @@ typical rules about indentation to make it look nicer. Let’s look at an exampl
 that chains a bunch of tasks together to measure how long it takes to evaluate
 the `(fibonacci 20)` expression:
 
-```haskell
+```elm
 getDuration : Task x Time
 getDuration =
   getCurrentTime
@@ -397,7 +397,7 @@ The trick here is that an anonymous function includes everything after the
 arrow. So if we were to put parentheses on our `getDuration` function, it
 would look like this:
 
-```haskell
+```elm
 getDuration : Task x Time
 getDuration =
   getCurrentTime
@@ -420,7 +420,7 @@ two main ways to handle errors with tasks. The first is the
 
 [onError]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#onError
 
-```haskell
+```elm
 onError : Task x a -> (x -> Task y a) -> Task y a
 ```
 
@@ -428,7 +428,7 @@ Notice that it looks very similar to `andThen` but it only gets activated when
 there is an error. So if we want to recover from a bad JSON request, we could
 write something like this:
 
-```haskell
+```elm
 import Http
 import Json.Decode as Json
 
@@ -456,7 +456,7 @@ The second approach to error handling is to use functions like
 [toMaybe]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#toMaybe
 [toResult]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#toResult
 
-```haskell
+```elm
 toMaybe : Task x a -> Task y (Maybe a)
 toMaybe task =
   Task.map Just task `onError` \\_ -> succeed Nothing
@@ -470,7 +470,7 @@ toResult task =
 This is essentially promoting any errors to the success case. Let’s see it in
 action.
 
-```haskell
+```elm
 import Http
 import Json.Decode as Json
 

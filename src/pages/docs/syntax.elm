@@ -42,7 +42,7 @@ tutorials and examples on actually *using* this syntax.
 
 ### Comments
 
-```haskell
+```elm
 -- a single line comment
 
 {- a multiline comment
@@ -52,7 +52,7 @@ tutorials and examples on actually *using* this syntax.
 
 Here's a handy trick that every Elm programmer should know:
 
-```haskell
+```elm
 {--}
 add x y = x + y
 --}
@@ -62,7 +62,7 @@ Just add or remove the `}` on the first line and you'll toggle between commented
 
 ### Literals
 
-```haskell
+```elm
 -- Boolean
 True  : Bool
 False : Bool
@@ -82,7 +82,7 @@ content that has "quotation marks".
 
 Typical manipulation of literals:
 
-```haskell
+```elm
 True && not (True || False)
 (2 + 4) * (4^2 - 9)
 "abc" ++ "def"
@@ -92,7 +92,7 @@ True && not (True || False)
 
 Here are four things that are equivalent:
 
-```haskell
+```elm
 [1..4]
 [1,2,3,4]
 1 :: [2,3,4]
@@ -101,7 +101,7 @@ Here are four things that are equivalent:
 
 ### Conditionals
 
-```haskell
+```elm
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
@@ -109,7 +109,7 @@ Multi-way if-expressions make it easier
 to have a bunch of different branches.
 You can read the `|` as *where*.
 
-```haskell
+```elm
 if | key == 40 -> n+1
    | key == 38 -> n-1
    | otherwise -> n
@@ -118,7 +118,7 @@ if | key == 40 -> n+1
 You can also have conditional behavior based on the structure of algebraic
 data types and literals
 
-```haskell
+```elm
 case maybe of
   Just xs -> xs
   Nothing -> []
@@ -138,7 +138,7 @@ all of your patterns.
 
 ### Union Types
 
-```haskell
+```elm
 type List = Empty | Node Int List
 ```
 
@@ -153,7 +153,7 @@ the [initial announcement][v7], or [this academic paper][records].
   [v7]:  /blog/announce/0.7 "Elm version 0.7"
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
-```haskell
+```elm
 point = { x = 3, y = 4 }       -- create a record
 
 point.x                        -- access field
@@ -180,7 +180,7 @@ type alias Location = { line:Int, column:Int }
 
 ### Functions
 
-```haskell
+```elm
 square n = n^2
 
 hypotenuse a b = sqrt (square a + square b)
@@ -190,7 +190,7 @@ distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
 
 Anonymous functions:
 
-```haskell
+```elm
 square = \\n -> n^2
 squares = map (\\n -> n^2) [1..100]
 ```
@@ -203,7 +203,7 @@ You can create custom infix operators.
 [associativity](http://en.wikipedia.org/wiki/Operator_associativity) is left.
 You can set this yourself, but you cannot override built-in operators.
 
-```haskell
+```elm
 (?) : Maybe a -> a -> a
 (?) maybe default =
   Maybe.withDefault default maybe
@@ -216,7 +216,7 @@ and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>
 to reduce parentheses usage. They are aliases for function
 application.
 
-```haskell
+```elm
 f <| x = f x
 x |> f = f x
 
@@ -235,7 +235,7 @@ Historical note: this is borrowed from F#, inspired by Unix pipes.
 
 ### Let Expressions
 
-```haskell
+```elm
 let n = 42
     (a,b) = (3,4)
     {x,y} = { x=3, y=4 }
@@ -249,7 +249,7 @@ Each definition should align with the one above it.
 
 ### Applying Functions
 
-```haskell
+```elm
 -- alias for appending lists and two lists
 append xs ys = xs ++ ys
 xs = [1,2,3]
@@ -268,7 +268,7 @@ c2 = ((++) xs) ys
 
 The basic arithmetic infix operators all figure out what type they should have automatically.
 
-```haskell
+```elm
 23 + 19    : number
 2.0 + 1    : Float
 
@@ -281,7 +281,7 @@ The basic arithmetic infix operators all figure out what type they should have a
 
 There is a special function for creating tuples:
 
-```haskell
+```elm
 (,) 1 2              == (1,2)
 (,,,) 1 True 'a' []  == (1,True,'a',[])
 ```
@@ -299,7 +299,7 @@ You can also use the functions `(<~)` and `(~)` to map over signals. The squiggl
 arrow is exactly the same as the `map` function, so the following expressions
 are the same:
 
-```haskell
+```elm
 map sqrt Mouse.x
 sqrt <~ Mouse.x
 ```
@@ -312,7 +312,7 @@ values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
 together many signals, just like `map2`, `map3`, etc. So the following
 expressions are equivalent:
 
-```haskell
+```elm
 map2 (,) Mouse.x Mouse.y
 (,) <~ Mouse.x ~ Mouse.y
 
@@ -325,7 +325,7 @@ and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 
 ### Modules
 
-```haskell
+```elm
 module MyModule where
 
 -- qualified imports
@@ -346,7 +346,7 @@ so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
 ### Type Annotations
 
-```haskell
+```elm
 answer : Int
 answer = 42
 
@@ -359,7 +359,7 @@ addName name record = { record | name = name }
 
 ### Type Aliases
 
-```haskell
+```elm
 type alias Name = String
 type alias Age = Int
 
@@ -374,7 +374,7 @@ origin = { x=0, y=0 }
 
 ### JavaScript FFI
 
-```haskell
+```elm
 -- incoming values
 port userID : String
 port prices : Signal Float

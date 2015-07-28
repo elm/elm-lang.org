@@ -161,7 +161,7 @@ It is quite common to change an API. Modifying or extending existing functions
 often requires it. For example, the following two functions conceptually do the
 same thing:
 
-```haskell
+```elm
 distance (x,y) = sqrt (x^2 + y^2)
 
 distance point = sqrt (point.x^2 + point.y^2)

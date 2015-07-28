@@ -143,7 +143,7 @@ things up, so it is trickier to deduce how to create a pastel color.
 The new color library includes two new functions that make it possible to work
 with colors programmatically:
 
-```haskell
+```elm
 toRgb : Color -> { red:Int, green:Int, blue:Int, alpha:Float }
 
 toHsl : Color -> { hue        : Float
