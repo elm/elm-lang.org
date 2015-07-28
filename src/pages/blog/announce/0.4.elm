@@ -68,13 +68,13 @@ Markdown lets you write fairly complicated formatted text
 
 The syntax is as follows:
 
-```haskell
+```elm
 [markdown| ... |] : Element
 ```
 
 Where `...` is some Markdown (and can span multiple lines). For example:
 
-```haskell
+```elm
 main = [markdown|
 
 # The Title
@@ -120,7 +120,7 @@ you can decide for yourself!
 These additions required a small change to the API for transforms. The new
 functions have the following types:
 
-```haskell
+```elm
 move : Int -> Int -> Form -> Form
 rotate : Float -> Form -> Form
 scale : Float -> Form -> Form
@@ -151,7 +151,7 @@ This is great for Elm in general, and it is particularly important for game maki
 Set the typeface (often incorrectly called the "font") used to display text.
 The string argument contains the names of the typefaces you want to use.
 
-```haskell
+```elm
 typeface : String -> Text -> Text
 ```
 
@@ -163,7 +163,7 @@ See the [`typeface` example][typeface] for details.
 
 You can look up the dimensions of an `Element` with:
 
-```haskell
+```elm
 widthOf  : Element -> Int
 heightOf : Element -> Int
 sizeOf   : Element -> (Int,Int)
@@ -195,7 +195,7 @@ as possible.
 This one is sad, but `image` and `video` both require a width and a
 height. The new API is:
 
-```haskell
+```elm
 image, video : Int -> Int -> String -> Element
 ```
 
@@ -214,7 +214,7 @@ does not load!
 It is actually still possible to load an image without specifying dimensions,
 but the API is a little different:
 
-```haskell
+```elm
 images : Signal String -> Signal Element
 ```
 
@@ -228,7 +228,7 @@ the image loads asynchronously.
 Two existing functions (`box` and `rectangle`) have been renamed and reworked
 (now `container` and `spacer`).
 
-```haskell
+```elm
 container : Int -> Int -> Position -> Element -> Element
 spacer : Int -> Int -> Element
 ```
@@ -242,7 +242,7 @@ For more info on the new functions see the [`container` example][container] and 
 If you have code that uses the old versions, you can just add these two
 definitions to your code:
 
-```haskell
+```elm
 box n e =
   let pos = head << drop ((n-1) `mod` 9) <|
         [ topLeft, midTop, topRight

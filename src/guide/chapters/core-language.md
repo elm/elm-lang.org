@@ -5,7 +5,7 @@ This section will walk you through Elm's simple core language. The aim is to bui
 
 To follow along [get everything installed](/install) and start up `elm repl` in the terminal. It should look like this:
 
-```haskell
+```elm
 Elm REPL 0.4.1 (Elm Platform 0.15)
   See usage examples at <https://github.com/elm-lang/elm-repl>
   Type :help for help, :exit to exit
@@ -21,7 +21,7 @@ We will cover [values](#values), [functions](#functions), [lists](#lists), [tupl
 
 Let's get started with some strings:
 
-```haskell
+```elm
 > "hello"
 "hello"
 
@@ -36,7 +36,7 @@ Elm uses the `(++)` operator to put strings together. Notice that both strings a
 
 Math looks pretty normal too:
 
-```haskell
+```elm
 > 2 + 3 * 4
 14
 
@@ -46,7 +46,7 @@ Math looks pretty normal too:
 
 Unlike JavaScript, Elm makes a distinction between integers and floating point numbers, so similar to Python, there is both floating point division `(/)` and integer division `(//)`.
 
-```haskell
+```elm
 > 9 / 2
 4.5
 
@@ -58,7 +58,7 @@ Unlike JavaScript, Elm makes a distinction between integers and floating point n
 
 Let's start by writing a function `isNegative` that takes in some number and checks if it is less than zero. The result will be `True` or `False`.
 
-```haskell
+```elm
 > isNegative n = n < 0
 <function>
 
@@ -81,7 +81,7 @@ Notice that function application looks different than in languages like JavaScri
 
 When you want to do have conditional behavior in Elm, you use an if-expression.
 
-```haskell
+```elm
 > if True then "hello" else "world"
 "hello"
 
@@ -95,7 +95,7 @@ It is important to note that Elm does not have a notion of &ldquo;truthiness&rdq
 
 Now lets make a function that tells us if a number is over 9000.
 
-```haskell
+```elm
 > over9000 powerLevel = \\
 |   if powerLevel > 9000 then "It's over 9000!!!" else "meh"
 <function>
@@ -118,7 +118,7 @@ Lists can hold many values, and those values must all have the same type. Here a
 
 [list]: http://package.elm-lang.org/packages/elm-lang/core/latest/List
 
-```haskell
+```elm
 > names = [ "Alice", "Bob", "Chuck" ]
 ["Alice","Bob","Chuck"]
 
@@ -150,7 +150,7 @@ In contrast with Object-Oriented languages, Elm does not have a concept of &ldqu
 
 Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. A common use is if you need to return multiple values from a function. The following function vets a name and gives a message for the user:
 
-```haskell
+```elm
 > goodName name = \\
 |   if String.length name <= 20 \\
 |     then (True, "name accepted!") \\
@@ -168,7 +168,7 @@ This can be quite handy, but when things start becoming more complicated, it is 
 A record is a set of key-value pairs, similar to objects in JavaScript or Python. You will find that they are extremely common and useful in Elm! Lets see some basic examples.
 
 
-```haskell
+```elm
 > point = { x = 3, y = 4 }
 { x = 3, y = 4 }
 
@@ -184,7 +184,7 @@ A record is a set of key-value pairs, similar to objects in JavaScript or Python
 
 So we can create records using curly braces and access fields using a dot. Elm also has a version of record access that works like a function. By starting the variable with a dot, you are saying please access the field with the following name, so `.name` accesses the `name` field of the record.
 
-```haskell
+```elm
 > .name bill
 "Gates"
 
@@ -194,7 +194,7 @@ So we can create records using curly braces and access fields using a dot. Elm a
 
 When it comes to making functions with records, you can do some pattern matching to make things a bit lighter.
 
-```haskell
+```elm
 > under70 {age} = age < 70
 <function> 
 
@@ -209,7 +209,7 @@ So we can pass any record in as long is it has an `age` field that holds a numbe
 
 It is often useful to update the values in a record.
 
-```haskell
+```elm
 > { bill | name <- "Nye" }
 { age = 56, name = "Nye" }
 

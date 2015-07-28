@@ -92,7 +92,7 @@ Both `Array` and `Dict` have lookup functions that may fail, so we have
 standardized the function names across APIs. This is a breaking change for
 `Dict`:
 
-```haskell
+```elm
 get       : comparable -> Dict comparable v -> Maybe v
 getOrElse : v -> comparable -> Dict comparable v -> v
 getOrFail : comparable -> Dict comparable v -> v
@@ -111,7 +111,7 @@ represented by the `Json.Value` type:
 
  [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json
 
-```haskell
+```elm
 data Value
     = String String
     | Number Float
@@ -124,7 +124,7 @@ data Value
 The most valuable part of this change is that you can send a `Json.Value`
 through a port:
 
-```haskell
+```elm
 port randomInternetData : Signal Json.Value
 ```
 
@@ -137,7 +137,7 @@ This also means that you can send deeply nested values out through ports.
 The following code takes a recursive data structure that represents text
 that may be **bold** and turns it into JSON:
 
-```haskell
+```elm
 data PrettyText =
     Text String | Concat [PrettyText] | Bold PrettyText
 

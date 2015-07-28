@@ -122,7 +122,7 @@ Languages. It is one of the best resources I have found.
 
 You can now pattern match on literals like numbers, strings, and booleans.
 
-```haskell
+```elm
 removeZeros numbers =
   case numbers of
     []        -> numbers
@@ -137,7 +137,7 @@ isOrigin pos =
 
 You can also use `as` patterns now, thanks to Andrew!
 
-```haskell
+```elm
 move time ({x,y,vx,vy} as object) =
   { object | x <- x + vx * time
            , y <- y + vy * time }
@@ -147,7 +147,7 @@ This lets you name a structure and match on its sub-structure.
 The `as` keyword binds very loosely, so it often needs parentheses.
 One example might be:
 
-```haskell
+```elm
 data World = World Mario [Goomba] [Brick]
 
 step input (World mario goombas bricks as world) = ...
@@ -179,7 +179,7 @@ Where whitespace means spaces, newlines, and comments.
 The following expressions show many cases you might encounter
 in the wild:
 
-```haskell
+```elm
 n - 1         -- subtraction
 n-1           -- subtraction, breaks requirement 1
 -10           -- negative ten
@@ -206,7 +206,7 @@ unfortunate to overload, but I think this is the best solution given the constra
 Just like Python, you can use multi-line strings if you use the triple-quote.
 This will make it easier to embed plain-text or JSON if the text uses `"`.
 
-```haskell
+```elm
 json = \"\"\"
 {
   "title" : "Narcissus and Goldmund",
@@ -220,7 +220,7 @@ json = \"\"\"
 
 When you create a type alias for a record, you also create a &ldquo;record constructor&rdquo;.
 
-```haskell
+```elm
 type Book = { title:String, author:String, pages:Int }
 
 -- This creates the following record constructor:
@@ -234,7 +234,7 @@ The arguments to `Book` must be given in the order they appear in the type alias
 
 Record constructors also work for extensible records:
 
-```haskell
+```elm
 type Positioned a = { a | x:Float, y:Float }
 
 -- This creates the following record constructor:
@@ -247,7 +247,7 @@ myBook = Positioned 3 4 book
 Notice that the record we are extending is the *last* argument. This convention
 makes it much easier to compose a chain of record extensions.
 
-```haskell
+```elm
 type Moving a = { a | velocity:Float, angle:Float }
 
 projectile : Moving (Positioned Book)

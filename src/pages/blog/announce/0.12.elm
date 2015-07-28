@@ -154,7 +154,7 @@ the types produced by `elm-doc` are different:
 The `open` keyword is gone now. If you want to import everything from the `List`
 module into local scope you use this syntax:
 
-```haskell
+```elm
 import List (..)
 ```
 

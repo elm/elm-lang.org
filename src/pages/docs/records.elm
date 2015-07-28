@@ -61,7 +61,7 @@ that there is probably a different tool for the job.
 A record is a lightweight labeled data structure. For instance, if we
 wanted to represent a point we just create a record with an x and y field:
 
-```haskell
+```elm
 { x = 3, y = 4 }
 ```
 
@@ -69,7 +69,7 @@ Just like tuples, a record can hold values with different types, so
 we can represent a book like this:
 
 
-```haskell
+```elm
 { title = "Steppenwolf", author = "Hesse", pages = 237 }
 ```
 
@@ -77,7 +77,7 @@ As we will soon see, it is also possible to access, add, remove, rename,
 and update fields. We will use the following records to define the rest
 of the record operations:
 
-```haskell
+```elm
 point2D = { x = 0, y = 0 }
 
 point3D = { x = 3, y = 4, z = 12 }
@@ -93,7 +93,7 @@ people = [ bill, steve, larry ]
 
 There are a number of ways to access records:
 
-```haskell
+```elm
 point3D.z             -- 12
 bill.name             -- \"Gates\"
 .name bill            -- \"Gates\"
@@ -111,7 +111,7 @@ The only requirement is that the accessor is used on a record that actually
 has that field, the other fields in the record do not matter. So it is
 perfectly acceptable to say:
 
-```haskell
+```elm
 .x point2D   -- 0
 .x point3D   -- 3
 .x {x=4}     -- 4
@@ -125,7 +125,7 @@ record has field `x`.
 
 It is also possible to pattern match on records:
 
-```haskell
+```elm
 dist {x,y} =
   sqrt (x^2 + y^2)
 
@@ -137,7 +137,7 @@ The first function takes any record that has both an `x` and `y` field and
 computes the distance to the origin. The second takes any record that has an
 `age` and determines if it is less than 50. We can use these functions as follows:
 
-```haskell
+```elm
 dist point2D              -- 0
 dist point3D              -- 5
 under50 bill              -- False
@@ -151,7 +151,7 @@ and case expressions.
 
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
-```haskell
+```elm
 { point2D | y <- 1 }           -- { x=0, y=1 }
 { point3D | x <- 0, y <- 0 }   -- { x=0, y=0, z=12 }
 { steve | name <- \"Wozniak\" }  -- { name=\"Wozniak\", age=56 }
@@ -162,7 +162,7 @@ You can even change the type of value in a field. Say the user inputs a bunch
 of personal data producing a record. It would be nice to convert some of the
 strings into numbers if possible. This is no problem:
 
-```haskell
+```elm
 rawInput =
   { name = "Tom"
   , country = "Finland"
@@ -193,7 +193,7 @@ with little trouble.
 Record fields can be added and deleted with following syntax:
 
 
-```haskell
+```elm
 { point3D - z }           -- { x=3, y=4 }
 { bill - age }            -- { name=\"Gates\" }
 { point2D | z = 0 }       -- { x=0, y=0, z=0 }
@@ -208,7 +208,7 @@ the latest field taking precedence over the earlier ones. Check out
 
 We can combine the add and delete operations to rename fields.
 
-```haskell
+```elm
 renameName person =
   { person - name | surname = person.name }
 
@@ -218,7 +218,7 @@ bill' =
 
 We can also derive record updates with field addition and removal:
 
-```haskell
+```elm
 { point2D - x | x = 1 }   -- { x=1, y=0 }
 ```
 
@@ -232,7 +232,7 @@ hold a polymorphic function like list append `(++)`. For example:
 
  [poly]: http://en.wikipedia.org/wiki/Parametric_polymorphism "Parametric Polymorphism"
 
-```haskell
+```elm
 lib =
   { id x = x
   , flip f x y = f y x
@@ -252,7 +252,7 @@ different types.
 The `group` record holds an `op` function that appends lists and a `zero` value
 that represents an empty list.
 
-```haskell
+```elm
 lib.id 42                      -- 42
 lib.id 'b'                     -- 'b'
 lib.flip (++) \"ab\" \"cd\"        -- \"cdab\"
@@ -272,7 +272,7 @@ A record type looks very similar to actual records. Say we wanted to work
 with points that have an `x` and `y` field. We could add type annotations
 as follows:
 
-```haskell
+```elm
 origin : { x:Float, y:Float }
 origin =
   { x = 0
@@ -282,7 +282,7 @@ origin =
 
 We can also use type aliases to make things much more concise.
 
-```haskell
+```elm
 type alias Point =
   { x : Float
   , y : Float
@@ -296,7 +296,7 @@ hypotenuse {x,y} =
 You can also define extensible records. This is generally recommended because
 it makes your functions more reusable:
 
-```haskell
+```elm
 type alias Positioned a =
   { a |
       x : Float,
@@ -321,7 +321,7 @@ This syntax is just like the syntax for record extension, indicating that
 This means you can define records that have any subsection of these fields.
 For example,
 
-```haskell
+```elm
 lady : Named { age:Int }
 lady =
   { name = "Lois Lane"
@@ -340,7 +340,7 @@ dude =
 
 Then we can make functions that only require some of those fields:
 
-```haskell
+```elm
 getName : Named a -> String
 getName {name} =
   name

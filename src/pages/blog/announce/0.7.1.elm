@@ -53,7 +53,7 @@ Okay, now let&rsquo;s dive into Elm 0.7.1!
 [The new `Keyboard` library][keys] introduces a couple simple and useful signals.
 First there are the directional signals:
 
-```haskell
+```elm
 arrows, wasd : Signal { x : Int, y : Int }
 ```
 
@@ -63,7 +63,7 @@ so please let me know if you think there should be more choices.
 
 There are also a few signals for common modifier keys:
 
-```haskell
+```elm
 ctrl, shift, space : Signal Bool
 ```
 
@@ -110,14 +110,14 @@ The `touches` signal is a list of all of the ongoing touches. A touch is:
 The reason for including so much information is to make it easier to define
 more complicated gestures. The type looks like this:
 
-```haskell
+```elm
 touches : Signal [{ x:Int, y:Int, id:Int, x0:Int, y0:Int, t0:Int }]
 ```
 
 The `Touch` library also includes a `taps` signal which just gives the
 coordinates of the latest tap. The default value is the origin.
 
-```haskell
+```elm
 taps : Signal { x : Int, y : Int }
 ```
 
@@ -171,7 +171,7 @@ in mind when using `touches` and let [the list][discuss] know what you learn!
 [here](/edit/examples/Functional/Either.elm). The most important
 addition to come with this library is actually in the `Signal` library:
 
-```haskell
+```elm
 mergeEither : Signal a -> Signal b -> Signal (Either a b)
 ```
 
@@ -188,7 +188,7 @@ a little bit. Names are now consistent with the new `Either` library. For exampl
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
 
-```haskell
+```elm
 justs  : [Maybe a] -> [a]
 lefts  : [Either a b] -> [a]
 rights : [Either a b] -> [b]
@@ -196,14 +196,14 @@ rights : [Either a b] -> [b]
 
 Or if you are curious about what kind of value you have:
 
-```haskell
+```elm
 isNothing, isJust : Maybe a -> Bool
 isLeft, isRight   : Either a b -> Bool
 ```
 
 Or if you want to extract a value from a Maybe or Either, you can use:
 
-```haskell
+```elm
 maybe  : b -> (a -> b) -> Maybe a -> b
 either : (a -> c) -> (b -> c) -> Either a b -> c
 ```
@@ -214,7 +214,7 @@ Some functions have also been taken out of the `Maybe` library: `fromMaybe`
 and `mapMaybe`. I removed them because I thought they had silly names and
 could be defined easily with more general functions. They can be re-defined as follows:
 
-```haskell
+```elm
 fromMaybe : a -> Maybe a -> a
 fromMaybe default option = maybe default id option
 fromMaybe' d = maybe d id

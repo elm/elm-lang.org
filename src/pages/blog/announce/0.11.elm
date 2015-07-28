@@ -61,7 +61,7 @@ story possible for Elm.
 Here is a simple module `FinancialAdvisor` that uses ports to import stock
 prices and export buy orders.
 
-```haskell
+```elm
 module FinancialAdvisor where
 
 -- incoming signal of prices
@@ -145,7 +145,7 @@ one important addition: first-order functions!
 If you wrote a nice parser or library in Elm, you can use those functions
 directly in JS. The mapping between Elm and JS function looks like this:
 
-```haskell
+```elm
 add x y = x + y
 ```
 ```javascript

@@ -56,7 +56,7 @@ can now do some more flexible sorting with
 [`sortWith`](http://package.elm-lang.org/packages/elm-lang/core/latest/List#sortWith).
 First, `sortBy` lets you sort values by a derived property:
 
-```haskell
+```elm
 sortBy : (a -> comparable) -> [a] -> [a]
 
 sortBy String.length ["mouse","cat"] == ["cat","mouse"]
@@ -65,7 +65,7 @@ sortBy String.length ["mouse","cat"] == ["cat","mouse"]
 This makes it really easy to do relatively involved sorts on
 lists of records or other complex values:
 
-```haskell
+```elm
 alice = { name="Alice", height=1.62 }
 bob   = { name="Bob"  , height=1.85 }
 chuck = { name="Chuck", height=1.76 }
@@ -77,7 +77,7 @@ sortBy .height [chuck,alice,bob] == [alice,chuck,bob]
 If that's not general enough for you, `sortWith` lets you sort
 values with a custom comparison function:
 
-```haskell
+```elm
 sortWith : (a -> a -> Order) -> [a] -> [a]
 
 sortWith (flip compare) [1..5] == [5,4,3,2,1]

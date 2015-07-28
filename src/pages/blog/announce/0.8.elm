@@ -92,7 +92,7 @@ which explains how types work in Elm.
 You can now add type information to your programs if you want. It is
 not required, but it is recommended.
 
-```haskell
+```elm
 reverse : [a] -> [a]
 reverse = foldl (::) []
 ```
@@ -105,7 +105,7 @@ a lighter syntax.
 You can also add type aliases. This lets you give nice consise names
 for larger types. This is most useful for records:
 
-```haskell
+```elm
 type Point = { x:Float, y:Float }
 
 add : Point -> Point -> Point
@@ -115,7 +115,7 @@ add a b = { x = a.x + b.x, y = a.y + b.y }
 You can also have type variables in your aliases which opens the door for
 lots of cool stuff.
 
-```haskell
+```elm
 type Positioned a = { a | x:Float, y:Float }
 type Movable a = { a | velocity:Float, angle:Float }
 
@@ -184,7 +184,7 @@ This means your mental model maps directly onto the graphics API.
 Now when you create a form, it is positioned at the origin. You no longer
 need to provide a position. Here are a few functions from the new API:
 
-```haskell
+```elm
 circle : Float -> Shape
 toForm : Element -> Form
 ```
@@ -208,7 +208,7 @@ dots =
 
 content2 = """
 
-```haskell
+```elm
 dot colr = collage 50 50 [ filled colr (circle 15) ]
 
 dots = flow right (map dot [accent1,accent2,accent3,accent4])
@@ -223,7 +223,7 @@ paired with grouping.
 Version 0.8 introduces two grouping functions which let you flatten a list
 of forms into a single form. This makes things much more composable:
 
-```haskell
+```elm
 group : [Form] -> Form
 groupTransform : Matrix2D -> [Form] -> Form
 ```
@@ -257,7 +257,7 @@ crosses =
 
 content3 = """
 
-```haskell
+```elm
 -- Create two rectangles that cross at the origin. We use
 -- the group function to flatten them into a signle Form.
 twoRects : Color -> Form
@@ -291,7 +291,7 @@ just like with `sin`, `cos`, etc.
 This example also shows the `degrees` function, which is part of
 a family of functions:
 
-```haskell
+```elm
 degrees 90 == radians (pi/2) == turns 0.25
 ```
 
@@ -352,7 +352,7 @@ features in future releases.
 
 There are some minor changes here. This is how module imports work now:
 
-```haskell
+```elm
 -- Import the Dict module. You can only access its values
 -- with field access: Dict.empty, Dict.insert, etc.
 import Dict
@@ -395,7 +395,7 @@ Elm now has operators for forward application `(|>)` and
 backward application `(<|)`. These work much like the old `($)` operator
 and are mainly useful for saving yourself from writing too many parentheses.
 
-```haskell
+```elm
 -- (sqrt 4) == (sqrt <| 4) == (4 |> sqrt) == 2
 
 -- The (<|) operator works just like ($).
