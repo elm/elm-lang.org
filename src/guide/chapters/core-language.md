@@ -154,6 +154,8 @@ In contrast with Object-Oriented languages, Elm does not have a concept of &ldqu
 Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. A common use is if you need to return multiple values from a function. The following function vets a name and gives a message for the user:
 
 ```elm
+> import String
+
 > goodName name = \\
 |   if String.length name <= 20 \\
 |     then (True, "name accepted!") \\
