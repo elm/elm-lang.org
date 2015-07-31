@@ -216,7 +216,7 @@ It is often useful to update the values in a record.
 
 ```elm
 > { bill | name <- "Nye" }
-{ age = 56, name = "Nye" }
+{ age = 57, name = "Nye" }
 
 > { bill | age <- 22 }
 { age = 22, name = "Gates" }
