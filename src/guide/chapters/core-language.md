@@ -137,6 +137,9 @@ False
 > List.sort numbers
 [1,2,3,4]
 
+> double n = n * 2
+<function>
+
 > List.map double numbers
 [2,8,6,4]
 ```
