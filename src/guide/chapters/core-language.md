@@ -137,6 +137,9 @@ False
 > List.sort numbers
 [1,2,3,4]
 
+> double n = n * 2
+<function>
+
 > List.map double numbers
 [2,8,6,4]
 ```
@@ -151,6 +154,8 @@ In contrast with Object-Oriented languages, Elm does not have a concept of &ldqu
 Tuples are another useful data structure. A tuple can hold a fixed number of values, and each value can have any type. A common use is if you need to return multiple values from a function. The following function vets a name and gives a message for the user:
 
 ```elm
+> import String
+
 > goodName name = \\
 |   if String.length name <= 20 \\
 |     then (True, "name accepted!") \\
@@ -211,7 +216,7 @@ It is often useful to update the values in a record.
 
 ```elm
 > { bill | name <- "Nye" }
-{ age = 56, name = "Nye" }
+{ age = 57, name = "Nye" }
 
 > { bill | age <- 22 }
 { age = 22, name = "Gates" }
