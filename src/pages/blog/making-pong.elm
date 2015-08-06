@@ -292,7 +292,7 @@ stepBall t ({x,y,vx,vy} as ball) player1 player2 =
       stepObj t
         { ball |
             vx <-
-              stepV vx (ball `within` player1) (ball `within` player2)
+              stepV vx (ball `within` player1) (ball `within` player2),
             vy <-
               stepV vy (y < 7-halfHeight) (y > halfHeight-7)
         }
