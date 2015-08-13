@@ -194,6 +194,7 @@ work through all the new parts.
 
 ```elm
 import TaskTutorial exposing (getCurrentTime, print)
+import Task exposing (Task, andThen)
 
 port runner : Task x ()
 port runner =
