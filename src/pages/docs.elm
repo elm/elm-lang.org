@@ -4,7 +4,6 @@ import String
 
 import Center
 import TopBar
-import Outline
 
 
 port title : String
@@ -18,7 +17,7 @@ main =
     , Center.markdown "600px" quickStart
     , div [ Center.style "600px" ]
         [ h1 [id "complete-guide"] [text "Complete Guide"]
-        , ul [class "guide content"] (List.map viewChapter Outline.outline)
+        , ul [class "guide content"] outline
         ]
     , Center.markdown "600px" advancedStuff
     ]
@@ -76,19 +75,78 @@ advancedStuff = """
 """
 
 
-viewChapter : (String, List String) -> Html
+outline : List Html
+outline =
+  [ viewChapter <| local
+      "Core Language"
+      [ "Values"
+      , "Functions"
+      , "If Expressions"
+      , "Lists"
+      , "Tuples"
+      , "Records"
+      ]
+  , viewChapter <| local
+      "Model The Problem"
+      [ "Contracts"
+      , "Enumerations"
+      , "State Machines"
+      , "Tagged Unions"
+      , "Banishing NULL"
+      , "Recursive Data Structures"
+      ]
+  , viewChapter
+      ( Link "Architecture" archUrl
+      , [ archLink "Components" "example-1-a-counter"
+        , archLink "Components with HTTP" "example-5-random-gif-viewer"
+        , archLink "Components with Animation" "example-8-animation"
+        ]
+      )
+  , viewChapter <| local
+      "Reactivity"
+      [ "Signals"
+      , "Tasks"
+      ]
+  , viewChapter <| local
+      "Interop"
+      [ "HTML Embedding"
+      , "Ports"
+      ]
+  ]
+
+
+archUrl : String
+archUrl =
+  "https://github.com/evancz/elm-architecture-tutorial/"
+
+
+archLink : String -> String -> Link
+archLink name tag =
+  Link name (archUrl ++ "#" ++ tag)
+
+
+local : String -> List String -> (Link, List Link)
+local title sections =
+  let
+    root = "/guide/" ++ format title
+  in
+    ( Link title root
+    , List.map (\name -> root ++ "#" ++ format name) sections
+        |> List.map2 Link sections
+    )
+
+
+type alias Link = { name : String, url : String }
+
+
+viewChapter : (Link, List Link) -> Html
 viewChapter (title, sections) =
   let
-    url =
-      "/guide/" ++ format title
-
-    viweSection name =
-      li []
-        [ a [href (url ++ "#" ++ format name)] [text name]
-        ]
+    viweSection section =
+      li [] [ a [href section.url] [text section.name] ]
   in
     li []
-      [ a [href url] [text title]
+      [ a [href title.url] [text title.name]
       , ul [] (List.map viweSection sections)
       ]
 
