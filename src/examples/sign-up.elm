@@ -2,7 +2,7 @@ import Html exposing (Html, Attribute, div, input, span, text, toElement)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, targetValue)
 import Signal exposing (Address)
-import StartApp
+import StartApp.Simple as StartApp
 import String
 
 

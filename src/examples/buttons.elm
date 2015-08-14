@@ -1,6 +1,6 @@
 import Html exposing (div, button, text)
 import Html.Events exposing (onClick)
-import StartApp
+import StartApp.Simple as StartApp
 
 
 {-| Read more about StartApp and how this works at:
