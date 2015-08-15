@@ -136,6 +136,9 @@ core =
       , "binary tree" ==> "binary-tree"
       , "boolean expressions" ==> "boolean-expressions"
       ]
+  , "state" =>
+      [ "random" ==> "random" 
+      ]
   ]
 
 
