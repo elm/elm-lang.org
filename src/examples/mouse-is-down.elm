@@ -2,8 +2,8 @@ import Graphics.Element exposing (..)
 import Mouse
 
 
--- Mouse.isDown is true whenever the left mouse button
--- is pressed down and false otherwise.
+-- Mouse.isDown is true when any mouse button
+-- is pressed down, and false otherwise. 
 
 main : Signal Element
 main =
