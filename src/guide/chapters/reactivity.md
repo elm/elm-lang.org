@@ -360,7 +360,7 @@ port fetchReadme =
 -- the URL of the README.md that we desire
 readmeUrl : String
 readmeUrl =
-  "http://package.elm-lang.org/packages/elm-lang/core/latest/README.md"
+  "https://raw.githubusercontent.com/evancz/elm-architecture-tutorial/master/README.md"
 ```
 
 The most interesting part is happening in the `fetchReadme` port. We attempt to
