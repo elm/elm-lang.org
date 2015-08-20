@@ -194,6 +194,7 @@ redirects =
     , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
     , "learn/Components.elm" ==> "/guide/interop"
     , "learn/Ports.elm" ==> "/guide/interop"
+    , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
     ]
 
 
