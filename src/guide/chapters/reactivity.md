@@ -360,14 +360,14 @@ port fetchReadme =
 -- the URL of the README.md that we desire
 readmeUrl : String
 readmeUrl =
-  "https://raw.githubusercontent.com/evancz/elm-architecture-tutorial/master/README.md"
+  "https://raw.githubusercontent.com/elm-lang/core/master/README.md"
 ```
 
 The most interesting part is happening in the `fetchReadme` port. We attempt to
 get the resource at `readmeUrl`. If we succeed, we `report` it to the `readme`
 mailbox. If we fail, the whole chain of tasks fails and no message is sent.
 
-So assuming the Elm Package Catalog responds, we will see a blank screen turn
+So assuming the server holding the README responds, we will see a blank screen turn
 into the contents of the elm-lang/core readme!
 
 
