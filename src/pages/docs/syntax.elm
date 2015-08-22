@@ -411,9 +411,9 @@ and [here](https://gist.github.com/evancz/8521339).
 Elm has some built-in port handlers that automatically take some
 imperative action:
 
- * [`title`](/edit/examples/Reactive/Title.elm) sets the page title, ignoring empty strings
- * [`log`](/edit/examples/Reactive/Log.elm) logs messages to the developer console
- * [`redirect`](/edit/examples/Reactive/Redirect.elm) redirects to a different page, ignoring empty strings
+ * `title` sets the page title, ignoring empty strings
+ * `log` logs messages to the developer console
+ * `redirect` redirects to a different page, ignoring empty strings
 
 Experimental port handlers:
 
