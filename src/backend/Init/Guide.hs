@@ -18,6 +18,7 @@ chapters =
   , "model-the-problem"
   , "reactivity"
   , "interop"
+  , "contributing"
   ]
 
 
