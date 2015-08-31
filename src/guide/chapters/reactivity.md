@@ -100,7 +100,10 @@ To get started, install the `evancz/task-tutorial` package in your working
 directory by running the following command:
 
 ```bash
-elm-package install evancz/task-tutorial
+elm-package install evancz/task-tutorial -y
+elm-package install evancz/elm-html -y
+elm-package install evancz/elm-http -y
+elm-package install evancz/elm-markdown -y
 ```
 
 This exposes the `TaskTutorial` module which has [a friendly
@@ -134,11 +137,10 @@ to print out the current time every second.
 [port]: /guide/interop
 
 ```elm
+import Graphics.Element exposing (show)
+import Task exposing (Task)
 import TaskTutorial exposing (print)
 import Time exposing (second, Time)
-import Task exposing (Task)
-import Graphics.Element exposing (show)
-
 
 -- A signal that updates to the current time every second
 clock : Signal Time
@@ -156,6 +158,9 @@ printTasks =
 port runner : Signal (Task x ())
 port runner =
   printTasks
+
+main =
+  show "Open the Developer Console to see the clock ticking."
 ```
 
 When we initialize this module we will see the current time printed out every
@@ -193,11 +198,17 @@ then [`print`][print] it out. Let’s look at the finished product and then
 work through all the new parts.
 
 ```elm
+import Graphics.Element exposing (show)
+import Task exposing (Task, andThen)
 import TaskTutorial exposing (getCurrentTime, print)
+
 
 port runner : Task x ()
 port runner =
   getCurrentTime `andThen` print
+
+main =
+  show "Open the Developer Console to see the current timestamp."
 ```
 
 First, notice the infrequently-used backtick syntax which let’s us treat normal
@@ -279,6 +290,11 @@ shows up at the corresponding mailbox. It&rsquo;s kinda like real mailboxes!
 Let’s do a small example that uses `Mailbox` and `send`.
 
 ```elm
+import Graphics.Element exposing (Element, show)
+import Task exposing (Task, andThen)
+import TaskTutorial exposing (getCurrentTime, print)
+
+
 main : Signal Element
 main =
   Signal.map show contentMailbox.signal
@@ -380,12 +396,32 @@ that chains a bunch of tasks together to measure how long it takes to evaluate
 the `(fibonacci 20)` expression:
 
 ```elm
+import Graphics.Element exposing (show)
+import Task exposing (Task, andThen, succeed)
+import TaskTutorial exposing (getCurrentTime, print)
+import Time exposing (Time)
+
+
+fibonacci : Int -> Int
+fibonacci n =
+  if n <= 2 then
+    1
+  else
+    fibonacci (n-1) + fibonacci (n-2)
+
 getDuration : Task x Time
 getDuration =
   getCurrentTime
-    `andThen` \\start -> succeed (fibonacci 20)
-    `andThen` \\fib -> getCurrentTime
-    `andThen` \\end -> succeed (end - start)
+    `andThen` \start -> succeed (fibonacci 20)
+    `andThen` \fib -> getCurrentTime
+    `andThen` \end -> succeed (end - start)
+
+port runner : Task x ()
+port runner =
+  getDuration `andThen` print
+
+main =
+  show "Open the Developer Console to see the time it took to calculate 20 steps of fibonacci."
 ```
 
 This reads fairly naturally. Get the current time, run the fibonacci function,
@@ -429,18 +465,27 @@ there is an error. So if we want to recover from a bad JSON request, we could
 write something like this:
 
 ```elm
+import Graphics.Element exposing (show)
 import Http
 import Json.Decode as Json
+import Task exposing (Task, andThen, onError, succeed)
+import TaskTutorial exposing (print)
 
 
 get : Task Http.Error (List String)
 get =
-  Http.get (Json.list Json.String) "http://example.com/hat-list.json"
-
+  Http.get (Json.list Json.string) "http://example.com/hat-list.json"
 
 safeGet : Task x (List String)
 safeGet =
-  get `onError` (\\err -> succeed [])
+  get `onError` (\err -> succeed [])
+
+port runner : Task x ()
+port runner =
+  safeGet `andThen` print
+
+main =
+  show "Open the Developer Console to see a failed HTTP requested handled."
 ```
 
 With the `get` task, we can potentially fail with an `Http.Error` but when
@@ -471,18 +516,28 @@ This is essentially promoting any errors to the success case. Let’s see it in
 action.
 
 ```elm
+import Graphics.Element exposing (show)
 import Http
 import Json.Decode as Json
+import Task exposing (Task, andThen, toResult)
+import TaskTutorial exposing (print)
 
 
 get : Task Http.Error (List String)
 get =
-  Http.get (Json.list Json.String) "http://example.com/hat-list.json"
+  Http.get (Json.list Json.string) "http://example.com/hat-list.json"
 
 
-get' : Task x (Result Http.Error (List String))
-get' =
+safeGet : Task x (Result Http.Error (List String))
+safeGet =
   Task.toResult get
+
+port runner : Task x ()
+port runner =
+  safeGet `andThen` print
+
+main =
+  show "Open the Developer Console to see a failed HTTP requested handled."
 ```
 
 With `get'` we can do our error handling with the `Result` type, which can
