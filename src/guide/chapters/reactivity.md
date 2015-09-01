@@ -408,9 +408,9 @@ import Time exposing (Time)
 getDuration : Task x Time
 getDuration =
   getCurrentTime
-    `andThen` \start -> succeed (fibonacci 20)
-    `andThen` \fib -> getCurrentTime
-    `andThen` \end -> succeed (end - start)
+    `andThen` \\start -> succeed (fibonacci 20)
+    `andThen` \\fib -> getCurrentTime
+    `andThen` \\end -> succeed (end - start)
 
 
 fibonacci : Int -> Int
@@ -485,7 +485,7 @@ get =
 
 safeGet : Task x (List String)
 safeGet =
-  get `onError` (\err -> succeed [])
+  get `onError` (\\err -> succeed [])
 
 
 port runner : Task x ()
