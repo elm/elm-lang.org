@@ -551,7 +551,7 @@ main =
   show "Open the Developer Console to see a failed HTTP requested handled."
 ```
 
-With `get'` we can do our error handling with the `Result` type, which can
+With `safeGet` we can do our error handling with the `Result` type, which can
 come in handy especially if you are working with certain APIs.
 
 
