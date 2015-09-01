@@ -142,6 +142,7 @@ import Task exposing (Task)
 import TaskTutorial exposing (print)
 import Time exposing (second, Time)
 
+
 -- A signal that updates to the current time every second
 clock : Signal Time
 clock =
@@ -158,6 +159,7 @@ printTasks =
 port runner : Signal (Task x ())
 port runner =
   printTasks
+
 
 main =
   show "Open the Developer Console to see the clock ticking."
@@ -206,6 +208,7 @@ import TaskTutorial exposing (getCurrentTime, print)
 port runner : Task x ()
 port runner =
   getCurrentTime `andThen` print
+
 
 main =
   show "Open the Developer Console to see the current timestamp."
@@ -402,13 +405,6 @@ import TaskTutorial exposing (getCurrentTime, print)
 import Time exposing (Time)
 
 
-fibonacci : Int -> Int
-fibonacci n =
-  if n <= 2 then
-    1
-  else
-    fibonacci (n-1) + fibonacci (n-2)
-
 getDuration : Task x Time
 getDuration =
   getCurrentTime
@@ -416,9 +412,19 @@ getDuration =
     `andThen` \fib -> getCurrentTime
     `andThen` \end -> succeed (end - start)
 
+
+fibonacci : Int -> Int
+fibonacci n =
+  if n <= 2 then
+    1
+  else
+    fibonacci (n-1) + fibonacci (n-2)
+
+
 port runner : Task x ()
 port runner =
   getDuration `andThen` print
+
 
 main =
   show "Open the Developer Console to see the time it took to calculate 20 steps of fibonacci."
@@ -476,13 +482,16 @@ get : Task Http.Error (List String)
 get =
   Http.get (Json.list Json.string) "http://example.com/hat-list.json"
 
+
 safeGet : Task x (List String)
 safeGet =
   get `onError` (\err -> succeed [])
 
+
 port runner : Task x ()
 port runner =
   safeGet `andThen` print
+
 
 main =
   show "Open the Developer Console to see a failed HTTP requested handled."
@@ -532,9 +541,11 @@ safeGet : Task x (Result Http.Error (List String))
 safeGet =
   Task.toResult get
 
+
 port runner : Task x ()
 port runner =
   safeGet `andThen` print
+
 
 main =
   show "Open the Developer Console to see a failed HTTP requested handled."
