@@ -162,7 +162,7 @@ port runner =
 
 
 main =
-  show "Open the Developer Console to see the clock ticking."
+  show "Open your browser's Developer Console."
 ```
 
 When we initialize this module we will see the current time printed out every
@@ -211,7 +211,7 @@ port runner =
 
 
 main =
-  show "Open the Developer Console to see the current timestamp."
+  show "Open the Developer Console of your browser."
 ```
 
 First, notice the infrequently-used backtick syntax which let’s us treat normal
@@ -427,7 +427,7 @@ port runner =
 
 
 main =
-  show "Open the Developer Console to see the time it took to calculate 20 steps of fibonacci."
+  show "Open the Developer Console of your browser."
 ```
 
 This reads fairly naturally. Get the current time, run the fibonacci function,
@@ -494,7 +494,7 @@ port runner =
 
 
 main =
-  show "Open the Developer Console to see a failed HTTP requested handled."
+  show "Open the Developer Console of your browser."
 ```
 
 With the `get` task, we can potentially fail with an `Http.Error` but when
@@ -548,7 +548,7 @@ port runner =
 
 
 main =
-  show "Open the Developer Console to see a failed HTTP requested handled."
+  show "Open the Developer Console of your browser."
 ```
 
 With `safeGet` we can do our error handling with the `Result` type, which can
