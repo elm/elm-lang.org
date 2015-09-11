@@ -26,7 +26,7 @@ The second part will discuss the learning resources available for Elm and will o
 
 ## Installation
 
-visit the [Install page][install] on the elm site, download an installer for your
+Visit the [Install page][install] on the Elm site, download an installer for your
 platform and install Elm-platform. The Elm Platform comes with quite a few helpful tools
 to help you develop Elm programs. This tutorial will teach you how to use them!
 
@@ -47,16 +47,16 @@ Try opening a terminal and run `elm` to see the help message.
 
 ### elm-package
 
-[elm-package][] is a package managing tool for elm, making it easy to install and publish packages
+[elm-package][] is a package managing tool for Elm, making it easy to install and publish packages
 to and from the [Elm Package Catalog](http://package.elm-lang.org/).
 This is a central home for community libraries that solve common problems.
 
-When starting a new elm project, run:
+When starting a new Elm project, run:
 ```sh
 elm package install
 ```
 
-This will install the `elm-core` package and will create an elm project file: `elm-package.json`.
+This will install the `elm-core` package and will create an Elm project file: `elm-package.json`.
 
 In `elm-package.json` we state information on the project, such as
 the project name, author, license, dependencies, etc.
@@ -71,7 +71,7 @@ the project name, author, license, dependencies, etc.
 
 ### elm-make
 
-[elm-make][] is a command line tool used to compiles Elm programs to HTML
+[elm-make][] is a command line tool used to compile Elm programs to HTML
 and JavaScript. It is the most general way to compile Elm code, so if your
 project becomes too advanced for `elm-reactor` you may want to start using
 the compiler directly.
@@ -93,7 +93,7 @@ elm make Main.elm --output=index.html
 
 REPL stands for [read-eval-print-loop][repl] which lets you play with small
 Elm expressions. the [elm-repl][] can import code from your projects, so if you want
-to play around with a function burried deep inside a module, you can load it
+to play around with a function buried deep inside a module, you can load it
 into the REPL and test it out. `elm-repl` eventually needs to evaluate
 JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
 to use it. Since [elm-repl][] only offers a command line interface, browser related functionality
@@ -106,28 +106,28 @@ will not work.
 
 ### elm-reactor
 
-[elm-reactor][] is an interactive development tool for elm.
-With elm-reactor you can run elm programs without needing to compile them first,
-elm-reactor offers [hot swapping][hs] and [time travel debugging][ttd].
+[elm-reactor][] is an interactive development tool for Elm.
+With elm-reactor you can run Elm programs without needing to compile them first.
+Also, elm-reactor offers [hot swapping][hs] and [time travel debugging][ttd].
 
 Running `elm reactor` will open a web server on address `0.0.0.0:8000`
 where you can visit using a browser and select the file you want to run.
-If you want to use elm reactor's more advance capabilities,
-press the wrench on the leftnext to the name of the file.
+If you want to use elm-reactor's more advanced capabilities,
+press the wrench on the left next to the name of the file.
 The reactor will open the file and display a column on the right
 which offers a way to use those capabilities.
 
 #### Notable flags:
 
-- `-a=<ADDRESS>`: Changes the address in which elm reactor runs. Since the default address, `0.0.0.0` is not supported on browsers such as chrome and is broadcasting to anyone, I recommend always using `-a=localhost`
-- `-p=<PORT>`: Changes the port in which elm reactor runs.
+- `-a=<ADDRESS>`: Changes the address at which elm-reactor runs. Since the default address `0.0.0.0` is not supported on browsers such as Chrome and is broadcasting to anyone, I recommend always using `-a=localhost`
+- `-p=<PORT>`: Changes the port in which elm-reactor runs.
 
-So for example, if you want to run the elm reactor, run:
+So for example, if you want to run the Elm Reactor, run:
 ```sh
 elm reactor -a=localhost
 ```
 
-open a browser, and go to `localhost:8000`.
+Open a browser, and go to `localhost:8000`.
 
 ---
 
@@ -139,11 +139,12 @@ some helpful information.
 
 ## Configure Your Editor
 
-We know of Elm syntax highlighting modes for at least three text editors:
+We know of Elm syntax highlighting modes for at least five text editors:
 
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Atom](https://atom.io/packages/language-elm)
+  * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Vim](https://github.com/lambdatoast/elm.vim)
 
 There may be others out there. If you cannot find an Elm mode for your
@@ -167,7 +168,7 @@ play with in the [Online Editor][OE] or [Elm Reactor][elm-reactor].
 ### Continue Learning
 
 
-In the [documentation][] page on the website, you can find a bunch of resources on elm:
+In the [documentation][] page on the website, you can find a bunch of resources on Elm:
 
 1. For beginners, I recommend starting with the *Elm Complete Guide* ([link to part 1][ECG])
 and playing with what you learn
@@ -184,7 +185,7 @@ provides the tools to easily do so.
 read the [Elm Architecture Tutorial][ea].
 
 - You can also go over the [cs223 Functional Programming course][cs223] by the University of Chicago
-which has many good tutorials on elm and purely functional data structures, but bear in mind
+which has many good tutorials on Elm and purely functional data structures, but bear in mind
 that the course uses `Elm 0.14.1`, which might be a little different from the most updated version.
 No worries! That's why you read the complete guide and the syntax guide.
 
@@ -193,10 +194,10 @@ and others you can find on [/r/elm](http://reddit.com/r/elm) and the [mailing li
 
 - But most importantly, don't forget to **write code**! Here are a few ideas for simple projects to get started with:
 
->    1. Write an elm program that writes *Right* or *Left* in the middle of the screen depending on whether the mouse cursor is on the left half of the screen or right half of the screen
->    2. Write an elm program that displays dots randomly on the screen, with reset and pause/play buttons
->    3. Write an elm program that displays the name, avatar and list of programming languages
->    4.for a github user entered using a text field
+>    1. Write an Elm program that writes *Right* or *Left* in the middle of the screen depending on whether the mouse cursor is on the left half of the screen or right half of the screen
+>    2. Write an Elm program that displays dots randomly on the screen, with reset and pause/play buttons
+>    3. Write an Elm program that displays the name, avatar and list of programming languages
+>       for a GitHub user entered using a text field
 >    4. Write an Elm Snake clone (extra: add a highscore)
 
 
