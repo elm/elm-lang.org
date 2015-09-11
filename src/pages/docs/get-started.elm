@@ -18,19 +18,13 @@ content = """
 
 This page will try to guide you through the first steps of using Elm and Elm's toolchain.
 
-The first part of this guide will describe the installation process and the tools that come with it,
-but you can definitely skip straight to writing Elm using the [Online Editor][OE] and come back to it later.
+We assume you have installed the Elm Platform using one of the methods from the
+[Install page][install] on the Elm site.
 
-The second part will discuss the learning resources available for Elm and will offer a path to learning Elm.
+## Tools
 
-
-## Installation
-
-Visit the [Install page][install] on the Elm site, download an installer for your
-platform and install Elm-platform. The Elm Platform comes with quite a few helpful tools
-to help you develop Elm programs. This tutorial will teach you how to use them!
-
-Installing the Elm Platform will make the following tools available on your machine:
+The Elm platform comes with quite a few helpful tools to help you develop Elm programs.
+After a successful installation, they should be available on your machine:
 
 - [elm](#elm)
 - [elm-package](#elm-package)
@@ -58,7 +52,7 @@ elm package install
 
 This will install the `elm-core` package and will create an Elm project file: `elm-package.json`.
 
-In `elm-package.json` we state information on the project, such as
+In `elm-package.json` you state information on the project, such as
 the project name, author, license, dependencies, etc.
 
 #### Notable commands:
@@ -73,7 +67,7 @@ the project name, author, license, dependencies, etc.
 
 [elm-make][] is a command line tool used to compile Elm programs to HTML
 and JavaScript. It is the most general way to compile Elm code, so if your
-project becomes too advanced for `elm-reactor` you may want to start using
+project becomes too advanced for `elm-reactor` (see below) you may want to start using
 the compiler directly.
 
 When compiling a file (for example: `Main.elm`) into an HTML file (for example: `index.html`),
@@ -119,10 +113,10 @@ which offers a way to use those capabilities.
 
 #### Notable flags:
 
-- `-a=<ADDRESS>`: Changes the address at which elm-reactor runs. Since the default address `0.0.0.0` is not supported on browsers such as Chrome and is broadcasting to anyone, I recommend always using `-a=localhost`
+- `-a=<ADDRESS>`: Changes the address at which elm-reactor runs. Since the default address `0.0.0.0` is not supported on browsers such as Chrome and is broadcasting to anyone, we recommend always using `-a=localhost`
 - `-p=<PORT>`: Changes the port in which elm-reactor runs.
 
-So for example, if you want to run the Elm Reactor, run:
+So for example, run:
 ```sh
 elm reactor -a=localhost
 ```
