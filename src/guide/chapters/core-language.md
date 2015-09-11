@@ -233,7 +233,7 @@ Records in Elm are *similar* to objects in JavaScript, but there are some crucia
 - No field will ever be undefined or null.
 - You cannot create recursive records with a `this` or `self` keyword.
 
-Elm encourages a strict separation of data and logic, and the ability to say `this` is primarily used to break this separation. This is a systematic problem in Object Oriented languages that Elm is purposely avoiding.
+Elm encourages a strict separation of data and logic, and the ability to say `this` is primarily used to break this separation. This is a systemic problem in Object Oriented languages that Elm is purposely avoiding.
 
 Records also support [structural typing][st] which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
 
