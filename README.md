@@ -12,7 +12,7 @@ First get the Elm developer workflow setup by running [this script][bfs] with `r
 
 [bfs]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs
 
-It may be necessary to add `Elm-Platform/master/bin` to your PATH at this point, ahead of any other installs of Elm on your machine.
+It may be necessary to add `Elm-Platform/master/.cabal-sandbox/bin` to your PATH at this point, ahead of any other installs of Elm on your machine.
 
 Then in the `Elm-Platform/master/` directory, run these commands:
 
@@ -20,7 +20,7 @@ Then in the `Elm-Platform/master/` directory, run these commands:
 git clone https://github.com/elm-lang/elm-lang.org.git
 cd elm-lang.org
 git checkout master
-cabal sandbox init --sandbox ..
+cabal sandbox init --sandbox ../.cabal-sandbox
 cabal configure
 cabal install --only-dependencies
 cabal build
