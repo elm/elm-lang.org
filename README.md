@@ -8,11 +8,10 @@ locally.
 
 ## Set up
 
-First get the Elm developer workflow setup by running [this script][bfs] with `runhaskell BuildFromSource.hs master`. Be aware that this is all the actively developed branches, so things may be in an intermediate state.
+First get the Elm developer workflow setup by reading the [build from source instructions][bfs-readme], then running [this script][bfs] with `runhaskell BuildFromSource.hs master`. Be aware that this is all the actively developed branches, so things may be in an intermediate state.
 
+[bfs-readme]: https://github.com/elm-lang/elm-platform/blob/master/README.md
 [bfs]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs
-
-It may be necessary to add `Elm-Platform/master/.cabal-sandbox/bin` to your PATH at this point, ahead of any other installs of Elm on your machine.
 
 Then in the `Elm-Platform/master/` directory, run these commands:
 
