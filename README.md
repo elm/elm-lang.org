@@ -21,8 +21,8 @@ git clone https://github.com/elm-lang/elm-lang.org.git
 cd elm-lang.org
 git checkout master
 cabal sandbox init --sandbox ../.cabal-sandbox
-cabal configure
 cabal install --only-dependencies
+cabal configure
 cabal build
 ./dist/build/run-elm-website/run-elm-website
 ```
