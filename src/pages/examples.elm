@@ -209,5 +209,6 @@ games =
       , "Maze" => Foreign "https://github.com/Dobiasd/Maze#maze--play-it"
       , "Concentration" => Foreign "https://github.com/Dobiasd/Demoscene-Concentration"
       , "Froggy" => Foreign "https://github.com/thSoft/froggy"
+      , "Snake" => Foreign "https://github.com/liubko/elm-snake"
       ]
   ]
