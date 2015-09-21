@@ -188,11 +188,11 @@ and others you can find on [/r/elm](http://reddit.com/r/elm) and the [mailing li
 
 - But most importantly, don't forget to **write code**! Here are a few ideas for simple projects to get started with:
 
->    1. Write an Elm program that writes *Right* or *Left* in the middle of the screen depending on whether the mouse cursor is on the left half of the screen or right half of the screen
->    2. Write an Elm program that displays dots randomly on the screen, with reset and pause/play buttons
->    3. Write an Elm program that displays the name, avatar and list of programming languages
->       for a GitHub user entered using a text field
->    4. Write an Elm Snake clone (extra: add a highscore)
+    1. Write an Elm program that writes *Right* or *Left* in the middle of the screen depending on whether the mouse cursor is on the left half of the screen or right half of the screen
+    2. Write an Elm program that displays dots randomly on the screen, with reset and pause/play buttons
+    3. Write an Elm program that displays the name, avatar and list of programming languages
+       for a GitHub user entered using a text field
+    4. Write an Elm Snake clone (extra: add a highscore)
 
 
 Additionally: if you ever get stuck, try posting on the [mailing list][] or come to
