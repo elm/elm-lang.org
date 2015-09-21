@@ -171,7 +171,7 @@ redirects =
     , "Community.elm" ==> "/community"
     , "Elm.elm" ==> "/"
     , "Examples.elm" ==> "/examples"
-    , "Get-Started.elm" ==> "/docs"
+    , "Get-Started.elm" ==> "/docs/get-started"
     , "Install.elm" ==> "/install"
     , "Learn.elm" ==> "/docs"
     , "Libraries.elm" ==> "http://package.elm-lang.org"
