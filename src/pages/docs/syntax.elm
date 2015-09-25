@@ -64,7 +64,7 @@ Just add or remove the `}` on the first line and you'll toggle between commented
 
 ```elm
 -- Boolean
-True  : Bool
+True  : Bool -- read: "true has type bool"
 False : Bool
 
 42    : number  -- Int or Float depending on usage
@@ -85,8 +85,10 @@ Typical manipulation of literals:
 ```elm
 True && not (True || False)
 (2 + 4) * (4^2 - 9)
-"abc" ++ "def"
+"abc" ++ "def" -- append
 ```
+
+You can also compare Elm's literals to those [in JavaScript](/docs/from-javascript).
 
 ### Lists
 
@@ -98,6 +100,8 @@ Here are four things that are equivalent:
 1 :: [2,3,4]
 1 :: 2 :: 3 :: 4 :: []
 ```
+
+The `::` operator is pronounced "cons".
 
 ### Conditionals
 
@@ -115,8 +119,8 @@ if | key == 40 -> n+1
    | otherwise -> n
 ```
 
-You can also have conditional behavior based on the structure of algebraic
-data types and literals
+You can also have conditional behavior based on the structure of union
+types and literals.
 
 ```elm
 case maybe of
@@ -235,10 +239,12 @@ Historical note: this is borrowed from F#, inspired by Unix pipes.
 
 ### Let Expressions
 
+Define local variables with a let expression. Only the final result will be
+visible to the outside world.
+
 ```elm
-let n = 42
-    (a,b) = (3,4)
-    {x,y} = { x=3, y=4 }
+let a = 42
+    b = 256
     square n = n * n
 in
     square a + square b
@@ -255,7 +261,7 @@ append xs ys = xs ++ ys
 xs = [1,2,3]
 ys = [4,5,6]
 
--- All of the following expressions are equivalent:
+-- All six of the following expressions are equivalent:
 a1 = append xs ys
 a2 = (++) xs ys
 
