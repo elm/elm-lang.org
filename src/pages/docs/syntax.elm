@@ -4,13 +4,8 @@ import Html.Attributes exposing (..)
 import Blog
 import Center
 
-
 port title : String
 port title = "Elm Syntax"
-
-
-(=>) = (,)
-
 
 main =
   Blog.docs
@@ -85,14 +80,15 @@ Typical manipulation of literals:
 ```elm
 True && not (True || False)
 (2 + 4) * (4^2 - 9)
-"abc" ++ "def" -- append
+"abc" ++ "def" == "abcdef"
+abs -1 == 1
 ```
 
-You can also compare Elm's literals to those [in JavaScript](/docs/from-javascript).
+You can also compare Elm's literals to [those in JavaScript](/docs/from-javascript).
 
 ### Lists
 
-Here are four things that are equivalent:
+The list is Elm's main data structure. Here are four equal lists:
 
 ```elm
 [1..4]
@@ -101,7 +97,7 @@ Here are four things that are equivalent:
 1 :: 2 :: 3 :: 4 :: []
 ```
 
-The `::` operator is pronounced "cons".
+The `(::)` operator is pronounced "cons" (the parantheses mean it is infix).
 
 ### Conditionals
 
@@ -117,8 +113,8 @@ else if key == 38 then n-1
 else n
 ```
 
-You can also have conditional behavior based on the structure of union
-types and literals.
+You can also have conditional behavior based on the structure of literals
+and [union types](#union-types).
 
 ```elm
 case maybe of
@@ -150,11 +146,14 @@ hypotenuse a b = sqrt (square a + square b)
 distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
 ```
 
-Anonymous functions:
+An anonymous function is introduced with a backslash. They are usually enclosed
+in parantheses.
 
 ```elm
+-- the style above is preferred, but this is equivalent
 square = \\n -> n^2
-squares = map (\\n -> n^2) [1..100]
+-- typical use of an anonymous function
+squares = List.map (\\n -> n^2) [1..100]
 ```
 
 A definition is like a function with no arguments:
@@ -163,7 +162,7 @@ A definition is like a function with no arguments:
 duration = 1.5*second
 ```
 
-Elm uses `camelCase` for names.
+Elm uses `camelCase` for names of functions and values.
 
 ### Let Expressions
 
@@ -182,6 +181,8 @@ Let-expressions are indentation sensitive.
 Each definition should align with the one above it.
 
 ### Applying Functions
+
+Functions and arguments are separated only by whitespace.
 
 ```elm
 -- alias for appending lists, and two lists
@@ -202,8 +203,14 @@ c2 = ((++) xs) ys
 
 ### Union Types
 
+A union type consists of one or more tags. Each tag can have one or more values
+of a known type carried with it.
+
 ```elm
-type ListOfInts = Empty | Node Int List
+-- a simple enumeration
+type ConnectionStatus = Connecting | Connected | Disconnected | CouldNotConnect
+-- Any Node will have two other values, one of which is recursive
+type ListOfInts = Empty | Node Int ListOfInts
 -- a "tree of a", where "a" can be any type
 type Tree a = Leaf | Node a (Tree a) (Tree a)
 ```
@@ -254,7 +261,7 @@ dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
 \\{x,y} -> (x,y)
 
 lib = { double x = x*2 }       -- fields can hold functions
-lib.id 42 == 84
+lib.double 42 == 84
 ```
 
 ### Type Aliases
@@ -282,7 +289,6 @@ the same order as the record.
 Point 0 0 == origin
 ```
 
-
 ### Type Annotations
 
 Types always begin with a capital letter. Type variables begin with a lowercase letter.
@@ -293,15 +299,29 @@ answer = 42
 
 factorial : Int -> Int
 factorial n = product [1..n]
+
+listLength : List a -> Int
+listLength aList =
+    case aList of
+        [] -> 0
+        x::xs -> 1 + listLength xs
 ```
 
 ### Working with Functions
 
+Every function with more than one argument can be partially applied with only
+some of its arguments.
+
+```elm
+log2 = logBase 2
+log2 64 == logBase 2 64
+log2 256 == 8
+```
 
 Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
 and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
+to reduce parentheses usage. They are aliases for function application. If it
+helps, you can think of them like Unix pipes.
 
 ```elm
 f <| x = f x
@@ -317,15 +337,15 @@ otherDot =
     |> scale 2
 ```
 
-Historical note: this is borrowed from F#, inspired by Unix pipes.
-
 Use [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
 and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
 for function composition.
 
 ```elm
 type alias Person = {position : {x : Float, y : Float}}
-xValues = List.map (.position>>.x) people
+xValues = List.map (.position >> .x) people
+
+List.map (logBase 10 >> ceiling) [42, 256, 9001] == [2, 3, 4]
 ```
 
 Be aware that function equality is not supported.
@@ -337,7 +357,8 @@ myFunction == anotherFunction
 
 ### Infix Operators
 
-Function application has higher precedence (happens before) any infix operator.
+Function application has higher precedence than (happens before) any infix
+operator.
 
 ```elm
 square 6 + 6 == 42
@@ -347,7 +368,8 @@ square (6 + 6) == 144
 The basic arithmetic infix operators follow the order of operations.
 
 ```elm
-2 + 5 * 2^3 : number -- 2 + (5 * (2^3))
+2 + 5 * 2^3 == 2 + (5 * (2^3))
+cos (degrees 30) ^ 2 + sin (degrees 30) ^ 2 == 1
 ```
 
 You can create custom infix operators.
