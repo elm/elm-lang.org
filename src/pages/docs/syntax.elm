@@ -138,49 +138,9 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-### Union Types
-
-```elm
-type List = Empty | Node Int List
-```
-
-Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
-
-### Records
-
-For more explanation of Elm&rsquo;s record system, see [this overview][exp],
-the [initial announcement][v7], or [this academic paper][records].
-
-  [exp]: /docs/records "Records in Elm"
-  [v7]:  /blog/announce/0.7 "Elm version 0.7"
-  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
-
-```elm
-point = { x = 3, y = 4 }       -- create a record
-
-point.x                        -- access field
-map .x [point,{x=0,y=0}]       -- field access function
-
-{ point - x }                  -- remove field
-{ point | z = 12 }             -- add field
-{ point - x | z = point.x }    -- rename field
-{ point - x | x = 6 }          -- update field
-
-{ point | x <- 6 }             -- nicer way to update a field
-{ point | x <- point.x + 1
-        , y <- point.y + 1 }   -- batch update fields
-
-dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\\{x,y} -> (x,y)
-
-lib = { id x = x }             -- polymorphic fields
-(lib.id 42 == 42)
-(lib.id [] == [])
-
-type alias Location = { line:Int, column:Int }
-```
-
-### Functions
+### Defining Functions
+Functions are defined by writing their name, arguments separated by spaces, an equals sign,
+and then the function body.
 
 ```elm
 square n = n^2
@@ -196,44 +156,6 @@ Anonymous functions:
 square = \\n -> n^2
 squares = map (\\n -> n^2) [1..100]
 ```
-
-### Infix Operators
-
-You can create custom infix operators.
-[Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
-9, where 9 is the tightest. The default precedence is 9 and the default
-[associativity](http://en.wikipedia.org/wiki/Operator_associativity) is left.
-You can set this yourself, but you cannot override built-in operators.
-
-```elm
-(?) : Maybe a -> a -> a
-(?) maybe default =
-  Maybe.withDefault default maybe
-
-infixr 9 ?
-```
-
-Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
-
-```elm
-f <| x = f x
-x |> f = f x
-
-dot =
-  scale 2 (move (20,20) (filled blue (circle 10)))
-
-dot' =
-  circle 10
-    |> filled blue
-    |> move (20,20)
-    |> scale 2
-```
-
-Historical note: this is borrowed from F#, inspired by Unix pipes.
-
 
 ### Let Expressions
 
@@ -283,6 +205,31 @@ The basic arithmetic infix operators all figure out what type they should have a
 1 / 2     : Float
 ```
 
+### Union Types
+
+```elm
+type List = Empty | Node Int List
+```
+
+Union types are explained in more detail [here](/guide/model-the-problem).
+
+### Tuples
+
+Tuples are lightweight groups of values. You always know how many values
+there are, and their types. Both tuples and their types are written with
+parentheses.
+
+```elm
+(1.41, 2.72) : (Float, Float)
+(True, "Love") : (Bool, String)
+```
+
+Usually you access a tuple's values with pattern matching.
+
+```elm
+area (width, height) = width * height
+```
+
 There is a special function for creating tuples:
 
 ```elm
@@ -291,6 +238,92 @@ There is a special function for creating tuples:
 ```
 
 You can use as many commas as you want.
+
+### Records
+
+A tuple holds values in order; a record holds values by key.
+
+```elm
+point = { x = 3, y = 4 }       -- create a record
+
+point.x                        -- access field
+map .x [point, {x=0,y=0}]      -- field access function
+
+{ point | x = 6 }              -- update a field
+{ point | x = point.x + 1
+        , y = point.y + 1 }    -- batch update fields based on old values
+
+dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
+\\{x,y} -> (x,y)
+
+lib = { double x = x*2 }       -- fields can hold functions
+lib.id 42 == 84
+```
+
+### Type Aliases
+
+Unlike union types, which create new types, type alias introduce new names for
+existing types. This is very handy when you have large tuples or records.
+
+```elm
+type alias Name = String
+type alias Age = Int
+
+info : (Name, Age)
+info = ("Steve", 28)
+
+type alias Point = { x : Float, y : Float }
+
+origin : Point
+origin = { x=0, y=0 }
+```
+
+### Type Annotations
+
+```elm
+answer : Int
+answer = 42
+
+factorial : Int -> Int
+factorial n = product [1..n]
+```
+
+### Infix Operators
+
+You can create custom infix operators.
+[Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
+9, where 9 is the tightest. The default precedence is 9 and the default
+[associativity](http://en.wikipedia.org/wiki/Operator_associativity) is left.
+You can set this yourself, but you cannot override built-in operators.
+
+```elm
+(?) : Maybe a -> a -> a
+(?) maybe default =
+  Maybe.withDefault default maybe
+
+infixr 9 ?
+```
+
+Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
+and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
+to reduce parentheses usage. They are aliases for function
+application.
+
+```elm
+f <| x = f x
+x |> f = f x
+
+dot =
+  scale 2 (move (20,20) (filled blue (circle 10)))
+
+dot' =
+  circle 10
+    |> filled blue
+    |> move (20,20)
+    |> scale 2
+```
+
+Historical note: this is borrowed from F#, inspired by Unix pipes.
 
 ### Mapping
 
@@ -347,34 +380,6 @@ import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
-
-### Type Annotations
-
-```elm
-answer : Int
-answer = 42
-
-factorial : Int -> Int
-factorial n = product [1..n]
-
-addName : String -> a -> { a | name:String }
-addName name record = { record | name = name }
-```
-
-### Type Aliases
-
-```elm
-type alias Name = String
-type alias Age = Int
-
-info : (Name,Age)
-info = ("Steve", 28)
-
-type alias Point = { x:Float, y:Float }
-
-origin : Point
-origin = { x=0, y=0 }
-```
 
 ### JavaScript FFI
 
