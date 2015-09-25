@@ -4,13 +4,8 @@ import Html.Attributes exposing (..)
 import Blog
 import Center
 
-
 port title : String
 port title = "Elm Syntax"
-
-
-(=>) = (,)
-
 
 main =
   Blog.docs
@@ -25,20 +20,20 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Union Types](#union-types)
-- [Records](#records)
-- [Functions](#functions)
-- [Infix Operators](#infix-operators)
-- [Let Expressions](#let-expressions)
+- [Defining Functions](#defining-functions)
 - [Applying Functions](#applying-functions)
-- [Mapping with `(<~)` and `(~)`](#mapping)
-- [Modules](#modules)
-- [Type Annotations](#type-annotations)
+- [Union Types](#union-types)
+- [Let Expressions](#let-expressions)
+- [Tuples](#tuples)
+- [Records](#records)
 - [Type Aliases](#type-aliases)
-- [JavaScript FFI](#javascript-ffi)
+- [Type Annotations](#type-annotations)
+- [Working with Functions](#working-with-functions)
+- [Infix Operators](#infix-operators)
+- [Modules and Imports](#modules-and-imports)
+- [Connecting to JavaScript](#connecting-to-javascript)
 
-Check out the [learning resources](/Learn.elm) for
-tutorials and examples on actually *using* this syntax.
+Most of these topics are covered more thoroughly in the [Complete Guide to Elm](/docs#complete-guide).
 
 ### Comments
 
@@ -64,7 +59,7 @@ Just add or remove the `}` on the first line and you'll toggle between commented
 
 ```elm
 -- Boolean
-True  : Bool
+True  : Bool -- read: "true has type bool"
 False : Bool
 
 42    : number  -- Int or Float depending on usage
@@ -85,12 +80,15 @@ Typical manipulation of literals:
 ```elm
 True && not (True || False)
 (2 + 4) * (4^2 - 9)
-"abc" ++ "def"
+"abc" ++ "def" == "abcdef"
+abs -1 == 1
 ```
+
+You can also compare Elm's literals to [those in JavaScript](/docs/from-javascript).
 
 ### Lists
 
-Here are four things that are equivalent:
+The list is Elm's main data structure. Here are four equal lists:
 
 ```elm
 [1..4]
@@ -99,24 +97,24 @@ Here are four things that are equivalent:
 1 :: 2 :: 3 :: 4 :: []
 ```
 
+The `(::)` operator is pronounced "cons" (the parantheses mean it is infix).
+
 ### Conditionals
 
 ```elm
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
-Multi-way if-expressions make it easier
-to have a bunch of different branches.
-You can read the `|` as *where*.
+You can chain if-expressions into a bunch of different branches.
 
 ```elm
-if | key == 40 -> n+1
-   | key == 38 -> n-1
-   | otherwise -> n
+if key == 40 then n+1
+else if key == 38 then n-1
+else n
 ```
 
-You can also have conditional behavior based on the structure of algebraic
-data types and literals
+You can also have conditional behavior based on the structure of literals
+and [union types](#union-types).
 
 ```elm
 case maybe of
@@ -136,49 +134,9 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-### Union Types
-
-```elm
-type List = Empty | Node Int List
-```
-
-Not sure what this means? [Read this](/learn/Pattern-Matching.elm).
-
-### Records
-
-For more explanation of Elm&rsquo;s record system, see [this overview][exp],
-the [initial announcement][v7], or [this academic paper][records].
-
-  [exp]: /docs/records "Records in Elm"
-  [v7]:  /blog/announce/0.7 "Elm version 0.7"
-  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
-
-```elm
-point = { x = 3, y = 4 }       -- create a record
-
-point.x                        -- access field
-map .x [point,{x=0,y=0}]       -- field access function
-
-{ point - x }                  -- remove field
-{ point | z = 12 }             -- add field
-{ point - x | z = point.x }    -- rename field
-{ point - x | x = 6 }          -- update field
-
-{ point | x <- 6 }             -- nicer way to update a field
-{ point | x <- point.x + 1
-        , y <- point.y + 1 }   -- batch update fields
-
-dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\\{x,y} -> (x,y)
-
-lib = { id x = x }             -- polymorphic fields
-(lib.id 42 == 42)
-(lib.id [] == [])
-
-type alias Location = { line:Int, column:Int }
-```
-
-### Functions
+### Defining Functions
+Functions are defined by writing their name, arguments separated by spaces, an equals sign,
+and then the function body.
 
 ```elm
 square n = n^2
@@ -188,14 +146,231 @@ hypotenuse a b = sqrt (square a + square b)
 distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
 ```
 
-Anonymous functions:
+An anonymous function is introduced with a backslash. They are usually enclosed
+in parantheses.
 
 ```elm
+-- the style above is preferred, but this is equivalent
 square = \\n -> n^2
-squares = map (\\n -> n^2) [1..100]
+-- typical use of an anonymous function
+squares = List.map (\\n -> n^2) [1..100]
+```
+
+A definition is like a function with no arguments:
+
+```elm
+duration = 1.5*second
+```
+
+Elm uses `camelCase` for names of functions and values.
+
+### Applying Functions
+
+Functions and arguments are separated only by whitespace.
+
+```elm
+-- alias for appending lists, and two lists
+append xs ys = xs ++ ys
+xs = [1,2,3]
+ys = [4,5,6]
+
+-- All six of the following expressions are equivalent:
+a1 = append xs ys
+a2 = (++) xs ys
+
+b1 = xs `append` ys
+b2 = xs ++ ys
+
+c1 = (append xs) ys
+c2 = ((++) xs) ys
+```
+
+### Let Expressions
+
+Define local variables with a let expression. Only the final result will be
+visible to the outside world.
+
+```elm
+let a = 42
+    b = 256
+    square n = n * n
+in
+    square a + square b
+```
+
+Let-expressions are indentation sensitive.
+Each definition should align with the one above it.
+
+### Union Types
+
+A union type consists of one or more tags. Each tag can have one or more values
+of a known type carried with it.
+
+```elm
+-- a simple enumeration
+type ConnectionStatus = Connecting | Connected | Disconnected | CouldNotConnect
+-- Any Node will have two other values, one of which is recursive
+type ListOfInts = Empty | Node Int ListOfInts
+-- a "tree of a", where "a" can be any type
+type Tree a = Leaf | Node a (Tree a) (Tree a)
+```
+
+Union types are explained in more detail [here](/guide/model-the-problem).
+
+### Tuples
+
+Tuples are lightweight groups of values. You always know how many values
+there are, and their types. Both tuples and their types are written with
+parentheses.
+
+```elm
+(1.41, 2.72) : (Float, Float)
+(True, "Love") : (Bool, String)
+```
+
+Usually you access a tuple's values with pattern matching.
+
+```elm
+area (width, height) = width * height
+```
+
+There is a special function for creating tuples:
+
+```elm
+(,) 1 2              == (1,2)
+(,,,) 1 True 'a' []  == (1,True,'a',[])
+```
+
+You can use as many commas as you want.
+
+### Records
+
+A tuple holds values in order; a record holds values by key.
+
+```elm
+point = { x = 3, y = 4 }       -- create a record
+
+point.x                        -- access field
+map .x [point, {x=0,y=0}]      -- field access function
+
+{ point | x = 6 }              -- update a field
+{ point | x = point.x + 1
+        , y = point.y + 1 }    -- batch update fields based on old values
+
+dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
+\\{x,y} -> (x,y)
+
+lib = { double x = x*2 }       -- fields can hold functions
+lib.double 42 == 84
+```
+
+### Type Aliases
+
+Unlike union types, which create new types, type alias introduce new names for
+existing types. This is very handy when you have large tuples or records.
+
+```elm
+type alias Name = String
+type alias Age = Int
+
+info : (Name, Age)
+info = ("Steve", 28)
+
+type alias Point = { x : Float, y : Float }
+
+origin : Point
+origin = { x = 0, y = 0 }
+```
+
+When you alias a record, you get a record constructor that takes arguments in
+the same order as the record.
+
+```elm
+Point 0 0 == origin
+```
+
+### Type Annotations
+
+Types always begin with a capital letter. Type variables begin with a lowercase letter.
+
+```elm
+answer : Int
+answer = 42
+
+factorial : Int -> Int
+factorial n = product [1..n]
+
+listLength : List a -> Int
+listLength aList =
+    case aList of
+        [] -> 0
+        x::xs -> 1 + listLength xs
+```
+
+### Working with Functions
+
+Every function with more than one argument can be partially applied with only
+some of its arguments.
+
+```elm
+log2 = logBase 2
+log2 64 == logBase 2 64
+log2 256 == 8
+```
+
+Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
+and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
+to reduce parentheses usage. They are aliases for function application. If it
+helps, you can think of them like Unix pipes.
+
+```elm
+f <| x = f x
+x |> f = f x
+
+dot =
+  scale 2 (move (20,20) (filled blue (circle 10)))
+
+otherDot =
+  circle 10
+    |> filled blue
+    |> move (20,20)
+    |> scale 2
+```
+
+Use [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
+for function composition.
+
+```elm
+type alias Person = {position : {x : Float, y : Float}}
+xValues = List.map (.position >> .x) people
+
+List.map (logBase 10 >> ceiling) [42, 256, 9001] == [2, 3, 4]
+```
+
+Be aware that function equality is not supported.
+
+```elm
+-- DON'T DO THIS!
+myFunction == anotherFunction
 ```
 
 ### Infix Operators
+
+Function application has higher precedence than (happens before) any infix
+operator.
+
+```elm
+square 6 + 6 == 42
+square (6 + 6) == 144
+```
+
+The basic arithmetic infix operators follow the order of operations.
+
+```elm
+2 + 5 * 2^3 == 2 + (5 * (2^3))
+cos (degrees 30) ^ 2 + sin (degrees 30) ^ 2 == 1
+```
 
 You can create custom infix operators.
 [Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
@@ -211,119 +386,7 @@ You can set this yourself, but you cannot override built-in operators.
 infixr 9 ?
 ```
 
-Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
-
-```elm
-f <| x = f x
-x |> f = f x
-
-dot =
-  scale 2 (move (20,20) (filled blue (circle 10)))
-
-dot' =
-  circle 10
-    |> filled blue
-    |> move (20,20)
-    |> scale 2
-```
-
-Historical note: this is borrowed from F#, inspired by Unix pipes.
-
-
-### Let Expressions
-
-```elm
-let n = 42
-    (a,b) = (3,4)
-    {x,y} = { x=3, y=4 }
-    square n = n * n
-in
-    square a + square b
-```
-
-Let-expressions are indentation sensitive.
-Each definition should align with the one above it.
-
-### Applying Functions
-
-```elm
--- alias for appending lists and two lists
-append xs ys = xs ++ ys
-xs = [1,2,3]
-ys = [4,5,6]
-
--- All of the following expressions are equivalent:
-a1 = append xs ys
-a2 = (++) xs ys
-
-b1 = xs `append` ys
-b2 = xs ++ ys
-
-c1 = (append xs) ys
-c2 = ((++) xs) ys
-```
-
-The basic arithmetic infix operators all figure out what type they should have automatically.
-
-```elm
-23 + 19    : number
-2.0 + 1    : Float
-
-6 * 7      : number
-10 * 4.2   : Float
-
-100 // 2  : Int
-1 / 2     : Float
-```
-
-There is a special function for creating tuples:
-
-```elm
-(,) 1 2              == (1,2)
-(,,,) 1 True 'a' []  == (1,True,'a',[])
-```
-
-You can use as many commas as you want.
-
-### Mapping
-
-The `map` functions are used to apply a normal function like `sqrt` to a signal
-of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
-to a signal in which the current value is equal to the square root of the current
-x-coordinate of the mouse.
-
-You can also use the functions `(<~)` and `(~)` to map over signals. The squiggly
-arrow is exactly the same as the `map` function, so the following expressions
-are the same:
-
-```elm
-map sqrt Mouse.x
-sqrt <~ Mouse.x
-```
-
-You can think of it as saying &ldquo;send this signal through this
-function.&rdquo;
-
-The `(~)` operator allows you to apply a signal of functions to a signal of
-values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
-together many signals, just like `map2`, `map3`, etc. So the following
-expressions are equivalent:
-
-```elm
-map2 (,) Mouse.x Mouse.y
-(,) <~ Mouse.x ~ Mouse.y
-
-map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
-```
-
-More info can be found [here](/blog/announce/0.7#do-you-even-lift-)
-and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
-
-### Modules
+### Modules and Imports
 
 ```elm
 module MyModule where
@@ -344,55 +407,24 @@ import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
-### Type Annotations
+### Connecting to JavaScript
 
 ```elm
-answer : Int
-answer = 42
-
-factorial : Int -> Int
-factorial n = product [1..n]
-
-addName : String -> a -> { a | name:String }
-addName name record = { record | name = name }
-```
-
-### Type Aliases
-
-```elm
-type alias Name = String
-type alias Age = Int
-
-info : (Name,Age)
-info = ("Steve", 28)
-
-type alias Point = { x:Float, y:Float }
-
-origin : Point
-origin = { x=0, y=0 }
-```
-
-### JavaScript FFI
-
-```elm
--- incoming values
+-- incoming values are declared only as type annotations
 port userID : String
 port prices : Signal Float
 
--- outgoing values
+-- outgoing values must have a definition
 port time : Signal Float
 port time = every second
-
-port increment : Int -> Int
-port increment = \\n -> n + 1
 ```
 
-From JS, you talk to these ports like this:
+In JS, you talk to these ports like this:
 
 ```javascript
 var example = Elm.worker(Elm.Example, {
-  userID:"abc123",
-  prices:11
+  userID: "abc123",
+  prices: 11
 });
 
 example.ports.prices.send(42);
@@ -400,25 +432,18 @@ example.ports.prices.send(13);
 
 example.ports.time.subscribe(callback);
 example.ports.time.unsubscribe(callback);
-
-example.ports.increment(41) === 42;
 ```
 
-More example uses can be found
-[here](https://github.com/evancz/elm-html-and-js)
-and [here](https://gist.github.com/evancz/8521339).
+Elm has a built-in port handler to set the page title (ignoring empty strings).
 
-Elm has some built-in port handlers that automatically take some
-imperative action:
+```elm
+port title : String
+port title = "My Cool Page"
+```
 
- * `title` sets the page title, ignoring empty strings
- * `log` logs messages to the developer console
- * `redirect` redirects to a different page, ignoring empty strings
+Ports are also used to run Tasks. Instead of handing off a value to a callback,
+you hand off a description of work to be done, and Elm does it for you.
 
-Experimental port handlers:
-
- * `favicon` sets the pages favicon
- * `stdout` logs to stdout in node.js and to console in browser
- * `stderr` logs to stderr in node.js and to console in browser
+For more information, see the [interop guide](/guide/interop).
 
 """
