@@ -157,6 +157,14 @@ square = \\n -> n^2
 squares = map (\\n -> n^2) [1..100]
 ```
 
+A definition is like a function with no arguments:
+
+```elm
+duration = 1.5*second
+```
+
+Elm uses `camelCase` for names.
+
 ### Let Expressions
 
 Define local variables with a let expression. Only the final result will be
@@ -176,7 +184,7 @@ Each definition should align with the one above it.
 ### Applying Functions
 
 ```elm
--- alias for appending lists and two lists
+-- alias for appending lists, and two lists
 append xs ys = xs ++ ys
 xs = [1,2,3]
 ys = [4,5,6]
@@ -192,23 +200,12 @@ c1 = (append xs) ys
 c2 = ((++) xs) ys
 ```
 
-The basic arithmetic infix operators all figure out what type they should have automatically.
-
-```elm
-23 + 19    : number
-2.0 + 1    : Float
-
-6 * 7      : number
-10 * 4.2   : Float
-
-100 // 2  : Int
-1 / 2     : Float
-```
-
 ### Union Types
 
 ```elm
-type List = Empty | Node Int List
+type ListOfInts = Empty | Node Int List
+-- a "tree of a", where "a" can be any type
+type Tree a = Leaf | Node a (Tree a) (Tree a)
 ```
 
 Union types are explained in more detail [here](/guide/model-the-problem).
@@ -275,10 +272,20 @@ info = ("Steve", 28)
 type alias Point = { x : Float, y : Float }
 
 origin : Point
-origin = { x=0, y=0 }
+origin = { x = 0, y = 0 }
 ```
 
+When you alias a record, you get a record constructor that takes arguments in
+the same order as the record.
+
+```elm
+Point 0 0 == origin
+```
+
+
 ### Type Annotations
+
+Types always begin with a capital letter. Type variables begin with a lowercase letter.
 
 ```elm
 answer : Int
@@ -288,7 +295,60 @@ factorial : Int -> Int
 factorial n = product [1..n]
 ```
 
+### Working with Functions
+
+
+Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
+and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
+to reduce parentheses usage. They are aliases for function
+application.
+
+```elm
+f <| x = f x
+x |> f = f x
+
+dot =
+  scale 2 (move (20,20) (filled blue (circle 10)))
+
+otherDot =
+  circle 10
+    |> filled blue
+    |> move (20,20)
+    |> scale 2
+```
+
+Historical note: this is borrowed from F#, inspired by Unix pipes.
+
+Use [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
+for function composition.
+
+```elm
+type alias Person = {position : {x : Float, y : Float}}
+xValues = List.map (.position>>.x) people
+```
+
+Be aware that function equality is not supported.
+
+```elm
+-- DON'T DO THIS!
+myFunction == anotherFunction
+```
+
 ### Infix Operators
+
+Function application has higher precedence (happens before) any infix operator.
+
+```elm
+square 6 + 6 == 42
+square (6 + 6) == 144
+```
+
+The basic arithmetic infix operators follow the order of operations.
+
+```elm
+2 + 5 * 2^3 : number -- 2 + (5 * (2^3))
+```
 
 You can create custom infix operators.
 [Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
@@ -303,27 +363,6 @@ You can set this yourself, but you cannot override built-in operators.
 
 infixr 9 ?
 ```
-
-Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
-
-```elm
-f <| x = f x
-x |> f = f x
-
-dot =
-  scale 2 (move (20,20) (filled blue (circle 10)))
-
-dot' =
-  circle 10
-    |> filled blue
-    |> move (20,20)
-    |> scale 2
-```
-
-Historical note: this is borrowed from F#, inspired by Unix pipes.
 
 ### Modules and Imports
 
