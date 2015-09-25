@@ -109,14 +109,12 @@ The `::` operator is pronounced "cons".
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
-Multi-way if-expressions make it easier
-to have a bunch of different branches.
-You can read the `|` as *where*.
+You can chain if-expressions into a bunch of different branches.
 
 ```elm
-if | key == 40 -> n+1
-   | key == 38 -> n-1
-   | otherwise -> n
+if key == 40 then n+1
+else if key == 38 then n-1
+else n
 ```
 
 You can also have conditional behavior based on the structure of union
