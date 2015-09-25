@@ -164,22 +164,6 @@ duration = 1.5*second
 
 Elm uses `camelCase` for names of functions and values.
 
-### Let Expressions
-
-Define local variables with a let expression. Only the final result will be
-visible to the outside world.
-
-```elm
-let a = 42
-    b = 256
-    square n = n * n
-in
-    square a + square b
-```
-
-Let-expressions are indentation sensitive.
-Each definition should align with the one above it.
-
 ### Applying Functions
 
 Functions and arguments are separated only by whitespace.
@@ -200,6 +184,22 @@ b2 = xs ++ ys
 c1 = (append xs) ys
 c2 = ((++) xs) ys
 ```
+
+### Let Expressions
+
+Define local variables with a let expression. Only the final result will be
+visible to the outside world.
+
+```elm
+let a = 42
+    b = 256
+    square n = n * n
+in
+    square a + square b
+```
+
+Let-expressions are indentation sensitive.
+Each definition should align with the one above it.
 
 ### Union Types
 
