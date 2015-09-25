@@ -325,42 +325,7 @@ dot' =
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
 
-### Mapping
-
-The `map` functions are used to apply a normal function like `sqrt` to a signal
-of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
-to a signal in which the current value is equal to the square root of the current
-x-coordinate of the mouse.
-
-You can also use the functions `(<~)` and `(~)` to map over signals. The squiggly
-arrow is exactly the same as the `map` function, so the following expressions
-are the same:
-
-```elm
-map sqrt Mouse.x
-sqrt <~ Mouse.x
-```
-
-You can think of it as saying &ldquo;send this signal through this
-function.&rdquo;
-
-The `(~)` operator allows you to apply a signal of functions to a signal of
-values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
-together many signals, just like `map2`, `map3`, etc. So the following
-expressions are equivalent:
-
-```elm
-map2 (,) Mouse.x Mouse.y
-(,) <~ Mouse.x ~ Mouse.y
-
-map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
-```
-
-More info can be found [here](/blog/announce/0.7#do-you-even-lift-)
-and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
-
-### Modules
+### Modules and Imports
 
 ```elm
 module MyModule where
