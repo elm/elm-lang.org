@@ -20,20 +20,20 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Union Types](#union-types)
-- [Records](#records)
-- [Functions](#functions)
-- [Infix Operators](#infix-operators)
-- [Let Expressions](#let-expressions)
+- [Defining Functions](#defining-functions)
 - [Applying Functions](#applying-functions)
-- [Mapping with `(<~)` and `(~)`](#mapping)
-- [Modules](#modules)
-- [Type Annotations](#type-annotations)
+- [Union Types](#union-types)
+- [Let Expressions](#let-expressions)
+- [Tuples](#tuples)
+- [Records](#records)
 - [Type Aliases](#type-aliases)
-- [JavaScript FFI](#javascript-ffi)
+- [Type Annotations](#type-annotations)
+- [Working with Functions](#working-with-functions)
+- [Infix Operators](#infix-operators)
+- [Modules and Imports](#modules-and-imports)
+- [Connecting to JavaScript](#connecting-to-javascript)
 
-Check out the [learning resources](/Learn.elm) for
-tutorials and examples on actually *using* this syntax.
+Most of these topics are covered more thoroughly in the [Complete Guide to Elm](/docs#complete-guide).
 
 ### Comments
 
