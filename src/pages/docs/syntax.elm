@@ -407,27 +407,24 @@ import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
-### JavaScript FFI
+### Connecting to JavaScript
 
 ```elm
--- incoming values
+-- incoming values are declared only as type annotations
 port userID : String
 port prices : Signal Float
 
--- outgoing values
+-- outgoing values must have a definition
 port time : Signal Float
 port time = every second
-
-port increment : Int -> Int
-port increment = \\n -> n + 1
 ```
 
-From JS, you talk to these ports like this:
+In JS, you talk to these ports like this:
 
 ```javascript
 var example = Elm.worker(Elm.Example, {
-  userID:"abc123",
-  prices:11
+  userID: "abc123",
+  prices: 11
 });
 
 example.ports.prices.send(42);
@@ -435,25 +432,18 @@ example.ports.prices.send(13);
 
 example.ports.time.subscribe(callback);
 example.ports.time.unsubscribe(callback);
-
-example.ports.increment(41) === 42;
 ```
 
-More example uses can be found
-[here](https://github.com/evancz/elm-html-and-js)
-and [here](https://gist.github.com/evancz/8521339).
+Elm has a built-in port handler to set the page title (ignoring empty strings).
 
-Elm has some built-in port handlers that automatically take some
-imperative action:
+```elm
+port title : String
+port title = "My Cool Page"
+```
 
- * `title` sets the page title, ignoring empty strings
- * `log` logs messages to the developer console
- * `redirect` redirects to a different page, ignoring empty strings
+Ports are also used to run Tasks. Instead of handing off a value to a callback,
+you hand off a description of work to be done, and Elm does it for you.
 
-Experimental port handlers:
-
- * `favicon` sets the pages favicon
- * `stdout` logs to stdout in node.js and to console in browser
- * `stderr` logs to stderr in node.js and to console in browser
+For more information, see the [interop guide](/guide/interop).
 
 """
