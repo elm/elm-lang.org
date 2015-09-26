@@ -232,6 +232,10 @@ dot' =
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
 
+Relatedly, [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
+are function composition operators.
+
 
 ### Let Expressions
 
