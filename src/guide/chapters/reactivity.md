@@ -106,9 +106,8 @@ elm-package install evancz/elm-http -y
 elm-package install evancz/elm-markdown -y
 ```
 
-This exposes the `TaskTutorial` module which has [a friendly
-values][task-tutorial] that will help build a foundation for working with
-tasks.
+This exposes the `TaskTutorial` module which has [a few values][task-tutorial]
+that will help build a foundation for working with tasks.
 
 [task-tutorial]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial
 
