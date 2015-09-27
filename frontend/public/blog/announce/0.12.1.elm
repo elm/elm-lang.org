@@ -47,7 +47,7 @@ structures and clever optimizations behind immutable arrays very clearly.
 Balanced Trees][rrbt] for Elm.
 
  [infoq]: http://www.infoq.com/presentations/julia-vectors-maps-sets
- [rrbt]: http://infoscience.epfl.ch/record/169879/files/RMTrees.pdf%E2%80%8E
+ [rrbt]: http://infoscience.epfl.ch/record/169879/files/RMTrees.pdf
 
 #### High-level Overview
 
