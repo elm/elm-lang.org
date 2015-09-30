@@ -165,7 +165,7 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 (True, "name accepted!")
 ```
 
-This can be quite handy, but when things start becoming more complicated, it is often best to use records instead tuples.
+This can be quite handy, but when things start becoming more complicated, it is often best to use records instead of tuples.
 
 
 ## Records
