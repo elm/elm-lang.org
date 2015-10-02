@@ -3,7 +3,7 @@
 
 Many languages have trouble expressing data with weird shapes in a reliable way. You often find yourself doing weird tricks with boolean flags or strings, or giving in and letting the language force you into a model that is slightly off. Either way you end up with code that is hard to maintain and refactor!
 
-This section goes through the parts of Elm that let you work with crazy data in a way is reliable and easy to refactor. We will start with a foundation of &ldquo;contracts&rdquo; and then use them with progressively crazier and crazier data.
+This section goes through the parts of Elm that let you work with crazy data in a way that is reliable and easy to refactor. We will start with a foundation of &ldquo;contracts&rdquo; and then use them with progressively crazier and crazier data.
 
 
 ## Contracts
@@ -47,7 +47,7 @@ isLong book =
   book.pages > 400
 ```
 
-In the `averageNameLength` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `averageNameLength` function is definitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that its a floating point number.
+In the `averageNameLength` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `averageNameLength` function is definitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that it's a floating point number.
 
 The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
 
