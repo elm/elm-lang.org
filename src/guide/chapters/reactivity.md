@@ -249,7 +249,7 @@ These are both exactly the same, but in the second one, it is a bit more
 explicit that we are waiting for a `time` and then printing it out.
 
 The [`andThen`][andThen] function is extremely important when using tasks
-because it let’s us build complex chains. We will be seeing more of it in
+because it lets us build complex chains. We will be seeing more of it in
 future examples!
 
 
