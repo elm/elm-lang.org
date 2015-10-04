@@ -209,8 +209,10 @@ of a known type carried with it.
 ```elm
 -- a simple enumeration
 type ConnectionStatus = Connecting | Connected | Disconnected | CouldNotConnect
+
 -- Any Node will have two other values, one of which is recursive
 type ListOfInts = Empty | Node Int ListOfInts
+
 -- a "tree of a", where "a" can be any type
 type Tree a = Leaf | Node a (Tree a) (Tree a)
 ```
