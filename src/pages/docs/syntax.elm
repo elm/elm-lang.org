@@ -245,6 +245,13 @@ There is a special function for creating tuples:
 
 You can use as many commas as you want.
 
+The empty tuple or *unit* is sometimes used as a placeholder value. It is
+the only value of its type.
+
+```elm
+() : ()
+```
+
 ### Records
 
 A tuple holds values in order; a record holds values by key.
