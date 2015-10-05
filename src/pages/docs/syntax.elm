@@ -88,7 +88,8 @@ You can also compare Elm's literals to [those in JavaScript](/docs/from-javascri
 
 ### Lists
 
-The list is Elm's main data structure. Here are four equal lists:
+The list is Elm's main data structure. Every element in a list must be of the same
+type. Here are four equal lists:
 
 ```elm
 [1..4]
