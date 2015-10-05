@@ -11,7 +11,7 @@
     "native-modules": true,
     "dependencies": {
         "elm-lang/core": "2.0.0 <= v < 3.0.0",
-        "evancz/elm-effects": "1.0.0 <= v < 2.0.0",
+        "evancz/elm-effects": "2.0.0 <= v < 3.0.0",
         "evancz/elm-html": "4.0.1 <= v < 5.0.0",
         "evancz/elm-http": "1.0.0 <= v < 2.0.0",
         "evancz/elm-markdown": "1.1.5 <= v < 2.0.0",

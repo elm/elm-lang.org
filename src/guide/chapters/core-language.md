@@ -93,7 +93,7 @@ The keywords `if` `then` `else` are used to separate the conditional and the two
 
 It is important to note that Elm does not have a notion of &ldquo;truthiness&rdquo; as in many dynamic languages, where numbers and strings and lists all can be used as boolean values. If we try it out, Elm will tell us that we need to work with a real boolean value.
 
-Now lets make a function that tells us if a number is over 9000.
+Now let's make a function that tells us if a number is over 9000.
 
 ```elm
 > over9000 powerLevel = \\
@@ -165,7 +165,7 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 (True, "name accepted!")
 ```
 
-This can be quite handy, but when things start becoming more complicated, it is often best to use records instead tuples.
+This can be quite handy, but when things start becoming more complicated, it is often best to use records instead of tuples.
 
 
 ## Records

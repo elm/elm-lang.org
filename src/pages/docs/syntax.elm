@@ -88,7 +88,8 @@ You can also compare Elm's literals to [those in JavaScript](/docs/from-javascri
 
 ### Lists
 
-The list is Elm's main data structure. Here are four equal lists:
+The list is Elm's main data structure. Every element in a list must be of the same
+type. Here are four equal lists:
 
 ```elm
 [1..4]
@@ -209,8 +210,10 @@ of a known type carried with it.
 ```elm
 -- a simple enumeration
 type ConnectionStatus = Connecting | Connected | Disconnected | CouldNotConnect
+
 -- Any Node will have two other values, one of which is recursive
 type ListOfInts = Empty | Node Int ListOfInts
+
 -- a "tree of a", where "a" can be any type
 type Tree a = Leaf | Node a (Tree a) (Tree a)
 ```
@@ -242,6 +245,13 @@ There is a special function for creating tuples:
 ```
 
 You can use as many commas as you want.
+
+The empty tuple or *unit* is sometimes used as a placeholder value. It is
+the only value of its type.
+
+```elm
+() : ()
+```
 
 ### Records
 
@@ -337,7 +347,7 @@ otherDot =
     |> scale 2
 ```
 
-Use [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+Relatedly, use [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
 and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
 for function composition.
 
