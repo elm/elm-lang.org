@@ -173,6 +173,7 @@ buildArtifactsFor :: (Pkg.Name, Pkg.Version) -> FilePath
 buildArtifactsFor (name, version) =
   "elm-stuff"
     </> "build-artifacts"
+    </> Pkg.versionToString Compiler.version
     </> Pkg.toFilePath name
     </> Pkg.versionToString version
 
