@@ -196,24 +196,24 @@ updateHint action state =
         let newRawDocs = pkg ++ state.rawDocs
         in
             { state |
-                rawDocs <- newRawDocs,
-                docs <- toDocs state.imports newRawDocs
+                rawDocs = newRawDocs,
+                docs = toDocs state.imports newRawDocs
             }
 
     UpdateImports imports ->
         { state |
-            imports <- imports,
-            docs <- toDocs imports state.rawDocs
+            imports = imports,
+            docs = toDocs imports state.rawDocs
         }
 
     CursorMove Nothing ->
         { state |
-            hints <- []
+            hints = []
         }
 
     CursorMove (Just name) ->
         { state |
-            hints <-
+            hints =
                 Maybe.withDefault []
                     (Dict.get name state.docs)
         }

@@ -1,3 +1,5 @@
+x = 32
+{--
 import Color exposing (..)
 import Graphics.Element exposing (..)
 import Math.Vector3 exposing (..)
@@ -114,3 +116,4 @@ void main () {
 }
 
 |]
+--}

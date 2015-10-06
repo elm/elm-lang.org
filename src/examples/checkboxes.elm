@@ -33,13 +33,13 @@ type Action
 update action model =
   case action of
     Red bool ->
-        { model | red <- bool }
+        { model | red = bool }
 
     Underline bool ->
-        { model | underline <- bool }
+        { model | underline = bool }
 
     Bold bool ->
-        { model | bold <- bool }
+        { model | bold = bool }
 
 
 -- VIEW
