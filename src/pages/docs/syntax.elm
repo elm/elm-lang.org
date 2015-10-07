@@ -238,17 +238,32 @@ are function composition operators.
 
 ### Let Expressions
 
+Let expressions are for assigning variables, kind of like a `var` in
+JavaScript.
+
 ```elm
-let n = 42
-    (a,b) = (3,4)
-    {x,y} = { x=3, y=4 }
-    square n = n * n
+let
+  x = 3 * 8
+  y = 4 ^ 2
 in
-    square a + square b
+  x + y
 ```
 
-Let-expressions are indentation sensitive.
-Each definition should align with the one above it.
+You can define functions and use &ldquo;destructuring assignment&rdquo; in let
+expressions too.
+
+```elm
+let
+  (x,y) = (3,4)
+
+  hypotenuse a b =
+    sqrt (a^2 + b^2)
+in
+  hypotenuse x y
+```
+
+Let-expressions are indentation sensitive, so each definition must align with
+the one above it.
 
 
 ### Applying Functions
