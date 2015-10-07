@@ -31,7 +31,6 @@ This syntax reference is a minimal introduction to:
 - [Infix Operators](#infix-operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
-- [Mapping with `(<~)` and `(~)`](#mapping)
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
@@ -251,6 +250,7 @@ in
 Let-expressions are indentation sensitive.
 Each definition should align with the one above it.
 
+
 ### Applying Functions
 
 ```elm
@@ -292,40 +292,6 @@ There is a special function for creating tuples:
 
 You can use as many commas as you want.
 
-### Mapping
-
-The `map` functions are used to apply a normal function like `sqrt` to a signal
-of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
-to a signal in which the current value is equal to the square root of the current
-x-coordinate of the mouse.
-
-You can also use the functions `(<~)` and `(~)` to map over signals. The squiggly
-arrow is exactly the same as the `map` function, so the following expressions
-are the same:
-
-```elm
-map sqrt Mouse.x
-sqrt <~ Mouse.x
-```
-
-You can think of it as saying &ldquo;send this signal through this
-function.&rdquo;
-
-The `(~)` operator allows you to apply a signal of functions to a signal of
-values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
-together many signals, just like `map2`, `map3`, etc. So the following
-expressions are equivalent:
-
-```elm
-map2 (,) Mouse.x Mouse.y
-(,) <~ Mouse.x ~ Mouse.y
-
-map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
-```
-
-More info can be found [here](/blog/announce/0.7#do-you-even-lift-)
-and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 
 ### Modules
 
@@ -348,18 +314,23 @@ import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
+
 ### Type Annotations
 
 ```elm
 answer : Int
-answer = 42
+answer =
+  42
 
 factorial : Int -> Int
-factorial n = product [1..n]
+factorial n =
+  List.product [1..n]
 
-addName : String -> a -> { a | name:String }
-addName name record = { record | name = name }
+distance : { x : Float, y : Float } -> Float
+distance {x,y} =
+  sqrt (x^2 + y^2)
 ```
+
 
 ### Type Aliases
 
@@ -368,13 +339,16 @@ type alias Name = String
 type alias Age = Int
 
 info : (Name,Age)
-info = ("Steve", 28)
+info =
+  ("Steve", 28)
 
 type alias Point = { x:Float, y:Float }
 
 origin : Point
-origin = { x=0, y=0 }
+origin =
+  { x = 0, y = 0 }
 ```
+
 
 ### JavaScript FFI
 
@@ -385,10 +359,8 @@ port prices : Signal Float
 
 -- outgoing values
 port time : Signal Float
-port time = every second
-
-port increment : Int -> Int
-port increment = \\n -> n + 1
+port time =
+  every second
 ```
 
 From JS, you talk to these ports like this:
