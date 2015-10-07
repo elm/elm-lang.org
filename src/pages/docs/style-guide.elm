@@ -138,7 +138,7 @@ type alias Circle = {
     radius : Float
 }
 
-type alias Graph = List (Integer, List Integer)
+type alias Graph = List (Int, List Int)
 ```
 
 Changing the name `Boolean` ever will change the indentation on all subsequent
