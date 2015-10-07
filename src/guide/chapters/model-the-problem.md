@@ -208,16 +208,16 @@ type Maybe a = Just a | Nothing
 Notice that this type takes an argument `a` that we can fill in with any type we want. We can have types like `(Maybe Int)` which is either `Just` an integer or it is `Nothing`. For example, say we want to parse months from strings.
 
 ```elm
-String.toInt : String -> Maybe Int
+String.toInt : String -> Result String Int
 
 
 toMonth : String -> Maybe Int
 toMonth rawString =
     case String.toInt rawString of
-      Nothing ->
+      Err message ->
           Nothing
 
-      Just n ->
+      Ok n ->
           if n > 0 && n <= 12 then Just n else Nothing
 ```
 
