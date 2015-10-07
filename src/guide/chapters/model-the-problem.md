@@ -35,11 +35,15 @@ Here we are just describing the general shape of the data we are working with. `
 
 ```elm
 import List exposing (sum, map, length)
-
+import String
 
 averageNameLength : List String -> Float
 averageNameLength names =
-  sum (map String.length names) / length names
+  let
+    sumOfLengths = toFloat <| sum (map String.length names)
+    namesListLength = toFloat <| length names
+  in
+    sumOfLengths / namesListLength
 
 
 isLong : { record | pages : Int } -> Bool
