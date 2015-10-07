@@ -37,8 +37,8 @@ syntaxTable subtitle comparisions =
   div [Center.style "800px"]
     [ h2 [] [text subtitle]
     , div [class "comparison"]
-        [ tbody []
-            [ table [] (header :: List.map row comparisions)
+        [ table []
+            [ tbody [] (header :: List.map row comparisions)
             ]
         ]
     , br [] []
