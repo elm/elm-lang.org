@@ -218,7 +218,7 @@ let
   hypotenuse a b =
     sqrt (a^2 + b^2)
 in
-  hypotensue x y
+  hypotenuse x y
 ```
 
 Let-expressions are indentation sensitive, so each definition should align with
