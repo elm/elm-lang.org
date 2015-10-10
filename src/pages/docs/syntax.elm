@@ -49,7 +49,8 @@ Here's a handy trick that every Elm programmer should know:
 
 ```elm
 {--}
-add x y = x + y
+add x y =
+  x + y
 --}
 ```
 
@@ -98,7 +99,10 @@ type. Here are four equal lists:
 1 :: 2 :: 3 :: 4 :: []
 ```
 
-The `(::)` operator is pronounced "cons" (the parantheses mean it is infix).
+The `(::)` operator is pronounced &ldquo;cons&rdquo; (the parantheses mean it is
+infix).
+
+
 
 ### Conditionals
 
@@ -136,15 +140,19 @@ Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
 ### Defining Functions
-Functions are defined by writing their name, arguments separated by spaces, an equals sign,
-and then the function body.
+Functions are defined by writing their name, arguments separated by spaces, an
+equals sign, and then the function body. By convention, the function body is
+written on a new line.
 
 ```elm
-square n = n^2
+square n =
+  n^2
 
-hypotenuse a b = sqrt (square a + square b)
+hypotenuse a b =
+  sqrt (square a + square b)
 
-distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
+distance (a,b) (x,y) =
+  hypotenuse (a-x) (b-y)
 ```
 
 An anonymous function is introduced with a backslash. They are usually enclosed
@@ -171,7 +179,8 @@ Functions and arguments are separated only by whitespace.
 
 ```elm
 -- alias for appending lists, and two lists
-append xs ys = xs ++ ys
+append xs ys =
+  xs ++ ys
 xs = [1,2,3]
 ys = [4,5,6]
 
@@ -192,15 +201,28 @@ Define local variables with a let expression. Only the final result will be
 visible to the outside world.
 
 ```elm
-let a = 42
-    b = 256
-    square n = n * n
+let
+  x = 3 * 8
+  y = 4 ^ 2
 in
-    square a + square b
+  x + y
 ```
 
-Let-expressions are indentation sensitive.
-Each definition should align with the one above it.
+You can define functions and use &ldquo;destructuring assignment&rdquo; in let
+expressions too.
+
+```elm
+let
+  (x,y) = (3,4)
+
+  hypotenuse a b =
+    sqrt (a^2 + b^2)
+in
+  hypotensue x y
+```
+
+Let-expressions are indentation sensitive, so each definition should align with
+the one above it.
 
 ### Union Types
 
@@ -234,7 +256,8 @@ parentheses.
 Usually you access a tuple's values with pattern matching.
 
 ```elm
-area (width, height) = width * height
+area (width, height) =
+  width * height
 ```
 
 There is a special function for creating tuples:
@@ -274,6 +297,8 @@ lib = { double x = x*2 }       -- fields can hold functions
 lib.double 42 == 84
 ```
 
+For more information, see the [records guide](/docs/records).
+
 ### Type Aliases
 
 Unlike union types, which create new types, type alias introduce new names for
@@ -284,12 +309,14 @@ type alias Name = String
 type alias Age = Int
 
 info : (Name, Age)
-info = ("Steve", 28)
+info =
+  ("Steve", 28)
 
 type alias Point = { x : Float, y : Float }
 
 origin : Point
-origin = { x = 0, y = 0 }
+origin =
+  { x = 0, y = 0 }
 ```
 
 When you alias a record, you get a record constructor that takes arguments in
@@ -305,16 +332,18 @@ Types always begin with a capital letter. Type variables begin with a lowercase 
 
 ```elm
 answer : Int
-answer = 42
+answer =
+  42
 
 factorial : Int -> Int
-factorial n = product [1..n]
+factorial n =
+  List.product [1..n]
 
 listLength : List a -> Int
 listLength aList =
-    case aList of
-        [] -> 0
-        x::xs -> 1 + listLength xs
+  case aList of
+    [] -> 0
+    x::xs -> 1 + listLength xs
 ```
 
 ### Working with Functions
@@ -353,7 +382,8 @@ for function composition.
 
 ```elm
 type alias Person = {position : {x : Float, y : Float}}
-xValues = List.map (.position >> .x) people
+xValues =
+  List.map (.position >> .x) people
 
 List.map (logBase 10 >> ceiling) [42, 256, 9001] == [2, 3, 4]
 ```
@@ -426,7 +456,8 @@ port prices : Signal Float
 
 -- outgoing values must have a definition
 port time : Signal Float
-port time = every second
+port time =
+  every second
 ```
 
 In JS, you talk to these ports like this:
@@ -448,7 +479,8 @@ Elm has a built-in port handler to set the page title (ignoring empty strings).
 
 ```elm
 port title : String
-port title = "My Cool Page"
+port title =
+  "My Cool Page"
 ```
 
 Ports are also used to run Tasks. Instead of handing off a value to a callback,
