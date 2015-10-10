@@ -77,14 +77,14 @@ update {space,dir1,dir2,delta} ({state,ball,player1,player2} as game) =
       if ball.x < -halfWidth then 1 else 0
 
     newState =
-      if  | space ->
-              Play
+      if space then
+          Play
 
-          | score1 /= score2 ->
-              Pause
+      else if score1 /= score2 then
+          Pause
 
-          | otherwise ->
-              state
+      else
+          state
 
     newBall =
       if state == Pause then
@@ -93,22 +93,22 @@ update {space,dir1,dir2,delta} ({state,ball,player1,player2} as game) =
         updateBall delta ball player1 player2
   in
     { game |
-        state <- newState,
-        ball <- newBall,
-        player1 <- updatePlayer delta dir1 score1 player1,
-        player2 <- updatePlayer delta dir2 score2 player2
+        state = newState,
+        ball = newBall,
+        player1 = updatePlayer delta dir1 score1 player1,
+        player2 = updatePlayer delta dir2 score2 player2
     }
 
 
 updateBall : Time -> Ball -> Player -> Player -> Ball
 updateBall t ({x,y,vx,vy} as ball) p1 p2 =
   if not (ball.x |> near 0 halfWidth) then
-    { ball | x <- 0, y <- 0 }
+    { ball | x = 0, y = 0 }
   else
     physicsUpdate t
       { ball |
-          vx <- stepV vx (ball `within` p1) (ball `within` p2),
-          vy <- stepV vy (y < 7-halfHeight) (y > halfHeight-7)
+          vx = stepV vx (ball `within` p1) (ball `within` p2),
+          vy = stepV vy (y < 7-halfHeight) (y > halfHeight-7)
       }
 
 
@@ -116,18 +116,18 @@ updatePlayer : Time -> Int -> Int -> Player -> Player
 updatePlayer t dir points player =
   let
     player1 =
-      physicsUpdate  t { player | vy <- toFloat dir * 200 }
+      physicsUpdate  t { player | vy = toFloat dir * 200 }
   in
     { player1 |
-        y <- clamp (22-halfHeight) (halfHeight-22) player1.y,
-        score <- player.score + points
+        y = clamp (22-halfHeight) (halfHeight-22) player1.y,
+        score = player.score + points
     }
 
 
 physicsUpdate t ({x,y,vx,vy} as obj) =
   { obj |
-      x <- x + vx * t,
-      y <- y + vy * t
+      x = x + vx * t,
+      y = y + vy * t
   }
 
 
@@ -139,12 +139,14 @@ within ball paddle =
 
 
 stepV v lowerCollision upperCollision =
-  if  | lowerCollision ->
-          abs v
-      | upperCollision ->
-          -(abs v)
-      | otherwise ->
-          v
+  if lowerCollision then
+      abs v
+
+  else if upperCollision then
+      -(abs v)
+
+  else
+      v
 
 
 -- VIEW

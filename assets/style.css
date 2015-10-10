@@ -181,9 +181,3 @@ blockquote p {
 .comparison tr:nth-child(even) {
   background: #fbfbfb;
 }
-.comparison table tbody td:first-child {
-  border-left: none;
-}
-.comparison table tbody tr:last-child td {
-  border-bottom: none;
-}

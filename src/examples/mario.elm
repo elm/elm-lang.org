@@ -46,34 +46,41 @@ update (dt, keys) mario =
 
 jump : Keys -> Model -> Model
 jump keys mario =
-  if keys.y > 0 && mario.vy == 0
-    then { mario | vy <- 6.0 }
-    else mario
+  if keys.y > 0 && mario.vy == 0 then
+      { mario | vy = 6.0 }
+
+  else
+      mario
 
 
 gravity : Float -> Model -> Model
 gravity dt mario =
   { mario |
-      vy <- if mario.y > 0 then mario.vy - dt/4 else 0
+      vy = if mario.y > 0 then mario.vy - dt/4 else 0
   }
 
 
 physics : Float -> Model -> Model
 physics dt mario =
   { mario |
-      x <- mario.x + dt * mario.vx,
-      y <- max 0 (mario.y + dt * mario.vy)
+      x = mario.x + dt * mario.vx,
+      y = max 0 (mario.y + dt * mario.vy)
   }
 
 
 walk : Keys -> Model -> Model
 walk keys mario =
   { mario |
-      vx <- toFloat keys.x,
-      dir <-
-        if  | keys.x < 0 -> Left
-            | keys.x > 0 -> Right
-            | otherwise  -> mario.dir
+      vx = toFloat keys.x,
+      dir =
+        if keys.x < 0 then
+            Left
+
+        else if keys.x > 0 then
+            Right
+
+        else
+            mario.dir
   }
 
 
@@ -85,9 +92,14 @@ view (w',h') mario =
     (w,h) = (toFloat w', toFloat h')
 
     verb =
-      if  | mario.y  >  0 -> "jump"
-          | mario.vx /= 0 -> "walk"
-          | otherwise     -> "stand"
+      if mario.y > 0 then
+          "jump"
+
+      else if mario.vx /= 0 then
+          "walk"
+
+      else
+          "stand"
 
     dir =
       case mario.dir of

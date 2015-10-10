@@ -36,13 +36,13 @@ update : Action -> Model -> Model
 update action model =
   case action of
     Name name ->
-      { model | name <- name }
+      { model | name = name }
 
     Password password ->
-      { model | password <- password }
+      { model | password = password }
 
     PasswordAgain password ->
-      { model | passwordAgain <- password }
+      { model | passwordAgain = password }
 
 
 -- VIEW

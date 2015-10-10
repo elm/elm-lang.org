@@ -15,10 +15,9 @@ import qualified Data.Maybe as Maybe
 import qualified Data.Text as Text
 import qualified Elm.Compiler as Compiler
 import qualified Elm.Compiler.Module as Module
+import qualified Elm.Package as Pkg
 import qualified Elm.Package.Description as Desc
-import qualified Elm.Package.Name as N
 import qualified Elm.Package.Solution as Solution
-import qualified Elm.Package.Version as V
 import qualified Elm.Utils as Utils
 import Prelude hiding (init)
 import System.Exit (exitFailure)
@@ -48,7 +47,7 @@ init =
 
 
 compile
-    :: Map.Map Module.Name Module.Interface
+    :: Map.Map Module.CanonicalName Module.Interface
     -> String
     -> Either Json.Value (String, String)
 compile interfaces elmSource =
@@ -57,7 +56,7 @@ compile interfaces elmSource =
           jsonErr Compiler.dummyDealiaser
               (Compiler.parseDependencies elmSource)
 
-      let context = Compiler.Context "evancz" "elm-lang" True False
+      let context = Compiler.Context (Pkg.Name "evancz" "elm-lang") True False []
 
       let (dealiaser, _warnings, result) =
             Compiler.compile context elmSource interfaces
@@ -115,8 +114,7 @@ compilerCrash msg =
 
 -- GET ALL RELEVANT INTERFACES
 
-getInterfaces
-    :: ExceptT String IO (Map.Map Module.Name Module.Interface)
+getInterfaces :: ExceptT String IO (Map.Map Module.CanonicalName Module.Interface)
 getInterfaces =
   do  Utils.run "elm-package" ["install", "--yes"]
 
@@ -136,8 +134,8 @@ getInterfaces =
 
 
 readDependencies
-    :: (N.Name, V.Version)
-    -> ExceptT String IO (N.Name, V.Version, [Module.Name])
+    :: (Pkg.Name, Pkg.Version)
+    -> ExceptT String IO (Pkg.Name, Pkg.Version, [Module.Name])
 readDependencies (name, version) =
   do  desc <- Desc.read path
       return (name, version, Desc.exposed desc)
@@ -145,12 +143,12 @@ readDependencies (name, version) =
     path =
         "elm-stuff"
           </> "packages"
-          </> N.toFilePath name
-          </> V.toString version
+          </> Pkg.toFilePath name
+          </> Pkg.versionToString version
           </> "elm-package.json"
 
 
-toElmSource :: [(N.Name, V.Version, [Module.Name])] -> String
+toElmSource :: [(Pkg.Name, Pkg.Version, [Module.Name])] -> String
 toElmSource deps =
   let toImportList (_, _, exposedModules) =
           concatMap toImport exposedModules
@@ -162,28 +160,29 @@ toElmSource deps =
 
 
 readInterfaces
-    :: (N.Name, V.Version)
-    -> ExceptT String IO [(Module.Name, Module.Interface)]
-readInterfaces package =
+    :: (Pkg.Name, Pkg.Version)
+    -> ExceptT String IO [(Module.CanonicalName, Module.Interface)]
+readInterfaces package@(pkgName,_) =
   do  let directory = buildArtifactsFor package
       contents <- liftIO (getDirectoryContents directory)
-      let elmis = Maybe.mapMaybe isElmi contents
+      let elmis = Maybe.mapMaybe (isElmi pkgName) contents
       mapM (readInterface directory) elmis
 
 
-buildArtifactsFor :: (N.Name, V.Version) -> FilePath
+buildArtifactsFor :: (Pkg.Name, Pkg.Version) -> FilePath
 buildArtifactsFor (name, version) =
   "elm-stuff"
     </> "build-artifacts"
-    </> N.toFilePath name
-    </> V.toString version
+    </> Pkg.versionToString Compiler.version
+    </> Pkg.toFilePath name
+    </> Pkg.versionToString version
 
 
-isElmi :: FilePath -> Maybe (FilePath, Module.Name)
-isElmi file =
+isElmi :: Pkg.Name -> FilePath -> Maybe (FilePath, Module.CanonicalName)
+isElmi pkg file =
   case splitExtension file of
     (name, ".elmi") ->
-        (,) file `fmap` Module.dehyphenate name
+        fmap ((,) file . Module.canonicalName pkg) (Module.dehyphenate name)
 
     _ ->
         Nothing
@@ -191,8 +190,8 @@ isElmi file =
 
 readInterface
     :: FilePath
-    -> (FilePath, Module.Name)
-    -> ExceptT String IO (Module.Name, Module.Interface)
+    -> (FilePath, Module.CanonicalName)
+    -> ExceptT String IO (Module.CanonicalName, Module.Interface)
 readInterface directory (file, name) =
   do  bits <- liftIO (LBS.readFile (directory </> file))
       case Binary.decodeOrFail bits of
@@ -201,5 +200,5 @@ readInterface directory (file, name) =
 
         Left _ ->
             throwError $
-              " messed up elmi file for " ++ Module.nameToString name
+              " messed up elmi file for " ++ (directory </> file)
 

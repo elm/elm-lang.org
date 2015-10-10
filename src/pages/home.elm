@@ -57,7 +57,7 @@ debuggerSection =
     , p [ style [ "text-align" => "center" ] ]
         [ a [href "/examples/hello-world", style ["display" => "inline-block"]]
           [ code
-            [ class "lang-haskell hljs"
+            [ class "lang-elm hljs"
             , style [ "display" => "inline-block", "border-radius" => "16px", "padding" => "24px 48px" ]
             ]
             [ span [class "hljs-title"] [text "main"]

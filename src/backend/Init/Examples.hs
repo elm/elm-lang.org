@@ -3,7 +3,6 @@ module Init.Examples (init) where
 
 import qualified Data.ByteString.Lazy.Char8 as BS
 import qualified Data.Maybe as Maybe
-import Data.Monoid (mempty)
 import Prelude hiding (init)
 import System.Directory (copyFile, getDirectoryContents)
 import System.FilePath ((</>), (<.>), splitExtension)

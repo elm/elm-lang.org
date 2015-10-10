@@ -6,7 +6,8 @@ import Center
 
 
 port title : String
-port title = "Extensible Records"
+port title =
+  "Records"
 
 
 (=>) = (,)
@@ -14,7 +15,7 @@ port title = "Extensible Records"
 
 main =
   Blog.docs
-    "Extensible Records"
+    "Records"
     [ Center.markdown "600px" content ]
 
 content = """
@@ -30,8 +31,6 @@ The structure of the following document is as follows:
 - [Record Access](#access)
 - [Pattern Matching for Records](#pattern-matching)
 - [Updating Fields](#updating-records)
-- [Adding, Deleting, and Renaming Fields](#adding-deleting-and-renaming-fields)
-- [Polymorphic Fields](#polymorphic-fields)
 - [Record Types](#record-types)
 
 ## Comparison of Records and Objects
@@ -40,13 +39,13 @@ Records in Elm are quite similar to objects in JavaScript. The major differences
 are that with records:
 
 - You cannot ask for a field that does not exist.
-- No field will ever be undefined or null.
+- No field will ever be `undefined` or `null`.
 - You cannot create recursive records with a `this` or `self` keyword.
 
-I highly encourage a strict separation of data and logic, and as far as
-I can tell, the ability to say `this` is primarily used to break this
-separation. This is a systematic problem in Object Oriented languages
-that I would like to avoid.
+I highly encourage a strict separation of data and logic, and as far as I can
+tell, the ability to say `this` is primarily used to break this separation.
+This is a systemic problem in Object Oriented languages that I would like to
+avoid.
 
 It is also important to note that many languages try to use objects for
 *everything*. Records fill a much more limited role in Elm. If you want
@@ -58,35 +57,60 @@ that there is probably a different tool for the job.
 
 ## What is a Record?
 
-A record is a lightweight labeled data structure. For instance, if we
-wanted to represent a point we just create a record with an x and y field:
+A record is a lightweight labeled data structure. For instance, if we wanted
+to represent a point we just create a record with an `x` and `y` field:
 
 ```elm
 { x = 3, y = 4 }
 ```
 
-Just like tuples, a record can hold values with different types, so
-we can represent a book like this:
-
+Just like tuples, a record can hold values with different types, so we can
+represent a book like this:
 
 ```elm
 { title = "Steppenwolf", author = "Hesse", pages = 237 }
 ```
 
-As we will soon see, it is also possible to access, add, remove, rename,
-and update fields. We will use the following records to define the rest
-of the record operations:
+As we will soon see, it is also possible to access and update these fields. We
+will use the following records to define the rest of the record operations:
 
 ```elm
-point2D = { x = 0, y = 0 }
+-- POINTS
 
-point3D = { x = 3, y = 4, z = 12 }
+point2D =
+  { x = 0
+  , y = 0
+  }
 
-bill = { name = "Gates", age = 57 }
-steve = { name = "Jobs", age = 56 }
-larry = { name = "Page", age = 39 }
+point3D =
+  { x = 3
+  , y = 4
+  , z = 12
+  }
 
-people = [ bill, steve, larry ]
+
+-- PEOPLE
+
+bill =
+  { name = "Gates"
+  , age = 57
+  }
+
+steve =
+  { name = "Jobs"
+  , age = 56
+  }
+
+larry =
+  { name = "Page"
+  , age = 39
+  }
+
+people =
+  [ bill
+  , steve
+  , larry
+  ]
 ```
 
 ## Access
@@ -95,8 +119,8 @@ There are a number of ways to access records:
 
 ```elm
 point3D.z             -- 12
-bill.name             -- \"Gates\"
-.name bill            -- \"Gates\"
+bill.name             -- "Gates"
+.name bill            -- "Gates"
 List.map .age people  -- [57,56,39]
 ```
 
@@ -112,9 +136,9 @@ has that field, the other fields in the record do not matter. So it is
 perfectly acceptable to say:
 
 ```elm
-.x point2D   -- 0
-.x point3D   -- 3
-.x {x=4}     -- 4
+.x point2D     -- 0
+.x point3D     -- 3
+.x { x = 4 }   -- 4
 ```
 
 No matter the shape of the record, the function `.x` will work as long as the
@@ -123,38 +147,46 @@ record has field `x`.
 
 ## Pattern Matching
 
-It is also possible to pattern match on records:
+It is also possible to pattern match on records. The following `hypotenuse`
+function will &ldquo;destructure&rdquo; its argument. It will require that
+whenever `hypotenuse` is called, the argument has at least an `x` and `y` field
+that are floats.
 
 ```elm
-dist {x,y} =
+hypotenuse {x,y} =
   sqrt (x^2 + y^2)
 
-under50 {age} =
-  age < 50
+-- hypotenuse point2D == 0
+-- hypotenuse point3D == 5
 ```
 
-The first function takes any record that has both an `x` and `y` field and
-computes the distance to the origin. The second takes any record that has an
-`age` and determines if it is less than 50. We can use these functions as follows:
+So it can be used on both `point2D` and point3D` no problem.
+
+Here is another example that just figures out if the `age` field is less than
+50. Again, it works on any record that has an `age` field no matter what other
+fields are in there.
 
 ```elm
-dist point2D              -- 0
-dist point3D              -- 5
-under50 bill              -- False
-List.any under50 people   -- True
+under50 {age} =
+  age < 50
+
+-- under50 bill            == False
+-- List.any under50 people == True
 ```
 
-These patterns can appear in let expressions, lambda expressions,
-and case expressions.
+Patterns for destructuring records can appear in let expressions, lambda
+expressions, and case expressions. Anywhere that patterns are allowed, you can
+do this.
+
 
 ## Updating Records
 
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
 ```elm
-{ point2D | y <- 1 }           -- { x=0, y=1 }
-{ point3D | x <- 0, y <- 0 }   -- { x=0, y=0, z=12 }
-{ steve | name <- \"Wozniak\" }  -- { name=\"Wozniak\", age=56 }
+{ point2D | y = 1 }           -- { x=0, y=1 }
+{ point3D | x = 0, y = 0 }    -- { x=0, y=0, z=12 }
+{ steve | name = "Wozniak" }  -- { name="Wozniak", age=56 }
 ```
 
 You can update as many fields as you want, separating each update by a comma.
@@ -172,8 +204,8 @@ rawInput =
 
 prettify person =
   { person |
-      age <- readInt person.age,
-      height <- readFloat person.height
+      age = String.toInt person.age,
+      height = String.toFloat person.height
   }
 
 input =
@@ -182,89 +214,12 @@ input =
 
 We started with a record in which `(person.age : String)`, providing little
 information about the validity of the input. The result is that
-`(person.age : Maybe Int)`, fully capturing the type of input we are dealing
-with and whether or not it is valid.
+`(person.age : Result String Int)`, fully capturing the type of input we are
+dealing with and whether or not it is valid.
 
 The update functions allow you to write fairly elaborate update functions
 with little trouble.
 
-## Adding, Deleting, and Renaming Fields
-
-Record fields can be added and deleted with following syntax:
-
-
-```elm
-{ point3D - z }           -- { x=3, y=4 }
-{ bill - age }            -- { name=\"Gates\" }
-{ point2D | z = 0 }       -- { x=0, y=0, z=0 }
-{ bill | height = 1.77 }  -- { name=\"Gates\", age=57, height=1.77 }
-```
-
-This actually means you can have multiple fields with the same name in a record,
-the latest field taking precedence over the earlier ones. Check out
-[this paper][records] for more information on this.
-
- [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
-
-We can combine the add and delete operations to rename fields.
-
-```elm
-renameName person =
-  { person - name | surname = person.name }
-
-bill' =
-  renameName bill  -- { surname=\"Gates\", age=57 }
-```
-
-We can also derive record updates with field addition and removal:
-
-```elm
-{ point2D - x | x = 1 }   -- { x=1, y=0 }
-```
-
-The field update syntax is just a prettier way to write this!
-
-
-## Polymorphic Fields
-
-Elm allows [polymorphism][poly] within records, so a record field can
-hold a polymorphic function like list append `(++)`. For example:
-
- [poly]: http://en.wikipedia.org/wiki/Parametric_polymorphism "Parametric Polymorphism"
-
-```elm
-lib =
-  { id x = x
-  , flip f x y = f y x
-  }
-
-group =
-  { zero = []
-  , op a b = a ++ b
-  }
-```
-
-The `lib` record holds an `id` function which takes a value and returns exactly
-the same value and the `flip` function which switches the order of arguments to
-a function. Both are polymorphic because they can work with values with many
-different types.
-
-The `group` record holds an `op` function that appends lists and a `zero` value
-that represents an empty list.
-
-```elm
-lib.id 42                      -- 42
-lib.id 'b'                     -- 'b'
-lib.flip (++) \"ab\" \"cd\"        -- \"cdab\"
-lib.flip (::) [2,3] 1          -- [1,2,3]
-group.op \"Hello\" group.zero    -- \"Hello\"
-group.op [1,2] [3,4]           -- [1,2,3,4]
-```
-
-I suspect that this can be used for some really cool stuff! It should
-make it possible to gain some of the flexibility of first-class modules
-and typeclasses, as described in
-[this announcement](/blog/announce/0.7).
 
 ## Record Types
 
@@ -273,7 +228,7 @@ with points that have an `x` and `y` field. We could add type annotations
 as follows:
 
 ```elm
-origin : { x:Float, y:Float }
+origin : { x : Float, y : Float }
 origin =
   { x = 0
   , y = 0
@@ -293,30 +248,23 @@ hypotenuse {x,y} =
   sqrt (x^2 + y^2)
 ```
 
-You can also define extensible records. This is generally recommended because
-it makes your functions more reusable:
+You can also define extensible records. This use has not come up much in
+practice so far, but it is pretty cool nonetheless.
 
 ```elm
 type alias Positioned a =
-  { a |
-      x : Float,
-      y : Float
-  }
+  { a | x : Float, y : Float }
 
 type alias Named a =
-  { a |
-      name : String
-  }
+  { a | name : String }
 
 type alias Moving a =
-  { a |
-      velocity : Float,
-      angle : Float
-  }
+  { a | velocity : Float, angle : Float }
 ```
 
-This syntax is just like the syntax for record extension, indicating that
-`Positioned a` is a record with at least an `x` and `y` field, etc.
+This syntax is defining types that have *at least* certain fields, but may have
+others as well. So `Positioned a` is a record with at least an `x` and `y`
+field.
 
 This means you can define records that have any subsection of these fields.
 For example,

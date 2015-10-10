@@ -215,10 +215,10 @@ So we can pass any record in as long is it has an `age` field that holds a numbe
 It is often useful to update the values in a record.
 
 ```elm
-> { bill | name <- "Nye" }
+> { bill | name = "Nye" }
 { age = 57, name = "Nye" }
 
-> { bill | age <- 22 }
+> { bill | age = 22 }
 { age = 22, name = "Gates" }
 ```
 
