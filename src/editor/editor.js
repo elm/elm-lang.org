@@ -49,7 +49,7 @@ function hotSwap()
 					error.style.backgroundColor = 'rgba(245,245,245,0.95)';
 				}
 				error.innerHTML = '<b>Hot Swap Failed</b><br/>' +
-					result.error.replace(/\n/g, '<br/>').replace(/  /g, " &nbsp;");
+					result.error[0].details.replace(/\n/g, '<br/>').replace(/  /g, " &nbsp;");
 				top.output.document.body.appendChild(error);
 			}
 		}
