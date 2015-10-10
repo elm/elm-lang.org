@@ -35,7 +35,7 @@ Here we are just describing the general shape of the data we are working with. `
 
 ```elm
 import List exposing (sum, map, length)
-
+import String
 
 averageNameLength : List String -> Float
 averageNameLength names =
