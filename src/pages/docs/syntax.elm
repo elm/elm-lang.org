@@ -292,9 +292,6 @@ map .x [point, {x=0,y=0}]      -- field access function
 
 dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
 \\{x,y} -> (x,y)
-
-lib = { double x = x*2 }       -- fields can hold functions
-lib.double 42 == 84
 ```
 
 For more information, see the [records guide](/docs/records).
