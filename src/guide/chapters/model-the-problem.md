@@ -34,12 +34,12 @@ book =
 Here we are just describing the general shape of the data we are working with. `fortyTwo` is an integer, `names` is a list of strings, and `book` is a record with certain fields. Nothing crazy, just describing the shape of our data. This becomes much more valuable when you start using it with functions, where in many languages, getting the wrong kind of data can lead to a crash!
 
 ```elm
-import List exposing (sum, map, length)
+import String
 
 
-averageNameLength : List String -> Float
-averageNameLength names =
-  sum (map String.length names) / length names
+longestName : List String -> Int
+longestName names =
+  List.maximum (List.map String.length names)
 
 
 isLong : { record | pages : Int } -> Bool
@@ -47,7 +47,7 @@ isLong book =
   book.pages > 400
 ```
 
-In the `averageNameLength` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `averageNameLength` function is definitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that it's a floating point number.
+In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is definitely going to return an `Int` so if we use its result somewhere else, we have a 100% guarantee that it's a whole number.
 
 The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
 
