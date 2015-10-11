@@ -104,14 +104,18 @@ Here are four things that are equivalent:
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
-Multi-way if-expressions make it easier
-to have a bunch of different branches.
-You can read the `|` as *where*.
+If you need to branch on many different conditions, you just chain this
+construct together.
 
 ```elm
-if | key == 40 -> n+1
-   | key == 38 -> n-1
-   | otherwise -> n
+if key == 40 then
+    n + 1
+
+else if key == 38 then
+    n - 1
+
+else
+    n
 ```
 
 You can also have conditional behavior based on the structure of algebraic
@@ -153,45 +157,50 @@ the [initial announcement][v7], or [this academic paper][records].
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
-point = { x = 3, y = 4 }       -- create a record
+point =                    -- create a record
+  { x = 3, y = 4 }
 
-point.x                        -- access field
-map .x [point,{x=0,y=0}]       -- field access function
+point.x                    -- access field
 
-{ point - x }                  -- remove field
-{ point | z = 12 }             -- add field
-{ point - x | z = point.x }    -- rename field
-{ point - x | x = 6 }          -- update field
+map .x [point,{x=0,y=0}]   -- field access function
 
-{ point | x <- 6 }             -- nicer way to update a field
-{ point | x <- point.x + 1
-        , y <- point.y + 1 }   -- batch update fields
+{ point | x = 6 }          -- update a field
 
-dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\\{x,y} -> (x,y)
+{ point |                  -- update many fields
+    x = point.x + 1,
+    y = point.y + 1
+}
 
-lib = { id x = x }             -- polymorphic fields
-(lib.id 42 == 42)
-(lib.id [] == [])
+dist {x,y} =               -- pattern matching on fields
+  sqrt (x^2 + y^2)
 
-type alias Location = { line:Int, column:Int }
+type alias Location =      -- type aliases for records
+  { line : Int
+  , column : Int
+  }
 ```
 
 ### Functions
 
 ```elm
-square n = n^2
+square n =
+  n^2
 
-hypotenuse a b = sqrt (square a + square b)
+hypotenuse a b =
+  sqrt (square a + square b)
 
-distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
+distance (a,b) (x,y) =
+  hypotenuse (a-x) (b-y)
 ```
 
 Anonymous functions:
 
 ```elm
-square = \\n -> n^2
-squares = map (\\n -> n^2) [1..100]
+square =
+  \\n -> n^2
+
+squares =
+  List.map (\\n -> n^2) [1..100]
 ```
 
 ### Infix Operators
