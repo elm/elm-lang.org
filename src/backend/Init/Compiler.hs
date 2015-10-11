@@ -50,20 +50,25 @@ compile
     :: Map.Map Module.CanonicalName Module.Interface
     -> String
     -> Either Json.Value (String, String)
-compile interfaces elmSource =
-  try $
-  do  (name, _) <-
-          jsonErr Compiler.dummyDealiaser
-              (Compiler.parseDependencies elmSource)
+compile interfaces =
+  let
+    dependencyNames =
+      Map.keys interfaces
+  in
+    \elmSource ->
+      try $
+      do  (name, _) <-
+              jsonErr Compiler.dummyDealiaser
+                  (Compiler.parseDependencies elmSource)
 
-      let context = Compiler.Context (Pkg.Name "evancz" "elm-lang") True False []
+          let context = Compiler.Context (Pkg.Name "evancz" "elm-lang") True False dependencyNames
 
-      let (dealiaser, _warnings, result) =
-            Compiler.compile context elmSource interfaces
+          let (dealiaser, _warnings, result) =
+                Compiler.compile context elmSource interfaces
 
-      (Compiler.Result _ _ jsSource) <- jsonErr dealiaser result
+          (Compiler.Result _ _ jsSource) <- jsonErr dealiaser result
 
-      return (Module.nameToString name, jsSource)
+          return (Module.nameToString name, jsSource)
 
 
 jsonErr :: Compiler.Dealiaser -> Either [Compiler.Error] a -> Either Json.Value a
