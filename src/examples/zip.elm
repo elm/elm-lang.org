@@ -25,7 +25,7 @@ zip xs ys =
 
 
 -- There is a function in the List library called map2 that
--- applies a function pairwise to two lits. You can use it
+-- applies a function pairwise to two lists. You can use it
 -- to define 'zip' much more easily:
 --
 --     zip = List.map2 (,)
