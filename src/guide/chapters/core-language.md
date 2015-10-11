@@ -157,9 +157,10 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 > import String
 
 > goodName name = \\
-|   if String.length name <= 20 \\
-|     then (True, "name accepted!") \\
-|     else (False, "name was too long; please limit it to 20 characters")
+|   if String.length name <= 20 then \\
+|     (True, "name accepted!") \\
+|   else \\
+|     (False, "name was too long; please limit it to 20 characters")
 
 > goodName "Tom"
 (True, "name accepted!")
