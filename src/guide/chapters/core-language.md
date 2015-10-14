@@ -79,7 +79,7 @@ Notice that function application looks different than in languages like JavaScri
 
 ## If Expressions
 
-When you want to do have conditional behavior in Elm, you use an if-expression.
+When you want to have conditional behavior in Elm, you use an if-expression.
 
 ```elm
 > if True then "hello" else "world"
