@@ -8,7 +8,7 @@ and 'li' are followed by two lists. The first list is for any HTML
 attributes, and the second list is all the HTML nodes inside the
 tag.
 
-Et maintenant le voyage a la supermarche!
+Et maintenant le voyage au supermarché!
 -}
 main =
   ul [class "grocery-list"]
@@ -16,9 +16,9 @@ main =
     , li [] [text "Ananas"]
     , li [] [text "Jus d'orange"]
     , li [] [text "Boeuf"]
-    , li [] [text "Soup du jour"]
+    , li [] [text "Soupe du jour"]
     , li [] [text "Camembert"]
-    , li [] [text "Jacque Cousteau"]
+    , li [] [text "Jacques Cousteau"]
     , li [] [text "Baguette"]
     ]
 
