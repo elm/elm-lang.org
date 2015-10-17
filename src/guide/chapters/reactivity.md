@@ -333,7 +333,7 @@ function.
 Http.getString : String -> Task Http.Error String
 ```
 
-We provide a URL, and it will create a task that that tries to fetch the
+We provide a URL, and it will create a task that tries to fetch the
 resource that lives at that location as a `String`. Looking at the type of the
 `Task`, finally that darn `x` is filled in with a real error type! This task
 will either fail with some [`Http.Error`][error] or succeed with a `String`.
