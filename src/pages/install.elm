@@ -23,8 +23,8 @@ install = """
 
 # Install
 
-  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.pkg)
-  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.exe)
+  * Mac &mdash; [installer](https://dl.bintray.com/elmlang/elm-platform/0.15.1/:Elm-Platform-0.15.1.pkg)
+  * Windows &mdash; [installer](https://dl.bintray.com/elmlang/elm-platform/0.15.1/:Elm-Platform-0.15.1.exe)
   * Anywhere &mdash; [build from source][build]
 
 [npm]: https://www.npmjs.com/package/elm
