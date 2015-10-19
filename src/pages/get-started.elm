@@ -213,7 +213,7 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 [hs]: http://elm-lang.org/blog/interactive-programming
 [ttd]: http://debug.elm-lang.org/
 [ECG]: http://elm-lang.org/guide/core-language
-[cs223]: https://www.classes.cs.uchicago.edu/current/22300-1/Home.html
+[cs223]: https://www.classes.cs.uchicago.edu/archive/2015/winter/22300-1/Home.html
 [Syntax]: http://elm-lang.org/docs/syntax
 [SG]: http://elm-lang.org/docs/style-guide
 [Examples]: http://elm-lang.org/examples
