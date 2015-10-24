@@ -58,24 +58,24 @@ compile interfaces =
     \elmSource ->
       try $
       do  (name, _) <-
-              jsonErr Compiler.dummyDealiaser
+              jsonErr Compiler.dummyLocalizer
                   (Compiler.parseDependencies elmSource)
 
           let context = Compiler.Context (Pkg.Name "evancz" "elm-lang") True False dependencyNames
 
-          let (dealiaser, _warnings, result) =
+          let (localizer, _warnings, result) =
                 Compiler.compile context elmSource interfaces
 
-          (Compiler.Result _ _ jsSource) <- jsonErr dealiaser result
+          (Compiler.Result _ _ jsSource) <- jsonErr localizer result
 
           return (Module.nameToString name, jsSource)
 
 
-jsonErr :: Compiler.Dealiaser -> Either [Compiler.Error] a -> Either Json.Value a
-jsonErr dealiaser result =
+jsonErr :: Compiler.Localizer -> Either [Compiler.Error] a -> Either Json.Value a
+jsonErr localizer result =
   let
     toJson =
-      Compiler.errorToJson dealiaser ""
+      Compiler.errorToJson localizer ""
   in
     either (Left . Json.toJSON . map toJson) Right result
 
