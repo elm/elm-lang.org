@@ -171,7 +171,7 @@ view widget =
       LogData logs ->
           flow down (map viewLog logs)
 
-      TimePlot occurances ->
+      TimePlot occurrences ->
           viewTimePlot occurrences
 ```
 
