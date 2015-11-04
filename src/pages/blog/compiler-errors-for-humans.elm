@@ -16,11 +16,11 @@ main =
     Blog.evan
     (Blog.Date 2015 6 30)
     [ Center.markdown "600px" content
-    , image "/assets/blog/error-messages/naming.png"
+    , image "/assets/blog/error-messages/0.15.1/naming.png"
     , Center.markdown "600px" formattingComment
-    , image "/assets/blog/error-messages/missing-field.png"
+    , image "/assets/blog/error-messages/0.15.1/missing-field.png"
     , Center.markdown "600px" hintComment
-    , image "/assets/blog/error-messages/list.png"
+    , image "/assets/blog/error-messages/0.15.1/list.png"
     , Center.markdown "600px" rest
     ]
 
