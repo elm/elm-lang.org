@@ -36,6 +36,7 @@ install = """
   * [Atom](https://atom.io/packages/language-elm)
   * [Emacs](https://github.com/jcollard/elm-mode)
   * [Vim](https://github.com/lambdatoast/elm.vim)
+  * [Light Table](https://github.com/rundis/elm-light)
 
 
 ## Help
