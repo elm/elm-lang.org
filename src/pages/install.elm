@@ -32,9 +32,11 @@ install = """
 
 ## Syntax Highlighting
 
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Atom](https://atom.io/packages/language-elm)
+  * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Light Table](https://github.com/rundis/elm-light)
+  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Vim](https://github.com/lambdatoast/elm.vim)
 
 

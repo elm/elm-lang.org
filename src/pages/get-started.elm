@@ -133,11 +133,12 @@ some helpful information.
 
 ## Configure Your Editor
 
-We know of Elm syntax highlighting modes for at least five text editors:
+We know of Elm syntax highlighting modes for at least the following text editors:
 
   * [Atom](https://atom.io/packages/language-elm)
   * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Light Table](https://github.com/rundis/elm-light)
   * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Vim](https://github.com/lambdatoast/elm.vim)
 
