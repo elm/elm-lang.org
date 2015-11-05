@@ -96,7 +96,7 @@ This fills the same role as &ldquo;enumerations&rdquo; in languages like Java or
 
 ## State Machines
 
-Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggled between anonymous and logged in with a user name:
+Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggle between anonymous and logged in with a user name:
 
 ```elm
 type User = Anonymous | LoggedIn String
