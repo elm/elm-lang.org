@@ -157,24 +157,24 @@ the [initial announcement][v7], or [this academic paper][records].
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
-point =                    -- create a record
+point =                         -- create a record
   { x = 3, y = 4 }
 
-point.x                    -- access field
+point.x                         -- access field
 
-map .x [point,{x=0,y=0}]   -- field access function
+List.map .x [point,{x=0,y=0}]   -- field access function
 
-{ point | x = 6 }          -- update a field
+{ point | x = 6 }               -- update a field
 
-{ point |                  -- update many fields
+{ point |                       -- update many fields
     x = point.x + 1,
     y = point.y + 1
 }
 
-dist {x,y} =               -- pattern matching on fields
+dist {x,y} =                    -- pattern matching on fields
   sqrt (x^2 + y^2)
 
-type alias Location =      -- type aliases for records
+type alias Location =           -- type aliases for records
   { line : Int
   , column : Int
   }
