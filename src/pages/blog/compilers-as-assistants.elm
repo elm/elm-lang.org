@@ -21,10 +21,16 @@ main =
     , Center.markdown "600px" afterTypeDiffs
     , image "/assets/blog/error-messages/0.16/context.png"
     , Center.markdown "600px" afterContext
+    , image "/assets/blog/error-messages/0.16/expected-arg.png"
+    , Center.markdown "600px" afterExpected
+    , image "/assets/blog/error-messages/0.16/if-branches.png"
+    , Center.markdown "600px" afterIf
     , image "/assets/blog/error-messages/0.16/string-hint.png"
     , Center.markdown "600px" afterStringAdd
     , image "/assets/blog/error-messages/0.16/truthy.png"
     , Center.markdown "600px" afterTruthy
+    , image "/assets/blog/error-messages/0.16/incomplete.png"
+    , Center.markdown "600px" afterIncomplete
     ]
 {-
     , iframe
@@ -138,7 +144,39 @@ is causing an issue!
 
 """
 
+
 afterContext = """
+
+### Expected vs Actual
+
+One of the most common questions about type errors has been “How come it does
+not tell me which type was expected and which was actually given?” As you may
+have noticed in the previous examples, that is in this release as well!
+
+In the most basic example, you just get some information about what the
+function expects:
+
+"""
+
+
+afterExpected = """
+
+As I implemented this, I realized that this expected vs actual dichotomy does
+not *really* make sense in a lot of cases. A simple example of this is when the
+branches of an `if` do not match. Which is the expected one? Are they both actual?
+It just does not really make sense, so instead of settling for some convention,
+the compiler just “does the right thing” for each scenario. For example, when
+the branches of an `if` do not match it looks like this:
+
+"""
+
+
+afterIf = """
+
+I found it quite surprising and delightful that “expected vs actual” does not
+make sense in many cases, so I wrote a bit more about this
+[here](https://groups.google.com/forum/#!topic/elm-dev/878AcvEQ5tk).
+
 
 ### Beginner Hints
 
@@ -190,11 +228,107 @@ internet person!
 
 # Removing Syntax
 
-https://github.com/elm-lang/error-message-catalog/issues/16
+This release is also removing some obscure or confusing syntax from Elm. The
+“personality” of Elm tends towards having a very small toolbox that covers a
+shocking range of scenarios. So these removals are geared towards stuff that
+I thought might be a good idea, but after seeing them in practice over the years,
+we found that they subtly guided you away from great code.
+
+You can see the full list of changes [here][upgrade-docs]. Many are focused on
+slimming down the language so that tools like `elm-format` work even better,
+but the biggest change is to record updates. Instead of using the backward
+arrow, it will just be an equals sign now. We had gotten [feedback along these
+lines][equals] for quite some time, especially from folks just starting out.
+
+[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
+[equals]: https://github.com/elm-lang/error-message-catalog/issues/16
 
 
 # Catching More Bugs
 
+In addition to showing *better* error messages, this release is also catching
+*more* errors. One big goal of Elm is to have no runtime errors. In practice,
+this is pretty much already how it goes. You can go months or years without a
+runtime error. In any case, Elm 0.16 closes one of the last remaining loopholes.
+
+Thanks to [Izzy Meckler](https://github.com/imeckler), the Elm compiler
+now detects “incomplete pattern matches” which are when a `case` expression
+does not handle all possible cases. For example, say we are pattern matching
+on a list to get the last element:
+
+```elm
+last : List a -> a
+last list =
+  case list of
+    x :: [] ->
+      x
+
+    x :: rest ->
+      last rest
+```
+
+If someone were to give an empty list to `last` it just would not know what to
+do. That scenario is not covered. So this release detects these cases and shows
+a helpful error message:
+
+"""
+
+
+afterIncomplete = """
+
+This is particularly helpful when you have a large codebase and add a tag to a
+union type. Now the compiler will point out all the `case` expressions scattered
+throughout your code that need to have an extra branch added to them!
+
 
 # Generating Faster Code
+
+This summer we had two interns working on Elm, whose work will be coming out
+over the next few months. [Joey Eremondi](https://github.com/JoeyEremondi)
+focused on the compiler and performance, setting up some benchmarks for
+generated code and catalyzing a decent number of optimizations.
+
+So this release also introduces an improved code generation pipeline. With some
+relatively minor changes, the number of closures in the generated JavaScript is
+significantly decreased. This alone led to some [quite dramatic performance
+improvements][perf].
+
+[perf]: https://gist.github.com/evancz/76b619a83a6650a89918
+
+Not only is code faster in general, this release also implements tail-call
+elimination for self-recursive functions. This means that for some subset of
+recursive functions, we can convert it to a while-loop under the hood. This
+is a ton faster. Hopefully browsers start implementing “proper tail-calls” as
+is demanded by ES6 and we will see this kind of stuff happening in more
+scenarios.
+
+Joey, thank you for your work on these improvements! It is always nice when a
+new version of software comes out and things actually go *faster*.
+
+
+## Thank You
+
+It has been a pretty busy couple months for Elm so there are a lot of folks to
+thank.
+
+Thank you again to [Izzy](https://github.com/imeckler) and
+[Joey](https://github.com/JoeyEremondi) who contributed larger projects
+directly to this release. Thank you to everyone who tried out the alpha
+releases and reported issues. I recall some good ones caught by
+[Max](https://github.com/mgold) and [Aaron](https://github.com/avh4). Thank
+you to [Janis](https://github.com/jvoigtlaender) for curating and resolving a
+bunch of issues on core repositories! Whether it is `core` or `package.elm-lang.org`
+you always have great suggestions and end up getting “the right thing”
+implemented even when I am a stickler at first.
+
+I also want to thank the Elm community. We have been going through some
+growing pains recently with lots of new folks showing up, and a lot of
+community members have stepped up to keep things running smoothly. Thank you
+in particular to Richard, Pete, Joey, Jeff, Max, and Janis. This process
+has been a bit rough on me, and I do not know how to appropriately thank all
+the people who have been supportive or just said “I bet I can do this better”
+and went for it!
+
+<br>
+
 """
