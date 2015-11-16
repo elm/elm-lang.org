@@ -92,7 +92,7 @@ Exercises:
 
 (1) Sum all of the elements of a tree.
 
-       sum : Tree Number -> Number
+       sum : Tree number -> number
 
 (2) Flatten a tree into a list.
 
