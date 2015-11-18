@@ -17,6 +17,19 @@ main =
     Blog.evan
     (Blog.Date 2015 11 9)
     [ Center.markdown "600px" content
+    , iframe
+        [ width 560
+        , height 315
+        , src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=88"
+        , attribute "frameborder" "0"
+        , attribute "allowfullscreen" ""
+        , style
+            [ "display" => "block"
+            , "margin" => "1em auto"
+            ]
+        ]
+        []
+    , Center.markdown "600px" afterVideo
     , image "/assets/blog/error-messages/0.16/big-record.png"
     , Center.markdown "600px" afterTypeDiffs
     , image "/assets/blog/error-messages/0.16/context.png"
@@ -46,26 +59,46 @@ content = """
 
 Compilers do not have the best reputation. Their intent is admirable: find
 sneaky bugs, help fix them, and generate fast code. Sounds pretty wonderful!
-The problem is that **many compilers act like HAL 9000**. Programming is
-definitely less fun when your assistant is [a malevolent AI that wants to kill
-you][hal].
+The problem is that many compilers act like HAL 9000.
 
-[hal]: https://youtu.be/ARJ8cAGm6JE
+"""
 
-It does not have to be this way! Today marks the release of Elm 0.16 which
-has the best error messages I have ever worked with.
 
-> QUOTE.
+afterVideo = """
 
-In addition to dramatically improved error messages, this release also:
+I mean, no compiler is *literally* a malevolent AI that wants to kill you, but
+sometimes it feels that way!
 
-  * [catches more bugs](#catching-more-bugs), including incomplete pattern matches
-  * [generates faster code](#generating-faster-code) and introduces tail-call elimination
-  * [removes some confusing and redundant syntax](#removing-syntax)
+One of Elm’s goals is to change our relationship with compilers. **Compilers
+should be assistants, not adversaries.** A compiler should not just *detect*
+bugs, it should then help you understand *why* there is a bug. It should not
+berate you in a robot voice, it should give you specific hints that help you
+write better code. Ultimately, a compiler should make programming faster and
+more fun!
 
-If you just want to get started now, [get 0.16 installed](/install) and read
-the [upgrade docs][upgrade] for a concise list of changes and a thorough guide
-on upgrading your code. Should be quite simple and minimal!
+Well, today marks the release of Elm 0.16 which I think is a great step in this
+direction. This release:
+
+   * produces dramatically better error messages
+   * catches incomplete pattern matches
+   * introduces tail-call optimization
+   * removes redundant syntax to improve the “code texture” of Elm
+
+Most importantly of these, **Elm compiler is now producing has the best error
+messages I have ever worked with**. And I hope you will feel the same way!
+
+Okay, enough overview, let’s dive into all the new stuff.
+
+
+> **Note:** Maybe *you* have seen better error messages? If so,
+[tell us](https://github.com/elm-lang/error-message-catalog/). Users reports of
+confusing error messages actually motivated most of the improvements in this
+release. We can only fix things if we know about them, so help us keep
+improving!
+
+> **Note:** If you just want to get started now, [get 0.16 installed](/install)
+and read the [upgrade docs][upgrade] for a concise list of changes and a
+thorough guide on upgrading your code. Should be quite simple and minimal!
 
 [upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
 
@@ -204,24 +237,6 @@ internet person!
 [hn]: https://news.ycombinator.com/item?id=9808317
 
 
-# Removing Syntax
-
-This release is also removing some obscure or confusing syntax from Elm. The
-“personality” of Elm tends towards having a very small toolbox that covers a
-shocking range of scenarios. So these removals are geared towards stuff that
-I thought might be a good idea, but after seeing them in practice over the years,
-we found that they subtly guided you away from great code.
-
-You can see the full list of changes [here][upgrade-docs]. Many are focused on
-slimming down the language so that tools like `elm-format` work even better,
-but the biggest change is to record updates. Instead of using the backward
-arrow, it will just be an equals sign now. We had gotten [feedback along these
-lines][equals] for quite some time, especially from folks just starting out.
-
-[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
-[equals]: https://github.com/elm-lang/error-message-catalog/issues/16
-
-
 # Catching More Bugs
 
 In addition to showing *better* error messages, this release is also catching
@@ -284,7 +299,25 @@ Joey, thank you for your work on these improvements! It is always nice when a
 new version of software comes out and things actually go *faster*.
 
 
-## Thank You
+# Removing Syntax
+
+This release is also removing some obscure or confusing syntax from Elm. The
+“personality” of Elm tends towards having a very small toolbox that covers a
+shocking range of scenarios. So these removals are geared towards stuff that
+I thought might be a good idea, but after seeing them in practice over the years,
+we found that they subtly guided you away from great code.
+
+You can see the full list of changes [here][upgrade-docs]. Many are focused on
+slimming down the language so that tools like `elm-format` work even better,
+but the biggest change is to record updates. Instead of using the backward
+arrow, it will just be an equals sign now. We had gotten [feedback along these
+lines][equals] for quite some time, especially from folks just starting out.
+
+[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
+[equals]: https://github.com/elm-lang/error-message-catalog/issues/16
+
+
+# Thank You
 
 It has been a pretty busy couple months for Elm so there are a lot of folks to
 thank.
