@@ -269,29 +269,33 @@ union type. Now the compiler will point out all the `case` expressions scattered
 throughout your code that need to have an extra branch added to them!
 
 
-# Generating Faster Code
+# Tail Call Optimization
 
-This summer we had two interns working on Elm, whose work will be coming out
-over the next few months. [Joey Eremondi](https://github.com/JoeyEremondi)
-focused on the compiler and performance, setting up some benchmarks for
-generated code and catalyzing a decent number of optimizations.
+[Joey Eremondi](https://github.com/JoeyEremondi) did a bunch of work this
+summer on compiler optimizations, and in the end, things are quite a bit
+faster!
 
-So this release also introduces an improved code generation pipeline. With some
-relatively minor changes, the number of closures in the generated JavaScript is
-significantly decreased. This alone led to some [quite dramatic performance
-improvements][perf].
+Elm now does tail-call optimizations for self-recursive functions. Lots of
+fancy words here, but the real meaning is pretty simple. Certain recursive
+functions can be turned into `while` loops now. This is a ton faster and does
+not grow the stack!
+
+Turns out that ES6 will be getting a more advanced version of this feature
+([details][es6-tail-call]), but it is not clear how long it will be before this
+starts appearing in popular browsers. In any case, we get some of this now and
+it happens at compile time, so you will not need to hope the JIT gets warmed
+up to get these optimizations.
+
+[es6-tail-call]: http://benignbemine.github.io/2015/07/19/es6-tail-calls/
+
+To get all this working, we ended up improving the whole code generation
+pipeline. With some relatively minor changes, the number of closures in the
+generated JavaScript is significantly decreased. This alone led to some [quite
+dramatic performance improvements][perf].
 
 [perf]: https://gist.github.com/evancz/76b619a83a6650a89918
 
-Not only is code faster in general, this release also implements tail-call
-elimination for self-recursive functions. This means that for some subset of
-recursive functions, we can convert it to a while-loop under the hood. This
-is a ton faster. Hopefully browsers start implementing “proper tail-calls” as
-is demanded by ES6 and we will see this kind of stuff happening in more
-scenarios.
-
-Joey, thank you for your work on these improvements! It is always nice when a
-new version of software comes out and things actually go *faster*.
+Joey, thank you for your work on these improvements!
 
 
 # Removing Syntax
