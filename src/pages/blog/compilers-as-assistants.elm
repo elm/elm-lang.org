@@ -15,7 +15,7 @@ main =
     "Compilers as Assistants"
     "Making Elm faster and friendlier in 0.16"
     Blog.evan
-    (Blog.Date 2015 11 9)
+    (Blog.Date 2015 11 19)
     [ Center.markdown "600px" content
     , iframe
         [ width 560
@@ -299,20 +299,90 @@ Joey, thank you for your work on these improvements!
 
 # Removing Syntax
 
-This release is also removing some obscure or confusing syntax from Elm. The
-“personality” of Elm tends towards having a very small toolbox that covers a
-shocking range of scenarios. So these removals are geared towards stuff that
-I thought might be a good idea, but after seeing them in practice over the years,
-we found that they subtly guided you away from great code.
+Normally languages keep getting bigger, but Elm 0.16 is actually a smaller and
+more focused. The two major changes are removing multi-way if and removing
+record field addition and deletion.
 
-You can see the full list of changes [here][upgrade-docs]. Many are focused on
-slimming down the language so that tools like `elm-format` work even better,
-but the biggest change is to record updates. Instead of using the backward
-arrow, it will just be an equals sign now. We had gotten [feedback along these
-lines][equals] for quite some time, especially from folks just starting out.
+
+### Simplified Ifs
+
+Ever since [Laszlo][] realized [how to make Elm code look great][style], we
+have been trying to get all Elm developers to use a “professional” style.
+
+[Laszlo]: https://github.com/laszlopandy
+[style]: http://elm-lang.org/docs/style-guide
+
+Very very early on I added a some syntax called a multi-way if. It looked like
+this:
+
+```elm
+    if | n < 0 -> -1
+       | n > 0 -> 1
+       | otherwise -> 0
+```
+
+It is kind of cool, but it has three major weaknesses that I did not appreciate
+at the time.
+
+**First**, it works against nice indentation in a lot of ways. According to
+[the style guide][style], you should pick 2 or 4 space indent and stick with
+that for your whole file. The vertical bar in the multi-way if kind of *wants*
+3 space indent. It just looks really bad without it. The style guide also says
+you should *always* bring values down a line after a `=` or a `->` so changing
+something simple never causes a big stylistic refactor as well. Again,
+multi-way ifs kind of call to you to not follow this rule because it would lead
+to 8 space indents or even uglier things.
+
+**Second**, it is possible to have “incomplete” multi-way ifs. It lets you write
+silly stuff that can crash:
+
+```elm
+    if | n < 0 -> -1
+       | n > 0 -> 1
+```
+
+If `n` is zero then there the behavior is undefined, so this would just crash.
+Since 0.16 is actually catching all incomplete pattern matches, it felt
+particularly egregious to allow this kind of thing.
+
+**Third**, it is totally redundant. You can do the same things with the normal
+if/then/else syntax. So any multi-way if will turn into something like this:
+
+```elm
+    if n < 0 then
+        -1
+
+    else if n > 0 then
+        1
+
+    else
+        0
+```
+
+This version *wants* to be 2 or 4 space indented. It *wants* to have the body
+of each branch brought down a line. The aesthetics draw you towards writing
+higher quality code. It also gets rid of the problem of “incomplete” ifs.
+
+There has been some work on `elm-format` going on, so this also gets the
+language in better shape for that.
+
+> **Note:** Notice that the new version looks a whole lot more like Python or
+Ruby or JavaScript or C++ or all the other languages. I think many popular
+languages have a “code texture” that works really well for skimming and
+recognizing structure. I think having great code texture is mostly a matter of
+personal style, not the language or paradigm, so we will keep working to
+discover the most excellent code texture!
+
+
+### Simplified Records
+
+Elm
+
 
 [upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
 [equals]: https://github.com/elm-lang/error-message-catalog/issues/16
+
+
 
 
 # Thank You
