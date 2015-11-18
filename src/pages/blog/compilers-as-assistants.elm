@@ -300,8 +300,11 @@ Joey, thank you for your work on these improvements!
 # Removing Syntax
 
 Normally languages keep getting bigger, but Elm 0.16 is actually a smaller and
-more focused. The two major changes are removing multi-way if and removing
-record field addition and deletion.
+more focused. All the changes are listed [here][upgrade-docs], so we will focus
+on the two major changes here: removing multi-way `if` and removing
+field addition/deletion.
+
+[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md#updating-syntax
 
 
 ### Simplified Ifs
@@ -312,8 +315,8 @@ have been trying to get all Elm developers to use a “professional” style.
 [Laszlo]: https://github.com/laszlopandy
 [style]: http://elm-lang.org/docs/style-guide
 
-Very very early on I added a some syntax called a multi-way if. It looked like
-this:
+Very very early on (maybe in 0.1?) I added a some syntax called a multi-way if.
+  It looked like this:
 
 ```elm
     if | n < 0 -> -1
@@ -373,16 +376,60 @@ recognizing structure. I think having great code texture is mostly a matter of
 personal style, not the language or paradigm, so we will keep working to
 discover the most excellent code texture!
 
+> **Note:** We did [a ton of brainstorming][if-issue] to think through all the
+possible variations here. It turns out the simple solution also works the best!
+
+[if-issue]: https://github.com/elm-lang/elm-plans/issues/3
+
+
 
 ### Simplified Records
 
-Elm
+There is kind of a long story here. The short version is that record update
+uses a normal equals sign now, like this:
 
+```elm
+    { point | x = 4 }
+```
 
-[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
+Instead of using the backwards arrow `<-` like before. This was something that
+a lot of people got tripped up on, [even after they had a lot of
+experience][equals], so overall I think this will make things a bit friendlier.
+The backwards arrows also led to weird code texture when used within a `case`
+such that you have forwards and backwards arrows going everywhere.
+
 [equals]: https://github.com/elm-lang/error-message-catalog/issues/16
 
+Okay, but the long story in interesting if you are into language design!
 
+Elm uses a very cool record system. It is based on [an excellent paper][daan]
+by Daan Leijen that lets you add and remove fields from records, all while
+keeping the types simple. I really love this mix of power and simplicity!
+
+[daan]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf
+
+I added support for this back in 0.7, and at the time, I had never seen a
+language (with a real working compiler) that allowed field addition and
+deletion like this. So I had intuition, but no way to get real experience. I
+worried that it *could* encourage overly complex code, so from the start I
+was very conservative, knowing that we could expand or contract the features
+as we got more data.
+
+Well it has been more than two years since then, and the results are in. Pretty
+much no one ever used field addition or deletion. In the few cases where people
+*did* use it, it got pretty crazy pretty quickly. The one real-world case I
+know of is recorded [here][extension-example] if you want to see, and the code
+could be rewritten with union types, which turned out nicer anyway.
+
+[extension-example]: https://github.com/elm-lang/elm-compiler/issues/985#issuecomment-121927230
+
+I also expect that removing extension and deletion will make Elm easier to
+optimize later on if we are targetting platforms besides JavaScript. I outline
+a bit of the reasoning behind this in [the original issue about this][extension-issue].
+It turns out [the benchmarks we ran for 0.16][perf] show that record update
+has gotten a lot faster already because of this!
+
+[extension-issue]: https://github.com/elm-lang/elm-compiler/issues/985
 
 
 # Thank You
