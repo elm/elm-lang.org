@@ -149,7 +149,7 @@ records would have been even worse!
 Zach Gotsch reported [a nice minimal example][context] of how this lack of
 context leads to confusing error messages. Well, thanks to type diffs it is not
 a big deal to show the entire problematic type and just highlight the part that
-is causing an issue!
+is causing an issue:
 
 [context]: https://github.com/elm-lang/error-message-catalog/issues/53
 
@@ -160,9 +160,9 @@ afterContext = """
 
 ### Expected vs Actual
 
-One of the most common questions about type errors has been “Why doesn’t it
-tell me which type was expected and which was actually given?” As you may have
-noticed in the previous examples, that is in this release as well!
+The most common question about type errors in Elm has long been “Why doesn’t
+it tell me which type was expected and which was actually given?” As you may
+have noticed in the previous examples, Elm 0.16 adds this information!
 
 In the most basic example, you just get some information about what the
 function expects:
@@ -183,11 +183,6 @@ the branches of an `if` do not match it looks like this:
 
 
 afterIf = """
-
-I found it quite surprising and delightful that “expected vs actual” does not
-make sense in many cases, so I wrote a bit more about this
-[here](https://groups.google.com/forum/#!topic/elm-dev/878AcvEQ5tk).
-
 
 ### Beginner Hints
 
