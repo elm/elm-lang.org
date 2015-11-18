@@ -32,22 +32,8 @@ main =
     , image "/assets/blog/error-messages/0.16/incomplete.png"
     , Center.markdown "600px" afterIncomplete
     ]
-{-
-    , iframe
-        [ width 560
-        , height 315
-        , src "https://www.youtube.com/embed/ARJ8cAGm6JE"
-        , attribute "frameborder" "0"
-        , attribute "allowfullscreen" ""
-        , style
-            [ "display" => "block"
-            , "margin" => "1em auto"
-            ]
-        ]
-        []
-    , Center.markdown "600px" afterVideo
-    ]
---}
+
+
 
 (=>) = (,)
 
@@ -57,8 +43,6 @@ image url =
 
 
 content = """
-
-<span style="color: red;">DRAFT - DO NOT SHARE</span>
 
 Compilers do not have the best reputation. Their intent is admirable: find
 sneaky bugs, help fix them, and generate fast code. Sounds pretty wonderful!
@@ -73,8 +57,7 @@ has the best error messages I have ever worked with.
 
 > QUOTE.
 
-In addition to [dramatically improved error messages](#improved-error-messages),
-this release also:
+In addition to dramatically improved error messages, this release also:
 
   * [catches more bugs](#catching-more-bugs), including incomplete pattern matches
   * [generates faster code](#generating-faster-code) and introduces tail-call elimination
@@ -101,20 +84,15 @@ happen!
 
 ### Type Diffs
 
-[Richard Feldman](https://github.com/rtfeldman) is the lead frontend developer
-at NoRedInk. They have been [using Elm in production][nre-blog] for about half
-a year now and probably have the biggest commercial Elm code base. He opened
-[an issue][big-record] describing the error message he got when a big record
-was not quite right.
+[Richard Feldman](https://github.com/rtfeldman) (who has been [using Elm at
+NoRedInk][nre-blog] for about half a year now) opened [an issue][big-record]
+describing a problem with big records. [The error message][big-record-comment]
+showed types so large that it was hard to pinpoint the root problem. He
+suggested a “type diff” to filter out the useless and distracting parts.
+This was a great idea, so I did it! The new message looks like this:
 
 [nre-blog]: http://noredinktech.tumblr.com/post/126978281075/walkthrough-introducing-elm-to-a-js-web-app
 [big-record]: https://github.com/elm-lang/error-message-catalog/issues/23
-
-[The error message][big-record-comment] was very long and did not give a very
-clear indication of what actually went wrong. Richard suggested a “type diff”
-that would make it easy to immediately see the problem. This was a great idea,
-so I did it! The new message looks like this:
-
 [big-record-comment]: https://github.com/elm-lang/error-message-catalog/issues/23#issue-95370810
 
 """
@@ -123,7 +101,7 @@ so I did it! The new message looks like this:
 afterTypeDiffs = """
 
 The Elm compiler now does **type diffs** where it compares any two types and
-highlights the differences. Notice that it elides information that is not directly
+highlights the differences. Notice that it hides information that is not directly
 relevant, so Richard just sees the fields that do not match. It even does typo
 detection for record fields, so there is a nice little hint pointing out the
 typo that caused the problem!
@@ -149,9 +127,9 @@ afterContext = """
 
 ### Expected vs Actual
 
-One of the most common questions about type errors has been “How come it does
-not tell me which type was expected and which was actually given?” As you may
-have noticed in the previous examples, that is in this release as well!
+One of the most common questions about type errors has been “Why doesn’t it
+tell me which type was expected and which was actually given?” As you may have
+noticed in the previous examples, that is in this release as well!
 
 In the most basic example, you just get some information about what the
 function expects:
@@ -182,11 +160,11 @@ make sense in many cases, so I wrote a bit more about this
 
 When you are starting out with a new language, there are a few things that you
 are pretty much guaranteed to run in to. [Jessica Kerr](https://twitter.com/jessitron)
-is an excellent developer and speaker who recently got started with Elm. As she
-got familiar with Elm, she kindly reported all the times she ran into something
-weird. For example, when appending strings in Elm you use the `(++)` operator.
-Thanks to [Jessica’s suggestion][plus], Elm 0.16 gives a helpful hint when it
-sees folks trying to add strings.
+is an excellent developer and speaker who recently got started with Elm, and
+she kindly reported all the times she ran into something weird. For example,
+when appending strings in Elm you use the `(++)` operator. Thanks to [Jessica’s
+suggestion][plus], Elm 0.16 gives a helpful hint when it sees folks trying to
+add strings.
 
 [plus]: https://github.com/elm-lang/error-message-catalog/issues/38
 
@@ -218,7 +196,7 @@ programmer to figure out which one is the *real* problem.
 Well, there are no more cascading errors in Elm 0.16 thanks to Hacker News!
 When we announced our first effort to improve Elm’s error messages, someone on
 Hacker News commented with a very simple yet specific description of [how to
-avoid cascading errors][hn]. I had been trying to figure out for a while
+avoid cascading errors][hn]. I had been trying to figure this out for a while
 without success, and it turns out this suggestion works great: simple
 implementation, no performance penalty, and no more cascading errors. Thanks
 internet person!
