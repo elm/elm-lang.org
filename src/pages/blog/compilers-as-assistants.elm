@@ -272,19 +272,18 @@ throughout your code that need to have an extra branch added to them!
 # Tail Call Optimization
 
 [Joey Eremondi](https://github.com/JoeyEremondi) did a bunch of work this
-summer on compiler optimizations, and in the end, things are quite a bit
-faster!
+summer on compiler optimizations, so Elm 0.16 makes things quite a bit faster
+as well!
 
 Elm now does tail-call optimizations for self-recursive functions. Lots of
 fancy words here, but the real meaning is pretty simple. Certain recursive
 functions can be turned into `while` loops now. This is a ton faster and does
-not grow the stack!
+not grow the stack.
 
 Turns out that ES6 will be getting a more advanced version of this feature
 ([details][es6-tail-call]), but it is not clear how long it will be before this
 starts appearing in popular browsers. In any case, we get some of this now and
-it happens at compile time, so you will not need to hope the JIT gets warmed
-up to get these optimizations.
+it happens at compile time.
 
 [es6-tail-call]: http://benignbemine.github.io/2015/07/19/es6-tail-calls/
 
