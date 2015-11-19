@@ -57,8 +57,6 @@ image url =
 
 content = """
 
-<span style="color: red;">NOT FOR SHARING</span>
-
 Compilers do not have the best reputation. Their intent is admirable: find
 sneaky bugs, help fix them, and generate fast code. Sounds pretty wonderful!
 The problem is that many compilers act like HAL 9000.
