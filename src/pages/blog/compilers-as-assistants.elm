@@ -93,8 +93,8 @@ Okay, enough overview, let’s dive into all the new stuff.
 
 
 > **Note:** Maybe *you* have seen better error messages? If so,
-[tell us](https://github.com/elm-lang/error-message-catalog/). Users reports of
-confusing error messages actually motivated most of the improvements in this
+[tell us](https://github.com/elm-lang/error-message-catalog/). Users’ reports
+of confusing error messages actually motivated most of the improvements in this
 release. We can only fix things if we know about them, so help us keep
 improving!
 
@@ -301,7 +301,7 @@ Joey, thank you for your work on these improvements!
 
 # Removing Syntax
 
-Normally languages keep getting bigger, but Elm 0.16 is actually a smaller and
+Normally languages keep getting bigger, but Elm 0.16 is actually smaller and
 more focused. All the changes are listed [here][upgrade-docs], so we will focus
 on the two major changes here: removing multi-way `if` and removing
 field addition/deletion.
@@ -317,7 +317,7 @@ have been trying to get all Elm developers to use a “professional” style.
 [Laszlo]: https://github.com/laszlopandy
 [style]: http://elm-lang.org/docs/style-guide
 
-Very very early on (maybe in 0.1?) I added a some syntax called a multi-way if.
+Very very early on (maybe in 0.1?) I added some syntax called a multi-way if.
   It looked like this:
 
 ```elm
@@ -333,7 +333,7 @@ at the time.
 [the style guide][style], you should pick 2 or 4 space indent and stick with
 that for your whole file. The vertical bar in the multi-way if kind of *wants*
 3 space indent. It just looks really bad without it. The style guide also says
-you should *always* bring values down a line after a `=` or a `->` so changing
+you should *always* bring values down a line after `=` or `->` so changing
 something simple never causes a big stylistic refactor as well. Again,
 multi-way ifs kind of call to you to not follow this rule because it would lead
 to 8 space indents or even uglier things.
@@ -346,7 +346,7 @@ silly stuff that can crash:
        | n > 0 -> 1
 ```
 
-If `n` is zero then there the behavior is undefined, so this would just crash.
+If `n` is zero there is no branch to take, so this would just crash.
 Since 0.16 is actually catching all incomplete pattern matches, it felt
 particularly egregious to allow this kind of thing.
 
@@ -425,8 +425,8 @@ could be rewritten with union types, which turned out nicer anyway.
 
 [extension-example]: https://github.com/elm-lang/elm-compiler/issues/985#issuecomment-121927230
 
-I also expect that removing extension and deletion will make Elm easier to
-optimize later on if we are targetting platforms besides JavaScript. I outline
+I also expect that removing addition and deletion will make Elm easier to
+optimize later on if we are targeting platforms besides JavaScript. I outline
 a bit of the reasoning behind this in [the original issue about this][extension-issue].
 It turns out [the benchmarks we ran for 0.16][perf] show that record update
 has gotten a lot faster already because of this!
