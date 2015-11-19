@@ -20,7 +20,7 @@ main =
     , iframe
         [ width 560
         , height 315
-        , src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=87&rel=0"
+        , src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=87&rel=0&autoplay=0"
         , attribute "frameborder" "0"
         , attribute "allowfullscreen" ""
         , style
