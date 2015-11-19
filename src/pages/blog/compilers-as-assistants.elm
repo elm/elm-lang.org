@@ -86,7 +86,7 @@ direction. This release:
    * introduces tail-call optimization
    * removes redundant syntax to improve the “code texture” of Elm
 
-Most importantly of these, **Elm compiler is now producing has the best error
+Most importantly of these, **Elm compiler is now producing the best error
 messages I have ever worked with**. And I hope you will feel the same way!
 
 Okay, enough overview, let’s dive into all the new stuff.
@@ -301,7 +301,7 @@ Joey, thank you for your work on these improvements!
 
 # Removing Syntax
 
-Normally languages keep getting bigger, but Elm 0.16 is actually a smaller and
+Normally languages keep getting bigger, but Elm 0.16 is actually smaller and
 more focused. All the changes are listed [here][upgrade-docs], so we will focus
 on the two major changes here: removing multi-way `if` and removing
 field addition/deletion.
@@ -402,7 +402,7 @@ such that you have forwards and backwards arrows going everywhere.
 
 [equals]: https://github.com/elm-lang/error-message-catalog/issues/16
 
-Okay, but the long story in interesting if you are into language design!
+Okay, but the long story is interesting if you are into language design!
 
 Elm uses a very cool record system. It is based on [an excellent paper][daan]
 by Daan Leijen that lets you add and remove fields from records, all while
@@ -427,7 +427,7 @@ could be rewritten with union types, which turned out nicer anyway.
 
 I also expect that removing extension and deletion will make Elm easier to
 optimize later on if we are targetting platforms besides JavaScript. I outline
-a bit of the reasoning behind this in [the original issue about this][extension-issue].
+a bit of the reasoning behind it in [the original issue about this][extension-issue].
 It turns out [the benchmarks we ran for 0.16][perf] show that record update
 has gotten a lot faster already because of this!
 
