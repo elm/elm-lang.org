@@ -108,7 +108,7 @@ thorough guide on upgrading your code. Should be quite simple and minimal!
 In Elm 0.15.1 we took the first steps towards [compiler errors for humans][0.15.1]
 and asked the community to provide feedback in the [error message catalog][emc].
 Responding to this feedback has led to some extraordinarily nice error messages,
-so I want to highlight some of the the user-reported issues that helped make this
+so I want to highlight some of the user-reported issues that helped make this
 happen!
 
 [0.15.1]: /blog/compiler-errors-for-humans
