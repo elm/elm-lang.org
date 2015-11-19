@@ -86,7 +86,7 @@ direction. This release:
    * introduces tail-call optimization
    * removes redundant syntax to improve the “code texture” of Elm
 
-Most importantly of these, **Elm compiler is now producing has the best error
+Most importantly of these, **Elm compiler is now producing the best error
 messages I have ever worked with**. And I hope you will feel the same way!
 
 Okay, enough overview, let’s dive into all the new stuff.
@@ -402,7 +402,7 @@ such that you have forwards and backwards arrows going everywhere.
 
 [equals]: https://github.com/elm-lang/error-message-catalog/issues/16
 
-Okay, but the long story in interesting if you are into language design!
+Okay, but the long story is interesting if you are into language design!
 
 Elm uses a very cool record system. It is based on [an excellent paper][daan]
 by Daan Leijen that lets you add and remove fields from records, all while
@@ -425,11 +425,11 @@ could be rewritten with union types, which turned out nicer anyway.
 
 [extension-example]: https://github.com/elm-lang/elm-compiler/issues/985#issuecomment-121927230
 
-I also expect that removing addition and deletion will make Elm easier to
-optimize later on if we are targeting platforms besides JavaScript. I outline
-a bit of the reasoning behind this in [the original issue about this][extension-issue].
-It turns out [the benchmarks we ran for 0.16][perf] show that record update
-has gotten a lot faster already because of this!
+Removing addition and deletion will also make Elm easier to optimize (described
+more [here][extension-issue]). This is especially true if we are targeting
+platforms besides JavaScript, but allows some simplifications in JS too. In
+fact, [the benchmarks we ran for 0.16][perf] show that this made record updates
+a lot faster!
 
 [extension-issue]: https://github.com/elm-lang/elm-compiler/issues/985
 
