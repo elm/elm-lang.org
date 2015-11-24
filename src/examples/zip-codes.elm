@@ -1,78 +1,62 @@
-import Char
+import Effects exposing (Effects, Never)
 import Html exposing (..)
-import Html.Attributes as Attr exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Http
 import Json.Decode as Json exposing ((:=))
+import Task
 import String
-import Task exposing (..)
+import Char
+import Http
+import StartApp
 
 
--- VIEW
+-- MODEL
 
-view : String -> Result String (List String) -> Html
-view string result =
-  let field =
-        input
-          [ placeholder "Zip Code"
-          , value string
-          , on "input" targetValue (Signal.message query.address)
-          , myStyle
-          ]
-          []
-
-      messages =
-        case result of
-          Err msg ->
-              [ div [ myStyle ] [ text msg ] ]
-
-          Ok cities ->
-              List.map (\city -> div [ myStyle ] [ text city ]) cities
-  in
-      div [] (field :: messages)
+type alias Model =
+    { code : String
+    , cities : List String
+    }
 
 
-myStyle : Attribute
-myStyle =
-  style
-    [ ("width", "100%")
-    , ("height", "40px")
-    , ("padding", "10px 0")
-    , ("font-size", "2em")
-    , ("text-align", "center")
-    ]
+init : (Model, Effects Action)
+init =
+    ( Model "" ["Give me a valid US zip code!"]
+    , Effects.none
+    )
 
 
--- WIRING
+-- UPDATE
 
-main =
-  Signal.map2 view query.signal results.signal
-
-
-query : Signal.Mailbox String
-query =
-  Signal.mailbox ""
+type Action
+    = NewCode String
+    | Update (Maybe (List String))
 
 
-results : Signal.Mailbox (Result String (List String))
-results =
-  Signal.mailbox (Err "A valid US zip code is 5 numbers.")
+update : Action -> Model -> (Model, Effects Action)
+update message model =
+    case message of
+        NewCode code ->
+            ( { model | code <- code }
+            , getPlace code
+            )
+
+        Update maybeCities -> 
+            case maybeCities of 
+              Just cities -> ( { model | cities <- cities }, Effects.none)
+              Nothing -> ( { model | cities <- ["A valid US zip code is 5 numbers."] }, Effects.none)
 
 
-port requests : Signal (Task x ())
-port requests =
-  Signal.map lookupZipCode query.signal
-    |> Signal.map (\task -> Task.toResult task `andThen` Signal.send results.address)
-
-
-lookupZipCode : String -> Task String (List String)
-lookupZipCode query =
-  let toUrl =
-        if String.length query == 5 && String.all Char.isDigit query
-          then succeed ("http://api.zippopotam.us/us/" ++ query)
-          else fail "Give me a valid US zip code!"
-  in
-      toUrl `andThen` (mapError (always "Not found :(") << Http.get places)
+getPlace : String -> Effects Action
+getPlace code =
+  if String.length code == 5 && String.all Char.isDigit code
+    then 
+      Http.get places ("http://api.zippopotam.us/us/" ++ code)
+      |> Task.toMaybe
+      |> Task.map Update
+      |> Effects.task
+    else 
+      Task.succeed (Update Nothing) 
+      |> Effects.task 
 
 
 places : Json.Decoder (List String)
@@ -83,3 +67,55 @@ places =
           ("state" := Json.string)
   in
       "places" := Json.list place
+
+
+-- VIEW
+
+view : Signal.Address Action -> Model -> Html
+view address model =
+  let 
+    textField =
+      input
+        [ placeholder "Zip Code"
+        , value model.code
+        , on "input" targetValue (Signal.message address << NewCode)
+        , myStyle
+        ]
+        [] 
+
+    citiesDivs = List.map (\city -> div [ myStyle ] [ text city ]) model.cities
+
+  in 
+    div [] (textField :: citiesDivs) 
+
+
+myStyle : Attribute
+myStyle =
+    style
+        [ ("width", "100%")
+        , ("height", "40px")
+        , ("padding", "10px 0")
+        , ("font-size", "2em")
+        , ("text-align", "center")
+        ]
+
+
+-- APP CONFIG
+
+app =
+  StartApp.start
+    { init = init
+    , update = update
+    , view = view
+    , inputs = []
+    }
+
+
+main : Signal Html
+main =
+  app.html
+
+
+port tasks : Signal (Task.Task Never ())
+port tasks =
+  app.tasks
