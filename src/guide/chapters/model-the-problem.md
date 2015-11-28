@@ -171,8 +171,8 @@ view widget =
       LogData logs ->
           flow down (map viewLog logs)
 
-      TimePlot occurances ->
-          viewTimePlot occurances
+      TimePlot occurrences ->
+          viewTimePlot occurrences
 ```
 
 Depending on what kind of widget we are looking at, we will render it differently. Perhaps we want to get a bit trickier and have some time plots that are showed on a logarithmic scale. We can augment our `Widget` type a bit.
