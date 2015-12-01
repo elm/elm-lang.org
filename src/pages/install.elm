@@ -52,8 +52,8 @@ If not, open a new issue or email [the list][group] or ask a question in the
 
 ## Upgrade / Uninstall
 
-To upgrade to a newer version of Elm, run the installer again. They safely
-overwrite old executables so your machine is in a consistent state.
+To upgrade to a newer version of Elm, run the installer again. They displace
+old executables so your machine is in a consistent state.
 
 The Windows installer comes bundled with an uninstall option. To uninstall on
 Mac, run [this script][uninstall]. If you built from source, delete everything
