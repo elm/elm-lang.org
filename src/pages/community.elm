@@ -82,7 +82,7 @@ tweet about weird stuff with that one sometimes.
 
 ## Planet Elm
 
-Planet Elm aggregates broadly appealing, Elm-related blog posts pertaining to the 
+[Planet Elm](http://planet.elm-lang.org/) aggregates broadly appealing, Elm-related blog posts pertaining to the 
 community at large (code, advocacy, marketing, infrastructure etc.). 
 If you would like your blog to be included in the Planet, read [the requirements and steps on how to join](https://github.com/Gizra/planet-elm/wiki/Planet-Elm-guidelines).
 
