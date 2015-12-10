@@ -148,6 +148,26 @@ bullets =
 examples : List (List Html)
 examples =
   [ example
+      "Home/Todo"
+      "https://evancz.github.io/elm-todomvc"
+      "evancz"
+      "https://github.com/evancz/elm-todomvc"
+  , example
+      "Home/DreamWriter"
+      "http://dreamwriter.co"
+      "rtfeldman"
+      "https://github.com/rtfeldman/dreamwriter"
+  , example
+      "Home/Catalog"
+      "http://package.elm-lang.org/packages/elm-lang/core/latest"
+      "evancz"
+      "https://github.com/elm-lang/package.elm-lang.org"
+  , example
+      "Home/Hedley"
+      "https://gizra.github.io/elm-hedley"
+      "Gizra"
+      "https://github.com/Gizra/elm-hedley"
+  , example
       "Home/Mario"
       "/examples/mario"
       "evancz"
@@ -167,31 +187,6 @@ examples =
       "https://evancz.github.io/first-person-elm"
       "evancz"
       "https://github.com/evancz/first-person-elm"
-  , example
-      "Home/Todo"
-      "https://evancz.github.io/elm-todomvc"
-      "evancz"
-      "https://github.com/evancz/elm-todomvc"
-  , example
-      "Home/DreamWriter"
-      "http://dreamwriter.co"
-      "rtfeldman"
-      "https://github.com/rtfeldman/dreamwriter"
-  , example
-      "Home/Catalog"
-      "http://package.elm-lang.org/packages/elm-lang/core/latest"
-      "evancz"
-      "https://github.com/elm-lang/package.elm-lang.org"
-  , example
-      "Home/Fractal"
-      "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/"
-      "stygianguest"
-      "https://github.com/stygianguest/Sierpinski"
-  , example
-      "Home/Hedley"
-      "https://gizra.github.io/elm-hedley"
-      "Gizra"
-      "https://github.com/Gizra/elm-hedley"
   ]
 
 
