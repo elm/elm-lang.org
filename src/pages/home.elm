@@ -159,7 +159,7 @@ examples =
       "https://github.com/rtfeldman/dreamwriter"
   , example
       "Home/Catalog"
-      "http://package.elm-lang.org/packages/elm-lang/core/latest"
+      "http://package.elm-lang.org"
       "evancz"
       "https://github.com/elm-lang/package.elm-lang.org"
   , example
