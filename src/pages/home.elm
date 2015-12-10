@@ -187,6 +187,11 @@ examples =
       "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/"
       "stygianguest"
       "https://github.com/stygianguest/Sierpinski"
+  , example
+      "Home/Hedley"
+      "https://gizra.github.io/elm-hedley"
+      "Gizra"
+      "https://github.com/Gizra/elm-hedley"
   ]
 
 
@@ -239,4 +244,3 @@ fluidList itemWidth maxColumns itemList =
     section
       [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]]
       (List.map (section [style bulletStyle]) itemList)
-
