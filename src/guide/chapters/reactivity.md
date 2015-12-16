@@ -202,7 +202,6 @@ work through all the new parts.
 import Graphics.Element exposing (show)
 import Task exposing (Task, andThen)
 import TaskTutorial exposing (getCurrentTime, print)
-import Task exposing (Task, andThen)
 
 
 port runner : Task x ()
