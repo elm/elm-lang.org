@@ -218,7 +218,6 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 [cs223]: https://www.classes.cs.uchicago.edu/archive/2015/winter/22300-1/Home.html
 [Syntax]: http://elm-lang.org/docs/syntax
 [SG]: http://elm-lang.org/docs/style-guide
-[Examples]: http://elm-lang.org/examples
 [ea]: https://github.com/evancz/elm-architecture-tutorial/
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
