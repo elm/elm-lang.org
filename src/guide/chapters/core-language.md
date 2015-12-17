@@ -79,7 +79,7 @@ Notice that function application looks different than in languages like JavaScri
 
 ## If Expressions
 
-When you want to do have conditional behavior in Elm, you use an if-expression.
+When you want to have conditional behavior in Elm, you use an if-expression.
 
 ```elm
 > if True then "hello" else "world"
@@ -93,7 +93,7 @@ The keywords `if` `then` `else` are used to separate the conditional and the two
 
 It is important to note that Elm does not have a notion of &ldquo;truthiness&rdquo; as in many dynamic languages, where numbers and strings and lists all can be used as boolean values. If we try it out, Elm will tell us that we need to work with a real boolean value.
 
-Now lets make a function that tells us if a number is over 9000.
+Now let's make a function that tells us if a number is over 9000.
 
 ```elm
 > over9000 powerLevel = \\
@@ -157,15 +157,16 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 > import String
 
 > goodName name = \\
-|   if String.length name <= 20 \\
-|     then (True, "name accepted!") \\
-|     else (False, "name was too long; please limit it to 20 characters")
+|   if String.length name <= 20 then \\
+|     (True, "name accepted!") \\
+|   else \\
+|     (False, "name was too long; please limit it to 20 characters")
 
 > goodName "Tom"
 (True, "name accepted!")
 ```
 
-This can be quite handy, but when things start becoming more complicated, it is often best to use records instead tuples.
+This can be quite handy, but when things start becoming more complicated, it is often best to use records instead of tuples.
 
 
 ## Records
@@ -215,10 +216,10 @@ So we can pass any record in as long is it has an `age` field that holds a numbe
 It is often useful to update the values in a record.
 
 ```elm
-> { bill | name <- "Nye" }
+> { bill | name = "Nye" }
 { age = 57, name = "Nye" }
 
-> { bill | age <- 22 }
+> { bill | age = 22 }
 { age = 22, name = "Gates" }
 ```
 

@@ -3,7 +3,6 @@ module Init.Examples (init) where
 
 import qualified Data.ByteString.Lazy.Char8 as BS
 import qualified Data.Maybe as Maybe
-import Data.Monoid (mempty)
 import Prelude hiding (init)
 import System.Directory (copyFile, getDirectoryContents)
 import System.FilePath ((</>), (<.>), splitExtension)
@@ -13,7 +12,7 @@ import qualified Text.Blaze.Html5.Attributes as A
 import qualified Text.Blaze.Html.Renderer.Utf8 as Blaze
 
 import qualified Init.FileTree as FT
-import Init.Helpers (make, write)
+import Init.Helpers (make, makeWithStyle, write)
 
 
 init :: IO ()
@@ -150,6 +149,6 @@ js src =
 
 initResult :: String -> IO Bool
 initResult name =
-  make
+  makeWithStyle
     ("src" </> "examples" </> name <.> "elm")
     (FT.file ["examples","result"] name "html")

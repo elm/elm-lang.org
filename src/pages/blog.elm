@@ -23,6 +23,7 @@ blog = """
 
 ### Articles
 
+ * [Compilers as Assistants](/blog/compilers-as-assistants)
  * [Compiler Errors for Humans](/blog/compiler-errors-for-humans)
  * [Time Travel made Easy](/blog/time-travel-made-easy)
  * [Blazing Fast HTML](/blog/blazing-fast-html)
@@ -38,6 +39,7 @@ blog = """
 
 ### Release Notes
 
+* <code>[0.16][16]        &nbsp; &nbsp; Nov &nbsp; &nbsp; &nbsp; &nbsp;</code>Even better error messages!
 * <code>[0.15.1][151]            &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Dramatically improved error messages
 * <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
 * <code>[0.14.1][141]            &nbsp; Jan 2015 &nbsp; </code>HTML through main
@@ -82,8 +84,15 @@ blog = """
   [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
   [15]: /blog/announce/0.15
   [151]: /blog/compiler-errors-for-humans
+  [16]: /blog/compilers-as-assistants
 
 ### Conference Videos
+
+* [Let’s be Mainstream!][curry-on] &mdash;
+  “If functional programming is so great, why is it still niche? We have a
+  product that can practically eliminate runtime errors, make refactoring much
+  easier, lighten the testing burden, all while being quite delightful to use.
+  What’s the hold up?” [Full abstract][curry-on-abstract]
 
 * [Controlling Time and Space][sl2014] &mdash; categorizes the many
   formulations of FRP, showing how they relate to Elm and what benefits you
@@ -96,6 +105,8 @@ blog = """
 * [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
   Covers the basics of graphics and FRP before Elm even had its record system!
 
+[curry-on]: https://youtu.be/oYk8CKH7OhE
+[curry-on-abstract]: http://www.curry-on.org/2015/sessions/lets-be-mainstream-user-focused-design-in-elm.html
 [sl2014]: https://youtu.be/Agu6jipKfYw
 [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
 [mlocjs]: http://www.ustream.tv/recorded/29330499

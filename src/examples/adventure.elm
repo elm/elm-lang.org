@@ -50,28 +50,37 @@ newVelocity isRunning {x,y} model =
         scale * toFloat n / sqrt 2
   in
       { model |
-          vx <- newVel x,
-          vy <- newVel y
+          vx = newVel x,
+          vy = newVel y
       }
 
 
 setDirection : { x:Int, y:Int } -> Model -> Model
 setDirection {x,y} model =
   { model |
-      dir <-
-        if  | x > 0 -> "east"
-            | x < 0 -> "west"
-            | y < 0 -> "south"
-            | y > 0 -> "north"
-            | otherwise -> model.dir
+      dir =
+        if x > 0 then
+            "east"
+
+        else if x < 0 then
+            "west"
+
+        else if y < 0 then
+            "south"
+
+        else if y > 0 then
+            "north"
+
+        else
+            model.dir
   }
 
 
 updatePosition : Time -> Model -> Model
 updatePosition dt ({x,y,vx,vy} as model) =
   { model |
-      x <- clamp (-areaW/2) (areaW/2) (x + dt * vx),
-      y <- clamp (-areaH/2) (areaH/2) (y + dt * vy)
+      x = clamp (-areaW/2) (areaW/2) (x + dt * vx),
+      y = clamp (-areaH/2) (areaH/2) (y + dt * vy)
   }
 
 

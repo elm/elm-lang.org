@@ -1,3 +1,5 @@
+x = 32
+{--
 -- Try adding the ability to crouch or to land on top of the crate.
 
 import Graphics.Element exposing (..)
@@ -241,3 +243,4 @@ void main () {
 }
 
 |]
+--}

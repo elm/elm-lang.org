@@ -29,7 +29,7 @@ initialModel =
 -- UPDATE
 
 update newStyle model =
-  { model | style <- newStyle }
+  { model | style = newStyle }
 
 
 -- VIEW

@@ -2,12 +2,12 @@
 
 html, head, body {
   margin: 0;
-  height: 100%;
 }
 
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   color: #293c4b;
+  padding-bottom: 50px;
 }
 
 h1, h2, h3, h4 {
@@ -180,10 +180,4 @@ blockquote p {
 }
 .comparison tr:nth-child(even) {
   background: #fbfbfb;
-}
-.comparison table tbody td:first-child {
-  border-left: none;
-}
-.comparison table tbody tr:last-child td {
-  border-bottom: none;
 }

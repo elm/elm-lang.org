@@ -23,19 +23,25 @@ install = """
 
 # Install
 
-  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.pkg)
-  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.15.1.exe)
-  * Anywhere &mdash; [build from source][build]
+  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.pkg)
+  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.exe)
+  * Anywhere &mdash; [npm installer][npm] or [build from source][build]
+
+Afterwards, visit the [get started page][get-started].
 
 [npm]: https://www.npmjs.com/package/elm
 [build]: https://github.com/elm-lang/elm-platform
+[get-started]: http://elm-lang.org/Get-Started.elm
 
 ## Syntax Highlighting
 
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Atom](https://atom.io/packages/language-elm)
+  * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [Light Table](https://github.com/rundis/elm-light)
+  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
   * [Vim](https://github.com/lambdatoast/elm.vim)
+  * [VS Code](https://github.com/sbrink/vscode-elm)
 
 
 ## Help
@@ -50,8 +56,8 @@ If not, open a new issue or email [the list][group] or ask a question in the
 
 ## Upgrade / Uninstall
 
-To upgrade to a newer version of Elm, run the installer again. They safely
-overwrite old executables so your machine is in a consistent state.
+To upgrade to a newer version of Elm, run the installer again. They displace
+old executables so your machine is in a consistent state.
 
 The Windows installer comes bundled with an uninstall option. To uninstall on
 Mac, run [this script][uninstall]. If you built from source, delete everything

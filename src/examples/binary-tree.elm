@@ -34,9 +34,14 @@ insert x tree =
           singleton x
 
       Node y left right ->
-          if  | x > y -> Node y left (insert x right)
-              | x < y -> Node y (insert x left) right
-              | otherwise -> tree
+          if x > y then
+              Node y left (insert x right)
+
+          else if x < y then
+              Node y (insert x left) right
+
+          else
+              tree
 
 
 fromList : List comparable -> Tree comparable
@@ -87,7 +92,7 @@ Exercises:
 
 (1) Sum all of the elements of a tree.
 
-       sum : Tree Number -> Number
+       sum : Tree number -> number
 
 (2) Flatten a tree into a list.
 

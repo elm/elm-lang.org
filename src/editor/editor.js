@@ -48,8 +48,10 @@ function hotSwap()
 					error.style.width = '100%';
 					error.style.backgroundColor = 'rgba(245,245,245,0.95)';
 				}
-				error.innerHTML = '<b>Hot Swap Failed</b><br/>' +
-					result.error.replace(/\n/g, '<br/>').replace(/  /g, " &nbsp;");
+				var len = result.error.length;
+				error.innerHTML =
+					'<p style="text-align: center;">Hot Swap Failed with ' + len + ' error' + (len === 1 ? '' : 's') + '.</p>' +
+					'<p style="text-align: center;">Recompile to see all the error messages.</p>';
 				top.output.document.body.appendChild(error);
 			}
 		}

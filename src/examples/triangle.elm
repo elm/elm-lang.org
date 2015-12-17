@@ -1,3 +1,5 @@
+x = 32
+{--
 import Graphics.Element exposing (..)
 import Math.Vector3 exposing (..)
 import Math.Matrix4 exposing (..)
@@ -67,3 +69,4 @@ void main () {
 }
 
 |]
+--}

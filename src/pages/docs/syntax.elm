@@ -31,7 +31,6 @@ This syntax reference is a minimal introduction to:
 - [Infix Operators](#infix-operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
-- [Mapping with `(<~)` and `(~)`](#mapping)
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
@@ -105,14 +104,18 @@ Here are four things that are equivalent:
 if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
-Multi-way if-expressions make it easier
-to have a bunch of different branches.
-You can read the `|` as *where*.
+If you need to branch on many different conditions, you just chain this
+construct together.
 
 ```elm
-if | key == 40 -> n+1
-   | key == 38 -> n-1
-   | otherwise -> n
+if key == 40 then
+    n + 1
+
+else if key == 38 then
+    n - 1
+
+else
+    n
 ```
 
 You can also have conditional behavior based on the structure of algebraic
@@ -154,45 +157,50 @@ the [initial announcement][v7], or [this academic paper][records].
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
-point = { x = 3, y = 4 }       -- create a record
+point =                    -- create a record
+  { x = 3, y = 4 }
 
-point.x                        -- access field
-map .x [point,{x=0,y=0}]       -- field access function
+point.x                    -- access field
 
-{ point - x }                  -- remove field
-{ point | z = 12 }             -- add field
-{ point - x | z = point.x }    -- rename field
-{ point - x | x = 6 }          -- update field
+map .x [point,{x=0,y=0}]   -- field access function
 
-{ point | x <- 6 }             -- nicer way to update a field
-{ point | x <- point.x + 1
-        , y <- point.y + 1 }   -- batch update fields
+{ point | x = 6 }          -- update a field
 
-dist {x,y} = sqrt (x^2 + y^2)  -- pattern matching on fields
-\\{x,y} -> (x,y)
+{ point |                  -- update many fields
+    x = point.x + 1,
+    y = point.y + 1
+}
 
-lib = { id x = x }             -- polymorphic fields
-(lib.id 42 == 42)
-(lib.id [] == [])
+dist {x,y} =               -- pattern matching on fields
+  sqrt (x^2 + y^2)
 
-type alias Location = { line:Int, column:Int }
+type alias Location =      -- type aliases for records
+  { line : Int
+  , column : Int
+  }
 ```
 
 ### Functions
 
 ```elm
-square n = n^2
+square n =
+  n^2
 
-hypotenuse a b = sqrt (square a + square b)
+hypotenuse a b =
+  sqrt (square a + square b)
 
-distance (a,b) (x,y) = hypotenuse (a-x) (b-y)
+distance (a,b) (x,y) =
+  hypotenuse (a-x) (b-y)
 ```
 
 Anonymous functions:
 
 ```elm
-square = \\n -> n^2
-squares = map (\\n -> n^2) [1..100]
+square =
+  \\n -> n^2
+
+squares =
+  List.map (\\n -> n^2) [1..100]
 ```
 
 ### Infix Operators
@@ -232,20 +240,40 @@ dot' =
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
 
+Relatedly, [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>)
+are function composition operators.
+
 
 ### Let Expressions
 
+Let expressions are for assigning variables, kind of like a `var` in
+JavaScript.
+
 ```elm
-let n = 42
-    (a,b) = (3,4)
-    {x,y} = { x=3, y=4 }
-    square n = n * n
+let
+  x = 3 * 8
+  y = 4 ^ 2
 in
-    square a + square b
+  x + y
 ```
 
-Let-expressions are indentation sensitive.
-Each definition should align with the one above it.
+You can define functions and use &ldquo;destructuring assignment&rdquo; in let
+expressions too.
+
+```elm
+let
+  (x,y) = (3,4)
+
+  hypotenuse a b =
+    sqrt (a^2 + b^2)
+in
+  hypotenuse x y
+```
+
+Let-expressions are indentation sensitive, so each definition must align with
+the one above it.
+
 
 ### Applying Functions
 
@@ -288,40 +316,6 @@ There is a special function for creating tuples:
 
 You can use as many commas as you want.
 
-### Mapping
-
-The `map` functions are used to apply a normal function like `sqrt` to a signal
-of values such as `Mouse.x`. So the expression `(map sqrt Mouse.x)` evaluates
-to a signal in which the current value is equal to the square root of the current
-x-coordinate of the mouse.
-
-You can also use the functions `(<~)` and `(~)` to map over signals. The squiggly
-arrow is exactly the same as the `map` function, so the following expressions
-are the same:
-
-```elm
-map sqrt Mouse.x
-sqrt <~ Mouse.x
-```
-
-You can think of it as saying &ldquo;send this signal through this
-function.&rdquo;
-
-The `(~)` operator allows you to apply a signal of functions to a signal of
-values `(Signal (a -> b) -> Signal a -> Signal b)`. It can be used to put
-together many signals, just like `map2`, `map3`, etc. So the following
-expressions are equivalent:
-
-```elm
-map2 (,) Mouse.x Mouse.y
-(,) <~ Mouse.x ~ Mouse.y
-
-map2 scene (fps 50) (sampleOn Mouse.clicks Mouse.position)
-scene <~ fps 50 ~ sampleOn Mouse.clicks Mouse.position
-```
-
-More info can be found [here](/blog/announce/0.7#do-you-even-lift-)
-and [here](http://package.elm-lang.org/packages/elm-lang/core/latest/Signal).
 
 ### Modules
 
@@ -344,18 +338,23 @@ import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
 Qualified imports are preferred. Module names must match their file name,
 so module `Parser.Utils` needs to be in file `Parser/Utils.elm`.
 
+
 ### Type Annotations
 
 ```elm
 answer : Int
-answer = 42
+answer =
+  42
 
 factorial : Int -> Int
-factorial n = product [1..n]
+factorial n =
+  List.product [1..n]
 
-addName : String -> a -> { a | name:String }
-addName name record = { record | name = name }
+distance : { x : Float, y : Float } -> Float
+distance {x,y} =
+  sqrt (x^2 + y^2)
 ```
+
 
 ### Type Aliases
 
@@ -364,13 +363,16 @@ type alias Name = String
 type alias Age = Int
 
 info : (Name,Age)
-info = ("Steve", 28)
+info =
+  ("Steve", 28)
 
 type alias Point = { x:Float, y:Float }
 
 origin : Point
-origin = { x=0, y=0 }
+origin =
+  { x = 0, y = 0 }
 ```
+
 
 ### JavaScript FFI
 
@@ -381,10 +383,8 @@ port prices : Signal Float
 
 -- outgoing values
 port time : Signal Float
-port time = every second
-
-port increment : Int -> Int
-port increment = \\n -> n + 1
+port time =
+  every second
 ```
 
 From JS, you talk to these ports like this:

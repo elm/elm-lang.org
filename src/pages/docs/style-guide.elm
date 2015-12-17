@@ -91,7 +91,7 @@ eval boolean = case boolean of
 
 We saved vertical lines here, but at the cost of regularity and ease of
 modification. If `Literal` ever becomes longer, all arrows must move. If any
-branch gets to long, everything needs to come down a line anyway.
+branch gets too long, everything needs to come down a line anyway.
 
 Having `case` appear *later* than the actual cases is strongly discouraged. It
 should serve as a context clue that makes glancing through code easy, but when
@@ -138,7 +138,7 @@ type alias Circle = {
     radius : Float
 }
 
-type alias Graph = List (Integer, List Integer)
+type alias Graph = List (Int, List Int)
 ```
 
 Changing the name `Boolean` ever will change the indentation on all subsequent

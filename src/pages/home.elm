@@ -57,7 +57,7 @@ debuggerSection =
     , p [ style [ "text-align" => "center" ] ]
         [ a [href "/examples/hello-world", style ["display" => "inline-block"]]
           [ code
-            [ class "lang-haskell hljs"
+            [ class "lang-elm hljs"
             , style [ "display" => "inline-block", "border-radius" => "16px", "padding" => "24px 48px" ]
             ]
             [ span [class "hljs-title"] [text "main"]
@@ -148,6 +148,26 @@ bullets =
 examples : List (List Html)
 examples =
   [ example
+      "Home/Todo"
+      "https://evancz.github.io/elm-todomvc"
+      "evancz"
+      "https://github.com/evancz/elm-todomvc"
+  , example
+      "Home/DreamWriter"
+      "http://dreamwriter.co"
+      "rtfeldman"
+      "https://github.com/rtfeldman/dreamwriter"
+  , example
+      "Home/Catalog"
+      "http://package.elm-lang.org"
+      "evancz"
+      "https://github.com/elm-lang/package.elm-lang.org"
+  , example
+      "Home/Hedley"
+      "https://gizra.github.io/elm-hedley"
+      "Gizra"
+      "https://github.com/Gizra/elm-hedley"
+  , example
       "Home/Mario"
       "/examples/mario"
       "evancz"
@@ -167,26 +187,6 @@ examples =
       "https://evancz.github.io/first-person-elm"
       "evancz"
       "https://github.com/evancz/first-person-elm"
-  , example
-      "Home/Todo"
-      "https://evancz.github.io/elm-todomvc"
-      "evancz"
-      "https://github.com/evancz/elm-todomvc"
-  , example
-      "Home/DreamWriter"
-      "http://dreamwriter.co"
-      "rtfeldman"
-      "https://github.com/rtfeldman/dreamwriter"
-  , example
-      "Home/Catalog"
-      "http://package.elm-lang.org/packages/elm-lang/core/latest"
-      "evancz"
-      "https://github.com/elm-lang/package.elm-lang.org"
-  , example
-      "Home/Fractal"
-      "http://gideon.smdng.nl/2014/04/fractals-for-fun-and-profit/"
-      "stygianguest"
-      "https://github.com/stygianguest/Sierpinski"
   ]
 
 
@@ -239,4 +239,3 @@ fluidList itemWidth maxColumns itemList =
     section
       [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]]
       (List.map (section [style bulletStyle]) itemList)
-

@@ -3,7 +3,7 @@
 
 Many languages have trouble expressing data with weird shapes in a reliable way. You often find yourself doing weird tricks with boolean flags or strings, or giving in and letting the language force you into a model that is slightly off. Either way you end up with code that is hard to maintain and refactor!
 
-This section goes through the parts of Elm that let you work with crazy data in a way is reliable and easy to refactor. We will start with a foundation of &ldquo;contracts&rdquo; and then use them with progressively crazier and crazier data.
+This section goes through the parts of Elm that let you work with crazy data in a way that is reliable and easy to refactor. We will start with a foundation of &ldquo;contracts&rdquo; and then use them with progressively crazier and crazier data.
 
 
 ## Contracts
@@ -34,12 +34,12 @@ book =
 Here we are just describing the general shape of the data we are working with. `fortyTwo` is an integer, `names` is a list of strings, and `book` is a record with certain fields. Nothing crazy, just describing the shape of our data. This becomes much more valuable when you start using it with functions, where in many languages, getting the wrong kind of data can lead to a crash!
 
 ```elm
-import List exposing (sum, map, length)
+import String
 
 
-averageNameLength : List String -> Float
-averageNameLength names =
-  sum (map String.length names) / length names
+longestName : List String -> Int
+longestName names =
+  List.maximum (List.map String.length names)
 
 
 isLong : { record | pages : Int } -> Bool
@@ -47,7 +47,7 @@ isLong book =
   book.pages > 400
 ```
 
-In the `averageNameLength` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `averageNameLength` function is definitely going to return a `Float` so if we use its result somewhere else, we have a 100% guarantee that its a floating point number.
+In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is definitely going to return an `Int` so if we use its result somewhere else, we have a 100% guarantee that it's a whole number.
 
 The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
 
@@ -171,8 +171,8 @@ view widget =
       LogData logs ->
           flow down (map viewLog logs)
 
-      TimePlot occurances ->
-          viewTimePlot occurances
+      TimePlot occurrences ->
+          viewTimePlot occurrences
 ```
 
 Depending on what kind of widget we are looking at, we will render it differently. Perhaps we want to get a bit trickier and have some time plots that are showed on a logarithmic scale. We can augment our `Widget` type a bit.
@@ -208,16 +208,16 @@ type Maybe a = Just a | Nothing
 Notice that this type takes an argument `a` that we can fill in with any type we want. We can have types like `(Maybe Int)` which is either `Just` an integer or it is `Nothing`. For example, say we want to parse months from strings.
 
 ```elm
-String.toInt : String -> Maybe Int
+String.toInt : String -> Result String Int
 
 
 toMonth : String -> Maybe Int
 toMonth rawString =
     case String.toInt rawString of
-      Nothing ->
+      Err message ->
           Nothing
 
-      Just n ->
+      Ok n ->
           if n > 0 && n <= 12 then Just n else Nothing
 ```
 

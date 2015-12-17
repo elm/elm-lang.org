@@ -1,3 +1,5 @@
+x = 32
+{--
 -- Thanks to The PaperNES Guy for the texture:
 -- http://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
 
@@ -140,3 +142,4 @@ void main () {
 }
 
 |]
+--}

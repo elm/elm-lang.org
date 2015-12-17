@@ -1,6 +1,6 @@
 # Reactivity
 
-In the last section we learned about [the Elm Architecture][arch] which provides a reliable foundation for your application. In this section will see how that fits into a system that talks to servers, uses websockets, writes to databases, etc. The following diagram gives a high-level overview:
+In the last section we learned about [the Elm Architecture][arch] which provides a reliable foundation for your application. In this section, we will see how that fits into a system that talks to servers, uses websockets, writes to databases, etc. The following diagram gives a high-level overview:
 
 [arch]: /guide/architecture
 
@@ -106,9 +106,8 @@ elm-package install evancz/elm-http -y
 elm-package install evancz/elm-markdown -y
 ```
 
-This exposes the `TaskTutorial` module which has [a friendly
-values][task-tutorial] that will help build a foundation for working with
-tasks.
+This exposes the `TaskTutorial` module which has [a few values][task-tutorial]
+that will help build a foundation for working with tasks.
 
 [task-tutorial]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial
 
@@ -250,7 +249,7 @@ These are both exactly the same, but in the second one, it is a bit more
 explicit that we are waiting for a `time` and then printing it out.
 
 The [`andThen`][andThen] function is extremely important when using tasks
-because it let’s us build complex chains. We will be seeing more of it in
+because it lets us build complex chains. We will be seeing more of it in
 future examples!
 
 
@@ -333,7 +332,7 @@ function.
 Http.getString : String -> Task Http.Error String
 ```
 
-We provide a URL, and it will create a task that that tries to fetch the
+We provide a URL, and it will create a task that tries to fetch the
 resource that lives at that location as a `String`. Looking at the type of the
 `Task`, finally that darn `x` is filled in with a real error type! This task
 will either fail with some [`Http.Error`][error] or succeed with a `String`.
