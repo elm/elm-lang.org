@@ -183,6 +183,7 @@ redirects =
     , "blog/announce/Elm-and-Prezi.elm" ==> "/blog/announce/elm-and-prezi"
     , "learn/Escape-from-Callback-Hell.elm" ==> "/learn/escape-from-callback-hell"
     , "blog/Pong.elm" ==> "/blog/making-pong"
+    , "edit/examples/Intermediate/Mario.elm" ==> "/examples/mario"
     , "learn/Syntax.elm" ==> "/docs/syntax"
     , "learn/FAQ.elm" ==> "/docs/from-javascript"
     , "learn/Understanding-Types.elm" ==> "/guide/model-the-problem"
