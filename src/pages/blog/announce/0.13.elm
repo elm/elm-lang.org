@@ -142,7 +142,7 @@ You no longer get two dots in a row. Now let's write the `step` function from
 [the Mario example][mario] a couple different ways to see how this will change
 code in more typical situations:
 
-[mario]: /edit/examples/Intermediate/Mario.elm
+[mario]: /examples/mario
 
 ```elm
 -- Haskell-inspired way

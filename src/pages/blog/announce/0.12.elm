@@ -27,7 +27,7 @@ can see this in recent releases like the [REPL](/blog/announce/Repl.elm), the
 improved JS interop](/blog/announce/0.11). But working with input elements
 has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-videos)
 I always get questions along the lines of, &ldquo;that
-[Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
+[Mario](/examples/mario) example is really cool, but can
 I use this approach for the forms, widgets, and dashboards I write every day at
 work?&rdquo; As of today, the answer is a definite yes! Elm 0.12 makes it easy
 to create interactive UI elements in a purely functional way, from buttons and

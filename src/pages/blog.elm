@@ -100,7 +100,7 @@ blog = """
 
 * [Functional Reactive Programming in Elm][sl2013] &mdash; Teaches the basics
   of graphics and FRP in Elm and builds up to implementing a basic [Mario
-  game](/edit/examples/Intermediate/Mario.elm) *and* it is pretty fun to watch.
+  game](/examples/mario) *and* it is pretty fun to watch.
 
 * [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
   Covers the basics of graphics and FRP before Elm even had its record system!

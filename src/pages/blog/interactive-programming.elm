@@ -75,7 +75,7 @@ see how hot-swapping works in Elm:
     style="display: block; border: none; width: 600px; height: 340px;"></iframe>
 
 Support for hot-swapping is live on this site, so you can [mess with Mario
-yourself](/edit/examples/Intermediate/Mario.elm) and play with the
+yourself](/examples/mario) and play with the
 [bouncing ball](/edit/examples/Intermediate/Bounce.elm) below.
 As you tweak the colors, shapes, and physics in the code, you
 will see the ball update automatically.
