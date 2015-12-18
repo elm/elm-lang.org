@@ -171,6 +171,7 @@ redirects =
     , "Community.elm" ==> "/community"
     , "Elm.elm" ==> "/"
     , "Examples.elm" ==> "/examples"
+    , "examples/Intermediate.elm" ==> "/examples"
     , "Get-Started.elm" ==> "/get-started"
     , "Install.elm" ==> "/install"
     , "Learn.elm" ==> "/docs"
