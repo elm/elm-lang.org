@@ -235,7 +235,7 @@ In this case we decided to expose *everything* in `Html.Attributes` so we can
 just say things like [`id`][id] and [`href`][href] directly. We also
 locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
-the new import syntax [here](/learn/Modules.elm).
+the new import syntax [here](/docs/syntax#modules).
 
 [id]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#id
 [href]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#href
@@ -373,7 +373,6 @@ which worked with some pre-release versions of 0.15 to vet the tasks API and
 start making some new packages for browser APIs.
 
 """
-
 
 
 
