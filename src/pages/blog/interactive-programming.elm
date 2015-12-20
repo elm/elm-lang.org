@@ -85,7 +85,7 @@ will see the ball update automatically.
 
 rest = """
 
-There are [many more examples](/examples/Intermediate.elm), so you can
+There are [many more examples](/examples), so you can
 continue to explore Elm and experiment with hot-swapping.
 
 Perhaps the most interesting thing about adding hot-swapping to Elm was that it
