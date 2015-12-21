@@ -20,7 +20,7 @@ content = """
 This release focuses on growing [Elm](/)'s standard libraries to make sure you always have the tools you need.
 For a full listing of Elm's current libraries, see [this page][docs].
 
-  [docs]: /Documentation.elm "docs"
+  [docs]: /docs "docs"
 
 ### Dictionaries and Sets
 
