@@ -131,7 +131,7 @@ has a code base that is easier to refactor and debug!
 
 To learn more about tasks, check out [the tutorial](/learn/Tasks.elm) and then
 the [zip codes](/edit/examples/Reactive/ZipCodes.elm) and
-[flickr](/edit/examples/Intermediate/Flickr.elm) examples!
+[flickr](/examples/flickr) examples!
 
 
 ## Faster Text Rendering
