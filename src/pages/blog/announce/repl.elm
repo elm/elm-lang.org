@@ -23,7 +23,7 @@ is now available. Like any traditional
 it lets you interact with functions and expressions buried deep inside a
 large project with many modules.
 
-After you install [node.js](http://nodejs.org/download/),
+After you install [Node.js](http://nodejs.org/download/),
 you can install the REPL with:
 
 ```bash

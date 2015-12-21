@@ -418,7 +418,7 @@ imperative action:
 Experimental port handlers:
 
  * `favicon` sets the pages favicon
- * `stdout` logs to stdout in node.js and to console in browser
- * `stderr` logs to stderr in node.js and to console in browser
+ * `stdout` logs to stdout in Node.js and to console in browser
+ * `stderr` logs to stderr in Node.js and to console in browser
 
 """

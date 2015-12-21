@@ -89,7 +89,7 @@ REPL stands for [read-eval-print-loop][repl] which lets you play with small
 Elm expressions. the [elm-repl][] can import code from your projects, so if you want
 to play around with a function buried deep inside a module, you can load it
 into the REPL and test it out. `elm-repl` eventually needs to evaluate
-JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
+JavaScript code, so for now you need to install [Node.js](http://nodejs.org/)
 to use it. Since [elm-repl][] only offers a command line interface, browser related functionality
 will not work.
 
