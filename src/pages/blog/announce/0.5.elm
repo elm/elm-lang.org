@@ -74,7 +74,7 @@ now they do not have to!
 
   [send]: http://docs.elm-lang.org/library/Http.elm "send"
   [http]: http://docs.elm-lang.org/library/Http.elm "HTTP docs"
-  [zips]: /edit/examples/JavaScript/ZipCodes.elm
+  [zips]: /examples/zip-codes
 
 ### New Functions and Syntax
 
