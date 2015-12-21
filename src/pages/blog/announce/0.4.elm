@@ -57,7 +57,7 @@ I hope you enjoy Elm 0.4!
  [pong]: /blog/Pong.elm
  [a]: /edit/examples/Elements/ToForm.elm "toForm"
  [b]: /edit/examples/Elements/Sprite.elm "sprites"
- [c]: /edit/examples/Elements/Texture.elm "texture"
+ [c]: /examples/texture "texture"
 
 ## Markdown Support
 
