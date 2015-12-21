@@ -154,7 +154,7 @@ toHsl : Color -> { hue        : Float
 ```
 
 This makes it easy to use Elm's built-in colors in [the cube
-example](/edit/examples/WebGL/Cube.elm), but these new functions are much more
+example](/examples/cube), but these new functions are much more
 general than that!
 
 [The color wheel](http://colorschemedesigner.com/) can be really helpful for
