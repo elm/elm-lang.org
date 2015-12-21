@@ -101,7 +101,7 @@ records =
 
 
 functions =
-  [ "function(x,y) { return x + y; }" `vs` "\\x y -> x + y"
+  [ "function(x, y) { return x + y; }" `vs` "\\x y -> x + y"
   , "Math.max(3, 4)" `vs` "max 3 4"
   , "Math.min(1, Math.pow(2, 4))" `vs` "min 1 (2^4)"
   , "numbers.map(Math.sqrt)" `vs` "List.map sqrt numbers"
