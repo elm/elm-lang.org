@@ -130,7 +130,7 @@ has a code base that is easier to refactor and debug!
 [port]: /learn/Ports.elm
 
 To learn more about tasks, check out [the tutorial](/learn/Tasks.elm) and then
-the [zip codes](/edit/examples/Reactive/ZipCodes.elm) and
+the [zip codes](/examples/zip-codes) and
 [flickr](/examples/flickr) examples!
 
 
