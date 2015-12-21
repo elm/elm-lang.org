@@ -45,7 +45,7 @@ We of course need to start with an example. As you move your mouse within the
 grey box, [Thwomp](http://www.mariowiki.com/Thwomp#Super_Mario_64) will stare
 at you. Too far away to crush you, but waiting...
 
-<iframe src="/examples/WebGL/Thwomp.elm"
+<iframe src="/examples/thwomp"
         frameborder="0"
         width="600"
         height="300"
