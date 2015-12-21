@@ -168,7 +168,7 @@ in mind when using `touches` and let [the list][discuss] know what you learn!
 ## Either
 
 [The `Either` library][either] can be seen in action
-[here](/edit/examples/Functional/Either.elm). The most important
+[here](/examples/either). The most important
 addition to come with this library is actually in the `Signal` library:
 
 ```elm
