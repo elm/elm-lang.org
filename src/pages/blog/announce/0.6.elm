@@ -41,7 +41,7 @@ examples to illustrate the benefits of Elm 0.6 in this post and in two
 larger examples ([sliding circle][slide], [color wheel][wheel]).
 
   [pong]:  /blog/Pong.elm
-  [code]:  /edit/examples/Intermediate/Pong.elm
+  [code]:  /examples/pong
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"
 
