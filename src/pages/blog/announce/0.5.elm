@@ -115,7 +115,7 @@ In other cool news, Elm just got its 100th star on [github][github]! Yay growth!
 
 If you want to help out, there are [tons of ways to contribute][contribute]!
 
-  [contribute]: /Contribute.elm "how to contribute"
+  [contribute]: https://github.com/elm-lang/elm-compiler/blob/master/CONTRIBUTING.md "how to contribute"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "Elm-Discuss"
   [github]: https://github.com/evancz "Elm on GitHub"
   [irc]: http://webchat.freenode.net/ "IRC"
