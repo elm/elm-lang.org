@@ -24,14 +24,14 @@ there are also a number of important new features and improvements that
 are ready for release:
 
  * [Strings](#strings) &mdash; switch to a
-   [new representation](http://docs.elm-lang.org/library/String.elm)
+   [new representation](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/String)
    that is significantly faster
  * [Nice Colors](#nice-default-colors) &mdash; use [Tango color palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines) by default
  * [Infix Ops](#infix-operators) &mdash; support custom precedence and associativity
  * [Improvements and Fixes](#improvements-and-fixes) &mdash; lots of them
 
 There are also some improvements for Elm-related tools including
-[improved documentation](http://docs.elm-lang.org/),
+[improved documentation](http://package.elm-lang.org/),
 [hot-swapping](/blog/Interactive-Programming.elm) and better hints in
 the online editor, and a big site redesign to make resources like
 [the beginner classes](http://elm-lang.org/Learn.elm),
@@ -46,19 +46,19 @@ delete `cache/` directories in existing projects.
 ## Strings
 
 This release moves away from the Haskell-inspired list of characters, providing
-[a new string library](http://docs.elm-lang.org/library/String.elm) that
+[a new string library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/String) that
 is significantly faster and provides many new string-specific functions.
 
 <div style="text-align:center; font-size:2em;">`String ≠ [Char]`</div>
 
 Character lists are relatively slow, and they expose implementation details
 that make it hard to upgrade to a faster representation or even optimize for
-common uses of strings. The [new String library](http://docs.elm-lang.org/library/String.elm)
+common uses of strings. The [new String library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/String)
 is properly abstracted so the underlying representation can be
 optimized or changed without changing the API.
 
 The changes needed to upgrade [elm-lang.org](/) and
-[docs.elm-lang.org](http://docs.elm-lang.org) were fairly minimal.
+[package.elm-lang.org](http://package.elm-lang.org/) were fairly minimal.
 There were two kinds things that I needed to fix:
 
 #### 1. Switch to String functions
@@ -70,7 +70,7 @@ becomes `String.filter`, etc.
 #### 2. Pattern matching with uncons
 
 Pattern matching now happens with
-[`uncons`](http://docs.elm-lang.org/library/String.elm#uncons) which
+[`uncons`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/String#uncons) which
 destructures strings without exposing any implementation details.
 For example, finding the length of a string looks like this:
 
@@ -83,7 +83,7 @@ length string =
       Nothing      -> 0
 ```
 
-I mean, [`String.length`](http://docs.elm-lang.org/library/String.elm#length)
+I mean, [`String.length`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/String#length)
 is asymptotically faster, but the point is that you can still do
 exactly the same stuff as before with minor syntactic changes.
 I should also note that I got this `uncons` trick from the many Haskell
@@ -95,7 +95,7 @@ I look forward to seeing it used in parser combinator libraries in Elm.
 Typically the default colors are the primary and secondary colors. These colors
 are extremely aggressive and generally do not look very good alone or together.
 Making pretty things should be *easy* in Elm, so
-[the new color library](http://docs.elm-lang.org/library/Color.elm) uses
+[the new color library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color) uses
 [the Tango palette](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines)
 for default colors:
 
@@ -107,7 +107,7 @@ This color palette is designed such that all the colors work nicely
 with each other. This means you can randomly slap some colors on your
 project and have it look pretty good.
 
-[The new default colors](http://docs.elm-lang.org/library/Color.elm#built-in-colors)
+[The new default colors](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color#built-in-colors)
 are named red, orange, yellow, green, blue, purple, brown, grey, and charcoal. Each color
 has a light and dark version. We did not use
 [the official Tango names](http://tango.freedesktop.org/static/cvs/tango-art-tools/palettes/Tango-Palette.svg)
@@ -181,24 +181,24 @@ with `(<~)` and `(~)` and I am still not sure that they were a good idea.
 ## New Documentation
 
 I had two major goals when working on documentation: (1) to make documentation
-nice in Elm code and [online](http://docs.elm-lang.org/) and (2) to make docs
+nice in Elm code and [online](http://package.elm-lang.org/) and (2) to make docs
 useful for entirely separate projects. I want to support things like
 [Hoogle](http://www.haskell.org/hoogle/)-style type search or creating
 IDE features like inline-docs or autocompletion. To reach these two goals,
 this release introduces:
 
-* a new format for documentation, [described here](http://library.elm-lang.org/Documentation.html)
-* [a new home for documentation](http://docs.elm-lang.org/)
+* a new format for documentation, [described here](http://package.elm-lang.org/help/documentation-format)
+* [a new home for documentation](http://package.elm-lang.org/)
 * `elm-doc` which extracts Elm documentation into JSON
 
-Now my favorite part this project is [the search bar on the docs site](http://docs.elm-lang.org/).
+Now my favorite part this project is [the search bar on the docs site](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/).
 It lets you live search the standard library for modules, functions, and operators.
 Hopefully this will help newcomers find operators that are tough to Google for,
-like [`(<~)`](http://localhost:8080/library/Signal.elm#<~)
-and   [`(~)`](http://localhost:8080/library/Signal.elm#~). The best part of
+like [`(<~)`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Signal#<~)
+and [`(~)`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Signal#~). The best part of
 this feature was how simple it was to implement with FRP and Elm.
 
-[The source code for the docs site](https://github.com/elm-lang/docs.elm-lang.org)
+[The source code for the docs site](https://github.com/elm-lang/package.elm-lang.org)
 is available if you want to look into instant search, use the site as a starting
 point for your own project, or whatever else.
 Also, huge thanks to [Max New](https://github.com/maxsnew),
@@ -215,16 +215,16 @@ most significant part of this release:
   the types of `Element` and `Form` will be reported as their names instead
   of as a huge record. This is waaaay nicer.
 
-* The `Matrix2D` library has been renamed [`Transform2D`](http://docs.elm-lang.org/library/Transform2D.elm).
+* The `Matrix2D` library has been renamed [`Transform2D`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D).
   This library is actually made up of [augmented matrices](http://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
   that let you represent translations, and we wanted to make that clearer.
 
 * Add <span style="font-family:monospace;">
-  ([Random.floatList](http://docs.elm-lang.org/library/Random.elm#floatList) : Signal Int -> Signal [Float])</span><br/>
+  ([Random.floatList](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random#floatList) : Signal Int -> Signal [Float])</span><br/>
   Thanks to [Max Goldstein](https://github.com/mgold)!
 
 * Fix the `remove` function in [the `Dict`
-  library](http://docs.elm-lang.org/library/Dict.elm) based on [Matt Might's
+  library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Dict) based on [Matt Might's
   work on this topic](http://matt.might.net/articles/red-black-delete/). Thank you
   to [Max New](https://github.com/maxsnew) for taking on this arduous task!
 
