@@ -109,7 +109,7 @@ Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
 [The `Json` library][json] has been simplified quite dramatically. JSON is now
 represented by the `Json.Value` type:
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json
+ [json]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Json-Encode
 
 ```elm
 data Value
