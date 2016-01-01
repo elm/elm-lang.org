@@ -30,7 +30,7 @@ use community libraries. This comes in two parts:
 integration with `elm-get` to make things easy to use. So once you [install
 `elm-get`](https://github.com/elm-lang/elm-get#install) with `cabal install elm-get`,
 you will be all set to start using any library in
-[the catalog](http://package.elm-lang.org/catalog) in your projects!
+[the catalog](http://package.elm-lang.org/) in your projects!
 
 For more information on how to use `elm-get` see [the usage
 instructions](https://github.com/elm-lang/elm-get#elm-get). The rest of this post
@@ -102,7 +102,7 @@ for the simple set of things that Elm needs. npm would make discoverability
 really tough. And crucially, neither provide a way to have nicely formatted
 documentation for all libraries. So no matter what option I chose, I would
 still need a way to upload metadata to a central repo to have
-[a catalog](http://package.elm-lang.org/packages) with documentation.
+[a catalog](http://package.elm-lang.org/) with documentation.
 
 I decided to take a route inspired by Go and [OCaml](http://opam.ocaml.org/)
 (of course without the versioning issues with `go get`). The [Elm Public
