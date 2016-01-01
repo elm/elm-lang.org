@@ -130,7 +130,7 @@ of type-classes, but that is for another day.
 
 ## Dynamic Inputs
 
-The new [`Graphics.Input` library](http://docs.elm-lang.org/library/Graphics/Input.elm)
+The new [`Graphics.Input` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input)
 introduces text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
@@ -189,7 +189,7 @@ circle : Float -> Shape
 toForm : Element -> Form
 ```
 You can see the full API in the
-[`Graphics.Collage` library](http://docs.elm-lang.org/library/Graphics/Collage.elm).
+[`Graphics.Collage` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Collage).
 For now we will look at some smaller examples and uses.
 
 The following example creates four colorful dots. It shows a basic
@@ -304,7 +304,7 @@ it applies a matrix transformation to the flattened `Form`.
 This allows you to build up a traditional
 [scene graph](http://en.wikipedia.org/wiki/Scene_graph)
 and do fancier transformations like reflections and skews with
-the new [`Matrix2D` library](http://docs.elm-lang.org/library/Transform2D.elm).
+the new [`Matrix2D` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D).
 
 
 ## Faster currying and data structures
@@ -385,7 +385,7 @@ Please let me know what you think of it on the [mailing
 list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
-[`WebSocket` library](http://docs.elm-lang.org/library/WebSocket.elm).
+[`WebSocket` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
 This API may change to accomadate more usage scenarios. Please let me
 know how you want to use it!
 
