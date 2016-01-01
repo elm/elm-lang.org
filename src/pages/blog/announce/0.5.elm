@@ -72,8 +72,8 @@ because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
 now they do not have to!
 
-  [send]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/Http#send "send"
-  [http]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/ "HTTP docs"
+  [send]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http#send "send"
+  [http]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http "HTTP docs"
   [zips]: /examples/zip-codes
 
 ### New Functions and Syntax
