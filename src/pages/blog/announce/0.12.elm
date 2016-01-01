@@ -180,10 +180,10 @@ perhaps `import List (..)` can be removed entirely someday.
 
 #### Machine-readable types
 
-All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
+All libraries uploaded to [package.elm-lang.org](http://package.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://package.elm-lang.org/packages/elm-lang/core/latest/docs.json)). The goals
+this](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/documentation.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.
