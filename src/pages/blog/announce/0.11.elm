@@ -124,7 +124,7 @@ colloquial data structures in both Elm and JS.
 
 The particular types that can be sent in and out of ports is
 actually quite flexible. It covers pretty much [all valid JSON values](http://www.json.org/). Incoming
-ports can handle [all JS values](http://package.elm-lang.org/packages/elm-lang/core/latest/JavaScript)
+ports can handle [all JS values](https://github.com/elm-lang/elm-compiler/blob/0.11/libraries/JavaScript.elm)
 and the following Elm types:
 
   * **Booleans and Strings** &ndash; both exist in Elm and JS!
