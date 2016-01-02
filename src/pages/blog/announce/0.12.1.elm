@@ -36,7 +36,7 @@ and confusing. After deleting a bunch of code, [the `Json` library][json] came
 out simpler and more useful. This release also makes it possible to send
 arbitrary JSON through ports, so we will cover that too.
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json
+ [json]: https://github.com/elm-lang/elm-compiler/blob/0.12.1/libraries/Json.elm
 
 ## Arrays
 
@@ -109,7 +109,7 @@ Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
 [The `Json` library][json] has been simplified quite dramatically. JSON is now
 represented by the `Json.Value` type:
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Json-Encode
+ [json]: https://github.com/elm-lang/elm-compiler/blob/0.12.1/libraries/Json.elm
 
 ```elm
 data Value
