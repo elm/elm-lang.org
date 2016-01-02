@@ -36,7 +36,7 @@ and confusing. After deleting a bunch of code, [the `Json` library][json] came
 out simpler and more useful. This release also makes it possible to send
 arbitrary JSON through ports, so we will cover that too.
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
+ [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json
 
 ## Arrays
 
