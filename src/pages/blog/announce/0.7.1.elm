@@ -32,8 +32,8 @@ that takes only 5 lines! (obvious warning: requires a touch screen!)
 
 Before we get started, there is some non-compiler news:
 
-* Grzegorz recently released [Preselm](http://www.grzegorzbalcerek.net/preselm/Tutorial.html),
-  an [open source](https://github.com/grzegorzbalcerek/Preselm) project for creating presentations.
+* Grzegorz recently released [Preselm](https://github.com/grzegorzbalcerek/Preselm),
+  an open source project for creating presentations.
   In addition to being really cool, it is a great example of how to effectively use
   [the new record system](/blog/announce/0.7).
 
