@@ -3,7 +3,7 @@ import Html.Attributes exposing (..)
 import String
 
 import Center
-import TopBar
+import Skeleton
 
 
 port title : String
@@ -12,9 +12,9 @@ port title =
 
 
 main =
-  div []
-    [ TopBar.topBar "docs"
-    , Center.markdown "600px" quickStart
+  Skeleton.skeleton
+    "docs"
+    [ Center.markdown "600px" quickStart
     , div [ Center.style "600px" ]
         [ h1 [id "complete-guide"] [text "Complete Guide"]
         , ul [class "guide content"] outline

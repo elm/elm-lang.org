@@ -1,7 +1,7 @@
 import Html exposing (..)
 
 import Center
-import TopBar
+import Skeleton
 
 
 port title : String
@@ -10,10 +10,7 @@ port title =
 
 
 main =
-  div []
-    [ TopBar.topBar "community"
-    , Center.markdown "600px" community
-    ]
+  Skeleton.skeleton "community" [ Center.markdown "600px" community ]
 
 
 

@@ -1,12 +1,11 @@
 module Blog (blog, docs, evan, michael, Date) where
 
-import Debug
 import Dict
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
 
 import Center
-import TopBar
+import Skeleton
 
 
 (=>) = (,)
@@ -14,9 +13,8 @@ import TopBar
 
 blog : String -> String -> Author -> Date -> List Html -> Html
 blog title subtitle author date body =
-  div []
-    [ TopBar.topBar "blog"
-    , div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
+  Skeleton.skeleton "blog"
+    [ div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
         [ div [ style [ "font-size" => "4em" ] ] [text title]
         , div [ style [ "font-size" => "1.5em" ] ] [text subtitle]
         , div [ class "author" ]
@@ -31,9 +29,8 @@ blog title subtitle author date body =
 
 docs : String -> List Html -> Html
 docs title body =
-  div []
-    [ TopBar.topBar "docs"
-    , div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
+  Skeleton.skeleton "docs"
+    [ div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
         [ div [ style [ "font-size" => "4em" ] ] [text title]
         ]
     , div [] body

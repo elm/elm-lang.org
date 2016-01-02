@@ -89,7 +89,6 @@ toElm title markdown =
     , "import Html.Attributes exposing (..)"
     , "import Blog"
     , "import Center"
-    , "import TopBar"
     , ""
     , "port title : String"
     , "port title ="

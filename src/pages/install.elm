@@ -1,9 +1,8 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Markdown
 
 import Center
-import TopBar
+import Skeleton
 
 
 port title : String
@@ -12,9 +11,8 @@ port title =
 
 
 main =
-  div []
-    [ TopBar.topBar "install"
-    , Center.markdown "600px" install
+  Skeleton.skeleton "install"
+    [ Center.markdown "600px" install
     ]
 
 

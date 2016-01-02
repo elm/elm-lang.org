@@ -1,12 +1,10 @@
-import Graphics.Element as E exposing (..)
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
-import Text
-import Window
 
-import TopBar
 import Center
+import Skeleton
 
 
 port title : String
@@ -15,9 +13,8 @@ port title =
 
 
 main =
-  div []
-    [ TopBar.topBar "home"
-    , splash
+  Skeleton.skeleton "home"
+    [ splash
     , debuggerSection
     , bulletSection
     , exampleSection
