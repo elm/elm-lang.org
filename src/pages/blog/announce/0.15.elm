@@ -262,7 +262,7 @@ package. The terminology and API were kind of messy because parts of it evolved
 we are revamping this whole API so that it is centralized and easier to learn.
 
 [arch]: https://github.com/evancz/elm-architecture-tutorial/#the-elm-architecture
-[local-channel]: http://package.elm-lang.org/packages/evancz/local-channel/latest
+[local-channel]: https://github.com/evancz/local-channel/
 
 The new `Signal` library introduces the concept of a `Mailbox`.
 
