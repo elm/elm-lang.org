@@ -379,7 +379,7 @@ This release also fixes a bug in detecting cyclic module dependencies.
 #### Objects and WebSockets
 
 You can convert between JS objects and Elm records with the
-[`JavaScript.Experimental` library](http://docs.elm-lang.org/library/JavaScript/Experimental.elm).
+[`JavaScript.Experimental` library](https://github.com/elm-lang/elm-compiler/blob/0.8.0.3/libraries/JavaScript/Experimental.elm).
 As the name suggests, the approach used by this library is experimental!
 Please let me know what you think of it on the [mailing
 list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
