@@ -7,7 +7,6 @@ html, head, body {
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   color: #293c4b;
-  padding-bottom: 50px;
 }
 
 h1, h2, h3, h4 {
@@ -189,7 +188,7 @@ blockquote p {
 
 .footer {
   text-align: center;
-  margin-top: 4em;
+  margin-top: 6em;
   border-top: 1px solid #eeeeee;
   padding: 2em 0;
   color: #bbbbbb;
