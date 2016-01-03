@@ -309,7 +309,7 @@ explanation of mailboxes. For those of you with 0.14 code to upgrade, first
 take a look at [the whole API][mailbox] to get a feel for it. The core concepts
 are pretty much the same, so the changes are mostly find and replace:
 
-[mailbox]: http://45.55.164.161:8000/packages/elm-lang/core/2.0.0/Signal#Mailbox
+[mailbox]: http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#Mailbox
 
   * `Signal.Channel` becomes `Signal.Mailbox` in your types
   * `Signal.channel` becomes `Signal.mailbox` when creating mailboxes
