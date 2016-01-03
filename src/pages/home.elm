@@ -160,11 +160,11 @@ exampleSection =
         [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
         [text "Examples"]
     , fluidList 400 3 examples
-    , p [ style [ "text-align" => "center" ] ]
-        [ text "More big examples at "
+    , p [ style [ "text-align" => "center", "font-size" => "20px" ] ]
+        [ text "More large projects at "
         , a [href "http://builtwithelm.co/"] [text "builtwithelm.co"]
-        , text " and more small ones on "
-        , a [href "/examples"] [text "the examples page"]
+        , text " and more small examples in "
+        , a [href "/examples"] [text "the examples tab"]
         , text "."
         ]
     ]
