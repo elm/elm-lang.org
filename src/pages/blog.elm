@@ -20,6 +20,7 @@ blog = """
 
 ### Articles
 
+ * [New Adventures for Elm](/blog/new-adventures-for-elm)
  * [Compilers as Assistants](/blog/compilers-as-assistants)
  * [Compiler Errors for Humans](/blog/compiler-errors-for-humans)
  * [Time Travel made Easy](/blog/time-travel-made-easy)
