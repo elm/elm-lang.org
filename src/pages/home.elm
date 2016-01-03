@@ -142,73 +142,58 @@ bullets =
 
 -- EXAMPLES
 
-examples : List (List Html)
-examples =
-  [ example
-      "Home/Todo"
-      "https://evancz.github.io/elm-todomvc"
-      "evancz"
-      "https://github.com/evancz/elm-todomvc"
-  , example
-      "Home/DreamWriter"
-      "http://dreamwriter.co"
-      "rtfeldman"
-      "https://github.com/rtfeldman/dreamwriter"
-  , example
-      "Home/Catalog"
-      "http://package.elm-lang.org"
-      "evancz"
-      "https://github.com/elm-lang/package.elm-lang.org"
-  , example
-      "Home/Hedley"
-      "https://gizra.github.io/elm-hedley"
-      "Gizra"
-      "https://github.com/Gizra/elm-hedley"
-  , example
-      "Home/Mario"
-      "/examples/mario"
-      "evancz"
-      "/examples/mario"
-  , example
-      "Home/Elmtris"
-      "http://people.cs.umass.edu/~jcollard/elmtris/"
-      "jcollard"
-      "https://github.com/jcollard/elmtris"
-  , example
-      "Home/Vessel"
-      "https://slawrence.github.io/vessel"
-      "slawrence"
-      "https://github.com/slawrence/vessel"
-  , example
-      "Home/FirstPerson"
-      "https://evancz.github.io/first-person-elm"
-      "evancz"
-      "https://github.com/evancz/first-person-elm"
-  ]
-
-
 exampleSection : Html
 exampleSection =
   section []
     [ h1
         [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
         [text "Examples"]
-    , fluidList 200 4 examples
+    , fluidList 400 3 examples
+    , p [ style [ "text-align" => "center" ] ]
+        [ text "More big examples at "
+        , a [href "http://builtwithelm.co/"] [text "builtwithelm.co"]
+        , text " and more small ones on "
+        , a [href "/examples"] [text "the examples page"]
+        , text "."
+        ]
     ]
 
 
-example : String -> String -> String -> String -> List Html
-example imgSrc demo author code =
+examples : List (List Html)
+examples =
+  [ example
+      "todomvc"
+      "https://evancz.github.io/elm-todomvc"
+      "https://github.com/evancz/elm-todomvc"
+  , example
+      "hedley"
+      "https://gizra.github.io/elm-hedley"
+      "https://github.com/Gizra/elm-hedley"
+  , example
+      "mantl-ui"
+      "https://mantl.io/"
+      "https://github.com/CiscoCloud/mantl-ui-frontend"
+  , example
+      "package"
+      "http://package.elm-lang.org"
+      "https://github.com/elm-lang/package.elm-lang.org"
+  , example
+      "flatris"
+      "http://unsoundscapes.com/elm-flatris.html"
+      "https://github.com/w0rm/elm-flatris"
+  , example
+      "sketch-n-sketch"
+      "http://ravichugh.github.io/sketch-n-sketch/"
+      "https://github.com/ravichugh/sketch-n-sketch"
+  ]
+
+
+example : String -> String -> String -> List Html
+example imgSrc demo code =
   [ a [ href demo, style ["display" => "block"] ]
-      [ img
-          [style [], src ("/screenshot/" ++ imgSrc ++ ".png")]
-          []
+      [ img [src ("/assets/examples/" ++ imgSrc ++ ".png")] []
       ]
-  , p [style ["display" => "block", "float" => "left", "margin" => "0", "height" => "60px"]]
-      [ text "by "
-      , a [href ("http://github.com/" ++ author)] [text author]
-      ]
-  , p [style ["display" => "block", "float" => "right", "margin" => "0", "height" => "60px"]]
+  , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px"]]
       [ a [href code] [text "source"]
       ]
   ]
