@@ -2,6 +2,7 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
+import String
 
 import Center
 import Skeleton
@@ -15,16 +16,20 @@ port title =
 main =
   Skeleton.skeleton "home"
     [ splash
-    , debuggerSection
+    , htmlSection
     , bulletSection
     , exampleSection
+    , userSection
+    , br [] []
     ]
 
 
 (=>) = (,)
 
 
+
 -- SPLASH
+
 
 splash =
   div [ id "splash" ]
@@ -46,9 +51,11 @@ size height padding =
     ]
 
 
--- CODE SNIPPET / DEBUGGER
 
-debuggerSection =
+-- CODE SNIPPET
+
+
+htmlSection =
   section []
     [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Hello HTML" ]
     , p [ style [ "text-align" => "center" ] ]
@@ -80,7 +87,9 @@ debuggerSection =
     ]
 
 
+
 -- FEATURES
+
 
 bulletSection : Html
 bulletSection =
@@ -140,7 +149,9 @@ bullets =
   ]
 
 
+
 -- EXAMPLES
+
 
 exampleSection : Html
 exampleSection =
@@ -199,7 +210,9 @@ example imgSrc demo code =
   ]
 
 
+
 -- FLUID LIST
+
 
 fluidList : Int -> Int -> List (List Html) -> Html
 fluidList itemWidth maxColumns itemList =
@@ -219,5 +232,77 @@ fluidList itemWidth maxColumns itemList =
     gutter = 30
   in
     section
-      [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center", "margin-top" => "30px"]]
+      [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center"]]
       (List.map (section [style bulletStyle]) itemList)
+
+
+
+-- USERS
+
+
+userSection : Html
+userSection =
+  section []
+    [ h1
+        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
+        [text "Comercial Users"]
+    , fluidList 200 3
+        [ company
+            "NoRedInk"
+            "https://www.noredink.com/"
+            "png"
+        , company
+            "CircuitHub"
+            "https://circuithub.com/"
+            "png"
+        , company
+            "Beautiful Destinations"
+            "http://www.beautifuldestinations.com/"
+            "svg"
+        , company
+            "Prezi"
+            "https://prezi.com/"
+            "png"
+        , company
+            "Gizra"
+            "http://www.gizra.com/"
+            "png"
+        , company
+            "TruQu"
+            "https://truqu.com/"
+            "png"
+        ]
+    , p [ style [ "text-align" => "center", "color" => "#bbbbbb" ] ]
+        [ text "Did we miss your company? Let us know how you are using Elm on "
+        , a [class "grey-link", href "https://groups.google.com/forum/#!forum/elm-discuss"] [text "elm-discuss"]
+        , text "!"
+        ]
+    ]
+
+
+company name website extension =
+  let
+    lowerName =
+      String.toLower name
+
+    imgSrc =
+      "/assets/logos/"
+      ++ String.map (\c -> if c == ' ' then '-' else c) lowerName
+      ++ "." ++ extension
+  in
+    [ a [ href website ]
+        [ div
+            [ style
+                [ "width" => "100%"
+                , "height" => "100px"
+                , "background-image" => ("url('" ++ imgSrc ++ "')")
+                , "background-repeat" => "no-repeat"
+                , "background-position" => "center"
+                ]
+            ]
+            []
+        ]
+    ]
+
+
+
