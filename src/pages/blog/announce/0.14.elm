@@ -28,8 +28,8 @@ to start making beautiful projects with Elm:
     aspects of Elm, making relatively untouched things like [elm-html][] feel
     like they got upgraded too.
 
-[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/latest
-[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/latest
+[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/1.1.0
+[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/1.0.0
 
   * **New package manager and build tool.**<br>
     The new package manager, [`elm-package`][elm-package], has a fresh take on
@@ -234,7 +234,7 @@ send : Channel a -> a -> Message
 So now routing events in view code feels much more natural. If you are using
 [elm-html][] your event handlers will look more like this:
 
-[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/latest
+[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/1.1.0
 
 ```elm
 viewButton : Int -> Html
@@ -297,11 +297,11 @@ tools for generating as many random values as you want, whenever you want.
 Furthermore, it does it in a way that works great with time travel in
 [Elm Reactor][reactor].
 
-[random]: http://package.elm-lang.org/packages/elm-lang/core/latest/Random
+[random]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random
 [reactor]: /blog/Introducing-Elm-Reactor.elm
 
 There is more info in [the `Random`
-docs](http://package.elm-lang.org/packages/elm-lang/core/latest/Random),
+docs](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),
 but Joe also did a nice dice rolling example. You can check out the source code
 [here](https://github.com/jcollard/random-examples/blob/master/src/Dice.elm).
 
@@ -319,7 +319,7 @@ The `Either` library has been removed in favor of [the `Result` library][result]
 A `Result` is intended to be a very obvious choice for error handling. The core
 type there is called a `Result`.
 
-[result]: http://package.elm-lang.org/packages/elm-lang/core/latest/Result
+[result]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Result
 
 ```elm
 type Result err value
