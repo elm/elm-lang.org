@@ -245,7 +245,7 @@ userSection =
   section []
     [ h1
         [style ["text-align" => "center", "font-size" => "2em", "padding-top" => "80px"]]
-        [text "Featured Comercial Users"]
+        [text "Featured Commercial Users"]
     , fluidList 200 3
         [ company
             "NoRedInk"
