@@ -244,8 +244,8 @@ userSection : Html
 userSection =
   section []
     [ h1
-        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
-        [text "Comercial Users"]
+        [style ["text-align" => "center", "font-size" => "2em", "padding-top" => "80px"]]
+        [text "Featured Comercial Users"]
     , fluidList 200 3
         [ company
             "NoRedInk"
@@ -273,8 +273,10 @@ userSection =
             "png"
         ]
     , p [ style [ "text-align" => "center", "color" => "#bbbbbb" ] ]
-        [ text "Did we miss your company? Let us know how you are using Elm on "
+        [ text "Want to get featured? Let us know how your company uses Elm on "
         , a [class "grey-link", href "https://groups.google.com/forum/#!forum/elm-discuss"] [text "elm-discuss"]
+        , text " or "
+        , a [class "grey-link", href "https://twitter.com/elmlang"] [text "twitter"]
         , text "!"
         ]
     ]
