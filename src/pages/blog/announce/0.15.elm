@@ -56,7 +56,7 @@ core libraries based on real-world usage of tasks.
 
 Since the release of [elm-html][], we have seen more and more people writing
 practical web apps in Elm. [Richard Feldman](https://twitter.com/rtfeldman)
-recently rewrote his writing app [Dreamwriter](https://dreamwriter.io/) from
+recently rewrote his writing app [Dreamwriter](https://dreamwriter.co/) from
 [React and CoffeeScript](https://github.com/rtfeldman/dreamwriter-coffee/tree/strangeloop)
 to [Elm and CoffeeScript](https://github.com/rtfeldman/dreamwriter/tree/strangeloop),
 which has been a very interesting case study.
