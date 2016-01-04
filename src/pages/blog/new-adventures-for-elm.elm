@@ -38,7 +38,9 @@ great, but we already have some exciting news for 2016.
 ## Joining NoRedInk
 
 Today is my first day as an Open Source Engineer at NoRedInk, where I will
-continue my work on Elm! (See [Marcos’s post]() for more details.)
+continue my work on Elm! (See [Marcos’s post][nri] for more details.)
+
+[nri]: http://tech.noredink.com/post/136615783598/welcome-evan
 
 Why is this exciting? Well, you may know their lead frontend engineer ([Richard
 Feldman](https://twitter.com/rtfeldman)) from his excellent
