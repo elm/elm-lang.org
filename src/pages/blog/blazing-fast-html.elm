@@ -60,9 +60,6 @@ Elm. It means you can use Elm *and* keep using the same CSS and
 designer/developer workflow that you are comfortable with. It is simpler than
 ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
-[FRP]: /learn/What-is-FRP.elm
-[std]: package.elm-lang.org/packages/elm-lang/core/latest/
-
 ## Virtual DOM
 
 This library is based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than
