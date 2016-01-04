@@ -247,7 +247,7 @@ viewButton id =
 It reads much more clearly now, hopefully making it easier to pick up. It also
 has some nice conceptual connections to my [thesis][], so the door is open for
 some cool stuff farther down the line. Huge thanks to [Richard
-Feldman](https://github.com/rtfeldman/dreamwriter) for talking through this
+Feldman](https://github.com/rtfeldman/) for talking through this
 until we ended up with this API! Your insights from writing
 [dreamwriter](https://github.com/rtfeldman/dreamwriter#dreamwriter) in Elm
 have been extremely valuable in general.
