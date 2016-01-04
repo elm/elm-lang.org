@@ -69,6 +69,12 @@ a question well, you should start by asking some questions yourself! This way
 we can avoid XY problems, and better yet, have a culture that is kind and
 respectful to everyone.
 
+## Slack
+
+[slack]: http://elmlang.herokuapp.com/
+
+Slack is a great place to chat and share code. Check out the [Elm community on slack][slack].
+
 ## Twitter
 
 [twitter]: https://twitter.com/elmlang
