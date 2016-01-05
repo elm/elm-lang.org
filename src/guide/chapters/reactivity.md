@@ -25,7 +25,7 @@ network, ultimately leading to outputs that handle stuff like efficiently
 rendering things on screen.
 
 [start-app]: https://github.com/evancz/start-app
-[kpn]: http://en.wikipedia.org/wiki/Kahn_process_networks
+[kpn]: https://en.wikipedia.org/wiki/Kahn_process_networks
 
 <img src="/assets/diagrams/signals.png" style="width: 100%;"/>
 
@@ -84,7 +84,7 @@ Tasks also work like light-weight threads in Elm, so you can have a bunch of
 tasks running at the same time and the [runtime][rts] will hop between them if
 they are blocked.
 
-[rts]: http://en.wikipedia.org/wiki/Runtime_system
+[rts]: https://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
 requests with the [elm-http][] package, like looking up [zip codes][zip] and
