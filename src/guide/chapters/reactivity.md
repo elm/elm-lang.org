@@ -113,7 +113,7 @@ that will help build a foundation for working with tasks.
 
 ### Basic Example
 
-Let’s start out with a very simple function for printing values out to the
+Let&rsquo;s start out with a very simple function for printing values out to the
 console:
 
 ```elm
@@ -130,7 +130,7 @@ important thing is that we have a task for printing stuff out.
 
 To actually *perform* a task, we hand it to a [port][]. Think of ports as a
 way of asking the Elm runtime to do something for you. In this case, it means
-*run the task*. So let’s see an example that puts `print` together with ports
+*run the task*. So let&rsquo;s see an example that puts `print` together with ports
 to print out the current time every second.
 
 [port]: /guide/interop
@@ -184,7 +184,7 @@ all the tasks will be performed in order without overlapping.
 In the example above we used [`print`][print] but what if we want to create a
 more complex task? Something with many steps.
 
-First let’s introduce [`getCurrentTime`][now] so we can do more than print!
+First let&rsquo;s introduce [`getCurrentTime`][now] so we can do more than print!
 
 [now]: http://package.elm-lang.org/packages/evancz/task-tutorial/latest/TaskTutorial#getCurrentTime
 
@@ -195,7 +195,7 @@ getCurrentTime : Task x Time
 
 This is a task that just gives you the current time. You run it, it tells you
 what time it is. Now what we want to do is run [`getCurrentTime`][now] and
-then [`print`][print] it out. Let’s look at the finished product and then
+then [`print`][print] it out. Let&rsquo;s look at the finished product and then
 work through all the new parts.
 
 ```elm
@@ -220,7 +220,7 @@ saying `(andThen getCurrentTime print)`. The only thing is that it reads a bit
 more like English when using the backtick syntax.
 
 Okay, now that we know that [`andThen`][andThen] is a normal function that
-takes two arguments, let’s see the type.
+takes two arguments, let&rsquo;s see the type.
 
 [andThen]: http://package.elm-lang.org/packages/elm-lang/core/latest/Task#andThen
 
@@ -289,7 +289,7 @@ send : Address a -> a -> Task x ()
 
 You provide an address and a value, and when the task is performed, that value
 shows up at the corresponding mailbox. It&rsquo;s kinda like real mailboxes!
-Let’s do a small example that uses `Mailbox` and `send`.
+Let&rsquo;s do a small example that uses `Mailbox` and `send`.
 
 ```elm
 import Graphics.Element exposing (Element, show)
@@ -317,7 +317,7 @@ mailbox. We immediately start running the `updateContent` task which sends a
 new message to `contentMailbox`. When it arrives, the value of
 `contentMailbox.signal` updates and we start showing `"hello!"` on screen.
 
-Now that we have a feel for `andThen` and for `Mailbox` let’s try a more
+Now that we have a feel for `andThen` and for `Mailbox` let&rsquo;s try a more
 useful example!
 
 
@@ -338,7 +338,7 @@ resource that lives at that location as a `String`. Looking at the type of the
 will either fail with some [`Http.Error`][error] or succeed with a `String`.
 
 This exact function is actually used to load the README for packages in the
-[Elm Package Catalog][epc]. Let’s look at the code for that!
+[Elm Package Catalog][epc]. Let&rsquo;s look at the code for that!
 
 [error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 [epc]: http://package.elm-lang.org/
@@ -393,7 +393,7 @@ into the contents of the elm-lang/core readme!
 
 We have seen `andThen` used to chain two tasks together, but what if we want
 to chain lots of tasks? This can end up looking a bit odd, so you can bend the
-typical rules about indentation to make it look nicer. Let’s look at an example
+typical rules about indentation to make it look nicer. Let&rsquo;s look at an example
 that chains a bunch of tasks together to measure how long it takes to evaluate
 the `(fibonacci 20)` expression:
 
@@ -520,7 +520,7 @@ toResult task =
   Task.map Ok task `onError` \\msg -> succeed (Err msg)
 ```
 
-This is essentially promoting any errors to the success case. Let’s see it in
+This is essentially promoting any errors to the success case. Let&rsquo;s see it in
 action.
 
 ```elm
