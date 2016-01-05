@@ -10,7 +10,7 @@ This section goes through the parts of Elm that let you work with crazy data in 
 
 Types are an important tool for modeling. Think of them like a contract that can be checked by the compiler that says something like &ldquo;I only accept string arguments&rdquo; so you can make sure that bad data *never* gets in. This is a huge part of how we can rule out runtime errors in Elm.
 
-> **Note:** The term &ldquo;types&rdquo; will be used to mean &ldquo;types as they appear in Elm&rdquo;. This is an important distinction because *types in Elm are very different than types in Java!* Many programmers have only seen types in Java, so their experience is roughly &ldquo;using types is verbose and annoying, and at the end of the day, I still get the same runtime errors and null pointer exceptions as in JavaScript or Python or Ruby. What's the point?!&rdquo; Most Elm programmers share all of these complaints about Java!
+> **Note:** The term &ldquo;types&rdquo; will be used to mean &ldquo;types as they appear in Elm&rdquo;. This is an important distinction because *types in Elm are very different than types in Java!* Many programmers have only seen types in Java, so their experience is roughly &ldquo;using types is verbose and annoying, and at the end of the day, I still get the same runtime errors and null pointer exceptions as in JavaScript or Python or Ruby. What&rsquo;s the point?!&rdquo; Most Elm programmers share all of these complaints about Java!
 
 The way we write down these contracts is with &ldquo;type annotations&rdquo; where we define the exact shape of the data we are working with.
 
@@ -47,7 +47,7 @@ isLong book =
   book.pages > 400
 ```
 
-In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is definitely going to return an `Int` so if we use its result somewhere else, we have a 100% guarantee that it's a whole number.
+In the `longestName` example, we are requiring that our input is a list of strings. If someone tries to pass in a list of integers or books, the `String.length` function would break, so this contract rules that out. We also say the `longestName` function is definitely going to return an `Int` so if we use its result somewhere else, we have a 100% guarantee that it&rsquo;s a whole number.
 
 The `isLong` example is doing exactly the same thing. It requires a record with a field name `pages` that holds integers. Any record will do, with however many other fields you want, but we definitely need the `pages` field!
 
@@ -68,7 +68,7 @@ type Visibility = All | Active | Completed
 
 This defines a new type `Visibility` with exactly three possible values: `All`, `Active`, or `Completed`. This means that if you pass in something with type `Visibility` it must be one of these three things!
 
-We use **case-expressions** to do different things depending on which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
+We use **case-expressions** to do different things depending on which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don&rsquo;t need to say `break` everywhere to make things sane.
 
 ```elm
 toString : Visibility -> String
@@ -197,7 +197,7 @@ Tons of languages have a concept of `null`. Any time you think you have a `Strin
 
 The inventor, Tony Hoare, has this to say about it:
 
-> I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.
+> I call it my billion-dollar mistake. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn&rsquo;t resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.
 
 Elm sidesteps this problem entirely with a type called `Maybe`. You can think of it as making `null` explicit, so we *know* if we have to handle it.
 
@@ -221,9 +221,9 @@ toMonth rawString =
           if n > 0 && n <= 12 then Just n else Nothing
 ```
 
-The contract for `toMonth` explicitly tells everyone that it will give back an integer *or* it won't! You never have to wonder if there is a `null` value sneaking around.
+The contract for `toMonth` explicitly tells everyone that it will give back an integer *or* it won&rsquo;t! You never have to wonder if there is a `null` value sneaking around.
 
-This may seem like a subtle improvement, but imagine all the code you have where you defensively added a `null` check just in case someone else behaves badly. Having contracts means you have a guarantee that a caller won't send you bad data! This is a world where you never again have to spend 4 hours debugging a null pointer exception!
+This may seem like a subtle improvement, but imagine all the code you have where you defensively added a `null` check just in case someone else behaves badly. Having contracts means you have a guarantee that a caller won&rsquo;t send you bad data! This is a world where you never again have to spend 4 hours debugging a null pointer exception!
 
 
 ## Recursive Data Structures
