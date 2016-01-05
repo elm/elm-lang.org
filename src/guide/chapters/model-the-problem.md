@@ -68,7 +68,7 @@ type Visibility = All | Active | Completed
 
 This defines a new type `Visibility` with exactly three possible values: `All`, `Active`, or `Completed`. This means that if you pass in something with type `Visibility` it must be one of these three things!
 
-We use **case-expressions** to do different things depending which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
+We use **case-expressions** to do different things depending on which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
 
 ```elm
 toString : Visibility -> String
@@ -96,7 +96,7 @@ This fills the same role as &ldquo;enumerations&rdquo; in languages like Java or
 
 ## State Machines
 
-Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggled between anonymous and logged in with a user name:
+Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggle between anonymous and logged in with a user name:
 
 ```elm
 type User = Anonymous | LoggedIn String
