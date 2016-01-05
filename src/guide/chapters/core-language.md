@@ -238,5 +238,5 @@ Elm encourages a strict separation of data and logic, and the ability to say `th
 
 Records also support [structural typing][st] which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
 
- [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
+ [st]: https://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 
