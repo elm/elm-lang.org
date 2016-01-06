@@ -64,8 +64,8 @@ Elm&rsquo;s records. If you just want an overview of the syntax,
 [see here][syntax], and for a comprehensive introduction to records in
 Elm, [see here][overview].
 
- [syntax]: /learn/Syntax.elm#records "Record Syntax"
- [overview]: /learn/Records.elm "Overview of Records"
+ [syntax]: /docs/syntax#records "Record Syntax"
+ [overview]: /docs/records "Overview of Records"
  [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
 
@@ -137,7 +137,7 @@ but I think it will make code nicer overall.
 Again, I highly recommend reading [this paper][records] and [this overview][over]
 to get a more complete understanding of records in Elm.
 
- [over]: /learn/Records.elm "Extensible Records"
+ [over]: /docs/records "Extensible Records"
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
 
 #### Notes on Expressiveness
@@ -176,7 +176,7 @@ sort of recursion though. I consider it extremely bad practice to mix your data
 and your logic, and as far as I can tell, that is the sole purpose of `this`
 and `self`. For more on this connection, check out [this][a].
 
- [a]: /learn/Records.elm#comparison-of-records-and-objects
+ [a]: /docs/records#comparison-of-records-and-objects
  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible Records"
  [same]: http://www.cse.unsw.edu.au/~chak/papers/modules-classes.pdf "Constructive Comparison"
  [unify]: http://www.mpi-sws.org/~dreyer/papers/mtc/main-long.pdf "Modular Type Classes"

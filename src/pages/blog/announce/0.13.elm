@@ -31,7 +31,7 @@ In pursuit of these improvements, we made some breaking changes, so these
 release notes are a nice overview of what has changed and how to upgrade your
 code to use 0.13. To install or upgrade, follow [these directions][install].
 
-[install]: /Install.elm
+[install]: /install
 
 ## Imports and Exports
 
@@ -199,7 +199,7 @@ parsing. Both Pandoc and cheapskate were created by [John MacFarlane][jgm] who
 knows a ton about Markdown and created cheapskate to focus on creating a
 parser that is extremely fast, standards compliant, and light-weight.
 
-[ports]: /learn/Ports.elm
+[ports]: /guide/interop
 [Pandoc]: http://johnmacfarlane.net/pandoc/
 [cheapskate]: https://hackage.haskell.org/package/cheapskate
 [jgm]: https://github.com/jgm

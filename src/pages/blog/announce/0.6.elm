@@ -40,7 +40,7 @@ These changes allowed a big rewrite of the [Pong in Elm][pong]
 examples to illustrate the benefits of Elm 0.6 in this post and in two
 larger examples ([sliding circle][slide], [color wheel][wheel]).
 
-  [pong]:  /blog/Pong.elm
+  [pong]:  /blog/making-pong
   [code]:  /examples/pong
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"

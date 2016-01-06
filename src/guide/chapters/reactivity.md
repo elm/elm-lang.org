@@ -2,7 +2,7 @@
 
 In the last section we learned about [the Elm Architecture][arch] which provides a reliable foundation for your application. In this section, we will see how that fits into a system that talks to servers, uses websockets, writes to databases, etc. The following diagram gives a high-level overview:
 
-[arch]: /guide/architecture
+[arch]: https://github.com/evancz/elm-architecture-tutorial/
 
 <img src="/assets/diagrams/overall-architecture.png" style="width: 100%;"/>
 
