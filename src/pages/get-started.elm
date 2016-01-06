@@ -155,7 +155,7 @@ started with.
 
 ### My First Project
 
-The easiest way to get started with Elm is from the [Examples page](http://elm-lang.org/examples).
+The easiest way to get started with Elm is from the [Examples page](/examples).
 It has a few small Elm programs that are great to learn from and fun to
 play with in the [Online Editor][OE] or [Elm Reactor][elm-reactor].
 
@@ -204,20 +204,20 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 
 
 [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
-[install]: http://elm-lang.org/install
+[install]: /install
 [Elm]: http://elm-lang.org
-[OE]: http://elm-lang.org/try
-[documentation]: http://elm-lang.org/docs
+[OE]: /try
+[documentation]: /docs
 [elm-package]: https://github.com/elm-lang/elm-package
 [elm-make]: https://github.com/elm-lang/elm-make
 [elm-repl]: https://github.com/elm-lang/elm-repl
 [elm-reactor]: https://github.com/elm-lang/elm-reactor
-[hs]: http://elm-lang.org/blog/interactive-programming
+[hs]: /blog/interactive-programming
 [ttd]: http://debug.elm-lang.org/
-[ECG]: http://elm-lang.org/guide/core-language
+[ECG]: /guide/core-language
 [cs223]: https://www.classes.cs.uchicago.edu/archive/2015/winter/22300-1/Home.html
-[Syntax]: http://elm-lang.org/docs/syntax
-[SG]: http://elm-lang.org/docs/style-guide
+[Syntax]: /docs/syntax
+[SG]: /docs/style-guide
 [ea]: https://github.com/evancz/elm-architecture-tutorial/
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 

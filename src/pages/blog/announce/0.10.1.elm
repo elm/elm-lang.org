@@ -39,7 +39,7 @@ New and improved libraries include:
 There are also many miscellaneous fixes and improvements. Most notably,
 infinite types lead to *much* nicer error messages, type errors should
 be a bit easier to read, and stale intermediate files are detected automatically.
-You can install 0.10.1 with [these instructions](http://elm-lang.org/install)
+You can install 0.10.1 with [these instructions](/install)
 or upgrade with:
 
     cabal update ; cabal install elm
