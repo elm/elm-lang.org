@@ -54,7 +54,7 @@ changes, which are detailed below with upgrade advice.
 
 I hope you enjoy Elm 0.4!
 
- [pong]: /blog/Pong.elm
+ [pong]: /blog/making-pong
  [a]: /edit/examples/Elements/ToForm.elm "toForm"
  [b]: /edit/examples/Elements/Sprite.elm "sprites"
  [c]: /examples/texture "texture"

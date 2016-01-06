@@ -21,7 +21,7 @@ community = """
   * [Community Packages](http://package.elm-lang.org/)
   * [Mailing list][list]
   * [Reddit][reddit]
-  * [IRC][irc]
+  * [Slack][slack] and [IRC][irc]
   * [Twitter][twitter]
   * [Real Life](http://www.meetup.com/Elm-user-group-SF/)
   * [Potential projects](https://github.com/elm-lang/projects)
@@ -55,19 +55,23 @@ or [elm-package](https://github.com/elm-lang/elm-package).
 Check out [/r/elm][reddit] to find out about new libraries and read blog posts.
 Or even better, use it to announce libraries and post your own blog posts!
 
-## IRC
+## Slack and IRC
 
+[slack]: http://elmlang.herokuapp.com/
 [irc]: http://webchat.freenode.net/?channels=elm
 
 Got a quick question, but do not feel comfortable asking on the mailing list?
-Chatting on [#elm][irc] is a great way to learn from a real person. Share code
-snippets with [share-elm.com](http://www.share-elm.com).
+Chatting on [Slack][slack] or [#elm][irc] is a great way to learn from a real
+person.
 
 As for culture, prefer to ask rather than tell. You may be talking to someone
 with no programming background or a PhD in programming languages, so to answer
 a question well, you should start by asking some questions yourself! This way
-we can avoid XY problems, and better yet, have a culture that is kind and
+we can avoid [XY problems][xy], and better yet, have a culture that is kind and
 respectful to everyone.
+
+[xy]: http://mywiki.wooledge.org/XyProblem
+
 
 ## Twitter
 

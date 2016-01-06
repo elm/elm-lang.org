@@ -182,7 +182,7 @@ of functions in the `List` library and making `elm-get` more pleasant to use
 with version 0.1.1.3.
 
 Finally, thanks to [Attila Gazso](https://github.com/agazso) for creating [Mac
-and Windows installers for Elm](/Install.elm). Hopefully we can keep going with
+and Windows installers for Elm](/install). Hopefully we can keep going with
 this effort and make the [Elm Platform](https://github.com/elm-lang/elm-platform)
 easy to install on any system.
 

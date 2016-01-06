@@ -211,7 +211,7 @@ True
 False
 ```
 
-So we can pass any record in as long is it has an `age` field that holds a number.
+So we can pass any record in as long as it has an `age` field that holds a number.
 
 It is often useful to update the values in a record.
 
@@ -238,5 +238,5 @@ Elm encourages a strict separation of data and logic, and the ability to say `th
 
 Records also support [structural typing][st] which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
 
- [st]: http://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
+ [st]: https://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
 

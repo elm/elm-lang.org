@@ -22,8 +22,8 @@ main =
 content1 = """
 
 The past few months have focused on making Elm great for industrial use. You
-can see this in recent releases like the [REPL](/blog/announce/Repl.elm), the
-[package manager](/blog/announce/PackageManager.elm), and the [drastically
+can see this in recent releases like the [REPL](/blog/announce/repl), the
+[package manager](/blog/announce/package-manager), and the [drastically
 improved JS interop](/blog/announce/0.11). But working with input elements
 has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-videos)
 I always get questions along the lines of, &ldquo;that
@@ -164,7 +164,7 @@ don't want ugly code! Ultimately the idea of a &ldquo;syntactic tax&rdquo; did
 not feel like a successful experiment.
 
 So there is nicer syntax, but this is still the least prefered way to import of
-[the four possiblities](/learn/Syntax.elm#modules). It is convenient for quickly
+[the four possiblities](/docs/syntax#modules). It is convenient for quickly
 prototyping or hacking something together, but it does not scale well. Imagine
 you do [26 imports like this][imports], bringing tons of functions into local
 scope. When I want to find the definition of [`isFunPtrTy`][function] I have no

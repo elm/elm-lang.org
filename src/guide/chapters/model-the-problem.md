@@ -68,7 +68,7 @@ type Visibility = All | Active | Completed
 
 This defines a new type `Visibility` with exactly three possible values: `All`, `Active`, or `Completed`. This means that if you pass in something with type `Visibility` it must be one of these three things!
 
-We use **case-expressions** to do different things depending which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
+We use **case-expressions** to do different things depending on which value we are working with. It is pretty similar to the switch-statements in JavaScript, but a case-expression does not have fall through, so you don't need to say `break` everywhere to make things sane.
 
 ```elm
 toString : Visibility -> String
@@ -96,7 +96,7 @@ This fills the same role as &ldquo;enumerations&rdquo; in languages like Java or
 
 ## State Machines
 
-Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggled between anonymous and logged in with a user name:
+Okay, what if we want to represent whether someone is logged in or not? We can make a little state machine that lets a user toggle between anonymous and logged in with a user name:
 
 ```elm
 type User = Anonymous | LoggedIn String
@@ -148,7 +148,7 @@ All the users are turned into image resources. So we saw a relatively simple sta
 
 Now lets try to put together a bunch of *different* types of data in a coherent way.
 
-> **Note:** These are sometimes called [tagged unions](http://en.wikipedia.org/wiki/Tagged_union) (or [ADTs](http://en.wikipedia.org/wiki/Algebraic_data_type) in certain communities).
+> **Note:** These are sometimes called [tagged unions](https://en.wikipedia.org/wiki/Tagged_union) (or [ADTs](https://en.wikipedia.org/wiki/Algebraic_data_type) in certain communities).
 
 Say you are creating a dashboard with three different kinds of widgets. One shows scatter plots, one shows recent log data, and one shows time plots. Type unions make it really easy to put together the data we need:
 
@@ -270,7 +270,7 @@ On each line, we see one evaluation step. When we call `sum` it transforms the l
 
 Making lists is just the start, we can easily create all sorts of data structures, like [binary trees][binary].
 
- [binary]: http://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
+ [binary]: https://en.wikipedia.org/wiki/Binary_tree "Binary Trees"
 
 ```elm
 type Tree a = Empty | Node a (Tree a) (Tree a)
@@ -284,7 +284,7 @@ A tree is either empty or it is a node with a value and two children. Check out 
 
 We can even model a programming language as data if we want to go really crazy! In this case, it is one that only deals with [Boolean algebra][algebra]:
 
-[algebra]: http://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
+[algebra]: https://en.wikipedia.org/wiki/Boolean_algebra#Operations "Boolean Algebra"
 
 ```elm
 type Boolean

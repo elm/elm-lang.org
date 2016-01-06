@@ -56,12 +56,12 @@ core libraries based on real-world usage of tasks.
 
 Since the release of [elm-html][], we have seen more and more people writing
 practical web apps in Elm. [Richard Feldman](https://twitter.com/rtfeldman)
-recently rewrote his writing app [Dreamwriter](https://dreamwriter.io/) from
+recently rewrote his writing app [Dreamwriter](https://dreamwriter.co/) from
 [React and CoffeeScript](https://github.com/rtfeldman/dreamwriter-coffee/tree/strangeloop)
 to [Elm and CoffeeScript](https://github.com/rtfeldman/dreamwriter/tree/strangeloop),
 which has been a very interesting case study.
 
-[elm-html]: /blog/Blazing-Fast-Html.elm
+[elm-html]: /blog/blazing-fast-html
 
 Richard took the approach of rewriting the core of Dreamwriter in Elm, and then
 slowly expanding that core to cover as much as possible. This means he was able
@@ -127,9 +127,9 @@ describe the whole task in Elm and send it to Elm&rsquo;s runtime which will
 go through and make it all happen. The end result is the same, but now Richard
 has a code base that is easier to refactor and debug!
 
-[port]: /learn/Ports.elm
+[port]: /guide/interop
 
-To learn more about tasks, check out [the tutorial](/learn/Tasks.elm) and then
+To learn more about tasks, check out [the tutorial](/guide/reactivity#tasks) and then
 the [zip codes](/examples/zip-codes) and
 [flickr](/examples/flickr) examples!
 
@@ -304,7 +304,7 @@ You provide an address and a value to send, creating a task. When that task is
 performed, that value shows up at the corresponding mailbox. It&rsquo;s kinda
 like real mailboxes!
 
-Check out [the task tutorial](/learn/Tasks.elm) for more examples and
+Check out [the task tutorial](/guide/reactivity#tasks) for more examples and
 explanation of mailboxes. For those of you with 0.14 code to upgrade, first
 take a look at [the whole API][mailbox] to get a feel for it. The core concepts
 are pretty much the same, so the changes are mostly find and replace:
