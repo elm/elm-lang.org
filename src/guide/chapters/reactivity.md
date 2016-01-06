@@ -213,7 +213,7 @@ main =
   show "Open the Developer Console of your browser."
 ```
 
-First, notice the infrequently-used backtick syntax which let’s us treat normal
+First, notice the infrequently-used backtick syntax which lets us treat normal
 functions as infix operators. As another example, `(add 3 4)` is the same as
 ``(3 `add` 4)``. So saying ``(getCurrentTime `andThen` print)`` is the same as
 saying `(andThen getCurrentTime print)`. The only thing is that it reads a bit
