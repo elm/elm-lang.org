@@ -29,7 +29,7 @@ Afterwards, visit the [get started page][get-started].
 
 [npm]: https://www.npmjs.com/package/elm
 [build]: https://github.com/elm-lang/elm-platform
-[get-started]: http://elm-lang.org/get-started
+[get-started]: /get-started
 
 ## Syntax Highlighting
 
