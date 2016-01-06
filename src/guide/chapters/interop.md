@@ -8,7 +8,7 @@ Interop is extremely important for any language that compiles to JavaScript. To 
 
 Elm can be embedded directly in a `<div>`. This lets you easily integrate Elm into a larger JS project. All of the following code [is available](https://gist.github.com/evancz/8456627).
 
-Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](http://elm-lang.org/examples/Intermediate/Stamps.elm). Compile it with:
+Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](/examples/stamps). Compile it with:
 
 ```bash
 elm-make Stamper.elm
