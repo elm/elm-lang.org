@@ -165,7 +165,7 @@ This is a pretty simple trick that can speed things up significantly.
 
 If you have been following Elm, you may begin to see a pattern:
 purity and immutability are kind of a big deal. Read about [hot-swapping in
-Elm](/blog/Interactive-Programming.elm) and the [time traveling
+Elm](/blog/interactive-programming) and the [time traveling
 debugger](http://debug.elm-lang.org/) to learn more about this.
 
 ## Reusable Widgets
