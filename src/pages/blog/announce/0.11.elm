@@ -27,10 +27,10 @@ Elm out on a specific problem and see if it works for you.
      style="width:480px; height:320px; margin-left: auto; margin-right: auto; display:block;">
 
 To make this “component model” possible, Elm 0.11 introduces
-[ports](/guide/interop) which make it easy to
+[ports](/guide/interop#ports) which make it easy to
 communicate between Elm and JavaScript. Check out
 [how to embed Elm in HTML](/guide/interop) and
-[how to communicate between Elm and JS](/guide/interop)
+[how to communicate between Elm and JS](/guide/interop#ports)
 to learn the specifics of these new features. This post will focus
 on why ports are extremely important for Elm and how to understand
 and use ports effectively.

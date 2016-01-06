@@ -133,7 +133,7 @@ way of asking the Elm runtime to do something for you. In this case, it means
 *run the task*. So let’s see an example that puts `print` together with ports
 to print out the current time every second.
 
-[port]: /guide/interop
+[port]: /guide/interop#ports
 
 ```elm
 import Graphics.Element exposing (show)

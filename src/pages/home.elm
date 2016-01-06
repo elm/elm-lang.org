@@ -135,7 +135,7 @@ bullets =
   , [ h2 [] [text "Smooth JavaScript interop"]
     , p []
         [ text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple "
-        , a [href "/guide/interop"] [text "ports"]
+        , a [href "/guide/interop#ports"] [text "ports"]
         , text " system, your Elm code can communicate with JavaScript without sacrificing guarantees."
         ]
     ]
