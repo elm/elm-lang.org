@@ -211,7 +211,7 @@ True
 False
 ```
 
-So we can pass any record in as long is it has an `age` field that holds a number.
+So we can pass any record in as long as it has an `age` field that holds a number.
 
 It is often useful to update the values in a record.
 
