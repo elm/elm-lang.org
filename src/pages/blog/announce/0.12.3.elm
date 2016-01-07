@@ -45,7 +45,7 @@ We of course need to start with an example. As you move your mouse within the
 grey box, [Thwomp](http://www.mariowiki.com/Thwomp#Super_Mario_64) will stare
 at you. Too far away to crush you, but waiting...
 
-<iframe src="/examples/WebGL/Thwomp.elm"
+<iframe src="/examples/thwomp"
         frameborder="0"
         width="600"
         height="300"
@@ -96,7 +96,7 @@ it](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and have fun
 working in 3D!
 
 To work with [`elm-webgl`][webgl] and [`elm-linear-algebra`][algebra] locally,
-install the new [Elm Platform](/Install.elm), navigate to a fresh directory,
+install the new [Elm Platform](/install), navigate to a fresh directory,
 and run:
 
 ```bash
@@ -154,7 +154,7 @@ toHsl : Color -> { hue        : Float
 ```
 
 This makes it easy to use Elm's built-in colors in [the cube
-example](/edit/examples/WebGL/Cube.elm), but these new functions are much more
+example](/examples/cube), but these new functions are much more
 general than that!
 
 [The color wheel](http://colorschemedesigner.com/) can be really helpful for

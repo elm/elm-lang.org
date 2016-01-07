@@ -68,7 +68,7 @@ or work with server-side JS. Using Elm is not an all-or-nothing choice anymore.
 This lowers the barrier if you want to experiment with Elm and makes it
 easier to convince your boss that it is okay to use Elm in an existing project.
 
-The description of [how to embed Elm code](/learn/JavaScript-Integration.elm)
+The description of [how to embed Elm code](/guide/interop)
 explains all of the details of the API.
 
 The following video is a short demo of how to embed Elm in a `<div>`.
@@ -86,7 +86,7 @@ makes sense and HTML everywhere else.
 ## Type Annotations and Type Aliases
 
 If you are new to types, I recommend reading
-[Getting started with Types](/learn/Getting-started-with-Types.elm)
+[Getting started with Types](/guide/model-the-problem)
 which explains how types work in Elm.
 
 You can now add type information to your programs if you want. It is
@@ -130,7 +130,7 @@ of type-classes, but that is for another day.
 
 ## Dynamic Inputs
 
-The new [`Graphics.Input` library](http://docs.elm-lang.org/library/Graphics/Input.elm)
+The new [`Graphics.Input` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input)
 introduces text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
@@ -189,7 +189,7 @@ circle : Float -> Shape
 toForm : Element -> Form
 ```
 You can see the full API in the
-[`Graphics.Collage` library](http://docs.elm-lang.org/library/Graphics/Collage.elm).
+[`Graphics.Collage` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Collage).
 For now we will look at some smaller examples and uses.
 
 The following example creates four colorful dots. It shows a basic
@@ -304,7 +304,7 @@ it applies a matrix transformation to the flattened `Form`.
 This allows you to build up a traditional
 [scene graph](http://en.wikipedia.org/wiki/Scene_graph)
 and do fancier transformations like reflections and skews with
-the new [`Matrix2D` library](http://docs.elm-lang.org/library/Transform2D.elm).
+the new [`Matrix2D` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D).
 
 
 ## Faster currying and data structures
@@ -379,13 +379,13 @@ This release also fixes a bug in detecting cyclic module dependencies.
 #### Objects and WebSockets
 
 You can convert between JS objects and Elm records with the
-[`JavaScript.Experimental` library](http://docs.elm-lang.org/library/JavaScript/Experimental.elm).
+[`JavaScript.Experimental` library](https://github.com/elm-lang/elm-compiler/blob/0.8.0.3/libraries/JavaScript/Experimental.elm).
 As the name suggests, the approach used by this library is experimental!
 Please let me know what you think of it on the [mailing
 list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
-[`WebSocket` library](http://docs.elm-lang.org/library/WebSocket.elm).
+[`WebSocket` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
 This API may change to accomadate more usage scenarios. Please let me
 know how you want to use it!
 

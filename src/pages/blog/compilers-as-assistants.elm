@@ -313,7 +313,7 @@ Ever since [Laszlo][] realized [how to make Elm code look great][style], we
 have been trying to get all Elm developers to use a “professional” style.
 
 [Laszlo]: https://github.com/laszlopandy
-[style]: http://elm-lang.org/docs/style-guide
+[style]: /docs/style-guide
 
 Very very early on (maybe in 0.1?) I added some syntax called a multi-way if.
   It looked like this:

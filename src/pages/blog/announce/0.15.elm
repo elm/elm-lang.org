@@ -56,12 +56,12 @@ core libraries based on real-world usage of tasks.
 
 Since the release of [elm-html][], we have seen more and more people writing
 practical web apps in Elm. [Richard Feldman](https://twitter.com/rtfeldman)
-recently rewrote his writing app [Dreamwriter](https://dreamwriter.io/) from
+recently rewrote his writing app [Dreamwriter](https://dreamwriter.co/) from
 [React and CoffeeScript](https://github.com/rtfeldman/dreamwriter-coffee/tree/strangeloop)
 to [Elm and CoffeeScript](https://github.com/rtfeldman/dreamwriter/tree/strangeloop),
 which has been a very interesting case study.
 
-[elm-html]: /blog/Blazing-Fast-Html.elm
+[elm-html]: /blog/blazing-fast-html
 
 Richard took the approach of rewriting the core of Dreamwriter in Elm, and then
 slowly expanding that core to cover as much as possible. This means he was able
@@ -127,11 +127,11 @@ describe the whole task in Elm and send it to Elm&rsquo;s runtime which will
 go through and make it all happen. The end result is the same, but now Richard
 has a code base that is easier to refactor and debug!
 
-[port]: /learn/Ports.elm
+[port]: /guide/interop
 
-To learn more about tasks, check out [the tutorial](/learn/Tasks.elm) and then
-the [zip codes](/edit/examples/Reactive/ZipCodes.elm) and
-[flickr](/edit/examples/Intermediate/Flickr.elm) examples!
+To learn more about tasks, check out [the tutorial](/guide/reactivity#tasks) and then
+the [zip codes](/examples/zip-codes) and
+[flickr](/examples/flickr) examples!
 
 
 ## Faster Text Rendering
@@ -235,7 +235,7 @@ In this case we decided to expose *everything* in `Html.Attributes` so we can
 just say things like [`id`][id] and [`href`][href] directly. We also
 locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
-the new import syntax [here](/learn/Modules.elm).
+the new import syntax [here](/docs/syntax#modules).
 
 [id]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#id
 [href]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#href
@@ -262,7 +262,7 @@ package. The terminology and API were kind of messy because parts of it evolved
 we are revamping this whole API so that it is centralized and easier to learn.
 
 [arch]: https://github.com/evancz/elm-architecture-tutorial/#the-elm-architecture
-[local-channel]: http://package.elm-lang.org/packages/evancz/local-channel/latest
+[local-channel]: https://github.com/evancz/local-channel/
 
 The new `Signal` library introduces the concept of a `Mailbox`.
 
@@ -304,12 +304,12 @@ You provide an address and a value to send, creating a task. When that task is
 performed, that value shows up at the corresponding mailbox. It&rsquo;s kinda
 like real mailboxes!
 
-Check out [the task tutorial](/learn/Tasks.elm) for more examples and
+Check out [the task tutorial](/guide/reactivity#tasks) for more examples and
 explanation of mailboxes. For those of you with 0.14 code to upgrade, first
 take a look at [the whole API][mailbox] to get a feel for it. The core concepts
 are pretty much the same, so the changes are mostly find and replace:
 
-[mailbox]: http://45.55.164.161:8000/packages/elm-lang/core/2.0.0/Signal#Mailbox
+[mailbox]: http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#Mailbox
 
   * `Signal.Channel` becomes `Signal.Mailbox` in your types
   * `Signal.channel` becomes `Signal.mailbox` when creating mailboxes
@@ -373,7 +373,6 @@ which worked with some pre-release versions of 0.15 to vet the tasks API and
 start making some new packages for browser APIs.
 
 """
-
 
 
 

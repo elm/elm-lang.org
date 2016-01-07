@@ -36,7 +36,7 @@ and confusing. After deleting a bunch of code, [the `Json` library][json] came
 out simpler and more useful. This release also makes it possible to send
 arbitrary JSON through ports, so we will cover that too.
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
+ [json]: https://github.com/elm-lang/elm-compiler/blob/0.12.1/libraries/Json.elm
 
 ## Arrays
 
@@ -109,7 +109,7 @@ Also, thanks to [Harry Garrood](https://github.com/hdgarrood) the `Dict` and
 [The `Json` library][json] has been simplified quite dramatically. JSON is now
 represented by the `Json.Value` type:
 
- [json]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json
+ [json]: https://github.com/elm-lang/elm-compiler/blob/0.12.1/libraries/Json.elm
 
 ```elm
 data Value
@@ -182,7 +182,7 @@ of functions in the `List` library and making `elm-get` more pleasant to use
 with version 0.1.1.3.
 
 Finally, thanks to [Attila Gazso](https://github.com/agazso) for creating [Mac
-and Windows installers for Elm](/Install.elm). Hopefully we can keep going with
+and Windows installers for Elm](/install). Hopefully we can keep going with
 this effort and make the [Elm Platform](https://github.com/elm-lang/elm-platform)
 easy to install on any system.
 

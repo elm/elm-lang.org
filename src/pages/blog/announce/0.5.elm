@@ -20,14 +20,14 @@ content = """
 This release focuses on growing [Elm](/)'s standard libraries to make sure you always have the tools you need.
 For a full listing of Elm's current libraries, see [this page][docs].
 
-  [docs]: /Documentation.elm "docs"
+  [docs]: /docs "docs"
 
 ### Dictionaries and Sets
 
 Elm now has [dictionaries][Dict] and [sets][Set]!
 
-  [Dict]: http://docs.elm-lang.org/library/Dict.elm "Dictionary library"
-  [Set]: http://docs.elm-lang.org/library/Set.elm "Set library"
+  [Dict]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Dict "Dictionary library"
+  [Set]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Set "Set library"
 
 The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
@@ -36,7 +36,7 @@ The Dict and Set libraries could be used from JavaScript. I can make this easier
 This version also introduces the [Automaton][auto] library. This library will
 make it easier to create dynamic components that can be switched in and out of a program.
 
-  [auto]: http://docs.elm-lang.org/library/Automaton.elm "Automaton Library"
+  [auto]: http://package.elm-lang.org/packages/evancz/automaton/1.0.0/ "Automaton Library"
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
 takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
@@ -72,9 +72,9 @@ because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
 now they do not have to!
 
-  [send]: http://docs.elm-lang.org/library/Http.elm "send"
-  [http]: http://docs.elm-lang.org/library/Http.elm "HTTP docs"
-  [zips]: /edit/examples/JavaScript/ZipCodes.elm
+  [send]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http#send "send"
+  [http]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http "HTTP docs"
+  [zips]: /examples/zip-codes
 
 ### New Functions and Syntax
 
@@ -87,7 +87,7 @@ now they do not have to!
     * `readFloat : String -> Maybe Float`
 - [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: http://docs.elm-lang.org/library/Color.elm "Color library"
+  [color]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color library"
 
 ### Fewer Library Prefixes
 
@@ -115,7 +115,7 @@ In other cool news, Elm just got its 100th star on [github][github]! Yay growth!
 
 If you want to help out, there are [tons of ways to contribute][contribute]!
 
-  [contribute]: /Contribute.elm "how to contribute"
+  [contribute]: https://github.com/elm-lang/elm-compiler/blob/master/CONTRIBUTING.md "how to contribute"
   [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "Elm-Discuss"
   [github]: https://github.com/evancz "Elm on GitHub"
   [irc]: http://webchat.freenode.net/ "IRC"

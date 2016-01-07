@@ -7,7 +7,6 @@ html, head, body {
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   color: #293c4b;
-  padding-bottom: 50px;
 }
 
 h1, h2, h3, h4 {
@@ -181,3 +180,28 @@ blockquote p {
 .comparison tr:nth-child(even) {
   background: #fbfbfb;
 }
+
+
+
+/* FOOTER */
+
+
+.footer {
+  text-align: center;
+  margin-top: 6em;
+  border-top: 1px solid #eeeeee;
+  padding: 2em 0;
+  color: #bbbbbb;
+}
+
+
+.grey-link {
+  color: #bbbbbb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.grey-link:hover {
+  color: #bbbbbb;
+}
+

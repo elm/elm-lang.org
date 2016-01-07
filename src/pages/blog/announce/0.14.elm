@@ -54,7 +54,7 @@ is coming together. My goal has always been to make web programming pleasant,
 but I never thought it would be quite this nice.
 
 If you are in a rush or just want references to help you upgrade, follow the
-[install instructions](/Install.elm) and then check out
+[install instructions](/install) and then check out
 [the changelog](https://github.com/elm-lang/core/blob/master/changelog.md#014),
 [elm-package][], and [elm-make][].
 
@@ -69,12 +69,12 @@ and alive. All the bad explanations you have heard before melt away, and you
 feel the rush of comprehension.
 
 I think [Elm Reactor][reactor] embodies this. I think the [online editor](/try)
-and [examples](/Examples.elm) embody this. I want to design Elm such that this
+and [examples](/examples) embody this. I want to design Elm such that this
 is happening in syntax and libraries. As much as possible, I want people to see
 some code for the first time and *feel* how it works. I want to bring the
 learning curve down from days to minutes.
 
-[reactor]: /blog/Introducing-Elm-Reactor.elm
+[reactor]: /blog/time-travel-made-easy
 
 
 ### Philosophy in Action
@@ -152,7 +152,7 @@ explanation. For people who want to *teach* this concept, I have written up
 also written up [a full description][union] that explains what they are and
 shows a bunch of examples.
 
-[union]: /learn/Union-Types.elm
+[union]: /guide/model-the-problem
 [gist]: https://gist.github.com/evancz/06fe634245a3aab4a61b
 [tagged]: http://en.wikipedia.org/wiki/Tagged_union
 
@@ -247,7 +247,7 @@ viewButton id =
 It reads much more clearly now, hopefully making it easier to pick up. It also
 has some nice conceptual connections to my [thesis][], so the door is open for
 some cool stuff farther down the line. Huge thanks to [Richard
-Feldman](https://github.com/rtfeldman/dreamwriter) for talking through this
+Feldman](https://github.com/rtfeldman/) for talking through this
 until we ended up with this API! Your insights from writing
 [dreamwriter](https://github.com/rtfeldman/dreamwriter#dreamwriter) in Elm
 have been extremely valuable in general.
@@ -298,7 +298,7 @@ Furthermore, it does it in a way that works great with time travel in
 [Elm Reactor][reactor].
 
 [random]: http://package.elm-lang.org/packages/elm-lang/core/latest/Random
-[reactor]: /blog/Introducing-Elm-Reactor.elm
+[reactor]: /blog/time-travel-made-easy
 
 There is more info in [the `Random`
 docs](http://package.elm-lang.org/packages/elm-lang/core/latest/Random),

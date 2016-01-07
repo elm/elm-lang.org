@@ -22,12 +22,12 @@ main =
 content1 = """
 
 The past few months have focused on making Elm great for industrial use. You
-can see this in recent releases like the [REPL](/blog/announce/Repl.elm), the
-[package manager](/blog/announce/PackageManager.elm), and the [drastically
+can see this in recent releases like the [REPL](/blog/announce/repl), the
+[package manager](/blog/announce/package-manager), and the [drastically
 improved JS interop](/blog/announce/0.11). But working with input elements
 has long been pretty tricky in Elm. After [conferences](/Learn.elm#conference-videos)
 I always get questions along the lines of, &ldquo;that
-[Mario](/edit/examples/Intermediate/Mario.elm) example is really cool, but can
+[Mario](/examples/mario) example is really cool, but can
 I use this approach for the forms, widgets, and dashboards I write every day at
 work?&rdquo; As of today, the answer is a definite yes! Elm 0.12 makes it easy
 to create interactive UI elements in a purely functional way, from buttons and
@@ -164,7 +164,7 @@ don't want ugly code! Ultimately the idea of a &ldquo;syntactic tax&rdquo; did
 not feel like a successful experiment.
 
 So there is nicer syntax, but this is still the least prefered way to import of
-[the four possiblities](/learn/Syntax.elm#modules). It is convenient for quickly
+[the four possiblities](/docs/syntax#modules). It is convenient for quickly
 prototyping or hacking something together, but it does not scale well. Imagine
 you do [26 imports like this][imports], bringing tons of functions into local
 scope. When I want to find the definition of [`isFunPtrTy`][function] I have no
@@ -180,10 +180,10 @@ perhaps `import List (..)` can be removed entirely someday.
 
 #### Machine-readable types
 
-All libraries uploaded to [library.elm-lang.org](http://library.elm-lang.org/)
+All libraries uploaded to [package.elm-lang.org](http://package.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://package.elm-lang.org/packages/elm-lang/core/latest/docs.json)). The goals
+this](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/documentation.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.

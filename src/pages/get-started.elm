@@ -150,14 +150,14 @@ started with.
 
 The [learn][] page provides pointers for learning Elm.
 
-[learn]: http://elm-lang.org/learn
+[learn]: /learn
 [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
-[install]: http://elm-lang.org/install
+[install]: /install
 [elm-package]: https://github.com/elm-lang/elm-package
 [elm-make]: https://github.com/elm-lang/elm-make
 [elm-repl]: https://github.com/elm-lang/elm-repl
 [elm-reactor]: https://github.com/elm-lang/elm-reactor
-[hs]: http://elm-lang.org/blog/interactive-programming
+[hs]: /blog/interactive-programming
 [ttd]: http://debug.elm-lang.org/
 
 """

@@ -2,7 +2,7 @@
 
 In the last section we learned about [the Elm Architecture][arch] which provides a reliable foundation for your application. In this section, we will see how that fits into a system that talks to servers, uses websockets, writes to databases, etc. The following diagram gives a high-level overview:
 
-[arch]: /guide/architecture
+[arch]: https://github.com/evancz/elm-architecture-tutorial/
 
 <img src="/assets/diagrams/overall-architecture.png" style="width: 100%;"/>
 
@@ -25,7 +25,7 @@ network, ultimately leading to outputs that handle stuff like efficiently
 rendering things on screen.
 
 [start-app]: https://github.com/evancz/start-app
-[kpn]: http://en.wikipedia.org/wiki/Kahn_process_networks
+[kpn]: https://en.wikipedia.org/wiki/Kahn_process_networks
 
 <img src="/assets/diagrams/signals.png" style="width: 100%;"/>
 
@@ -84,7 +84,7 @@ Tasks also work like light-weight threads in Elm, so you can have a bunch of
 tasks running at the same time and the [runtime][rts] will hop between them if
 they are blocked.
 
-[rts]: http://en.wikipedia.org/wiki/Runtime_system
+[rts]: https://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
 requests with the [elm-http][] package, like looking up [zip codes][zip] and
@@ -213,7 +213,7 @@ main =
   show "Open the Developer Console of your browser."
 ```
 
-First, notice the infrequently-used backtick syntax which let’s us treat normal
+First, notice the infrequently-used backtick syntax which lets us treat normal
 functions as infix operators. As another example, `(add 3 4)` is the same as
 ``(3 `add` 4)``. So saying ``(getCurrentTime `andThen` print)`` is the same as
 saying `(andThen getCurrentTime print)`. The only thing is that it reads a bit

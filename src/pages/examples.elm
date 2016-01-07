@@ -2,7 +2,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 import Center
-import TopBar
+import Skeleton
 
 
 port title : String
@@ -11,9 +11,9 @@ port title =
 
 
 main =
-  div []
-    [ TopBar.topBar "examples"
-    , Center.markdown "600px" content
+  Skeleton.skeleton
+    "examples"
+    [ Center.markdown "600px" content
     , div [ Center.style "600px" ]
         [ view "Core" core
         , view "HTML" html

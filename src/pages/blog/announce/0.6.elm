@@ -31,17 +31,17 @@ I highly encourage you to at least read on to learn about the new time
 library because it brings a number of fundamentally new capabilities to Elm.
 There is also some cool news at the end!
 
-  [date]: http://docs.elm-lang.org/library/Date.elm "Date library"
+  [date]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Date "Date library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV Colors"
-  [color]: http://docs.elm-lang.org/library/Color.elm "Color library"
+  [color]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color library"
 
 These changes allowed a big rewrite of the [Pong in Elm][pong]
 [source code][code], making things generally much nicer. I also wrote a
 examples to illustrate the benefits of Elm 0.6 in this post and in two
 larger examples ([sliding circle][slide], [color wheel][wheel]).
 
-  [pong]:  /blog/Pong.elm
-  [code]:  /edit/examples/Intermediate/Pong.elm
+  [pong]:  /blog/making-pong
+  [code]:  /examples/pong
   [slide]: /edit/examples/Intermediate/Slide.elm "Sliding Circle"
   [wheel]: /edit/examples/Intermediate/ColorWheel.elm "Color Wheel"
 
@@ -186,7 +186,7 @@ This example can provide the basis for many slick animations.
 
 You can see the entire `Time` library [here].
 
-  [here]: http://docs.elm-lang.org/library/Time.elm "Time Library"
+  [here]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Time "Time Library"
 
 ## HSV Colors
 
@@ -206,7 +206,7 @@ For more information on using HSV colors see the
 [Color library documentation][lib] and the [Wikipedia page on HSV colors][hsv].
 
   [rgb]: http://en.wikipedia.org/wiki/RGB_color_model "RGB colors"
-  [lib]: http://docs.elm-lang.org/library/Color.elm "Color Library"
+  [lib]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color Library"
   [hsv]: http://en.wikipedia.org/wiki/HSL_and_HSV "HSV colors"
 
 ## Even more Signals
@@ -248,7 +248,7 @@ It is also quite easy to look up the `dayOfWeek` for a particular date. The `Day
 
 I suggest using this to verify the claims of potential savants. See [these docs][date] for information on the rest of the Date library.
 
-  [date]: http://docs.elm-lang.org/library/Date.elm "Date Library"
+  [date]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Date "Date Library"
 
 ## Miscellaneous Improvements
 

@@ -60,9 +60,6 @@ Elm. It means you can use Elm *and* keep using the same CSS and
 designer/developer workflow that you are comfortable with. It is simpler than
 ever to get the benefits of Elm in your project. Let&rsquo;s see how it works.
 
-[FRP]: /learn/What-is-FRP.elm
-[std]: package.elm-lang.org/packages/elm-lang/core/latest/
-
 ## Virtual DOM
 
 This library is based on the idea of a &ldquo;virtual DOM&rdquo;. Rather than
@@ -168,7 +165,7 @@ This is a pretty simple trick that can speed things up significantly.
 
 If you have been following Elm, you may begin to see a pattern:
 purity and immutability are kind of a big deal. Read about [hot-swapping in
-Elm](/blog/Interactive-Programming.elm) and the [time traveling
+Elm](/blog/interactive-programming) and the [time traveling
 debugger](http://debug.elm-lang.org/) to learn more about this.
 
 ## Reusable Widgets
