@@ -6,9 +6,9 @@ This section will walk you through Elm's simple core language. The aim is to bui
 To follow along [get everything installed](/install) and start up `elm repl` in the terminal. It should look like this:
 
 ```elm
-Elm REPL 0.4.1 (Elm Platform 0.15)
-  See usage examples at <https://github.com/elm-lang/elm-repl>
-  Type :help for help, :exit to exit
+---- elm repl 0.16.0 -----------------------------------------------------------
+ :help for help, :exit to exit, more at <https://github.com/elm-lang/elm-repl>
+--------------------------------------------------------------------------------
 >
 ```
 
@@ -23,13 +23,13 @@ Let's get started with some strings:
 
 ```elm
 > "hello"
-"hello"
+"hello" : String
 
 > "hello" ++ "world"
-"helloworld"
+"helloworld" : String
 
 > "hello" ++ " world"
-"hello world"
+"hello world" : String
 ```
 
 Elm uses the `(++)` operator to put strings together. Notice that both strings are preserved exactly as is when they are put together so when we combine `"hello"` and `"world"` the result has no spaces.
@@ -38,20 +38,20 @@ Math looks pretty normal too:
 
 ```elm
 > 2 + 3 * 4
-14
+14 : number
 
 > (2 + 3) * 4
-20
+20 : number
 ```
 
 Unlike JavaScript, Elm makes a distinction between integers and floating point numbers, so similar to Python, there is both floating point division `(/)` and integer division `(//)`.
 
 ```elm
 > 9 / 2
-4.5
+4.5 : Float
 
 > 9 // 2
-4
+4 : Int
 ```
 
 ## Functions
@@ -60,16 +60,16 @@ Let's start by writing a function `isNegative` that takes in some number and che
 
 ```elm
 > isNegative n = n < 0
-<function>
+<function> : number -> Bool
 
 > isNegative 4
-False
+False : Bool
 
 > isNegative -7
-True
+True : Bool
 
 > isNegative (-3 * -4)
-False
+False : Bool
 ```
 
 Notice that function application looks different than in languages like JavaScript and Python and Java. Instead of wrapping all arguments in parentheses and separating them with commas, we use spaces to apply the function. So `(add(3,4))` becomes `(add 3 4)` which ends up avoiding a bunch of parens and commas as things get bigger. Ultimately, this looks much cleaner once you get used to it! [The elm-html package][elm-html] is a good example of how this keeps things feeling light.
@@ -83,10 +83,10 @@ When you want to have conditional behavior in Elm, you use an if-expression.
 
 ```elm
 > if True then "hello" else "world"
-"hello"
+"hello" : String
 
 > if False then "hello" else "world"
-"world"
+"world" : String
 ```
 
 The keywords `if` `then` `else` are used to separate the conditional and the two branches so we do not need any parentheses or curly braces.
@@ -98,13 +98,13 @@ Now let's make a function that tells us if a number is over 9000.
 ```elm
 > over9000 powerLevel = \\
 |   if powerLevel > 9000 then "It's over 9000!!!" else "meh"
-<function>
+<function> : number -> String
 
 > over9000 42
-"meh"
+"meh" : String
 
 > over9000 100000
-"It's over 9000!!!"
+"It's over 9000!!!" : String
 ```
 
 Using a backslash in the REPL lets us split things on to multiple lines. We use this in the definition of `over9000` above. Furthermore, it is best practice to always bring the body of a function down a line. It makes things a lot more uniform and easy to read, so you want to do this with all the functions and values you define in normal code.
@@ -120,28 +120,28 @@ Lists can hold many values, and those values must all have the same type. Here a
 
 ```elm
 > names = [ "Alice", "Bob", "Chuck" ]
-["Alice","Bob","Chuck"]
+["Alice","Bob","Chuck"] : List String
 
 > List.isEmpty names
-False
+False : Bool
 
 > List.length names
-3
+3 : Int
 
 > List.reverse names
-["Chuck","Bob","Alice"]
+["Chuck","Bob","Alice"] : List String
 
 > numbers = [1,4,3,2]
-[1,4,3,2]
+[1,4,3,2] : List number
 
 > List.sort numbers
-[1,2,3,4]
+[1,2,3,4] : List number
 
 > double n = n * 2
-<function>
+<function> : number -> number
 
 > List.map double numbers
-[2,8,6,4]
+[2,8,6,4] : List number
 ```
 
 Again, the key thing is that all elements of the list have exactly the same type.
@@ -161,9 +161,10 @@ Tuples are another useful data structure. A tuple can hold a fixed number of val
 |     (True, "name accepted!") \\
 |   else \\
 |     (False, "name was too long; please limit it to 20 characters")
+<function> : String -> ( Bool, String )
 
 > goodName "Tom"
-(True, "name accepted!")
+(True, "name accepted!") : ( Bool, String )
 ```
 
 This can be quite handy, but when things start becoming more complicated, it is often best to use records instead of tuples.
@@ -176,39 +177,39 @@ A record is a set of key-value pairs, similar to objects in JavaScript or Python
 
 ```elm
 > point = { x = 3, y = 4 }
-{ x = 3, y = 4 }
+{ x = 3, y = 4 } : { x : number, y : number' }
 
 > point.x
-3
+3 : number
 
 > bill = { name = "Gates", age = 57 }
-{ age = 57, name = "Gates" }
+{ age = 57, name = "Gates" } : { age: number, name: String }
 
 > bill.name
-"Gates"
+"Gates" : String
 ```
 
 So we can create records using curly braces and access fields using a dot. Elm also has a version of record access that works like a function. By starting the variable with a dot, you are saying please access the field with the following name, so `.name` accesses the `name` field of the record.
 
 ```elm
 > .name bill
-"Gates"
+"Gates" : String
 
 > List.map .name [bill,bill,bill]
-["Gates","Gates","Gates"]
+["Gates","Gates","Gates"] : List String
 ```
 
 When it comes to making functions with records, you can do some pattern matching to make things a bit lighter.
 
 ```elm
 > under70 {age} = age < 70
-<function> 
+<function> : { a | age : number } -> Bool
 
 > under70 bill
-True
+True : Bool
 
 > under70 { species = "Triceratops", age = 68000000 }
-False
+False : Bool
 ```
 
 So we can pass any record in as long as it has an `age` field that holds a number.
@@ -217,10 +218,10 @@ It is often useful to update the values in a record.
 
 ```elm
 > { bill | name = "Nye" }
-{ age = 57, name = "Nye" }
+{ name = "Nye", age = 57 } : { age : number, name : String }
 
 > { bill | age = 22 }
-{ age = 22, name = "Gates" }
+{ name = "Gates", age = 22 } : { name String, age : number }
 ```
 
 It is important to notice that we do not make *destructive* updates. In other words, when we update some fields of `bill` we actually create a new record rather than overwriting the existing one. Elm makes this efficient by sharing as much content as possible. If you update one of ten fields, the new record will share all of the nine unchanged values.
@@ -239,4 +240,3 @@ Elm encourages a strict separation of data and logic, and the ability to say `th
 Records also support [structural typing][st] which means records in Elm can be used in any situation as long as the necessary fields exist. This gives us flexibility without compromising reliability.
 
  [st]: https://en.wikipedia.org/wiki/Structural_type_system "Structural Types"
-
