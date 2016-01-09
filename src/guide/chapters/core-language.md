@@ -6,9 +6,9 @@ This section will walk you through Elm's simple core language. The aim is to bui
 To follow along [get everything installed](/install) and start up `elm repl` in the terminal. It should look like this:
 
 ```elm
-Elm REPL 0.4.1 (Elm Platform 0.15)
-  See usage examples at <https://github.com/elm-lang/elm-repl>
-  Type :help for help, :exit to exit
+---- elm repl 0.16.0 -----------------------------------------------------------
+ :help for help, :exit to exit, more at <https://github.com/elm-lang/elm-repl>
+--------------------------------------------------------------------------------
 >
 ```
 
