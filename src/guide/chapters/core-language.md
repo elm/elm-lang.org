@@ -12,7 +12,7 @@ Elm REPL 0.4.1 (Elm Platform 0.15)
 >
 ```
 
-The REPL will print out the type of the result, but for the sake of introducing concepts gradually, we will leave them out in the REPL examples in this section.
+The REPL prints out the type of every result, but **we will leave the type annotations off in this tutorial** for the sake of introducing concepts gradually.
 
 We will cover [values](#values), [functions](#functions), [lists](#lists), [tuples](#tuples), and [records](#records) which all correspond pretty closely with structures in languages like JavaScript, Python, and Java.
 
