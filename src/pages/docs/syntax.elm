@@ -322,6 +322,9 @@ You can use as many commas as you want.
 ```elm
 module MyModule where
 
+-- module decleration exporting only foo and bar
+module MyModule (foo, bar) where
+
 -- qualified imports
 import List                    -- List.map, List.foldl
 import List as L               -- L.map, L.foldl
