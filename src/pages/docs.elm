@@ -33,6 +33,7 @@ quickStart = """
   * [Make an HTML app](https://github.com/evancz/start-app)
   * [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/)
   * [TodoMVC](https://github.com/evancz/elm-todomvc)
+  * [FAQ](http://elm-community.github.io/elm-faq/)
 
 ### References
 
