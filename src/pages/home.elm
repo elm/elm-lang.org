@@ -249,7 +249,7 @@ userSection =
     , fluidList 200 3
         [ company
             "NoRedInk"
-            "https://www.noredink.com/"
+            "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"
             "png"
         , company
             "CircuitHub"
@@ -265,12 +265,16 @@ userSection =
             "png"
         , company
             "Gizra"
-            "http://www.gizra.com/"
+            "http://www.gizra.com/content/thinking-choosing-elm/"
             "png"
         , company
             "TruQu"
             "https://truqu.com/"
             "png"
+        , company
+            "Futurice"
+            "http://futurice.com/blog/elm-in-the-real-world"
+            "svg"
         ]
     , p [ style [ "text-align" => "center", "color" => "#bbbbbb" ] ]
         [ text "Want to get featured? Let us know how your company uses Elm on "
