@@ -74,7 +74,7 @@ tasks in Elm:
 
   * [elm-http][] &mdash; talk to servers
   * [elm-history][] &mdash; navigate browser history
-  * [elm-storage][] &mdash; save info in the users browser
+  * [elm-storage][] &mdash; save info in the user's browser
 
 [elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
