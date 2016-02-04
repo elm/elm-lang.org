@@ -193,7 +193,7 @@ redirects =
     , "learn/Using-Signals.elm" ==> "/guide/reactivity" -- TODO
     , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
     , "learn/Components.elm" ==> "/guide/interop"
-    , "learn/Ports.elm" ==> "/guide/interop"
+    , "learn/Ports.elm" ==> "/guide/interop#ports"
     , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
     ]
 
