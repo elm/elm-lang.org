@@ -171,12 +171,23 @@ map .x [point,{x=0,y=0}]   -- field access function
     y = point.y + 1
 }
 
-dist {x,y} =               -- pattern matching on fields
-  sqrt (x^2 + y^2)
-
 type alias Location =      -- type aliases for records
   { line : Int
   , column : Int
+  }
+```
+
+You can destructure a record in a function signature or case expression,
+optionally keeping the reference to the record itself:
+
+```elm
+dist {x,y} =                            -- pattern matching on fields
+  sqrt (x^2 + y^2)
+
+prettify ({age, height} as person) =    -- pattern aliasing
+  { person |
+      age = String.toInt age,
+      height = String.toFloat height
   }
 ```
 
