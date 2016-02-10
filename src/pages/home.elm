@@ -194,7 +194,7 @@ examples =
       "https://github.com/w0rm/elm-flatris"
   , example
       "sketch-n-sketch"
-      "http://ravichugh.github.io/sketch-n-sketch/releases/v0.4/"
+      "http://ravichugh.github.io/sketch-n-sketch/releases/latest/"
       "https://github.com/ravichugh/sketch-n-sketch"
   ]
 
