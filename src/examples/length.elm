@@ -7,7 +7,7 @@ main =
 
 
 {-| Figure out the length of any list. To find the length of
-list [6,6,6] we need to know that that is pretty syntax for
+list [6,6,6] we need to know that it's just syntactic sugar for
 the expression (6 :: (6 :: (6 :: []))) where the :: operator
 is putting an element on the front of a list. Evaluation
 looks like this:
