@@ -262,9 +262,14 @@ within ball player =
 -- change the direction of a velocity based on collisions
 stepV : Float -> Bool -> Bool -> Float
 stepV v lowerCollision upperCollision =
-  if  | lowerCollision -> abs v
-      | upperCollision -> 0 - abs v
-      | otherwise      -> v
+  if lowerCollision then
+      abs v
+
+  else if upperCollision then
+      -(abs v)
+
+  else
+      v
 ```
 
 Okay, now that we have the boring functions, we can define step functions
