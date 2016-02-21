@@ -262,9 +262,14 @@ within ball player =
 -- change the direction of a velocity based on collisions
 stepV : Float -> Bool -> Bool -> Float
 stepV v lowerCollision upperCollision =
-  if  | lowerCollision -> abs v
-      | upperCollision -> 0 - abs v
-      | otherwise      -> v
+  if lowerCollision then
+      abs v
+
+  else if upperCollision then
+      -(abs v)
+
+  else
+      v
 ```
 
 Okay, now that we have the boring functions, we can define step functions
@@ -278,8 +283,8 @@ on how their velocities change.
 stepObj : Time -> Object a -> Object a
 stepObj t ({x,y,vx,vy} as obj) =
     { obj |
-        x <- x + vx * t,
-        y <- y + vy * t
+        x = x + vx * t,
+        y = y + vy * t
     }
 
 
@@ -287,13 +292,13 @@ stepObj t ({x,y,vx,vy} as obj) =
 stepBall : Time -> Ball -> Player -> Player -> Ball
 stepBall t ({x,y,vx,vy} as ball) player1 player2 =
   if not (ball.x |> near 0 halfWidth)
-    then { ball | x <- 0, y <- 0 }
+    then { ball | x = 0, y = 0 }
     else
       stepObj t
         { ball |
-            vx <-
+            vx =
               stepV vx (ball `within` player1) (ball `within` player2),
-            vy <-
+            vy =
               stepV vy (y < 7-halfHeight) (y > halfHeight-7)
         }
 
@@ -301,11 +306,11 @@ stepBall t ({x,y,vx,vy} as ball) player1 player2 =
 -- step a player forward, making sure it does not fly off the court
 stepPlyr : Time -> Int -> Int -> Player -> Player
 stepPlyr t dir points player =
-  let player' = stepObj t { player | vy <- toFloat dir * 200 }
+  let player' = stepObj t { player | vy = toFloat dir * 200 }
       y'      = clamp (22-halfHeight) (halfHeight-22) player'.y
       score'  = player.score + points
   in
-      { player' | y <- y', score <- score' }
+      { player' | y = y', score = score' }
 ```
 
 Now that we have the `stepBall` and `stepPlyr` helper functions, we can define
@@ -339,10 +344,10 @@ stepGame input game =
     player2' = stepPlyr delta paddle2 score2 player2
   in
       { game |
-          state   <- state',
-          ball    <- ball',
-          player1 <- player1',
-          player2 <- player2'
+          state   = state',
+          ball    = ball',
+          player1 = player1',
+          player2 = player2'
       }
 ```
 
