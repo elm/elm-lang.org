@@ -50,9 +50,8 @@ advancedStuff = """
 
 # Advanced Topics
 
-  * [Extensible Records][ext] &mdash; A full overview of how records work in Elm.
-    Gets into details of Daan Leijen's [paper][daan] that first described this
-    design.
+  * [Extensible Records][ext] &mdash; A full overview of how records work in Elm,
+    based on the design from a [paper][daan] by Daan Leijen.
 
   * [Taxonomy of FRP][taxonomy] &mdash; A talk that outlines the many flavors
     of FRP. It describes how they work, how they relate to each other, and how
