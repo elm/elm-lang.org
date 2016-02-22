@@ -26,11 +26,11 @@ We assume you have installed the Elm Platform using one of the methods from the
 The Elm platform comes with quite a few helpful tools to help you develop Elm programs.
 After a successful installation, they should be available on your machine:
 
-- [elm](#elm)
-- [elm-package](#elm-package)
-- [elm-make](#elm-make)
-- [elm-repl](#elm-repl)
-- [elm-reactor](#elm-reactor)
+- [`elm`](#elm)
+- [`elm-package`](#elm-package)
+- [`elm-make`](#elm-make)
+- [`elm-repl`](#elm-repl)
+- [`elm-reactor`](#elm-reactor)
 
 Let's go over them one by one:
 
@@ -41,7 +41,7 @@ Try opening a terminal and run `elm` to see the help message.
 
 ### elm-package
 
-[elm-package][] is a package managing tool for Elm, making it easy to install and publish packages
+[`elm-package`][] is a package managing tool for Elm, making it easy to install and publish packages
 to and from the [Elm Package Catalog](http://package.elm-lang.org/).
 This is a central home for community libraries that solve common problems.
 
@@ -65,7 +65,7 @@ the project name, author, license, dependencies, etc.
 
 ### elm-make
 
-[elm-make][] is a command line tool used to compile Elm programs to HTML
+[`elm-make`][] is a command line tool used to compile Elm programs to HTML
 and JavaScript. It is the most general way to compile Elm code, so if your
 project becomes too advanced for `elm-reactor` (see below) you may want to start using
 the compiler directly.
@@ -86,11 +86,11 @@ elm make Main.elm --output=index.html
 
 
 REPL stands for [read-eval-print-loop][repl] which lets you play with small
-Elm expressions. the [elm-repl][] can import code from your projects, so if you want
+Elm expressions. The [`elm-repl`][] can import code from your projects, so if you want
 to play around with a function buried deep inside a module, you can load it
 into the REPL and test it out. `elm-repl` eventually needs to evaluate
 JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
-to use it. Since [elm-repl][] only offers a command line interface, browser related functionality
+to use it. Since [`elm-repl`][] only offers a command line interface, browser related functionality
 will not work.
 
 #### Notable commands:
@@ -100,13 +100,13 @@ will not work.
 
 ### elm-reactor
 
-[elm-reactor][] is an interactive development tool for Elm.
+[`elm-reactor`][] is an interactive development tool for Elm.
 With elm-reactor you can run Elm programs without needing to compile them first.
 Also, elm-reactor offers [hot swapping][hs] and [time travel debugging][ttd].
 
 Running `elm reactor` will open a web server on address `0.0.0.0:8000`
 where you can visit using a browser and select the file you want to run.
-If you want to use elm-reactor's more advanced capabilities,
+If you want to use `elm-reactor`'s more advanced capabilities,
 press the wrench on the left next to the name of the file.
 The reactor will open the file and display a column on the right
 which offers a way to use those capabilities.
@@ -157,7 +157,7 @@ started with.
 
 The easiest way to get started with Elm is from the [Examples page](/examples).
 It has a few small Elm programs that are great to learn from and fun to
-play with in the [Online Editor][OE] or [Elm Reactor][elm-reactor].
+play with in the [Online Editor][OE] or [Elm Reactor][`elm-reactor`].
 
 
 
@@ -208,10 +208,10 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 [Elm]: http://elm-lang.org
 [OE]: /try
 [documentation]: /docs
-[elm-package]: https://github.com/elm-lang/elm-package
-[elm-make]: https://github.com/elm-lang/elm-make
-[elm-repl]: https://github.com/elm-lang/elm-repl
-[elm-reactor]: https://github.com/elm-lang/elm-reactor
+[`elm-package`]: https://github.com/elm-lang/elm-package
+[`elm-make`]: https://github.com/elm-lang/elm-make
+[`elm-repl`]: https://github.com/elm-lang/elm-repl
+[`elm-reactor`]: https://github.com/elm-lang/elm-reactor
 [hs]: /blog/interactive-programming
 [ttd]: http://debug.elm-lang.org/
 [ECG]: /guide/core-language

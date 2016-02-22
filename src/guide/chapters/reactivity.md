@@ -17,14 +17,14 @@ We get a lot of benefits by cleanly separating out these services. Most obviousl
 
 Signals route events in the core logic of your application, which should use
 [the Elm Architecture][arch]. So far we have hidden these details with the
-[start-app][] package, which is just a very simple wrapper around signals.
+[`start-app`][] package, which is just a very simple wrapper around signals.
 
 You can think of signals as setting up a static [processing network][kpn],
 where a fixed set of inputs receive messages that propagate through the
 network, ultimately leading to outputs that handle stuff like efficiently
 rendering things on screen.
 
-[start-app]: https://github.com/evancz/start-app
+[`start-app`]: https://github.com/evancz/start-app
 [kpn]: https://en.wikipedia.org/wiki/Kahn_process_networks
 
 <img src="/assets/diagrams/signals.png" style="width: 100%;"/>
@@ -72,13 +72,13 @@ Tasks make it easy to describe asynchronous operations that may fail, like
 HTTP requests or writing to a database. Tons of browser APIs are described as
 tasks in Elm:
 
-  * [elm-http][] &mdash; talk to servers
-  * [elm-history][] &mdash; navigate browser history
-  * [elm-storage][] &mdash; save info in the users browser
+  * [`elm-http`][] &mdash; talk to servers
+  * [`elm-history`][] &mdash; navigate browser history
+  * [`elm-storage`][] &mdash; save info in the users browser
 
-[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
-[elm-history]: https://github.com/TheSeamau5/elm-history/
-[elm-storage]: https://github.com/TheSeamau5/elm-storage/
+[`elm-http`]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
+[`elm-history`]: https://github.com/TheSeamau5/elm-history/
+[`elm-storage`]: https://github.com/TheSeamau5/elm-storage/
 
 Tasks also work like light-weight threads in Elm, so you can have a bunch of
 tasks running at the same time and the [runtime][rts] will hop between them if
@@ -87,7 +87,7 @@ they are blocked.
 [rts]: https://en.wikipedia.org/wiki/Runtime_system
 
 This tutorial is going to slowly build up to some realistic examples of HTTP
-requests with the [elm-http][] package, like looking up [zip codes][zip] and
+requests with the [`elm-http`][] package, like looking up [zip codes][zip] and
 querying [flickr][]. This API is a ton nicer than XMLHttpRequest and has some
 benefits over JavaScript&rsquo;s promises when it comes to error handling. But
 like I said, we will build up to this slowly so stick with this tutorial until
@@ -324,7 +324,7 @@ useful example!
 ### HTTP Tasks
 
 One of the most common things you will want to do in a web app is talk to
-servers. The [elm-http][] library provides everything you need for that, so
+servers. The [`elm-http`][] library provides everything you need for that, so
 let&rsquo;s try to get a feel for how it works with the `Http.getString`
 function.
 
@@ -386,7 +386,7 @@ get the resource at `readmeUrl`. If we succeed, we `report` it to the `readme`
 mailbox. If we fail, the whole chain of tasks fails and no message is sent.
 
 So assuming the server holding the README responds, we will see a blank screen turn
-into the contents of the elm-lang/core readme!
+into the contents of the `elm-lang/core` readme!
 
 
 ### More Chaining
@@ -429,7 +429,7 @@ main =
   show "Open the Developer Console of your browser."
 ```
 
-This reads fairly naturally. Get the current time, run the fibonacci function,
+This reads fairly naturally. Get the current time, run the `fibonacci` function,
 get the current time again, and then succeed with the difference between the
 start and end time.
 
