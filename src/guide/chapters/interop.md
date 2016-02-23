@@ -11,7 +11,7 @@ Elm can be embedded directly in a `<div>`. This lets you easily integrate Elm in
 Say you have a simple program [`Stamper.elm`](https://gist.github.com/evancz/8456627#file-stamper-elm) that lets you [stamp shapes by clicking](/examples/stamps). Compile it with:
 
 ```bash
-elm-make Stamper.elm
+elm-make Stamper.elm --output elm.js
 ```
 
 This will result in a file named `elm.js`. This JS file contains everything necessary for embedding in HTML.
