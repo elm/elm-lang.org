@@ -294,7 +294,6 @@ Let’s do a small example that uses `Mailbox` and `send`.
 ```elm
 import Graphics.Element exposing (Element, show)
 import Task exposing (Task, andThen)
-import TaskTutorial exposing (getCurrentTime, print)
 
 
 main : Signal Element
