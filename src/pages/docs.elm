@@ -112,6 +112,10 @@ outline =
       [ "HTML Embedding"
       , "Ports"
       ]
+   , viewChapter <| local
+      "Contributing"
+      [ "Elm Platform"
+      ]
   ]
 
 
