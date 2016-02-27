@@ -157,6 +157,7 @@ html =
       [ "dynamic list" => Foreign "https://github.com/evancz/elm-architecture-tutorial/"
       , "sign up" ==> "sign-up"
       , "todo list" => Foreign "https://github.com/evancz/elm-todomvc"
+      , "Hedley (single page app)" => Foreign "https://github.com/Gizra/elm-hedley"
       ]
   ]
 
@@ -209,6 +210,5 @@ games =
       , "Maze" => Foreign "https://github.com/Dobiasd/Maze#maze--play-it"
       , "Concentration" => Foreign "https://github.com/Dobiasd/Demoscene-Concentration"
       , "Froggy" => Foreign "https://github.com/thSoft/froggy"
-      , "Hedley" => Foreign "https://github.com/Gizra/elm-hedley"
       ]
   ]
