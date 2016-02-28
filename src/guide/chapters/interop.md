@@ -31,7 +31,7 @@ The `Elm.embed` function takes two arguments:
   1. An Elm module. All modules are prefixed with `Elm` in JavaScript to avoid namespace pollution, so our `Stamper` module becomes `Elm.Stamper`. 
   2. A `<div>` to embed the program in.
 
-That's it!
+That&rsquo;s it!
 
 Note that `Window.dimensions` and `Mouse.position` will be relative to the `<div>`, not the entire page. This means the `Stamper` code still fills the `<div>` entirely and handles clicks appropriately.
 

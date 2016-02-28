@@ -1,7 +1,7 @@
 
 # Core Language
 
-This section will walk you through Elm's simple core language. The aim is to build a strong understanding of the basics so you have a good foundation when you start working with graphics and interactivity.
+This section will walk you through Elm&rsquo;s simple core language. The aim is to build a strong understanding of the basics so you have a good foundation when you start working with graphics and interactivity.
 
 To follow along [get everything installed](/install) and start up `elm repl` in the terminal. It should look like this:
 
@@ -19,7 +19,7 @@ We will cover [values](#values), [functions](#functions), [lists](#lists), [tupl
 
 ## Values
 
-Let's get started with some strings:
+Let&rsquo;s get started with some strings:
 
 ```elm
 > "hello"
@@ -56,7 +56,7 @@ Unlike JavaScript, Elm makes a distinction between integers and floating point n
 
 ## Functions
 
-Let's start by writing a function `isNegative` that takes in some number and checks if it is less than zero. The result will be `True` or `False`.
+Let&rsquo;s start by writing a function `isNegative` that takes in some number and checks if it is less than zero. The result will be `True` or `False`.
 
 ```elm
 > isNegative n = n < 0
@@ -93,7 +93,7 @@ The keywords `if` `then` `else` are used to separate the conditional and the two
 
 It is important to note that Elm does not have a notion of &ldquo;truthiness&rdquo; as in many dynamic languages, where numbers and strings and lists all can be used as boolean values. If we try it out, Elm will tell us that we need to work with a real boolean value.
 
-Now let's make a function that tells us if a number is over 9000.
+Now let&rsquo;s make a function that tells us if a number is over 9000.
 
 ```elm
 > over9000 powerLevel = \\
