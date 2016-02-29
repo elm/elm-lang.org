@@ -72,6 +72,8 @@ port addUser : Signal (String, UserRecord)
 This means we now have a signal in Elm called `addUser` that is updated by some code in JavaScript. To actually send messages to this port, we would write something like this in JavaScript:
 
 ```javascript
+var myapp = Elm.fullscreen(Elm.Main, [{ addUser: "", { age: 0, job: "" } }]);
+
 myapp.ports.addUser.send([
     "Tom",
     { age: 32, job: "lumberjack" }
