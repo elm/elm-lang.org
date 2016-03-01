@@ -51,7 +51,9 @@ view : Address Action -> Model -> Html
 view address model =
   let
     validationMessage =
-      if model.password == model.passwordAgain then
+      if model.password == "" && model.passwordAgain == "" then
+        span [style [("color", "orange")]] [text "Please enter a password"]
+      else if model.password == model.passwordAgain then
         span [style [("color", "green")]] [text "Passwords Match!"]
       else
         span [style [("color", "red")]] [text "Passwords do not match :("]
