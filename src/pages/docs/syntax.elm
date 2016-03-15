@@ -408,17 +408,6 @@ More example uses can be found
 [here](https://github.com/evancz/elm-html-and-js)
 and [here](https://gist.github.com/evancz/8521339).
 
-Elm has some built-in port handlers that automatically take some
-imperative action:
-
- * `title` sets the page title, ignoring empty strings
- * `log` logs messages to the developer console
- * `redirect` redirects to a different page, ignoring empty strings
-
-Experimental port handlers:
-
- * `favicon` sets the pages favicon
- * `stdout` logs to stdout in node.js and to console in browser
- * `stderr` logs to stderr in node.js and to console in browser
+Elm has some built-in port handlers that are documented on the [interop](/guide/interop) page.
 
 """
