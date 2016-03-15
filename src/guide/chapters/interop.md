@@ -28,7 +28,7 @@ Elm.embed(Elm.Stamper, div);
 
 The `Elm.embed` function takes two arguments:
 
-  1. An Elm module. All modules are prefixed with `Elm` in JavaScript to avoid namespace pollution, so our `Stamper` module becomes `Elm.Stamper`. 
+  1. An Elm module. All modules are prefixed with `Elm` in JavaScript to avoid namespace pollution, so our `Stamper` module becomes `Elm.Stamper`.
   2. A `<div>` to embed the program in.
 
 That's it!
@@ -85,6 +85,16 @@ myapp.ports.addUser.send([
 
 This sends two updates to Elm, automatically converting to values that work well in Elm.
 
+
+### Initial Value
+
+When using a port, you must provide an initial value.
+
+```javascript
+Elm.fullscreen(Elm.Stamper, {
+  addUser: ["", {}]
+});
+```
 
 ### From Elm to JavaScript
 
