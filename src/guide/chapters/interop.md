@@ -133,3 +133,18 @@ The particular types that can be sent in and out of ports is quite flexible, cov
   * **Json**    &ndash; [`Json.Encode.Value`](http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Encode#Value) corresponds to arbitrary JSON
 
 All conversions are symmetric and type safe. If someone tries to give a badly typed value to Elm it will throw an error in JS immediately. By having a border check like this, Elm code can continue to guarantee that you will never have type errors at runtime.
+
+### Built-in Port Handlers
+
+Elm has some built-in port handlers that automatically take some
+imperative action:
+
+ * `title` sets the page title, ignoring empty strings
+ * `log` logs messages to the developer console
+ * `redirect` redirects to a different page, ignoring empty strings
+
+Experimental port handlers:
+
+ * `favicon` sets the pages favicon
+ * `stdout` logs to stdout in node.js and to console in browser
+ * `stderr` logs to stderr in node.js and to console in browser
