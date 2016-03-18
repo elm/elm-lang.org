@@ -111,22 +111,24 @@ view (w',h') mario =
 
     marioImage =
       image 35 35 src
+    marioPivotY = 13
+    marioPosition =
+      (mario.x, groundY + mario.y + marioPivotY)
 
-    groundY = 62 - h/2
-
-    position =
-      (mario.x, mario.y + groundY)
+    groundH = 62
+    groundY = groundH - h/2
   in
     collage w' h'
       [ rect w h
           |> filled (rgb 174 238 238)
-      , rect w 50
+      , rect w (groundH)
           |> filled (rgb 74 167 43)
-          |> move (0, 24 - h/2)
+          |> move (0, groundH/2 - h/2)
       , marioImage
           |> toForm
-          |> move position
+          |> move marioPosition
       ]
+
 
 
 -- SIGNALS
