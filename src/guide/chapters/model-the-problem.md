@@ -31,6 +31,8 @@ book =
   { title = "Demian", author = "Hesse", pages = 176 }
 ```
 
+> **Note:** These type annotations won't work if you try to type them in `elm-repl`. If you want to try them out: put your functions in a separate `A.elm` file, write `module A where` above their definitions, run `elm-repl` from that file's directory, and then type `import A exposing (..)` inside the REPL. The code in `A.elm` will then be compiled and type-checked every time you enter an expression in the REPL; in other words, you don't have to restart `elm-repl` every time you make changes.
+
 Here we are just describing the general shape of the data we are working with. `fortyTwo` is an integer, `names` is a list of strings, and `book` is a record with certain fields. Nothing crazy, just describing the shape of our data. This becomes much more valuable when you start using it with functions, where in many languages, getting the wrong kind of data can lead to a crash!
 
 ```elm
