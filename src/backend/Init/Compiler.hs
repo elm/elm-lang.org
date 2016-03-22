@@ -29,7 +29,9 @@ import Init.Helpers (make, write)
 import qualified Init.FileTree as FT
 
 
+
 -- INITIALIZE THE COMPILER
+
 
 init :: IO (String -> Either Json.Value (String, String))
 init =
@@ -47,7 +49,7 @@ init =
 
 
 compile
-    :: Map.Map Module.CanonicalName Module.Interface
+    :: Map.Map Module.Canonical Module.Interface
     -> String
     -> Either Json.Value (String, String)
 compile interfaces =
@@ -61,7 +63,7 @@ compile interfaces =
               jsonErr Compiler.dummyLocalizer
                   (Compiler.parseDependencies elmSource)
 
-          let context = Compiler.Context (Pkg.Name "evancz" "elm-lang") True False dependencyNames
+          let context = Compiler.Context (Pkg.Name "user" "WEBSITE") False dependencyNames
 
           let (localizer, _warnings, result) =
                 Compiler.compile context elmSource interfaces
@@ -117,9 +119,11 @@ compilerCrash msg =
   (Text.pack field, Json.toJSON value)
 
 
+
 -- GET ALL RELEVANT INTERFACES
 
-getInterfaces :: ExceptT String IO (Map.Map Module.CanonicalName Module.Interface)
+
+getInterfaces :: ExceptT String IO (Map.Map Module.Canonical Module.Interface)
 getInterfaces =
   do  Utils.run "elm-package" ["install", "--yes"]
 
@@ -140,7 +144,7 @@ getInterfaces =
 
 readDependencies
     :: (Pkg.Name, Pkg.Version)
-    -> ExceptT String IO (Pkg.Name, Pkg.Version, [Module.Name])
+    -> ExceptT String IO (Pkg.Name, Pkg.Version, [Module.Raw])
 readDependencies (name, version) =
   do  desc <- Desc.read path
       return (name, version, Desc.exposed desc)
@@ -153,7 +157,7 @@ readDependencies (name, version) =
           </> "elm-package.json"
 
 
-toElmSource :: [(Pkg.Name, Pkg.Version, [Module.Name])] -> String
+toElmSource :: [(Pkg.Name, Pkg.Version, [Module.Raw])] -> String
 toElmSource deps =
   let toImportList (_, _, exposedModules) =
           concatMap toImport exposedModules
@@ -166,7 +170,7 @@ toElmSource deps =
 
 readInterfaces
     :: (Pkg.Name, Pkg.Version)
-    -> ExceptT String IO [(Module.CanonicalName, Module.Interface)]
+    -> ExceptT String IO [(Module.Canonical, Module.Interface)]
 readInterfaces package@(pkgName,_) =
   do  let directory = buildArtifactsFor package
       contents <- liftIO (getDirectoryContents directory)
@@ -183,11 +187,11 @@ buildArtifactsFor (name, version) =
     </> Pkg.versionToString version
 
 
-isElmi :: Pkg.Name -> FilePath -> Maybe (FilePath, Module.CanonicalName)
+isElmi :: Pkg.Name -> FilePath -> Maybe (FilePath, Module.Canonical)
 isElmi pkg file =
   case splitExtension file of
     (name, ".elmi") ->
-        fmap ((,) file . Module.canonicalName pkg) (Module.dehyphenate name)
+        fmap ((,) file . Module.Canonical pkg) (Module.dehyphenate name)
 
     _ ->
         Nothing
@@ -195,8 +199,8 @@ isElmi pkg file =
 
 readInterface
     :: FilePath
-    -> (FilePath, Module.CanonicalName)
-    -> ExceptT String IO (Module.CanonicalName, Module.Interface)
+    -> (FilePath, Module.Canonical)
+    -> ExceptT String IO (Module.Canonical, Module.Interface)
 readInterface directory (file, name) =
   do  bits <- liftIO (LBS.readFile (directory </> file))
       case Binary.decodeOrFail bits of
