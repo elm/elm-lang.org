@@ -1,5 +1,5 @@
 name: elm-website
-version: 0.1.0.2
+version: 1.0.0
 
 synopsis:
   elm-lang.org web site
@@ -13,7 +13,7 @@ license-file: LICENSE
 
 author:     Evan Czaplicki
 maintainer: info@elm-lang.org
-copyright:  (c) 2012-2014 Evan Czaplicki
+copyright:  (c) 2012-2016 Evan Czaplicki
 
 build-type: Simple
 
@@ -39,7 +39,7 @@ executable run-elm-website
     containers,
     cmdargs,
     directory,
-    elm-compiler >= 0.16 && < 0.17,
+    elm-compiler == 0.17,
     elm-package,
     filepath,
     mtl >= 2.2.1 && < 3,
