@@ -17,7 +17,6 @@ import qualified Text.Blaze.Html.Renderer.Utf8 as Blaze
 
 import qualified Generate
 import qualified Init.FileTree as FT
-import qualified Init.Guide as Guide
 
 
 router
@@ -36,8 +35,7 @@ router compiler pages =
   where
     routes =
         -- top-bar routes
-        [ ("guide", guide)
-        , ("examples/:name", examples)
+        [ ("examples/:name", examples)
 
         -- discoverable routes
         , ("try", try)
@@ -59,17 +57,6 @@ servePages pairs =
     servePage (path, html) =
         ( Utf8.fromString path
         , ifTop (serveFile html)
-        )
-
-
-guide :: Snap ()
-guide =
-  ifTop pass
-    <|> route (map chapterToRoute Guide.chapters)
-  where
-    chapterToRoute name =
-        ( Utf8.fromString name
-        , ifTop (serveFile (FT.file ["guide","html"] name "html"))
         )
 
 
@@ -194,6 +181,7 @@ redirects =
     , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
     , "learn/Components.elm" ==> "/guide/interop"
     , "learn/Ports.elm" ==> "/guide/interop"
+    -- TODO /guide/* ==> new home
     , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
     ]
 
