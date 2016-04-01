@@ -6,10 +6,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm Docs"
-
 
 main =
   Skeleton.skeleton
@@ -75,7 +71,7 @@ advancedStuff = """
 """
 
 
-outline : List Html
+outline : List (Html msg)
 outline =
   [ viewChapter <| local
       "Core Language"
@@ -139,7 +135,7 @@ local title sections =
 type alias Link = { name : String, url : String }
 
 
-viewChapter : (Link, List Link) -> Html
+viewChapter : (Link, List Link) -> Html msg
 viewChapter (title, sections) =
   let
     viweSection section =

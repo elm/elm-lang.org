@@ -8,10 +8,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm"
-
 
 main =
   Skeleton.skeleton "home"
@@ -91,7 +87,7 @@ htmlSection =
 -- FEATURES
 
 
-bulletSection : Html
+bulletSection : Html msg
 bulletSection =
   section []
     [ h1
@@ -101,7 +97,7 @@ bulletSection =
     ]
 
 
-bullets : List (List Html)
+bullets : List (List (Html msg))
 bullets =
   [ [ h2 [] [ text "No runtime exceptions"]
     , p [] [text "Yes, you read that right, no runtime exceptions. Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
@@ -153,7 +149,7 @@ bullets =
 -- EXAMPLES
 
 
-exampleSection : Html
+exampleSection : Html msg
 exampleSection =
   section []
     [ h1
@@ -170,7 +166,7 @@ exampleSection =
     ]
 
 
-examples : List (List Html)
+examples : List (List (Html msg))
 examples =
   [ example
       "todomvc"
@@ -199,7 +195,7 @@ examples =
   ]
 
 
-example : String -> String -> String -> List Html
+example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
   [ a [ href demo, style ["display" => "block"] ]
       [ img [src ("/assets/examples/" ++ imgSrc ++ ".png")] []
@@ -214,7 +210,7 @@ example imgSrc demo code =
 -- FLUID LIST
 
 
-fluidList : Int -> Int -> List (List Html) -> Html
+fluidList : Int -> Int -> List (List (Html msg)) -> Html msg
 fluidList itemWidth maxColumns itemList =
   let
     toPx : Int -> String
@@ -240,7 +236,7 @@ fluidList itemWidth maxColumns itemList =
 -- USERS
 
 
-userSection : Html
+userSection : Html msg
 userSection =
   section []
     [ h1

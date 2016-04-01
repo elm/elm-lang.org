@@ -5,10 +5,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm Examples"
-
 
 main =
   Skeleton.skeleton
@@ -43,7 +39,7 @@ you see new syntax or features!
 (=>) = (,)
 
 
-view : String -> List Section -> Html
+view : String -> List Section -> Html msg
 view title sections =
   div
     [ class "examples"
@@ -54,7 +50,7 @@ view title sections =
     ]
 
 
-viewSection : Section -> Html
+viewSection : Section -> Html msg
 viewSection (title, examples) =
   li []
     [ text title
@@ -62,7 +58,7 @@ viewSection (title, examples) =
     ]
 
 
-viewExample : (String, Example) -> Html
+viewExample : (String, Example) -> Html msg
 viewExample (name, example) =
   let
     url =

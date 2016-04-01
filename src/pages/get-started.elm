@@ -5,14 +5,11 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Get Started"
-
-
 main =
   Blog.docs
     "Get Started"
     [ Center.markdown "600px" content ]
+
 
 content = """
 

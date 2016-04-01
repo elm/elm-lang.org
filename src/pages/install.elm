@@ -5,11 +5,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Install Elm"
-
-
 main =
   Skeleton.skeleton "install"
     [ Center.markdown "600px" install
