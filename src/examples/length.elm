@@ -1,9 +1,8 @@
-
-import Graphics.Element exposing (show)
+import Html exposing (text)
 
 
 main =
-  show (length [1..9])
+  text (toString (length [1..9]))
 
 
 {-| Figure out the length of any list. To find the length of

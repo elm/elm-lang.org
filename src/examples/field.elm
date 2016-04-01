@@ -1,34 +1,32 @@
-import Html exposing (Html, Attribute, text, toElement, div, input)
+import Html exposing (Html, Attribute, text, div, input)
+import Html.App exposing (beginnerProgram)
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, targetValue)
-import Signal exposing (Address)
-import StartApp.Simple as StartApp
+import Html.Events exposing (onInput)
 import String
 
 
 main =
-  StartApp.start { model = "", view = view, update = update }
+  beginnerProgram { model = "", view = view, update = update }
 
 
-update newStr oldStr =
-  newStr
+-- UPDATE
+
+type Msg = NewContent String
+
+update (NewContent content) oldContent =
+  content
 
 
-view : Address String -> String -> Html
-view address string =
+-- VIEW
+
+view : String -> Html Msg
+view content =
   div []
-    [ input
-        [ placeholder "Text to reverse"
-        , value string
-        , on "input" targetValue (Signal.message address)
-        , myStyle
-        ]
-        []
-    , div [ myStyle ] [ text (String.reverse string) ]
+    [ input [ placeholder "Text to reverse", onInput NewContent, myStyle ] []
+    , div [ myStyle ] [ text (String.reverse content) ]
     ]
 
-
-myStyle : Attribute
+myStyle : Attribute msg
 myStyle =
   style
     [ ("width", "100%")

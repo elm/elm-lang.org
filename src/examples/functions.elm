@@ -1,13 +1,13 @@
-import Graphics.Element exposing (show)
+import Html exposing (text)
 
 
--- The 'sqrt' function takes one argument. It figures out
+-- The `sqrt` function takes one argument. It figures out
 -- the square root of a number.
 four =
   sqrt 16
 
 
--- The 'max' function takes two arguments. It tells you which
+-- The `max` function takes two arguments. It tells you which
 -- of the two arguments is bigger.
 eleven =
   max 2 11
@@ -26,8 +26,5 @@ twenty =
   max (sqrt 100) (4 * 5)
 
 
--- The 'show' function takes one argument. It turns any value into
--- something we can show on screen. In this case, we are giving a
--- list of numbers.
 main =
-  show [four, eleven, twenty]
+  text (toString [four, eleven, twenty])

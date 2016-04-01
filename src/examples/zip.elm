@@ -1,10 +1,10 @@
-import Graphics.Element exposing (show)
+import Html exposing (text)
 
 
 -- Zip two lists together. In this case, we are pairing up
 -- names and ages.
 main =
-  show (zip ["Tom", "Sue", "Bob"] [45, 31, 26])
+  text (toString (zip ["Tom", "Sue", "Bob"] [45, 31, 26]))
 
 
 {-| The zip function takes in two lists and returns a combined
