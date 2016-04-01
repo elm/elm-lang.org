@@ -2,7 +2,7 @@ module Init.Helpers (isOutdated, make, makeWithStyle, write) where
 
 import Control.Monad.Except (runExceptT, when)
 import System.Directory (doesFileExist, getModificationTime, removeFile)
-import System.FilePath (splitExtension)
+import System.FilePath (splitExtension, takeBaseName)
 import System.Exit (exitFailure)
 import System.IO (hFlush, hPutStr, hPutStrLn, stderr, stdout)
 import qualified Text.Blaze.Html.Renderer.String as Blaze
@@ -37,7 +37,7 @@ makeWithStyle input output =
               ".html" ->
                 do  jsSource <- readFile jsOutput
                     writeFile output
-                        (Blaze.renderHtml (Generate.serverHtml name jsSource))
+                        (Blaze.renderHtml (Generate.serverHtml (takeBaseName output) jsSource))
                     removeFile jsOutput
 
       return outdated
