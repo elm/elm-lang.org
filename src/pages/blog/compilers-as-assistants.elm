@@ -5,11 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title =
-  "Compilers as Assistants"
-
-
 main =
   Blog.blog
     "Compilers as Assistants"

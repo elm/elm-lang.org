@@ -5,11 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title =
-  "New Adventures for Elm"
-
-
 main =
   Blog.blog
     "New Adventures for Elm"
