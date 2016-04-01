@@ -5,6 +5,7 @@ import Control.Monad (when)
 import Data.Aeson ((.=))
 import qualified Data.Aeson as Json
 import qualified Data.ByteString.Lazy.Char8 as LBS
+import qualified Data.Text.Lazy as LazyText
 import qualified Text.Blaze as Blaze
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
@@ -13,7 +14,7 @@ import qualified Text.Blaze.Html5.Attributes as A
 
 -- JS
 
-js :: Either Json.Value (String,String) -> Json.Value
+js :: Either Json.Value (String, LazyText.Text) -> Json.Value
 js result =
   Json.object $
   case result of
@@ -32,10 +33,10 @@ serverHtml :: String -> String -> H.Html
 serverHtml name jsSource =
     htmlSkeleton False name $
       do  H.script $ Blaze.preEscapedToMarkup jsSource
-          H.script "var runningElmModule = Elm.fullscreen(Elm.Main);"
+          H.script "var runningElmModule = Elm.Main.fullscreen();"
 
 
-userHtml :: Either Json.Value (String, String) -> H.Html
+userHtml :: Either Json.Value (String, LazyText.Text) -> H.Html
 userHtml compilerResult =
   case compilerResult of
     Right (moduleName, jsSource) ->
@@ -69,7 +70,7 @@ scripts moduleName jsSource =
   do  H.script ! A.src "/editor/everything.js" $ ""
       H.script $ Blaze.preEscapedToMarkup jsSource
       H.script $ Blaze.preEscapedToMarkup $
-          "var runningElmModule = Elm.fullscreen(Elm." ++  moduleName ++ ");"
+          "var runningElmModule = Elm." ++  moduleName ++ ".fullscreen();"
 
 
 -- CREATE HTML DOCUMENTS

@@ -5,6 +5,7 @@ import Control.Applicative ((<|>))
 import Control.Monad.Trans (liftIO)
 import qualified Data.Aeson as Json
 import qualified Data.ByteString.UTF8 as Utf8
+import qualified Data.Text.Lazy as LazyText
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, redirect'
     , route, setContentType, setResponseStatus, writeBuilder, writeLBS
@@ -20,7 +21,7 @@ import qualified Init.FileTree as FT
 
 
 router
-    :: (String -> Either Json.Value (String,String))
+    :: (String -> Either Json.Value (String, LazyText.Text))
     -> [(FilePath,FilePath)]
     -> Snap ()
 router compiler pages =
@@ -101,13 +102,13 @@ code =
       serveIfExists (FT.file ["examples","code"] name "html")
 
 
-compile :: (String -> Either Json.Value (String,String)) -> Snap ()
+compile :: (String -> Either Json.Value (String, LazyText.Text)) -> Snap ()
 compile compiler =
   do  elmSource <- demandParam "input"
       serveHtml (Generate.userHtml (compiler elmSource))
 
 
-hotswap :: (String -> Either Json.Value (String,String)) -> Snap ()
+hotswap :: (String -> Either Json.Value (String, LazyText.Text)) -> Snap ()
 hotswap compiler =
   do  elmSource <- demandParam "input"
       modifyResponse $ setContentType "application/javascript"

@@ -13,6 +13,7 @@ import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 import qualified Data.Text as Text
+import qualified Data.Text.Lazy as LazyText
 import qualified Elm.Compiler as Compiler
 import qualified Elm.Compiler.Module as Module
 import qualified Elm.Package as Pkg
@@ -33,7 +34,7 @@ import qualified Init.FileTree as FT
 -- INITIALIZE THE COMPILER
 
 
-init :: IO (String -> Either Json.Value (String, String))
+init :: IO (String -> Either Json.Value (String, LazyText.Text))
 init =
   do  write "Setting up compiler ..."
       result <- runExceptT getInterfaces
@@ -51,7 +52,7 @@ init =
 compile
     :: Map.Map Module.Canonical Module.Interface
     -> String
-    -> Either Json.Value (String, String)
+    -> Either Json.Value (String, LazyText.Text)
 compile interfaces =
   let
     dependencyNames =
@@ -82,8 +83,8 @@ jsonErr localizer result =
     either (Left . Json.toJSON . map toJson) Right result
 
 
-try :: Either Json.Value (String, String)
-    -> Either Json.Value (String, String)
+try :: Either Json.Value (String, LazyText.Text)
+    -> Either Json.Value (String, LazyText.Text)
 try either =
   let
     giveError e =
