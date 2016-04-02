@@ -146,7 +146,7 @@ All the users are turned into image resources. So we saw a relatively simple sta
 
 ## Tagged Unions
 
-Now lets try to put together a bunch of *different* types of data in a coherent way.
+Now let's try to put together a bunch of *different* types of data in a coherent way.
 
 > **Note:** These are sometimes called [tagged unions](https://en.wikipedia.org/wiki/Tagged_union) (or [ADTs](https://en.wikipedia.org/wiki/Algebraic_data_type) in certain communities).
 
