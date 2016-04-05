@@ -1,214 +1,174 @@
-module Init.Compiler (init) where
+module Init.Compiler (init, compile) where
 
--- make something that depends on literally everything
--- read all the resulting interfaces
--- return a "compile" function and a .js file of all the stuff
-
-import Control.Monad.Except (ExceptT, liftIO, runExceptT, throwError)
-import Control.Exception (SomeException, catch)
+import Control.Exception (SomeException, bracket, try)
 import qualified Data.Aeson as Json
 import qualified Data.Aeson.Types as Json
-import qualified Data.Binary as Binary
-import qualified Data.ByteString.Lazy as LBS
-import qualified Data.Map as Map
-import qualified Data.Maybe as Maybe
+import qualified Data.ByteString.Lazy.UTF8 as BS
 import qualified Data.Text as Text
-import qualified Data.Text.Lazy as LazyText
-import qualified Elm.Compiler as Compiler
-import qualified Elm.Compiler.Module as Module
+import qualified Data.Time.Clock.POSIX as Time
+import qualified Elm.Compiler as Elm
 import qualified Elm.Package as Pkg
-import qualified Elm.Package.Description as Desc
-import qualified Elm.Package.Solution as Solution
-import qualified Elm.Utils as Utils
 import Prelude hiding (init)
-import System.Exit (exitFailure)
-import System.Directory (getDirectoryContents, removeFile)
-import System.FilePath ((</>), splitExtension)
-import System.IO.Unsafe (unsafePerformIO)
+import System.Directory
+  ( createDirectoryIfMissing, getCurrentDirectory, setCurrentDirectory
+  , copyFile, removeFile
+  , doesFileExist
+  )
+import System.Exit (ExitCode(..), exitWith)
+import System.FilePath ((</>), (<.>))
+import System.Process (rawSystem, readProcessWithExitCode)
+import qualified Text.Blaze.Html5 as H
 
-import Init.Helpers (make, write)
-import qualified Init.FileTree as FT
+import qualified Generate
 
 
 
--- INITIALIZE THE COMPILER
+-- INIT
 
 
-init :: IO (String -> Either Json.Value (String, LazyText.Text))
+init :: IO ()
 init =
-  do  write "Setting up compiler ..."
-      result <- runExceptT getInterfaces
-      case result of
-        Left msg ->
-            do  putStrLn " something went wrong!"
-                putStrLn msg
-                exitFailure
+  do  createDirectoryIfMissing True tempDirectory
+      copyFile "elm-package.json" (tempDirectory </> "elm-package.json")
+      code <- rawSystem "elm-package" ["install", "--yes"]
+      case code of
+        ExitSuccess ->
+          return ()
 
-        Right interfaces ->
-            do  putStrLn " done\n"
-                return (compile interfaces)
+        ExitFailure _ ->
+          exitWith code
 
 
-compile
-    :: Map.Map Module.Canonical Module.Interface
-    -> String
-    -> Either Json.Value (String, LazyText.Text)
-compile interfaces =
-  let
-    dependencyNames =
-      Map.keys interfaces
-  in
-    \elmSource ->
-      try $
-      do  (name, _) <-
-              jsonErr Compiler.dummyLocalizer
-                  (Compiler.parseDependencies elmSource)
-
-          let context = Compiler.Context (Pkg.Name "user" "WEBSITE") False dependencyNames
-
-          let (localizer, _warnings, result) =
-                Compiler.compile context elmSource interfaces
-
-          (Compiler.Result _ _ jsSource) <- jsonErr localizer result
-
-          return (Module.nameToString name, jsSource)
+tempDirectory :: FilePath
+tempDirectory =
+  "tmp"
 
 
-jsonErr :: Compiler.Localizer -> Either [Compiler.Error] a -> Either Json.Value a
-jsonErr localizer result =
-  let
-    toJson =
-      Compiler.errorToJson localizer ""
-  in
-    either (Left . Json.toJSON . map toJson) Right result
+
+-- COMPILE
 
 
-try :: Either Json.Value (String, LazyText.Text)
-    -> Either Json.Value (String, LazyText.Text)
-try either =
-  let
-    giveError e =
-      return (Left (compilerCrash (show (e :: SomeException))))
-  in
-    unsafePerformIO ((either `seq` return either) `catch` giveError)
+compile :: String -> IO H.Html
+compile elmSource =
+  withCurrentDirectory tempDirectory $
+    do  name <- getTempName
+
+        let elmFile = name <.> "elm"
+        let jsFile = name <.> "js"
+
+        writeFile elmFile (addHeader name elmSource)
+
+        let args = ["--yes", "--report=json", "--output=" ++ jsFile, elmFile]
+        result <- try $ readProcessWithExitCode "elm-make" args ""
+
+        html <-
+          case result of
+            Left exception ->
+              return $ Generate.compilerError (toCrashJson exception)
+
+            Right (ExitFailure _, stdout, stderr) ->
+              let
+                json =
+                  if take 2 stdout == "[{" then
+                    stdout
+                  else
+                    show stderr
+              in
+                return $ Generate.compilerError json
+
+            Right (ExitSuccess, _, _) ->
+              do  js <- readFile jsFile
+                  length js `seq` return ()
+                  removeFile (pathToArtifact name "elmi")
+                  removeFile (pathToArtifact name "elmo")
+                  removeFile jsFile
+                  return $ Generate.compilerSuccess name js
 
 
-compilerCrash :: String -> Json.Value
-compilerCrash msg =
-  let
-    zero =
-      Json.object [ "line" ==> (0 :: Int), "column" ==> (0 :: Int) ]
-  in
-    Json.toJSON $ (:[]) $ Json.object $
-      [ "region" ==> Json.object [ "start" ==> zero, "end" ==> zero ]
-      , "subregion" ==> Json.Null
-      , "tag" ==> "COMPILER ERROR"
-      , "overview" ==>
-          ( "Looks like you ran into an issue with the compiler!\n"
-            ++ "It crashed with the following message:\n\n"
-            ++ msg
-          )
-      , "details" ==>
-          "Maybe it was <https://github.com/elm-lang/elm-compiler/issues/832>\n\n\
-          \If not, try to find it at <https://github.com/elm-lang/elm-compiler/issues>\n\
-          \and open a new issue if it seems like you found an unknown bug."
-      ]
+        removeFile elmFile
+
+        return html
+
+
+
+addHeader :: String -> String -> String
+addHeader name elmSource =
+  "module " ++ name ++ " exposing (..)\n" ++ elmSource
+
+
+pathToArtifact :: String -> String -> FilePath
+pathToArtifact name ext =
+  "elm-stuff" </> "build-artifacts" </> Pkg.versionToString Elm.version
+  </> "user" </> "project" </> "1.0.0"
+  </> name <.> ext
+
+
+withCurrentDirectory :: FilePath -> IO a -> IO a
+withCurrentDirectory dir doSomeStuff =
+  bracket getCurrentDirectory setCurrentDirectory $ \ _ ->
+    do  setCurrentDirectory dir
+        doSomeStuff
+
+
+
+-- TEMPORARY NAMES
+
+
+getTempName :: IO String
+getTempName =
+  iterateOnName =<< Time.getPOSIXTime
+
+
+iterateOnName :: Time.POSIXTime -> IO String
+iterateOnName time =
+  do  let name = timeToName time
+      exists <- doesFileExist (name <.> "elm")
+      case exists of
+        True ->
+          iterateOnName (time - 60)
+
+        False ->
+          return name
+
+
+timeToName :: Time.POSIXTime -> String
+timeToName time =
+  "Temp" ++ show (round (time * 1000000))
+
+
+
+-- RECOVER FROM CRASHES
+
+
+toCrashJson :: SomeException -> String
+toCrashJson exception =
+  BS.toString $ Json.encode $ Json.toJSON $ (:[]) $ Json.object $
+    [ "region" ==>
+        Json.object [ "start" ==> zero, "end" ==> zero ]
+    , "subregion" ==>
+        Json.Null
+    , "tag" ==>
+        "COMPILER ERROR"
+    , "overview" ==>
+        ( "Looks like you ran into an issue with the compiler!\n"
+          ++ "It crashed with the following message:\n\n"
+          ++ show exception
+        )
+    , "details" ==>
+        "Maybe it was <https://github.com/elm-lang/elm-compiler/issues/832>\n\n\
+        \If not, try to find it at <https://github.com/elm-lang/elm-compiler/issues>\n\
+        \and open a new issue if it seems like you found an unknown bug."
+    ]
+
+
+zero :: Json.Value
+zero =
+  Json.object
+    [ "line" ==> (0 :: Int)
+    , "column" ==> (0 :: Int)
+    ]
 
 
 (==>) :: Json.ToJSON a => String -> a -> Json.Pair
 (==>) field value =
   (Text.pack field, Json.toJSON value)
-
-
-
--- GET ALL RELEVANT INTERFACES
-
-
-getInterfaces :: ExceptT String IO (Map.Map Module.Canonical Module.Interface)
-getInterfaces =
-  do  Utils.run "elm-package" ["install", "--yes"]
-
-      desc <- Desc.read "elm-package.json"
-      solution <- Solution.read "elm-stuff/exact-dependencies.json"
-      let usedDeps = Map.intersection solution (Map.fromList (Desc.dependencies desc))
-
-      dependencies <- mapM readDependencies (Map.toList usedDeps)
-
-      liftIO $ do
-          writeFile "all-modules.elm" (toElmSource dependencies)
-          make "all-modules.elm" (FT.file ["editor"] "everything" "js")
-          removeFile "all-modules.elm"
-
-      rawInterfaces <- mapM readInterfaces (Map.toList solution)
-      return (Map.fromList (concat rawInterfaces))
-
-
-readDependencies
-    :: (Pkg.Name, Pkg.Version)
-    -> ExceptT String IO (Pkg.Name, Pkg.Version, [Module.Raw])
-readDependencies (name, version) =
-  do  desc <- Desc.read path
-      return (name, version, Desc.exposed desc)
-  where
-    path =
-        "elm-stuff"
-          </> "packages"
-          </> Pkg.toFilePath name
-          </> Pkg.versionToString version
-          </> "elm-package.json"
-
-
-toElmSource :: [(Pkg.Name, Pkg.Version, [Module.Raw])] -> String
-toElmSource deps =
-  let toImportList (_, _, exposedModules) =
-          concatMap toImport exposedModules
-
-      toImport name =
-          "import " ++ Module.nameToString name ++ "\n"
-  in
-      concatMap toImportList deps ++ "\nfortyTwo = 40 + 2"
-
-
-readInterfaces
-    :: (Pkg.Name, Pkg.Version)
-    -> ExceptT String IO [(Module.Canonical, Module.Interface)]
-readInterfaces package@(pkgName,_) =
-  do  let directory = buildArtifactsFor package
-      contents <- liftIO (getDirectoryContents directory)
-      let elmis = Maybe.mapMaybe (isElmi pkgName) contents
-      mapM (readInterface directory) elmis
-
-
-buildArtifactsFor :: (Pkg.Name, Pkg.Version) -> FilePath
-buildArtifactsFor (name, version) =
-  "elm-stuff"
-    </> "build-artifacts"
-    </> Pkg.versionToString Compiler.version
-    </> Pkg.toFilePath name
-    </> Pkg.versionToString version
-
-
-isElmi :: Pkg.Name -> FilePath -> Maybe (FilePath, Module.Canonical)
-isElmi pkg file =
-  case splitExtension file of
-    (name, ".elmi") ->
-        fmap ((,) file . Module.Canonical pkg) (Module.dehyphenate name)
-
-    _ ->
-        Nothing
-
-
-readInterface
-    :: FilePath
-    -> (FilePath, Module.Canonical)
-    -> ExceptT String IO (Module.Canonical, Module.Interface)
-readInterface directory (file, name) =
-  do  bits <- liftIO (LBS.readFile (directory </> file))
-      case Binary.decodeOrFail bits of
-        Right (_, _, value) ->
-            return (name, value)
-
-        Left _ ->
-            throwError $
-              " messed up elmi file for " ++ (directory </> file)
-

@@ -3,12 +3,10 @@ module Router (router) where
 
 import Control.Applicative ((<|>))
 import Control.Monad.Trans (liftIO)
-import qualified Data.Aeson as Json
 import qualified Data.ByteString.UTF8 as Utf8
-import qualified Data.Text.Lazy as LazyText
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, redirect'
-    , route, setContentType, setResponseStatus, writeBuilder, writeLBS
+    , route, setContentType, setResponseStatus, writeBuilder
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
@@ -16,15 +14,12 @@ import System.FilePath ((</>))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html.Renderer.Utf8 as Blaze
 
-import qualified Generate
+import qualified Init.Compiler as Compiler
 import qualified Init.FileTree as FT
 
 
-router
-    :: (String -> Either Json.Value (String, LazyText.Text))
-    -> [(FilePath,FilePath)]
-    -> Snap ()
-router compiler pages =
+router :: [(FilePath,FilePath)] -> Snap ()
+router pages =
   ifTop (serveFile (FT.file ["pages"] "home" "html"))
     <|> servePages pages
     <|> route routes
@@ -40,14 +35,11 @@ router compiler pages =
 
         -- discoverable routes
         , ("try", try)
-        , ("debug", debug)
-        , ("install", install)
 
         -- called by other routes
         , ("code", emptyCode)
         , ("code/:name", code)
-        , ("compile", compile compiler)
-        , ("hotswap", hotswap compiler)
+        , ("compile", compile)
         ]
 
 
@@ -72,24 +64,18 @@ examples =
       serveIfExists (FT.file ["examples",directory] name "html")
 
 
+
 -- discoverable routes
+
 
 try :: Snap ()
 try =
   serveFile (FT.file ["examples","editor"] "try" "html")
 
 
-debug :: Snap ()
-debug =
-  undefined
-
-
-install :: Snap ()
-install =
-  undefined
-
 
 -- called by other routes
+
 
 emptyCode :: Snap ()
 emptyCode =
@@ -102,18 +88,10 @@ code =
       serveIfExists (FT.file ["examples","code"] name "html")
 
 
-compile :: (String -> Either Json.Value (String, LazyText.Text)) -> Snap ()
-compile compiler =
+compile :: Snap ()
+compile =
   do  elmSource <- demandParam "input"
-      serveHtml (Generate.userHtml (compiler elmSource))
-
-
-hotswap :: (String -> Either Json.Value (String, LazyText.Text)) -> Snap ()
-hotswap compiler =
-  do  elmSource <- demandParam "input"
-      modifyResponse $ setContentType "application/javascript"
-      let json = Generate.js (compiler elmSource)
-      writeLBS (Json.encode json)
+      serveHtml =<< liftIO (Compiler.compile elmSource)
 
 
 error404 :: Snap ()
@@ -122,7 +100,9 @@ error404 =
       serveFile (FT.file ["pages"] "404" "html")
 
 
+
 -- HELPERS
+
 
 demandParam :: Utf8.ByteString -> Snap String
 demandParam param =
@@ -144,7 +124,9 @@ serveHtml html =
       writeBuilder (Blaze.renderHtmlBuilder html)
 
 
+
 -- REDIRECTS
+
 
 (==>) old new =
   (old, redirect' new 301)

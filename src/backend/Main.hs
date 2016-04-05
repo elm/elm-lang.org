@@ -33,10 +33,10 @@ main =
 
       FileTree.init
       Examples.init
+      Compiler.init
       pages <- Pages.init
-      compiler <- Compiler.init
 
       httpServe
           (setPort (port args) defaultConfig)
-          (Router.router compiler pages)
+          (Router.router pages)
 
