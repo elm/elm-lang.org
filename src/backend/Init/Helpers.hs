@@ -33,12 +33,17 @@ makeWithStyle input output =
 
             makeForReal input jsOutput
             case ext of
-              ".js" -> return ()
+              ".js" ->
+                return ()
+
               ".html" ->
                 do  jsSource <- readFile jsOutput
                     writeFile output
                         (Blaze.renderHtml (Generate.serverHtml (takeBaseName output) jsSource))
                     removeFile jsOutput
+
+              _ ->
+                error ("not sure what to do with file extension: " ++ ext)
 
       return outdated
 
