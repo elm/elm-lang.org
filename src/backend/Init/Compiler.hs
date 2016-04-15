@@ -1,10 +1,6 @@
 module Init.Compiler (init, compile) where
 
 import Control.Exception (SomeException, bracket, try)
-import qualified Data.Aeson as Json
-import qualified Data.Aeson.Types as Json
-import qualified Data.ByteString.Lazy.UTF8 as BS
-import qualified Data.Text as Text
 import qualified Data.Time.Clock.POSIX as Time
 import qualified Elm.Compiler as Elm
 import qualified Elm.Package as Pkg
@@ -58,23 +54,16 @@ compile elmSource =
 
         writeFile elmFile (addHeader name elmSource)
 
-        let args = ["--yes", "--report=json", "--output=" ++ jsFile, elmFile]
+        let args = ["--yes", "--output=" ++ jsFile, elmFile]
         result <- try $ readProcessWithExitCode "elm-make" args ""
 
         html <-
           case result of
             Left exception ->
-              return $ Generate.compilerError (toCrashJson exception)
+              return $ Generate.compilerError (show (exception :: SomeException))
 
-            Right (ExitFailure _, stdout, stderr) ->
-              let
-                json =
-                  if take 2 stdout == "[{" then
-                    stdout
-                  else
-                    show stderr
-              in
-                return $ Generate.compilerError json
+            Right (ExitFailure _, out, err) ->
+              return $ Generate.compilerError (out ++ err)
 
             Right (ExitSuccess, _, _) ->
               do  js <- readFile jsFile
@@ -134,41 +123,3 @@ iterateOnName time =
 timeToName :: Time.POSIXTime -> String
 timeToName time =
   "Temp" ++ show (round (time * 1000000))
-
-
-
--- RECOVER FROM CRASHES
-
-
-toCrashJson :: SomeException -> String
-toCrashJson exception =
-  BS.toString $ Json.encode $ Json.toJSON $ (:[]) $ Json.object $
-    [ "region" ==>
-        Json.object [ "start" ==> zero, "end" ==> zero ]
-    , "subregion" ==>
-        Json.Null
-    , "tag" ==>
-        "COMPILER ERROR"
-    , "overview" ==>
-        ( "Looks like you ran into an issue with the compiler!\n"
-          ++ "It crashed with the following message:\n\n"
-          ++ show exception
-        )
-    , "details" ==>
-        "Maybe it was <https://github.com/elm-lang/elm-compiler/issues/832>\n\n\
-        \If not, try to find it at <https://github.com/elm-lang/elm-compiler/issues>\n\
-        \and open a new issue if it seems like you found an unknown bug."
-    ]
-
-
-zero :: Json.Value
-zero =
-  Json.object
-    [ "line" ==> (0 :: Int)
-    , "column" ==> (0 :: Int)
-    ]
-
-
-(==>) :: Json.ToJSON a => String -> a -> Json.Pair
-(==>) field value =
-  (Text.pack field, Json.toJSON value)

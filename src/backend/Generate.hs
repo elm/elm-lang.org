@@ -6,6 +6,8 @@ module Generate
   )
   where
 
+import qualified Data.Aeson as Json
+import qualified Data.ByteString.Lazy.UTF8 as BS
 import qualified Text.Blaze as Blaze
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
@@ -48,19 +50,9 @@ compilerError errorJson =
 
 initErrorScreen :: String -> String
 initErrorScreen errorJson =
-  "var textarea = self.parent.input.document.getElementById('input');\n\
-  \var errors = Elm.Errors.fullscreen({\n\
-  \    sourceCode: textarea.value,\n\
-  \    errors: " ++ errorJson ++ "\n\
-  \});\n\
-  \var editor = self.parent.input.editor;\n\
-  \errors.foreign.jumpTo.subscribe(function(region) {\n\
-  \    editor.setSelection(position(region.start), position(region.end));\n\
-  \    editor.focus();\n\
-  \});\n\
-  \function position(pos) {\n\
-  \    return { line: pos.line - 1, ch: pos.column - 1 };\n\
-  \}"
+  "var errors = Elm.Errors.fullscreen("
+  ++ BS.toString (Json.encode errorJson)
+  ++ ");"
 
 
 

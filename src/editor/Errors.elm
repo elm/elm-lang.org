@@ -1,19 +1,15 @@
-foreign effect module Errors exposing (..)
+module Errors exposing (..) -- where
 
+import Char
 import Html exposing (..)
-import Html.App exposing (programWithFlags)
+import Html.App as Html
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Markdown
 import String
-import Task
 
-
-foreign jumpTo : Region -> Cmd msg
 
 
 main =
-  programWithFlags
+  Html.programWithFlags
     { init = init
     , update = update
     , view = view
@@ -21,137 +17,136 @@ main =
     }
 
 
-boo = Task.succeed
-
 
 -- MODEL
 
+
 type alias Model =
-  { sourceCode : String
-  , errors : List Error
-  }
+  String
 
 
-init : Model -> (Model, Cmd msg)
-init model =
-  (model, Cmd.none)
+init : String -> (Model, Cmd msg)
+init errorMessage =
+  (errorMessage, Cmd.none)
+
 
 
 -- UPDATE
 
-type Msg
-  = Jump Region
 
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
-  case msg of
-    Jump region ->
-      (model, jumpTo region)
+update : msg -> Model -> (Model, Cmd msg)
+update _ model =
+  (model, Cmd.none)
+
 
 
 -- VIEW
 
-view : Model -> Html Msg
-view model =
-  let
-    lines =
-      String.split "\n" model.sourceCode
-
-    sortedErrors =
-      List.sortBy (\e -> (getRegion e).start.line) model.errors
-  in
-    div [] (List.map (viewError lines) sortedErrors)
-
-
--- ERRORS
-
-type alias Error =
-  { region : Region
-  , subregion : Maybe Region
-  , tag : String
-  , overview : String
-  , details : String
-  }
-
-
-type alias Region =
-  { start : Position
-  , end : Position
-  }
-
-
-type alias Position =
-  { line : Int
-  , column : Int
-  }
-
-
-getRegion : Error -> Region
-getRegion error =
-  Maybe.withDefault error.region error.subregion
-
-
--- VIEW ERRORS
 
 (=>) = (,)
 
-viewError : List String -> Error -> Html Msg
-viewError codeLines error =
+
+view : Model -> Html msg
+view model =
   div
     [ style
-        [ "white-space" => "pre"
-        , "font-size" => "14px"
+        [ "width" => "100%"
+        , "min-height" => "100%"
+        , "background-color" => "rgb(44, 44, 44)"
+        , "color" => "rgb(233, 235, 235)"
+        , "font-family" => "monospace"
+        , "overflow-x" => "scroll"
         ]
     ]
     [ div
         [ style
-            [ "border-top" => "2px solid black"
-            , "height" => "40px"
+            [ "display" => "block"
+            , "white-space" => "pre"
+            , "padding" => "2em"
             ]
         ]
-        [ h2
-            [ style
-                [ "margin" => "10px 0 0 0"
-                , "display" => "inline-block"
-                ]
-            ]
-            [ text error.tag ]
-        , a
-            [ onClick (Jump (getRegion error))
-            , href "javascript:void(0)"
-            , style ["float" => "right", "padding" => "1em"]
-            ]
-            [ text "jump to error" ]
-        ]
-    , pcode [] [text error.overview]
-    , viewCode codeLines (getRegion error)
-    , pcode [] [text error.details]
-    , br [] []
+        (addColors model)
     ]
 
 
-pcode attrs html =
-  p [] [code attrs html]
+addColors : String -> List (Html msg)
+addColors message =
+  message
+    |> String.lines
+    |> List.concatMap addColorToLine
 
 
--- VIEW CODE
+addColorToLine : String -> List (Html msg)
+addColorToLine line =
+  flip (++) [ text "\n" ] <|
+    if isBreaker line then
+      [ colorful "#00a8c6"
+          ("\n\n" ++ String.dropRight 40 line ++ String.repeat 40 "-")
+      ]
 
-viewCode : List String -> Region -> Html msg
-viewCode codeLines region =
-  let
-    start =
-      region.start.line
+    else if isBigBreaker line then
+      [ colorful "rgb(211, 56, 211)" line ]
 
-    end =
-      region.end.line
+    else if isUnderline line then
+      [ colorful "#D5200C" line ]
 
-    subLines =
-      codeLines
-        |> List.drop (start - 2)
-        |> List.take (end - start + 1)
+    else if String.startsWith "    " line then
+      [ colorful "#9A9A9A" line ]
 
-    markdown =
-      "```elm\n" ++ String.join "\n" subLines ++ "```"
-  in
-    Markdown.toHtml [] markdown
+    else
+      processLine line
 
+
+colorful : String -> String -> Html msg
+colorful color msg =
+  span [ style [ "color" => color ] ] [ text msg ]
+
+
+isBreaker : String -> Bool
+isBreaker line =
+  String.startsWith "-- " line
+  &&
+  String.contains "----------" line
+
+
+isBigBreaker : String -> Bool
+isBigBreaker line =
+  String.startsWith "===============" line
+
+
+isUnderline : String -> Bool
+isUnderline line =
+  String.all (\c -> c == ' ' || c == '^') line
+
+
+isLineNumber : String -> Bool
+isLineNumber string =
+  String.all (\c -> c == ' ' || Char.isDigit c) string
+
+
+processLine : String -> List (Html msg)
+processLine line =
+  case String.split "│" line of
+    [] ->
+      [ text line ]
+
+    starter :: rest ->
+      if not (isLineNumber starter) then
+        [ text line ]
+
+      else
+        let
+          restOfLine =
+            String.join "│" rest
+
+          marker =
+            if String.left 1 restOfLine == ">" then
+              colorful "#D5200C" ">"
+
+            else
+              text " "
+        in
+          [ colorful "#9A9A9A" (starter ++ "│")
+          , marker
+          , colorful "#9A9A9A" (String.dropLeft 1 restOfLine)
+          ]
