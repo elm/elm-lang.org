@@ -17,8 +17,8 @@ function initEditor()
 {
 	var controlsDiv = document.getElementById('controls');
 	var controls = Elm.EditorControls.embed(controlsDiv);
-	controls.foreign.compile.subscribe(compile);
-	controls.foreign.lights.subscribe(toggleTheme);
+	controls.ports.compile.subscribe(compile);
+	controls.ports.lights.subscribe(toggleTheme);
 
 	editor = CodeMirror.fromTextArea(document.getElementById('input'), {
 		lineNumbers: true,
@@ -39,11 +39,11 @@ function initEditor()
 	}
 	editor.on('cursorActivity', function() {
 		var token = getToken();
-		controls.foreign.tokens.send(token);
+		controls.ports.tokens.send(token);
 	});
 	refreshImports = function() {
 		var imports = parseImports();
-		controls.foreign.rawImports.send(imports);
+		controls.ports.rawImports.send(imports);
 	};
 	refreshImports();
 }

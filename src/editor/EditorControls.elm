@@ -1,4 +1,4 @@
-foreign effect module EditorControls exposing (..)
+port module EditorControls exposing (..)
 
 import Dict
 import Html exposing (..)
@@ -26,14 +26,14 @@ main =
 -- FOREIGN VALUES
 
 
-foreign tokens : (Maybe String -> msg) -> Sub msg
+port tokens : (Maybe String -> msg) -> Sub msg
 
-foreign rawImports : (List RawImport -> msg) -> Sub msg
+port rawImports : (List RawImport -> msg) -> Sub msg
 
 
-foreign compile : () -> Cmd msg
+port compile : () -> Cmd msg
 
-foreign lights : () -> Cmd msg
+port lights : () -> Cmd msg
 
 
 
