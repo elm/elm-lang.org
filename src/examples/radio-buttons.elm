@@ -8,32 +8,41 @@ main =
   beginnerProgram { model = model, view = view, update = update }
 
 
+
 -- MODEL
+
 
 type alias Model =
   { style : Style
   }
+
 
 type Style
   = Red
   | Underline
   | Bold
 
+
 model =
   { style = Bold }
 
 
+
 -- UPDATE
+
 
 type Msg =
   Switch Style
+
 
 update : Msg -> Model -> Model
 update (Switch newStyle) model =
   { model | style = newStyle }
 
 
+
 -- VIEW
+
 
 view : Model -> Html Msg
 view model =
@@ -43,6 +52,7 @@ view model =
     , radio Underline "underline" model
     , radio Bold "bold" model
     ]
+
 
 toStyle : Model -> Attribute msg
 toStyle model =
@@ -56,6 +66,7 @@ toStyle model =
 
       Bold ->
         [ ("font-weight", "bold") ]
+
 
 radio : Style -> String -> Model -> Html Msg
 radio style name model =

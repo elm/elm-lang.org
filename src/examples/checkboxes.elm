@@ -19,6 +19,7 @@ type alias Model =
   }
 
 
+model : Model
 model =
   Model False False True
 

@@ -19,14 +19,12 @@ update (NewContent content) oldContent =
 
 -- VIEW
 
-view : String -> Html Msg
 view content =
   div []
     [ input [ placeholder "Text to reverse", onInput NewContent, myStyle ] []
     , div [ myStyle ] [ text (String.reverse content) ]
     ]
 
-myStyle : Attribute msg
 myStyle =
   style
     [ ("width", "100%")
