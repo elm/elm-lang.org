@@ -13,10 +13,7 @@ main =
     , div [ Center.style "600px" ]
         [ view "Core" core
         , view "HTML" html
-        , view "Visuals" visuals
-        , view "Signals" signals
-        , view "Games" games
-        , view "Tasks" tasks
+        , view "Effects" effects
         ]
     ]
 
@@ -65,6 +62,7 @@ viewExample (name, example) =
       case example of
         Local fileName ->
             "/examples/" ++ fileName
+
         Foreign foreignUrl ->
             foreignUrl
   in
@@ -82,35 +80,6 @@ type Example
 
 (==>) name fileName =
   (name, Local fileName)
-
-
-visuals : List Section
-visuals =
-  [ "2D graphics" =>
-      [ "lines" ==> "lines"
-      , "shapes" ==> "shapes"
-      , "text" ==> "collage-text"
-      , "elements" ==> "collage-element"
-      , "transforms" ==> "transforms"
-      , "color" ==> "color"
-      , "linear gradient" ==> "linear-gradient"
-      , "radial gradient" ==> "radial-gradient"
-      , "texture" ==> "texture"
-      ]
-  , "layout" =>
-      [ "hello world" ==> "hello-element"
-      , "simple layout" ==> "layout-simple"
-      , "fancier layout" ==> "layout-fancy"
-      , "centering" ==> "centering"
-      ]
---  , "3D graphics" =>
---      [ "triangle" ==> "triangle"
---      , "cube" ==> "cube"
---      , "crate" ==> "crate"
---      , "thwomp" ==> "thwomp"
---      , "first person" ==> "first-person"
---      ]
-  ]
 
 
 core : List Section
@@ -145,66 +114,25 @@ html =
   , "user input" =>
       [ "buttons" ==> "buttons"
       , "field" ==> "field"
-      , "password" ==> "password"
+      , "form" ==> "form"
       , "checkboxes" ==> "checkboxes"
       , "radio buttons" ==> "radio-buttons"
       ]
   , "larger examples" =>
-      [ "dynamic list" => Foreign "https://github.com/evancz/elm-architecture-tutorial/"
-      , "sign up" ==> "sign-up"
-      , "todo list" => Foreign "https://github.com/evancz/elm-todomvc"
+      [ "todo list" => Foreign "https://github.com/evancz/elm-todomvc"
       ]
   ]
 
 
-signals : List Section
-signals =
-  [ "mouse" =>
-      [ "position" ==> "mouse-position"
-      , "is down" ==> "mouse-is-down"
-      , "clicks" ==> "mouse-clicks"
-      , "yogi" ==> "resize-yogi"
-      , "tracker" ==> "mouse-tracker"
-      , "stamps" ==> "stamps"
+effects : List Section
+effects =
+  [ "commands" =>
+      [ "random" ==> "random"
+      , "http" ==> "http"
       ]
-  , "window" =>
-      [ "size" ==> "resize-paint"
-      , "centering" ==> "window-centering"
-      ]
-  , "keyboard" =>
-      [ "arrows" ==> "arrows"
-      , "wasd" ==> "wasd"
-      , "keys down" ==> "keys"
-      , "key presses" ==> "key-presses"
-      ]
-  , "time" =>
-      [ "clock" ==> "clock"
+  , "subscriptions" =>
+      [ "time" ==> "time"
+      , "websockets" ==> "websockets"
       ]
   ]
 
-
-tasks : List Section
-tasks =
-  [ "HTTP" =>
-      [ "zip codes" ==> "zip-codes"
-      , "flickr" ==> "flickr"
-      ]
-  ]
-
-
-games : List Section
-games =
-  [ "simple" =>
-      [ "mario" ==> "mario"
-      , "adventure" ==> "adventure"
-      , "pong" ==> "pong"
-      ]
-  , "community" =>
-      [ "Tetris" => Foreign "https://github.com/jcollard/elmtris"
-      , "Breakout" => Foreign "https://github.com/Dobiasd/Breakout#breakout--play-it"
-      , "Maze" => Foreign "https://github.com/Dobiasd/Maze#maze--play-it"
-      , "Concentration" => Foreign "https://github.com/Dobiasd/Demoscene-Concentration"
-      , "Froggy" => Foreign "https://github.com/thSoft/froggy"
-      , "Hedley" => Foreign "https://github.com/Gizra/elm-hedley"
-      ]
-  ]
