@@ -133,6 +133,7 @@ effects =
   , "subscriptions" =>
       [ "time" ==> "time"
       , "websockets" ==> "websockets"
+      , "mouse drags" ==> "drag"
       ]
   ]
 
