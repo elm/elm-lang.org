@@ -1,5 +1,5 @@
 -- See this document for more information on making Pong:
--- http://elm-lang.org/blog/pong
+-- http://elm-lang.org/blog/making-pong
 import Color exposing (..)
 import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
