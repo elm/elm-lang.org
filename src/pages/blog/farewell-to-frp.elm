@@ -46,6 +46,8 @@ main =
 
 start = """
 
+<span style="color: red; font-weight: bold;">DRAFT - NOT FOR SHARING</span>
+
 Elm is designed for ease-of-use. When I started working on [my thesis][thesis]
 in 2011, FRP helped make big ease-of-use improvements over existing functional
 languages. It meant there were *piles* of difficult concepts you just did not
