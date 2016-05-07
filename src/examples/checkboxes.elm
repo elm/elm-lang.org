@@ -79,5 +79,5 @@ toStyle model =
     ]
 
 
--- Exercise: move the repetative code in `view` into a separate function
+-- Exercise: move the repetitive code in `view` into a separate function
 -- and use it three times.
