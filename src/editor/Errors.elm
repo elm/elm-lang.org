@@ -126,7 +126,7 @@ isLineNumber string =
 
 processLine : String -> List (Html msg)
 processLine line =
-  case String.split "│" line of
+  case String.split "|" line of
     [] ->
       [ text line ]
 
@@ -137,7 +137,7 @@ processLine line =
       else
         let
           restOfLine =
-            String.join "│" rest
+            String.join "|" rest
 
           marker =
             if String.left 1 restOfLine == ">" then
@@ -146,7 +146,7 @@ processLine line =
             else
               text " "
         in
-          [ colorful "#9A9A9A" (starter ++ "│")
+          [ colorful "#9A9A9A" (starter ++ "|")
           , marker
           , colorful "#9A9A9A" (String.dropLeft 1 restOfLine)
           ]
