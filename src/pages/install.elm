@@ -16,8 +16,8 @@ install = """
 
 # Install
 
-  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.pkg)
-  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.exe)
+  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.17.pkg)
+  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.17.exe)
   * Anywhere &mdash; [npm installer][npm] or [build from source][build]
 
 Afterwards, visit the [get started page][get-started].
