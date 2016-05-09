@@ -21,23 +21,27 @@ content = """
 ### Quick Start
 
   * [For JS users](/docs/from-javascript)
-  * [Make an HTML app](https://github.com/evancz/start-app)
-  * [The Elm Architecture](https://github.com/evancz/elm-architecture-tutorial/)
-  * [TodoMVC](https://github.com/evancz/elm-todomvc)
+  * [Examples](/examples)
+  * [Get everything installed](/get-started)
+  * [The Elm Architecture](http://guide.elm-lang.org/architecture/index.html)
+  * [Let's be Mainstream!](http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design)
 
 
 ### References
 
+  * **[The Guide](http://guide.elm-lang.org)**
   * [Syntax](/docs/syntax)
   * [Style Guide](/docs/style-guide)
-  * [Core Libraries](http://package.elm-lang.org/packages/elm-lang/core/latest/)
-  * [Community Packages](http://package.elm-lang.org)
-  * [Package Design](http://package.elm-lang.org/help/design-guidelines) /
-    [Documentation](http://package.elm-lang.org/help/documentation-format)
-
-### Slow Start
-
-  * [The Book]()
+  * [Package Design](http://package.elm-lang.org/help/design-guidelines)
+  * [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
   * [Advanced Topics](/docs/advanced-topics)
+
+
+### Packages
+
+  * [Core](http://package.elm-lang.org/packages/elm-lang/core/latest/)
+  * [HTML](http://package.elm-lang.org/packages/elm-lang/html/latest/)
+  * **[All Community Packages](http://package.elm-lang.org)**
+
 
 """
