@@ -79,15 +79,21 @@ blog = """
   [151]: /blog/compiler-errors-for-humans
   [16]: /blog/compilers-as-assistants
 
+
 ### Conference Videos
 
 * [Let’s be Mainstream!][curry-on] &mdash;
   “If functional programming is so great, why is it still niche? We have a
   product that can practically eliminate runtime errors, make refactoring much
   easier, lighten the testing burden, all while being quite delightful to use.
-  What’s the hold up?” [Full abstract][curry-on-abstract]
+  What’s the hold up?”
 
-* [Controlling Time and Space][sl2014] &mdash; categorizes the many
+* [Accidentally Concurrent][cm2015] &mdash; This talk examines references,
+  objects, and reactivity in terms of concurrency. This reframing is a
+  shockingly powerful way of understand the “accidental complexity” in your code
+  base. [Full Abstract][cm2015-abstract]
+
+* [Controlling Time and Space][sl2014] &mdash; Categorizes the many
   formulations of FRP, showing how they relate to Elm and what benefits you
   get from doing it the Elm way.
 
@@ -98,8 +104,9 @@ blog = """
 * [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
   Covers the basics of graphics and FRP before Elm even had its record system!
 
-[curry-on]: https://youtu.be/oYk8CKH7OhE
-[curry-on-abstract]: http://www.curry-on.org/2015/sessions/lets-be-mainstream-user-focused-design-in-elm.html
+[curry-on]: http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design
+[cm2015]: https://youtu.be/DfLvDFxcAIA
+[cm2015-abstract]: http://www.codemesh.io/codemesh2015/evan-czaplicki
 [sl2014]: https://youtu.be/Agu6jipKfYw
 [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
 [mlocjs]: http://www.ustream.tv/recorded/29330499
