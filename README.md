@@ -8,12 +8,12 @@ locally.
 
 ## Set up
 
-First get the Elm developer workflow setup by reading the [build from source instructions][bfs-readme], then running [this script][bfs] with `runhaskell BuildFromSource.hs master`. Be aware that this is all the actively developed branches, so things may be in an intermediate state. If that turns out to be a problem, replace `master` by the latest released version (e.g., `0.16`) in `runhaskell ...`.
+First get the Elm developer workflow setup by reading the [build from source instructions][bfs-readme], then running [this script][bfs] with `runhaskell BuildFromSource.hs master`. Be aware that this is all the actively developed branches, so things may be in an intermediate state. If that turns out to be a problem, replace `master` by the latest released version (e.g., `0.17`) in `runhaskell ...`.
 
 [bfs-readme]: https://github.com/elm-lang/elm-platform/blob/master/README.md
 [bfs]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs
 
-Then in the `Elm-Platform/master/` directory (or the alternative directory like `Elm-Platform/0.16/`), run these commands:
+Then in the `Elm-Platform/master/` directory (or the alternative directory like `Elm-Platform/0.17/`), run these commands:
 
 ```bash
 git clone https://github.com/elm-lang/elm-lang.org.git
