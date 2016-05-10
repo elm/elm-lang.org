@@ -92,6 +92,7 @@ too!
 
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
 [arch]: http://guide.elm-lang.org/architecture/index.html
+[guide]: http://guide.elm-lang.org/
 
 
 ## What are subscriptions?
