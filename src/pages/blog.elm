@@ -31,6 +31,8 @@ blog = """
  * [Escape from Callback Hell](/blog/escape-from-callback-hell)
  * [Making Pong](/blog/making-pong)
 
+<br>
+
 ### Release Notes
 
 * <code>[0.17][17]        &nbsp; &nbsp; May 2016 &nbsp; </code>Add subscriptions, remove signals
@@ -82,6 +84,7 @@ blog = """
   [16]: /blog/compilers-as-assistants
   [17]: /blog/farewell-to-frp
 
+<br>
 
 ### Conference Videos
 
@@ -93,7 +96,7 @@ blog = """
 
 * [Accidentally Concurrent][cm2015] &mdash; This talk examines references,
   objects, and reactivity in terms of concurrency. This reframing is a
-  shockingly powerful way of understand the “accidental complexity” in your code
+  useful way of understanding the “accidental complexity” in your code
   base. [Full Abstract][cm2015-abstract]
 
 * [Controlling Time and Space][sl2014] &mdash; Categorizes the many
