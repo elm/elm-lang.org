@@ -8,10 +8,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm"
-
 
 main =
   Skeleton.skeleton "home"
@@ -91,7 +87,7 @@ htmlSection =
 -- FEATURES
 
 
-bulletSection : Html
+bulletSection : Html msg
 bulletSection =
   section []
     [ h1
@@ -101,13 +97,20 @@ bulletSection =
     ]
 
 
-bullets : List (List Html)
+bullets : List (List (Html msg))
 bullets =
   [ [ h2 [] [ text "No runtime exceptions"]
     , p [] [text "Yes, you read that right, no runtime exceptions. Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
       , a [href "http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash"] [code [] [text "crash"]]
       , text "."
       ]
+    ]
+  , [ h2 [] [text "Friendly Error Messages"]
+    , p []
+        [ text "The Elm compiler is able to find tricky issues in your code very quickly. When it finds an issue, "
+        , a [href "/blog/compilers-as-assistants"] [text "it provides friendly and helpful messages"]
+        , text ". This makes it easy to find and fix problems before your users see them."
+        ]
     ]
   , [ h2 [] [text "Blazing fast rendering"]
     , p []
@@ -135,15 +138,8 @@ bullets =
   , [ h2 [] [text "Smooth JavaScript interop"]
     , p []
         [ text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple "
-        , a [href "/guide/interop#ports"] [text "ports"]
+        , a [href "http://guide.elm-lang.org/interop/javascript.html#ports"] [text "ports"]
         , text " system, your Elm code can communicate with JavaScript without sacrificing guarantees."
-        ]
-    ]
-  , [ h2 [] [text "Time-traveling debugger"]
-    , p []
-        [ text "What if you could pause time and replay all recent user inputs? What if you could make a code change and watch the results replay without a page refresh? "
-        , a [href "/blog/time-travel-made-easy"] [text "Try it out"]
-        , text " and see for yourself!"
         ]
     ]
   ]
@@ -153,7 +149,7 @@ bullets =
 -- EXAMPLES
 
 
-exampleSection : Html
+exampleSection : Html msg
 exampleSection =
   section []
     [ h1
@@ -170,7 +166,7 @@ exampleSection =
     ]
 
 
-examples : List (List Html)
+examples : List (List (Html msg))
 examples =
   [ example
       "todomvc"
@@ -194,12 +190,12 @@ examples =
       "https://github.com/w0rm/elm-flatris"
   , example
       "sketch-n-sketch"
-      "http://ravichugh.github.io/sketch-n-sketch/"
+      "http://ravichugh.github.io/sketch-n-sketch/releases/latest/"
       "https://github.com/ravichugh/sketch-n-sketch"
   ]
 
 
-example : String -> String -> String -> List Html
+example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
   [ a [ href demo, style ["display" => "block"] ]
       [ img [src ("/assets/examples/" ++ imgSrc ++ ".png")] []
@@ -214,7 +210,7 @@ example imgSrc demo code =
 -- FLUID LIST
 
 
-fluidList : Int -> Int -> List (List Html) -> Html
+fluidList : Int -> Int -> List (List (Html msg)) -> Html msg
 fluidList itemWidth maxColumns itemList =
   let
     toPx : Int -> String
@@ -240,7 +236,7 @@ fluidList itemWidth maxColumns itemList =
 -- USERS
 
 
-userSection : Html
+userSection : Html msg
 userSection =
   section []
     [ h1
@@ -249,7 +245,7 @@ userSection =
     , fluidList 200 3
         [ company
             "NoRedInk"
-            "https://www.noredink.com/"
+            "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"
             "png"
         , company
             "CircuitHub"
@@ -265,12 +261,16 @@ userSection =
             "png"
         , company
             "Gizra"
-            "http://www.gizra.com/"
+            "http://www.gizra.com/content/thinking-choosing-elm/"
             "png"
         , company
             "TruQu"
             "https://truqu.com/"
             "png"
+        , company
+            "Futurice"
+            "http://futurice.com/blog/elm-in-the-real-world"
+            "svg"
         ]
     , p [ style [ "text-align" => "center", "color" => "#bbbbbb" ] ]
         [ text "Want to get featured? Let us know how your company uses Elm on "

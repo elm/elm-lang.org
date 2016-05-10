@@ -4,11 +4,6 @@ import Blog
 import Center
 
 
-port title : String
-port title =
-  "Style Guide"
-
-
 main =
   Blog.docs
     "Style Guide"

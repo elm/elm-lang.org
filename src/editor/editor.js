@@ -11,67 +11,13 @@ function compile()
 }
 
 
-// HOT SWAP
-
-function hotSwap()
-{
-	var request = new XMLHttpRequest();
-	request.onreadystatechange = function(e) {
-		if (request.readyState === 4
-			&& request.status >= 200
-			&& request.status < 300)
-		{
-			var result = JSON.parse(request.responseText);
-			var top = self.parent;
-			if (js = result.success)
-			{
-				var error = top.output.document.getElementById('ErrorMessage');
-				if (error)
-				{
-					error.parentNode.removeChild(error);
-				}
-				top.output.eval(js);
-				var module = top.output.eval('Elm.' + result.name);
-				top.output.runningElmModule = top.output.runningElmModule.swap(module);
-				refreshImports();
-			}
-			else
-			{
-				var error = top.output.document.getElementById('ErrorMessage');
-				if (!error)
-				{
-					error = document.createElement('div');
-					error.id = 'ErrorMessage';
-					error.style.fontFamily = 'monospace';
-					error.style.position = 'absolute';
-					error.style.bottom = '0';
-					error.style.width = '100%';
-					error.style.backgroundColor = 'rgba(245,245,245,0.95)';
-				}
-				var len = result.error.length;
-				error.innerHTML =
-					'<p style="text-align: center;">Hot Swap Failed with ' + len + ' error' + (len === 1 ? '' : 's') + '.</p>' +
-					'<p style="text-align: center;">Recompile to see all the error messages.</p>';
-				top.output.document.body.appendChild(error);
-			}
-		}
-	};
-	editor.save();
-	var elmSrc = encodeURIComponent(document.getElementById('input').value);
-	request.open('POST', '/hotswap?input=' + elmSrc, true);
-	request.setRequestHeader('Content-Type', 'application/javascript');
-	request.send();
-}
-
-
 // SETUP CODEMIRROR
 
 function initEditor()
 {
 	var controlsDiv = document.getElementById('controls');
-	var controls = Elm.embed(Elm.EditorControls, controlsDiv, { rawImports: [], tokens: null });
+	var controls = Elm.EditorControls.embed(controlsDiv);
 	controls.ports.compile.subscribe(compile);
-	controls.ports.hotSwap.subscribe(hotSwap);
 	controls.ports.lights.subscribe(toggleTheme);
 
 	editor = CodeMirror.fromTextArea(document.getElementById('input'), {
@@ -81,7 +27,6 @@ function initEditor()
 		tabMode: 'shift',
 		extraKeys: {
 			'Ctrl-Enter': compile,
-			'Shift-Ctrl-Enter': hotSwap,
 			'Tab': function(cm) {
 				var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
 				cm.replaceSelection(spaces, "end", "+input");

@@ -1,4 +1,4 @@
-module ColorScheme where
+module ColorScheme exposing (..)
 
 import Color exposing (rgb)
 

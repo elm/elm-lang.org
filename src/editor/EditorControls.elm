@@ -1,238 +1,179 @@
-module EditorControls where
+port module EditorControls exposing (..)
 
 import Dict
 import Html exposing (..)
+import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Json exposing ((:=))
 import Set
 import String
-import Task exposing (..)
-import Window
+import Task
+
 
 
 main =
-  Signal.map2 view Window.width hints
+  Html.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = always Sub.none
+    }
+
+
+
+-- FOREIGN VALUES
+
+
+port tokens : (Maybe String -> msg) -> Sub msg
+
+port rawImports : (List RawImport -> msg) -> Sub msg
+
+
+port compile : () -> Cmd msg
+
+port lights : () -> Cmd msg
+
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { docs : List ModuleDocs
+    , imports : ImportDict
+    , tokens : TokenDict
+    , hints : List Hint
+    }
+
+
+init : (Model, Cmd Msg)
+init =
+  ( emptyModel
+  , Task.perform (always DocsFailed) DocsLoaded getAllDocs
+  )
+
+
+emptyModel : Model
+emptyModel =
+  { docs = []
+  , imports = defaultImports
+  , tokens = Dict.empty
+  , hints = []
+  }
+
+
+
+-- UPDATE
+
+
+type Msg
+  = DocsFailed
+  | DocsLoaded (List ModuleDocs)
+  | UpdateImports ImportDict
+  | CursorMove (Maybe String)
+  | Compile
+  | Lights
+
+
+update : Msg -> Model -> (Model, Cmd Msg)
+update msg model =
+  case msg of
+    DocsFailed ->
+      ( model, Cmd.none )
+
+    DocsLoaded pkg ->
+      let
+        newDocs =
+          pkg ++ model.docs
+      in
+        ( { model
+            | docs = newDocs
+            , tokens = toTokenDict model.imports newDocs
+          }
+        , Cmd.none
+        )
+
+    UpdateImports imports ->
+      ( { model
+          | imports = imports
+          , tokens = toTokenDict imports model.docs
+        }
+      , Cmd.none
+      )
+
+    CursorMove Nothing ->
+      ( { model | hints = [] }
+      , Cmd.none
+      )
+
+    CursorMove (Just name) ->
+      ( { model | hints = Maybe.withDefault [] (Dict.get name model.tokens) }
+      , Cmd.none
+      )
+
+    Compile ->
+      ( model
+      , compile ()
+      )
+
+    Lights ->
+      ( model
+      , lights ()
+      )
+
 
 
 -- VIEW
 
-view : Int -> List Info -> Html
-view outerWidth hints =
-  let px = toString (outerWidth - 340) ++ "px"
-  in
+
+view : Model -> Html Msg
+view {hints} =
   div [ class "options" ]
-    [ div [ class "hint", style [("width", px)] ] (viewHintList hints)
+    [ div [ class "hint" ] (viewHintList hints)
     , div
         [ class "button blue"
         , title "Compile and run the fresh code (Ctrl-Enter)"
-        , onClick compileMailbox.address ()
+        , onClick Compile
         ]
         [ text "Compile" ]
     , div
-        [ class "button green"
-        , title "Keep the state, change the behavior (Ctrl-Shift-Enter)"
-        , onClick hotSwapMailbox.address ()
-        ]
-        [ text "Hot Swap" ]
-    , div
         [ class "button yellow"
         , title "Switch editor color scheme"
-        , onClick lightsMailbox.address ()
+        , onClick Lights
         ]
         [ text "Lights" ]
     ]
 
 
-viewHintList : List Info -> List Html
+viewHintList : List Hint -> List (Html msg)
 viewHintList hints =
   case hints of
-    [] -> []
+    [] ->
+      []
+
     _ ->
-        text "Hint: " ::
-          List.intersperse (text ", ") (List.map viewHint hints)
+      text "Hint: " ::
+        List.intersperse (text ", ") (List.map viewHint hints)
 
 
-viewHint : Info -> Html
+viewHint : Hint -> Html msg
 viewHint hint =
-    a [ href hint.href, target "_blank" ] [ text hint.name ]
+  a [ href hint.href, target "_blank" ] [ text hint.name ]
 
-
--- OUTBOUND PORTS
-
-compileMailbox = Signal.mailbox ()
-hotSwapMailbox = Signal.mailbox ()
-lightsMailbox = Signal.mailbox ()
-
-
-port compile : Signal ()
-port compile =
-  compileMailbox.signal
-
-
-port hotSwap : Signal ()
-port hotSwap =
-  hotSwapMailbox.signal
-
-
-port lights : Signal ()
-port lights =
-  lightsMailbox.signal
-
-
-
-
--- HINTS
-
-type alias HintState =
-    { rawDocs : Package
-    , docs : Docs
-    , imports : Dict.Dict String Import
-    , hints : List Info
-    }
-
-
-type alias Docs = Dict.Dict String (List Info)
-
-
-type alias Info =
-    { name : String
-    , href : String
-    }
-
-
-emptyState : HintState
-emptyState =
-    { rawDocs = []
-    , docs = Dict.empty
-    , imports = defaultImports
-    , hints = []
-    }
-
-
-toDocs : Dict.Dict String Import -> Package -> Docs
-toDocs imports moduleList =
-  let getInfo modul =
-          Maybe.map (moduleToDocs modul) (Dict.get modul.name imports)
-
-      insert (token, info) dict =
-          Dict.update token (\value -> Just (info :: Maybe.withDefault [] value)) dict
-  in
-      List.filterMap getInfo moduleList
-        |> List.concat
-        |> List.foldl insert Dict.empty
-
-
-moduleToDocs : Module -> Import -> List (String, Info)
-moduleToDocs modul { alias, exposed } =
-  let urlTo name =
-        "http://package.elm-lang.org/packages/"
-        ++ modul.packageName ++ "/latest/" ++ dotToHyphen modul.name ++ "#" ++ name
-
-      nameToPair name =
-        let fullName = modul.name ++ "." ++ name
-            info = Info fullName (urlTo name)
-            localName = Maybe.withDefault modul.name alias ++ "." ++ name
-            pairs = [(localName, info)]
-        in
-            case exposed of
-              None ->
-                  pairs
-
-              Some set ->
-                  if Set.member name set then (name, info) :: pairs else pairs
-
-              All ->
-                  (name, info) :: pairs
-
-      typeToPair type' tag =
-        let fullName = modul.name ++ "." ++ tag
-            info = Info fullName (urlTo type')
-        in
-            [ (tag, info)
-            , (fullName, info)
-            ]
-  in
-      List.concatMap nameToPair (modul.values.aliases ++ modul.values.values)
-      ++ List.concatMap (\(type', tags) -> List.concatMap (typeToPair type') tags) modul.values.types
-
-
-dotToHyphen : String -> String
-dotToHyphen string =
-  String.map (\c -> if c == '.' then '-' else c) string
-
-
--- wiring
-
-port tokens : Signal (Maybe String)
-
-
-hints : Signal (List Info)
-hints =
-  Signal.foldp updateHint emptyState actions
-    |> Signal.map .hints
-
-
-actions : Signal Action
-actions =
-    Signal.mergeMany
-      [ Signal.map CursorMove tokens
-      , Signal.map AddDocs docs.signal
-      , Signal.map UpdateImports imports
-      ]
-
-
-type Action
-    = AddDocs Package
-    | UpdateImports (Dict.Dict String Import)
-    | CursorMove (Maybe String)
-
-
-updateHint : Action -> HintState -> HintState
-updateHint action state =
-  case action of
-    AddDocs pkg ->
-        let newRawDocs = pkg ++ state.rawDocs
-        in
-            { state |
-                rawDocs = newRawDocs,
-                docs = toDocs state.imports newRawDocs
-            }
-
-    UpdateImports imports ->
-        { state |
-            imports = imports,
-            docs = toDocs imports state.rawDocs
-        }
-
-    CursorMove Nothing ->
-        { state |
-            hints = []
-        }
-
-    CursorMove (Just name) ->
-        { state |
-            hints =
-                Maybe.withDefault []
-                    (Dict.get name state.docs)
-        }
 
 
 -- DOCUMENTATION
 
-docs : Signal.Mailbox Package
-docs =
-  Signal.mailbox []
 
-
-type alias Package = List Module
-
-type alias Module =
-    { packageName : String
+type alias ModuleDocs =
+    { pkg : String
     , name : String
     , values : Values
     }
+
 
 type alias Values =
     { aliases : List String
@@ -241,90 +182,189 @@ type alias Values =
     }
 
 
--- Documentation JSON
+urlTo : ModuleDocs -> String -> String
+urlTo {pkg,name} valueName =
+  "http://package.elm-lang.org/packages/"
+  ++ pkg ++ "/latest/" ++ dotToHyphen name ++ "#" ++ valueName
 
-package : String -> Json.Decoder Package
-package packageName =
-  let name =
-          "name" := Json.string
 
-      type' =
-          Json.object2 (,) name
-            ("cases" := Json.list (Json.tuple2 always Json.string Json.value))
+dotToHyphen : String -> String
+dotToHyphen string =
+  String.map (\c -> if c == '.' then '-' else c) string
 
-      values =
-          Json.object3 Values
-            ("aliases" := Json.list name)
-            ("types" := Json.list type')
-            ("values" := Json.list name)
+
+
+-- FETCH DOCS
+
+
+getAllDocs : Task.Task Http.Error (List ModuleDocs)
+getAllDocs =
+  let
+    supportedPackages =
+      [ "elm-lang/core"
+      , "elm-lang/html"
+      , "elm-lang/svg"
+      , "evancz/elm-markdown"
+      , "evancz/elm-http"
+      ]
   in
-      Json.list (Json.object2 (Module packageName) name values)
+    supportedPackages
+      |> List.map getDocs
+      |> Task.sequence
+      |> Task.map List.concat
 
 
--- Load Docs
-
-port doStuff : Task Http.Error (List ())
-port doStuff =
-  sequence <| List.map docsFor <|
-    [ "elm-lang/core"
-    , "evancz/elm-html"
-    , "evancz/elm-markdown"
-    , "evancz/elm-http"
-    , "evancz/start-app"
-    , "johnpmayer/elm-linear-algebra"
-    , "johnpmayer/elm-webgl"
-    ]
-
-
-docsFor : String -> Task Http.Error ()
-docsFor packageName =
-  let url =
-        "/packages/" ++ packageName ++ ".json"
+getDocs : String -> Task.Task Http.Error (List ModuleDocs)
+getDocs pkg =
+  let
+    url =
+      "http://package.elm-lang.org/packages/" ++ pkg ++ "/latest/documentation.json"
   in
-      Http.get (package packageName) url
-        `andThen` Signal.send docs.address
+    Http.get (Json.list (moduleDecoder pkg)) url
+
+
+moduleDecoder : String -> Json.Decoder ModuleDocs
+moduleDecoder pkg =
+  let
+    name =
+      "name" := Json.string
+
+    tipe =
+      Json.object2 (,) name
+        ("cases" := Json.list (Json.tuple2 always Json.string Json.value))
+
+    values =
+      Json.object3 Values
+        ("aliases" := Json.list name)
+        ("types" := Json.list tipe)
+        ("values" := Json.list name)
+  in
+    Json.object2 (ModuleDocs pkg) name values
+
+
+
+-- FORMAT DOCS
+
+
+type alias TokenDict =
+  Dict.Dict String (List Hint)
+
+
+type alias Hint =
+  { name : String
+  , href : String
+  }
+
+
+toTokenDict : ImportDict -> List ModuleDocs -> TokenDict
+toTokenDict imports moduleList =
+  let
+    getMaybeHints moduleDocs =
+      Maybe.map (filteredHints moduleDocs) (Dict.get moduleDocs.name imports)
+
+    insert (token, hint) dict =
+      Dict.update token (\value -> Just (hint :: Maybe.withDefault [] value)) dict
+  in
+    moduleList
+      |> List.filterMap getMaybeHints
+      |> List.concat
+      |> List.foldl insert Dict.empty
+
+
+filteredHints : ModuleDocs -> Import -> List (String, Hint)
+filteredHints moduleDocs importData =
+  let
+    allNames =
+      moduleDocs.values.aliases
+      ++ List.map fst moduleDocs.values.types
+      ++ moduleDocs.values.values
+  in
+    List.concatMap (unionTagsToHints moduleDocs) moduleDocs.values.types
+    ++ List.concatMap (nameToHints moduleDocs importData) allNames
+
+
+nameToHints : ModuleDocs -> Import -> String -> List (String, Hint)
+nameToHints moduleDocs {alias,exposed} name =
+  let
+    fullName =
+      moduleDocs.name ++ "." ++ name
+
+    hint =
+      Hint fullName (urlTo moduleDocs name)
+
+    localName =
+      Maybe.withDefault moduleDocs.name alias ++ "." ++ name
+  in
+    if isExposed name exposed then
+      [ (name, hint), (localName, hint) ]
+
+    else
+      [ (localName, hint) ]
+
+
+unionTagsToHints : ModuleDocs -> (String, List String) -> List (String, Hint)
+unionTagsToHints moduleDocs (tipeName, tags) =
+  let
+    addHints tag hints =
+      let
+        fullName =
+          moduleDocs.name ++ "." ++ tag
+
+        hint =
+          Hint fullName (urlTo moduleDocs tipeName)
+      in
+        (tag, hint) :: (fullName, hint) :: hints
+  in
+    List.foldl addHints [] tags
+
 
 
 -- IMPORTS
 
-imports : Signal (Dict.Dict String Import)
-imports =
-  let toDict list =
-        Dict.union (Dict.fromList (List.map toImport list)) defaultImports
-  in
-      Signal.map toDict rawImports
-
-
-(=>) name exposed =
-    (name, Import Nothing exposed)
-
-
-defaultImports : Dict.Dict String Import
-defaultImports =
-  Dict.fromList
-    [ "Basics" => All
-    , "List" => Some (Set.fromList ["List", "::"])
-    , "Maybe" => Some (Set.singleton "Maybe")
-    , "Result" => Some (Set.singleton "Result")
-    , "Signal" => Some (Set.singleton "Signal")
-    , "Stream" => Some (Set.singleton "Stream")
-    ]
-
-
-port rawImports : Signal (List RawImport)
 
 type alias RawImport =
-    { name : String
-    , alias : Maybe String
-    , exposed : Maybe (List String)
-    }
+  { name : String
+  , alias : Maybe String
+  , exposed : Maybe (List String)
+  }
+
+
+type alias ImportDict =
+  Dict.Dict String Import
 
 
 type alias Import =
-    { alias : Maybe String, exposed : Exposed }
+  { alias : Maybe String
+  , exposed : Exposed
+  }
 
 
-type Exposed = None | Some (Set.Set String) | All
+type Exposed
+  = None
+  | Some (Set.Set String)
+  | All
+
+
+isExposed : String -> Exposed -> Bool
+isExposed name exposed =
+  case exposed of
+    None ->
+      False
+
+    Some set ->
+      Set.member name set
+
+    All ->
+      True
+
+
+
+-- CREATE IMPORT DICTS
+
+
+toImportDict : List RawImport -> ImportDict
+toImportDict rawImportList =
+  Dict.union (Dict.fromList (List.map toImport rawImportList)) defaultImports
 
 
 toImport : RawImport -> (String, Import)
@@ -336,3 +376,21 @@ toImport { name, alias, exposed } =
             Just vars -> Some (Set.fromList vars)
   in
       (name, Import alias exposedSet)
+
+
+(=>) name exposed =
+    (name, Import Nothing exposed)
+
+
+defaultImports : ImportDict
+defaultImports =
+  Dict.fromList
+    [ "Basics" => All
+    , "Debug" => None
+    , "List" => Some (Set.fromList ["List", "::"])
+    , "Maybe" => Some (Set.singleton "Maybe")
+    , "Result" => Some (Set.singleton "Result")
+    , "Platform" => Some (Set.singleton "Program")
+    , ("Platform.Cmd", Import (Just "Cmd") (Some (Set.fromList ["Cmd", "!"])))
+    , ("Platform.Sub", Import (Just "Sub") (Some (Set.singleton "Sub")))
+    ]

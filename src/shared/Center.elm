@@ -1,4 +1,4 @@
-module Center (markdown, style) where
+module Center exposing (markdown, style)
 
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
@@ -9,7 +9,7 @@ import Markdown
 
 
 markdown width string =
-  div [ class "content", style width ] [ Markdown.toHtml string ]
+  div [ class "content", style width ] [ Markdown.toHtml [] string ]
 
 
 style width =

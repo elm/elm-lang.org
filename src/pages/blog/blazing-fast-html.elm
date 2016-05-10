@@ -6,9 +6,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Blazing Fast HTML"
-
 
 (=>) = (,)
 

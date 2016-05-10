@@ -2,10 +2,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Elm Package Manager"
-
-
 main =
   Blog.blog
     "Elm Package Manager"

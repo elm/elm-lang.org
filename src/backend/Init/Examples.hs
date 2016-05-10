@@ -18,15 +18,19 @@ import Init.Helpers (make, makeWithStyle, write)
 init :: IO ()
 init =
   do  write "Setting up examples ."
+
       make
         ("src" </> "editor" </> "EditorControls" <.> "elm")
         (FT.file ["editor"] "controls" "js")
+
       make
         ("src" </> "editor" </> "Errors" <.> "elm")
         (FT.file ["editor"] "errors" "js")
+
       copyFile
         ("src" </> "editor" </> "editor" <.> "css")
         (FT.file ["editor"] "editor" "css")
+
       copyFile
         ("src" </> "editor" </> "editor" <.> "js")
         (FT.file ["editor"] "editor" "js")

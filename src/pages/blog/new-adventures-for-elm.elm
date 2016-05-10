@@ -5,11 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title =
-  "New Adventures for Elm"
-
-
 main =
   Blog.blog
     "New Adventures for Elm"
@@ -50,7 +45,7 @@ privilege of learning from him personally over the past year. Our discussions
 created quite a powerful feedback loop. He inspired
 [start-app](https://github.com/evancz/start-app), helped crystallize some core
 communication [ideas](https://youtu.be/oYk8CKH7OhE), and motivated my work on
-[error messages](http://elm-lang.org/blog/compilers-as-assistants) with his
+[error messages](/blog/compilers-as-assistants) with his
 infectious excitement. Meanwhile Richard was using Elm at work more and more.
 Today NoRedInk has about 5 engineers writing Elm full-time ([and is looking for
 more](https://www.noredink.com/jobs)) and all of their new frontend code is
