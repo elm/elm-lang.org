@@ -8,7 +8,6 @@ import System.Console.CmdArgs
 import qualified Init.Compiler as Compiler
 import qualified Init.Examples as Examples
 import qualified Init.FileTree as FileTree
-import qualified Init.Guide as Guide
 import qualified Init.Pages as Pages
 import qualified Router
 
@@ -34,11 +33,10 @@ main =
 
       FileTree.init
       Examples.init
-      Guide.init
+      Compiler.init
       pages <- Pages.init
-      compiler <- Compiler.init
 
       httpServe
           (setPort (port args) defaultConfig)
-          (Router.router compiler pages)
+          (Router.router pages)
 

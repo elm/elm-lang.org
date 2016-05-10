@@ -5,21 +5,19 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Get Started"
-
-
 main =
   Blog.docs
     "Get Started"
     [ Center.markdown "600px" content ]
+
 
 content = """
 
 This page will try to guide you through the first steps of using Elm and Elm's toolchain.
 
 We assume you have installed the Elm Platform using one of the methods from the
-[Install page][install] on the Elm site.
+[install page][install] on the Elm site.
+
 
 ## Tools
 
@@ -34,10 +32,12 @@ After a successful installation, they should be available on your machine:
 
 Let's go over them one by one:
 
+
 ### elm
 
 `elm` is actually a way to run all other tools.
 Try opening a terminal and run `elm` to see the help message.
+
 
 ### elm-package
 
@@ -95,6 +95,7 @@ will not work.
 - `:help`: will print a help message
 - `:exit`: will exit the REPL
 
+
 ### elm-reactor
 
 [elm-reactor][] is an interactive development tool for Elm.
@@ -126,6 +127,7 @@ With each of these tools you can use the `--help` flag to get more information.
 
 Each tool also has a README on [GitHub](http://github.com/elm-lang) that has
 some helpful information.
+
 
 ## Configure Your Editor
 
@@ -161,4 +163,3 @@ The [learn][] page provides pointers for learning Elm.
 [ttd]: http://debug.elm-lang.org/
 
 """
-

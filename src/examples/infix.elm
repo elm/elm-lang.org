@@ -1,4 +1,4 @@
-import Graphics.Element exposing (show)
+import Html exposing (text)
 
 
 -- You can use infix operators just like in normal math, so
@@ -46,9 +46,11 @@ isTeenage' age =
 
 
 main =
-  show
-    [ isTeenage four
-    , isTeenage sixteen
-    , isTeenage eleven
-    , isTeenage thirteen
-    ]
+  text (
+    toString
+      [ isTeenage four
+      , isTeenage sixteen
+      , isTeenage eleven
+      , isTeenage thirteen
+      ]
+  )

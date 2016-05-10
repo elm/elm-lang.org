@@ -5,14 +5,11 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Learning Elm"
-
-
 main =
   Blog.docs
     "Learning Elm"
     [ Center.markdown "600px" content ]
+
 
 content = """
 
@@ -55,6 +52,7 @@ and others you can find on [/r/elm](http://reddit.com/r/elm) and the [mailing li
        for a GitHub user entered using a text field.
     4. Write an Elm Snake clone (extra: add a highscore).
 
+
 Additionally: if you ever get stuck, try posting on the [mailing list][] or come to
 `#elm` IRC channel on `irc.freenode.net` and ask for help!
 
@@ -71,4 +69,3 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
 """
-

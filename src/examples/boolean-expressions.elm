@@ -16,8 +16,12 @@ Finally, we will see these functions in action with some examples.
 
 -----------------------------------------------------------------}
 
-import Graphics.Element exposing (..)
-import Text
+import Html exposing (Html, div, text)
+import Html.Attributes exposing (style)
+
+
+
+-- BOOLEAN EXPRESSIONS
 
 
 type Expr
@@ -47,20 +51,19 @@ eval expression =
         eval leftExpr || eval rightExpr
 
 
+
+-- PLAYGROUND
+
+
 e1 = T
 e2 = And T F
 e3 = Or e1 e2
 e4 = And (Not e2) e1
 
 
-main : Element
 main =
-  flow down (List.map display [ e1, e2, e3, e4 ])
+  div [] (List.map display [ e1, e2, e3, e4 ])
 
 
-display : Expr -> Element
 display expr =
-  toString (eval expr) ++ " &lArr; " ++ toString expr
-    |> Text.fromString
-    |> Text.monospace
-    |> leftAligned
+  div [] [ text (toString (eval expr) ++ " <== " ++ toString expr) ]

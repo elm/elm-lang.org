@@ -1,91 +1,87 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Generate (serverHtml, userHtml, js) where
+module Generate
+  ( Analytics(..)
+  , Highlight(..)
+  , serverHtml, compilerSuccess, compilerError
+  )
+  where
 
-import Control.Monad (when)
-import Data.Aeson ((.=))
 import qualified Data.Aeson as Json
-import qualified Data.ByteString.Lazy.Char8 as LBS
+import qualified Data.ByteString.Lazy.UTF8 as BS
 import qualified Text.Blaze as Blaze
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 
 
--- JS
 
-js :: Either Json.Value (String,String) -> Json.Value
-js result =
-  Json.object $
-  case result of
-    Left msg ->
-        [ "error" .= msg ]
-
-    Right (moduleName, jsSource) ->
-        [ "name" .= moduleName
-        , "success" .= jsSource
-        ]
+data Analytics = Analytics | NoAnalytics
+data Highlight = Highlight | NoHighlight
 
 
--- HTML
+-- LOCAL HTML
+
 
 serverHtml :: String -> String -> H.Html
 serverHtml name jsSource =
-    htmlSkeleton False name $
-      do  H.script $ Blaze.preEscapedToMarkup jsSource
-          H.script "var runningElmModule = Elm.fullscreen(Elm.Main);"
+  htmlSkeleton Analytics Highlight name $
+    do  H.script $ Blaze.preEscapedToMarkup jsSource
+        H.script "var runningElmModule = Elm.Main.fullscreen();"
 
 
-userHtml :: Either Json.Value (String, String) -> H.Html
-userHtml compilerResult =
-  case compilerResult of
-    Right (moduleName, jsSource) ->
-        htmlSkeleton True moduleName (scripts moduleName jsSource)
 
-    Left err ->
-        htmlSkeleton True "Oops!" $
-          do  H.script ! A.src "/editor/errors.js" $ ""
-              H.script $ Blaze.toMarkup (errorJs err)
+-- FOREIGN HTML
 
 
-errorJs :: Json.Value -> String
-errorJs err =
-  "var textarea = self.parent.input.document.getElementById('input');\n\
-  \var errors = Elm.fullscreen(Elm.Errors, {\n\
-  \    sourceCode: textarea.value,\n\
-  \    errors: " ++ LBS.unpack (Json.encode err) ++ "\n\
-  \});\n\
-  \var editor = self.parent.input.editor;\n\
-  \errors.ports.jumpTo.subscribe(function(region) {\n\
-  \    editor.setSelection(position(region.start), position(region.end));\n\
-  \    editor.focus();\n\
-  \});\n\
-  \function position(pos) {\n\
-  \    return { line: pos.line - 1, ch: pos.column - 1 };\n\
-  \}"
+compilerSuccess :: String -> String -> H.Html
+compilerSuccess moduleName jsSource =
+  htmlSkeleton NoAnalytics NoHighlight moduleName $
+    do  H.script $ Blaze.preEscapedString jsSource
+        H.script $ Blaze.preEscapedString $
+          "var runningElmModule = Elm." ++  moduleName ++ ".fullscreen();"
 
 
-scripts :: H.ToMarkup a => String -> a -> H.Html
-scripts moduleName jsSource =
-  do  H.script ! A.src "/editor/everything.js" $ ""
-      H.script $ Blaze.preEscapedToMarkup jsSource
-      H.script $ Blaze.preEscapedToMarkup $
-          "var runningElmModule = Elm.fullscreen(Elm." ++  moduleName ++ ");"
+compilerError :: String -> H.Html
+compilerError errorJson =
+  htmlSkeleton NoAnalytics Highlight "Oops!" $
+    do  H.script ! A.src "/editor/errors.js" $ ""
+        H.script $ Blaze.string (initErrorScreen errorJson)
+
+
+initErrorScreen :: String -> String
+initErrorScreen errorJson =
+  "var errors = Elm.Errors.fullscreen("
+  ++ BS.toString (Json.encode errorJson)
+  ++ ");"
+
 
 
 -- CREATE HTML DOCUMENTS
 
-htmlSkeleton :: Bool -> String -> H.Html -> H.Html
-htmlSkeleton userGenerated title scripts =
+
+htmlSkeleton :: Analytics -> Highlight -> String -> H.Html -> H.Html
+htmlSkeleton analytics highlight title scripts =
   H.docTypeHtml $ do
     H.head $ do
       H.meta ! A.charset "UTF-8"
       H.title (H.toHtml title)
       favicon
       H.link ! A.rel "stylesheet" ! A.href "/assets/style.css"
-      when (not userGenerated) $
-        do  googleAnalytics
-            H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
-            H.script ! A.src "/highlight/highlight.pack.js" $ ""
+
+      case analytics of
+        Analytics ->
+          googleAnalytics
+
+        NoAnalytics ->
+          return ()
+
+      case highlight of
+        Highlight ->
+          do  H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
+              H.script ! A.src "/highlight/highlight.pack.js" $ ""
+
+        NoHighlight ->
+          return ()
 
     H.body scripts
 
