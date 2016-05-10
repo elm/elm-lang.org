@@ -316,7 +316,7 @@ You can use as many commas as you want.
 ### Modules
 
 ```elm
-module MyModule where
+module MyModule exposing (..)
 
 -- qualified imports
 import List                    -- List.map, List.foldl
