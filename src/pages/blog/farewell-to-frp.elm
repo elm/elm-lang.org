@@ -10,10 +10,10 @@ import Center
 
 main =
   Blog.blog
-    "Farewell to FRP"
-    "How web sockets made Elm 0.17 simpler"
+    "A Farewell to FRP"
+    "Making signals unnecessary with The Elm Architecture"
     Blog.evan
-    (Blog.Date 2016 5 9)
+    (Blog.Date 2016 5 10)
     [ Center.markdown "600px" start
     , iframe
         [ style
@@ -48,49 +48,29 @@ start = """
 
 <span style="color: red; font-weight: bold;">DRAFT - NOT FOR SHARING</span>
 
-Elm is designed for ease-of-use. When I started working on [my thesis][thesis]
-in 2011, FRP helped make big ease-of-use improvements over existing functional
-languages. It meant there were *piles* of difficult concepts you just did not
-need to learn to be productive. But since then, we kept exploring and
-simplifying. How can Elm be easier? More fun? Quicker for prototyping? I think
-anyone who has taught Elm would agree that signals are one of the only
-stumbling blocks left. They have become less important and prominent over time,
-but folks still struggle with them eventually.
+[The Elm Architecture][arch] is a simple pattern for architecting web apps. It is the standard way to write Elm code, and with derivatives like Redux, it is becoming a popular way to write JavaScript code too! So it is having success, but we still hear questions like: How can I use websockets in The Elm Architecture? Or GraphQL? Or geolocation? Well, **Elm 0.17 is out today, and it introduces *subscriptions*** which cover these cases in a really pleasant way. Subscriptions let components sit around and wait for messages while library code handles a bunch of tricky resource management stuff behind the scenes. Later in this post we will see how this makes websockets super simple to work with.
 
-[thesis]: /papers/concurrent-frp.pdf
+That is all nice, but the big benefit is that **Elm is now significantly easier to learn and use.** As the design of subscriptions emerged, we saw that all the toughest concepts in Elm (signals, addresses, and ports) could collapse into simpler concepts in this new world. Elm is *designed* for ease-of-use, so I was delighted to stumble upon a path that would take us farther with fewer concepts. To put this in more alarmist terms, **everything related to signals has been replaced with something simpler and nicer.** There are two typical reactions to this news:
 
-Unrelatedly, my goal for Elm 0.17 was to support tricky effects like
-geolocation, web sockets, GraphQL, etc. Important parts of modern web apps. To
-make this all fit within [The Elm Architecture][arch], I needed to depart from
-the clunky browser APIs. The result of this exploration was the idea of
-*subscriptions* which make it easy to passively wait for messages. **As the
-design for subscriptions emerged, it became clear that it would let us remove
-signals entirely.** All sorts of tough concepts (like foreign interop)
-collapsed nicely into subscriptions! So Elm 0.17 does more than ever, and is
-easier to learn than ever.
+  1. **This is crazy. How will anything work?!** I'd estimate that 95% of code stays exactly the same, and the [upgrade plan][plan] will walk you through the couple things you need to update. It is not actually a big deal.
 
-[arch]: http://guide.elm-lang.org/architecture/index.html
+  2. **What is this guy talking about? What is FRP? What are signals?** The cool thing about this release is that you do not need to know about that stuff anymore. Elm is just easier now.
 
-Other cool stuff in Elm 0.17 includes:
+In both cases, the best way to proceed is to just show how things work in the new version of Elm. In the end, Elm does more than ever, but is also simpler than ever. I am really happy with how it turned out, and I hope you enjoy it too!
 
-  - Faster HTML renderer (numbers coming soon!)
-  - Libraries for geolocation, page visibility, and web sockets
-  - Generated JS is smaller and works with Google's Closure Compiler
-  - Generated JS works with RequireJS and CommonJS
-  - Features in place for services like GraphQL and Elixir Phoenix
-  - Improved documentation at [guide.elm-lang.org][guide]
-  - Helpful messages when decoding JSON fails
+> **Note:** Other cool stuff in Elm 0.17 includes:
+>
+>  - Faster HTML renderer (numbers coming soon!)
+>  - Libraries for geolocation, page visibility, and web sockets
+>  - Generated JS is smaller and works with Google's Closure Compiler
+>  - Generated JS works with RequireJS and CommonJS
+>  - Features in place for services like GraphQL and Elixir Phoenix
+>  - Improved documentation at [guide.elm-lang.org][guide]
+>  - Helpful messages when decoding JSON fails
 
-So there is a lot of cool stuff! We will be focusing on subscriptions in this
-blog post though.
-
-> **Note:** Existing users should read the [upgrade plan][plan]. Then read the
-new [guide][], especially the sections on [The Elm Architecture][arch] and
-[ports][].
 
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
-[guide]: http://guide.elm-lang.org
-[ports]: http://guide.elm-lang.org/interop/javascript.html
+[arch]: http://guide.elm-lang.org/architecture/index.html
 
 
 ## What are subscriptions?
@@ -188,14 +168,31 @@ understand what is going on with Elm and The Elm Architecture, check out
 [guide.elm-lang.org][guide]. The section on [The Elm Architecture][arch] slowly
 builds up to subscriptions and has a bunch of nice examples.
 
-Again, experienced Elm users should read the [upgrade plan][plan]. I know you
-know Elm, but you should read [guide.elm-lang.org][guide] anyway, especially
-the sections on [The Elm Architecture][arch] and [ports][].
+Experienced Elm users should read the [upgrade plan][plan]. I know you
+know Elm, but you should read [guide.elm-lang.org][guide] anyway. The sections on [The Elm Architecture][arch] and [ports][] are particularly important for you.
+
+And remember, you can always come talk to us on [the Elm Slack channel][slack]! We are a friendly bunch that is happy to help folks learning new stuff or upgrading old code. Just ask!
 
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
 [guide]: http://guide.elm-lang.org/
 [arch]: http://guide.elm-lang.org/architecture/index.html
 [ports]: http://guide.elm-lang.org/interop/javascript.html
+[slack]: http://elmlang.herokuapp.com/
+
+
+## A Farewell to FRP
+
+Elm is about making delightful projects. Stuff like this [Raycaster](https://twitter.com/krisajenkins/status/726043742180925440). Projects you are excited to share. Projects that get you excited about programming! That means I am always asking myself how Elm can be simpler. How can it be easier to learn? More fun? Quicker for prototyping? More reliable? I think my obsession with these questions are the heart of Elm's design philosophy and Elm's success.
+
+When I started working on [my thesis][thesis] in 2011, I stumbled upon this academic subfield called Functional Reactive Programming (FRP). By stripping that approach down to its simplest form, I ended up with something way easier to learn than similar functional languages. Signals meant piles of difficult concepts just were not necessary in Elm.
+
+[thesis]: /papers/concurrent-frp.pdf
+
+I think anyone who has taught Elm recently would agree that signals are one of the few stumbling blocks left. They made Elm easier than its peers, but they did not make Elm *easy*.
+
+As The Elm Architecture emerged, it became clear that you could do almost all your Elm programming without thinking about signals at all. So the [start-app](https://github.com/evancz/start-app) package was an experiment to see what happens when we push signals way later in the learning path. The results were great! Folks were getting started quicker, making it farther, and having more fun! In the end, we had lots of folks who became excellent Elm programmers who just did not really know much about signals. They were not necessary.
+
+MORE WORDS, COMING SOON
 
 
 ## What is Next?
