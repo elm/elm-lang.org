@@ -18,11 +18,9 @@ content = """
 
 # Documentation
 
-### Quick Start
+### Quick Overview
 
-  * [For JS users](/docs/from-javascript)
   * [Examples](/examples)
-  * [Get everything installed](/get-started)
   * [The Elm Architecture](http://guide.elm-lang.org/architecture/index.html)
   * [Let's be Mainstream!](http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design)
 
@@ -31,6 +29,7 @@ content = """
 
   * **[The Guide](http://guide.elm-lang.org)**
   * [Syntax](/docs/syntax)
+  * [Syntax vs JS](/docs/from-javascript)
   * [Style Guide](/docs/style-guide)
   * [Package Design](http://package.elm-lang.org/help/design-guidelines)
   * [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
