@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [A Farewell to FRP](/blog/farewell-to-frp)
  * [New Adventures for Elm](/blog/new-adventures-for-elm)
  * [Compilers as Assistants](/blog/compilers-as-assistants)
  * [Compiler Errors for Humans](/blog/compiler-errors-for-humans)
@@ -32,6 +33,7 @@ blog = """
 
 ### Release Notes
 
+* <code>[0.17][17]        &nbsp; &nbsp; May 2016 &nbsp; </code>Add subscriptions, remove signals
 * <code>[0.16][16]        &nbsp; &nbsp; Nov &nbsp; &nbsp; &nbsp; &nbsp;</code>Even better error messages!
 * <code>[0.15.1][151]            &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Dramatically improved error messages
 * <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
@@ -78,6 +80,7 @@ blog = """
   [15]: /blog/announce/0.15
   [151]: /blog/compiler-errors-for-humans
   [16]: /blog/compilers-as-assistants
+  [17]: /blog/farewell-to-frp
 
 
 ### Conference Videos
