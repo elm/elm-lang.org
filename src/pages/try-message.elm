@@ -9,7 +9,7 @@ main = report """
 Write and compile code online!
 
   * <a href="/examples/hello-html" target="_top">Hello World!</a>
-  * <a href="/examples/mouse-position" target="_top">Mouse</a>
+  * <a href="/examples/drag" target="_top">Mouse</a>
   * <a href="/examples/clock" target="_top">Clock</a>
 
 For more guidance check out:
