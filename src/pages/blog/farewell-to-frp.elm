@@ -155,10 +155,12 @@ options you have in JavaScript:
   2000 options](https://www.npmjs.com/search?q=websocket). Hmm... Hopefully
   one of the first few we try works well.
 
-In the Web Sockets package for Elm, all of the babysitting of the connection
+In [the WebSockets package][ws] for Elm, all of the babysitting of the connection
 is handled automatically. The connection is opened if anyone is subscribed to
 it, and it is closed if no one needs it anymore. All the queuing and
 reconnecting happens behind the scenes.
+
+[ws]: http://package.elm-lang.org/packages/elm-lang/websocket/1.0.0/WebSocket
 
 
 ## Learning More
@@ -168,8 +170,7 @@ understand what is going on with Elm and The Elm Architecture, check out
 [guide.elm-lang.org][guide]. The section on [The Elm Architecture][arch] slowly
 builds up to subscriptions and has a bunch of nice examples.
 
-Experienced Elm users should read the [upgrade plan][plan]. I know you
-know Elm, but you should read [guide.elm-lang.org][guide] anyway. The sections on [The Elm Architecture][arch] and [ports][] are particularly important for you.
+Experienced Elm users should read the [upgrade plan][plan]. You should read [guide.elm-lang.org][guide] too. I know you know Elm already, but I think the guide really shows how all the parts of Elm 0.17 fit together in a nice way. The sections on [The Elm Architecture][arch] and [ports][] are particularly important for you.
 
 And remember, you can always come talk to us on [the Elm Slack channel][slack]! We are a friendly bunch that is happy to help folks learning new stuff or upgrading old code. Just ask!
 
@@ -182,17 +183,66 @@ And remember, you can always come talk to us on [the Elm Slack channel][slack]! 
 
 ## A Farewell to FRP
 
-Elm is about making delightful projects. Stuff like this [Raycaster](https://twitter.com/krisajenkins/status/726043742180925440). Projects you are excited to share. Projects that get you excited about programming! That means I am always asking myself how Elm can be simpler. How can it be easier to learn? More fun? Quicker for prototyping? More reliable? I think my obsession with these questions are the heart of Elm's design philosophy and Elm's success.
+Elm is about making delightful projects. Stuff like this [raycaster][].
+Projects you are excited to share. Projects that get you excited about
+programming! That means I am always asking myself how Elm can be simpler. How
+can it be easier to learn? More fun? Quicker for prototyping? More reliable?
+I think my obsession with these questions are the heart of Elm's design
+philosophy and Elm's success.
 
-When I started working on [my thesis][thesis] in 2011, I stumbled upon this academic subfield called Functional Reactive Programming (FRP). By stripping that approach down to its simplest form, I ended up with something way easier to learn than similar functional languages. Signals meant piles of difficult concepts just were not necessary in Elm.
+[raycaster]: https://twitter.com/krisajenkins/status/726043742180925440
+
+When I started working on [my thesis][thesis] in 2011, I stumbled upon this
+academic subfield called Functional Reactive Programming (FRP). By stripping
+that approach down to its simplest form, I ended up with something way easier
+to learn than similar functional languages. Signals meant piles of difficult
+concepts just were not necessary in Elm.
 
 [thesis]: /papers/concurrent-frp.pdf
 
-I think anyone who has taught Elm recently would agree that signals are one of the few stumbling blocks left. They made Elm easier than its peers, but they did not make Elm *easy*.
+I think anyone who has taught Elm recently would agree that signals are one of
+the few stumbling blocks left. They made Elm easier than its peers, but they
+did not make Elm *easy*.
 
-As The Elm Architecture emerged, it became clear that you could do almost all your Elm programming without thinking about signals at all. So the [start-app](https://github.com/evancz/start-app) package was an experiment to see what happens when we push signals way later in the learning path. The results were great! Folks were getting started quicker, making it farther, and having more fun! In the end, we had lots of folks who became excellent Elm programmers who just did not really know much about signals. They were not necessary.
+As The Elm Architecture emerged, it became clear that you could do almost all
+your Elm programming without thinking about signals at all. So the [start-app][]
+package was an experiment to see what happens when we push signals way later in
+the learning path. The results were great! Folks were getting started quicker,
+making it farther, and having more fun! In the end, we had lots of folks who
+became excellent Elm programmers without ever really learning much about
+signals. They were not necessary. Elm 0.17 is just taking the next logical step.
 
-MORE WORDS, COMING SOON
+[start-app]: https://github.com/evancz/start-app
+
+In the end, it was possible to remove signals because Elm has been moving
+towards an explicit emphasis on concurrency for quite some time now. The seeds
+for this are obvious in my thesis, but the wheels really started turning on
+this in Elm 0.15 when tasks were introduced. That release also introduced a
+scheduler that was able to switch between work whenever it wanted. Elm 0.17
+improves this scheduler quite significantly, taking some basic insights from
+the BEAM VM used by Erlang and Elixir. You can read a tiny bit about
+[how it works][docs1] and [where it is going][docs2] in the `Process` module
+docs. This is also the foundation for [effect managers][mgmt], which make
+subscriptions possible in the first place. I hope to flesh out the
+documentation on this much more, but the nice thing is that you do not need to
+know this stuff to be an Elm expert. Just like with my thesis,
+[Concurrent FRP][thesis], the goal is to get the benefits of concurrency for
+free.
+
+[docs1]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
+[docs2]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process#future-plans
+[mgmt]: http://guide.elm-lang.org/effect_managers/index.html
+
+So is Elm about FRP anymore? No. Those days are over now. Elm is just a
+functional language that takes concurrency very seriously. And from a user's
+perspective, Elm is just a friendly functional language!
+
+> **Note:** Interested readers may find [Lucid Synchrone][lucid] interesting.
+Unfortunately for me, I had no idea my thesis had so much in common with
+synchronous programming languages at the time, but the connections are quite
+striking. I might argue that Elm was *never* about FRP.
+
+[lucid]: http://www.di.ens.fr/~pouzet/bib/chap_lucid_synchrone_english_iste08.pdf
 
 
 ## What is Next?
@@ -213,9 +263,7 @@ not really that much stuff when you look at it seriously, so the
 [@elm-lang](https://github.com/elm-lang) organization will expand to cover the
 remaining APIs. This is best because:
 
-  1. I do not expect to be compiling to JavaScript forever. The smaller the
-  interface between Elm and JS, the easier it will be to support other
-  platforms.
+  1. I do not expect to be compiling to JavaScript forever, especially with WebAssembly on the horizon. The smaller the interface between Elm and JS, the easier it will be to support other platforms.
 
   2. We do not want four okay versions of bindings to web platform APIs. One
   great version is better.
