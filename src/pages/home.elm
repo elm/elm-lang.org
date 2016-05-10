@@ -105,6 +105,13 @@ bullets =
       , text "."
       ]
     ]
+  , [ h2 [] [text "Friendly Error Messages"]
+    , p []
+        [ text "The Elm compiler is able to find tricky issues in your code very quickly. When it finds an issue, "
+        , a [href "/blog/compilers-as-assistants"] [text "it provides friendly and helpful messages"]
+        , text ". This makes it easy to find and fix problems before your users see them."
+        ]
+    ]
   , [ h2 [] [text "Blazing fast rendering"]
     , p []
         [ text "The "
@@ -131,15 +138,8 @@ bullets =
   , [ h2 [] [text "Smooth JavaScript interop"]
     , p []
         [ text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple "
-        , a [href "/guide/interop"] [text "ports"]
+        , a [href "http://guide.elm-lang.org/interop/javascript.html"] [text "ports"]
         , text " system, your Elm code can communicate with JavaScript without sacrificing guarantees."
-        ]
-    ]
-  , [ h2 [] [text "Time-traveling debugger"]
-    , p []
-        [ text "What if you could pause time and replay all recent user inputs? What if you could make a code change and watch the results replay without a page refresh? "
-        , a [href "/blog/time-travel-made-easy"] [text "Try it out"]
-        , text " and see for yourself!"
         ]
     ]
   ]
