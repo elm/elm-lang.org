@@ -11,8 +11,8 @@ main =
     "examples"
     [ Center.markdown "600px" content
     , div [ Center.style "600px" ]
-        [ view "Core" core
-        , view "HTML" html
+        [ view "HTML" html
+        , view "Functional Stuff" core
         , view "Effects" effects
         ]
     ]
