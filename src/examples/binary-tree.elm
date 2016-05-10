@@ -1,15 +1,20 @@
-{-----------------------------------------------------------------
+{- OVERVIEW ------------------------------------------------------
 
 A "Tree" represents a binary tree. A "Node" in a binary tree
 always has two children. A tree can also be "Empty". Below I have
 defined "Tree" and a number of useful functions.
 
-This example also includes some challenge problems :)
+This example also includes some challenge problems!
 
 -----------------------------------------------------------------}
 
-import Graphics.Element exposing (..)
-import Text
+
+import Html exposing (Html, div, text)
+import Html.Attributes exposing (style)
+
+
+
+-- TREES
 
 
 type Tree a
@@ -65,25 +70,30 @@ map f tree =
           Node (f v) (map f left) (map f right)
 
 
-t1 = fromList [1,2,3]
-t2 = fromList [2,1,3]
+
+-- PLAYGROUND
 
 
-main : Element
+deepTree =
+  fromList [1,2,3]
+
+
+niceTree =
+  fromList [2,1,3]
+
+
 main =
-    flow down
-        [ display "depth" depth t1
-        , display "depth" depth t2
-        , display "map ((+)1)" (map ((+)1)) t2
-        ]
+  div [ style [ ("font-family", "monospace") ] ]
+    [ display "depth deepTree" (depth deepTree)
+    , display "depth niceTree" (depth niceTree)
+    , display "incremented" (map (\n -> n + 1) niceTree)
+    ]
 
 
-display : String -> (Tree a -> b) -> Tree a -> Element
-display name f value =
-    name ++ " (" ++ toString value ++ ") &rArr;\n    " ++ toString (f value) ++ "\n "
-        |> Text.fromString
-        |> Text.monospace
-        |> leftAligned
+display : String -> a -> Html msg
+display name value =
+  div [] [ text (name ++ " ==> " ++ toString value) ]
+
 
 
 {-----------------------------------------------------------------

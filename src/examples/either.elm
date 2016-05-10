@@ -1,4 +1,4 @@
-import Graphics.Element exposing (show)
+import Html exposing (text)
 
 
 {-| This is a union type that lets you put together two types.
@@ -25,20 +25,22 @@ partition : List (Either a b) -> (List a, List b)
 partition eithers =
   case eithers of
     [] ->
-        ([], [])
+      ([], [])
 
     Left a :: rest ->
-        let
-          (lefts, rights) = partition rest
-        in
-          (a :: lefts, rights)
+      let
+        (lefts, rights) =
+          partition rest
+      in
+        (a :: lefts, rights)
 
     Right b :: rest ->
-        let
-          (lefts, rights) = partition rest
-        in
-          (lefts, b :: rights)
+      let
+        (lefts, rights) =
+          partition rest
+      in
+        (lefts, b :: rights)
 
 
 main =
-  show (partition userIDs)
+  text (toString (partition userIDs))

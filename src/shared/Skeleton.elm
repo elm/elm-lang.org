@@ -1,4 +1,4 @@
-module Skeleton (skeleton) where
+module Skeleton exposing (skeleton)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

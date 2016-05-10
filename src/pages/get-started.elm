@@ -5,21 +5,19 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Get Started"
-
-
 main =
   Blog.docs
     "Get Started"
     [ Center.markdown "600px" content ]
+
 
 content = """
 
 This page will try to guide you through the first steps of using Elm and Elm's toolchain.
 
 We assume you have installed the Elm Platform using one of the methods from the
-[Install page][install] on the Elm site.
+[install page][install] on the Elm site.
+
 
 ## Tools
 
@@ -34,10 +32,12 @@ After a successful installation, they should be available on your machine:
 
 Let's go over them one by one:
 
+
 ### elm
 
 `elm` is actually a way to run all other tools.
 Try opening a terminal and run `elm` to see the help message.
+
 
 ### elm-package
 
@@ -84,7 +84,6 @@ elm make Main.elm --output=index.html
 
 ### elm-repl
 
-
 REPL stands for [read-eval-print-loop][repl] which lets you play with small
 Elm expressions. the [elm-repl][] can import code from your projects, so if you want
 to play around with a function buried deep inside a module, you can load it
@@ -97,6 +96,7 @@ will not work.
 
 - `:help`: will print a help message
 - `:exit`: will exit the REPL
+
 
 ### elm-reactor
 
@@ -131,6 +131,7 @@ With each of these tools you can use the `--help` flag to get more information.
 Each tool also has a README on [GitHub](http://github.com/elm-lang) that has
 some helpful information.
 
+
 ## Configure Your Editor
 
 We know of Elm syntax highlighting modes for at least the following text editors:
@@ -160,9 +161,7 @@ It has a few small Elm programs that are great to learn from and fun to
 play with in the [Online Editor][OE] or [Elm Reactor][elm-reactor].
 
 
-
 ### Continue Learning
-
 
 In the [documentation][] page on the website, you can find a bunch of resources on Elm:
 
@@ -201,8 +200,6 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 `#elm` IRC channel on `irc.freenode.net` and ask for help!
 
 
-
-
 [repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
 [install]: /install
 [Elm]: http://elm-lang.org
@@ -222,4 +219,3 @@ Additionally: if you ever get stuck, try posting on the [mailing list][] or come
 [mailing list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 
 """
-

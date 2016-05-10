@@ -1,31 +1,27 @@
 import Html exposing (div, button, text)
+import Html.App exposing (beginnerProgram)
 import Html.Events exposing (onClick)
-import StartApp.Simple as StartApp
 
 
-{-| Read more about StartApp and how this works at:
-
-    https://github.com/evancz/start-app
-
-The rough idea is that we just specify a model, a way to view it,
-and a way to update it. That's all there is to it!
--}
 main =
-  StartApp.start { model = 0, view = view, update = update }
+  beginnerProgram { model = 0, view = view, update = update }
 
 
-view address model =
+view model =
   div []
-    [ button [ onClick address Decrement ] [ text "-" ]
+    [ button [ onClick Decrement ] [ text "-" ]
     , div [] [ text (toString model) ]
-    , button [ onClick address Increment ] [ text "+" ]
+    , button [ onClick Increment ] [ text "+" ]
     ]
 
 
-type Action = Increment | Decrement
+type Msg = Increment | Decrement
 
 
-update action model =
-  case action of
-    Increment -> model + 1
-    Decrement -> model - 1
+update msg model =
+  case msg of
+    Increment ->
+      model + 1
+
+    Decrement ->
+      model - 1

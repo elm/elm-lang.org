@@ -4,11 +4,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm Blog"
-
-
 main =
   Skeleton.skeleton "blog" [ Center.markdown "600px" blog ]
 
@@ -20,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [A Farewell to FRP](/blog/farewell-to-frp)
  * [New Adventures for Elm](/blog/new-adventures-for-elm)
  * [Compilers as Assistants](/blog/compilers-as-assistants)
  * [Compiler Errors for Humans](/blog/compiler-errors-for-humans)
@@ -35,8 +31,11 @@ blog = """
  * [Escape from Callback Hell](/blog/escape-from-callback-hell)
  * [Making Pong](/blog/making-pong)
 
+<br>
+
 ### Release Notes
 
+* <code>[0.17][17]        &nbsp; &nbsp; May 2016 &nbsp; </code>Add subscriptions, remove signals
 * <code>[0.16][16]        &nbsp; &nbsp; Nov &nbsp; &nbsp; &nbsp; &nbsp;</code>Even better error messages!
 * <code>[0.15.1][151]            &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Dramatically improved error messages
 * <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
@@ -83,6 +82,9 @@ blog = """
   [15]: /blog/announce/0.15
   [151]: /blog/compiler-errors-for-humans
   [16]: /blog/compilers-as-assistants
+  [17]: /blog/farewell-to-frp
+
+<br>
 
 ### Conference Videos
 
@@ -90,9 +92,14 @@ blog = """
   “If functional programming is so great, why is it still niche? We have a
   product that can practically eliminate runtime errors, make refactoring much
   easier, lighten the testing burden, all while being quite delightful to use.
-  What’s the hold up?” [Full abstract][curry-on-abstract]
+  What’s the hold up?”
 
-* [Controlling Time and Space][sl2014] &mdash; categorizes the many
+* [Accidentally Concurrent][cm2015] &mdash; This talk examines references,
+  objects, and reactivity in terms of concurrency. This reframing is a
+  useful way of understanding the “accidental complexity” in your code
+  base. [Full Abstract][cm2015-abstract]
+
+* [Controlling Time and Space][sl2014] &mdash; Categorizes the many
   formulations of FRP, showing how they relate to Elm and what benefits you
   get from doing it the Elm way.
 
@@ -103,8 +110,9 @@ blog = """
 * [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
   Covers the basics of graphics and FRP before Elm even had its record system!
 
-[curry-on]: https://youtu.be/oYk8CKH7OhE
-[curry-on-abstract]: http://www.curry-on.org/2015/sessions/lets-be-mainstream-user-focused-design-in-elm.html
+[curry-on]: http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design
+[cm2015]: https://youtu.be/DfLvDFxcAIA
+[cm2015-abstract]: http://www.codemesh.io/codemesh2015/evan-czaplicki
 [sl2014]: https://youtu.be/Agu6jipKfYw
 [sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
 [mlocjs]: http://www.ustream.tv/recorded/29330499

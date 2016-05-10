@@ -1,4 +1,4 @@
-module Blog (blog, docs, evan, michael, Date) where
+module Blog exposing (blog, docs, evan, michael, Date)
 
 import Dict
 import Html exposing (..)
@@ -11,7 +11,7 @@ import Skeleton
 (=>) = (,)
 
 
-blog : String -> String -> Author -> Date -> List Html -> Html
+blog : String -> String -> Author -> Date -> List (Html msg) -> Html msg
 blog title subtitle author date body =
   Skeleton.skeleton "blog"
     [ div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]
@@ -27,7 +27,7 @@ blog title subtitle author date body =
     ]
 
 
-docs : String -> List Html -> Html
+docs : String -> List (Html msg) -> Html msg
 docs title body =
   Skeleton.skeleton "docs"
     [ div [ style [ "padding" => "4em 0 1em", "text-align" => "center" ] ]

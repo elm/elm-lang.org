@@ -5,10 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Elm Syntax"
-
-
 (=>) = (,)
 
 
@@ -320,7 +316,7 @@ You can use as many commas as you want.
 ### Modules
 
 ```elm
-module MyModule where
+module MyModule exposing (..)
 
 -- qualified imports
 import List                    -- List.map, List.foldl

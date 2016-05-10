@@ -5,10 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Compiler Errors for Humans"
-
-
 main =
   Blog.blog
     "Compiler Errors for Humans"

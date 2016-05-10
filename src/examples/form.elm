@@ -1,14 +1,20 @@
 import Html exposing (..)
-import Html.App exposing (beginnerProgram)
+import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 
 
 main =
-  beginnerProgram { model = model, view = view, update = update }
+  Html.beginnerProgram
+    { model = model
+    , view = view
+    , update = update
+    }
+
 
 
 -- MODEL
+
 
 type alias Model =
   { name : String
@@ -22,7 +28,9 @@ model =
   Model "" "" ""
 
 
+
 -- UPDATE
+
 
 type Msg
     = Name String
@@ -43,7 +51,9 @@ update action model =
       { model | passwordAgain = password }
 
 
+
 -- VIEW
+
 
 view : Model -> Html Msg
 view model =
@@ -53,6 +63,7 @@ view model =
     , input [ type' "password", placeholder "Re-enter Password", onInput PasswordAgain ] []
     , viewValidation model
     ]
+
 
 viewValidation : Model -> Html msg
 viewValidation model =
