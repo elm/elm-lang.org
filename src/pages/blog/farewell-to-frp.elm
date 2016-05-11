@@ -205,7 +205,7 @@ upgrading old code. Just ask!
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
 [guide]: http://guide.elm-lang.org/
 [arch]: http://guide.elm-lang.org/architecture/index.html
-[ports]: http://guide.elm-lang.org/interop/javascript.html
+[ports]: http://guide.elm-lang.org/interop/javascript.html#ports
 [slack]: http://elmlang.herokuapp.com/
 
 
