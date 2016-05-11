@@ -163,7 +163,7 @@ redirects =
     , "learn/Using-Signals.elm" ==> "/guide/reactivity" -- TODO
     , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
     , "learn/Components.elm" ==> "/guide/interop"
-    , "learn/Ports.elm" ==> "http://guide.elm-lang.org/interop/javascript.html#ports"
+    , "learn/Ports.elm" ==> "http://guide.elm-lang.org/interop/javascript.html"
     -- TODO /guide/* ==> new home
     , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
     ]
