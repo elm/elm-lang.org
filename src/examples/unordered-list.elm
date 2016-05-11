@@ -2,7 +2,7 @@ import Html exposing (li, text, ul)
 import Html.Attributes exposing (class)
 
 
-{-| This snippet uses the <ul> and <li> tags to create an unorderd
+{-| This snippet uses the <ul> and <li> tags to create an unordered
 list of French grocery items. Notice that all occurrences of 'ul'
 and 'li' are followed by two lists. The first list is for any HTML
 attributes, and the second list is all the HTML nodes inside the
