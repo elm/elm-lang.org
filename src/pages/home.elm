@@ -198,7 +198,11 @@ examples =
 example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
   [ a [ href demo, style ["display" => "block"] ]
-      [ img [src ("/assets/examples/" ++ imgSrc ++ ".png")] []
+      [ img
+          [ src ("/assets/examples/" ++ imgSrc ++ ".png")
+          , alt imgSrc
+          ]
+          []
       ]
   , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px"]]
       [ a [href code] [text "source"]

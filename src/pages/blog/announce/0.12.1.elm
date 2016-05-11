@@ -52,6 +52,7 @@ how to represent it as some kind of tree. One way to make these trees faster
 is to increase the &ldquo;branching factor&rdquo;.
 
 <img src="/assets/diagrams/trees.png"
+     alt="Branching Factor Diagram"
      style="width:500px; height:200px; display:block; margin: 0 auto;">
 
 The tree on the left has a branching factor *b* of 2. This means you need to

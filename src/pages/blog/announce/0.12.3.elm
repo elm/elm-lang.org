@@ -116,6 +116,7 @@ possible to generate colors and color schemes programmatically!
 
 <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/HSL_color_solid_cylinder_alpha_lowgamma.png/320px-HSL_color_solid_cylinder_alpha_lowgamma.png"
      style="float:right; padding-left:10px;"
+     alt="HSL Cylinder"
      width="160"
      height="120">
 

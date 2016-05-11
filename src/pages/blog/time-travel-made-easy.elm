@@ -104,7 +104,10 @@ shown on the &ldquo;Real Time&rdquo; graph and when your program receives the
 event, it is shown on the &ldquo;Elm Time&rdquo;. When Elm Reactor pauses Elm,
 the program stops receiving inputs from the real world until Elm is unpaused.
 
-<img src="/imgs/reactor-post/timeline-pause.png" style="width:600px; height:200px;">
+<img
+  src="/imgs/reactor-post/timeline-pause.png"
+  alt="pausing time"
+  style="width:600px; height:200px;">
 
 Events in Elm have a time associated with them. So that Elm does not get a hole
 in its perception of time, Elm Reactor offsets that recorded time by the time
@@ -216,9 +219,18 @@ Elm Reactor will work with any pure Elm project. Use it with  [elm-html][],
 [elm-webgl]: /blog/announce/0.12.3
 [elm-d3]: https://github.com/seliopou/elm-d3
 
-<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-html.png">
-<img style="width:190px; height:100px;" src="/imgs/reactor-post/elm-webgl.png">
-<img style="width:200px; height:100px;" src="/imgs/reactor-post/elm-d3.png">
+<img
+  style="width:200px; height:100px;"
+  alt="html"
+  src="/imgs/reactor-post/elm-html.png">
+<img
+  style="width:190px; height:100px;"
+  alt="webgl"
+  src="/imgs/reactor-post/elm-webgl.png">
+<img
+  style="width:200px; height:100px;"
+  alt="d3"
+  src="/imgs/reactor-post/elm-d3.png">
 
 Elm Reactor can also integrate with your favorite editor. The code
 swapping is editor-agnostic; it just watches your project directory for file

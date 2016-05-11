@@ -97,7 +97,7 @@ for default colors:
 
 <div style="width:100%; display:inline-block; text-align:center;">
 <a href="http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines">
-<img src="/Tango-Palette.png" style="width:456px; height:144px;"></img></a></div>
+<img src="/Tango-Palette.png" style="width:456px; height:144px;" alt="Tango Palette"></img></a></div>
 
 This color palette is designed such that all the colors work nicely
 with each other. This means you can randomly slap some colors on your
