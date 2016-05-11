@@ -217,21 +217,19 @@ infixr 9 ?
 
 Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
 and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
+to reduce parentheses usage. They are aliases for function application.
 
 ```elm
-f <| x = f x
-x |> f = f x
+viewNames1 names =
+  String.join ", " (List.sort names)
 
-dot =
-  scale 2 (move (20,20) (filled blue (circle 10)))
+viewNames2 names =
+  names
+    |> List.sort
+    |> String.join ", "
 
-dot' =
-  circle 10
-    |> filled blue
-    |> move (20,20)
-    |> scale 2
+-- (arg |> func) is the same as (func arg)
+-- Just keep repeating that transformation!
 ```
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
