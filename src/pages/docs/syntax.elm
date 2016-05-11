@@ -221,8 +221,8 @@ to reduce parentheses usage. They are aliases for function
 application.
 
 ```elm
-f <| x = f x
-x |> f = f x
+f <| x == f x
+x |> f == f x
 
 dot =
   scale 2 (move (20,20) (filled blue (circle 10)))
