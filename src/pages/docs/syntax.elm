@@ -246,10 +246,13 @@ JavaScript.
 
 ```elm
 let
-  x = 3 * 8
-  y = 4 ^ 2
+  twentyFour =
+    3 * 8
+
+  sixteen =
+    4 ^ 2
 in
-  x + y
+  twentyFour + sixteen
 ```
 
 You can define functions and use &ldquo;destructuring assignment&rdquo; in let
@@ -257,16 +260,35 @@ expressions too.
 
 ```elm
 let
-  (x,y) = (3,4)
+  ( three, four ) =
+    ( 3, 4 )
 
   hypotenuse a b =
     sqrt (a^2 + b^2)
 in
-  hypotenuse x y
+  hypotenuse three four
 ```
 
 Let-expressions are indentation sensitive, so each definition must align with
 the one above it.
+
+Finally, you can add type annotations in let-expressions.
+
+```haskell
+let
+  name : String
+  name =
+    "Hermann"
+
+  increment : Int -> Int
+  increment n =
+    n + 1
+in
+  increment 10
+```
+
+It is best to only do this on *concrete* types. Break generic functions into
+their own top-level definitions.
 
 
 ### Applying Functions
