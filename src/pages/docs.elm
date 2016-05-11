@@ -34,6 +34,7 @@ content = """
   * [Package Design](http://package.elm-lang.org/help/design-guidelines)
   * [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
   * [Advanced Topics](/docs/advanced-topics)
+  * [FAQ for Learners](http://elm-community.github.io/elm-faq/)
 
 
 ### Packages
