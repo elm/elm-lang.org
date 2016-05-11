@@ -141,7 +141,7 @@ all of your patterns.
 type List = Empty | Node Int List
 ```
 
-Not sure what this means? [Read this](/guide/model-the-problem).
+Not sure what this means? [Read this](http://guide.elm-lang.org/types/union_types.html).
 
 ### Records
 
