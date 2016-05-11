@@ -5,10 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Elm Syntax"
-
-
 (=>) = (,)
 
 
@@ -145,7 +141,7 @@ all of your patterns.
 type List = Empty | Node Int List
 ```
 
-Not sure what this means? [Read this](/guide/model-the-problem).
+Not sure what this means? [Read this](http://guide.elm-lang.org/types/union_types.html).
 
 ### Records
 
@@ -320,7 +316,7 @@ You can use as many commas as you want.
 ### Modules
 
 ```elm
-module MyModule where
+module MyModule exposing (..)
 
 -- qualified imports
 import List                    -- List.map, List.foldl

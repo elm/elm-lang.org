@@ -5,10 +5,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Time Travel made Easy"
-
-
 (=>) = (,)
 
 

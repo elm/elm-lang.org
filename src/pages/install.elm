@@ -5,11 +5,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Install Elm"
-
-
 main =
   Skeleton.skeleton "install"
     [ Center.markdown "600px" install
@@ -21,15 +16,15 @@ install = """
 
 # Install
 
-  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.pkg)
-  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.16.exe)
+  * Mac &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.17.pkg)
+  * Windows &mdash; [installer](http://install.elm-lang.org/Elm-Platform-0.17.exe)
   * Anywhere &mdash; [npm installer][npm] or [build from source][build]
 
 Afterwards, visit the [get started page][get-started].
 
 [npm]: https://www.npmjs.com/package/elm
 [build]: https://github.com/elm-lang/elm-platform
-[get-started]: http://elm-lang.org/get-started
+[get-started]: /get-started
 
 ## Syntax Highlighting
 

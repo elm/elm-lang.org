@@ -2,10 +2,6 @@ import Blog
 import Center
 
 
-port title : String
-port title = "Elm 0.10"
-
-
 main =
   Blog.blog
     "Elm 0.10"
@@ -34,9 +30,9 @@ There are also some improvements for Elm-related tools including
 [improved documentation](http://package.elm-lang.org/),
 [hot-swapping](/blog/interactive-programming) and better hints in
 the online editor, and a big site redesign to make resources like
-[the beginner classes](http://elm-lang.org/Learn.elm),
+[the beginner classes](/Learn.elm),
 [demo of html/js integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo), and
-[larger examples](http://elm-lang.org/examples#open-source-projects)
+[larger examples](/examples#open-source-projects)
 easier to find.
 
 To upgrade run `cabal update && cabal install elm`. Note that

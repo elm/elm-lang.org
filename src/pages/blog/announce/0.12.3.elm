@@ -3,10 +3,6 @@ import Center
 import Debug
 
 
-port title : String
-port title = "Elm 0.12.3"
-
-
 main =
   Blog.blog
     "Elm 0.12.3"

@@ -1,8 +1,8 @@
-import Graphics.Element exposing (..)
+import Html exposing (text)
 
 
 main =
-  show (mergesort [5,3,8,1,9,4,7])
+  text (toString (mergesort [5,3,8,1,9,4,7]))
 
 
 {-| Sorts a list of values by:

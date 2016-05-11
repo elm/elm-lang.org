@@ -1,15 +1,16 @@
-import Html exposing (..)
+import Html exposing (Html, Attribute, div, text, input)
+import Html.App exposing (beginnerProgram)
 import Html.Attributes exposing (..)
-import Html.Events exposing (on, targetChecked)
-import Signal exposing (Address)
-import StartApp.Simple as StartApp
+import Html.Events exposing (onCheck)
 
 
 main =
-  StartApp.start { model = initialModel, view = view, update = update }
+  beginnerProgram { model = model, view = view, update = update }
+
 
 
 -- MODEL
+
 
 type alias Model =
   { red : Bool
@@ -18,20 +19,24 @@ type alias Model =
   }
 
 
-initialModel =
+model : Model
+model =
   Model False False True
+
 
 
 -- UPDATE
 
-type Action
+
+type Msg
   = Red Bool
   | Underline Bool
   | Bold Bool
 
 
-update action model =
-  case action of
+update : Msg -> Model -> Model
+update msg model =
+  case msg of
     Red bool ->
         { model | red = bool }
 
@@ -42,17 +47,30 @@ update action model =
         { model | bold = bool }
 
 
+
 -- VIEW
 
-view address model =
-  div [] <|
-    span [toStyle model] [text "Hello, how are you?!"]
-    :: br [] []
-    :: checkbox address model.red Red "red"
-    ++ checkbox address model.underline Underline "underline"
-    ++ checkbox address model.bold Bold "bold"
+
+view : Model -> Html Msg
+view model =
+  div []
+    [ div [toStyle model] [text "Hello, how are you?!"]
+    , div []
+        [ input [ type' "checkbox", checked model.red, onCheck Red ] []
+        , text "red"
+        ]
+    , div []
+        [ input [ type' "checkbox", checked model.underline, onCheck Underline ] []
+        , text "underline"
+        ]
+    , div []
+        [ input [ type' "checkbox", checked model.bold, onCheck Bold ] []
+        , text "bold"
+        ]
+    ]
 
 
+toStyle : Model -> Attribute msg
 toStyle model =
   style
     [ ("color", if model.red then "red" else "black")
@@ -61,14 +79,5 @@ toStyle model =
     ]
 
 
-checkbox : Address Action -> Bool -> (Bool -> Action) -> String -> List Html
-checkbox address isChecked tag name =
-  [ input
-      [ type' "checkbox"
-      , checked isChecked
-      , on "change" targetChecked (Signal.message address << tag)
-      ]
-      []
-  , text name
-  , br [] []
-  ]
+-- Exercise: move the repetative code in `view` into a separate function
+-- and use it three times.

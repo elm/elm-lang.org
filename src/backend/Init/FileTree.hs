@@ -23,11 +23,7 @@ fileTree =
       , File "error.log"
       ]
   , Dir "gen"
-      [ Dir "guide"
-          [ Dir "elm" []
-          , Dir "html" []
-          ]
-      , Dir "examples"
+      [ Dir "examples"
           [ Dir "code" []
           , Dir "result" []
           , Dir "editor" []

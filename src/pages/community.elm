@@ -4,10 +4,6 @@ import Center
 import Skeleton
 
 
-port title : String
-port title =
-  "Elm Community"
-
 
 main =
   Skeleton.skeleton "community" [ Center.markdown "600px" community ]
