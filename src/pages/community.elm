@@ -86,11 +86,12 @@ encouraging interesting projects!
 
 Think about organizing meetings in your city, it is fun!
 
-There are a ton of Elm folks on the East coast, so Boston and New York would
-both be great places for meetups. The European community is also quite strong,
-London in particular it seems. We had [Elm Workshop][workshop] in 2013
-with speakers and attendees from all over Europe, so I think it is worth a
-shot!
+There is an [Elm Meetup group](http://www.meetup.com/Elm-NYC/) in New York City
+and, since there are a ton of Elm folks on the East coast, Boston and some
+other cities would also be great places for meetups. The European community is
+also quite strong, London in particular it seems. We had [Elm Workshop]
+[workshop] in 2013 with speakers and attendees from all over Europe, so I think 
+it is worth a shot!
 
 [workshop]: https://www.youtube.com/channel/UCzbnVYNyCwES9u3dqYZ-0WQ
 
