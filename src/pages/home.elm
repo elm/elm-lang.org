@@ -72,11 +72,11 @@ htmlSection =
     , div [ style [ "display" => "block", "margin" => "2em auto 0", "max-width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
             [ text "Writing HTML apps is super easy with "
-            , a [href "https://github.com/evancz/start-app/blob/master/README.md"] [text "start-app"]
+            , a [href "http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App"] [text "Html.App"]
             , text ". Not only does it render "
             , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
             , text ", it also quietly guides you towards "
-            , a [href "https://github.com/evancz/elm-architecture-tutorial/"] [text "well-architected code"]
+            , a [href "http://guide.elm-lang.org/"] [text "well-architected code"]
             , text "."
             ]
         ]
