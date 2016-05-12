@@ -30,7 +30,7 @@ easier:
   * [elm-router][] &mdash; generate pages dynamically based on the URL
   * [elm-storage][] &mdash; work with local storage
 
-[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
+[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
 [elm-router]: https://github.com/TheSeamau5/elm-router/
 [elm-storage]: https://github.com/TheSeamau5/elm-storage/
@@ -78,7 +78,7 @@ working fine. We have noticed a couple really nice benefits so far:
   * **Rendering is extremely fast.** [elm-html][] makes it really simple to
     optimize by just sprinkling [`lazy`][lazy] into your rendering code.
 
-[lazy]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy
+[lazy]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Lazy
 
 At this point, Richard's big question is &ldquo;how can we write more in
 Elm?&rdquo; So this release is all about how we can write more in Elm and
@@ -102,7 +102,7 @@ for Elm&rsquo;s core libraries from the
 import Http
 
 pkgUrl =
-  "http://package.elm-lang.org/packages/elm-lang/core/latest/README.md"
+  "http://package.elm-lang.org/packages/elm-lang/core/2.0.0/README.md"
 
 getReadme : Task Http.Error String
 getReadme =
@@ -113,7 +113,7 @@ So `getReadme` is a `Task` that can be performed by Elm&rsquo;s runtime. When
 we run the task, it will either fail with an [`Http.Error`][error] or succeed
 with a string of markdown.
 
-[error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
+[error]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/Http#Error
 
 To actually perform a task, you send it out a [port][]. Currently Richard sends
 certain values out to CoffeeScript which performs all sorts of effects and then
@@ -142,7 +142,7 @@ us render to canvas much more efficiently:
 Graphics.Collage.text : Text -> Form
 ```
 
-We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/latest/Text)
+We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Text)
 API but we then render direct to canvas to get much better performance. I am
 looking forward to seeing this used in practice!
 
@@ -233,9 +233,9 @@ locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
 the new import syntax [here](/docs/syntax#modules).
 
-[id]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#id
-[href]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#href
-[width]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Attributes#width
+[id]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#id
+[href]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#href
+[width]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#width
 
 This syntax seems like a minor change, but it has made a huge difference in how
 it feels to work with imports. I have been really happy with it so far. When
@@ -278,7 +278,7 @@ There are a few ways to talk to a particular mailbox. The most common is via
 the event handlers in [`Html.Events`][events]. For example, the `onClick`
 function takes an address to send to and a value to send.
 
-[events]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Events
+[events]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Events
 
 ```elm
 onClick : Address a -> a -> Attribute
@@ -314,7 +314,7 @@ are pretty much the same, so the changes are mostly find and replace:
   * Any talk of `LocalChannel` is replaced by `Address` and [`forwardTo`][forwardTo]
   * Handlers like `onClick` have a simpler API with the latest [elm-html][]
 
-[forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/latest/Signal#forwardTo
+[forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#forwardTo
 
 
 ## Return of the `elm` command

@@ -125,7 +125,7 @@ the current time, updated every second. New times (like `Tick 1462487781991`)
 are fed into the `update` function, just like messages resulting from mouse
 clicks or HTTP requests.
 
-[every]: http://package.elm-lang.org/packages/elm-lang/core/latest/Time#every
+[every]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Time#every
 
 So besides subscriptions, everything about The Elm Architecture is the same as
 before. It is just easier to passively wait for stuff. Let's see this in a
