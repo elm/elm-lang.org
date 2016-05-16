@@ -371,6 +371,9 @@ distance {x,y} =
   sqrt (x^2 + y^2)
 ```
 
+Learn how to read types and use type annotations
+[here](http://guide.elm-lang.org/types/reading_types.html).
+
 
 ### Type Aliases
 
@@ -388,6 +391,9 @@ origin : Point
 origin =
   { x = 0, y = 0 }
 ```
+
+Learn more about type aliases
+[here](http://guide.elm-lang.org/types/type_aliases.html).
 
 
 ### JavaScript Interop
