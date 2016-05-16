@@ -94,6 +94,9 @@ shot!
 
 [workshop]: https://www.youtube.com/channel/UCzbnVYNyCwES9u3dqYZ-0WQ
 
+### Cities with meetups
+
+* [Boston](http://www.meetup.com/Boston-Elm/)
 
 ## Contribute
 
