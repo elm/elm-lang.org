@@ -30,7 +30,7 @@ This syntax reference is a minimal introduction to:
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
-- [JavaScript FFI](#javascript-ffi)
+- [JavaScript Interop](#javascript-interop)
 
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
@@ -390,51 +390,32 @@ origin =
 ```
 
 
-### JavaScript FFI
+### JavaScript Interop
 
 ```elm
 -- incoming values
-port userID : String
-port prices : Signal Float
+port prices : (Float -> msg) -> Sub msg
 
 -- outgoing values
-port time : Signal Float
-port time =
-  every second
+port time : Float -> Cmd msg
 ```
 
 From JS, you talk to these ports like this:
 
 ```javascript
-var example = Elm.worker(Elm.Example, {
-  userID:"abc123",
-  prices:11
-});
+var app = Elm.Example.worker();
 
-example.ports.prices.send(42);
-example.ports.prices.send(13);
+app.ports.prices.send(42);
+app.ports.prices.send(13);
 
-example.ports.time.subscribe(callback);
-example.ports.time.unsubscribe(callback);
-
-example.ports.increment(41) === 42;
+app.ports.time.subscribe(callback);
+app.ports.time.unsubscribe(callback);
 ```
 
-More example uses can be found
-[here](https://github.com/evancz/elm-html-and-js)
-and [here](https://gist.github.com/evancz/8521339).
+Read more about [HTML embedding][html] and [JavaScript interop][js].
 
-Elm has some built-in port handlers that automatically take some
-imperative action:
+[html]: http://guide.elm-lang.org/interop/html.html
+[js]: http://guide.elm-lang.org/interop/javascript.html
 
- * `title` sets the page title, ignoring empty strings
- * `log` logs messages to the developer console
- * `redirect` redirects to a different page, ignoring empty strings
-
-Experimental port handlers:
-
- * `favicon` sets the pages favicon
- * `stdout` logs to stdout in Node.js and to console in browser
- * `stderr` logs to stderr in Node.js and to console in browser
 
 """
