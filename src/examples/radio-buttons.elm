@@ -1,4 +1,4 @@
-import Html exposing (Html, Attribute, div, input, span, text)
+import Html exposing (Html, Attribute, br, div, input, label, span, text)
 import Html.App exposing (beginnerProgram)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onCheck)
@@ -74,7 +74,8 @@ radio style name model =
     isSelected =
       model.style == style
   in
-    div []
-      [ input [ type' "radio", checked isSelected, onCheck (\_ -> Switch style) ] []
+    label []
+      [ br [] []
+      , input [ type' "radio", checked isSelected, onCheck (\_ -> Switch style) ] []
       , text name
       ]
