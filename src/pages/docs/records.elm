@@ -155,11 +155,11 @@ hypotenuse {x,y} =
 -- hypotenuse point3D == 5
 ```
 
-So it can be used on both `point2D` and point3D` no problem.
+So it can be used on both `point2D` and `point3D` no problem.
 
-Here is another example that just figures out if the `age` field is less than
-50. Again, it works on any record that has an `age` field no matter what other
-fields are in there.
+Here is another example that just figures out if the `age` field is less
+than 50. Again, it works on any record that has an `age` field no matter what
+other fields are in there.
 
 ```elm
 under50 {age} =
