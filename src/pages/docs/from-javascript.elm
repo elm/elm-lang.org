@@ -92,6 +92,7 @@ records =
   [ "{ x: 3, y: 4 }" `vs` "{ x = 3, y = 4 }"
   , "point.x" `vs` "point.x"
   , "point.x = 42" `vs` "{ point | x = 42 }"
+  , "{ ...point, x: 42 }" `vs` "{ point | x = 42 }"
   ]
 
 
