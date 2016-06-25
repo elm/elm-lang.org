@@ -274,7 +274,7 @@ the one above it.
 
 Finally, you can add type annotations in let-expressions.
 
-```haskell
+```elm
 let
   name : String
   name =
