@@ -32,7 +32,7 @@ Afterwards, visit the [get started page][get-started].
   * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
   * [Light Table](https://github.com/rundis/elm-light)
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
+  * [Sublime Text](https://packagecontrol.io/packages/Elm%20Language%20Support)
   * [Vim](https://github.com/lambdatoast/elm.vim)
   * [VS Code](https://github.com/sbrink/vscode-elm)
 
