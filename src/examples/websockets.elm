@@ -17,7 +17,7 @@ main =
 
 echoServer : String
 echoServer =
-  "ws://echo.websocket.org"
+  "wss://echo.websocket.org"
 
 
 
