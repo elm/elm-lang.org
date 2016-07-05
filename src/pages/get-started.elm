@@ -143,6 +143,7 @@ We know of Elm syntax highlighting modes for at least the following text editors
   * [Sublime Text](https://packagecontrol.io/packages/Elm%20Language%20Support)
   * [Vim](https://github.com/lambdatoast/elm.vim)
   * [VS Code](https://github.com/sbrink/vscode-elm)
+  * [IntelliJ](https://github.com/durkiewicz/elm-plugin)
 
 There may be others out there. If you cannot find an Elm mode for your
 favorite editor, using Haskell syntax highlighting is close enough to be

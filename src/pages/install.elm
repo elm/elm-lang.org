@@ -35,6 +35,7 @@ Afterwards, visit the [get started page][get-started].
   * [Sublime Text](https://packagecontrol.io/packages/Elm%20Language%20Support)
   * [Vim](https://github.com/lambdatoast/elm.vim)
   * [VS Code](https://github.com/sbrink/vscode-elm)
+  * [IntelliJ](https://github.com/durkiewicz/elm-plugin)
 
 
 ## Help
