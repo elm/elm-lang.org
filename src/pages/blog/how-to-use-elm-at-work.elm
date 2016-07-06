@@ -69,7 +69,7 @@ There are two stories you can tell after rewriting code:
 
   - &ldquo;You know that code that was totally fine? It is different now.&rdquo;
 
-You want to tell the first story. In the ideal telling, the new version is better because of a particular detail about Elm. Maybe that is immutability or The Elm Architecture or friendly error messages. Not only is it better, but it is better in a way that can only be acheived with Elm!
+You want to tell the first story. In the ideal telling, the new version is better because of a particular detail about Elm. Maybe that is immutability or The Elm Architecture or friendly error messages. Not only is it better, but it is better in a way that can only be achieved with Elm!
 
 I tried to illustrate this in [the Emoji Chat Room example](https://github.com/evancz/react-elm-components/tree/master/example) that comes with [`react-elm-components`](https://www.npmjs.com/package/react-elm-components). The Emoji picker is some off-the-shelf React component, and the chat room is a custom Elm program. We chose this split because (1) we cannot get the chat part off-the-shelf with the style we want and (2) websockets are a pleasure to work with in Elm. In other words, we chose to use Elm in a situation where it really shines!
 
