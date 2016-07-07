@@ -56,6 +56,8 @@ Again, this is *the* success story. I hear it again and again from folks using E
 
 **This process works because it minimizes risk.** Having an advocate means you have someone on the team who knows Elm really well. They can answer questions quickly in-house. Furthermore, you are trying something *small* in Elm. Maybe it is whipped up in a single day even. Point is, you are not pouring time and money into a project that may not work out. This means trying out Elm is really not a big commitment at all. Big upside, very little downside.
 
+When you go through this loop the second time, I would recommend expanding the section already written in Elm or trying something bigger on another page. Check out Richard&rsquo;s talk and Q&A [6 months of Elm in Production](https://www.youtube.com/watch?v=R2FtMbb-nLs) to learn more about how this process went at NoRedInk. Richard has the best strats.
+
 
 ## Fix a Problem
 
