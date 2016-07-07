@@ -2,7 +2,7 @@ port module EditorControls exposing (..)
 
 import Dict
 import Html exposing (..)
-import Html.App as Html
+import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
@@ -14,7 +14,7 @@ import Task
 
 
 main =
-  Html.program
+  App.program
     { init = init
     , view = view
     , update = update
