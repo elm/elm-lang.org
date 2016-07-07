@@ -77,6 +77,12 @@ Both [@elmlang][twitter] and [@czaplic](https://twitter.com/czaplic) tweet about
 Elm a lot. The #elmlang hashtag is commonly used. Using #elm is okay, but people
 tweet about weird stuff with that one sometimes.
 
+## Planet Elm
+
+[Planet Elm](http://planet.elm-lang.org/) aggregates broadly appealing, Elm-related blog posts pertaining to the 
+community at large (code, advocacy, marketing, infrastructure etc.). 
+If you would like your blog to be included in the Planet, read [the requirements and steps on how to join](https://github.com/Gizra/planet-elm/wiki/Planet-Elm-guidelines).
+
 ## Real Life
 
 [Evan Czaplicki](http://github.com/evancz) will periodically organize [Elm user
