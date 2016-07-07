@@ -20,7 +20,7 @@ main =
 
 start = """
 
-Last week I released [`react-elm-components`](https://www.npmjs.com/package/react-elm-components), making it simple to write a small part of your React app in Elm. If you are using React and JSX, it looks something like this:
+Embedding Elm in some big JavaScript project is not very hard. It's like three lines of JS, but it feels like no one knows about them! So I created [`react-elm-components`](https://www.npmjs.com/package/react-elm-components) to make it much more obvious. It looks like this:
 
 <a href="https://github.com/evancz/react-elm-components/tree/master/example"
   style="text-decoration: none"
@@ -35,9 +35,7 @@ function render() {
 ```
 </a>
 
-I created this package to help folks use Elm successfully at work. Tons of folks are trying out Elm these days, and as they share their experiences, I noticed that everyone who successfully introduces Elm at work tells exactly the same story. **They introduce Elm gradually into an existing JS project.** I want to make this path as easy as possible.
-
-The rest of this blog post outlines the typical success story in detail. What strategies work? What are some common mistakes?
+Why embed Elm like this? Well, tons of folks are trying out Elm these days, and as they share their experiences, I noticed that everyone who *successfully* introduces Elm at work tells exactly the same story. **They introduce Elm gradually into an existing JS project.** The rest of this blog post outlines the typical success story in detail. What strategies work? What are some common mistakes? I hope this will be helpful for folks interested in using Elm at work or on their own!
 
 > **Note:** The `react-elm-components` module is under 20 lines of JS, mostly React-related. So using the same strategy with Angular, Ember, etc. should be pretty simple. More about that [here](https://github.com/evancz/react-elm-components#angular-ember-etc).
 
