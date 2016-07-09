@@ -176,7 +176,8 @@ do this.
 
 ## Updating Records
 
-It is often useful to &ldquo;update&rdquo; the values in a record.
+It is often useful to &ldquo;update&rdquo; the values in a record. You can
+update as many fields as you want, separating each update by a comma.
 
 ```elm
 { point2D | y = 1 }           -- { x=0, y=1 }
@@ -184,7 +185,16 @@ It is often useful to &ldquo;update&rdquo; the values in a record.
 { steve | name = "Wozniak" }  -- { name="Wozniak", age=56 }
 ```
 
-You can update as many fields as you want, separating each update by a comma.
+Updating the name value to "Wozniak" in the previous example did not mutate
+the record steve. When we update some fields of steve we actually create a
+new record rather than overwriting the existing one.
+
+```elm
+steve                               -- { name="Jobs", age=56 }
+woz = { steve | name = "Wozniak" }  -- { name="Wozniak", age=56 }
+woz                                 -- { name="Wozniak", age=56 }
+```
+
 You can even change the type of value in a field. Say the user inputs a bunch
 of personal data producing a record. It would be nice to convert some of the
 strings into numbers if possible. This is no problem:
