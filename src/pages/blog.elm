@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [How to Use Elm at Work](/blog/how-to-use-elm-at-work)
  * [A Farewell to FRP](/blog/farewell-to-frp)
  * [New Adventures for Elm](/blog/new-adventures-for-elm)
  * [Compilers as Assistants](/blog/compilers-as-assistants)
