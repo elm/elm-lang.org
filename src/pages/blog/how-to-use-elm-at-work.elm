@@ -35,7 +35,7 @@ function render() {
 ```
 </a>
 
-Why embed Elm like this? Well, tons of folks are trying out Elm these days, and as they share their experiences, I noticed that everyone who *successfully* introduces Elm at work tells exactly the same story. **They introduce Elm gradually into an existing JS project.** The rest of this blog post outlines the typical success story in detail. What strategies work? What are some common mistakes? I hope this will be helpful for folks interested in using Elm at work or on their own!
+Why embed Elm like this? Well, tons of folks are trying out Elm these days, and as they share their experiences, I noticed that everyone who *successfully* introduces Elm at work tells the same story. **They introduce Elm gradually into an existing JS project.** The rest of this blog post outlines the typical success story in detail. What strategies work? What are some common mistakes? I hope this will be helpful for folks interested in using Elm at work or on their own!
 
 > **Note:** The `react-elm-components` module is under 20 lines of JS, mostly React-related. So using the same strategy with Angular, Ember, etc. should be pretty simple. More about that [here](https://github.com/evancz/react-elm-components#angular-ember-etc).
 
@@ -56,7 +56,7 @@ Again, this is *the* success story. I hear it again and again from folks using E
 
 **This process works because it minimizes risk.** Having an advocate means you have someone on the team who knows Elm really well. They can answer questions quickly in-house. Furthermore, you are trying something *small* in Elm. Maybe it is whipped up in a single day even. Point is, you are not pouring time and money into a project that may not work out. This means trying out Elm is really not a big commitment at all. Big upside, very little downside.
 
-When you go through this loop the second time, I would recommend expanding the section already written in Elm or trying something bigger on another page. Check out Richard&rsquo;s talk and Q&A [6 months of Elm in Production](https://www.youtube.com/watch?v=R2FtMbb-nLs) to learn more about how this process went at NoRedInk. Richard has the best strats.
+When you go through this loop the second time, I recommend expanding the section already written in Elm or trying something bigger on another page. These routes build on Elm strengths. For example, [friendly error messages](http://elm-lang.org/blog/compilers-as-assistants) get more and more useful as your Elm codebase grows. If you want more advice, check out Richard&rsquo;s talk [6 months of Elm in Production](https://www.youtube.com/watch?v=R2FtMbb-nLs) about what they did at NoRedInk. They have been very successful, and Richard is great at choosing projects strategically.
 
 
 ## Fix a Problem
