@@ -139,6 +139,7 @@ We know of Elm syntax highlighting modes for at least the following text editors
   * [Atom](https://atom.io/packages/language-elm)
   * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [IntelliJ](https://github.com/durkiewicz/elm-plugin)
   * [Light Table](https://github.com/rundis/elm-light)
   * [Sublime Text](https://packagecontrol.io/packages/Elm%20Language%20Support)
   * [Vim](https://github.com/lambdatoast/elm.vim)
