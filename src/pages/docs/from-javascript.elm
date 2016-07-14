@@ -10,6 +10,7 @@ main =
     "From JavaScript?"
     [ Center.markdown "800px" content
     , syntaxTable "Literals" literals
+    , syntaxTable "Comments" comments
     , syntaxTable "Objects / Records" records
     , syntaxTable "Functions" functions
     , syntaxTable "Control Flow" controlFlow
@@ -87,6 +88,15 @@ literals =
   , "[1,2,3]" `vs` "[1,2,3]"
   ]
 
+
+comments =
+  [ "// line comment" `vs` "-- line comment"
+  , """{-
+ multiline comment
+-}""" `vs` """/*
+  multiline comment
+  */"""
+  ]
 
 records =
   [ "{ x: 3, y: 4 }" `vs` "{ x = 3, y = 4 }"
