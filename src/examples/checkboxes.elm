@@ -1,4 +1,4 @@
-import Html exposing (Html, Attribute, div, text, input)
+import Html exposing (..)
 import Html.App exposing (beginnerProgram)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onCheck)
@@ -54,17 +54,20 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-    [ div [toStyle model] [text "Hello, how are you?!"]
-    , div []
-        [ input [ type' "checkbox", checked model.red, onCheck Red ] []
+    [ span [toStyle model] [text "Hello, how are you?!"]
+    , label []
+        [ br [] []
+        , input [ type' "checkbox", checked model.red, onCheck Red ] []
         , text "red"
         ]
-    , div []
-        [ input [ type' "checkbox", checked model.underline, onCheck Underline ] []
+    , label []
+        [ br [] []
+        , input [ type' "checkbox", checked model.underline, onCheck Underline ] []
         , text "underline"
         ]
-    , div []
-        [ input [ type' "checkbox", checked model.bold, onCheck Bold ] []
+    , label []
+        [ br [] []
+        , input [ type' "checkbox", checked model.bold, onCheck Bold ] []
         , text "bold"
         ]
     ]

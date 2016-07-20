@@ -1,5 +1,5 @@
 import Html exposing (..)
-import Html.App as Html
+import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket
@@ -7,7 +7,7 @@ import WebSocket
 
 
 main =
-  Html.program
+  App.program
     { init = init
     , view = view
     , update = update
@@ -17,7 +17,7 @@ main =
 
 echoServer : String
 echoServer =
-  "ws://echo.websocket.org"
+  "wss://echo.websocket.org"
 
 
 

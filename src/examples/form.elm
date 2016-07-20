@@ -1,11 +1,11 @@
 import Html exposing (..)
-import Html.App as Html
+import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 
 
 main =
-  Html.beginnerProgram
+  App.beginnerProgram
     { model = model
     , view = view
     , update = update
@@ -39,8 +39,8 @@ type Msg
 
 
 update : Msg -> Model -> Model
-update action model =
-  case action of
+update msg model =
+  case msg of
     Name name ->
       { model | name = name }
 

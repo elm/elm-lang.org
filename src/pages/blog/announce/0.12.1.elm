@@ -23,7 +23,7 @@ structures, so there are some changes and improvements in the `Dict`, `Set`,
 and `String` libraries too.
 
  [xash]: https://github.com/xashili
- [array]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
+ [array]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Array
 
 This release also simplifies all JavaScript related libraries.
 With [the release of ports in 0.11](/blog/announce/0.11), it became much
@@ -52,6 +52,7 @@ how to represent it as some kind of tree. One way to make these trees faster
 is to increase the &ldquo;branching factor&rdquo;.
 
 <img src="/assets/diagrams/trees.png"
+     alt="Branching Factor Diagram"
      style="width:500px; height:200px; display:block; margin: 0 auto;">
 
 The tree on the left has a branching factor *b* of 2. This means you need to

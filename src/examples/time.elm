@@ -1,5 +1,5 @@
 import Html exposing (Html)
-import Html.App as Html
+import Html.App as App
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
@@ -7,7 +7,7 @@ import Time exposing (Time, second)
 
 
 main =
-  Html.program
+  App.program
     { init = init
     , view = view
     , update = update
@@ -36,8 +36,8 @@ type Msg
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update action model =
-  case action of
+update msg model =
+  case msg of
     Tick newTime ->
       (newTime, Cmd.none)
 

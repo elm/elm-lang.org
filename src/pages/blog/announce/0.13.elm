@@ -195,7 +195,7 @@ parsing. Both Pandoc and cheapskate were created by [John MacFarlane][jgm] who
 knows a ton about Markdown and created cheapskate to focus on creating a
 parser that is extremely fast, standards compliant, and light-weight.
 
-[ports]: /guide/interop
+[ports]: http://guide.elm-lang.org/interop/javascript.html
 [Pandoc]: http://johnmacfarlane.net/pandoc/
 [cheapskate]: https://hackage.haskell.org/package/cheapskate
 [jgm]: https://github.com/jgm
@@ -235,7 +235,7 @@ streamlining the build process, and adding history and completion to `elm-repl`.
 The benefits of these efforts has become extremely obvious; it is great!
 
 [dan]: https://github.com/Dandandan
-[array]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
+[array]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Array
 [max]: https://github.com/maxsnew
 
 Finally, thank you to [Peter Halacsy][hp] and [Prezi][] for your support! You

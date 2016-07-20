@@ -22,7 +22,12 @@ main =
 
 
 image url =
-  img [src url, style [("display", "block"), ("margin", "1em auto")]] []
+  img
+    [ src url
+    , style [("display", "block"), ("margin", "1em auto")]
+    , alt "compiler output example"
+    ]
+    []
 
 
 content = """

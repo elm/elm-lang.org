@@ -1,5 +1,5 @@
 import Html exposing (..)
-import Html.App as Html
+import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
@@ -9,7 +9,7 @@ import Task
 
 
 main =
-  Html.program
+  App.program
     { init = init "cats"
     , view = view
     , update = update
@@ -45,8 +45,8 @@ type Msg
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update action model =
-  case action of
+update msg model =
+  case msg of
     MorePlease ->
       (model, getRandomGif model.topic)
 
@@ -88,7 +88,7 @@ getRandomGif : String -> Cmd Msg
 getRandomGif topic =
   let
     url =
-      "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" ++ topic
+      "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" ++ topic
   in
     Task.perform FetchFail FetchSucceed (Http.get decodeGifUrl url)
 

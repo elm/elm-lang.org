@@ -158,6 +158,7 @@ system](http://en.wikipedia.org/wiki/Cartesian_coordinate_system).
 First we should discuss how things used to work in Elm. The Old Way.
 
 <img src="/imgs/coords/flipped.jpg"
+     alt="upside down coordinates"
      style="border: 1px solid rgb(216,221,225); margin-left: 30px; float:right; width:126px; height:120px;">
 
 The JavaScript `<canvas>` uses a coordinate system that is upside down.
@@ -171,6 +172,7 @@ are trying to work with rotations and [polar
 coordinates](http://en.wikipedia.org/wiki/Polar_coordinate_system).
 
 <img src="/imgs/coords/cartesian.jpg"
+     alt="cartesian coordinates"
      style="border: 1px solid rgb(216,221,225); margin-left:30px; float:right; width:126px; height:91px;">
 
 Elm now uses the cartesian plane for rendering. The origin is in the middle

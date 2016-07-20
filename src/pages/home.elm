@@ -72,11 +72,11 @@ htmlSection =
     , div [ style [ "display" => "block", "margin" => "2em auto 0", "max-width" => "600px" ] ]
         [ p [ style [ "text-align" => "center" ] ]
             [ text "Writing HTML apps is super easy with "
-            , a [href "https://github.com/evancz/start-app/blob/master/README.md"] [text "start-app"]
+            , a [href "http://package.elm-lang.org/packages/elm-lang/html/latest"] [text "elm-lang/html"]
             , text ". Not only does it render "
             , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
             , text ", it also quietly guides you towards "
-            , a [href "https://github.com/evancz/elm-architecture-tutorial/"] [text "well-architected code"]
+            , a [href "http://guide.elm-lang.org/architecture/index.html"] [text "well-architected code"]
             , text "."
             ]
         ]
@@ -198,7 +198,11 @@ examples =
 example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
   [ a [ href demo, style ["display" => "block"] ]
-      [ img [src ("/assets/examples/" ++ imgSrc ++ ".png")] []
+      [ img
+          [ src ("/assets/examples/" ++ imgSrc ++ ".png")
+          , alt imgSrc
+          ]
+          []
       ]
   , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px"]]
       [ a [href code] [text "source"]

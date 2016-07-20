@@ -155,15 +155,18 @@ redirects =
     , "blog/Pong.elm" ==> "/blog/making-pong"
     , "learn/Syntax.elm" ==> "/docs/syntax"
     , "learn/FAQ.elm" ==> "/docs/from-javascript"
-    , "learn/Understanding-Types.elm" ==> "/guide/model-the-problem"
-    , "learn/Pattern-Matching.elm" ==> "/guide/model-the-problem"
-    , "learn/Union-Types.elm" ==> "/guide/model-the-problem"
+    , "learn/Understanding-Types.elm" ==> "http://guide.elm-lang.org/types/reading_types.html"
+    , "learn/Pattern-Matching.elm" ==> "http://guide.elm-lang.org/types/union_types.html"
+    , "learn/Union-Types.elm" ==> "http://guide.elm-lang.org/types/union_types.html"
     , "learn/Records.elm" ==> "/docs/records"
     , "learn/What-is-FRP.elm" ==> "/guide/reactivity" -- TODO
     , "learn/Using-Signals.elm" ==> "/guide/reactivity" -- TODO
     , "learn/Tasks.elm" ==> "/guide/reactivity#tasks"
-    , "learn/Components.elm" ==> "/guide/interop"
-    , "learn/Ports.elm" ==> "/guide/interop"
+    , "learn/Components.elm" ==> "http://guide.elm-lang.org/interop/javascript.html"
+    , "learn/Ports.elm" ==> "http://guide.elm-lang.org/interop/javascript.html"
+    , "guide/interop" ==> "http://guide.elm-lang.org/interop/javascript.html"
+    , "guide/core-language" ==> "http://guide.elm-lang.org/core_language.html"
+    , "guide/model-the-problem" ==> "http://guide.elm-lang.org/types/union_types.html"
     -- TODO /guide/* ==> new home
     , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
     ]

@@ -86,7 +86,7 @@ REPL stands for [read-eval-print-loop][repl] which lets you play with small
 Elm expressions. The [elm-repl][] can import code from your projects, so if you want
 to play around with a function buried deep inside a module, you can load it
 into the REPL and test it out. `elm-repl` eventually needs to evaluate
-JavaScript code, so for now you need to install [node.js](http://nodejs.org/)
+JavaScript code, so for now you need to install [Node.js](http://nodejs.org/)
 to use it. Since [elm-repl][] only offers a command line interface, browser related functionality
 will not work.
 
@@ -136,8 +136,9 @@ We know of Elm syntax highlighting modes for at least the following text editors
   * [Atom](https://atom.io/packages/language-elm)
   * [Brackets](https://github.com/lepinay/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
+  * [IntelliJ](https://github.com/durkiewicz/elm-plugin)
   * [Light Table](https://github.com/rundis/elm-light)
-  * [Sublime Text](https://github.com/deadfoxygrandpa/Elm.tmLanguage)
+  * [Sublime Text](https://packagecontrol.io/packages/Elm%20Language%20Support)
   * [Vim](https://github.com/lambdatoast/elm.vim)
   * [VS Code](https://github.com/sbrink/vscode-elm)
 

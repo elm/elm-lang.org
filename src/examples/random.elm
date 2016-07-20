@@ -1,12 +1,12 @@
 import Html exposing (..)
-import Html.App as Html
+import Html.App as App
 import Html.Events exposing (..)
 import Random
 
 
 
 main =
-  Html.program
+  App.program
     { init = init
     , view = view
     , update = update

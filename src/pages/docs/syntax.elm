@@ -30,7 +30,7 @@ This syntax reference is a minimal introduction to:
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
-- [JavaScript FFI](#javascript-ffi)
+- [JavaScript Interop](#javascript-interop)
 
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
@@ -141,7 +141,7 @@ all of your patterns.
 type List = Empty | Node Int List
 ```
 
-Not sure what this means? [Read this](/guide/model-the-problem).
+Not sure what this means? [Read this](http://guide.elm-lang.org/types/union_types.html).
 
 ### Records
 
@@ -153,24 +153,24 @@ the [initial announcement][v7], or [this academic paper][records].
   [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
-point =                    -- create a record
+point =                         -- create a record
   { x = 3, y = 4 }
 
-point.x                    -- access field
+point.x                         -- access field
 
-map .x [point,{x=0,y=0}]   -- field access function
+List.map .x [point,{x=0,y=0}]   -- field access function
 
-{ point | x = 6 }          -- update a field
+{ point | x = 6 }               -- update a field
 
-{ point |                  -- update many fields
+{ point |                       -- update many fields
     x = point.x + 1,
     y = point.y + 1
 }
 
-dist {x,y} =               -- pattern matching on fields
+dist {x,y} =                    -- pattern matching on fields
   sqrt (x^2 + y^2)
 
-type alias Location =      -- type aliases for records
+type alias Location =           -- type aliases for records
   { line : Int
   , column : Int
   }
@@ -217,21 +217,19 @@ infixr 9 ?
 
 Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
 and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function
-application.
+to reduce parentheses usage. They are aliases for function application.
 
 ```elm
-f <| x = f x
-x |> f = f x
+viewNames1 names =
+  String.join ", " (List.sort names)
 
-dot =
-  scale 2 (move (20,20) (filled blue (circle 10)))
+viewNames2 names =
+  names
+    |> List.sort
+    |> String.join ", "
 
-dot' =
-  circle 10
-    |> filled blue
-    |> move (20,20)
-    |> scale 2
+-- (arg |> func) is the same as (func arg)
+-- Just keep repeating that transformation!
 ```
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
@@ -248,10 +246,13 @@ JavaScript.
 
 ```elm
 let
-  x = 3 * 8
-  y = 4 ^ 2
+  twentyFour =
+    3 * 8
+
+  sixteen =
+    4 ^ 2
 in
-  x + y
+  twentyFour + sixteen
 ```
 
 You can define functions and use &ldquo;destructuring assignment&rdquo; in let
@@ -259,16 +260,35 @@ expressions too.
 
 ```elm
 let
-  (x,y) = (3,4)
+  ( three, four ) =
+    ( 3, 4 )
 
   hypotenuse a b =
     sqrt (a^2 + b^2)
 in
-  hypotenuse x y
+  hypotenuse three four
 ```
 
 Let-expressions are indentation sensitive, so each definition must align with
 the one above it.
+
+Finally, you can add type annotations in let-expressions.
+
+```elm
+let
+  name : String
+  name =
+    "Hermann"
+
+  increment : Int -> Int
+  increment n =
+    n + 1
+in
+  increment 10
+```
+
+It is best to only do this on *concrete* types. Break generic functions into
+their own top-level definitions.
 
 
 ### Applying Functions
@@ -351,6 +371,9 @@ distance {x,y} =
   sqrt (x^2 + y^2)
 ```
 
+Learn how to read types and use type annotations
+[here](http://guide.elm-lang.org/types/reading_types.html).
+
 
 ### Type Aliases
 
@@ -369,52 +392,36 @@ origin =
   { x = 0, y = 0 }
 ```
 
+Learn more about type aliases
+[here](http://guide.elm-lang.org/types/type_aliases.html).
 
-### JavaScript FFI
+
+### JavaScript Interop
 
 ```elm
 -- incoming values
-port userID : String
-port prices : Signal Float
+port prices : (Float -> msg) -> Sub msg
 
 -- outgoing values
-port time : Signal Float
-port time =
-  every second
+port time : Float -> Cmd msg
 ```
 
 From JS, you talk to these ports like this:
 
 ```javascript
-var example = Elm.worker(Elm.Example, {
-  userID:"abc123",
-  prices:11
-});
+var app = Elm.Example.worker();
 
-example.ports.prices.send(42);
-example.ports.prices.send(13);
+app.ports.prices.send(42);
+app.ports.prices.send(13);
 
-example.ports.time.subscribe(callback);
-example.ports.time.unsubscribe(callback);
-
-example.ports.increment(41) === 42;
+app.ports.time.subscribe(callback);
+app.ports.time.unsubscribe(callback);
 ```
 
-More example uses can be found
-[here](https://github.com/evancz/elm-html-and-js)
-and [here](https://gist.github.com/evancz/8521339).
+Read more about [HTML embedding][html] and [JavaScript interop][js].
 
-Elm has some built-in port handlers that automatically take some
-imperative action:
+[html]: http://guide.elm-lang.org/interop/html.html
+[js]: http://guide.elm-lang.org/interop/javascript.html
 
- * `title` sets the page title, ignoring empty strings
- * `log` logs messages to the developer console
- * `redirect` redirects to a different page, ignoring empty strings
-
-Experimental port handlers:
-
- * `favicon` sets the pages favicon
- * `stdout` logs to stdout in node.js and to console in browser
- * `stderr` logs to stderr in node.js and to console in browser
 
 """
