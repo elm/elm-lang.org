@@ -87,7 +87,6 @@ core =
   [ "functions" =>
       [ "use them" ==> "functions"
       , "infixes" ==> "infix"
-      , "use fewer parens" ==> "forward-apply"
       , "define your own" ==> "define-functions"
       ]
   , "recursion" =>
