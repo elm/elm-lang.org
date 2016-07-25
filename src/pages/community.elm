@@ -20,7 +20,7 @@ community = """
   * [Slack][slack]
   * [Twitter][twitter]
   * [Real Life](#real-life)
-  * [Contributing](#Contribute)
+  * [Contributing](#contribute)
   
 <br>
 
