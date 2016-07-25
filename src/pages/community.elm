@@ -29,7 +29,7 @@ community = """
 
 [list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
 
-There are two main mailing lists. [elm-discuss][list] is a great place for
+The mailing list [elm-discuss][list] is a great place for
 friendly discussion! Common activities include helping folks use Elm,
 discussing API design, reviewing blog posts and libraries, and finding projects
 to collaborate on.
@@ -38,11 +38,6 @@ This list is all about learning and improvement, so even if you know a lot
 about Elm or functional programming, be humble and open to learning new things
 from anyone! Try to read some old emails to get a feel for the culture and who
 everyone is.
-
-The other list, [elm-dev](https://groups.google.com/forum/#!forum/elm-dev), is
-for coordinating work on any [elm-lang](https://github.com/elm-lang/) repos.
-Check this out if you are looking to contribute to projects like the compiler
-or [elm-package](https://github.com/elm-lang/elm-package).
 
 ## Reddit
 
