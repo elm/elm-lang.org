@@ -29,7 +29,7 @@ Afterwards, visit the [get started page][get-started].
 ## Syntax Highlighting
 
   * [Atom](https://atom.io/packages/language-elm)
-  * [Brackets](https://github.com/lepinay/elm-brackets)
+  * [Brackets](https://github.com/tommot348/elm-brackets)
   * [Emacs](https://github.com/jcollard/elm-mode)
   * [IntelliJ](https://github.com/durkiewicz/elm-plugin)
   * [Light Table](https://github.com/rundis/elm-light)
