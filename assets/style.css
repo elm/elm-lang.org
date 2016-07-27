@@ -192,15 +192,28 @@ blockquote p {
   border-radius: 3px;
 }
 .comparison table td, .comparison table th {
-  padding: 3px 10px;
+  padding: 5px 10px;
 }
 .comparison th {
-  background: #dddddd;
+  color: white;
+  font-weight: normal;
+  background: #22809A;
 }
-.comparison tr:nth-child(even) {
-  background: #fbfbfb;
+.comparison tr:nth-child(odd) {
+  background: #f0f0f0;
 }
 
+
+/* release notes table */
+
+.releases {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.releases td {
+  padding: 5px 10px;
+}
 
 
 /* FOOTER */

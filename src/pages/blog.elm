@@ -36,30 +36,130 @@ blog = """
 
 ### Release Notes
 
-* <code>[0.17][17]        &nbsp; &nbsp; May 2016 &nbsp; </code>Add subscriptions, remove signals
-* <code>[0.16][16]        &nbsp; &nbsp; Nov &nbsp; &nbsp; &nbsp; &nbsp;</code>Even better error messages!
-* <code>[0.15.1][151]            &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Dramatically improved error messages
-* <code>[0.15][15]        &nbsp; &nbsp; Apr &nbsp; &nbsp; &nbsp; &nbsp;</code>Tasks, better HTTP library
-* <code>[0.14.1][141]            &nbsp; Jan 2015 &nbsp; </code>HTML through main
-* <code>[0.14][14]        &nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Package manager, parallel builds, JSON
-* <code>[0.13][13]        &nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Debugging with elm-reactor
-* <code>[0.12.3][123]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>3D rendering with WebGL
-* <code>[0.12.1][121]            &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast Immutable Arrays
-* <code>[0.12][12]        &nbsp; &nbsp; Mar &nbsp; &nbsp; &nbsp; &nbsp;</code>Interactive UI Elements
-* <code>[0.11][11]        &nbsp; &nbsp; Jan 2014 &nbsp; </code>Drastically improved FFI with ports
-* <code>[0.10.1][101]            &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Package manager integration
-* <code>[0.10][10]        &nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Strings, Colors, Operators
-* <code>[0.9][9]    &nbsp;&nbsp; &nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>Fast and reliable type inference
-* <code>[0.8][8]    &nbsp;&nbsp; &nbsp; May &nbsp; &nbsp; &nbsp; &nbsp;</code>HTML/JS integration
-* <code>[0.7.1][71]        &nbsp;&nbsp; Feb &nbsp; &nbsp; &nbsp; &nbsp;</code>Libraries for touch, either, and keyboard
-* <code>[0.7][7]    &nbsp;&nbsp; &nbsp; Jan 2013 &nbsp; </code>Extensible records
-* <code>[0.6][6]    &nbsp;&nbsp; &nbsp; Dec &nbsp; &nbsp; &nbsp; &nbsp;</code>Whitespace sensitivity
-* <code>[0.5][5]    &nbsp;&nbsp; &nbsp; Oct &nbsp; &nbsp; &nbsp; &nbsp;</code>Libraries for dictionaries, sets, and automata
-* <code>[0.4][4]    &nbsp;&nbsp; &nbsp; Sep &nbsp; &nbsp; &nbsp; &nbsp;</code>Markdown
-* <code>0.3.6              &nbsp;&nbsp; Aug &nbsp; &nbsp; &nbsp; &nbsp;</code>JSON support
-* <code>0.3.5              &nbsp;&nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>JavaScript FFI
-* <code>0.3         &nbsp;&nbsp; &nbsp; Jun &nbsp; &nbsp; &nbsp; &nbsp;</code>Modules
-* <code> 0.1        &nbsp;&nbsp; &nbsp; Apr 2012 &nbsp; </code>Initial Release
+<table class="releases">
+  <tbody>
+    <tr>
+      <td>[0.17][17]</td>
+      <td>Add subscriptions, remove signals</td>
+      <td>May 2016</td>
+    </tr>
+    <tr>
+      <td>[0.16][16]</td>
+      <td>Even better error messages!</td>
+      <td>Nov</td>
+      </tr>
+    <tr>
+      <td>[0.15.1][151]</td>
+      <td>Dramatically improved error messages</td>
+      <td>Jun</td>
+    </tr>
+    <tr>
+      <td>[0.15][15]</td>
+      <td>Tasks, better HTTP library</td>
+      <td>Apr</td>
+    </tr>
+    <tr>
+      <td>[0.14.1][141]</td>
+      <td>HTML through main</td>
+      <td>Jan 2015</td>
+    </tr>
+    <tr>
+      <td>[0.14][14]</td>
+      <td>Package manager, parallel builds, JSON</td>
+      <td>Dec</td>
+    </tr>
+    <tr>
+      <td>[0.13][13]</td>
+      <td>Debugging with elm-reactor</td>
+      <td>Sep</td>
+    </tr>
+    <tr>
+      <td>[0.12.3][123]</td>
+      <td>3D rendering with WebGL</td>
+      <td>May</td>
+    </tr>
+    <tr>
+      <td>[0.12.1][121]</td>
+      <td>Fast Immutable Arrays</td>
+      <td>May</td>
+    </tr>
+    <tr>
+      <td>[0.12][12]</td>
+      <td>Interactive UI Elements</td>
+      <td>Mar</td>
+    </tr>
+    <tr>
+      <td>[0.11][11]</td>
+      <td>Drastically improved FFI with ports</td>
+      <td>Jan 2014</td>
+    </tr>
+    <tr>
+      <td>[0.10.1][101]</td>
+      <td>Package manager integration</td>
+      <td>Dec</td>
+    </tr>
+    <tr>
+      <td>[0.10][10]</td>
+      <td>Strings, Colors, Operators</td>
+      <td>Oct</td>
+    </tr>
+    <tr>
+      <td>[0.9][9]</td>
+      <td>Fast and reliable type inference</td>
+      <td>Aug</td>
+    </tr>
+    <tr>
+      <td>[0.8][8]</td>
+      <td>HTML/JS integration</td>
+      <td>May</td>
+    </tr>
+    <tr>
+      <td>[0.7.1][71]</td>
+      <td>Libraries for touch, either, and keyboard</td>
+      <td>Feb</td>
+    </tr>
+    <tr>
+      <td>[0.7][7]</td>
+      <td>Extensible records</td>
+      <td>Jan 2013</td>
+    </tr>
+    <tr>
+      <td>[0.6][6]</td>
+      <td>Whitespace sensitivity</td>
+      <td>Dec</td>
+    </tr>
+    <tr>
+      <td>[0.5][5]</td>
+      <td>Libraries for dictionaries, sets, and automata</td>
+      <td>Oct</td>
+    </tr>
+    <tr>
+      <td>[0.4][4]</td>
+      <td>Markdown</td>
+      <td>Sep</td>
+    </tr>
+    <tr>
+      <td>0.3.6</td>
+      <td>JSON support</td>
+      <td>Aug</td>
+    </tr>
+    <tr>
+      <td>0.3.5</td>
+      <td>JavaScript FFI</td>
+      <td>Jun</td>
+    </tr>
+    <tr>
+      <td>0.3</td>
+      <td>Modules</td>
+      <td>Jun</td>
+    </tr>
+    <tr>
+      <td>0.1</td>
+      <td>Initial Release</td>
+      <td>Apr 2012</td>
+    </tr>
+  </tbody>
+</table>
 
   [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
   [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
