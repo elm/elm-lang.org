@@ -124,8 +124,27 @@ a:hover {
 /* code */
 
 code {
-  font-family: 'Source Code Mono', monospace;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
+
+/* I heard using :not() is slow for reflows.
+Not really any of those on the website though AFAIK.
+*/
+:not(pre) > code {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+:not(pre) > code::before, :not(pre) > code::after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
 
 /* blogs */
 
