@@ -39,7 +39,7 @@ please get in contact with the authors. This is a great way to contribute to Elm
 ## Usage
 
 The first thing to know about a REPL is how to exit:
-press `Ctrl-c` twice.
+press `Ctrl-d`.
 
 When you enter an expression, you get the result and its type:
 
