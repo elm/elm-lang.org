@@ -143,7 +143,7 @@ redirects =
     , "Examples.elm" ==> "/examples"
     , "Get-Started.elm" ==> "/get-started"
     , "Install.elm" ==> "/install"
-    , "Learn.elm" ==> "/docs"
+    , "Learn.elm" ==> "/learn"
     , "Libraries.elm" ==> "http://package.elm-lang.org"
     , "blog/Introducing-Elm-Reactor.elm" ==> "/blog/time-travel-made-easy"
     , "blog/Blazing-Fast-Html.elm" ==> "/blog/blazing-fast-html"
