@@ -28,6 +28,7 @@ content = """
 ### References
 
   * **[The Guide](http://guide.elm-lang.org)**
+  * [Get started](/get-started)
   * [Syntax](/docs/syntax)
   * [Syntax vs JS](/docs/from-javascript)
   * [Style Guide](/docs/style-guide)
