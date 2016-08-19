@@ -13,47 +13,50 @@ main =
 
 content = """
 
-This page will try to guide you through the first steps of using Elm and Elm's toolchain.
+This page will try to guide you through the first steps of using Elm.
 
-We assume you have installed the Elm Platform using one of the methods from the
-[install page][install] on the Elm site.
+First, make sure you installed the Elm Platform from [this page](/install)!
 
 
 ## Tools
 
-The Elm platform comes with quite a few helpful tools to help you develop Elm programs.
-After a successful installation, they should be available on your machine:
+After a successful installation, the following command-line tools should be
+available on your machine:
 
-- [elm](#elm)
-- [elm-package](#elm-package)
-- [elm-make](#elm-make)
-- [elm-repl](#elm-repl)
-- [elm-reactor](#elm-reactor)
+- [`elm`](#elm)
+- [`elm-package`](#elm-package)
+- [`elm-make`](#elm-make)
+- [`elm-repl`](#elm-repl)
+- [`elm-reactor`](#elm-reactor)
 
 Let's go over them one by one:
 
 
 ### elm
 
-`elm` is actually a way to run all other tools.
+The `elm` command is actually a way to run all other tools.
 Try opening a terminal and run `elm` to see the help message.
 
 
 ### elm-package
 
-[elm-package][] is a package managing tool for Elm, making it easy to install and publish packages
-to and from the [Elm Package Catalog](http://package.elm-lang.org/).
-This is a central home for community libraries that solve common problems.
+The [`elm-package`](https://github.com/elm-lang/elm-package) command helps you
+download and publish packages from our
+[package catalog](http://package.elm-lang.org/). As community members solve
+problems [in a nice way](http://package.elm-lang.org/help/design-guidelines),
+they share their code in the package catalog for anyone to use!
 
 When starting a new Elm project, run:
+
 ```sh
-elm package install
+elm-package install
 ```
 
-This will install the `elm-core` package and will create an Elm project file: `elm-package.json`.
+This will create an `elm-package.json` file that describes your project. Most
+importantly, it lists the packages you depend on. By default, this includes
+`elm-lang/core` and `elm-lang/html` so you get all the basic stuff you need to
+get started.
 
-In `elm-package.json` you state information on the project, such as
-the project name, author, license, dependencies, etc.
 
 #### Notable commands:
 
@@ -65,16 +68,17 @@ the project name, author, license, dependencies, etc.
 
 ### elm-make
 
-[elm-make][] is a command line tool used to compile Elm programs to HTML
-and JavaScript. It is the most general way to compile Elm code, so if your
-project becomes too advanced for `elm-reactor` (see below) you may want to start using
+The [`elm-make`](https://github.com/elm-lang/elm-make) command is for building
+Elm projects. It can compile Elm code to HTML or JavaScript. It is the most
+general way to compile Elm code, so if your project becomes too advanced for
+`elm-reactor` ([see below](#elm-reactor)) you will want to start using
 the compiler directly.
 
-When compiling a file (for example: `Main.elm`) into an HTML file (for example: `index.html`),
-you probably want to write something like this:
+Say we create an Elm file called `Main.elm` and want to compile it to `main.html`.
+You would run this command:
 
 ```sh
-elm make Main.elm --output=index.html
+elm-make Main.elm --output=main.html
 ```
 
 #### Notable flags:
@@ -84,13 +88,36 @@ elm make Main.elm --output=index.html
 
 ### elm-repl
 
-REPL stands for [read-eval-print-loop][repl] which lets you play with small
-Elm expressions. the [elm-repl][] can import code from your projects, so if you want
-to play around with a function buried deep inside a module, you can load it
-into the REPL and test it out. `elm-repl` eventually needs to evaluate
-JavaScript code, so for now you need to install [Node.js](http://nodejs.org/)
-to use it. Since [elm-repl][] only offers a command line interface, browser related functionality
-will not work.
+The [`elm-repl`](https://github.com/elm-lang/elm-repl) command opens up a
+[read-eval-print-loop][repl] (REPL) for working with Elm expressions. If you
+decide to work through [An Introduction to Elm](http://guide.elm-lang.org/)
+you will start out working in the REPL!
+
+[repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
+
+`elm-repl` can import any module in your project. So if you want to work with
+functions from [`String`](http://package.elm-lang.org/packages/elm-lang/core/latest/String)
+module, you would do something like this:
+
+```sh
+elm-repl
+---- elm-repl 0.17.1 -----------------------------------------------------------
+ :help for help, :exit to exit, more at <https://github.com/elm-lang/elm-repl>
+--------------------------------------------------------------------------------
+> import String
+> String.reverse "hello"
+"olleh" : String
+```
+
+You can import *your* modules too, so if you create a module named `MyThing` in
+your project, you can say `import MyThing` in the REPL and get access to all the
+values it exposes.
+
+`elm-repl` compiles expressions to JavaScript for now, so you need
+[Node.js](http://nodejs.org/) installed to get it working. Since `elm-repl`
+only offers a command line interface, browser related functionality will not
+work.
+
 
 #### Notable commands:
 
@@ -100,28 +127,29 @@ will not work.
 
 ### elm-reactor
 
-[elm-reactor][] is an interactive development tool for Elm.
-With elm-reactor you can run Elm programs without needing to compile them first.
-Also, elm-reactor offers [hot swapping][hs] and [time travel debugging][ttd].
+The [`elm-reactor`](https://github.com/elm-lang/elm-repl) command is like a
+nicer version of `elm-make`, helping you build Elm projects without messing
+with the command-line.
 
-Running `elm reactor` will open a web server on address `0.0.0.0:8000`
-where you can visit using a browser and select the file you want to run.
-If you want to use elm-reactor's more advanced capabilities,
-press the wrench on the left next to the name of the file.
-The reactor will open the file and display a column on the right
-which offers a way to use those capabilities.
+To use it, run the following command at the root of your Elm project:
+
+```sh
+elm-reactor
+```
+
+This starts a server at [`http://localhost:8000`](http://localhost:8000). Check
+it out! It lets you navigate through your project, and when you select an
+`.elm` file, it will compile it for you behind the scenes.
+
 
 #### Notable flags:
 
-- `-a=<ADDRESS>`: Changes the address at which elm-reactor runs. Since the default address `0.0.0.0` is not supported on browsers such as Chrome and is broadcasting to anyone, we recommend always using `-a=localhost`
-- `-p=<PORT>`: Changes the port in which elm-reactor runs.
+- `--port` lets you pick something besides port 8000. So you can say
+  `elm-reactor --port=8123` to get things to run at `http://localhost:8123`.
+- `--address` lets you replace `localhost` with some other address. For
+  example, you may want to use `elm-reactor --address=0.0.0.0` if you want to
+  try out an Elm program on a mobile divice through your local network.
 
-So for example, run:
-```sh
-elm reactor -a=localhost
-```
-
-Open a browser, and go to `localhost:8000`.
 
 ---
 
@@ -145,12 +173,8 @@ We know of Elm syntax highlighting modes for at least the following text editors
   * [Vim](https://github.com/lambdatoast/elm.vim)
   * [VS Code](https://github.com/sbrink/vscode-elm)
 
-There may be others out there. If you cannot find an Elm mode for your
-favorite editor, using Haskell syntax highlighting is close enough to be
-usable.
-
-If you do not have an editor at all, Sublime Text is a great one to get
-started with.
+If you do not have an editor at all, [Sublime Text](https://www.sublimetext.com/)
+is a great one to get started with.
 
 
 ## Learning Elm
@@ -159,64 +183,41 @@ started with.
 
 The easiest way to get started with Elm is from the [Examples page](/examples).
 It has a few small Elm programs that are great to learn from and fun to
-play with in the [Online Editor][OE] or [Elm Reactor][elm-reactor].
+play with in the [online editor](/try) or `elm-reactor`.
 
 
 ### Continue Learning
 
-In the [documentation][] page on the website, you can find a bunch of resources on Elm:
+The [documentation](/docs) page has a bunch of resources on Elm:
 
-1. For beginners, I recommend starting with the *Elm Complete Guide* ([link to part 1][ECG])
-and playing with what you learn
-using the `elm-repl` or [Online Editor][OE]. Writing Elm is essential to understanding it, and Elm
-provides the tools to easily do so.
+  - **Official Guide** &mdash; A great way to get started is with
+  [An Introduction to Elm](http://guide.elm-lang.org/). Make sure you are using
+  `elm-repl` or the [online editor](/try) to follow along! Writing code is the
+  best way to understand Elm!
 
-- If you prefer video tutorials, check out Pragmatics Studio's Elm tutorial:
-[Elm: Building Reactive Web Apps](https://pragmaticstudio.com/elm) with Mike Clark.
+  - **Syntax / Style** &mdash; After reading through the guide, you might want
+  to check out the [syntax](/docs/syntax) and [style guide](/docs/style-guide).
 
-- After reading the Elm Complete Guide, you might want to read about Elm's [Syntax][] and [Style Guide][SG].
-(an important thing to note is that there are constructs in Elm that are indentation sensitive.)
+  - **Bigger Programs** &mdash; To get a better understanding on how to build
+  large Elm programs, focus on [The Elm Architecture](http://guide.elm-lang.org/architecture/).
+  There is some great advice in [this thread](https://groups.google.com/forum/?fromgroups#!topic/elm-discuss/_cfOu88oCx4)
+  from Richard Feldman, and videos like [this API design session](https://www.youtube.com/watch?v=KSuCYUqY058)
+  show the thinking behind projects like [elm-sortable-tables][] and
+  [elm-autocomplete][] that are nice examples of how to reuse view code.
 
-- To get a better understanding on how to design and build larger Elm programs,
-read the [Elm Architecture Tutorial][ea].
+[elm-sortable-tables]: https://github.com/evancz/elm-sortable-table
+[elm-autocomplete]: https://github.com/thebritican/elm-autocomplete
 
-- You can also go over the [cs223 Functional Programming course][cs223] by the University of Chicago
-which has many good tutorials on Elm and purely functional data structures, but bear in mind
-that the course uses `Elm 0.14.1`, which might be a little different from the most updated version.
-No worries! That's why you read the complete guide and the syntax guide.
+  - **Community** &mdash; The fastest way to learn is to talk with other people in
+  the Elm community! For example, if you ever get stuck on something, go to [the
+  Elm Slack](http://elmlang.herokuapp.com/) and ask about it. Folks are friendly
+  and happy to help. You can save yourself hours. Just do it! You can also
+  check out [/r/elm](https://www.reddit.com/r/elm) or [@elmlang](https://twitter.com/elmlang)
+  to catch blogs and projects that people are working on.
 
-- Read more tutorials like [Elm for the Frontend, Right Now](http://bendyworks.com/elm-frontend-right-now/),  [Checkboard Grid Tutorial](https://github.com/TheSeamau5/elm-checkerboardgrid-tutorial), [Building HTML by Parsing Parameters](http://blog.jessitron.com/2015/08/an-elm-example-reading-url-parameters.html)
-and others you can find on [/r/elm](http://reddit.com/r/elm) and the [mailing list][].
-
-- But most importantly, don't forget to **write code**! Here are a few ideas for simple projects to get started with:
-
-    1. Write an Elm program that writes *Right* or *Left* in the middle of the screen depending on whether the mouse cursor is on the left half of the screen or right half of the screen
-    2. Write an Elm program that displays dots randomly on the screen, with reset and pause/play buttons
-    3. Write an Elm program that displays the name, avatar and list of programming languages
-       for a GitHub user entered using a text field
-    4. Write an Elm Snake clone (extra: add a highscore)
-
-
-Additionally: if you ever get stuck, try posting on the [mailing list][] or come to
-`#elm` IRC channel on `irc.freenode.net` and ask for help!
-
-
-[repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
-[install]: /install
-[Elm]: http://elm-lang.org
-[OE]: /try
-[documentation]: /docs
-[elm-package]: https://github.com/elm-lang/elm-package
-[elm-make]: https://github.com/elm-lang/elm-make
-[elm-repl]: https://github.com/elm-lang/elm-repl
-[elm-reactor]: https://github.com/elm-lang/elm-reactor
-[hs]: /blog/interactive-programming
-[ttd]: http://debug.elm-lang.org/
-[ECG]: /guide/core-language
-[cs223]: https://www.classes.cs.uchicago.edu/archive/2015/winter/22300-1/Home.html
-[Syntax]: /docs/syntax
-[SG]: /docs/style-guide
-[ea]: https://github.com/evancz/elm-architecture-tutorial/
-[mailing list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
+  - **Write code!** &mdash; There is no substitute for experience! Find a small
+  project to start with and work on it. Maybe that is a game of snake. Maybe it
+  means rewriting a project you did in Angular or React. Just make sure you are
+  building something!
 
 """
