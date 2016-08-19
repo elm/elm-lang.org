@@ -15,13 +15,13 @@ content = """
 
 This page will try to guide you through the first steps of using Elm.
 
-First, make sure you installed the Elm Platform from [this page](/install)!
+First, make sure you [**install Elm**](/install)!
 
 
-## Tools
+# Tools
 
 After a successful installation, the following command-line tools should be
-available on your machine:
+available on your computer:
 
 - [`elm`](#elm)
 - [`elm-package`](#elm-package)
@@ -29,16 +29,17 @@ available on your machine:
 - [`elm-repl`](#elm-repl)
 - [`elm-reactor`](#elm-reactor)
 
-Let's go over them one by one:
+Each one has a `--help` flag that will show more information. Let's go over
+them here though!
 
 
-### elm
+## elm
 
 The `elm` command is actually a way to run all other tools.
 Try opening a terminal and run `elm` to see the help message.
 
 
-### elm-package
+## elm-package
 
 The [`elm-package`](https://github.com/elm-lang/elm-package) command helps you
 download and publish packages from our
@@ -48,7 +49,7 @@ they share their code in the package catalog for anyone to use!
 
 When starting a new Elm project, run:
 
-```sh
+```bash
 elm-package install
 ```
 
@@ -57,8 +58,7 @@ importantly, it lists the packages you depend on. By default, this includes
 `elm-lang/core` and `elm-lang/html` so you get all the basic stuff you need to
 get started.
 
-
-#### Notable commands:
+**Notable commands:**
 
 - `install`: install the dependencies in `elm-package.json`
 - `publish`: publish your library to the Elm Package Catalog
@@ -66,7 +66,7 @@ get started.
 - `diff`: get the difference between two APIs
 
 
-### elm-make
+## elm-make
 
 The [`elm-make`](https://github.com/elm-lang/elm-make) command is for building
 Elm projects. It can compile Elm code to HTML or JavaScript. It is the most
@@ -77,16 +77,16 @@ the compiler directly.
 Say we create an Elm file called `Main.elm` and want to compile it to `main.html`.
 You would run this command:
 
-```sh
+```bash
 elm-make Main.elm --output=main.html
 ```
 
-#### Notable flags:
+**Notable flags:**
 
-- `--warn`: Prints warnings to improve code quality
+- `--warn` prints warnings to improve code quality
 
 
-### elm-repl
+## elm-repl
 
 The [`elm-repl`](https://github.com/elm-lang/elm-repl) command opens up a
 [read-eval-print-loop][repl] (REPL) for working with Elm expressions. If you
@@ -99,7 +99,7 @@ you will start out working in the REPL!
 functions from [`String`](http://package.elm-lang.org/packages/elm-lang/core/latest/String)
 module, you would do something like this:
 
-```sh
+```bash
 elm-repl
 ---- elm-repl 0.17.1 -----------------------------------------------------------
  :help for help, :exit to exit, more at <https://github.com/elm-lang/elm-repl>
@@ -119,13 +119,13 @@ only offers a command line interface, browser related functionality will not
 work.
 
 
-#### Notable commands:
+**Notable commands:**
 
 - `:help`: will print a help message
 - `:exit`: will exit the REPL
 
 
-### elm-reactor
+## elm-reactor
 
 The [`elm-reactor`](https://github.com/elm-lang/elm-repl) command is like a
 nicer version of `elm-make`, helping you build Elm projects without messing
@@ -133,7 +133,7 @@ with the command-line.
 
 To use it, run the following command at the root of your Elm project:
 
-```sh
+```bash
 elm-reactor
 ```
 
@@ -141,8 +141,7 @@ This starts a server at [`http://localhost:8000`](http://localhost:8000). Check
 it out! It lets you navigate through your project, and when you select an
 `.elm` file, it will compile it for you behind the scenes.
 
-
-#### Notable flags:
+**Notable flags:**
 
 - `--port` lets you pick something besides port 8000. So you can say
   `elm-reactor --port=8123` to get things to run at `http://localhost:8123`.
@@ -151,16 +150,7 @@ it out! It lets you navigate through your project, and when you select an
   try out an Elm program on a mobile divice through your local network.
 
 
----
-
-
-With each of these tools you can use the `--help` flag to get more information.
-
-Each tool also has a README on [GitHub](http://github.com/elm-lang) that has
-some helpful information.
-
-
-## Configure Your Editor
+# Configure Your Editor
 
 We know of Elm syntax highlighting modes for at least the following text editors:
 
@@ -177,16 +167,16 @@ If you do not have an editor at all, [Sublime Text](https://www.sublimetext.com/
 is a great one to get started with.
 
 
-## Learning Elm
+# Learning Elm
 
-### My First Project
+## My First Project
 
 The easiest way to get started with Elm is from the [Examples page](/examples).
 It has a few small Elm programs that are great to learn from and fun to
 play with in the [online editor](/try) or `elm-reactor`.
 
 
-### Continue Learning
+## Continue Learning
 
 The [documentation](/docs) page has a bunch of resources on Elm:
 
