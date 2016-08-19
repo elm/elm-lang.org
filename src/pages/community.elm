@@ -19,9 +19,9 @@ community = """
   * [Reddit][reddit]
   * [Slack][slack]
   * [Twitter][twitter]
-  * [Real Life](#real-life)
+  * [Real Life][real-life]
   * [Contributing](#contribute)
-  
+
 <br>
 
 ## Mailing list
@@ -74,15 +74,14 @@ tweet about weird stuff with that one sometimes.
 
 ## Real Life
 
-There are meetups all over the world these days! The
-[elmweekly.nl](http://www.elmweekly.nl/) site tracks them all and posts info about
-when and where they will be.
+There are meetups [all over the world][real-life] these days!
 
 If you are thinking of starting a meetup in your city, check out how
 [Evan](https://github.com/evancz/) and [Richard](https://github.com/rtfeldman) organize
-the [Elm user group](http://www.meetup.com/Elm-user-group-SF/) in SF. A lot of existing
-meetups are structured based on [what we learned from experience][hack-night].
+the Elm user group in SF. A lot of existing meetups are structured based on
+[what we learned from experience][hack-night].
 
+[real-life]: https://www.elmlog.com/meetup_groups
 [hack-night]: http://tech.noredink.com/post/142283641812/designing-meetups-to-build-better-communities
 
 
