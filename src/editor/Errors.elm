@@ -1,4 +1,4 @@
-module Errors exposing (..) -- where
+module Errors exposing (..)
 
 import Char
 import Html exposing (..)
