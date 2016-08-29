@@ -25,19 +25,19 @@ main =
         ]
         []
     , Center.markdown "600px" afterVideo
-    , image "/assets/blog/error-messages/0.16/big-record.png"
+    , image "big-record"
     , Center.markdown "600px" afterTypeDiffs
-    , image "/assets/blog/error-messages/0.16/context.png"
+    , image "context"
     , Center.markdown "600px" afterContext
-    , image "/assets/blog/error-messages/0.16/expected-arg.png"
+    , image "expected-arg"
     , Center.markdown "600px" afterExpected
-    , image "/assets/blog/error-messages/0.16/if-branches.png"
+    , image "if-branches"
     , Center.markdown "600px" afterIf
-    , image "/assets/blog/error-messages/0.16/string-hint.png"
+    , image "string-hint"
     , Center.markdown "600px" afterStringAdd
-    , image "/assets/blog/error-messages/0.16/truthy.png"
+    , image "truthy"
     , Center.markdown "600px" afterTruthy
-    , image "/assets/blog/error-messages/0.16/incomplete.png"
+    , image "incomplete"
     , Center.markdown "600px" afterIncomplete
     ]
 
@@ -46,9 +46,9 @@ main =
 (=>) = (,)
 
 
-image url =
+image name =
   img
-    [ src url
+    [ src ("/assets/blog/error-messages/0.16/" ++ name ++ ".png")
     , style [("display", "block"), ("margin", "1em auto")]
     , alt "compiler output example"
     ]
