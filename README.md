@@ -7,7 +7,7 @@ You can use this to run [elm-lang.org/try](http://elm-lang.org/try) locally, but
 
 ## Build From Source
 
-First get the Elm developer workflow setup by reading the [build from source instructions][bfs-readme], then running [this script][bfs] with `runhaskell BuildFromSource.hs 0.17`. Be aware that this is all the actively developed branches, so things may be in an intermediate state.
+First get the Elm developer workflow setup by reading the [build from source instructions][bfs-readme], then running [this script][bfs] with `runhaskell BuildFromSource.hs 0.17`.
 
 [bfs-readme]: https://github.com/elm-lang/elm-platform/blob/master/README.md
 [bfs]: https://github.com/elm-lang/elm-platform/blob/master/installers/BuildFromSource.hs
