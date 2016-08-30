@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [Blazing Fast HTML, Round Two](/blog/blazing-fast-html-round-two)
  * [How to Use Elm at Work](/blog/how-to-use-elm-at-work)
  * [A Farewell to FRP](/blog/farewell-to-frp)
  * [New Adventures for Elm](/blog/new-adventures-for-elm)
