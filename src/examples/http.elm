@@ -29,7 +29,7 @@ type alias Model =
 
 init : String -> (Model, Cmd Msg)
 init topic =
-  ( Model topic "waiting.gif"
+  ( Model topic "cats"
   , getRandomGif topic
   )
 
@@ -51,7 +51,7 @@ update msg model =
       (model, getRandomGif model.topic)
 
     FetchSucceed newUrl ->
-      (Model model.topic newUrl, Cmd.none)
+      (Model model.gifUrl newUrl, Cmd.none)
 
     FetchFail _ ->
       (model, Cmd.none)
