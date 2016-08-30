@@ -292,13 +292,8 @@ learn. The following graph compares the old and new implementations:
 
 postElm = """
 
-Things are quite a lot faster! One thing to notice is that you were getting
-more modest performance gains when optimizing 0.16 code. This was because the
-old API treated keyed nodes like React, forcing the implementation to do a bunch
-of silly stuff. What if not every child has a key? What if you put a `key`
-inside a `lazy`? The new API rules out these scenarios, simplifying the
-implementation a bit. From there, I used the following techniques, which I
-think account for the majority of the speed gains:
+Things are quite a lot faster! I think this is mainly attributable to the
+following techniques:
 
   - **Prefer arrays over dictionary objects.** Crawling an array is much faster
   than crawling an object. `for (var key in object)` is just never going to be
