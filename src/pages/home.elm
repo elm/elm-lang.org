@@ -12,7 +12,6 @@ import Skeleton
 main =
   Skeleton.skeleton "home"
     [ splash
-    , htmlSection
     , featureSection
     , exampleSection
     , userSection
@@ -30,7 +29,8 @@ main =
 splash =
   div [ id "splash" ]
     [ div [ size 120 16 ] [ text "elm" ]
-    , div [ size 26 8 ] [ text "a functional language that compiles to JavaScript" ]
+    , div [ size 26 8 ] [ text "A friendly functional language that compiles to JavaScript." ]
+    , div [ size 16 8 ] [ text "The benefits of types and immutability, but with less jargon and attitude." ]
     , div [ size 36 30 ]
         [ a [ href "/try" ] [ text "try" ]
         , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
@@ -43,49 +43,6 @@ size height padding =
   style
     [ "font-size" => (toString height ++ "px")
     , "padding" => (toString padding ++ "px 0")
-    ]
-
-
-
--- CODE SNIPPET
-
-
-htmlSection =
-  section [class "home-section"]
-    [ h1 [] [ text "Hello World" ]
-    , p [class "home-paragraph"]
-        [ text "Elm is a functional language that compiles to JavaScript. It has a major emphasis on simplicity and developer experience. The goal is to get the benefits of types and immutability, without the jargon and attitude. Check out your first Elm program!"
-        ]
-    , p [ style [ "text-align" => "center" ] ]
-        [ a [href "/examples/hello-world", style ["display" => "inline-block"]]
-          [ code
-            [ class "lang-elm hljs"
-            , style [ "display" => "inline-block", "border-radius" => "16px", "padding" => "24px 48px" ]
-            ]
-            [ span [class "hljs-title"] [text "main"]
-            , text " = span [class "
-            , span [class "hljs-string"] [text "\"welcome-message\""]
-            , text "] [text "
-            , span [class "hljs-string"] [text "\"Hello, World!\""]
-            , text "]"
-            ]
-          ]
-        ]
-    , p [class "home-paragraph"]
-        [ text "See "
-        , code [] [text "elm-lang/html"]
-        , text " in action with "
-        , a [href "/examples/buttons"] [text "buttons"]
-        , text ", "
-        , a [href "/examples/time"] [text "clocks"]
-        , text ", and "
-        , a [href "/examples"] [text "more"]
-        , text "."
-        , br [] []
-        , text "Learn how these programs work by reading "
-        , a [href "http://guide.elm-lang.org/"] [text "An Introduction to Elm"]
-        , text "."
-        ]
     ]
 
 
