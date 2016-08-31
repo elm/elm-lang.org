@@ -30,7 +30,7 @@ splash =
   div [ id "splash" ]
     [ div [ size 120 16 ] [ text "elm" ]
     , div [ size 26 8 ] [ text "A friendly functional language that compiles to JavaScript." ]
-    , div [ size 16 8 ] [ text "The benefits of types and immutability, but with less jargon and attitude." ]
+    , div [ size 16 8 ] [ text "The benefits of types and immutability, simplified." ]
     , div [ size 36 30 ]
         [ a [ href "/try" ] [ text "try" ]
         , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
