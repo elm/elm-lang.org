@@ -37,22 +37,79 @@ a:hover {
 }
 
 
-/* guide */
+/* home stuff */
 
-.guide li ul {
-  margin: 16px 0;
-  padding-left: 24px;
+.home-section h1 {
+  text-align: center;
+  font-size: 3em;
+  margin-top: 100px;
+  margin-bottom: 0;
 }
 
-.guide li li {
+.home-paragraph {
+  display: block;
+  margin: 20px auto;
+  max-width: 600px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 640px) {
+  .home-paragraph {
+    text-align: center;
+  }
+}
+
+
+/* features */
+
+.features {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.features li {
   list-style-type: none;
 }
 
-.guide li li a {
-  color: #34495E;
-  text-decoration: none;
+@media (max-width: 820px) {
+  .feature {
+    margin: 4em 0;
+  }
+  .feature-description h2 {
+    text-align: center;
+  }
+  .feature-description {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+  .feature-image {
+    width: 420px;
+    display: block;
+    margin: 0 auto;
+  }
 }
 
+@media (min-width: 820px) {
+  .features {
+    width: 800px;
+  }
+  .feature {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 4em;
+  }
+  .feature-description {
+    width: 340px;
+  }
+  .feature-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
 
 /* examples */
 

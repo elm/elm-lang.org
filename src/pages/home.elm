@@ -13,7 +13,7 @@ main =
   Skeleton.skeleton "home"
     [ splash
     , htmlSection
-    , bulletSection
+    , featureSection
     , exampleSection
     , userSection
     , br [] []
@@ -29,10 +29,9 @@ main =
 
 splash =
   div [ id "splash" ]
-    [ div [ size 100 16 ] [ text "elm" ]
-    , div [ size 26 8 ] [ text "the best of functional programming in your browser" ]
-    , div [ size 16 4 ] [ text "writing great code should be easy ... now it is" ]
-    , div [ size 26 30 ]
+    [ div [ size 120 16 ] [ text "elm" ]
+    , div [ size 26 8 ] [ text "a functional language that compiles to JavaScript" ]
+    , div [ size 36 30 ]
         [ a [ href "/try" ] [ text "try" ]
         , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
         , a [ href "/install" ] [ text "install" ]
@@ -52,8 +51,11 @@ size height padding =
 
 
 htmlSection =
-  section []
-    [ h2 [ style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"] ] [ text "Hello HTML" ]
+  section [class "home-section"]
+    [ h1 [] [ text "Hello World" ]
+    , p [class "home-paragraph"]
+        [ text "Elm is a functional language that compiles to JavaScript. It has a major emphasis on simplicity and developer experience. The goal is to get the benefits of types and immutability, without the jargon and attitude. Check out your first Elm program!"
+        ]
     , p [ style [ "text-align" => "center" ] ]
         [ a [href "/examples/hello-world", style ["display" => "inline-block"]]
           [ code
@@ -69,16 +71,20 @@ htmlSection =
             ]
           ]
         ]
-    , div [ style [ "display" => "block", "margin" => "2em auto 0", "max-width" => "600px" ] ]
-        [ p [ style [ "text-align" => "center" ] ]
-            [ text "Writing HTML apps is super easy with "
-            , a [href "http://package.elm-lang.org/packages/elm-lang/html/latest"] [text "elm-lang/html"]
-            , text ". Not only does it render "
-            , a [href "/blog/blazing-fast-html"] [text "extremely fast"]
-            , text ", it also quietly guides you towards "
-            , a [href "http://guide.elm-lang.org/architecture/index.html"] [text "well-architected code"]
-            , text "."
-            ]
+    , p [class "home-paragraph"]
+        [ text "See "
+        , code [] [text "elm-lang/html"]
+        , text " in action with "
+        , a [href "/examples/buttons"] [text "buttons"]
+        , text ", "
+        , a [href "/examples/time"] [text "clocks"]
+        , text ", and "
+        , a [href "/examples"] [text "more"]
+        , text "."
+        , br [] []
+        , text "Learn how these programs work by reading "
+        , a [href "http://guide.elm-lang.org/"] [text "An Introduction to Elm"]
+        , text "."
         ]
     ]
 
@@ -87,61 +93,67 @@ htmlSection =
 -- FEATURES
 
 
-bulletSection : Html msg
-bulletSection =
-  section []
-    [ h1
-        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
-        [text "Features"]
-    , fluidList 300 3 bullets
+featureSection : Html msg
+featureSection =
+  section [class "home-section"]
+    [ h1 [] [text "Features"]
+    , ul [class "features"] (List.map viewFeature features)
     ]
 
 
-bullets : List (List (Html msg))
-bullets =
-  [ [ h2 [] [ text "No runtime exceptions"]
-    , p [] [text "Yes, you read that right, no runtime exceptions. Elm’s compiler is amazing at finding errors before they can impact your users. The only way to get Elm code to throw a runtime exception is by explicitly invoking "
-      , a [href "http://package.elm-lang.org/packages/elm-lang/core/latest/Debug#crash"] [code [] [text "crash"]]
+type alias Feature msg =
+  { title : String
+  , height : Int
+  , image : String
+  , link : String
+  , description : List (Html msg)
+  }
+
+
+viewFeature : Feature msg -> Html msg
+viewFeature feature =
+  li
+    [ class "feature"
+    , style [ ( "min-height", toString feature.height ++ "px" ) ]
+    ]
+    [ div [class "feature-description"]
+        [ h2 [] [text feature.title]
+        , p [] feature.description
+        ]
+    , a [ class "feature-image"
+        , href feature.link
+        ]
+        [ img [src feature.image] []
+        ]
+    ]
+
+
+features : List (Feature msg)
+features =
+  [ Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
+      [ text "Instead of runtime exceptions, Elm uses type inference to detect problems during compilation and give "
+      , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
+      , text ". This way problems never make it to your users. NoRedInk has 36k lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
+      ]
+  , Feature "Great Performance" 320 "/assets/home/benchmark.png" "/blog/blazing-fast-html-round-two" <|
+      [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and "
+      , a [href "/blog/blazing-fast-html-round-two"] [text "the benchmarks"]
+      , text " show that this helps us generate particularly fast JavaScript code."
+      ]
+  , Feature "Enforced Semantic Versioning" 280 "/assets/home/semver.png" "http://package.elm-lang.org" <|
+      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to force everything in "
+      , a [href "http://package.elm-lang.org"] [text "our package catalog"]
+      , text " to follow "
+      , a [href "https://github.com/elm-lang/elm-package/#version-rules"] [text "semantic versioning"]
+      , text " precisely. No more surprises in PATCH releases!"
+      ]
+  , Feature "JavaScript Interop" 100 "/assets/home/embed.png" "/blog/how-to-use-elm-at-work" <|
+      [ text "Trying out Elm is easy. Convert a small part of your app to Elm and "
+      , a [href "/blog/how-to-use-elm-at-work"] [text "embed it in JS"]
+      , text ". No full rewrites, no huge time investment. More about that "
+      , a [href "http://guide.elm-lang.org/interop/"] [text "here"]
       , text "."
       ]
-    ]
-  , [ h2 [] [text "Friendly Error Messages"]
-    , p []
-        [ text "The Elm compiler is able to find tricky issues in your code very quickly. When it finds an issue, "
-        , a [href "/blog/compilers-as-assistants"] [text "it provides friendly and helpful messages"]
-        , text ". This makes it easy to find and fix problems before your users see them."
-        ]
-    ]
-  , [ h2 [] [text "Blazing fast rendering"]
-    , p []
-        [ text "The "
-        , a [href "/blog/blazing-fast-html"] [text "elm-html"]
-        , text " library outperforms even React.js in "
-        , a [href "http://evancz.github.io/todomvc-perf-comparison/"] [text "TodoMVC benchmarks"]
-        , text ", and it is super simple to optimize your code by sprinkling in some "
-        , a [href "http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy"] [code [] [text "lazy"]]
-        , text " rendering."
-        ]
-    ]
-  , [ h2 [] [text "Libraries with guarantees"]
-    , p []
-        [ text "Semantic versioning is automatically enforced for all "
-        , a [href "http://package.elm-lang.org/"] [text "community libraries"]
-        , text ". Elm's package manager "
-        , a [href "https://twitter.com/czaplic/status/601826927838650369"] [text "detects any API changes"]
-        , text ", so breaking API changes never sneak into patches. You can upgrade with confidence."
-        ]
-    ]
-  , [ h2 [] [text "Clean syntax"]
-    , p [] [text "No semicolons. No mandatory parentheses for function calls. Everything is an expression. For even more concise code there’s also destructuring assignment, pattern matching, automatic currying, and more."]
-    ]
-  , [ h2 [] [text "Smooth JavaScript interop"]
-    , p []
-        [ text "No need to reinvent the wheel when there’s a JavaScript library that already does what you need. Thanks to Elm’s simple "
-        , a [href "http://guide.elm-lang.org/interop/javascript.html"] [text "ports"]
-        , text " system, your Elm code can communicate with JavaScript without sacrificing guarantees."
-        ]
-    ]
   ]
 
 
@@ -151,18 +163,18 @@ bullets =
 
 exampleSection : Html msg
 exampleSection =
-  section []
-    [ h1
-        [style ["text-align" => "center", "font-size" => "3em", "padding-top" => "80px"]]
-        [text "Examples"]
-    , fluidList 400 3 examples
-    , p [ style [ "text-align" => "center", "font-size" => "20px" ] ]
-        [ text "More large projects at "
-        , a [href "http://builtwithelm.co/"] [text "builtwithelm.co"]
-        , text " and more small examples in "
-        , a [href "/examples"] [text "the examples tab"]
-        , text "."
+  section [class "home-section"]
+    [ h1 [] [text "Examples"]
+    , p [class "home-paragraph", style [("margin-bottom","40px")] ]
+        [ text "Learning by example is important, so we have some "
+        , a [href "/examples"] [text "simple"]
+        , text " and "
+        , a [href "http://builtwithelm.co/"] [text "elaborate"]
+        , text " examples to help you as you move through "
+        , a [href "http://guide.elm-lang.org/"] [text "An Introduction to Elm"]
+        , text ". Here are some nice ones!"
         ]
+    , fluidList 400 2 examples
     ]
 
 
@@ -204,7 +216,7 @@ example imgSrc demo code =
           ]
           []
       ]
-  , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px"]]
+  , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px" ]]
       [ a [href code] [text "source"]
       ]
   ]
@@ -242,10 +254,19 @@ fluidList itemWidth maxColumns itemList =
 
 userSection : Html msg
 userSection =
-  section []
-    [ h1
-        [style ["text-align" => "center", "font-size" => "2em", "padding-top" => "80px"]]
-        [text "Featured Commercial Users"]
+  section [class "home-section"]
+    [ h1 [] [text "Featured Users"]
+    , p [class "home-paragraph"]
+        [ text "Definitely check out the links for "
+        , a [href "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"] [text "NoRedInk"]
+        , text ", "
+        , a [href "http://www.gizra.com/content/thinking-choosing-elm/"] [text "Gizra"]
+        , text ", and "
+        , a [href "http://futurice.com/blog/elm-in-the-real-world"] [text "Futurice"]
+        , text " to learn more about how and why they are using Elm. If you want to join them and use Elm at work, definitely follow "
+        , a [href "/blog/how-to-use-elm-at-work"] [text "this advice"]
+        , text " and do it gradually. Elm is all about reducing risk, even in adoption!"
+        ]
     , fluidList 200 3
         [ company
             "NoRedInk"
@@ -275,13 +296,6 @@ userSection =
             "Futurice"
             "http://futurice.com/blog/elm-in-the-real-world"
             "svg"
-        ]
-    , p [ style [ "text-align" => "center", "color" => "#bbbbbb" ] ]
-        [ text "Want to get featured? Let us know how your company uses Elm on "
-        , a [class "grey-link", href "https://groups.google.com/forum/#!forum/elm-discuss"] [text "elm-discuss"]
-        , text " or "
-        , a [class "grey-link", href "https://twitter.com/elmlang"] [text "twitter"]
-        , text "!"
         ]
     ]
 
