@@ -29,8 +29,8 @@ main =
 splash =
   div [ id "splash" ]
     [ div [ size 120 16 ] [ text "elm" ]
-    , div [ size 26 8 ] [ text "A friendly functional language that compiles to JavaScript." ]
-    , div [ size 16 8 ] [ text "The benefits of types and immutability, simplified." ]
+    , div [ size 26 8 ] [ text "A delightful language for reliable webapps." ]
+    , div [ size 16 8 ] [ text "Generating JavaScript with great performance and no runtime exceptions." ]
     , div [ size 36 30 ]
         [ a [ href "/try" ] [ text "try" ]
         , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
@@ -87,8 +87,15 @@ viewFeature feature =
 
 features : List (Feature msg)
 features =
-  [ Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
-      [ text "Instead of runtime exceptions, Elm uses type inference to detect problems during compilation and give "
+  [ Feature "JavaScript Interop" 100 "/assets/home/embed.png" "/blog/how-to-use-elm-at-work" <|
+      [ text "Elm compiles to JavaScript, so trying out Elm is easy. Convert a small part of your app to Elm and "
+      , a [href "/blog/how-to-use-elm-at-work"] [text "embed it in JS"]
+      , text ". No full rewrites, no huge time investment. More about that "
+      , a [href "http://guide.elm-lang.org/interop/"] [text "here"]
+      , text "."
+      ]
+  , Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
+      [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and give "
       , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
       , text ". This way problems never make it to your users. NoRedInk has 36k lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
       ]
@@ -103,13 +110,6 @@ features =
       , text " to follow "
       , a [href "https://github.com/elm-lang/elm-package/#version-rules"] [text "semantic versioning"]
       , text " precisely. No more surprises in PATCH releases!"
-      ]
-  , Feature "JavaScript Interop" 100 "/assets/home/embed.png" "/blog/how-to-use-elm-at-work" <|
-      [ text "Trying out Elm is easy. Convert a small part of your app to Elm and "
-      , a [href "/blog/how-to-use-elm-at-work"] [text "embed it in JS"]
-      , text ". No full rewrites, no huge time investment. More about that "
-      , a [href "http://guide.elm-lang.org/interop/"] [text "here"]
-      , text "."
       ]
   ]
 
