@@ -1,11 +1,13 @@
-import Html exposing (Html, Attribute, br, div, input, label, span, text)
-import Html.App exposing (beginnerProgram)
-import Html.Attributes exposing (..)
-import Html.Events exposing (onCheck)
+import Html exposing (Html, Attribute, div, fieldset, input, label, text)
+import Html.App as App
+import Html.Attributes exposing (name, style, type')
+import Html.Events exposing (onClick)
+import Markdown
+
 
 
 main =
-  beginnerProgram { model = model, view = view, update = update }
+  App.beginnerProgram { model = chapter1, update = update, view = view }
 
 
 
@@ -13,31 +15,52 @@ main =
 
 
 type alias Model =
-  { style : Style
+  { fontSize : FontSize
+  , content : String
   }
 
 
-type Style
-  = Red
-  | Underline
-  | Bold
+type FontSize
+  = Small
+  | Medium
+  | Large
 
 
-model =
-  { style = Bold }
+chapter1 : Model
+chapter1 =
+  Model Medium intro
+
+
+intro : String
+intro = """
+
+# Anna Karenina
+
+## Chapter 1
+
+Happy families are all alike; every unhappy family is unhappy in its own way.
+
+Everything was in confusion in the Oblonskys’ house. The wife had discovered
+that the husband was carrying on an intrigue with a French girl, who had been
+a governess in their family, and she had announced to her husband that she
+could not go on living in the same house with him...
+
+"""
 
 
 
 -- UPDATE
 
 
-type Msg =
-  Switch Style
+type Msg
+  = SwitchTo FontSize
 
 
 update : Msg -> Model -> Model
-update (Switch newStyle) model =
-  { model | style = newStyle }
+update msg model =
+  case msg of
+    SwitchTo newFontSize ->
+      { model | fontSize = newFontSize }
 
 
 
@@ -47,35 +70,37 @@ update (Switch newStyle) model =
 view : Model -> Html Msg
 view model =
   div []
-    [ span [toStyle model] [text "Hello, how are you?!"]
-    , radio Red "red" model
-    , radio Underline "underline" model
-    , radio Bold "bold" model
+    [ fieldset []
+        [ radio "Small" (SwitchTo Small)
+        , radio "Medium" (SwitchTo Medium)
+        , radio "Large" (SwitchTo Large)
+        ]
+    , Markdown.toHtml [ sizeToStyle model.fontSize ] model.content
     ]
 
 
-toStyle : Model -> Attribute msg
-toStyle model =
-  style <|
-    case model.style of
-      Red ->
-        [ ("color", "red") ]
-
-      Underline ->
-        [ ("text-decoration", "underline") ]
-
-      Bold ->
-        [ ("font-weight", "bold") ]
+radio : String -> msg -> Html msg
+radio value msg =
+  label
+    [ style [("padding", "20px")]
+    ]
+    [ input [ type' "radio", name "font-size", onClick msg ] []
+    , text value
+    ]
 
 
-radio : Style -> String -> Model -> Html Msg
-radio style name model =
+sizeToStyle : FontSize -> Attribute msg
+sizeToStyle fontSize =
   let
-    isSelected =
-      model.style == style
+    size =
+      case fontSize of
+        Small ->
+          "0.8em"
+
+        Medium ->
+          "1em"
+
+        Large ->
+          "1.2em"
   in
-    label []
-      [ br [] []
-      , input [ type' "radio", checked isSelected, onCheck (\_ -> Switch style) ] []
-      , text name
-      ]
+    style [("font-size", size)]

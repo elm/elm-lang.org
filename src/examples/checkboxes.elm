@@ -1,11 +1,12 @@
-import Html exposing (..)
-import Html.App exposing (beginnerProgram)
-import Html.Attributes exposing (..)
-import Html.Events exposing (onCheck)
+import Html exposing (Html, fieldset, input, label, text)
+import Html.App as App
+import Html.Attributes exposing (style, type')
+import Html.Events exposing (onClick)
+
 
 
 main =
-  beginnerProgram { model = model, view = view, update = update }
+  App.beginnerProgram { model = optOut, update = update, view = view }
 
 
 
@@ -13,15 +14,15 @@ main =
 
 
 type alias Model =
-  { red : Bool
-  , underline : Bool
-  , bold : Bool
+  { notifications : Bool
+  , autoplay : Bool
+  , location : Bool
   }
 
 
-model : Model
-model =
-  Model False False True
+optOut : Model
+optOut =
+  Model True True True
 
 
 
@@ -29,22 +30,22 @@ model =
 
 
 type Msg
-  = Red Bool
-  | Underline Bool
-  | Bold Bool
+  = ToggleNotifications
+  | ToggleAutoplay
+  | ToggleLocation
 
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    Red bool ->
-        { model | red = bool }
+    ToggleNotifications ->
+      { model | notifications = not model.notifications }
 
-    Underline bool ->
-        { model | underline = bool }
+    ToggleAutoplay ->
+      { model | autoplay = not model.autoplay }
 
-    Bold bool ->
-        { model | bold = bool }
+    ToggleLocation ->
+      { model | location = not model.location }
 
 
 
@@ -53,34 +54,18 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ span [toStyle model] [text "Hello, how are you?!"]
-    , label []
-        [ br [] []
-        , input [ type' "checkbox", checked model.red, onCheck Red ] []
-        , text "red"
-        ]
-    , label []
-        [ br [] []
-        , input [ type' "checkbox", checked model.underline, onCheck Underline ] []
-        , text "underline"
-        ]
-    , label []
-        [ br [] []
-        , input [ type' "checkbox", checked model.bold, onCheck Bold ] []
-        , text "bold"
-        ]
+  fieldset []
+    [ checkbox ToggleNotifications "Email Notifications"
+    , checkbox ToggleAutoplay "Video Autoplay"
+    , checkbox ToggleLocation "Use Location"
     ]
 
 
-toStyle : Model -> Attribute msg
-toStyle model =
-  style
-    [ ("color", if model.red then "red" else "black")
-    , ("text-decoration", if model.underline then "underline" else "none")
-    , ("font-weight", if model.bold then "bold" else "normal")
+checkbox : msg -> String -> Html msg
+checkbox msg name =
+  label
+    [ style [("padding", "20px")]
     ]
-
-
--- Exercise: move the repetative code in `view` into a separate function
--- and use it three times.
+    [ input [ type' "checkbox", onClick msg ] []
+    , text name
+    ]
