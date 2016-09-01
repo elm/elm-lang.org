@@ -66,7 +66,7 @@ htmlSkeleton analytics highlight title scripts =
       H.meta ! A.charset "UTF-8"
       H.title (H.toHtml title)
       favicon
-      H.link ! A.rel "stylesheet" ! A.href "/assets/style.css?v=2"
+      H.link ! A.rel "stylesheet" ! A.href "/assets/style.css?v=3"
 
       case analytics of
         Analytics ->
