@@ -15,7 +15,7 @@ main =
     , featureSection
     , exampleSection
     , userSection
-    , br [] []
+    , getStartedSection
     ]
 
 
@@ -27,15 +27,12 @@ main =
 
 
 splash =
-  div [ id "splash" ]
+  div [ class "splash" ]
     [ div [ size 120 16 ] [ text "elm" ]
     , div [ size 26 8 ] [ text "A delightful language for reliable webapps." ]
-    , div [ size 16 8 ] [ text "Generating JavaScript with great performance and no runtime exceptions." ]
-    , div [ size 36 30 ]
-        [ a [ href "/try" ] [ text "try" ]
-        , span [ style [ "font-size" => "16px" ] ] [ text " \x00A0 or \x00A0 " ]
-        , a [ href "/install" ] [ text "install" ]
-        ]
+    , div [ size 16 8 ] [ text "Generate JavaScript with great performance and no runtime exceptions." ]
+    , br [] []
+    , getStarted
     ]
 
 
@@ -44,6 +41,24 @@ size height padding =
     [ "font-size" => (toString height ++ "px")
     , "padding" => (toString padding ++ "px 0")
     ]
+
+
+
+-- GET STARTED
+
+
+getStarted : Html msg
+getStarted =
+  a [ class "get-started-button"
+    , href "http://guide.elm-lang.org/get_started.html"
+    ]
+    [ text "Get Started"
+    ]
+
+
+getStartedSection : Html msg
+getStartedSection =
+  div [ class "splash", style [("margin", "100px 0")] ] [ getStarted ]
 
 
 
