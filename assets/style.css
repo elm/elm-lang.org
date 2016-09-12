@@ -130,6 +130,7 @@ a:hover {
 
 /* top bar */
 
+
 #tabs {
   padding: 1em;
   background-color: #60B5CC;
@@ -160,6 +161,14 @@ a:hover {
   color: #34495E;
   border-bottom: 3px solid #34495E;
 }
+
+@media (max-width: 600px) {
+  .tab {
+    font-size: 15px;
+    margin: 0 0.5em;
+  }
+}
+
 
 
 /* splash */
@@ -304,4 +313,3 @@ blockquote p {
 .grey-link:hover {
   color: #bbbbbb;
 }
-
