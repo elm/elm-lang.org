@@ -249,13 +249,13 @@ userSection =
             "https://circuithub.com/"
             "png"
         , company
-            "Beautiful Destinations"
-            "http://www.beautifuldestinations.com/"
-            "svg"
-        , company
-            "Prezi"
-            "https://prezi.com/"
+            "Carfax"
+            "https://www.carfax.com/"
             "png"
+        , company
+            "Futurice"
+            "http://futurice.com/blog/elm-in-the-real-world"
+            "svg"
         , company
             "Gizra"
             "http://www.gizra.com/content/thinking-choosing-elm/"
@@ -265,8 +265,12 @@ userSection =
             "https://truqu.com/"
             "png"
         , company
-            "Futurice"
-            "http://futurice.com/blog/elm-in-the-real-world"
+            "Prezi"
+            "https://prezi.com/"
+            "png"
+        , company
+            "Beautiful Destinations"
+            "http://www.beautifuldestinations.com/"
             "svg"
         ]
     ]
