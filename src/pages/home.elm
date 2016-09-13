@@ -95,7 +95,9 @@ viewFeature feature =
     , a [ class "feature-image"
         , href feature.link
         ]
-        [ img [src feature.image] []
+        [ img [src feature.image
+              , style [("width", "100%")]
+              ] []
         ]
     ]
 
@@ -185,6 +187,7 @@ example imgSrc demo code =
       [ img
           [ src ("/assets/examples/" ++ imgSrc ++ ".png")
           , alt imgSrc
+          , style [("width", "100%")]
           ]
           []
       ]
@@ -207,7 +210,7 @@ fluidList itemWidth maxColumns itemList =
 
     bulletStyle =
         [ "display" => "inline-block"
-        , "width" => toPx itemWidth
+        , "max-width" => toPx itemWidth
         , "vertical-align" => "top"
         , "text-align" => "left"
         , "margin" => ("0 " ++ toPx gutter)
@@ -285,7 +288,7 @@ company name website extension =
     [ a [ href website ]
         [ div
             [ style
-                [ "width" => "100%"
+                [ "width" => "200px"
                 , "height" => "100px"
                 , "background-image" => ("url('" ++ imgSrc ++ "')")
                 , "background-repeat" => "no-repeat"
@@ -295,6 +298,3 @@ company name website extension =
             []
         ]
     ]
-
-
-

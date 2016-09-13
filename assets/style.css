@@ -86,7 +86,7 @@ a:hover {
     margin: 0 auto;
   }
   .feature-image {
-    width: 420px;
+    max-width: 420px;
     display: block;
     margin: 0 auto;
   }
@@ -94,7 +94,7 @@ a:hover {
 
 @media (min-width: 820px) {
   .features {
-    width: 800px;
+    max-width: 800px;
   }
   .feature {
     position: relative;
@@ -102,7 +102,7 @@ a:hover {
     margin-bottom: 4em;
   }
   .feature-description {
-    width: 340px;
+    max-width: 340px;
   }
   .feature-image {
     position: absolute;
@@ -228,7 +228,7 @@ Not really any of those on the website though AFAIK.
   padding-top: 1em;
   color: #ddd;
   display: block;
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
   text-align: right;
 }
