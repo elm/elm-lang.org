@@ -12,18 +12,12 @@ main =
     Blog.evan
     (Blog.Date 2015 11 19)
     [ Center.markdown "600px" content
-    , iframe
-        [ width 560
-        , height 315
-        , src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=87&rel=0&autoplay=0"
-        , attribute "frameborder" "0"
-        , attribute "allowfullscreen" ""
-        , style
-            [ "display" => "block"
-            , "margin" => "1em auto"
-            ]
+    , div [ class "intrinsic-container" ]
+        [ iframe
+            [ src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=87&rel=0&autoplay=0"
+            , attribute "allowfullscreen" ""
+            ] []
         ]
-        []
     , Center.markdown "600px" afterVideo
     , image "big-record"
     , Center.markdown "600px" afterTypeDiffs
@@ -47,13 +41,14 @@ main =
 
 
 image name =
-  img
-    [ src ("/assets/blog/error-messages/0.16/" ++ name ++ ".png")
-    , style [("display", "block"), ("margin", "1em auto")]
-    , alt "compiler output example"
+  div [class "content", Center.style "600px"] [
+    img
+      [ src ("/assets/blog/error-messages/0.16/" ++ name ++ ".png")
+      , style [("display", "block"), ("margin", "1em auto")]
+      , alt "compiler output example"
+      ]
+      []
     ]
-    []
-
 
 content = """
 

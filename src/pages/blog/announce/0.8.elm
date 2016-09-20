@@ -73,11 +73,8 @@ explains all of the details of the API.
 
 The following video is a short demo of how to embed Elm in a `<div>`.
 
-<div style="position:relative; height:350px;">
-<iframe width="600" height="350"
-        src="http://www.youtube.com/embed/xt07tLqa_m8?rel=0"
-             style="position:absolute; margin-left:-300px; left:50%;"
-        frameborder="0" allowfullscreen></iframe>
+<div class="intrinsic-container">
+  <iframe src="http://www.youtube.com/embed/xt07tLqa_m8?rel=0" allowfullscreen></iframe>
 </div>
 
 So it is no longer an all-or-nothing choice. You can use Elm where it

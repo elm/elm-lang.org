@@ -47,11 +47,8 @@ Check out the following video to see Elm Reactor in action when debugging a
 [todo]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [html]: /blog/blazing-fast-html
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-<iframe width="600"
-        height="338"
-        frameborder="0"
-        allowfullscreen
+<div class="intrinsic-container">
+<iframe allowfullscreen
         src="//www.youtube.com/embed/2HK4ENBPcWA?rel=0&html5=1"></iframe>
 </div>
 <div style="text-align: right; color: #D8DDE1; padding-top: 4px; font-size: 0.5em;">Videos Narrated by Evan Czaplicki</div>
@@ -64,11 +61,8 @@ a line piece and correct my mistake when playing [elmtris][]:
 
 [elmtris]: https://github.com/jcollard/elmtris
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-<iframe width="600"
-        height="338"
-        frameborder="0"
-        allowfullscreen
+<div class="intrinsic-container">
+<iframe allowfullscreen
         src="//www.youtube.com/embed/IwOka_IXjU4?rel=0&html5=1"></iframe>
 </div>
 
@@ -106,8 +100,7 @@ the program stops receiving inputs from the real world until Elm is unpaused.
 
 <img
   src="/imgs/reactor-post/timeline-pause.png"
-  alt="pausing time"
-  style="width:600px; height:200px;">
+  alt="pausing time">
 
 Events in Elm have a time associated with them. So that Elm does not get a hole
 in its perception of time, Elm Reactor offsets that recorded time by the time
@@ -158,11 +151,8 @@ In addition to time travel, Elm Reactor lets you change history. Since
 Elm Reactor records the entire history of inputs to the program, we can simply
 replay these inputs on new code to see a bug fix or watch how things change.
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-<iframe width="600"
-        height="338"
-        frameborder="0"
-        allowfullscreen
+<div class="intrinsic-container">
+<iframe allowfullscreen
         src="//www.youtube.com/embed/RPNxNAJG4EU?rel=0&html5=1"></iframe>
 </div>
 
@@ -183,11 +173,8 @@ error? In that case, Elm Reactor does not swap in the new code. Instead, it
 displays a message explaining the issue while the last working version keeps
 running. The following video shows this kind of feedback:
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-<iframe width="600"
-        height="338"
-        frameborder="0"
-        allowfullscreen
+<div class="intrinsic-container">
+<iframe allowfullscreen
         src="//www.youtube.com/embed/xlP-Bpdv1lc?rel=0&html5=1"></iframe>
 </div>
 

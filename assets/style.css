@@ -36,6 +36,11 @@ a:hover {
   margin-bottom: 6px;
 }
 
+.content img {
+  width: 100%;
+  height: 100%;
+}
+
 
 /* home stuff */
 
@@ -201,6 +206,8 @@ a:hover {
 
 code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: block;
+  overflow-x: auto;
 }
 
 /* I heard using :not() is slow for reflows.
@@ -312,4 +319,22 @@ blockquote p {
 
 .grey-link:hover {
   color: #bbbbbb;
+}
+
+/* iframes */
+
+.intrinsic-container {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%; /*assuming 16/9 aspect ratio*/
+  max-width: 800px;
+}
+
+.intrinsic-container iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

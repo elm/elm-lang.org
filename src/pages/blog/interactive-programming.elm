@@ -65,10 +65,11 @@ We will be exploring the limits of hot-swapping, and how language design is
 the key to making it easy and reliable. Before digging into details, let&rsquo;s
 see how hot-swapping works in Elm:
 
-<iframe
-    src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0&html5=1"
-    allowfullscreen
-    style="display: block; border: none; width: 600px; height: 340px;"></iframe>
+<div class="intrinsic-container">
+  <iframe
+      src="//www.youtube.com/embed/zHPtvw8c3Lc?rel=0&html5=1"
+      allowfullscreen></iframe>
+</div>
 
 Support for hot-swapping is live on this site, so you can [mess with Mario
 yourself](/examples/mario) and play with the
@@ -98,10 +99,11 @@ over time or as a stream of events. Every Elm program sets up a network for
 processing these signals, called a signal graph. Watch the following video
 to understand signal graphs and how they can be used for hot-swapping:
 
-<iframe
-    src="//www.youtube.com/embed/FSdXiBLpErU?rel=0&html5=1"
-    allowfullscreen
-    style="display: block; border: none; width: 600px; height: 340px;"></iframe>
+<div class="intrinsic-container">
+  <iframe
+      src="//www.youtube.com/embed/FSdXiBLpErU?rel=0&html5=1"
+      allowfullscreen></iframe>
+</div>
 
 <span style="color:#999;">
 Huge thank you to Laszlo for working on the
