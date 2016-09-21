@@ -172,6 +172,9 @@ a:hover {
     font-size: 15px;
     margin: 0 0.5em;
   }
+  .content {
+    margin: 0 0.5em !important;
+  }
 }
 
 
@@ -236,7 +239,7 @@ Not really any of those on the website though AFAIK.
   color: #ddd;
   display: block;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 .5em;
   text-align: right;
 }
 
