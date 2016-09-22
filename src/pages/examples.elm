@@ -10,7 +10,7 @@ main =
   Skeleton.skeleton
     "examples"
     [ Center.markdown "600px" content
-    , div [ Center.style "600px" ]
+    , div [ Center.style "600px" , style ["padding" => "0 0.5em"]]
         [ view "HTML" html
         , view "Functional Stuff" core
         , view "Effects" effects
@@ -135,4 +135,3 @@ effects =
       , "mouse drags" ==> "drag"
       ]
   ]
-

@@ -36,6 +36,11 @@ a:hover {
   margin-bottom: 6px;
 }
 
+.content img {
+  width: 100%;
+  height: 100%;
+}
+
 
 /* home stuff */
 
@@ -86,7 +91,7 @@ a:hover {
     margin: 0 auto;
   }
   .feature-image {
-    width: 420px;
+    max-width: 420px;
     display: block;
     margin: 0 auto;
   }
@@ -94,7 +99,7 @@ a:hover {
 
 @media (min-width: 820px) {
   .features {
-    width: 800px;
+    max-width: 800px;
   }
   .feature {
     position: relative;
@@ -102,7 +107,7 @@ a:hover {
     margin-bottom: 4em;
   }
   .feature-description {
-    width: 340px;
+    max-width: 340px;
   }
   .feature-image {
     position: absolute;
@@ -129,6 +134,7 @@ a:hover {
 
 
 /* top bar */
+
 
 #tabs {
   padding: 1em;
@@ -160,6 +166,17 @@ a:hover {
   color: #34495E;
   border-bottom: 3px solid #34495E;
 }
+
+@media (max-width: 600px) {
+  .tab {
+    font-size: 15px;
+    margin: 0 0.5em;
+  }
+  .content {
+    margin: 0 0.5em !important;
+  }
+}
+
 
 
 /* splash */
@@ -212,6 +229,11 @@ Not really any of those on the website though AFAIK.
   content: "\00a0";
 }
 
+pre > code {
+  display: block;
+  overflow-x: auto;
+}
+
 
 /* blogs */
 
@@ -219,8 +241,9 @@ Not really any of those on the website though AFAIK.
   padding-top: 1em;
   color: #ddd;
   display: block;
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
+  padding-right: 10px;
   text-align: right;
 }
 
@@ -305,3 +328,20 @@ blockquote p {
   color: #bbbbbb;
 }
 
+/* iframes */
+
+.intrinsic-container {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%; /*assuming 16/9 aspect ratio*/
+  max-width: 800px;
+}
+
+.intrinsic-container iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

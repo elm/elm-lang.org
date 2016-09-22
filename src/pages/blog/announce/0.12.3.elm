@@ -41,12 +41,11 @@ We of course need to start with an example. As you move your mouse within the
 grey box, [Thwomp](http://www.mariowiki.com/Thwomp#Super_Mario_64) will stare
 at you. Too far away to crush you, but waiting...
 
-<iframe src="/examples/thwomp"
-        frameborder="0"
-        width="600"
-        height="300"
-        style="background-color: #D8DDE1;">
-</iframe>
+<div class="intrinsic-container">
+  <iframe src="/examples/thwomp"
+          style="background-color: #D8DDE1;">
+  </iframe>
+</div>
 
 Typically, working with WebGL in JS means wrestling with a huge 90s era C++ API
 with a great deal of [incidental

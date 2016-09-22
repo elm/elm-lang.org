@@ -12,33 +12,28 @@ import Skeleton
 main =
   Skeleton.skeleton
     "docs"
-    [ Center.markdown "600px" beginning
-    , iframe
-        [ style
-            [ "display" => "block"
-            , "width" => "560px"
-            , "height" => "315px"
-            , "margin" => "0 auto"
-            , "border" => "none"
-            ]
-        , src "https://www.youtube.com/embed/DfLvDFxcAIA"
-        ]
-        []
-    , Center.markdown "600px" middle
-    , iframe
-        [ style
-            [ "display" => "block"
-            , "width" => "560px"
-            , "height" => "315px"
-            , "margin" => "0 auto"
-            , "border" => "none"
-            ]
-        , src "https://www.youtube.com/embed/Agu6jipKfYw"
-        ]
-        []
-    , Center.markdown "600px" end
+    [ div [style
+            [("max-width", "600px"), ("margin", "0 auto")]
+          ]
+      [Center.markdown "600px" beginning
+      , div [ class "intrinsic-container" ]
+          [ iframe
+              [ src "https://www.youtube.com/embed/DfLvDFxcAIA"
+              , attribute "allowfullscreen" ""
+              ]
+              []
+          ]
+      , Center.markdown "600px" middle
+      , div [ class "intrinsic-container" ]
+          [ iframe
+              [ src "https://www.youtube.com/embed/Agu6jipKfYw"
+              , attribute "allowfullscreen" ""
+              ]
+              []
+          ]
+      , Center.markdown "600px" end
+      ]
     ]
-
 
 beginning = """
 

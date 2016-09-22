@@ -30,7 +30,7 @@ main =
     , iframe
         [ style
             [ "display" => "block"
-            , "width" => "400px"
+            , "width" => "300px"
             , "height" => "200px"
             , "padding" => "20px"
             , "margin" => "0 auto"

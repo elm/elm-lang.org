@@ -70,12 +70,11 @@ powerful than you really need.
 These signals came in handy when creating a turtle that swims around and surfaces,
 based on the `arrows` and `space` signals.
 
-<iframe
-  width="480" height="270"
-  src="https://www.youtube.com/embed/Xshzzzbw3KY?rel=0;showinfo=0"
-  frameborder="0"
-  allowfullscreen
-  style="margin:0px auto; display:block;"></iframe>
+<div class="intrinsic-container">
+  <iframe
+    src="https://www.youtube.com/embed/Xshzzzbw3KY?rel=0;showinfo=0"
+    allowfullscreen></iframe>
+</div>
 
 This takes only 20 physical lines of code, which you can see and modify
 in the interactive editor [here][src].
@@ -234,4 +233,3 @@ Thanks to Grzegorz and Mads for working on cool projects! Again, I encourage you
 [set up Preselm](https://github.com/grzegorzbalcerek/Preselm#preselm) or
 [try out the inline docs](https://groups.google.com/forum/?fromgroups=#!topic/elm-discuss/_xmbeVfjYbI)!
 """
-

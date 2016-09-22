@@ -15,6 +15,6 @@ markdown width string =
 style width =
   Attr.style
     [ "display" => "block"
-    , "width" => width
+    , "max-width" => width
     , "margin" => "0 auto"
     ]

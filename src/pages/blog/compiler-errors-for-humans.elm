@@ -22,12 +22,14 @@ main =
 
 
 image url =
-  img
-    [ src url
-    , style [("display", "block"), ("margin", "1em auto")]
-    , alt "compiler output example"
-    ]
-    []
+  div [class "content", Center.style "900px"] [
+    img
+      [ src url
+      , style [("display", "block"), ("margin", "1em auto")]
+      , alt "compiler output example"
+      ]
+      []
+  ]
 
 
 content = """
@@ -186,15 +188,11 @@ his [elm-vim][] plugin:
 
 [elm-vim]: https://github.com/ajhager/elm-vim
 
+<div class="intrinsic-container">
 <iframe
   src="https://player.vimeo.com/video/132107269?color=49c180&title=0&byline=0&portrait=0"
-  width="500"
-  height="281"
-  frameborder="0"
-  style="padding: 0 50px;"
-  webkitallowfullscreen
-  mozallowfullscreen
   allowfullscreen></iframe>
+</div>
 
 (This is really exciting, great job!)
 

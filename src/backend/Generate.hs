@@ -64,6 +64,7 @@ htmlSkeleton analytics highlight title scripts =
   H.docTypeHtml $ do
     H.head $ do
       H.meta ! A.charset "UTF-8"
+      H.meta ! A.name "viewport" ! A.content "width=device-width, initial-scale=1"
       H.title (H.toHtml title)
       favicon
       H.link ! A.rel "stylesheet" ! A.href "/assets/style.css?v=3"
@@ -90,7 +91,7 @@ favicon :: H.Html
 favicon =
   H.link
     ! A.rel "shortcut icon"
-    ! A.size "16x16, 32x32, 48x48, 64x64, 128x128, 256x256"
+    ! A.sizes "16x16 32x32 48x48 64x64 128x128 256x256"
     ! A.href "/favicon.ico"
 
 
