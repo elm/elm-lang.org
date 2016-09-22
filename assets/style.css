@@ -209,8 +209,6 @@ a:hover {
 
 code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  display: block;
-  overflow-x: auto;
 }
 
 /* I heard using :not() is slow for reflows.
@@ -229,6 +227,11 @@ Not really any of those on the website though AFAIK.
 :not(pre) > code::before, :not(pre) > code::after {
   letter-spacing: -0.2em;
   content: "\00a0";
+}
+
+pre > code {
+  display: block;
+  overflow-x: auto;
 }
 
 
