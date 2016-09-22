@@ -91,7 +91,7 @@ favicon :: H.Html
 favicon =
   H.link
     ! A.rel "shortcut icon"
-    ! A.sizes "16x16, 32x32, 48x48, 64x64, 128x128, 256x256"
+    ! A.sizes "16x16 32x32 48x48 64x64 128x128 256x256"
     ! A.href "/favicon.ico"
 
 
