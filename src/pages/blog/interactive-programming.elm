@@ -109,7 +109,7 @@ to understand signal graphs and how they can be used for hot-swapping:
 Huge thank you to Laszlo for working on the
 [debugger](https://github.com/laszlopandy/elm-lang.org/tree/signal-graph-demo) demoed above.
 For tons more details on signals and signal graphs, see
-[this thesis](/papers/concurrent-frp.pdf)
+[this thesis](/assets/papers/concurrent-frp.pdf)
 or [this paper](http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html).
 </span>
 

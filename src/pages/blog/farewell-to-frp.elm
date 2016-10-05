@@ -226,7 +226,7 @@ that approach down to its simplest form, I ended up with something way easier
 to learn than similar functional languages. Signals meant piles of difficult
 concepts just were not necessary in Elm.
 
-[thesis]: /papers/concurrent-frp.pdf
+[thesis]: /assets/papers/concurrent-frp.pdf
 
 I think anyone who has taught Elm recently would agree that signals are one of
 the few stumbling blocks left. They made Elm easier than its peers, but they

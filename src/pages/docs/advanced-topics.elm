@@ -91,7 +91,7 @@ FRP][conc]. It also provides a friendly overview of the academic work on FRP.
 That thesis was distilled into [Asynchronous FRP][async] which was published
 at PLDI 2013. It is basically a harder to read version of the thesis.
 
-[conc]: /papers/concurrent-frp.pdf
+[conc]: /assets/papers/concurrent-frp.pdf
 [async]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html
 
 """

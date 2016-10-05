@@ -186,7 +186,7 @@ it will help a lot of people get started with signals more quickly. The new
 term is `map`, and the goal is to build on the intuition people have from
 working with lists.
 
-[thesis]: /papers/concurrent-frp.pdf
+[thesis]: /assets/papers/concurrent-frp.pdf
 
 ```elm
 Signal.map  : (a -> b) -> Signal a -> Signal b
