@@ -171,6 +171,7 @@ redirects =
     -- resources/
     , "papers/concurrent.pdf" ==> "/assets/papers/concurrent.pdf"
     , "diagrams/sampleResults.png" ==> "/assets/blog/virtual-dom-charts-old/sampleResults.png"
+    , "imgs/embed.png" ==> "/assets/blog/0.11/embed.png"
     ]
 
 

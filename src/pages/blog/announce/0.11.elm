@@ -19,7 +19,7 @@ processing units in Elm and [embed them in a traditional
 project](/guide/interop) written in JS. So you can try
 Elm out on a specific problem and see if it works for you.
 
-<img src="/imgs/embed.png" alt="Component Model"
+<img src="/assets/blog/0.11/embed.png" alt="Component Model"
      style="width:480px; height:320px; margin-left: auto; margin-right: auto; display:block;">
 
 To make this “component model” possible, Elm 0.11 introduces
