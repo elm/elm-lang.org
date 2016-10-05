@@ -2,7 +2,7 @@ import Html exposing (text)
 
 
 main =
-  text (toString (length [1..9]))
+  text (toString (length (List.range 1 9)))
 
 
 {-| Figure out the length of any list. To find the length of

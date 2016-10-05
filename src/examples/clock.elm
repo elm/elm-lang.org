@@ -1,5 +1,4 @@
-import Html exposing (Html)
-import Html.App exposing (program)
+import Html exposing (Html, program)
 import Svg exposing (circle, line, svg)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)

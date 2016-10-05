@@ -1,12 +1,11 @@
-import Html exposing (Html, fieldset, input, label, text)
-import Html.App as App
+import Html exposing (Html, beginnerProgram, fieldset, input, label, text)
 import Html.Attributes exposing (style, type')
 import Html.Events exposing (onClick)
 
 
 
 main =
-  App.beginnerProgram { model = optOut, update = update, view = view }
+  beginnerProgram { model = optOut, update = update, view = view }
 
 
 

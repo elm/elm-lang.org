@@ -1,5 +1,4 @@
-import Html exposing (div, button, text)
-import Html.App exposing (beginnerProgram)
+import Html exposing (beginnerProgram, div, button, text)
 import Html.Events exposing (onClick)
 
 

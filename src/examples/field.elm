@@ -1,5 +1,4 @@
-import Html exposing (Html, Attribute, text, div, input)
-import Html.App exposing (beginnerProgram)
+import Html exposing (Html, Attribute, beginnerProgram, text, div, input)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 import String

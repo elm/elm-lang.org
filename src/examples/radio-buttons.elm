@@ -1,5 +1,4 @@
 import Html exposing (Html, Attribute, div, fieldset, input, label, text)
-import Html.App as App
 import Html.Attributes exposing (name, style, type')
 import Html.Events exposing (onClick)
 import Markdown
@@ -7,7 +6,7 @@ import Markdown
 
 
 main =
-  App.beginnerProgram { model = chapter1, update = update, view = view }
+  Html.beginnerProgram { model = chapter1, update = update, view = view }
 
 
 

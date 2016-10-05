@@ -1,5 +1,4 @@
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket
@@ -7,7 +6,7 @@ import WebSocket
 
 
 main =
-  App.program
+  Html.program
     { init = init
     , view = view
     , update = update

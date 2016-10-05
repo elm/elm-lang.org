@@ -1,14 +1,13 @@
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (on)
-import Json.Decode as Json exposing ((:=))
+import Json.Decode as Decode
 import Mouse exposing (Position)
 
 
 
 main =
-  App.program
+  Html.program
     { init = init
     , view = view
     , update = update
@@ -133,4 +132,4 @@ getPosition {position, drag} =
 
 onMouseDown : Attribute Msg
 onMouseDown =
-  on "mousedown" (Json.map DragStart Mouse.position)
+  on "mousedown" (Decode.map DragStart Mouse.position)

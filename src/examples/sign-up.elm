@@ -1,11 +1,10 @@
 import Html exposing (..)
-import Html.App exposing (beginnerProgram)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 
 
 main =
-  beginnerProgram { model = model, view = view, update = update }
+  Html.beginnerProgram { model = model, view = view, update = update }
 
 
 -- MODEL

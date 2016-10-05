@@ -13,7 +13,7 @@ add x y =
 the factorial by multiplying (1 * 2 * 3 * ... * n)
 -}
 factorial n =
-  List.product [1..n]
+  List.product (List.range 1 n)
 
 
 {- The 'main' value needs to evaluate all of our functions to
