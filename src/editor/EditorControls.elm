@@ -2,11 +2,10 @@ port module EditorControls exposing (..)
 
 import Dict
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode as Json exposing ((:=))
+import Json.Decode as Json
 import Set
 import String
 import Task
@@ -14,7 +13,7 @@ import Task
 
 
 main =
-  App.program
+  Html.program
     { init = init
     , view = view
     , update = update
@@ -52,7 +51,7 @@ type alias Model =
 init : (Model, Cmd Msg)
 init =
   ( emptyModel
-  , Task.perform (always DocsFailed) DocsLoaded getAllDocs
+  , Task.attempt DocsLoaded getAllDocs
   )
 
 
@@ -70,8 +69,7 @@ emptyModel =
 
 
 type Msg
-  = DocsFailed
-  | DocsLoaded (List ModuleDocs)
+  = DocsLoaded (Result Http.Error (List ModuleDocs))
   | UpdateImports ImportDict
   | CursorMove (Maybe String)
   | Compile
@@ -81,10 +79,10 @@ type Msg
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    DocsFailed ->
+    DocsLoaded (Err _) ->
       ( model, Cmd.none )
 
-    DocsLoaded pkg ->
+    DocsLoaded (Ok pkg) ->
       let
         newDocs =
           pkg ++ model.docs
@@ -203,9 +201,9 @@ getAllDocs =
     supportedPackages =
       [ "elm-lang/core"
       , "elm-lang/html"
+      , "elm-lang/http"
       , "elm-lang/svg"
       , "evancz/elm-markdown"
-      , "evancz/elm-http"
       ]
   in
     supportedPackages
@@ -220,26 +218,27 @@ getDocs pkg =
     url =
       "http://package.elm-lang.org/packages/" ++ pkg ++ "/latest/documentation.json"
   in
-    Http.get (Json.list (moduleDecoder pkg)) url
+    Http.toTask (Http.get url (Json.list (moduleDecoder pkg)))
 
 
 moduleDecoder : String -> Json.Decoder ModuleDocs
 moduleDecoder pkg =
   let
     name =
-      "name" := Json.string
+      Json.field "name" Json.string
 
     tipe =
-      Json.object2 (,) name
-        ("cases" := Json.list (Json.tuple2 always Json.string Json.value))
+      Json.map2 (,)
+        name
+        (Json.field "cases" (Json.list (Json.index 0 Json.string)))
 
     values =
-      Json.object3 Values
-        ("aliases" := Json.list name)
-        ("types" := Json.list tipe)
-        ("values" := Json.list name)
+      Json.map3 Values
+        (Json.field "aliases" (Json.list name))
+        (Json.field "types" (Json.list tipe))
+        (Json.field "values" (Json.list name))
   in
-    Json.object2 (ModuleDocs pkg) name values
+    Json.map2 (ModuleDocs pkg) name values
 
 
 

@@ -2,14 +2,13 @@ module Errors exposing (..)
 
 import Char
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import String
 
 
 
 main =
-  App.programWithFlags
+  Html.programWithFlags
     { init = init
     , update = update
     , view = view
