@@ -5,8 +5,8 @@ import Control.Applicative ((<|>))
 import Control.Monad.Trans (liftIO)
 import qualified Data.ByteString.UTF8 as Utf8
 import Snap.Core
-    ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, redirect'
-    , route, setContentType, setResponseStatus, writeBuilder
+    ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, path
+    , redirect', route, setContentType, setResponseStatus, writeBuilder
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
@@ -25,7 +25,8 @@ router pages =
     <|> route routes
     <|> dir "editor" (serveDirectoryWith simpleDirectoryConfig ("gen" </> "editor"))
     <|> dir "assets" (serveDirectoryWith simpleDirectoryConfig "assets")
-    <|> serveDirectoryWith simpleDirectoryConfig "resources"
+    <|> path "robots.txt" (serveFile ("assets" </> "robots.txt"))
+    <|> path "favicon.ico" (serveFile ("assets" </> "favicon.ico"))
     <|> redirects
     <|> error404
   where
