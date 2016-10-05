@@ -99,7 +99,7 @@ event, it is shown on the &ldquo;Elm Time&rdquo;. When Elm Reactor pauses Elm,
 the program stops receiving inputs from the real world until Elm is unpaused.
 
 <img
-  src="/imgs/reactor-post/timeline-pause.png"
+  src="/assets/blog/time-travel-made-easy/timeline-pause.png"
   alt="pausing time">
 
 Events in Elm have a time associated with them. So that Elm does not get a hole
@@ -209,15 +209,15 @@ Elm Reactor will work with any pure Elm project. Use it with  [elm-html][],
 <img
   style="width:200px; height:100px;"
   alt="html"
-  src="/imgs/reactor-post/elm-html.png">
+  src="/assets/blog/time-travel-made-easy/elm-html.png">
 <img
   style="width:190px; height:100px;"
   alt="webgl"
-  src="/imgs/reactor-post/elm-webgl.png">
+  src="/assets/blog/time-travel-made-easy/elm-webgl.png">
 <img
   style="width:200px; height:100px;"
   alt="d3"
-  src="/imgs/reactor-post/elm-d3.png">
+  src="/assets/blog/time-travel-made-easy/elm-d3.png">
 
 Elm Reactor can also integrate with your favorite editor. The code
 swapping is editor-agnostic; it just watches your project directory for file

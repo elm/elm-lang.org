@@ -172,6 +172,10 @@ redirects =
     , "papers/concurrent.pdf" ==> "/assets/papers/concurrent.pdf"
     , "diagrams/sampleResults.png" ==> "/assets/blog/virtual-dom-charts-old/sampleResults.png"
     , "imgs/embed.png" ==> "/assets/blog/0.11/embed.png"
+    , "imgs/reactor-post/timeline-pause.png" ==> "/assets/blog/time-travel-made-easy/timeline-pause.png"
+    , "imgs/reactor-post/elm-html.png" ==> "/assets/blog/time-travel-made-easy/elm-html.png"
+    , "imgs/reactor-post/elm-webgl.png" ==> "/assets/blog/time-travel-made-easy/elm-webgl.png"
+    , "imgs/reactor-post/elm-d3.png" ==> "/assets/blog/time-travel-made-easy/elm-d3.png"
     ]
 
 
