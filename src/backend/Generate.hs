@@ -78,8 +78,8 @@ htmlSkeleton analytics highlight title scripts =
 
       case highlight of
         Highlight ->
-          do  H.link ! A.rel "stylesheet" ! A.href "/highlight/styles/default.css"
-              H.script ! A.src "/highlight/highlight.pack.js" $ ""
+          do  H.link ! A.rel "stylesheet" ! A.href "/assets/highlight/styles/default.css"
+              H.script ! A.src "/assets/highlight/highlight.pack.js" $ ""
 
         NoHighlight ->
           return ()
