@@ -154,7 +154,7 @@ system](http://en.wikipedia.org/wiki/Cartesian_coordinate_system).
 
 First we should discuss how things used to work in Elm. The Old Way.
 
-<img src="/imgs/coords/flipped.jpg"
+<img src="/assets/blog/0.8/flipped.jpg"
      alt="upside down coordinates"
      style="border: 1px solid rgb(216,221,225); margin-left: 30px; float:right; width:126px; height:120px;">
 
@@ -168,7 +168,7 @@ get your code to work in this coordinate system, especially when you
 are trying to work with rotations and [polar
 coordinates](http://en.wikipedia.org/wiki/Polar_coordinate_system).
 
-<img src="/imgs/coords/cartesian.jpg"
+<img src="/assets/blog/0.8/cartesian.jpg"
      alt="cartesian coordinates"
      style="border: 1px solid rgb(216,221,225); margin-left:30px; float:right; width:126px; height:91px;">
 
