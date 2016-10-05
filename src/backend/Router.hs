@@ -168,7 +168,9 @@ redirects =
     , "guide/core-language" ==> "http://guide.elm-lang.org/core_language.html"
     , "guide/model-the-problem" ==> "http://guide.elm-lang.org/types/union_types.html"
     , "guide/architecture" ==> "https://github.com/evancz/elm-architecture-tutorial/"
+    -- resources/
     , "papers/concurrent.pdf" ==> "/assets/papers/concurrent.pdf"
+    , "diagrams/sampleResults.png" ==> "/assets/blog/virtual-dom-charts-old/sampleResults.png"
     ]
 
 

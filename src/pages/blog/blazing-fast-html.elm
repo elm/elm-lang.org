@@ -34,7 +34,7 @@ popular entries:
 [bench]: https://evancz.github.io/todomvc-perf-comparison
 
 <a href="https://evancz.github.io/todomvc-perf-comparison">
-<img src="/diagrams/sampleResults.png"
+<img src="/assets/blog/virtual-dom-charts-old/sampleResults.png"
      alt="sample results with Firefox 30 on a Macbook Air with OSX 10.9.4"
      title="sample results with Firefox 30 on a Macbook Air with OSX 10.9.4"z
      style="max-width: 500px; margin-left: auto; margin-right: auto; display:block;"></a>
