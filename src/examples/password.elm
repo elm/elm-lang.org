@@ -21,7 +21,7 @@ update (NewPassword password) oldPassword =
 view : String -> Html Msg
 view password =
   div []
-    [ input [ myStyle, type' "password", placeholder "Password", onInput NewPassword ] []
+    [ input [ myStyle, type_ "password", placeholder "Password", onInput NewPassword ] []
     , div [ myStyle ] [ text password ]
     ]
 

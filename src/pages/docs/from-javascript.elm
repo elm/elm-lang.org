@@ -61,7 +61,7 @@ cellStyle =
 type Value = Code String | Message String
 
 
-vs js elm =
+(=/=) js elm =
   (Code js, Code elm)
 
 
@@ -77,44 +77,44 @@ value v =
 -- COMPARISONS
 
 literals =
-  [ "3" `vs` "3"
-  , "3.1415" `vs` "3.1415"
-  , "\"Hello world!\"" `vs` "\"Hello world!\""
+  [ "3" =/= "3"
+  , "3.1415" =/= "3.1415"
+  , "\"Hello world!\"" =/= "\"Hello world!\""
   , (Message "Multiline strings not widely supported", Code "\"\"\"multiline string\"\"\"")
   , (Code "'Hello world!'", Message "Cannot use single quotes for strings")
   , (Message "No distinction between characters and strings", Code "'a'")
-  , "true" `vs` "True"
-  , "[1,2,3]" `vs` "[1,2,3]"
+  , "true" =/= "True"
+  , "[1,2,3]" =/= "[1,2,3]"
   ]
 
 
 records =
-  [ "{ x: 3, y: 4 }" `vs` "{ x = 3, y = 4 }"
-  , "point.x" `vs` "point.x"
-  , "point.x = 42" `vs` "{ point | x = 42 }"
+  [ "{ x: 3, y: 4 }" =/= "{ x = 3, y = 4 }"
+  , "point.x" =/= "point.x"
+  , "point.x = 42" =/= "{ point | x = 42 }"
   ]
 
 
 functions =
-  [ "function(x, y) { return x + y; }" `vs` "\\x y -> x + y"
-  , "Math.max(3, 4)" `vs` "max 3 4"
-  , "Math.min(1, Math.pow(2, 4))" `vs` "min 1 (2^4)"
-  , "numbers.map(Math.sqrt)" `vs` "List.map sqrt numbers"
-  , "points.map(function(p) { return p.x })" `vs` "List.map .x points"
+  [ "function(x, y) { return x + y; }" =/= "\\x y -> x + y"
+  , "Math.max(3, 4)" =/= "max 3 4"
+  , "Math.min(1, Math.pow(2, 4))" =/= "min 1 (2^4)"
+  , "numbers.map(Math.sqrt)" =/= "List.map sqrt numbers"
+  , "points.map(function(p) { return p.x })" =/= "List.map .x points"
   ]
 
 
 controlFlow =
-  [ "3 > 2 ? 'cat' : 'dog'" `vs` "if 3 > 2 then \"cat\" else \"dog\""
-  , "var x = 42; ..." `vs` "let x = 42 in ..."
+  [ "3 > 2 ? 'cat' : 'dog'" =/= "if 3 > 2 then \"cat\" else \"dog\""
+  , "var x = 42; ..." =/= "let x = 42 in ..."
   , (Code "return 42", Message "Everything is an expression, no need for return")
   ]
 
 
 strings =
-  [ "'abc' + '123'" `vs` "\"abc\" ++ \"123\""
-  , "'abc'.length" `vs` "String.length \"abc\""
-  , "'abc'.toUpperCase()" `vs` "String.toUpper \"abc\""
-  , "'abc' + 123" `vs` "\"abc\" ++ toString 123"
+  [ "'abc' + '123'" =/= "\"abc\" ++ \"123\""
+  , "'abc'.length" =/= "String.length \"abc\""
+  , "'abc'.toUpperCase()" =/= "String.toUpper \"abc\""
+  , "'abc' + 123" =/= "\"abc\" ++ toString 123"
   ]
 

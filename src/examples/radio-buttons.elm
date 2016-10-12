@@ -1,5 +1,5 @@
 import Html exposing (Html, Attribute, div, fieldset, input, label, text)
-import Html.Attributes exposing (name, style, type')
+import Html.Attributes exposing (name, style, type_)
 import Html.Events exposing (onClick)
 import Markdown
 
@@ -83,7 +83,7 @@ radio value msg =
   label
     [ style [("padding", "20px")]
     ]
-    [ input [ type' "radio", name "font-size", onClick msg ] []
+    [ input [ type_ "radio", name "font-size", onClick msg ] []
     , text value
     ]
 

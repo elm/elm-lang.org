@@ -1,5 +1,5 @@
 import Html exposing (Html, beginnerProgram, fieldset, input, label, text)
-import Html.Attributes exposing (style, type')
+import Html.Attributes exposing (style, type_)
 import Html.Events exposing (onClick)
 
 
@@ -65,6 +65,6 @@ checkbox msg name =
   label
     [ style [("padding", "20px")]
     ]
-    [ input [ type' "checkbox", onClick msg ] []
+    [ input [ type_ "checkbox", onClick msg ] []
     , text name
     ]

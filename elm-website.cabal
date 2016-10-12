@@ -39,7 +39,7 @@ executable run-elm-website
     containers,
     cmdargs,
     directory,
-    elm-compiler == 0.17,
+    elm-compiler == 0.18,
     elm-package,
     filepath,
     mtl >= 2.2.1 && < 3,
