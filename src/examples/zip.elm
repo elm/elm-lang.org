@@ -17,8 +17,8 @@ of the lists runs out of elements.
 zip : List a -> List b -> List (a,b)
 zip xs ys =
   case (xs, ys) of
-    ( x :: xs', y :: ys' ) ->
-        (x,y) :: zip xs' ys'
+    ( x :: xBack, y :: yBack ) ->
+        (x,y) :: zip xBack yBack
 
     (_, _) ->
         []

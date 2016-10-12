@@ -56,10 +56,11 @@ sorted list.
 merge : List comparable -> List comparable -> List comparable
 merge xs ys =
   case (xs, ys) of
-    (x :: xs', y :: ys') ->
-        if x < y
-          then x :: merge xs' ys
-          else y :: merge xs ys'
+    (x :: xBack, y :: yBack) ->
+        if x < y then
+          x :: merge xBack ys
+        else
+          y :: merge xs yBack
 
     ([], rest) ->
         rest

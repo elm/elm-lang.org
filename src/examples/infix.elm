@@ -38,7 +38,7 @@ isTeenage age =
 -- Again, infix operators are set up so they can be used together
 -- in reasonable ways without parentheses, so 'isTeenage' can be
 -- written like this:
-isTeenage' age =
+isTeenageNoParens age =
   age > 12 && age < 20
 
 
