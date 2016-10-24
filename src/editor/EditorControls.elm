@@ -162,10 +162,12 @@ viewHintList : List Hint -> List (Html msg)
 viewHintList hints =
   case hints of
     [] ->
-      []
+      [ text "More Examples "
+      , a [href "/examples", target "_blank"] [text "Here"]
+      ]
 
     _ ->
-      text "Hint: " ::
+      text "Docs: " ::
         List.intersperse (text ", ") (List.map viewHint hints)
 
 
