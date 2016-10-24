@@ -188,17 +188,18 @@ a:hover {
   text-align: center;
 }
 
-.get-started-button {
+.get-started a {
   background-color: #34495E;
-  padding: 12px 40px;
-  border-radius: 20px;
-  margin: 18px;
+  border-radius: 6px;
+  min-width: 120px;
+  padding: 12px 12px;
+  margin: 12px;
   display: inline-block;
   color: white;
   font-size: 1.5em;
 }
 
-.get-started-button:hover {
+.get-started a:hover {
   background-color: #20374D;
   color: white;
   text-decoration: none;
