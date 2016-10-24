@@ -21,7 +21,8 @@ know what to show on screen. It will step through things like
 this:
 
     add 1 (factorial 4)
-    add 1 (List.product [1..4])
+    add 1 (List.product (List.range 1 4))
+    add 1 (List.product [1, 2, 3, 4])
     add 1 24
     1 + 24
     25
