@@ -47,7 +47,8 @@ CodeMirror.defineMode("elm", function() {
 				{
 					source.next();  // should handle other escapes here
 				}
-				else {
+				else
+				{
 					source.next();
 				}
 				if (source.eat('\''))
@@ -160,40 +161,18 @@ CodeMirror.defineMode("elm", function() {
 		while (!source.eol())
 		{
 			var ch = source.next();
-			if (ch == '"')
+			if (ch === '"')
 			{
 				setState(normal(false));
 				return "string";
 			}
-			if (ch == '\\')
+			if (ch === '\\')
 			{
-				if (source.eol() || source.eat(whiteCharRE))
-				{
-					setState(stringGap);
-					return "string";
-				}
-				if (source.eat('&'))
-				{
-				}
-				else
-				{
-					source.next(); // should handle other escapes here
-				}
+				source.next();
 			}
 		}
-		setState(normal(false));
-		return "error";
-	}
-
-	function stringGap(source, setState)
-	{
-		if (source.eat('\\'))
-		{
-			return switchState(source, setState, stringLiteral);
-		}
-		source.next();
-		setState(normal(false));
-		return "error";
+		setState(stringLiteral);
+		return "string";
 	}
 
 
