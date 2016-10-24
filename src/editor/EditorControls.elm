@@ -17,7 +17,7 @@ main =
     { init = init
     , view = view
     , update = update
-    , subscriptions = always Sub.none
+    , subscriptions = subscriptions
     }
 
 
@@ -121,6 +121,18 @@ update msg model =
       ( model
       , lights ()
       )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.batch
+    [ tokens CursorMove
+    , rawImports (UpdateImports << toImportDict)
+    ]
 
 
 
