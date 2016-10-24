@@ -12,26 +12,31 @@ main =
     [ Center.markdown "600px" content
     , div [ Center.style "600px" , style ["padding" => "0 0.5em"]]
         [ view "HTML" html
-        , view "Functional Stuff" core
+        , view "Core Language" fundamentals
         , view "Effects" effects
+        , view "Functional Thinking" core
         ]
     ]
 
 
 content = """
 
-# Learn by Example
+# Examples
 
-Walk through a sequence of small examples, building skills one at a time by
-reading and modifying Elm code in the [online editor](/try).
+Playing with small examples is a great way to get comfortable with Elm!
 
-Remember to check the [syntax reference](/docs/syntax) and [docs](/docs) when
-you see new syntax or features!
+They can make it easier to go through resources like
+[guide.elm-lang.org][guide] or the [syntax reference][syntax].
+
+[guide]: https://guide.elm-lang.org/
+[syntax]: /docs/syntax
 
 """
 
 
+
 -- VIEW EXAMPLES
+
 
 (=>) = (,)
 
@@ -55,83 +60,83 @@ viewSection (title, examples) =
     ]
 
 
-viewExample : (String, Example) -> Html msg
-viewExample (name, example) =
+viewExample : (String, String) -> Html msg
+viewExample (name, fileName) =
   let
     url =
-      case example of
-        Local fileName ->
-            "/examples/" ++ fileName
-
-        Foreign foreignUrl ->
-            foreignUrl
+      "/examples/" ++ fileName
   in
     li [] [ a [href url] [text name] ]
 
 
+
 -- EXAMPLES
 
-type alias Section = (String, List (String, Example))
 
-type Example
-  = Local String
-  | Foreign String
+type alias Section = (String, List (String, String))
 
 
-(==>) name fileName =
-  (name, Local fileName)
+fundamentals : List Section
+fundamentals =
+  [ "Primitives" =>
+      [ "math" => "math"
+      , "strings" => "strings"
+      , "calling functions" => "functions"
+      , "defining functions" => "define-functions"
+      ]
+  , "Syntax" =>
+      [ "if" => "if"
+      , "let" => "let"
+      , "case" => "case"
+      , "lambda" => "lambda"
+      , "pipes" => "pipes"
+      , "types" => "types"
+      ]
+  ]
 
 
 core : List Section
 core =
-  [ "functions" =>
-      [ "use them" ==> "functions"
-      , "infixes" ==> "infix"
-      , "define your own" ==> "define-functions"
+  [ "Recursion" =>
+      [ "list length" => "length"
+      , "zip" => "zip"
+      , "quick sort" => "quick-sort"
+      , "merge sort" => "merge-sort"
       ]
-  , "recursion" =>
-      [ "list length" ==> "length"
-      , "zip" ==> "zip"
-      , "quick sort" ==> "quick-sort"
-      , "merge sort" ==> "merge-sort"
-      ]
-  , "union types" =>
-      [ "either" ==> "either"
-      , "binary tree" ==> "binary-tree"
-      , "boolean expressions" ==> "boolean-expressions"
+  , "Union Types" =>
+      [ "either" => "either"
+      , "binary tree" => "binary-tree"
+      , "boolean expressions" => "boolean-expressions"
       ]
   ]
 
 
 html : List Section
 html =
-  [ "basics" =>
-      [ "hello world!" ==> "hello-html"
-      , "unordered list" ==> "unordered-list"
-      , "markdown" ==> "markdown"
+  [ "Basics" =>
+      [ "hello world!" => "hello-html"
+      , "unordered list" => "unordered-list"
+      , "markdown" => "markdown"
       ]
-  , "user input" =>
-      [ "buttons" ==> "buttons"
-      , "field" ==> "field"
-      , "form" ==> "form"
-      , "checkboxes" ==> "checkboxes"
-      , "radio buttons" ==> "radio-buttons"
-      ]
-  , "larger examples" =>
-      [ "todo list" => Foreign "https://github.com/evancz/elm-todomvc"
+  , "User Input" =>
+      [ "buttons" => "buttons"
+      , "field" => "field"
+      , "form" => "form"
+      , "checkboxes" => "checkboxes"
+      , "radio buttons" => "radio-buttons"
       ]
   ]
 
 
 effects : List Section
 effects =
-  [ "commands" =>
-      [ "random" ==> "random"
-      , "http" ==> "http"
+  [ "Commands" =>
+      [ "random" => "random"
+      , "http" => "http"
       ]
-  , "subscriptions" =>
-      [ "time" ==> "time"
-      , "websockets" ==> "websockets"
-      , "mouse drags" ==> "drag"
+  , "Subscriptions" =>
+      [ "time" => "time"
+      , "websockets" => "websockets"
+      , "mouse drags" => "drag"
       ]
   ]
