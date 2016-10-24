@@ -1,3 +1,6 @@
+-- Read more about this program in the official Elm guide:
+-- https://guide.elm-lang.org/architecture/user_input/buttons.html
+
 import Html exposing (beginnerProgram, div, button, text)
 import Html.Events exposing (onClick)
 

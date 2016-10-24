@@ -1,3 +1,6 @@
+-- Read more about this program in the official Elm guide:
+-- https://guide.elm-lang.org/architecture/effects/time.html
+
 import Html exposing (Html)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)

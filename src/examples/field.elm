@@ -1,3 +1,6 @@
+-- Read all about this program in the official Elm guide:
+-- https://guide.elm-lang.org/architecture/user_input/text_fields.html
+
 import Html exposing (Html, Attribute, beginnerProgram, text, div, input)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
