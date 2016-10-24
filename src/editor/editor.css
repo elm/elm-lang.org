@@ -78,6 +78,7 @@ html, head, body {
   white-space: nowrap;
   color: #888;
   margin: 0 20px;
+  width: calc(100% - 240px);
   height: 36px;
 }
 
