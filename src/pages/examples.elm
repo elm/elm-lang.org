@@ -23,10 +23,9 @@ content = """
 
 # Examples
 
-Playing with small examples is a great way to get comfortable with Elm!
-
-They can make it easier to go through resources like
-[guide.elm-lang.org][guide] or the [syntax reference][syntax].
+**Playing with small examples is a great way to get comfortable with Elm!**
+Think of them as a supplement to resources like the [syntax reference][syntax]
+and [guide.elm-lang.org][guide].
 
 [guide]: https://guide.elm-lang.org/
 [syntax]: /docs/syntax
