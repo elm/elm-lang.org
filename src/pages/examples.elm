@@ -23,7 +23,7 @@ content = """
 
 # Examples
 
-**Playing with small examples is a great way to get comfortable with Elm!**
+Playing with small examples is a great way to get comfortable with Elm!
 Think of them as a supplement to resources like the [syntax reference][syntax]
 and [guide.elm-lang.org][guide].
 
