@@ -1,4 +1,7 @@
-import Html exposing (ol, li, text)
+-- Check out https://guide.elm-lang.org/core_language.html
+-- for a guided tour of features like this!
+
+import Html exposing (Html, ol, li, text)
 import Html.Attributes exposing (style)
 import String
 
@@ -10,7 +13,7 @@ and String.right!
 
 
 main =
-  viewResults
+  viewStrings
     [ "hello"
     , "ho" ++ "la"
     , String.reverse "desserts"
@@ -42,12 +45,15 @@ the kitchen-maid and coachman had given notice.
 
 
 -- HELPERS
+-- These make things look prettier, but don't worry about them too much.
+-- The stuff above about strings is the important part of this example!
 
-viewResults strings =
-  ol [monospace] (List.map viewResult strings)
 
-viewResult string =
+viewStrings : List String -> Html msg
+viewStrings strings =
+  ol [style [("font-family","monospace")]] (List.map viewString strings)
+
+
+viewString : String -> Html msg
+viewString string =
   li [] [ text (toString string) ]
-
-monospace =
-  style [("font-family","monospace")]

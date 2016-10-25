@@ -1,3 +1,6 @@
+-- Check out https://guide.elm-lang.org/core_language.html
+-- for a guided tour of features like this!
+
 import Html exposing (text)
 
 
