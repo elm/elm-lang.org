@@ -2,8 +2,12 @@ import Html exposing (ol, li, text)
 import Html.Attributes exposing (style)
 import String
 
--- Move your cursor over code like ++ and String.reverse to
--- get a docs link in the top left of this page!
+
+{- TIP: Click on the String.reverse function below. You should see a link
+to its documentation in top left corner of the editor. Now try String.left
+and String.right!
+-}
+
 
 main =
   viewResults
