@@ -129,7 +129,7 @@ These are definitely nice for experts, but I am most excited to see folks learni
 
 Elm is already quite a small language, but there are a few oddities that seem to do more harm than good in practice. So rather than saying “Oh well!” and keeping them forever, we are just taking them out:
 
-  - **Primes** &mdash; Names like `x'` are no longer permitted. If you have done a bunch of math, it is quite cool to write “x prime” in code! A younger me, one who was less into nice variable names, certainly thought it was neat. But for most people, this syntax is really confusing! That character is generally associated with strings and characters. To see it unbalanced and part of a *variable* throws people off, and the benefit of having it is pretty small.
+  - **Primes** &mdash; Names like `x'` are no longer permitted. A younger me (one who was less concerned about nice variable names) certainly thought writing “x prime” was pretty neat! But in general, this syntax is too confusing to be worth it. That character is generally associated with strings and characters. To see it unbalanced and part of a *variable* throws people off, and the benefit of having it is pretty small.
 
   - **Interpolation** &mdash; The `[1..5]` was removed in favor of [`List.range`][range]. It was kind of nice, but not very discoverable or commonly used. Pretty much every time I would use it in a talk, someone quite experienced would say they had wanted a function like that and could not find it!
 
