@@ -160,7 +160,7 @@ Elm is already quite a small language, but there are a few oddities that seem to
 
   - **Interpolation** &mdash; The `[1..5]` syntax was removed in favor of [`List.range`][range]. The syntax was kind of nice, but not very discoverable or commonly used. Whenever I used `[1..5]` in a talk, someone quite experienced would comment that they wanted something like that but could not find it in the standard libraries!
 
-  - **Backticks** &mdash; ``buyMilk `andThen` dipCookie`` used to mean the same thing as `andThen buyMilk dipCookie`. This syntax was in Elm since the very beginning, and problems like “backticks look just like single quotes” were overlooked. Since then we realized that everything nice about backticks can be achieved with the [`|>`][pipe] operator. By swapping the arguments, it is possible to write `buyMilk |> andThen dipCookie`. This reads nicely, it is easy to chain, it works well with `onError`, *and* it does not require any special syntax. It just builds on existing knowledge!
+  - **Backticks** &mdash; ``buyMilk `andThen` dipCookie`` used to mean the same thing as `andThen buyMilk dipCookie`. This was in Elm since the very beginning, so problems like “backticks look like single quotes” were overlooked. More recently, we noticed that everything nice about backticks is nicer with [the `|>` operator][pipe]. We can instead write `buyMilk |> andThen dipCookie`. This reads nicely, it is easy to chain, it works well with `onError`, *and* it does not require any special syntax. It just builds on existing knowledge!
 
 [pipe]: http://package.elm-lang.org/packages/elm-lang/core/4.0.5/Basics#|>
 
