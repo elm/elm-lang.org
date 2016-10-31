@@ -47,7 +47,7 @@ intro = """
 
 **Reproducing bugs is awful.** You get an issue like “Problem with Sidebar” that vaguely describes some odd behavior. Now you must *somehow* reproduce it exactly. Was it the specific timing of events? Was it bad data from the server? Was it specific to a certain user? Was it a recently updated dependency? As you slog through all these possibilities, the most annoying thing is that the person who opened the bug report already had all this information! **In an ideal world, you could just replay their exact session.**
 
-Well, **Elm 0.18 lets you replay their exact session!** In debug mode, Elm lets you import and export the exact sequence of events from a program. You get all the information necessary to reproduce the session exactly, from mouse clicks to HTTP requests. [**Try it yourself!**][demo] Or see it in this silent video:
+**Elm 0.18 lets you do exactly that!** In debug mode, Elm lets you import and export the exact sequence of events from a program. You get all the information necessary to reproduce the session exactly, from mouse clicks to HTTP requests. [**Try it yourself!**][demo] Or see it in this silent video:
 
 [demo]: /assets/blog/0.18/todomvc.html
 
@@ -58,7 +58,7 @@ content = """
 
 The video shows us starting our session in Chrome, testing all the features of our app. When we find that the ✖ button does not work, we press **export**. We then **import** that exact session in Safari to see if the behavior is the same. It is, so we can open a bug report with the *exact* exported session!
 
-This blog post also marks the release of Elm 0.18, so from here we are (1) going to get into the technical details of the new debugger and (2) going to outline some of the other nice things that come with 0.18, like some error message improvements. I hope this stuff makes your life easier, and I am very curious to hear the first stories of QA teams using the debugger!
+This blog post also marks the release of Elm 0.18, so from here we are going to (1) get into the technical details of the new debugger and (2) outline some of the other nice things that come with 0.18, like some error message improvements. I hope this stuff makes your life easier, and I am very curious to hear the first stories of QA teams using the debugger!
 
 > **Note:** Install 0.18 from [here][install], and be sure to read the [migration guide][upgrade]! The latest `elm-format` will do a lot of the migration automatically, so check it out as well.
 
@@ -131,11 +131,11 @@ Elm is already quite a small language, but there are a few oddities that seem to
 
   - **Primes** &mdash; Names like `x'` are no longer permitted. A younger me (one who was less concerned about nice variable names) certainly thought writing “x prime” was pretty neat! But in general, this syntax is too confusing to be worth it. Single quotes are generally associated with strings and characters. To see it unbalanced and part of a *variable* throws people off, and the benefit of having it is pretty small.
 
-  - **Interpolation** &mdash; The `[1..5]` was removed in favor of [`List.range`][range]. It was kind of nice, but not very discoverable or commonly used. Pretty much every time I would use it in a talk, someone quite experienced would say they had wanted a function like that and could not find it!
+  - **Interpolation** &mdash; The `[1..5]` syntax was removed in favor of [`List.range`][range]. The syntax was kind of nice, but not very discoverable or commonly used. Whenever I use `[1..5]` in a talk, someone quite experienced will comment that they wanted something like that but could not find it in the standard libraries!
 
   - **Backticks** &mdash; It used to be true that `shiftLeft 3 1` was the same as ``3 `shiftLeft` 1``. The backticks look just like single quotes, so it was very rare and generally discouraged. The one “valid” use was with `Task.andThen`, but we found [an alternate strategy][alt] for that case that looks nicer and is easier for folks to learn.
 
-Again, all these cases are covered in [the migration guide][upgrade] with advice on how to migrate code. In addition, `elm-format` will handle *most* of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite easy, and the `elm-format` stuff did not exist then! So like in previous releases, it may *sound* like big changes, but in practice, 99% of code stays exactly the same.
+Again, all these cases are covered in [the migration guide][upgrade]. In addition, `elm-format` will handle *most* of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite easy, and the `elm-format` stuff did not exist then! So like in previous releases, it may *sound* like big changes, but in practice, 99% of code stays exactly the same.
 
 [range]: http://package.elm-lang.org/packages/elm-lang/core/5.0.0/List#range
 [alt]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#backticks-and-andthen
