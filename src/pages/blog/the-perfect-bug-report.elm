@@ -14,6 +14,8 @@ main =
     [ Center.markdown "600px" intro
     , debuggerDemo
     , Center.markdown "600px" content
+    , image "/assets/blog/0.18/error.png"
+    , Center.markdown "600px" afterError
     ]
 
 
@@ -37,6 +39,17 @@ debuggerDemo =
     ]
 
 
+image url =
+  div [class "content", Center.style "600px"] [
+    img
+      [ src url
+      , style [("display", "block"), ("margin", "1em auto")]
+      , alt "attempting to load incompatible history"
+      ]
+      []
+  ]
+
+
 
 -- CONTENT
 
@@ -56,7 +69,7 @@ intro = """
 
 content = """
 
-The video shows us starting our session in Chrome, testing all the features of our app. When we find that the ✖ button does not work, we press **export**. We then **import** that exact session in Safari to see if the behavior is the same. It is, so we can open a bug report with the *exact* exported session!
+The video shows us starting our session in Chrome, testing all the features of our app. When we find that the ✖ button does not work, we press export. We then import that exact session in Safari to see if the behavior is the same. It is, so we can open a bug report with the *exact* exported session!
 
 This blog post also marks the release of Elm 0.18, so from here we are going to (1) get into the technical details of the new debugger and (2) outline some of the other nice things that come with 0.18, like some error message improvements. I hope this stuff makes your life easier, and I am very curious to hear the first stories of QA teams using the debugger!
 
@@ -66,7 +79,7 @@ This blog post also marks the release of Elm 0.18, so from here we are going to 
 [upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md
 
 
-## Designing for Real Life
+# Designing for Real Life
 
 Elm first got into time-travel debugging with Laszlo Pandy’s work [in 2013](https://www.youtube.com/watch?v=lK0vph1zR8s). It made for a great demo, but it was never quite right for large projects. So Elm 0.18 came from the question: **what *exactly* do people using Elm in production want in a debugger?** I asked around and made a couple observations:
 
@@ -77,21 +90,33 @@ Elm first got into time-travel debugging with Laszlo Pandy’s work [in 2013](ht
 [embed]: /blog/how-to-use-elm-at-work
 [mario]: https://www.youtube.com/watch?v=RUeLd7T7Xi4
 
-But what about the cool stuff? What about seeing Mario’s position over time [as the code changes][mario]? It turns out this kind of stuff is not so important for baseline production usage. So it is not gone forever, but by dropping it from this release, I could focus on a more specific problem for Elm 0.18 and get folks a useful tool sooner! So my constrained goal for the debugger was: get import/export working and make it extremely reliable.
+But what about the cool stuff? What about seeing Mario’s position over time [as the code changes][mario]? It turns out the features that demo well are not so important for baseline production usage. By dropping features like that *for now*, I could focus on a more specific problem and get folks a useful tool sooner! So my constrained goal for the debugger was: get import/export working and make it lovely to use.
 
 
-## Making Import/Export Reliable
+## Ease of Use
 
-The big risk is that a feature like this actually *introduces* bugs. If you are creating this feature in JavaScript, this is inevitable. Let’s examine a couple tricky scenarios:
+To use the debugger, you compile with the `--debug` flag. Like this:
 
-  - You export a session history, but by the time it gets to a developer, the program has changed such that some of those messages are renamed or removed. Maybe a feature was refactored? In JavaScript, it will *eventually* crash. So instead of debugging the crash from the bug report, you are debugging a totally different crash that only happens when you feed invalid data into your program. In other words, **you are debugging bugs created by your debugger.** Not useful! In Elm, you just get [a nice error message][bad] explaining exactly what changed. Time to see if the problem can be reproduced with the latest version.
+```bash
+elm-make Main.elm --debug
+```
 
-  - You export a session history, and import it in an *augmented* program. A new feature was added, but all the existing stuff stayed the same. In JavaScript, you just would never hear about it. Hopefully it is fine. In Elm, you get [a nice warning][risky] explaining exactly what changed. If you think it is fine, you can proceed with caution.
+That’s all there is to it, even if you are embedding Elm in a larger page. I expect some folks will want to *always* add this flag in their dev builds, and I am excited to hear what that is like. Debug mode is also on by default with `elm-reactor`, so in that setting, you do not need to do anything!
 
-[bad]: /assets/blog/0.18/error.png
-[risky]: /assets/blog/0.18/warning.png
 
-In both cases, the *type* of messages in the history do not match the program. Unlike JavaScript, the Elm can figure out *exactly* which values can flow through a program. We have all this information at compile-time, so we add it to programs and session histories as metadata. From there we can give our friendly messages by comparing metadata!
+## Reliability
+
+Elm is known for having nice error messages, and the debugger is no exception. It will give you helpful feedback if you find yourself in a tricky situation. For example, say you export a session history, but by the time it gets to a developer, the program has changed a bit. Maybe some messages have been renamed or removed in a refactor? Elm can figure this all out at compile-time, so it kindly explains *why* the history is incompatible:
+
+"""
+
+afterError = """
+
+This seems reasonable. Maybe even boring. Obviously it should work this way! But imagine replicating this in JavaScript. With JS, the only way to know if the history is compatible is to try it out. If it is incompatible, it will throw a runtime exception. Not the runtime exception you are looking for, but a new one. One *created* by your debugging tools. Now maybe you are chasing after bugs that do not even exist!
+
+Elm does not have this problem, not because of engineering, but because of the language itself. Elm is *designed* so that programs can be analyzed quickly and reliably, in ways that are [impossible][] in JavaScript. So as tooling in Elm continues to improve in the next releases, I am excited to see what other unique advantages we get thanks to the design of Elm itself!
+
+[impossible]: https://en.wikipedia.org/wiki/Undecidable_problem
 
 
 ## More than a Debugger
@@ -104,6 +129,8 @@ I am pretty certain the debugger will help beginners understand The Elm Architec
 # What else is in Elm 0.18?
 
 In addition to the debugger, there are some improvements to the error messages and core libraries. I will just be highlighting the most important stuff in this post, so check out the [migration guide][upgrade] for more details!
+
+[upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md
 
 
 ## Improved Error Messages
@@ -133,7 +160,7 @@ Elm is already quite a small language, but there are a few oddities that seem to
 
   - **Interpolation** &mdash; The `[1..5]` syntax was removed in favor of [`List.range`][range]. The syntax was kind of nice, but not very discoverable or commonly used. Whenever I use `[1..5]` in a talk, someone quite experienced will comment that they wanted something like that but could not find it in the standard libraries!
 
-  - **Backticks** &mdash; ``buyMilk `andThen` dipCookie`` used to mean the same thing as `andThen buyMilk dipCookie`. This syntax was in Elm since the very beginning, and problems like “backticks look just like single quotes” were overlooked. Since then we realized that everything nice about backticks can be achieved in a better way with [the `|>` operator][pipe]. By swapping the arguments, it is possible to write `buyMilk |> andThen dipCookie`. This reads nicely, it is easy to chain, it works well with `onError`, *and* it does not require any special syntax. It just builds on existing knowledge!
+  - **Backticks** &mdash; ``buyMilk `andThen` dipCookie`` used to mean the same thing as `andThen buyMilk dipCookie`. This syntax was in Elm since the very beginning, and problems like “backticks look just like single quotes” were overlooked. Since then we realized that everything nice about backticks can be achieved with the [`|>`][pipe] operator. By swapping the arguments, it is possible to write `buyMilk |> andThen dipCookie`. This reads nicely, it is easy to chain, it works well with `onError`, *and* it does not require any special syntax. It just builds on existing knowledge!
 
 [pipe]: http://package.elm-lang.org/packages/elm-lang/core/4.0.5/Basics#|>
 
