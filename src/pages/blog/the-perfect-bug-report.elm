@@ -84,7 +84,7 @@ But what about the cool stuff? What about seeing Mario’s position over time [a
 
 The big risk is that a feature like this actually *introduces* bugs. If you are creating this feature in JavaScript, this is inevitable. Let’s examine a couple tricky scenarios:
 
-  - You export a session history, but by the time it gets to a developer, the program has changed such that some of those messages are renamed or removed. Maybe a feature was refactored? In JavaScript, it will *eventually* crash. So instead of debugging the crash from the bug report, you are debugging a totally different crash that only happens when you feed invalid data into your program. In other words, **you are debugging bugs created by your debugger.** Not useful! In Elm, you just get [a nice error message][bad] explaning exactly what changed. Time to see if the problem can be reproduced with the latest version.
+  - You export a session history, but by the time it gets to a developer, the program has changed such that some of those messages are renamed or removed. Maybe a feature was refactored? In JavaScript, it will *eventually* crash. So instead of debugging the crash from the bug report, you are debugging a totally different crash that only happens when you feed invalid data into your program. In other words, **you are debugging bugs created by your debugger.** Not useful! In Elm, you just get [a nice error message][bad] explaining exactly what changed. Time to see if the problem can be reproduced with the latest version.
 
   - You export a session history, and import it in an *augmented* program. A new feature was added, but all the existing stuff stayed the same. In JavaScript, you just would never hear about it. Hopefully it is fine. In Elm, you get [a nice warning][risky] explaining exactly what changed. If you think it is fine, you can proceed with caution.
 
@@ -103,7 +103,7 @@ I am pretty certain the debugger will help beginners understand The Elm Architec
 
 # What else is in Elm 0.18?
 
-In addition to the debugger, there a some improvements to the error messages and core libraries. I will just be highlighting the most important stuff in this post, so check out the [migration guide][upgrade] for more details!
+In addition to the debugger, there are some improvements to the error messages and core libraries. I will just be highlighting the most important stuff in this post, so check out the [migration guide][upgrade] for more details!
 
 
 ## Improved Error Messages
@@ -129,7 +129,7 @@ These are definitely nice for experts, but I am most excited to see folks learni
 
 Elm is already quite a small language, but there are a few oddities that seem to do more harm than good in practice. So rather than saying “Oh well!” and keeping them forever, we are just taking them out:
 
-  - **Primes** &mdash; Names like `x'` are no longer permitted. A younger me (one who was less concerned about nice variable names) certainly thought writing “x prime” was pretty neat! But in general, this syntax is too confusing to be worth it. That character is generally associated with strings and characters. To see it unbalanced and part of a *variable* throws people off, and the benefit of having it is pretty small.
+  - **Primes** &mdash; Names like `x'` are no longer permitted. A younger me (one who was less concerned about nice variable names) certainly thought writing “x prime” was pretty neat! But in general, this syntax is too confusing to be worth it. Single quotes are generally associated with strings and characters. To see it unbalanced and part of a *variable* throws people off, and the benefit of having it is pretty small.
 
   - **Interpolation** &mdash; The `[1..5]` was removed in favor of [`List.range`][range]. It was kind of nice, but not very discoverable or commonly used. Pretty much every time I would use it in a talk, someone quite experienced would say they had wanted a function like that and could not find it!
 
@@ -149,7 +149,7 @@ Thank you to everyone submitting [SSCCE](http://sscce.org/)’s to the [error me
 
 Thank you to everyone who tried out the alpha and beta releases, reported bugs, and gave feedback on potential changes. Getting this kind of feedback is really important!
 
-Finally, thank you to [Aaron VonderHarr](https://github.com/avh4) for updating `elm-format` to a lot of this upgrade automatically!
+Finally, thank you to [Aaron VonderHarr](https://github.com/avh4) for updating `elm-format` to do a lot of this upgrade automatically!
 
 """
 
