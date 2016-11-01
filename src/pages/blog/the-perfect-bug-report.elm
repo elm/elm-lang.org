@@ -161,10 +161,11 @@ Elm is already quite a small language, but there are a few oddities that seem to
 
 [pipe]: http://package.elm-lang.org/packages/elm-lang/core/4.0.5/Basics#|>
 
-Again, all these cases are covered in more detail in [the migration guide][upgrade]. In addition, `elm-format` will handle *most* of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite easy, and the `elm-format` stuff did not exist then! So like in previous releases, it may *sound* like big changes, but in practice, 99% of code stays exactly the same.
+Again, all these cases are covered in more detail in [the migration guide][upgrade], and `elm-format` will handle most of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite smooth, so feel free to ask for help on [the Elm slack][slack]. The Elm community is friendly and happy to help!
 
 [range]: http://package.elm-lang.org/packages/elm-lang/core/5.0.0/List#range
 [alt]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#backticks-and-andthen
+[slack]: http://elmlang.herokuapp.com/
 
 
 # Thank You
