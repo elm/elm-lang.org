@@ -176,7 +176,7 @@ Thank you to everyone submitting [SSCCE](http://sscce.org/)’s to the [error me
 
 Thank you to everyone who tried out the alpha and beta releases, reported bugs, and gave feedback on potential changes. Getting this kind of feedback is really important!
 
-Finally, thank you to [Aaron VonderHarr](https://github.com/avh4) for updating `elm-format` to do a lot of this upgrade automatically!
+Finally, thank you to [Aaron VonderHaar](https://github.com/avh4) for updating `elm-format` to do a lot of this upgrade automatically!
 
 """
 
