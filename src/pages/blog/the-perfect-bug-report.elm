@@ -133,19 +133,19 @@ In addition to the debugger, there are some improvements to the error messages a
 
 ## Improved Error Messages
 
-Elm has an [error message catalog][catalog], full of messages that folks thought were confusing for some reason. This is great for constantly improving our error messages! Based on the feedback there, we have a couple nice improvements:
+Elm has an [error message catalog][catalog], full of messages that folks thought were confusing for some reason. This is great for constantly improving our error messages! Based on the feedback there, we have a couple nice improvements. Click the links to see examples!
 
-  - **Missing Arguments** &mdash; Check out the [before and after][137].
-  - **Record Precision** &mdash; Check out the [before and after][131].
-  - **Preserve Names** &mdash; You will see `Html msg` instead of `VirtualDom.Node a`.
-  - **Type Annotations** &mdash; Adding type annotations can [improve errors][154].
-  - **Bad Recursion** &mdash; Catches definitions that [cannot possibly work][873].
+  - [Bad Recursion][e1] &mdash; clears up confusion about mutation
+  - [Type Annotations][e2] &mdash; improves hints when you add type annotations
+  - [Missing Arguments][e3] &mdash; points out when you forget arguments
+  - [Record Precision][e4] &mdash; makes hints very specific for large records
+  - Preserve Names &mdash; shows `Html msg` instead of `VirtualDom.Node a`
 
 [catalog]: https://github.com/elm-lang/error-message-catalog/
-[131]: https://github.com/elm-lang/error-message-catalog/issues/131
-[137]: https://github.com/elm-lang/error-message-catalog/issues/137
-[154]: https://github.com/elm-lang/error-message-catalog/issues/154
-[873]: https://github.com/elm-lang/elm-compiler/issues/873
+[e1]: https://gist.github.com/evancz/4589b798ac2475d52b1d00cd04ace2c8#bad-recursion
+[e2]: https://gist.github.com/evancz/4589b798ac2475d52b1d00cd04ace2c8#type-annotations
+[e3]: https://gist.github.com/evancz/4589b798ac2475d52b1d00cd04ace2c8#missing-arguments
+[e4]: https://gist.github.com/evancz/4589b798ac2475d52b1d00cd04ace2c8#record-precision
 
 These are definitely nice for experts, but I am most excited to see folks learning Elm with these additional hints! Recently, at the first ever [ElmBridge](https://twitter.com/elmlangbridge) event, I saw students running into problems that made me think “Oh, that is tricky, I’m gonna have to help.” But again and again, I was surprised to see that they just figured it out based on the error messages! My intuitions from my TA days and teaching older versions of Elm are not right anymore. Pretty exciting to see!
 
