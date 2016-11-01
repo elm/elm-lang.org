@@ -23,9 +23,6 @@ main =
 -- HELPERS
 
 
-(=>) = (,)
-
-
 debuggerDemo : Html msg
 debuggerDemo =
   div [ Center.style "600px" ]
