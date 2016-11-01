@@ -71,20 +71,20 @@ view : Model -> Html Msg
 view model =
   div []
     [ fieldset []
-        [ radio "Small" (SwitchTo Small)
-        , radio "Medium" (SwitchTo Medium)
-        , radio "Large" (SwitchTo Large)
+        [ radio "Small" Small
+        , radio "Medium" Medium
+        , radio "Large" Large
         ]
     , Markdown.toHtml [ sizeToStyle model.fontSize ] model.content
     ]
 
 
-radio : String -> msg -> Html msg
-radio value msg =
+radio : String -> FontSize -> Html Msg
+radio value size =
   label
     [ style [("padding", "20px")]
     ]
-    [ input [ type' "radio", name "font-size", onClick msg ] []
+    [ input [ type' "radio", name "font-size", onClick (SwitchTo size ] []
     , text value
     ]
 
