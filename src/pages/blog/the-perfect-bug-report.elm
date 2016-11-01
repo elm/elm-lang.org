@@ -14,7 +14,7 @@ main =
     [ Center.markdown "600px" intro
     , debuggerDemo
     , Center.markdown "600px" content
-    , image "/assets/blog/0.18/error.png"
+    , badHistory
     , Center.markdown "600px" afterError
     ]
 
@@ -25,10 +25,10 @@ main =
 
 debuggerDemo : Html msg
 debuggerDemo =
-  div [ Center.style "600px" ]
+  div [ Center.style "800px" ]
     [ div [ class "intrinsic-container" ]
         [ iframe
-            [ src "https://www.youtube.com/embed/oNogm31F2mo?rel=0&autoplay=0"
+            [ src "https://www.youtube.com/embed/oNogm31F2mo?rel=0&autoplay=0&showinfo=0&color=white&modestbranding=1"
             , attribute "allowfullscreen" ""
             ]
             []
@@ -36,11 +36,12 @@ debuggerDemo =
     ]
 
 
-image url =
-  div [class "content", Center.style "600px"] [
+badHistory : Html msg
+badHistory =
+  div [class "content", Center.style "830px"] [
     img
-      [ src url
-      , style [("display", "block"), ("margin", "1em auto")]
+      [ src "/assets/blog/0.18/error.png"
+      , style [("display", "block"), ("margin", "0 auto")]
       , alt "attempting to load incompatible history"
       ]
       []
