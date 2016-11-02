@@ -83,7 +83,7 @@ Elm first got into time-travel debugging with Laszlo Pandy’s work [in 2013](ht
 
   - **Import/export is *the* feature.** Especially if you work with a QA team. It means you can quickly scan through the session history and see that they are getting bad data from the server. If so, you can skip the multi-hour wild goose chase and pass it along to the backend people.
 
-  - **It must work when Elm is embedded in JS or HTML.** Many folks who use Elm in production [embed it][embed] in a larger page. That means it must work with JavaScript code that *cannot* time-travel safely. You rewind an Elm program, but your JavaScript and database are not going to come along!
+  - **It must work when Elm is embedded in JS or HTML.** Many folks who use Elm in production [embed it][embed] in a larger page. That means the debugger must work with JavaScript code that *cannot* time-travel safely. You can rewind your Elm program, but your JavaScript and database are not going to come along!
 
 [embed]: /blog/how-to-use-elm-at-work
 [mario]: https://www.youtube.com/watch?v=RUeLd7T7Xi4
