@@ -420,7 +420,7 @@ app.ports.time.unsubscribe(callback);
 
 Read more about [HTML embedding][html] and [JavaScript interop][js].
 
-[html]: http://guide.elm-lang.org/interop/html.html
+[html]: http://guide.elm-lang.org/interop/javascript.html#step-1-embed-in-html
 [js]: http://guide.elm-lang.org/interop/javascript.html
 
 
