@@ -51,7 +51,7 @@ Or even better, use it to announce libraries and post your own blog posts!
 
 [slack]: http://elmlang.herokuapp.com/
 
-Got a quick question, but do not feel comfortable asking on the mailing list?
+Got a quick question, but don't feel comfortable asking on the mailing list?
 Chatting on [Slack][slack] is a great way to quickly learn from a real person.
 
 As for culture, prefer to ask rather than tell. You may be talking to someone
@@ -87,7 +87,7 @@ the Elm user group in SF. A lot of existing meetups are structured based on
 
 ## Contribute
 
-**Every great contributor starts gradually.** At first that is means using Elm,
+**Every great contributor starts gradually.** At first this means simply using Elm,
 maybe blogging about things they find interesting. After that, some folks
 will find things they want to make easier and build packages, like [elm-css][],
 that directly address their personal needs. This can be a great learning experience
@@ -103,9 +103,9 @@ how [elm-format][] and [elm-test][] were created.
 Contribution usually means *technical* contribution, but community participation
 is often more valuable! Helping people with questions. Writing blog posts. Creating
 examples. This is all hugely positive for the community and the language, and I
-think engineer minds tend to underestimate its importance. Hanging out community
+think engineer minds tend to underestimate its importance. Hanging out in community
 forums also means you have more data on what people are struggling with, making it
-easier to find timely projects that matches your skills and interests.
+easier to find timely projects that match your skills and interests.
 
 Point is, there are tons of ways to contribute! The goal should be to start gradually
 and figure out what works as you build a relationship with the community.
