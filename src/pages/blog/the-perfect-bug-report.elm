@@ -102,7 +102,9 @@ That’s all there is to it, even if you are embedding Elm in a larger page. I e
 
 ## Reliability
 
-Elm is known for having nice error messages, and the debugger is no exception. It will give you helpful feedback if you find yourself in a tricky situation. For example, say you export a session history, but by the time it gets to a developer, the program has changed a bit. Maybe some messages have been renamed or removed in a refactor? Elm can figure this all out at compile-time, so it kindly explains *why* the history is incompatible:
+Elm is known for having [nice error messages][errors], and the debugger is no exception. It will give you helpful feedback if you find yourself in a tricky situation. For example, say you export a session history, but by the time it gets to a developer, the program has changed a bit. Maybe some messages have been renamed or removed in a refactor? Elm can figure this all out at compile-time, so it kindly explains *why* the history is incompatible:
+
+[errors]: /blog/compilers-as-assistants
 
 """
 
