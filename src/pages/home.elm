@@ -51,7 +51,7 @@ getStarted : Html msg
 getStarted =
   div [ class "get-started" ]
     [ a [ href "/try" ] [ text "Try Online" ]
-    , a [ href "http://guide.elm-lang.org/get_started.html" ] [ text "Install" ]
+    , a [ href "http://guide.elm-lang.org/install.html" ] [ text "Install" ]
     ]
 
 
