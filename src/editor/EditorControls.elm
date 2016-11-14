@@ -289,7 +289,7 @@ filteredHints moduleDocs importData =
   let
     allNames =
       moduleDocs.values.aliases
-      ++ List.map fst moduleDocs.values.types
+      ++ List.map Tuple.first moduleDocs.values.types
       ++ moduleDocs.values.values
   in
     List.concatMap (unionTagsToHints moduleDocs) moduleDocs.values.types
