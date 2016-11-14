@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [The Perfect Bug Report](/blog/the-perfect-bug-report)
  * [Blazing Fast HTML, Round Two](/blog/blazing-fast-html-round-two)
  * [How to Use Elm at Work](/blog/how-to-use-elm-at-work)
  * [A Farewell to FRP](/blog/farewell-to-frp)
@@ -39,6 +40,11 @@ blog = """
 
 <table class="releases">
   <tbody>
+    <tr>
+      <td>[0.18][18]</td>
+      <td>New debugger with session import/export</td>
+      <td>Nov</td>
+    </tr>
     <tr>
       <td>[0.17][17]</td>
       <td>Add subscriptions, remove signals</td>
@@ -185,6 +191,7 @@ blog = """
   [151]: /blog/compiler-errors-for-humans
   [16]: /blog/compilers-as-assistants
   [17]: /blog/farewell-to-frp
+  [18]: /blog/the-perfect-bug-report
 
 <br>
 
