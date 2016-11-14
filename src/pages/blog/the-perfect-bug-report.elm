@@ -10,7 +10,7 @@ main =
     "The Perfect Bug Report"
     "Debugging with Elm 0.18"
     Blog.evan
-    (Blog.Date 2016 10 19)
+    (Blog.Date 2016 11 14)
     [ Center.markdown "600px" intro
     , debuggerDemo
     , Center.markdown "600px" content
