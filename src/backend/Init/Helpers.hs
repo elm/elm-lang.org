@@ -1,6 +1,8 @@
 module Init.Helpers (isOutdated, make, makeWithStyle, write) where
 
 import Control.Monad.Except (runExceptT, when)
+import qualified Data.List as List
+import qualified Data.List.Split as List
 import System.Directory (doesFileExist, getModificationTime, removeFile)
 import System.FilePath (splitExtension, takeBaseName)
 import System.Exit (exitFailure)
@@ -39,13 +41,18 @@ makeWithStyle input output =
               ".html" ->
                 do  jsSource <- readFile jsOutput
                     writeFile output
-                        (Blaze.renderHtml (Generate.serverHtml (takeBaseName output) jsSource))
+                        (Blaze.renderHtml (Generate.serverHtml (fileToTitle output) jsSource))
                     removeFile jsOutput
 
               _ ->
                 error ("not sure what to do with file extension: " ++ ext)
 
       return outdated
+
+
+fileToTitle :: FilePath -> String
+fileToTitle filePath =
+  List.intercalate " " (List.splitOn "-" (takeBaseName filePath))
 
 
 makeForReal :: FilePath -> FilePath -> IO ()

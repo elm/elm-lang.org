@@ -46,6 +46,7 @@ executable run-elm-website
     process,
     snap-core,
     snap-server,
+    split,
     text,
     time,
     utf8-string
