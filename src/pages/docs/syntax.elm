@@ -88,10 +88,10 @@ True && not (True || False)
 Here are four things that are equivalent:
 
 ```elm
-[1..4]
 [1,2,3,4]
 1 :: [2,3,4]
 1 :: 2 :: 3 :: 4 :: []
+List.range 1 4
 ```
 
 ### Conditionals
@@ -196,7 +196,7 @@ square =
   \\n -> n^2
 
 squares =
-  List.map (\\n -> n^2) [1..100]
+  List.map (\\n -> n^2) (List.range 1 100)
 ```
 
 ### Infix Operators
@@ -303,11 +303,11 @@ ys = [4,5,6]
 a1 = append xs ys
 a2 = (++) xs ys
 
-b1 = xs `append` ys
-b2 = xs ++ ys
+b1 = (append xs) ys
+b2 = ((++) xs) ys
 
-c1 = (append xs) ys
-c2 = ((++) xs) ys
+c1 = ys |> append xs
+c2 = xs |> flip append ys
 ```
 
 The basic arithmetic infix operators all figure out what type they should have automatically.
@@ -364,7 +364,7 @@ answer =
 
 factorial : Int -> Int
 factorial n =
-  List.product [1..n]
+  List.product (List.range 1 n)
 
 distance : { x : Float, y : Float } -> Float
 distance {x,y} =
