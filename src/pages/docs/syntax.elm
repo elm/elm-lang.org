@@ -85,10 +85,9 @@ True && not (True || False)
 
 ### Lists
 
-Here are four things that are equivalent:
+Here are three things that are equivalent:
 
 ```elm
-[1..4]
 [1,2,3,4]
 1 :: [2,3,4]
 1 :: 2 :: 3 :: 4 :: []
@@ -196,7 +195,7 @@ square =
   \\n -> n^2
 
 squares =
-  List.map (\\n -> n^2) [1..100]
+  List.map (\\n -> n^2) (List.rang 1 100)
 ```
 
 ### Infix Operators
@@ -301,10 +300,9 @@ ys = [4,5,6]
 
 -- All of the following expressions are equivalent:
 a1 = append xs ys
-a2 = (++) xs ys
+a2 = xs ++ ys
 
-b1 = xs `append` ys
-b2 = xs ++ ys
+b2 = (++) xs ys
 
 c1 = (append xs) ys
 c2 = ((++) xs) ys
