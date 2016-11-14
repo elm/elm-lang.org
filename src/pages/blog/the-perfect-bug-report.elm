@@ -54,8 +54,6 @@ badHistory =
 
 intro = """
 
-<span style="color: red;">DRAFT - NOT FOR SHARING!</span>
-
 **Reproducing bugs is awful.** You get an issue like “Problem with Sidebar” that vaguely describes some odd behavior. Now you must *somehow* reproduce it exactly. Was it the specific timing of events? Was it bad data from the server? Was it specific to a certain user? Was it a recently updated dependency? As you slog through all these possibilities, the most annoying thing is that the person who opened the bug report already had all this information! **In an ideal world, you could just replay their exact session.**
 
 **Elm 0.18 lets you do exactly that!** In debug mode, Elm lets you import and export the exact sequence of events from a program. You get all the information necessary to reproduce the session exactly, from mouse clicks to HTTP requests. [**Try it yourself!**][demo] Or see it in this silent video:
