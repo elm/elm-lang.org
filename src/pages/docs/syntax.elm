@@ -195,7 +195,7 @@ square =
   \\n -> n^2
 
 squares =
-  List.map (\\n -> n^2) (List.rang 1 100)
+  List.map (\\n -> n^2) (List.range 1 100)
 ```
 
 ### Infix Operators
