@@ -123,7 +123,7 @@ into existing codebases. That is all great, but for some reason we still had
 folks on [the list][repl-request] asking for a good old fashioned
 [Read-eval-print-loop](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop).
 My initial feeling was &ldquo;Don't you see!
-[REPLs are so 2000 and late](http://vimeo.com/46555107#t=0m47s)&rdquo;
+[REPLs are so 2000 and late](https://youtu.be/4m48GqaOz90?t=54)&rdquo;
 but I was missing the bigger picture.
 
 When it comes to exploring functions deep inside a large codebase, a REPL is
