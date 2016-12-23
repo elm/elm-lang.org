@@ -84,6 +84,9 @@ the Elm user group in SF. A lot of existing meetups are structured based on
 [real-life]: https://www.elmlog.com/meetup_groups
 [hack-night]: http://tech.noredink.com/post/142283641812/designing-meetups-to-build-better-communities
 
+### Cities with meetups
+
+* [Boston](http://www.meetup.com/Boston-Elm/)
 
 ## Contribute
 
