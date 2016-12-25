@@ -63,8 +63,8 @@ The same can be done with definitions of values and functions:
 > increment fortyOne
 42 : number
 
-> factorial n = \
-|   if n < 1 then 1 \
+> factorial n = \\
+|   if n < 1 then 1 \\
 |            else n * factorial (n-1)
 <function> : number -> number
 
@@ -77,8 +77,8 @@ You can also define ADTs:
 ```
 > data List a = Nil | Cons a (List a)
 
-> isNil xs = case xs of \
-|              Nil -> True \
+> isNil xs = case xs of \\
+|              Nil -> True \\
 |              Cons _ _ -> False
 <function> : List a -> Bool
 
