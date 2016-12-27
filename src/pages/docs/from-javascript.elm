@@ -80,7 +80,7 @@ literals =
   [ "3" =/= "3"
   , "3.1415" =/= "3.1415"
   , "\"Hello world!\"" =/= "\"Hello world!\""
-  , (Message "Multiline strings not widely supported", Code "\"\"\"multiline string\"\"\"")
+  , (Message "`multiline string`", Code "\"\"\"multiline string\"\"\"")
   , (Code "'Hello world!'", Message "Cannot use single quotes for strings")
   , (Message "No distinction between characters and strings", Code "'a'")
   , "true" =/= "True"
