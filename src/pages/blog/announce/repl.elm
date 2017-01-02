@@ -43,7 +43,7 @@ press `Ctrl-d`.
 
 When you enter an expression, you get the result and its type:
 
-```
+```elm
 > 1 + 1
 2 : number
 
@@ -53,7 +53,7 @@ When you enter an expression, you get the result and its type:
 
 The same can be done with definitions of values and functions:
 
-```
+```elm
 > fortyOne = 41
 41 : number
 
@@ -64,22 +64,22 @@ The same can be done with definitions of values and functions:
 42 : number
 
 > factorial n = \\
-|   if n < 1 then 1 \\
-|            else n * factorial (n-1)
+|   if n < 1 then 1 else n * factorial (n-1)
 <function> : number -> number
 
 > factorial 5
 120 : number
 ```
 
-You can also define ADTs:
+You can also define union types:
 
-```
-> data List a = Nil | Cons a (List a)
+```elm
+> type List a = Nil | Cons a (List a)
 
-> isNil xs = case xs of \\
-|              Nil -> True \\
-|              Cons _ _ -> False
+> isNil xs = \\
+|   case xs of \\
+|     Nil -> True \\
+|     Cons _ _ -> False
 <function> : List a -> Bool
 
 > isNil Nil
@@ -90,7 +90,7 @@ You can also import standard libraries and any library reachable
 from the directory in which `elm-repl` is running. Let's say you
 are working on a module called `Graph`:
 
-```
+```elm
 > import String
 
 > String.length "hello"
