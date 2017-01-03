@@ -15,44 +15,39 @@ community = """
 # Community
 
   * [Community Packages](http://package.elm-lang.org/)
-  * [Mailing list][list]
   * [Reddit][reddit]
   * [Slack][slack]
   * [Twitter][twitter]
   * [Real Life][real-life]
+  * [Mailing list][list]
   * [Contributing](#contribute)
 
 <br>
-
-## Mailing list
-
-[list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "mailing list"
-
-The [elm-discuss][list] mailing list is a great place for
-friendly discussion! Common activities include helping folks use Elm,
-discussing API design, reviewing blog posts and libraries, and finding projects
-to collaborate on.
-
-This list is all about learning and improvement, so even if you know a lot
-about Elm or functional programming, be humble and open to learning new things
-from anyone! Try to read some old emails to get a feel for the culture and who
-everyone is.
 
 
 ## Reddit
 
 [reddit]: http://www.reddit.com/r/elm
 
-Check out [/r/elm][reddit] to find out about new libraries and read blog posts.
-Or even better, use it to announce libraries and post your own blog posts!
+[/r/elm][reddit] is a great place for friendly discussion! Common activities
+include helping beginners, discussing blog posts, announcing and reviewing
+packages, etc.
+
+The online Elm community is all about learning and improvement, so even if you
+think you know a lot, be humble and open to learning new things from anyone!
+
+Also, be kind! Friendly disagreement is healthy, but [displacement][] of
+personal anger onto friendly strangers is not.
+
+[displacement]: https://en.wikipedia.org/wiki/Displacement_(psychology)
 
 
 ## Slack
 
 [slack]: http://elmlang.herokuapp.com/
 
-Got a quick question, but don't feel comfortable asking on the mailing list?
-Chatting on [Slack][slack] is a great way to quickly learn from a real person.
+Got a quick question, but don't feel comfortable asking on Reddit?
+Chatting on [Slack][slack] is a great way to quickly learn from a real person!
 
 As for culture, prefer to ask rather than tell. You may be talking to someone
 with no programming background or a PhD in programming languages, so to answer
@@ -85,15 +80,30 @@ the Elm user group in SF. A lot of existing meetups are structured based on
 [hack-night]: http://tech.noredink.com/post/142283641812/designing-meetups-to-build-better-communities
 
 
+## Mailing list
+
+[list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
+
+The [elm-discuss][list] mailing list is the original online forum for Elm. We
+used to do all discussion there, from beginner questions to language design
+discussions. These days it is in between [/r/elm](https://www.reddit.com/r/elm/)
+and [elm-dev](https://groups.google.com/d/msg/elm-dev/oZ3xW_nMPNo/0y8j-N8HCQAJ).
+There are some people (and their expertise) only available through email!
+
+
 ## Contribute
 
-**Every great contributor starts gradually.** At first this means simply using Elm,
-maybe blogging about things they find interesting. After that, some folks
-will find things they want to make easier and build packages, like [elm-css][],
-that directly address their personal needs. This can be a great learning experience
-if you get folks in the community to review your API. It is also a great way to
-build relationships and trust with people. From there, people may work on projects
-like [these](https://github.com/elm-lang/projects) that are more core. This is
+I recommend watching [this talk](https://youtu.be/DSjbTC-hvqQ), which has a
+big focus on growing Elm and collaborating.
+
+Here are some of the ideas in words. **Every great contributor starts
+gradually.** At first this means simply using Elm, maybe blogging about things
+they find interesting. After that, some folks will find things they want to
+make easier and build packages, like [elm-css][], that directly address their
+personal needs. This can be a great learning experience if you get folks in
+the community to review your API. It is also a great way to build relationships
+and trust with people. From there, people may work on projects like
+[these](https://github.com/elm-lang/projects) that are more core. This is
 how [elm-format][] and [elm-test][] were created.
 
 [elm-css]: https://github.com/rtfeldman/elm-css
