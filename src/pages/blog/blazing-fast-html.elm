@@ -21,6 +21,8 @@ main =
 
 content = """
 
+> **Note:** The ideas discussed in this post are still relevant but some of the specifics are now outdated. You can read an updated version of this post [here][round-2-post].
+
 The new [elm-html][] library lets you use
 HTML and CSS directly in Elm. Want to use flexbox? Want to keep using existing
 style sheets? Elm now makes all of this pleasant and *fast*. For example, when
@@ -32,6 +34,7 @@ popular entries:
 [todo]: http://evancz.github.io/elm-todomvc/
 [code]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [bench]: https://evancz.github.io/todomvc-perf-comparison
+[round-2-post]: http://elm-lang.org/blog/blazing-fast-html-round-two
 
 <a href="https://evancz.github.io/todomvc-perf-comparison">
 <img src="/assets/blog/virtual-dom-charts-old/sampleResults.png"
