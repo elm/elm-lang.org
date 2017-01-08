@@ -113,7 +113,7 @@ features =
   , Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
       [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and give "
       , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
-      , text ". This way problems never make it to your users. NoRedInk has 36k lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
+      , text ". This way problems never make it to your users. NoRedInk has 80k lines of Elm, and after more than 1.5 years in production, it still has not produced a single runtime exception."
       ]
   , Feature "Great Performance" 320 "/assets/home/benchmark.png" "/blog/blazing-fast-html-round-two" <|
       [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and "
