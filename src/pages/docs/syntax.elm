@@ -290,6 +290,19 @@ It is best to only do this on *concrete* types. Break generic functions into
 their own top-level definitions.
 
 
+You may include type annotations in let-expressions:
+
+```haskell
+let
+    n : Int
+    n = 42
+    
+    addN : Int -> Int
+    addN a = a + n
+in
+    addN 10
+```
+
 ### Applying Functions
 
 ```elm
