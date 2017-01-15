@@ -60,11 +60,11 @@ evaluate boolean =
     Not b ->
         not (evaluate b)
 
-    And b b' ->
-        evaluate b && evaluate b'
+    And b b_ ->
+        evaluate b && evaluate b_
 
-    Or b b' ->
-        evaluate b || evaluate b'
+    Or b b_ ->
+        evaluate b || evaluate b_
 ```
 
 Now imagine one of the cases in `evaluate` becomes drastically more
@@ -80,8 +80,8 @@ homeDirectory = "/root/files"
 eval boolean = case boolean of
     Literal bool -> bool
     Not b        -> not (eval b)
-    And b b'     -> eval b && eval b'
-    Or b b'      -> eval b || eval b'
+    And b b_     -> eval b && eval b_
+    Or b b_      -> eval b || eval b_
 ```
 
 We saved vertical lines here, but at the cost of regularity and ease of
