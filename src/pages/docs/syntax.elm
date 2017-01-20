@@ -362,7 +362,7 @@ answer =
 
 factorial : Int -> Int
 factorial n =
-  List.product [1..n]
+  List.product (List.range 1 n)
 
 distance : { x : Float, y : Float } -> Float
 distance {x,y} =
