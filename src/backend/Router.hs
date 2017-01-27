@@ -7,6 +7,7 @@ import qualified Data.ByteString.UTF8 as Utf8
 import Snap.Core
     ( Snap, MonadSnap, dir, getParam, ifTop, modifyResponse, pass, path
     , redirect', route, setContentType, setResponseStatus, writeBuilder
+    , sendFile
     )
 import Snap.Util.FileServe ( serveDirectoryWith, serveFile, simpleDirectoryConfig )
 import System.Directory (doesFileExist)
@@ -98,7 +99,7 @@ compile =
 error404 :: Snap ()
 error404 =
   do  modifyResponse (setResponseStatus 404 "Not found")
-      serveFile (FT.file ["pages"] "404" "html")
+      sendFile (FT.file ["pages"] "404" "html")
 
 
 
