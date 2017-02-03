@@ -67,7 +67,7 @@ htmlSkeleton analytics highlight title scripts =
       H.meta ! A.name "viewport" ! A.content "width=device-width, initial-scale=1"
       H.title (H.toHtml title)
       favicon
-      H.link ! A.rel "stylesheet" ! A.href "/assets/style.css?v=3"
+      H.link ! A.rel "stylesheet" ! A.href "/assets/style.css?v=4"
 
       case analytics of
         Analytics ->
