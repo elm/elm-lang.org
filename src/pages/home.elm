@@ -289,6 +289,10 @@ userSection =
             "Beautiful Destinations"
             "http://www.beautifuldestinations.com/"
             "svg"
+        , company
+            "Hearken"
+            "https://www.wearehearken.com/"
+            "png"
         ]
     ]
 
