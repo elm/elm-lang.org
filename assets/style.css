@@ -116,6 +116,7 @@ a:hover {
   }
 }
 
+
 /* examples */
 
 .examples li {
@@ -130,6 +131,77 @@ a:hover {
 
 .examples li li {
   list-style-type: none;
+}
+
+
+/* users */
+
+.featured-user {
+  max-width: 600px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.featured-user .quote {
+  background: #eeeeee;
+  padding: 10px 30px;
+  border-radius: 10px;
+  position: relative;
+  color: #b4b4b4;
+  font-size: 20px;
+  color: #5A6378;
+  quotes: "\201C""\201D""\2018""\2019"
+}
+
+.featured-user .quote p:first-of-type:before {
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+.featured-user .quote:after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  right: 130px;
+  border-width: 20px 20px 0;
+  border-style: solid;
+  border-color: #eeeeee transparent;
+  display: block;
+  width: 0;
+}
+
+.featured-user .attribution {
+  height: 100px;
+}
+
+.featured-user .attribution-logo {
+  float: right;
+}
+
+@media (max-width: 500px) {
+  .featured-user .attribution-logo {
+    display: none;
+  }
+}
+
+.featured-user .attribution-author {
+  width: 300px;
+  display: block;
+  float: right;
+  font-size: 18px;
+  color: #5A6378;
+  text-align: center;
+  padding-top: 24px
+}
+
+.featured-user .attribution-author p {
+  padding: 0;
+  margin: 0;
 }
 
 

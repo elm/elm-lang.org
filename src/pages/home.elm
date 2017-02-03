@@ -113,7 +113,7 @@ features =
   , Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
       [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and give "
       , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
-      , text ". This way problems never make it to your users. NoRedInk has 36k lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
+      , text ". This way problems never make it to your users. NoRedInk has 80k+ lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
       ]
   , Feature "Great Performance" 320 "/assets/home/benchmark.png" "/blog/blazing-fast-html-round-two" <|
       [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and "
@@ -230,25 +230,36 @@ userSection : Html msg
 userSection =
   section [class "home-section"]
     [ h1 [] [text "Featured Users"]
-    , p [class "home-paragraph"]
-        [ text "Definitely check out the links for "
-        , a [href "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"] [text "NoRedInk"]
-        , text ", "
-        , a [href "http://www.gizra.com/content/thinking-choosing-elm/"] [text "Gizra"]
-        , text ", and "
-        , a [href "http://futurice.com/blog/elm-in-the-real-world"] [text "Futurice"]
-        , text " to learn more about how and why they are using Elm. If you want to join them and use Elm at work, definitely follow "
-        , a [href "/blog/how-to-use-elm-at-work"] [text "this advice"]
-        , text " and do it gradually. Elm is all about reducing risk, even in adoption!"
+    , div [ class "featured-user" ]
+        [ div [ class "quote" ]
+            [ p [] [ text "We’ve had zero run-time failures, the filesize is ridiculously small, and it runs faster than anything else in our code base. We’ve also had fewer bugs... " ]
+            , p [] [ text "To sum it up, our manager has mandated that all new code be written in Elm." ]
+            ]
+        , div [ class "attribution" ]
+            [ div [ class "attribution-author" ]
+                [ p [] [ text "Jeff Schomay" ]
+                , p [] [ a [ href "https://www.pivotaltracker.com/blog/Elm-pivotal-tracker/" ] [ text "PivotalTracker Blog" ] ]
+                ]
+            , a [ class "attribution-logo"
+                , href "https://www.pivotaltracker.com"
+                ]
+                [ div
+                    [ style
+                        [ "width" => "200px"
+                        , "height" => "100px"
+                        , "background-image" => ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
+                        , "background-repeat" => "no-repeat"
+                        , "background-position" => "center"
+                        ]
+                    ]
+                    []
+                ]
+            ]
         ]
     , fluidList 200 3
         [ company
             "NoRedInk"
             "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"
-            "png"
-        , company
-            "CircuitHub"
-            "https://circuithub.com/"
             "png"
         , company
             "Carfax"
@@ -263,12 +274,16 @@ userSection =
             "http://www.gizra.com/content/thinking-choosing-elm/"
             "png"
         , company
+            "Prezi"
+            "https://prezi.com/"
+            "png"
+        , company
             "TruQu"
             "https://truqu.com/"
             "png"
         , company
-            "Prezi"
-            "https://prezi.com/"
+            "CircuitHub"
+            "https://circuithub.com/"
             "png"
         , company
             "Beautiful Destinations"
@@ -278,26 +293,37 @@ userSection =
     ]
 
 
+company : String -> String -> String -> List (Html msg)
 company name website extension =
+  [ toLogo name website extension ]
+
+
+toLogo : String -> String -> String -> Html msg
+toLogo name website extension =
+  let
+    imgSrc =
+      toLogoSrc name extension
+  in
+    a [ href website ]
+      [ div
+          [ style
+              [ "width" => "200px"
+              , "height" => "100px"
+              , "background-image" => ("url('" ++ imgSrc ++ "')")
+              , "background-repeat" => "no-repeat"
+              , "background-position" => "center"
+              ]
+          ]
+          []
+      ]
+
+
+toLogoSrc : String -> String -> String
+toLogoSrc name extension =
   let
     lowerName =
       String.toLower name
-
-    imgSrc =
-      "/assets/logos/"
-      ++ String.map (\c -> if c == ' ' then '-' else c) lowerName
-      ++ "." ++ extension
   in
-    [ a [ href website ]
-        [ div
-            [ style
-                [ "width" => "200px"
-                , "height" => "100px"
-                , "background-image" => ("url('" ++ imgSrc ++ "')")
-                , "background-repeat" => "no-repeat"
-                , "background-position" => "center"
-                ]
-            ]
-            []
-        ]
-    ]
+    "/assets/logos/"
+    ++ String.map (\c -> if c == ' ' then '-' else c) lowerName
+    ++ "." ++ extension
