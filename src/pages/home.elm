@@ -238,7 +238,7 @@ userSection =
         , div [ class "attribution" ]
             [ div [ class "attribution-author" ]
                 [ p [] [ text "Jeff Schomay" ]
-                , p [] [ a [ href "https://www.pivotaltracker.com/blog/Elm-pivotal-tracker/" ] [ text "PivotalTracker Blog" ] ]
+                , p [] [ a [ href "https://www.pivotaltracker.com/blog/Elm-pivotal-tracker/" ] [ text "Pivotal Tracker Blog" ] ]
                 ]
             , a [ class "attribution-logo"
                 , href "https://www.pivotaltracker.com"
