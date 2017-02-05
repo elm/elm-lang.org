@@ -250,6 +250,7 @@ userSection =
                         , "background-image" => ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
                         , "background-repeat" => "no-repeat"
                         , "background-position" => "center"
+                        , "display" => "block"
                         ]
                     ]
                     []

@@ -183,12 +183,6 @@ a:hover {
   float: right;
 }
 
-@media (max-width: 500px) {
-  .featured-user .attribution-logo {
-    display: none;
-  }
-}
-
 .featured-user .attribution-author {
   width: 300px;
   display: block;
@@ -204,9 +198,28 @@ a:hover {
   margin: 0;
 }
 
+@media (max-width: 500px) {
+  .featured-user .quote:after {
+    right: calc(50% - 20px);
+  }
+  .featured-user .attribution {
+    height: auto;
+  }
+  .featured-user .attribution-logo {
+    float: none;
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .featured-user .attribution-author {
+    float: none;
+    width: 100%;
+  }
+}
+
 
 /* top bar */
-
 
 #tabs {
   padding: 1em;
