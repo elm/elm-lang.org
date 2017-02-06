@@ -31,7 +31,6 @@ blog = """
  * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/elm-and-prezi)
- * [Escape from Callback Hell](/blog/escape-from-callback-hell)
  * [Making Pong](/blog/making-pong)
 
 <br>
