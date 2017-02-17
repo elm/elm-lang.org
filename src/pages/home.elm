@@ -294,6 +294,10 @@ userSection =
             "Hearken"
             "https://www.wearehearken.com/"
             "png"
+        , company
+            "HumbleSpark"
+            "https://www.humblespark.com/"
+            "png"
         ]
     ]
 
