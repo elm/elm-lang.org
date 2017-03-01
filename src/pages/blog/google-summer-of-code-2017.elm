@@ -61,7 +61,7 @@ part2 = """
 When it comes to Google Summer of Code, we have a bunch of constraints that make it easier to pick out great projects:
 
   * Time is limited. Only about 12 weeks.
-  * API design is a craft that takes many years to master, making it a bad project when someone is new and time constrained.
+  * API design takes a couple years to learn, so it is not an ideal project when someone is new and time constrained.
   * Students may not finish everything, so the expected results should be valuable even if not everything is completed.
 
 I have outlined [a bunch of good community projects](https://github.com/elm-lang/projects/blob/master/README.md), but I want to highlight a few that are ideal for GSoC.
@@ -71,12 +71,12 @@ I have outlined [a bunch of good community projects](https://github.com/elm-lang
 
 The search feature of [package.elm-lang.org](http://package.elm-lang.org/) is quite rudimentary. Community members have already created “type search” [like this](http://klaftertief.github.io/elm-search/) which is really cool, but I think we would benefit from a more traditional search feature as well. I outline some ideas for this [right here](https://github.com/elm-lang/projects/blob/master/README.md#package-search).
 
-In the end we’d want this service can live on its own server, so if it goes down, it does not take down the package website. It would also take in JSON and give out JSON, so the scope is limited to writing servers, which can be a great learning experience.
+In the end we’d want this service to live on its own server, so if it goes down, it does not take down the package website. It would also take in JSON and give out JSON, so the scope is limited to writing servers, which can be a great learning experience.
 
 These natural constraints make it a great GSoC project. If the project is incomplete, nothing is blocked. In every case *the community* learns if full-text search is valuable, and if so, how much it costs. And perhaps the project will inspire collaborators or competitors!
 
 
-### More Academic Stuff
+### Exploratory Compiler and Optimization Work
 
 There are a few projects that require a stronger background in compilers and programming languages. I think these would be great for older undergrads, masters students, and PhD students. The [project page](https://github.com/elm-lang/projects/blob/master/README.md) lists [exploring monomorphization](https://github.com/elm-lang/projects/blob/master/README.md#explore-monomorphizing-compilers) and [exploring WebAssembly](https://github.com/elm-lang/projects/blob/master/README.md#explore-webassembly). Both of these projects are primarily *exploratory*. In other words, a big part of the results would be a well-written literature review, so even if the technical artifacts are not perfect, they get things going.
 
@@ -94,7 +94,7 @@ In the `...` we know we want to get from `List String` to `Int` so we can sugges
 
 Point is, these are projects that push the Elm community in interesting directions, they have a large learning component for both the student and community, and you can achieve a great deal before much coordination is needed. For masters and PhD students, there are ways to fit projects like this into a broader research agenda, but we will have a strong preference for projects that (1) do not require language changes and (2) can reasonably expect a concrete result.
 
-For folks with the background for this, I encourage you to talk to the creators of projects like elm-test, elm-format, elmjutsu, and sketch-n-sketch to learn what kind of analyses would be most useful in practice!
+For folks with the background for this, I encourage you to talk to the creators of projects like elm-test, elm-format, elmjutsu, and sketch-n-sketch to learn what kind of analyses would be most useful in practice.
 
 
 ## Mentorship
