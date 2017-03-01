@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [Google Summer of Code 2017](/blog/google-summer-of-code-2017)
  * [The Perfect Bug Report](/blog/the-perfect-bug-report)
  * [Blazing Fast HTML, Round Two](/blog/blazing-fast-html-round-two)
  * [How to Use Elm at Work](/blog/how-to-use-elm-at-work)
