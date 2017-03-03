@@ -184,6 +184,12 @@ It is often useful to &ldquo;update&rdquo; the values in a record.
 { steve | name = "Wozniak" }  -- { name="Wozniak", age=56 }
 ```
 
+If you're not used to this syntax, it's similar to using the object spread 
+operator to return a copy of an object in JavaScript: `{ ...point2D, y: 1 }`. 
+This is common in Redux development. And in Elm we're doing exactly the same 
+thing. It's not possible to use dot notation for updates, as `point2D.y = 1` 
+should return `1`, not an updated `point2D`.
+
 You can update as many fields as you want, separating each update by a comma.
 You can even change the type of value in a field. Say the user inputs a bunch
 of personal data producing a record. It would be nice to convert some of the
