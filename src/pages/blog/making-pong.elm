@@ -83,7 +83,7 @@ skeleton for game creation][skeleton] which can both be a starting point for
 playing around with your own ideas.
 
  [src]: /examples/pong
- [skeleton]: https://github.com/elm-lang/elm-lang.org/blob/master/frontend/public/examples/Intermediate/GameSkeleton.elm
+ [skeleton]: https://github.com/elm-lang/elm-lang.org/blob/e4f7e1f0084012283dbcf9b13b08bc77a0065b0b/public/examples/Intermediate/GameSkeleton.elm
 
 Let&rsquo;s get into the code!
 
