@@ -51,7 +51,7 @@ The structure of Elm games breaks into four major parts: modeling inputs,
 modeling the game, updating the game, and viewing the game. It may be helpful
 to think of it as a functional variation on the Model-View-Controller paradigm.
 
-To make this more concrete, lets see how Pong needs to be structured:
+To make this more concrete, let's see how Pong needs to be structured:
 
  1. [**Inputs**](#inputs) &mdash; This is all of the stuff coming in from
     &ldquo;the world&rdquo;. For Pong, this is keyboard input from users and

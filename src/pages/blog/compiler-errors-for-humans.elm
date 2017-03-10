@@ -153,7 +153,7 @@ happening.** When reading a technical text, it is always easier if the author
 has defined the terms they are using and the specific issue they are
 addressing. It makes the details much more concrete.
 
-Again, lets look at how the Elm 0.15.1 messages use these observations to
+Again, let's look at how the Elm 0.15.1 messages use these observations to
 improve error messages. This example tries to make a list of user pictures, but
 we mix up HTML and raw strings.
 
