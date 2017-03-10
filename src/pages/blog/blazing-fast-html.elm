@@ -28,7 +28,7 @@ recreating the [TodoMVC][todo] app, the [code][code] is quite simple and our
 [preliminary benchmarks][bench] show that it is extremely fast compared to other
 popular entries:
 
-[elm-html]: https://github.com/evancz/elm-html
+[elm-html]: https://github.com/elm-lang/html
 [todo]: http://evancz.github.io/elm-todomvc/
 [code]: https://github.com/evancz/elm-todomvc/blob/master/Todo.elm
 [bench]: https://evancz.github.io/todomvc-perf-comparison
