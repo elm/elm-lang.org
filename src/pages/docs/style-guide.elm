@@ -77,7 +77,7 @@ the result will still look quite nice.
 ```elm
 homeDirectory = "/root/files"
 
-eval boolean = case boolean of
+evaluate boolean = case boolean of
     Literal bool -> bool
     Not b        -> not (eval b)
     And b b_     -> eval b && eval b_
