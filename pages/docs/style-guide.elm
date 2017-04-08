@@ -88,9 +88,10 @@ We saved vertical lines here, but at the cost of regularity and ease of
 modification. If `Literal` ever becomes longer, all arrows must move. If any
 branch gets too long, everything needs to come down a line anyway.
 
-Having `case` appear further to the right than the actual cases is strongly discouraged. It
-should serve as a context clue that makes glancing through code easy, but when
-indented or positioned in crazy ways, it becomes more difficult to glance through.
+Having `case` appear further to the right than the actual cases is strongly
+discouraged. It should serve as a context clue that makes glancing through code
+easy, but when indented or positioned in crazy ways, it becomes more difficult
+to glance through.
 
 
 ## Types
