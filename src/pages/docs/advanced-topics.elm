@@ -63,7 +63,7 @@ Elm is moving towards a heavier emphasis on concurrency. You can read a bit
 about where we are and where we are going in [the documentation][docs] of the
 `Process` module.
 
-[docs]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
+[docs]: http://package.elm-lang.org/packages/elm-lang/core/latest/Process
 
 The following talk will give some additional perspective that guides The Elm
 Architecture and the move towards explicit concurrency in general:

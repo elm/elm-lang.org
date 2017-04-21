@@ -235,7 +235,7 @@ still some open technical questions:
 
 * Even in a pure language, it is possible to associate state with functions by using
   [continuation passing style](http://en.wikipedia.org/wiki/Continuation-passing_style) (CPS).
-  This comes up in [the Automaton library](http://package.elm-lang.org/packages/evancz/automaton/1.0.0),
+  This comes up in [the Automaton library](http://package.elm-lang.org/packages/evancz/automaton/latest),
   which is an alternate way to write reactive code. Is it possible to persist state *and*
   update functions when using CPS?
 
