@@ -33,6 +33,7 @@ The structure of the following document is as follows:
 Records in Elm are quite similar to objects in JavaScript. The major differences
 are that with records:
 
+- You can not add or remove a field dynamically
 - You cannot ask for a field that does not exist.
 - No field will ever be `undefined` or `null`.
 - You cannot create recursive records with a `this` or `self` keyword.
@@ -243,8 +244,13 @@ hypotenuse {x,y} =
   sqrt (x^2 + y^2)
 ```
 
-You can also define extensible records. This use has not come up much in
-practice so far, but it is pretty cool nonetheless.
+It is also possible to use type aliases as constructors for records.
+
+```elm
+  Point 0 0
+```
+
+You can define extensible records with the folowing type alias synthax:
 
 ```elm
 type alias Positioned a =
@@ -256,6 +262,9 @@ type alias Named a =
 type alias Moving a =
   { a | velocity : Float, angle : Float }
 ```
+
+Type aliases for extensible records cannot be used as a constructor for a
+new record.
 
 This syntax is defining types that have *at least* certain fields, but may have
 others as well. So `Positioned a` is a record with at least an `x` and `y`
