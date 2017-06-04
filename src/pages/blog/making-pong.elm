@@ -26,7 +26,7 @@ This post has two major goals:
      Programming](/learn/What-is-FRP.elm) (FRP) for games.
   2. Teach you how to make games with Elm.
 
-In this post we will be looking into [Pong in Elm](/examples/pong):
+In this post we will be looking into [Pong in Elm](http://elm-lang.org:1234/examples/pong):
 a functional game written in Elm, playable in any modern browser.
 
 ## Functional Game Design
