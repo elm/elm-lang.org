@@ -173,6 +173,12 @@ Patterns for destructuring records can appear in let expressions, lambda
 expressions, and case expressions. Anywhere that patterns are allowed, you can
 do this.
 
+It is also possible to get the whole record besides the destructured pieces:
+
+```elm
+happyBirthday ({ age } as person) =
+    { person | age = age + 1 }
+```
 
 ## Updating Records
 
