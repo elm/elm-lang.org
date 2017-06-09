@@ -4,7 +4,8 @@
 import Html exposing (Html)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
-import Time exposing (Time, second)
+import Time exposing (Time, now, second)
+import Task
 
 
 
@@ -26,7 +27,7 @@ type alias Model = Time
 
 init : (Model, Cmd Msg)
 init =
-  (0, Cmd.none)
+  (0, Task.perform Tick now)
 
 
 
