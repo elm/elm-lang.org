@@ -27,19 +27,19 @@ partition eithers =
     [] ->
       ([], [])
 
-    Left a :: rest ->
+    Left leftPayload :: rest ->
       let
         (lefts, rights) =
           partition rest
       in
-        (a :: lefts, rights)
+        (leftPayload :: lefts, rights)
 
-    Right b :: rest ->
+    Right rightPayload :: rest ->
       let
         (lefts, rights) =
           partition rest
       in
-        (lefts, b :: rights)
+        (lefts, rightPayload :: rights)
 
 
 main =
