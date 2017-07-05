@@ -86,6 +86,8 @@ The previous sections give you a flavor of what to do, but I wanted to make a ch
 
   - **Write Elm Code** &mdash; You can talk a decision like this to death. What about this? What about that? Talking abstractly is a waste of everyone&rsquo;s time. Write an actual chunk of Elm code. Evaluate it against an actual chunk of JavaScript code. Talk concretely.
 
+Please see the companion blog post ["Using Elm in React — from the ground up"](https://medium.com/@cuddlyburger/using-elm-in-react-from-the-ground-up-e3866bb0369d), for a detailed, step by step walkthrough of the technical details.
+
 Hopefully that helps you out! I would love to hear how it goes, so definitely share your story as a blog post or through one of [the community forums](http://elm-lang.org/community). The community is really friendly and will definitely benefit from your experience, whether it works out or not. And who knows, maybe we can help out in some way!
 
 
