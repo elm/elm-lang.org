@@ -116,7 +116,7 @@ Exercises:
     function does not need to guarantee a particular order of
     traversal.
 
-       fold : (a -> b -> b) -> b -> Tree a -> b
+       fold : (a -> b -> b) -> Tree a -> b -> b
 
 (5) Use "fold" to do exercises 1-3 in one line each. The best
     readable versions I have come up have the following length
