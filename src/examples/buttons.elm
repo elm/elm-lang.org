@@ -9,12 +9,7 @@ main =
   beginnerProgram { model = 0, view = view, update = update }
 
 
-view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (toString model) ]
-    , button [ onClick Increment ] [ text "+" ]
-    ]
+-- UPDATE
 
 
 type Msg = Increment | Decrement
@@ -27,3 +22,15 @@ update msg model =
 
     Decrement ->
       model - 1
+
+
+
+-- VIEW
+
+
+view model =
+  div []
+    [ button [ onClick Decrement ] [ text "-" ]
+    , div [] [ text (toString model) ]
+    , button [ onClick Increment ] [ text "+" ]
+    ]
