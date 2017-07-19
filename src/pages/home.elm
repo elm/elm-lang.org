@@ -162,9 +162,9 @@ examples =
       "https://gizra.github.io/elm-hedley"
       "https://github.com/Gizra/elm-hedley"
   , example
-      "mantl-ui"
-      "https://mantl.io/"
-      "https://github.com/CiscoCloud/mantl-ui-frontend"
+      "elm-spa-example"
+      "http://rtfeldman.github.io/elm-spa-example/"
+      "https://github.com/rtfeldman/elm-spa-example"
   , example
       "package"
       "http://package.elm-lang.org"
