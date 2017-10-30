@@ -101,8 +101,8 @@ Do not be a maniac with indentation. Simplicity will be better in the long run.
 ### Good
 
 ```elm
-type Boolean
-    = Literal Bool
+type Boolean =
+    Literal Bool
     | Not Boolean
     | And Boolean Boolean
     | Or Boolean Boolean
