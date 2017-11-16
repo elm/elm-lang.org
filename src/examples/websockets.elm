@@ -6,7 +6,13 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import WebSocket
 
+{--
 
+To use this in elm-reactor you need to have invoked:
+
+elm-package install elm-lang/websocket
+
+ --}
 
 main =
   Html.program

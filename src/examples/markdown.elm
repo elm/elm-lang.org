@@ -1,5 +1,10 @@
 import Markdown
 
+{--
+To use this in elm-reactor you need to have invoked:
+
+elm-package install evancz/elm-markdown
+ --}
 
 main =
   Markdown.toHtml [] markdown
