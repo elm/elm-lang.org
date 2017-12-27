@@ -15,6 +15,7 @@ community = """
 # Community
 
   * [Community Packages](http://package.elm-lang.org/)
+  * [Discourse][discourse]
   * [Reddit][reddit]
   * [Slack][slack]
   * [Twitter][twitter]
@@ -23,6 +24,15 @@ community = """
   * [Contributing](#contribute)
 
 <br>
+
+
+## Discourse
+
+[discourse]: https://discourse.elm-lang.org/ "Discourse"
+
+[Discourse][discourse] is a nice place to ask questions, request
+feedback on your ideas, and show off what you're working on. It is the
+successor to [elm-discuss on Google Groups][list].
 
 
 ## Reddit
