@@ -18,6 +18,7 @@ Then in the `Elm-Platform/0.17/` directory, run these commands:
 git clone https://github.com/elm-lang/elm-lang.org.git
 cd elm-lang.org
 git checkout master
+cabal update
 cabal sandbox init --sandbox ../.cabal-sandbox
 cabal install --only-dependencies
 cabal configure
