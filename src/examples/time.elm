@@ -61,7 +61,7 @@ view : Model -> Html Msg
 view model =
   let
     angle =
-      turns (Time.inMinutes model)
+      (Time.inSeconds model) / (2 * pi)
 
     handX =
       toString (50 + 40 * cos angle)
