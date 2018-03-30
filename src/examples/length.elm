@@ -29,7 +29,7 @@ length list =
     [] ->
         0
 
-    first :: rest ->
+    _ :: rest ->
         1 + length rest
 
 
