@@ -16,6 +16,7 @@ community = """
 
   * [Community Packages](http://package.elm-lang.org/)
   * [Reddit][reddit]
+  * [Discourse][discourse]
   * [Slack][slack]
   * [Twitter][twitter]
   * [Real Life][real-life]
@@ -40,6 +41,11 @@ Also, be kind! Friendly disagreement is healthy, but [displacement][] of
 personal anger onto friendly strangers is not.
 
 [displacement]: https://en.wikipedia.org/wiki/Displacement_(psychology)
+
+## [discourse]: https://discourse.elm-lang.org/
+
+Our Discourse forum is full with lovely people who are willing to help and you are invited to be one of them ;)
+
 
 
 ## Slack
