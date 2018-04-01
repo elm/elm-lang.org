@@ -1,6 +1,6 @@
 # Elm Home Page
 
-All of [elm-lang.org](http://elm-lang.org) is written in Elm. This repo is the client code (in Elm) and server code (in Haskell) that makes it all work.
+All of [elm-lang.org](http://elm-lang.org) is written in Elm (client side) and in Haskell (server side).
 
 You can use this to run [elm-lang.org/try](http://elm-lang.org/try) locally, but it is quite a challenge to set up.
 
