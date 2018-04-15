@@ -241,7 +241,7 @@ are function composition operators.
 ### Let Expressions
 
 Let expressions are for assigning variables, kind of like a `var` in
-JavaScript.
+JavaScript. Only the expression after `in` is returned.
 
 ```elm
 let
