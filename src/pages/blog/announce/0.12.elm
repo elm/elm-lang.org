@@ -61,10 +61,10 @@ important among them is the new [`Trampoline`][trampoline] library which
 is really cool and deserves a post of its own, but to keep things brief I am
 just going to list all of the new stuff:
 
- [gi]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input
+ [gi]: http://package.elm-lang.org/packages/elm-lang/core/latest/Graphics-Input
  [gif]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input-Field
  [text]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Text
- [regex]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex
+ [regex]: http://package.elm-lang.org/packages/elm-lang/core/latest/Regex
  [trampoline]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Trampoline
 
 #### Breaking Changes:
@@ -108,7 +108,7 @@ just going to list all of the new stuff:
     the great design and implementation!
     </span>
 
-  * Add [`Debug`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Debug)
+  * Add [`Debug`](http://package.elm-lang.org/packages/elm-lang/core/latest/Debug)
     library which lets you log values to the developer console. This is intended
     specifically for debugging!
     <span style="opacity:0.3;">
@@ -179,7 +179,7 @@ perhaps `import List (..)` can be removed entirely someday.
 All libraries uploaded to [package.elm-lang.org](http://package.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/documentation.json)). The goals
+this](http://package.elm-lang.org/packages/elm-lang/core/latest/documentation.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.

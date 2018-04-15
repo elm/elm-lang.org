@@ -24,8 +24,8 @@ to start making beautiful projects with Elm:
     aspects of Elm, making relatively untouched things like [elm-html][] feel
     like they got upgraded too.
 
-[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/1.1.0
-[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/1.0.0
+[elm-html]: http://package.elm-lang.org/packages/elm-lang/html/latest/Html
+[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/latest
 
   * **New package manager and build tool.**<br>
     The new package manager, [`elm-package`][elm-package], has a fresh take on
@@ -274,7 +274,7 @@ point =
 -- decodeString point "{ \\"x\\": 3, \\"y\\": 4 }" == Point 3 4
 ```
 
-[decode]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Json-Decode
+[decode]: http://package.elm-lang.org/packages/elm-lang/core/latest/Json-Decode
 
 There are a ton more examples [here][decode]. It may be possible to do some
 code generation when the JSON is very simple, but that is an idea for another
@@ -293,11 +293,11 @@ tools for generating as many random values as you want, whenever you want.
 Furthermore, it does it in a way that works great with time travel in
 [Elm Reactor][reactor].
 
-[random]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random
+[random]: http://package.elm-lang.org/packages/elm-lang/core/latest/Random
 [reactor]: /blog/time-travel-made-easy
 
 There is more info in [the `Random`
-docs](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),
+docs](http://package.elm-lang.org/packages/elm-lang/core/latest/Random),
 but Joe also did a nice dice rolling example. You can check out the source code
 [here](https://github.com/jcollard/random-examples/blob/master/src/Dice.elm).
 
@@ -315,7 +315,7 @@ The `Either` library has been removed in favor of [the `Result` library][result]
 A `Result` is intended to be a very obvious choice for error handling. The core
 type there is called a `Result`.
 
-[result]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Result
+[result]: http://package.elm-lang.org/packages/elm-lang/core/latest/Result
 
 ```elm
 type Result err value

@@ -160,11 +160,11 @@ Elm is already quite a small language, but there are a few oddities that seem to
 
   - **Backticks** &mdash; ``buyMilk `andThen` dipCookie`` used to mean the same thing as `andThen buyMilk dipCookie`. This was in Elm since the beginning, so problems like “backticks look like single quotes” were overlooked. More recently, we noticed that everything nice about backticks is nicer with [the `|>` operator][pipe]. By flipping the arguments to `andThen`, we can write `buyMilk |> andThen dipCookie`. This reads nicely, it is easy to chain, it works well with `onError`, *and* it does not require any special syntax. It just builds on existing knowledge!
 
-[pipe]: http://package.elm-lang.org/packages/elm-lang/core/4.0.5/Basics#|&gt;
+[pipe]: http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|&gt;
 
 Again, all these cases are covered in more detail in [the migration guide][upgrade], and `elm-format` will handle most of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite smooth, so feel free to ask for help on [the Elm slack][slack]. The Elm community is friendly and happy to help!
 
-[range]: http://package.elm-lang.org/packages/elm-lang/core/5.0.0/List#range
+[range]: http://package.elm-lang.org/packages/elm-lang/core/latest/List#range
 [alt]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#backticks-and-andthen
 [slack]: http://elmlang.herokuapp.com/
 

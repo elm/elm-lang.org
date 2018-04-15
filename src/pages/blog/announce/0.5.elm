@@ -22,8 +22,8 @@ For a full listing of Elm's current libraries, see [this page][docs].
 
 Elm now has [dictionaries][Dict] and [sets][Set]!
 
-  [Dict]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Dict "Dictionary library"
-  [Set]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Set "Set library"
+  [Dict]: http://package.elm-lang.org/packages/elm-lang/core/latest/Dict "Dictionary library"
+  [Set]: http://package.elm-lang.org/packages/elm-lang/core/latest/Set "Set library"
 
 The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
@@ -32,7 +32,7 @@ The Dict and Set libraries could be used from JavaScript. I can make this easier
 This version also introduces the [Automaton][auto] library. This library will
 make it easier to create dynamic components that can be switched in and out of a program.
 
-  [auto]: http://package.elm-lang.org/packages/evancz/automaton/1.0.0/ "Automaton Library"
+  [auto]: http://package.elm-lang.org/packages/evancz/automaton/latest/ "Automaton Library"
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
 takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
@@ -68,8 +68,8 @@ because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
 now they do not have to!
 
-  [send]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http#send "send"
-  [http]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http "HTTP docs"
+  [send]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#send "send"
+  [http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http "HTTP docs"
   [zips]: /examples/zip-codes
 
 ### New Functions and Syntax
@@ -83,7 +83,7 @@ now they do not have to!
     * `readFloat : String -> Maybe Float`
 - [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color library"
+  [color]: http://package.elm-lang.org/packages/elm-lang/core/latest/Color "Color library"
 
 ### Fewer Library Prefixes
 

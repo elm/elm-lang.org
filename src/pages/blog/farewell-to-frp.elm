@@ -125,7 +125,7 @@ the current time, updated every second. New times (like `Tick 1462487781991`)
 are fed into the `update` function, just like messages resulting from mouse
 clicks or HTTP requests.
 
-[every]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Time#every
+[every]: http://package.elm-lang.org/packages/elm-lang/core/latest/Time#every
 
 So besides subscriptions, everything about The Elm Architecture is the same as
 before. It is just easier to passively wait for stuff. Let's see this in a
@@ -182,7 +182,7 @@ is handled automatically. The connection is opened if anyone is subscribed to
 it, and it is closed if no one needs it anymore. All the queuing and
 reconnecting happens behind the scenes.
 
-[ws]: http://package.elm-lang.org/packages/elm-lang/websocket/1.0.0/WebSocket
+[ws]: http://package.elm-lang.org/packages/elm-lang/websocket/latest/WebSocket
 
 
 ## Learning More
@@ -257,7 +257,7 @@ know this stuff to be an Elm expert. Just like with my thesis,
 [Concurrent FRP][thesis], the goal is to get the benefits of concurrency for
 free.
 
-[docs1]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
+[docs1]: http://package.elm-lang.org/packages/elm-lang/core/latest/Process
 [docs2]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process#future-plans
 [mgmt]: http://guide.elm-lang.org/effect_managers/index.html
 

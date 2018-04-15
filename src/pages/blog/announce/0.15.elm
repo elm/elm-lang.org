@@ -30,7 +30,7 @@ easier:
   * [elm-router][] &mdash; generate pages dynamically based on the URL
   * [elm-storage][] &mdash; work with local storage
 
-[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/
+[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/latest/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
 [elm-router]: https://github.com/TheSeamau5/elm-router/
 [elm-storage]: https://github.com/TheSeamau5/elm-storage/
@@ -78,7 +78,7 @@ working fine. We have noticed a couple really nice benefits so far:
   * **Rendering is extremely fast.** [elm-html][] makes it really simple to
     optimize by just sprinkling [`lazy`][lazy] into your rendering code.
 
-[lazy]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Lazy
+[lazy]: http://package.elm-lang.org/packages/evancz/elm-html/latest/Html-Lazy
 
 At this point, Richard's big question is &ldquo;how can we write more in
 Elm?&rdquo; So this release is all about how we can write more in Elm and
@@ -102,7 +102,7 @@ for Elm&rsquo;s core libraries from the
 import Http
 
 pkgUrl =
-  "http://package.elm-lang.org/packages/elm-lang/core/2.0.0/README.md"
+  "http://package.elm-lang.org/packages/elm-lang/core/latest/README.md"
 
 getReadme : Task Http.Error String
 getReadme =
@@ -113,7 +113,7 @@ So `getReadme` is a `Task` that can be performed by Elm&rsquo;s runtime. When
 we run the task, it will either fail with an [`Http.Error`][error] or succeed
 with a string of markdown.
 
-[error]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/Http#Error
+[error]: http://package.elm-lang.org/packages/evancz/elm-http/latest/Http#Error
 
 To actually perform a task, you send it out a [port][]. Currently Richard sends
 certain values out to CoffeeScript which performs all sorts of effects and then

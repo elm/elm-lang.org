@@ -56,8 +56,8 @@ to 3D rendering and efficient use of the GPU.
 He has released the API as [`elm-webgl`][webgl] for 3D rendering and
 [`elm-linear-algebra`][algebra] for working with vectors and matrices.
 
- [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/1.0.0/
- [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/1.0.0/
+ [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/latest/
+ [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/latest/
 
 The best way to get started is to read about [the architecture of WebGL in
 Elm](https://github.com/johnpmayer/elm-webgl/blob/master/README.md) and
@@ -99,12 +99,12 @@ elm-get install elm-webgl
 elm-get install elm-linear-algebra
 ```
 
- [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/1.0.0/
- [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/1.0.0/
+ [webgl]: http://package.elm-lang.org/packages/johnpmayer/elm-webgl/latest/
+ [algebra]: http://package.elm-lang.org/packages/johnpmayer/elm-linear-algebra/latest/
 
 ## Colors
 
-[The `Color` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color)
+[The `Color` library](http://package.elm-lang.org/packages/elm-lang/core/latest/Color)
 underwent a breaking change by switching from HSV to HSL. If those letters do
 not mean anything to you, your code will be fine and you are about to learn
 about a very useful color space! HSV and HSL are very closely related, so
@@ -167,7 +167,7 @@ to look at or use. Please someone fix this!
 ## Thank you!
 
 Thank you to [Max Goldstein](https://github.com/mgold) who made it possible
-for [`Array`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Array)
+for [`Array`](http://package.elm-lang.org/packages/elm-lang/core/latest/Array)
 to flow through ports.
 
 Thanks also to [Max New](https://github.com/maxsnew) who has been making a

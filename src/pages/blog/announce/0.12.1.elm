@@ -23,7 +23,7 @@ structures, so there are some changes and improvements in the `Dict`, `Set`,
 and `String` libraries too.
 
  [xash]: https://github.com/xashili
- [array]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Array
+ [array]: http://package.elm-lang.org/packages/elm-lang/core/latest/Array
 
 This release also simplifies all JavaScript related libraries.
 With [the release of ports in 0.11](/blog/announce/0.11), it became much

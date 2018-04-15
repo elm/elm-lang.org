@@ -79,7 +79,7 @@ based on the `arrows` and `space` signals.
 This takes only 20 physical lines of code, which you can see and modify
 in the interactive editor [here][src].
 
- [keys]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Keyboard "Keyboard Library"
+ [keys]: http://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard "Keyboard Library"
  [arrows]: http://en.wikipedia.org/wiki/Arrow_keys "alternative cursor movement keys"
  [wasd]: http://en.wikipedia.org/wiki/Arrow_keys#WASD_keys "wasd"
  [src]: /edit/examples/Intermediate/Turtle.elm "Turtle Source"
@@ -173,12 +173,12 @@ mergeEither : Signal a -> Signal b -> Signal (Either a b)
 This lets you combine two signals without losing information about
 the original source of the signal.
 
- [either]: http://package.elm-lang.org/packages/imeckler/either/1.0.0/ "Either"
+ [either]: http://package.elm-lang.org/packages/imeckler/either/latest/ "Either"
 
 
 ## Consistency
 
-I have simplified [the `Maybe` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Maybe)
+I have simplified [the `Maybe` library](http://package.elm-lang.org/packages/elm-lang/core/latest/Maybe)
 a little bit. Names are now consistent with the new `Either` library. For example,
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:
