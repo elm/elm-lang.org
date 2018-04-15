@@ -136,15 +136,16 @@ type alias Circle = {
 type alias Graph = List (Int, List Int)
 ```
 
-Changing the name `Boolean` ever will change the indentation on all subsequent
-lines. This leads to messy diffs and provides no concrete value.
+Changing the type name `Boolean` will change the indentation on all subsequent
+lines. This leads to messy diffs with indentation changes that provide no
+meaningful value.
 
-If we ever add a new field to `Circle` that is longer than `radius` we have to
+If we ever add a new field to `Circle` that is longer than `radius`, we have to
 change the indentation of all lines, leading to a bad diff. Furthermore, ending
 lines with a comma makes diffs messier because adding a field must change two
 lines instead of one.
 
-If we change the name of the type alias `Graph` it'll be less clear if
+If we change the name of the type alias `Graph`, the diff will be less clear if
 everything is on the same line. Did we change the name or the meaning?
 Furthermore, if the type being aliased ever becomes too long, it will need to
 move down a line anyway.
