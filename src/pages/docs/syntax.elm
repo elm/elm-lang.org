@@ -240,8 +240,7 @@ are function composition operators.
 
 ### Let Expressions
 
-Let expressions are for assigning variables, kind of like a `var` in
-JavaScript.
+`let` these values be defined `in` this specific expression.
 
 ```elm
 let
@@ -253,6 +252,10 @@ let
 in
   twentyFour + sixteen
 ```
+
+This is useful when an expression is getting large. You can make a `let` to
+break it into smaller definitions and put them all together `in` a smaller
+expression.
 
 You can define functions and use &ldquo;destructuring assignment&rdquo; in let
 expressions too.
