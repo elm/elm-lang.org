@@ -310,5 +310,24 @@ records. You get much of the freedom of a dynamically
 typed language, but the type checker will make sure that these functions are
 used safely!
 
+Note: You can use an extensible record type in a type alias, but you will not
+get the usual convenience of a compiler-generated constructor, because the
+order of arguments for a constructor is ambiguous:
+
+```
+type alias Ship = Named (Moving (Positioned { destination : String })
+
+-- There is no constructor called Ship!
+-- If you want a constructor, you'll have to write one yourself it:
+newShip : String -> Float -> Float -> Float -> Float -> String -> Ship
+newShip name velocity angle x y destination = 
+  { name: name
+  , velocity: velocity
+  , angle: angle
+  , x: x
+  , y: y
+  , destination: destination
+  }
+```
 
 """
