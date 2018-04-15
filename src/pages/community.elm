@@ -20,7 +20,6 @@ community = """
   * [Slack][slack]
   * [Twitter][twitter]
   * [Real Life][real-life]
-  * [Mailing list][list]
   * [Contributing](#contribute)
 
 <br>
@@ -88,15 +87,6 @@ the Elm user group in SF. A lot of existing meetups are structured based on
 
 [real-life]: https://www.elmlog.com/meetup_groups
 [hack-night]: http://tech.noredink.com/post/142283641812/designing-meetups-to-build-better-communities
-
-
-## Historical: Mailing list
-
-[list]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss "elm-discuss"
-
-The [elm-discuss][list] mailing list was the original online forum for Elm. We
-used to do all discussion there, from beginner questions to language design
-discussions. As of January 2018, it has been replaced by [Discourse][discourse].
 
 
 ## Contribute
