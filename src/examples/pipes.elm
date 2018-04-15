@@ -21,7 +21,7 @@ exact function in a different way.
 
 Think of the pipe as feeding a value into the next function. In
 this case, we feed the string into reverse, then into toUpper,
-then we filter out any numbers.
+then we filter out any spaces.
 -}
 weirdReversal2 string =
   string
