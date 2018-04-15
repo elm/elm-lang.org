@@ -90,9 +90,12 @@ getRandomGif topic =
     url =
       "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" ++ topic
   in
-    Http.send NewGif (Http.get url decodeGifUrl)
+    decodeGifUrl
+      |> Http.get url 
+      |> Http.send NewGif
 
 
 decodeGifUrl : Decode.Decoder String
 decodeGifUrl =
-  Decode.at ["data", "image_url"] Decode.string
+  Decode.string
+    |> Decode.at ["data", "image_url"]
