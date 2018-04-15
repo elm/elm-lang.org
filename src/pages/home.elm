@@ -171,7 +171,7 @@ examples =
       "https://github.com/elm-lang/package.elm-lang.org"
   , example
       "flatris"
-      "http://unsoundscapes.com/elm-flatris.html"
+      "https://unsoundscapes.itch.io/flatris"
       "https://github.com/w0rm/elm-flatris"
   , example
       "sketch-n-sketch"
