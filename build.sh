@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 
 function makeHtml {
   cat <<EOF > $2
@@ -43,6 +44,7 @@ EOF
 
 if [ ! -f bin/elm ]; then
   curl $ELM_URL | tar xz
+  chmod 755 elm
   mkdir bin
   mv elm bin/
 fi
@@ -51,7 +53,7 @@ PATH=$(pwd)/bin:$PATH
 
 ## GENERATE HTML
 
-mkdir _temp
+mkdir -p _temp
 
 for elm in $(find src/pages -type f -name "*.elm"); do
     subpath="${elm#src/pages/}"
