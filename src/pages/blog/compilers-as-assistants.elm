@@ -19,7 +19,7 @@ main =
               , attribute "allowfullscreen" ""
               ] []
           ]
-        ]  
+        ]
     , Center.markdown "600px" afterVideo
     , image "big-record"
     , Center.markdown "600px" afterTypeDiffs
@@ -36,10 +36,6 @@ main =
     , image "incomplete"
     , Center.markdown "600px" afterIncomplete
     ]
-
-
-
-(=>) = (,)
 
 
 image name =

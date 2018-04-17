@@ -5,9 +5,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
-
 main =
   Blog.blog
     "Time Travel made Easy"
@@ -21,7 +18,11 @@ body =
   [ Center.markdown "600px" contentOne
   , iframe
         [ src "http://debug.elm-lang.org/edit/Thwomp.elm"
-        , style [ "border" => "none", "overflow" => "hidden", "height" => "400px", "width" => "80%", "padding" => "0 10%" ]
+        , style "border" "none"
+        , style "overflow" "hidden"
+        , style "height" "400px"
+        , style "width" "80%"
+        , style "padding" "0 10%"
         ]
         []
   , Center.markdown "600px" contentTwo

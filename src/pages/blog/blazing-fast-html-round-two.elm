@@ -7,9 +7,6 @@ import Center
 
 
 
-(=>) = (,)
-
-
 main =
   Blog.blog
     "Blazing Fast HTML"

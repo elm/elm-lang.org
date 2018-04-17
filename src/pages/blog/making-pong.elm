@@ -6,9 +6,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
-
 main =
   Blog.blog
     "Making Pong"

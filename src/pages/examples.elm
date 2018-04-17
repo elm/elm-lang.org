@@ -10,7 +10,7 @@ main =
   Skeleton.skeleton
     "examples"
     [ Center.markdown "600px" content
-    , div [ Center.style "600px" , style ["padding" => "0 0.5em"]]
+    , div [ Center.style "600px" , style "padding" "0 0.5em" ]
         [ view "HTML" html
         , view "Core Language" fundamentals
         , view "Effects" effects
@@ -37,14 +37,13 @@ and [guide.elm-lang.org][guide].
 -- VIEW EXAMPLES
 
 
-(=>) = (,)
-
-
 view : String -> List Section -> Html msg
 view title sections =
   div
     [ class "examples"
-    , style ["width" => "300px", "display" => "inline-block", "vertical-align" => "top"]
+    , style "width" "300px"
+    , style "display" "inline-block"
+    , style "vertical-align" "top"
     ]
     [ h3 [] [text title]
     , ul [] (List.map viewSection sections)
@@ -77,65 +76,73 @@ type alias Section = (String, List (String, String))
 
 fundamentals : List Section
 fundamentals =
-  [ "Primitives" =>
-      [ "math" => "math"
-      , "strings" => "strings"
-      , "calling functions" => "functions"
-      , "defining functions" => "define-functions"
+  [ ( "Primitives"
+    , [ ("math", "math")
+      , ("strings", "strings")
+      , ("calling functions", "functions")
+      , ("defining functions", "define-functions")
       ]
-  , "Syntax" =>
-      [ "if" => "if"
-      , "let" => "let"
-      , "case" => "case"
-      , "lambda" => "lambda"
-      , "pipes" => "pipes"
-      , "types" => "types"
+    )
+  , ( "Syntax"
+    , [ ("if", "if")
+      , ("let", "let")
+      , ("case", "case")
+      , ("lambda", "lambda")
+      , ("pipes", "pipes")
+      , ("types", "types")
       ]
+    )
   ]
 
 
 core : List Section
 core =
-  [ "Recursion" =>
-      [ "list length" => "length"
-      , "zip" => "zip"
-      , "quick sort" => "quick-sort"
-      , "merge sort" => "merge-sort"
+  [ ( "Recursion"
+    , [ ("list length", "length")
+      , ("zip", "zip")
+      , ("quick sort", "quick-sort")
+      , ("merge sort", "merge-sort")
       ]
-  , "Union Types" =>
-      [ "either" => "either"
-      , "binary tree" => "binary-tree"
-      , "boolean expressions" => "boolean-expressions"
+    )
+  , ( "Union Types"
+    , [ ("either", "either")
+      , ("binary tree", "binary-tree")
+      , ("boolean expressions", "boolean-expressions")
       ]
+    )
   ]
 
 
 html : List Section
 html =
-  [ "Basics" =>
-      [ "hello world!" => "hello-html"
-      , "unordered list" => "unordered-list"
-      , "markdown" => "markdown"
+  [ ( "Basics"
+    , [ ("hello world!", "hello-html")
+      , ("unordered list", "unordered-list")
+      , ("markdown", "markdown")
       ]
-  , "User Input" =>
-      [ "buttons" => "buttons"
-      , "field" => "field"
-      , "form" => "form"
-      , "checkboxes" => "checkboxes"
-      , "radio buttons" => "radio-buttons"
+    )
+  , ( "User Input"
+    , [ ("buttons", "buttons")
+      , ("field", "field")
+      , ("form", "form")
+      , ("checkboxes", "checkboxes")
+      , ("radio buttons", "radio-buttons")
       ]
+    )
   ]
 
 
 effects : List Section
 effects =
-  [ "Commands" =>
-      [ "random" => "random"
-      , "http" => "http"
+  [ ( "Commands"
+    , [ ("random", "random")
+      , ("http", "http")
       ]
-  , "Subscriptions" =>
-      [ "time" => "time"
-      , "websockets" => "websockets"
-      , "mouse drags" => "drag"
+    )
+  , ( "Subscriptions"
+    , [ ("time", "time")
+      , ("websockets", "websockets")
+      , ("mouse drags", "drag")
       ]
+    )
   ]

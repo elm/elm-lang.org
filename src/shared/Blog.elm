@@ -1,4 +1,11 @@
-module Blog exposing (blog, docs, evan, michael, Date)
+module Blog exposing
+  ( blog
+  , docs
+  , evan
+  , michael
+  , Date
+  )
+
 
 import Dict
 import Html exposing (..)
@@ -8,7 +15,8 @@ import Center
 import Skeleton
 
 
-(=>) = (,)
+
+-- BLOG
 
 
 blog : String -> String -> Author -> Date -> List (Html msg) -> Html msg

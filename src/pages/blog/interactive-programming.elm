@@ -5,8 +5,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
 
 main =
   Blog.blog
@@ -21,7 +19,11 @@ body =
   [ Center.markdown "600px" intro
   , iframe
       [ src "/edit/examples/Intermediate/Bounce.elm?cols=100%25%2C150px"
-      , style [ "border" => "none", "overflow" => "hidden", "height" => "400px", "width" => "80%", "padding" => "0 10%" ]
+      , style "border" "none"
+      , style "overflow" "hidden"
+      , style "height" "400px"
+      , style "width" "80%"
+      , style "padding" "0 10%"
       ]
       []
   , Center.markdown "600px" rest

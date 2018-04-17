@@ -5,8 +5,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
 
 main =
   Blog.blog
@@ -16,27 +14,23 @@ main =
     (Blog.Date 2016 5 10)
     [ Center.markdown "600px" start
     , iframe
-        [ style
-            [ "display" => "block"
-            , "width" => "306px"
-            , "height" => "306px"
-            , "margin" => "0 auto"
-            , "border" => "none"
-            ]
+        [ style "display" "block"
+        , style "width" "306px"
+        , style "height" "306px"
+        , style "margin" "0 auto"
+        , style "border" "none"
         , src "/examples/time/result"
         ]
         []
     , Center.markdown "600px" middle
     , iframe
-        [ style
-            [ "display" => "block"
-            , "width" => "300px"
-            , "height" => "200px"
-            , "padding" => "20px"
-            , "margin" => "0 auto"
-            , "border" => "none"
-            , "background-color" => "#eee"
-            ]
+        [ style "display" "block"
+        , style "width" "300px"
+        , style "height" "200px"
+        , style "padding" "20px"
+        , style "margin" "0 auto"
+        , style "border" "none"
+        , style "background-color" "#eee"
         , src "/examples/websockets/result"
         ]
         []

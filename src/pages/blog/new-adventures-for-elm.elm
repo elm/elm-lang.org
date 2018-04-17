@@ -15,10 +15,6 @@ main =
     ]
 
 
-
-(=>) = (,)
-
-
 content = """
 
 2015 was quite an exciting year for Elm. It is now in use at NoRedInk,

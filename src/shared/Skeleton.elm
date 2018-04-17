@@ -4,6 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
+
+-- SKELETON
+
+
 skeleton : String -> List (Html msg) -> Html msg
 skeleton tabName content =
   div []

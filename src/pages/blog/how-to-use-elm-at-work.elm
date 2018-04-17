@@ -5,9 +5,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
-
 main =
   Blog.blog
     "How to Use Elm at Work"

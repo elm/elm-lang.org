@@ -6,9 +6,6 @@ import Center
 import Skeleton
 
 
-(=>) = (,)
-
-
 main =
   Skeleton.skeleton
     "docs"
