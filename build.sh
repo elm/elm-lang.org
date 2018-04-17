@@ -44,7 +44,6 @@ EOF
 
 if [ ! -f bin/elm ]; then
   curl $ELM_URL | tar xz
-  ls -lh
   chmod 755 elm
   mkdir bin
   mv elm bin/
