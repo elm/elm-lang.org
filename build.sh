@@ -72,7 +72,7 @@ do
     else
         echo "Compiling: $elm"
         rm -f elm-stuff/*/Main.elm*
-        ../../compiler/dist/build/elm/elm make $elm --optimize --output=$js > /dev/null
+        elm make $elm --optimize --output=$js > /dev/null
         # TODO minify the JavaScript
         makeHtml $js $html $name
         touch -r $elm $html
