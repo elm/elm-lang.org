@@ -8,6 +8,7 @@ import Skeleton
 
 main =
   Skeleton.skeleton
+    "Elm - Examples"
     "examples"
     [ Center.markdown "600px" content
     , div

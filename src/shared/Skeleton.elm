@@ -1,5 +1,7 @@
 module Skeleton exposing (skeleton)
 
+
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
@@ -8,10 +10,18 @@ import Html.Attributes exposing (..)
 -- SKELETON
 
 
-skeleton : String -> List (Html msg) -> Html msg
-skeleton tabName content =
-  div []
-    (header tabName :: content ++ [footer])
+skeleton : String -> String -> List (Html Never) -> Program () () Never
+skeleton title tabName content =
+  Browser.fullscreen
+    { init = \_ -> ((), Cmd.none)
+    , update = \_ _ -> ((), Cmd.none)
+    , subscriptions = \_ -> Sub.none
+    , onNavigation = Nothing
+    , view = \_ ->
+        { title = title
+        , body = header tabName :: content ++ [footer]
+        }
+    }
 
 
 

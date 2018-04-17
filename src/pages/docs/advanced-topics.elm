@@ -8,6 +8,7 @@ import Skeleton
 
 main =
   Skeleton.skeleton
+    "Elm - Advanced Topics"
     "docs"
     [ div
         [ style "max-width" "600px"

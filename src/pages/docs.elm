@@ -9,6 +9,7 @@ import Skeleton
 
 main =
   Skeleton.skeleton
+    "Elm - Documentation"
     "docs"
     [ Center.markdown "600px" content
     ]

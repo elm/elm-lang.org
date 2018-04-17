@@ -5,7 +5,7 @@ import Skeleton
 
 
 main =
-  Skeleton.skeleton "blog" [ Center.markdown "600px" blog ]
+  Skeleton.skeleton "Elm - Blog" "blog" [ Center.markdown "600px" blog ]
 
 
 blog = """

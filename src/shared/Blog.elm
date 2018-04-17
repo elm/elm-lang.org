@@ -7,6 +7,7 @@ module Blog exposing
   )
 
 
+import Browser
 import Dict
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
@@ -19,9 +20,11 @@ import Skeleton
 -- BLOG
 
 
-blog : String -> String -> Author -> Date -> List (Html msg) -> Html msg
+blog : String -> String -> Author -> Date -> List (Html Never) -> Program () () Never
 blog title subtitle author date body =
-  Skeleton.skeleton "blog"
+  Skeleton.skeleton
+    title
+    "blog"
     [ div
         [ style "padding" "4em 0 1em"
         , style "text-align" "center"
@@ -38,9 +41,11 @@ blog title subtitle author date body =
     ]
 
 
-docs : String -> List (Html msg) -> Html msg
+docs : String -> List (Html Never) -> Program () () Never
 docs title body =
-  Skeleton.skeleton "docs"
+  Skeleton.skeleton
+    title
+    "docs"
     [ div
         [ style "padding" "4em 0 1em"
         , style "text-align" "center"

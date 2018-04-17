@@ -6,7 +6,10 @@ import Skeleton
 
 
 main =
-  Skeleton.skeleton "community" [ Center.markdown "600px" community ]
+  Skeleton.skeleton
+    "Elm - Community"
+    "community"
+    [ Center.markdown "600px" community ]
 
 
 

@@ -10,7 +10,9 @@ import Skeleton
 
 
 main =
-  Skeleton.skeleton "home"
+  Skeleton.skeleton
+    "Elm - A delightful language for reliable webapps"
+    "home"
     [ splash
     , featureSection
     , exampleSection
@@ -23,6 +25,7 @@ main =
 -- SPLASH
 
 
+splash : Html msg
 splash =
   div [ class "splash" ]
     [ div (size 120 16) [ text "elm" ]
