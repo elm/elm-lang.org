@@ -2,22 +2,16 @@ module Message exposing (report)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import ColorScheme as C
 import Markdown
 
 
+report : String -> Html msg
 report message =
-  Markdown.toHtml [ reportStyle ] message
-
-
-(=>) = (,)
-
-
-reportStyle =
-  style
-    [ "width" => "300px"
-    , "margin" => "100px auto 0"
-    , "background" => "#F5F5F5"
-    , "padding" => "0 30px 10px"
-    , "border-top" => "4px solid #60B5CC"
+  Markdown.toHtml
+    [ style "width" "300px"
+    , style "margin" "100px auto 0"
+    , style "background" "#F5F5F5"
+    , style "padding" "0 30px 10px"
+    , style "border-top" "4px solid #60B5CC"
     ]
+    message

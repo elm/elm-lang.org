@@ -5,9 +5,6 @@ import Blog
 import Center
 
 
-(=>) = (,)
-
-
 main =
   Blog.docs
     "Elm Syntax"

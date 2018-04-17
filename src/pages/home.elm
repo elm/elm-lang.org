@@ -19,28 +19,25 @@ main =
     ]
 
 
-(=>) = (,)
-
-
 
 -- SPLASH
 
 
 splash =
   div [ class "splash" ]
-    [ div [ size 120 16 ] [ text "elm" ]
-    , div [ size 26 8 ] [ text "A delightful language for reliable webapps." ]
-    , div [ size 16 8 ] [ text "Generate JavaScript with great performance and no runtime exceptions." ]
+    [ div (size 120 16) [ text "elm" ]
+    , div (size 26 8) [ text "A delightful language for reliable webapps." ]
+    , div (size 16 8) [ text "Generate JavaScript with great performance and no runtime exceptions." ]
     , br [] []
     , getStarted
     ]
 
 
+size : Int -> Int -> List (Attribute msg)
 size height padding =
-  style
-    [ "font-size" => (toString height ++ "px")
-    , "padding" => (toString padding ++ "px 0")
-    ]
+  [ style "font-size" (String.fromInt height ++ "px")
+  , style "padding" (String.fromInt padding ++ "px 0")
+  ]
 
 
 
@@ -85,7 +82,7 @@ viewFeature : Feature msg -> Html msg
 viewFeature feature =
   li
     [ class "feature"
-    , style [ ( "min-height", toString feature.height ++ "px" ) ]
+    , style [ ( "min-height", String.fromInt feature.height ++ "px" ) ]
     ]
     [ div [class "feature-description"]
         [ h2 [] [text feature.title]
@@ -94,9 +91,11 @@ viewFeature feature =
     , a [ class "feature-image"
         , href feature.link
         ]
-        [ img [src feature.image
-              , style [("width", "100%")]
-              ] []
+        [ img
+            [ src feature.image
+            , style "width" "100%"
+            ]
+            []
         ]
     ]
 
@@ -182,15 +181,19 @@ examples =
 
 example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
-  [ a [ href demo, style ["display" => "block"] ]
+  [ a [ href demo, style "display" "block" ]
       [ img
           [ src ("/assets/examples/" ++ imgSrc ++ ".png")
           , alt imgSrc
-          , style [("width", "100%")]
+          , style "width" "100%"
           ]
           []
       ]
-  , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px" ]]
+  , p [ style "display" "block"
+      , style "text-align" "center"
+      , style "margin" "0"
+      , style "height" "60px"
+      ]
       [ a [href code] [text "source"]
       ]
   ]
@@ -205,21 +208,24 @@ fluidList itemWidth maxColumns itemList =
   let
     toPx : Int -> String
     toPx num =
-      toString num ++ "px"
+      String.fromInt num ++ "px"
 
-    bulletStyle =
-        [ "display" => "inline-block"
-        , "max-width" => toPx itemWidth
-        , "vertical-align" => "top"
-        , "text-align" => "left"
-        , "margin" => ("0 " ++ toPx gutter)
+    bulletStyles =
+        [ style "display" "inline-block"
+        , style "max-width" (toPx itemWidth)
+        , style "vertical-align" "top"
+        , style "text-align" "left"
+        , style "margin" ("0 " ++ toPx gutter)
         ]
 
     gutter = 30
   in
     section
-      [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center"]]
-      (List.map (section [style bulletStyle]) itemList)
+      [ style "max-width" (toPx (itemWidth*maxColumns + 2*gutter*maxColumns))
+      , style "margin" "auto"
+      , style "text-align" "center"
+      ]
+      (List.map (section bulletStyles) itemList)
 
 
 
@@ -244,14 +250,12 @@ userSection =
                 , href "https://www.pivotaltracker.com"
                 ]
                 [ div
-                    [ style
-                        [ "width" => "200px"
-                        , "height" => "100px"
-                        , "background-image" => ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
-                        , "background-repeat" => "no-repeat"
-                        , "background-position" => "center"
-                        , "display" => "block"
-                        ]
+                    [ style "width" "200px"
+                    , style "height" "100px"
+                    , style "background-image" ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
+                    , style "background-repeat" "no-repeat"
+                    , style "background-position" "center"
+                    , style "display" "block"
                     ]
                     []
                 ]
@@ -311,13 +315,11 @@ toLogo name website extension =
   in
     a [ href website ]
       [ div
-          [ style
-              [ "width" => "200px"
-              , "height" => "100px"
-              , "background-image" => ("url('" ++ imgSrc ++ "')")
-              , "background-repeat" => "no-repeat"
-              , "background-position" => "center"
-              ]
+          [ style "width" "200px"
+          , style "height" "100px"
+          , style "background-image" ("url('" ++ imgSrc ++ "')")
+          , style "background-repeat" "no-repeat"
+          , style "background-position" "center"
           ]
           []
       ]
