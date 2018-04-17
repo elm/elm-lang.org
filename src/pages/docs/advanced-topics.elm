@@ -9,27 +9,28 @@ import Skeleton
 main =
   Skeleton.skeleton
     "docs"
-    [ div [style
-            [("max-width", "600px"), ("margin", "0 auto")]
-          ]
-      [Center.markdown "600px" beginning
-      , div [ class "intrinsic-container" ]
-          [ iframe
-              [ src "https://www.youtube.com/embed/DfLvDFxcAIA"
-              , attribute "allowfullscreen" ""
-              ]
-              []
-          ]
-      , Center.markdown "600px" middle
-      , div [ class "intrinsic-container" ]
-          [ iframe
-              [ src "https://www.youtube.com/embed/Agu6jipKfYw"
-              , attribute "allowfullscreen" ""
-              ]
-              []
-          ]
-      , Center.markdown "600px" end
-      ]
+    [ div
+        [ style "max-width" "600px"
+        , style "margin" "0 auto"
+        ]
+        [ Center.markdown "600px" beginning
+        , div [ class "intrinsic-container" ]
+            [ iframe
+                [ src "https://www.youtube.com/embed/DfLvDFxcAIA"
+                , attribute "allowfullscreen" ""
+                ]
+                []
+            ]
+        , Center.markdown "600px" middle
+        , div [ class "intrinsic-container" ]
+            [ iframe
+                [ src "https://www.youtube.com/embed/Agu6jipKfYw"
+                , attribute "allowfullscreen" ""
+                ]
+                []
+            ]
+        , Center.markdown "600px" end
+        ]
     ]
 
 beginning = """
