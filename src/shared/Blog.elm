@@ -22,7 +22,10 @@ import Skeleton
 blog : String -> String -> Author -> Date -> List (Html msg) -> Html msg
 blog title subtitle author date body =
   Skeleton.skeleton "blog"
-    [ div [ style "padding" "4em 0 1em", style "text-align" "center" ] ]
+    [ div
+        [ style "padding" "4em 0 1em"
+        , style "text-align" "center"
+        ]
         [ div [ style "font-size" "4em" ] [text title]
         , div [ style "font-size" "1.5em" ] [text subtitle]
         , div [ class "author" ]
@@ -38,7 +41,10 @@ blog title subtitle author date body =
 docs : String -> List (Html msg) -> Html msg
 docs title body =
   Skeleton.skeleton "docs"
-    [ div [ style "padding" "4em 0 1em", style "text-align" "center" ] ]
+    [ div
+        [ style "padding" "4em 0 1em"
+        , style "text-align" "center"
+        ]
         [ div [ style "font-size" "4em" ] [text title]
         ]
     , div [] body
@@ -80,10 +86,10 @@ dateToString : Date -> String
 dateToString date =
   case Dict.get date.month months of
     Nothing ->
-      Debug.crash "invalid date"
+      String.fromInt date.year
 
     Just month ->
-      toString date.day ++ " " ++ month ++ " " ++ toString date.year
+      String.fromInt date.day ++ " " ++ month ++ " " ++ String.fromInt date.year
 
 
 
