@@ -9,7 +9,7 @@ function makeHtml {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  H.title (H.toHtml title)
+  <title>$3</title>
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/style.css?v=4">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
@@ -53,7 +53,7 @@ for elm in $(find src/pages -type f -name "*.elm"); do
 
     elm make $elm --yes --output=$js
     # TODO minify the JavaScript
-    makeHtml $js $html
+    makeHtml $js $html $name
 done
 
 rm -rf _temp
