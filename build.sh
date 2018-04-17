@@ -55,7 +55,8 @@ PATH=$(pwd)/bin:$PATH
 
 mkdir -p _temp
 
-for elm in $(find src/pages -type f -name "*.elm"); do
+for elm in $(find src/pages -type f -name "*.elm")
+do
     subpath="${elm#src/pages/}"
     name="${subpath%.elm}"
 
@@ -65,9 +66,17 @@ for elm in $(find src/pages -type f -name "*.elm"); do
     mkdir -p $(dirname $js)
     mkdir -p $(dirname $html)
 
-    elm make $elm --optimize --output=$js
-    # TODO minify the JavaScript
-    makeHtml $js $html $name
+    if [ -f $html ] && [ $(date -r $elm +%s) -eq $(date -r $html +%s) ]
+    then
+        echo "Cached: $elm"
+    else
+        echo "Compiling: $elm"
+        rm -f elm-stuff/*/Main.elm*
+        ../../compiler/dist/build/elm/elm make $elm --optimize --output=$js > /dev/null
+        # TODO minify the JavaScript
+        makeHtml $js $html $name
+        touch -r $elm $html
+    fi
 done
 
 rm -rf _temp
