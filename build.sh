@@ -1,9 +1,8 @@
 #!/bin/bash
 
 
-function compile {
-
-cat <<EOF > _site/$1
+function makeHtml {
+  cat <<EOF > $2
 <!DOCTYPE HTML>
 <html>
 
@@ -20,7 +19,7 @@ cat <<EOF > _site/$1
 <body>
 
 <script type="text/javascript">
-$(cat src/pages/$1)
+$(cat $1)
 var app = Elm.Main.fullscreen();
 </script>
 
@@ -38,3 +37,23 @@ ga('send', 'pageview');
 EOF
 
 }
+
+
+mkdir _temp
+
+for elm in $(find src/pages -type f -name "*.elm"); do
+    subpath="${elm#src/pages/}"
+    name="${subpath%.elm}"
+
+    js="_temp/$name.js"
+    html="_site/$name.html"
+
+    mkdir -p $(dirname $js)
+    mkdir -p $(dirname $html)
+
+    elm make $elm --yes --output=$js
+    # TODO minify the JavaScript
+    makeHtml $js $html
+done
+
+rm -rf _temp
