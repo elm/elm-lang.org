@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "Hello! $ELM_URL"
+printf "Hello! $ELM_URL"
