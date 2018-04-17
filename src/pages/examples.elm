@@ -10,7 +10,8 @@ main =
   Skeleton.skeleton
     "examples"
     [ Center.markdown "600px" content
-    , div [ Center.style "600px" , style "padding" "0 0.5em" ]
+    , div
+        (style "padding" "0 0.5em" :: Center.styles "600px")
         [ view "HTML" html
         , view "Core Language" fundamentals
         , view "Effects" effects

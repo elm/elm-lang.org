@@ -28,7 +28,8 @@ main =
 
 
 image name =
-  div [ Center.style "800px", class "content" ]
+  div
+    (class "content" :: Center.style "800px")
     [ a
         [ href "https://evancz.github.io/react-angular-ember-elm-performance-comparison/"
         , title "Run the benchmarks yourself!"

@@ -22,14 +22,16 @@ main =
 
 
 image url =
-  div [class "content", Center.style "900px"] [
-    img
-      [ src url
-      , style [("display", "block"), ("margin", "1em auto")]
-      , alt "compiler output example"
-      ]
-      []
-  ]
+  div
+    (class "content" :: Center.styles "900px")
+    [ img
+        [ src url
+        , style "display" "block"
+        , style "margin" "1em auto"
+        , alt "compiler output example"
+        ]
+        []
+    ]
 
 
 content = """
