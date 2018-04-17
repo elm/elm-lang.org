@@ -39,6 +39,18 @@ EOF
 }
 
 
+## DOWNLOAD ELM BINARY
+
+if [ ! -f bin/elm ]; then
+  curl $ELM_URL | tar xz
+  mkdir bin
+  mv elm bin/
+fi
+PATH=$(pwd)/bin:$PATH
+
+
+## GENERATE HTML
+
 mkdir _temp
 
 for elm in $(find src/pages -type f -name "*.elm"); do
@@ -51,7 +63,7 @@ for elm in $(find src/pages -type f -name "*.elm"); do
     mkdir -p $(dirname $js)
     mkdir -p $(dirname $html)
 
-    elm make $elm --yes --output=$js
+    elm make $elm --optimize --output=$js
     # TODO minify the JavaScript
     makeHtml $js $html $name
 done
