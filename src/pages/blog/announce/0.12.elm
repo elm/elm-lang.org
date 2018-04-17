@@ -1,6 +1,8 @@
 import Blog
 import Center
-import Debug
+import Html exposing (..)
+import Html.Attributes exposing (..)
+
 
 
 main =
@@ -32,9 +34,13 @@ fields to clickable and hoverable elements.
 """
 
 
-exampleBlock =
-  Debug.crash "need to show examples"
-    [ "TextReverse", "Calculator", "Form", "Plot" ]
+exampleBlock = -- TODO [ "TextReverse", "Calculator", "Form", "Plot" ]
+  div
+    [ style "font-weight" "bold"
+    , style "text-align" "center"
+    ]
+    [ text "EXAMPLES OUT OF ORDER"
+    ]
 
 
 content2 = """

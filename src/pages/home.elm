@@ -54,7 +54,11 @@ getStarted =
 
 getStartedSection : Html msg
 getStartedSection =
-  div [ class "splash", style [("margin", "100px 0")] ] [ getStarted ]
+  div
+    [ class "splash"
+    , style "margin" "100px 0"
+    ]
+    [ getStarted ]
 
 
 
@@ -82,7 +86,7 @@ viewFeature : Feature msg -> Html msg
 viewFeature feature =
   li
     [ class "feature"
-    , style [ ( "min-height", String.fromInt feature.height ++ "px" ) ]
+    , style "min-height" (String.fromInt feature.height ++ "px")
     ]
     [ div [class "feature-description"]
         [ h2 [] [text feature.title]
@@ -137,7 +141,9 @@ exampleSection : Html msg
 exampleSection =
   section [class "home-section"]
     [ h1 [] [text "Examples"]
-    , p [class "home-paragraph", style [("margin-bottom","40px")] ]
+    , p [ class "home-paragraph"
+        , style "margin-bottom" "40px"
+        ]
         [ text "Learning by example is important, so we have some "
         , a [href "/examples"] [text "simple"]
         , text " and "

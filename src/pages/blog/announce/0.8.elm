@@ -1,6 +1,5 @@
 import Blog
 import Center
-import Color exposing (rgb)
 import Html
 
 
@@ -28,10 +27,10 @@ main =
     ]
 
 
-accent1 = rgb 96 181 204      -- #60B5CC  blue
-accent2 = rgb 240 173 0       -- #F0AD00  yellow
-accent3 = rgb 234 21 122      -- #EA157A  pink
-accent4 = rgb 127 209 59      -- #7FD13B  green
+--accent1 = rgb 96 181 204      -- #60B5CC  blue
+--accent2 = rgb 240 173 0       -- #F0AD00  yellow
+--accent3 = rgb 234 21 122      -- #EA157A  pink
+--accent4 = rgb 127 209 59      -- #7FD13B  green
 
 
 content1 = """
