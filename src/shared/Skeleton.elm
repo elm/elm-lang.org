@@ -1,6 +1,6 @@
 module Skeleton exposing
   ( docs
-  , hints
+  , hint
   , skeleton
   , blog
   , Author
@@ -35,11 +35,11 @@ docs title body =
 
 
 
--- HINTS
+-- HINT
 
 
-hints : String -> String -> Program () () Never
-hints title markdown =
+hint : String -> String -> Program () () Never
+hint title markdown =
   docs title
     [ div
         [ style "max-width" "600px"
