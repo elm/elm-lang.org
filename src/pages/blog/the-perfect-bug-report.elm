@@ -1,16 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "The Perfect Bug Report"
     "Debugging with Elm 0.18"
-    Blog.evan
-    (Blog.Date 2016 11 14)
+    Skeleton.evan
+    (Skeleton.Date 2016 11 14)
     [ Center.markdown "600px" intro
     , debuggerDemo
     , Center.markdown "600px" content

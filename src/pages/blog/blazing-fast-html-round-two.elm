@@ -2,17 +2,17 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
 
-import Blog
+import Skeleton
 import Center
 
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Blazing Fast HTML"
     "Round Two"
-    Blog.evan
-    (Blog.Date 2016 8 30)
+    Skeleton.evan
+    (Skeleton.Date 2016 8 30)
     [ Center.markdown "600px" intro
     , image "everyone"
     , Center.markdown "600px" afterEveryoneGraph

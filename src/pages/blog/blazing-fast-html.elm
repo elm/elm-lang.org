@@ -2,16 +2,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Blazing Fast HTML"
     "Virtual DOM in Elm"
-    Blog.evan
-    (Blog.Date 2014 7 23)
+    Skeleton.evan
+    (Skeleton.Date 2014 7 23)
     [ Center.markdown "600px" content ]
 
 

@@ -1,12 +1,12 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.docs
+  Skeleton.docs
     "Elm Syntax"
     [ Center.markdown "600px" content ]
 

@@ -1,15 +1,15 @@
-import Blog
+import Skeleton
 import Center
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.12.3"
     "Hardware accelerated 3D rendering with WebGL"
-    Blog.evan
-    (Blog.Date 2014 5 20)
+    Skeleton.evan
+    (Skeleton.Date 2014 5 20)
     [ Center.markdown "600px" content1
     , exampleBlock
     , Center.markdown "600px" content2

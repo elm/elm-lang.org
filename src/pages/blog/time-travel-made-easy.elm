@@ -1,16 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Time Travel made Easy"
     "Introducing Elm Reactor"
-    Blog.michael
-    (Blog.Date 2014 9 24)
+    Skeleton.michael
+    (Skeleton.Date 2014 9 24)
     body
 
 

@@ -1,17 +1,17 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Interactive Programming"
     "Hot-swapping in Elm"
-    Blog.evan
-    (Blog.Date 2013 9 5)
+    Skeleton.evan
+    (Skeleton.Date 2013 9 5)
     body
 
 

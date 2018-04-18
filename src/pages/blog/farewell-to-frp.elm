@@ -1,17 +1,17 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "A Farewell to FRP"
     "Making signals unnecessary with The Elm Architecture"
-    Blog.evan
-    (Blog.Date 2016 5 10)
+    Skeleton.evan
+    (Skeleton.Date 2016 5 10)
     [ Center.markdown "600px" start
     , iframe
         [ style "display" "block"

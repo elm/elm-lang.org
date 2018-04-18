@@ -1,4 +1,4 @@
-import Blog
+import Skeleton
 import Center
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -6,11 +6,11 @@ import Html.Attributes exposing (..)
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.12"
     "Interactive UI"
-    Blog.evan
-    (Blog.Date 2014 3 24)
+    Skeleton.evan
+    (Skeleton.Date 2014 3 24)
     [ Center.markdown "600px" content1
     , exampleBlock
     , Center.markdown "600px" content2

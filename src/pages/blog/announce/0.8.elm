@@ -1,14 +1,14 @@
-import Blog
+import Skeleton
 import Center
 import Html
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.8"
     "Too many improvements to fit in a pithy title"
-    Blog.evan
-    (Blog.Date 2013 5 29)
+    Skeleton.evan
+    (Skeleton.Date 2013 5 29)
     [ Center.markdown "600px" content1
 
     , Html.div [] [ Html.text "TODO" ]

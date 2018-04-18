@@ -1,16 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Compilers as Assistants"
     "Making Elm faster and friendlier in 0.16"
-    Blog.evan
-    (Blog.Date 2015 11 19)
+    Skeleton.evan
+    (Skeleton.Date 2015 11 19)
     [ Center.markdown "600px" content
     , div (Center.styles "600px")
         [div [ class "intrinsic-container" ]
