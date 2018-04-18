@@ -6,119 +6,44 @@ main =
 
 # Hints for Infinite Types
 
-Infinite types are probably the trickiest kind of bugs to track down. Usually it means you are working on a relatively sophisticated recursive function and something is very subtly off.
-
-I am just going to show a couple examples of infinite types that have been reported and how they were resolved to illustrate the kinds of things you may be running into.
+Infinite types are probably the trickiest kind of bugs to track down. **Writing down type annotations is usually the fastest way to figure them out.** Let's work through an example to get a feel for how these errors usually work though!
 
 
-## Nested Record Types
+## Example
 
-(From issue [#987](https://github.com/elm-lang/elm-compiler/issues/987))
-
-Someone was working with records, and wanted to do something kind of tricky with type aliases. In this case, they created a `Persisted` type alias that would say "whatever record you have, well I'm talking about one where there is an additional `id` field."
+A common way to get an infinite type error is very small typos. For example, do you see the problem in the following code?
 
 ```elm
-type alias Persisted record =
-    { record | id : Int }
+incrementNumbers list =
+  List.map incrementNumbers list
 
-type alias Update record =
-    record -> Int -> record
-
-type Updatable record =
-    Updatable (Update record) (Persisted record)
-
-newRecord (Updatable myUpdate myRecord) =
-  let
-    updateThisRecord =
-      myUpdate myRecord
-  in
-    "foo"
+incrementNumber n =
+  n + 1
 ```
 
-Now just looking at the code, it seems fine. You can create `Persisted` records, you can have a record `Update`, and you can bundle them together with `Updatable`. In our `newRecord` function we are partially applying the `myUpdate` function. Everything *seems* fine, but something is causing an infinite type.
-
-The best thing to do is start writing down as many types for yourself as possible:
+The issue is that `incrementNumbers` calls itself, not the `incrementNumber` function defined below. So there is an extra `s` in this program! Let's focus on that:
 
 ```elm
-myUpdate : Update record     -- record -> Int -> record
-myRecord : Persisted record  -- { record | id : Int }
+incrementNumbers list =
+  List.map incrementNumbers list -- BUG extra `s` makes this self-recursive
 ```
 
-The trouble is that it's the same `record` in both of these types! The `myUpdate` function wants to take a `record` and produce a `record`, but it is being given `{ record | id : Int }`. Type checking is going to say, "well, if `record` is actually an infinite sequence of `{ { ... | id : Int } | id : Int }` then they *can* be equal!" While that is true and very clever, it is not the intent of this code.
+Now the compiler does not know that anything is wrong yet. It just tries to figure out the types like normal. It knows that `incrementNumbers` is a function. The definition uses `List.map` so we can deduce that `list : List t1` and the result of this function call should be some other `List t2`. This also means that `incrementNumbers : List t1 -> List t2`.
 
-So the fix for this person was to add one thing into the `Updatable` type:
+The issue is that `List.map` uses `incrementNumbers` on `list`! That means that each element of `list` (which has type `t1`) must be fed into `incrementNumbers` (which takes `List t1`)
+
+That means that `t1 = List t1`, which is an infinite type! If we start expanding this, we get `List (List (List (List (List ...))))` out to infinity!
+
+The point is mainly that we are in a confusing situation. The types are confusing. This explanation is confusing. The compiler is confused. It is a bad time. But luckily, the more type annotations you add, the better chance there is that you and the compiler can figure things out! So say we change our definition to:
 
 ```elm
-type Updatable record =
-    Updatable (Update (Persisted record)) (Persisted record)
+incrementNumbers : List Int -> List Int
+incrementNumbers list =
+  List.map incrementNumbers list -- STILL HAS BUG
 ```
 
-Notice the new `Persisted` in the `Update` part. That was the fix!
+Now we are going to get a pretty normal type error. Hey, you said that each element in the `list` is an `Int` but I cannot feed that into a `List Int -> List Int` function! Something like that.
 
-
-## Exploding Either
-
-(From issue [#707](https://github.com/elm-lang/elm-compiler/issues/707))
-
-There is a relatively obscure package called `evancz/automaton` that captures state and functionality using callbacks. So far, it does not seem to be extremely useful idea given its downsides, but it did lead to quite a tough infinite type.
-
-Here is a snippet of code that combines two basic automatons into one. The resulting automaton takes in either a `Left` or `Right` value. If it is a `Left` we will use the left automaton, if it is a `Right` we will use the right one.
-
-```elm
-type Either a b = Left a | Right b
-
-type Automaton a b =
-    Step (a -> (Automaton a b, b))
-
-(+++) : Automaton a b -> Automaton c d -> Automaton (Either a c) (Either b d)
-(+++) (Step leftStep) (Step rightStep) =
-  Step <| \\either ->
-    case either of
-        Left a ->
-            let (newLeft, b) = leftStep a
-            in  (newLeft, Left b)
-
-        Right c ->
-            let (newRight, d) = rightStep c
-            in  (newRight, Right d)
-```
-
-This triggers a relatively confusing error message. The right thing to do in these scenarios is try to figure out the type of literally every piece of the definition. If you can, break parts out into other top-level declarations with type annotations so the compiler can check your work. So you might write down some notes to yourself like this:
-
-```elm
-left : Automaton a b
-leftStep : a -> (Automaton a b, b)
-
-right : Automaton c d
-rightStep : c -> (Automaton c d, d)
-
-either : Either a c
-
-newLeft : Automaton a b
-newRight : Automaton c d
-```
-
-Knowing that both branches of a `case` must end with the same type, it looks like `newLeft` and `newRight` are causing the issue here. So in the revised code we make it so both branches return the same type.
-
-```elm
-type Either a b = Left a | Right b
-
-type Automaton a b =
-    Step (a -> (Automaton a b, b))
-
-(+++) : Automaton a b -> Automaton c d -> Automaton (Either a c) (Either b d)
-(+++) (Step leftStep as left) (Step rightStep as right) =
-  Step <| \\either ->
-    case either of
-        Left a ->
-            let (newLeft, b) = leftStep a
-            in  (newLeft +++ right, Left b)
-
-        Right c ->
-            let (newRight, d) = rightStep c
-            in  (left +++ newRight, Right d)
-```
-
-So yeah, if you are skimming this, you probably did not see the change immediately. My experience debugging these kinds of things is that my brain thinks what I wrote is correct so much that it becomes kind of blind to the issue. The best thing to do is slow down and break the problem apart. Or ask someone.
+In summary, the root issue is often some small typo, and the best way out is to start adding type annotations on everything!
 
 """
