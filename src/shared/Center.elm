@@ -12,7 +12,7 @@ import Markdown
 
 markdown : String -> String -> Html msg
 markdown width string =
-  div (class "content" :: styles width) [ Markdown.toHtml options [] string ]
+  div (class "content" :: styles width) [ Markdown.toHtmlWith options [] string ]
 
 
 styles : String -> List (Attribute msg)
