@@ -53,6 +53,8 @@ PATH=$(pwd)/bin:$PATH
 
 ## GENERATE HTML
 
+cp -r static _site
+
 mkdir -p _temp
 
 for elm in $(find src/pages -type f -name "*.elm")
