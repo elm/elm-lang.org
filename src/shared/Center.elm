@@ -12,7 +12,7 @@ import Markdown
 
 markdown : String -> String -> Html msg
 markdown width string =
-  div (class "content" :: styles width) [ Markdown.toHtml [] string ]
+  div (class "content" :: styles width) [ Markdown.toHtml options [] string ]
 
 
 styles : String -> List (Attribute msg)
@@ -21,3 +21,12 @@ styles width =
   , style "max-width" width
   , style "margin" "0 auto"
   ]
+
+
+options : Markdown.Options
+options =
+  { githubFlavored = Just { tables = False, breaks = False }
+  , defaultHighlighting = Nothing
+  , sanitize = False
+  , smartypants = False
+  }

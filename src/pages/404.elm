@@ -21,7 +21,7 @@ main =
 
 notFound : Html msg
 notFound =
-  Markdown.toHtml
+  Markdown.toHtmlWith options
     [ style "width" "300px"
     , style "margin" "100px auto 0"
     , style "background" "#F5F5F5"
@@ -43,3 +43,12 @@ And that has made all the difference.
 <p style="text-align:right;font-style:italic;">Robert Frost</p>
 
 """
+
+
+options : Markdown.Options
+options =
+  { githubFlavored = Just { tables = False, breaks = False }
+  , defaultHighlighting = Nothing
+  , sanitize = False
+  , smartypants = False
+  }
