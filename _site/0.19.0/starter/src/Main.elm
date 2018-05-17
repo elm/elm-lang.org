@@ -10,7 +10,7 @@ import Html.Events exposing (onClick)
 main : Program () Model Msg
 main =
   Browser.sandbox
-    { model = model
+    { init = init
     , update = update
     , view = view
     }
@@ -25,8 +25,8 @@ type alias Model =
   }
 
 
-model : Model
-model =
+init : Model
+init =
   { count = 0 }
 
 
