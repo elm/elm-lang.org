@@ -15,6 +15,8 @@
     "test-dependencies": {},
     "do-not-edit-this-by-hand": {
         "transitive-dependencies": {
+        	"elm/json": "1.0.0",
+        	"elm/url": "1.0.0",
             "elm/virtual-dom": "1.0.0"
         }
     }
