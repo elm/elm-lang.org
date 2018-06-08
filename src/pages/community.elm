@@ -28,6 +28,7 @@ community = """
 ## Discourse
 
 [discourse]: https://discourse.elm-lang.org/ "Discourse"
+[list]: https://groups.google.com/forum/#!forum/elm-discuss
 
 [Discourse][discourse] is a nice place to ask questions, request
 feedback on your ideas, and show off what you're working on. It is the
