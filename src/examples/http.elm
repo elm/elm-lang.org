@@ -7,7 +7,11 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
 
+{--
+To use this in elm-reactor you need to have invoked:
 
+elm-package install elm-lang/http
+ --}
 
 main =
   Html.program

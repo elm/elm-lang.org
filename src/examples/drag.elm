@@ -4,7 +4,11 @@ import Html.Events exposing (on)
 import Json.Decode as Decode
 import Mouse exposing (Position)
 
+{--
+To use this in elm-reactor you need to have invoked:
 
+elm-package intstall elm-lang/mouse
+ --}
 
 main =
   Html.program
