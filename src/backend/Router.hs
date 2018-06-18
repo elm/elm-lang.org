@@ -154,7 +154,6 @@ redirects =
     , "blog/announce/Repl.elm" ==> "/blog/announce/repl"
     , "blog/Interactive-Programming.elm" ==> "/blog/interactive-programming"
     , "blog/announce/Elm-and-Prezi.elm" ==> "/blog/announce/elm-and-prezi"
-    , "learn/Escape-from-Callback-Hell.elm" ==> "/learn/escape-from-callback-hell"
     , "blog/Pong.elm" ==> "/blog/making-pong"
     , "learn/Syntax.elm" ==> "/docs/syntax"
     , "learn/FAQ.elm" ==> "/docs/from-javascript"
