@@ -4,7 +4,7 @@ import Markdown
 main =
   Markdown.toHtml [] markdown
 
-
+-- """ delimits a multi-line String
 markdown = """
 
 # This is Markdown
