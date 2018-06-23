@@ -21,7 +21,7 @@ function makeHtml {
 
 <script type="text/javascript">
 $(cat $1)
-var app = Elm.Main.fullscreen();
+var app = Elm.Main.init();
 </script>
 
 </body>
