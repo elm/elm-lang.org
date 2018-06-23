@@ -57,11 +57,10 @@ hint title markdown =
 
 skeleton : String -> String -> List (Html Never) -> Program () () Never
 skeleton title tabName content =
-  Browser.fullscreen
+  Browser.document
     { init = \_ -> ((), Cmd.none)
     , update = \_ _ -> ((), Cmd.none)
     , subscriptions = \_ -> Sub.none
-    , onNavigation = Nothing
     , view = \_ ->
         { title = title
         , body = header tabName :: content ++ [footer]

@@ -7,11 +7,10 @@ import Markdown
 
 main : Program () () Never
 main =
-  Browser.fullscreen
+  Browser.document
     { init = \_ -> ((), Cmd.none)
     , update = \_ _ -> ((), Cmd.none)
     , subscriptions = \_ -> Sub.none
-    , onNavigation = Nothing
     , view = \_ ->
         { title = "Page not found"
         , body = [ notFound ]
