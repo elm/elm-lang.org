@@ -15,6 +15,8 @@ import Center
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Svg
+import Svg.Attributes as Svg
 
 
 
@@ -79,7 +81,7 @@ header name =
         , style "left" "1em"
         , style "top" "1em"
         ]
-        [ img [ src "/assets/logo.svg", style "width" "24px" ] []
+        [ logo 24
         ]
     , ul [] (List.map (tab name) [ "examples", "docs", "community", "blog" ])
     ]
@@ -93,6 +95,27 @@ tab currentName name =
         ]
         [ text name ]
     ]
+
+
+logo : Int -> Html.Html msg
+logo n =
+  Svg.svg
+    [ Svg.height (String.fromInt n)
+    , Svg.viewBox "0 0 600 600"
+    ]
+    [ shape "0,20 280,300 0,580"
+    , shape "20,600 300,320 580,600"
+    , shape "320,0 600,0 600,280"
+    , shape "20,0 280,0 402,122 142,122"
+    , shape "170,150 430,150 300,280"
+    , shape "320,300 450,170 580,300 450,430"
+    , shape "470,450 600,320 600,580"
+    ]
+
+
+shape : String -> Svg.Svg msg
+shape coordinates =
+  Svg.polygon [ Svg.fill "#34495E", Svg.points coordinates ] []
 
 
 
