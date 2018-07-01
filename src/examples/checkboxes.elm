@@ -1,5 +1,5 @@
 import Html exposing (Html, beginnerProgram, fieldset, input, label, text)
-import Html.Attributes exposing (style, type_)
+import Html.Attributes exposing (style, type_, checked)
 import Html.Events exposing (onClick)
 
 
@@ -54,17 +54,17 @@ update msg model =
 view : Model -> Html Msg
 view model =
   fieldset []
-    [ checkbox ToggleNotifications "Email Notifications"
-    , checkbox ToggleAutoplay "Video Autoplay"
-    , checkbox ToggleLocation "Use Location"
+    [ checkbox model.notifications ToggleNotifications "Email Notifications"
+    , checkbox model.autoplay ToggleAutoplay "Video Autoplay"
+    , checkbox model.location ToggleLocation "Use Location"
     ]
 
 
-checkbox : msg -> String -> Html msg
-checkbox msg name =
+checkbox : isChecked -> msg -> String -> Html msg
+checkbox isChecked msg name =
   label
     [ style [("padding", "20px")]
     ]
-    [ input [ type_ "checkbox", onClick msg ] []
+    [ input [ type_ "checkbox", onClick msg, checked isChecked ] []
     , text name
     ]
