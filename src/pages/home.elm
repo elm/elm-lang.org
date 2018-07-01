@@ -111,7 +111,7 @@ features =
       , text "."
       ]
   , Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
-      [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and give "
+      [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and gives "
       , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
       , text ". This way problems never make it to your users. NoRedInk has 80k+ lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
       ]
