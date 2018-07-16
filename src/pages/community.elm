@@ -19,6 +19,7 @@ community = """
   * [Reddit][reddit]
   * [Slack][slack]
   * [Twitter][twitter]
+  * [DEV Community][dev-community]
   * [Real Life][real-life]
   * [Contributing](#contribute)
 
@@ -74,6 +75,15 @@ respectful to everyone.
 Both [@elmlang][twitter] and [@czaplic](https://twitter.com/czaplic) tweet about
 Elm a lot. The #elmlang hashtag is commonly used. Using #elm is okay, but people
 tweet about weird stuff with that one sometimes.
+
+
+## DEV Community
+
+[dev-community]:https://dev.to/t/elm
+
+[DEV Elm tag][dev-community] is a place to share Elm projects, articles and tutorials
+as well as start discussions and ask for feedback on Elm-related topics. 
+Developers of all skill-levels are welcome to take part.
 
 
 ## Real Life
