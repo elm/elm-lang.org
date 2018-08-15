@@ -50,8 +50,7 @@ size height padding =
 getStarted : Html msg
 getStarted =
   div [ class "get-started" ]
-    [ a [ href "/try" ] [ text "Try Online" ]
-    , a [ href "http://guide.elm-lang.org/install.html" ] [ text "Install" ]
+    [ a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
     ]
 
 
