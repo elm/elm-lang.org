@@ -17,23 +17,23 @@ community = """
 
 # Community
 
-Whenever you enter a community forum, there are three basic rules. Be kind! Ask questions! Try to recognize [XY problems](https://en.wikipedia.org/wiki/XY_problem)! We wrote up more advice in the [Code of Conduct](https://github.com/elm-community/discussions/blob/master/code-of-conduct.md). The main forums are:
+Folks tend to congregate in the following forums:
 
 * [Discourse](https://discourse.elm-lang.org/) &mdash; ask questions, get
-feedback, and show folks what you're working on.
+feedback, and show off your work.
 * [Reddit](http://www.reddit.com/r/elm) &mdash; discuss blog posts.
-* [Slack](http://elmlang.herokuapp.com/) &mdash; ask quick questions, ask advice, help people out, talk through ideas, etc.
+* [Slack](http://elmlang.herokuapp.com/) &mdash; ask quick questions, help others, talk through ideas, etc.
 * [Twitter](https://twitter.com/elmlang) &mdash; share interesting Elm stuff.
 * [Meetups](https://www.elmlog.com/meetup_groups) &mdash; meet other Elm folks in real life, [make something](https://blog.noredink.com/post/142283641812/designing-meetups-to-build-better-communities)!
 
+Remember to be kind, ask questions, and try to recognize [XY problems](https://en.wikipedia.org/wiki/XY_problem)! See the [Code of Conduct](https://github.com/elm-community/discussions/blob/master/code-of-conduct.md) for more details.
+
 <br>
 
-## Code
+## Share Code
 
-There are two main ways to share code:
-
-* [Ellie](https://ellie-app.com) &mdash; online editor for easily sharing Elm programs.
-* [Community Packages](http://package.elm-lang.org/) &mdash; package ecosystem with [these values](https://youtu.be/uGlzRt-FYto).
+* [Applications](https://ellie-app.com) &mdash; online editor for easily sharing Elm programs.
+* [Packages](http://package.elm-lang.org/) &mdash; package ecosystem with [these values](https://youtu.be/uGlzRt-FYto).
 
 <br>
 
