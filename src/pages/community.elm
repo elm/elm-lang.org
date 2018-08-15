@@ -17,108 +17,46 @@ community = """
 
 # Community
 
-  * [Community Packages](http://package.elm-lang.org/)
-  * [Discourse][discourse]
-  * [Reddit][reddit]
-  * [Slack][slack]
-  * [Twitter][twitter]
-  * [Real Life][real-life]
-  * [Contributing](#contribute)
+* [Discourse](https://discourse.elm-lang.org/) &mdash; ask questions, get
+feedback, and show folks what you're working on.
+* [Reddit](http://www.reddit.com/r/elm) &mdash; discuss blog posts.
+* [Slack](http://elmlang.herokuapp.com/) &mdash; ask quick questions, ask advice, help people out, talk through ideas, etc.
+* [Twitter](https://twitter.com/elmlang) &mdash; share interesting Elm stuff.
+* [Meetups](https://www.elmlog.com/meetup_groups) &mdash; meet other Elm folks in real life, [make something](https://blog.noredink.com/post/142283641812/designing-meetups-to-build-better-communities)!
+
+Be kind! Ask questions! Try to recognize [XY problems](https://en.wikipedia.org/wiki/XY_problem)! We wrote up more advice in the [Code of Conduct](https://github.com/elm-community/discussions/blob/master/code-of-conduct.md).
 
 <br>
 
+# Code
 
-## Discourse
+* [Community Packages](http://package.elm-lang.org/) &mdash; package ecosystem with [these values](https://youtu.be/uGlzRt-FYto).
+* [Ellie](https://ellie-app.com) &mdash; online editor for easily sharing Elm programs.
 
-[discourse]: https://discourse.elm-lang.org/ "Discourse"
+<br>
 
-[Discourse][discourse] is a nice place to ask questions, request
-feedback on your ideas, and show off what you're working on. It is the
-successor to [elm-discuss on Google Groups][list].
+# Core Team
 
+The following folks write command line tools, publish packages, run conferences, help newcomers, and everything between:
 
-## Reddit
+* [Evan Czaplicki](https://github.com/evancz/)
+* [Richard Feldman](https://github.com/rtfeldman/)
+* [Aaron VonderHaar](https://github.com/avh4)
+* [Brian Hicks](https://github.com/brianhicks/)
+* [Luke Westby](https://github.com/lukewestby)
+* [Ilias Van Peer](https://github.com/zwilias/)
+* [Noah](https://github.com/eeue56)
 
-[reddit]: http://www.reddit.com/r/elm
+<br>
 
-[/r/elm][reddit] is a great place for friendly discussion! Common activities
-include helping beginners, discussing blog posts, announcing and reviewing
-packages, etc.
+# Participate
 
-The online Elm community is all about learning and improvement, so even if you
-think you know a lot, be humble and open to learning new things from anyone!
+The following resources outline what it means to participate in the Elm community:
 
-Also, be kind! Friendly disagreement is healthy, but [displacement][] of
-personal anger onto friendly strangers is not.
+- [What is Success?](https://youtu.be/uGlzRt-FYto)
+- [Code is the Easy Part](https://youtu.be/DSjbTC-hvqQ)
+- [Building Trust](https://discourse.elm-lang.org/t/building-trust-what-has-worked/975)
 
-[displacement]: https://en.wikipedia.org/wiki/Displacement_(psychology)
-
-
-## Slack
-
-[slack]: http://elmlang.herokuapp.com/
-
-Got a quick question, but don't feel comfortable asking on Reddit?
-Chatting on [Slack][slack] is a great way to quickly learn from a real person!
-
-As for culture, prefer to ask rather than tell. You may be talking to someone
-with no programming background or a PhD in programming languages, so to answer
-a question well, you should start by asking some questions yourself! This way
-we can avoid [XY problems][xy], and better yet, have a culture that is kind and
-respectful to everyone.
-
-[xy]: http://mywiki.wooledge.org/XyProblem
-
-
-## Twitter
-
-[twitter]: https://twitter.com/elmlang
-
-Both [@elmlang][twitter] and [@czaplic](https://twitter.com/czaplic) tweet about
-Elm a lot. The #elmlang hashtag is commonly used. Using #elm is okay, but people
-tweet about weird stuff with that one sometimes.
-
-
-## Real Life
-
-There are meetups [all over the world][real-life] these days!
-
-If you are thinking of starting a meetup in your city, check out how
-[Evan](https://github.com/evancz/) and [Richard](https://github.com/rtfeldman) organize
-the Elm user group in SF. A lot of existing meetups are structured based on
-[what we learned from experience][hack-night].
-
-[real-life]: https://www.elmlog.com/meetup_groups
-[hack-night]: http://tech.noredink.com/post/142283641812/designing-meetups-to-build-better-communities
-
-
-## Contribute
-
-I recommend watching [this talk](https://youtu.be/DSjbTC-hvqQ), which has a
-big focus on growing Elm and collaborating.
-
-Here are some of the ideas in words. **Every great contributor starts
-gradually.** At first this means simply using Elm, maybe blogging about things
-they find interesting. After that, some folks will find things they want to
-make easier and build packages, like [elm-css][], that directly address their
-personal needs. This can be a great learning experience if you get folks in
-the community to review your API. It is also a great way to build relationships
-and trust with people. From there, people may work on projects like
-[these](https://github.com/elm-lang/projects) that are more core. This is
-how [elm-format][] and [elm-test][] were created.
-
-[elm-css]: https://github.com/rtfeldman/elm-css
-[elm-format]: https://github.com/avh4/elm-format
-[elm-test]: https://github.com/elm-community/elm-test/pull/24
-
-Contribution usually means *technical* contribution, but community participation
-is often more valuable! Helping people with questions. Writing blog posts. Creating
-examples. This is all hugely positive for the community and the language, and I
-think engineer minds tend to underestimate its importance. Hanging out in community
-forums also means you have more data on what people are struggling with, making it
-easier to find timely projects that match your skills and interests.
-
-Point is, there are tons of ways to contribute! The goal should be to start gradually
-and figure out what works as you build a relationship with the community.
+Please go through them! Especially if you are interested in working on  packages or tools. It is not about code. It is not about more features and more stars. These resources describe what it _is_ about in Elm, and they will likely save you a great deal of time!
 
 """
