@@ -25,12 +25,7 @@ content = """
 
 # Examples
 
-Playing with small examples is a great way to get comfortable with Elm!
-Think of them as a supplement to resources like the [syntax reference][syntax]
-and [guide.elm-lang.org][guide].
-
-[guide]: https://guide.elm-lang.org/
-[syntax]: /docs/syntax
+Playing with small examples is a great way to get comfortable with Elm! Think of them as a supplement to resources like the [syntax reference](/docs/syntax) and [guide.elm-lang.org](https://guide.elm-lang.org/).
 
 """
 
@@ -106,9 +101,8 @@ core =
       , ("merge sort", "merge-sort")
       ]
     )
-  , ( "Union Types"
-    , [ ("either", "either")
-      , ("binary tree", "binary-tree")
+  , ( "Custom Types"
+    , [ ("binary tree", "binary-tree")
       , ("boolean expressions", "boolean-expressions")
       ]
     )
@@ -143,7 +137,6 @@ effects =
     )
   , ( "Subscriptions"
     , [ ("time", "time")
-      , ("websockets", "websockets")
       , ("mouse drags", "drag")
       ]
     )
