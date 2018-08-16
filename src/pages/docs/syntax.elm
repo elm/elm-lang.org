@@ -152,32 +152,27 @@ Not sure what this means? Read [this](https://guide.elm-lang.org/types/custom_ty
 For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
 
-  [exp]: /docs/records "Records in Elm"
-  [v7]:  /blog/announce/0.7 "Elm version 0.7"
-  [records]: https://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
+[exp]: /docs/records "Records in Elm"
+[v7]:  /blog/announce/0.7 "Elm version 0.7"
+[records]: https://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
-point =                         -- create a record
-  { x = 3, y = 4 }
+-- create records
+origin = { x = 0, y = 0 }
+point = { x = 3, y = 4 }
 
-point.x                         -- access field
+-- access fields
+origin.x == 0
+point.x == 3
 
-List.map .x [point,{x=0,y=0}]   -- field access function
+-- field access function
+List.map .x [ origin, point ] == [ 0, 3 ]
 
-{ point | x = 6 }               -- update a field
+-- update a field
+{ point | x = 6 } == { x = 6, y = 4 }
 
-{ point |                       -- update many fields
-    x = point.x + 1,
-    y = point.y + 1
-}
-
-dist {x,y} =                    -- pattern matching on fields
-  sqrt (x^2 + y^2)
-
-type alias Location =           -- type aliases for records
-  { line : Int
-  , column : Int
-  }
+-- update many fields
+{ point | x = point.x + 1, y = point.y + 1 }
 ```
 
 ### Functions
