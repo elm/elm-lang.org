@@ -425,10 +425,7 @@ app.ports.time.subscribe(callback);
 app.ports.time.unsubscribe(callback);
 ```
 
-Read more about [HTML embedding][html] and [JavaScript interop][js].
-
-[html]: https://guide.elm-lang.org/interop/javascript.html#step-1-embed-in-html
-[js]: https://guide.elm-lang.org/interop/javascript.html
+Read more about JavaScript interop [here](https://guide.elm-lang.org/interop/).
 
 
 """
