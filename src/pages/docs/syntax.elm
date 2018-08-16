@@ -18,7 +18,7 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Union Types](#union-types)
+- [Custom Types](#custom-types)
 - [Records](#records)
 - [Functions](#functions)
 - [Infix Operators](#infix-operators)
@@ -31,6 +31,7 @@ This syntax reference is a minimal introduction to:
 
 Check out the [learning resources](/Learn.elm) for
 tutorials and examples on actually *using* this syntax.
+
 
 ### Comments
 
@@ -51,6 +52,7 @@ add x y = x + y
 ```
 
 Just add or remove the `}` on the first line and you'll toggle between commented and uncommented!
+
 
 ### Literals
 
@@ -80,6 +82,7 @@ True && not (True || False)
 "abc" ++ "def"
 ```
 
+
 ### Lists
 
 Here are three things that are equivalent:
@@ -89,6 +92,7 @@ Here are three things that are equivalent:
 1 :: [2,3,4]
 1 :: 2 :: 3 :: 4 :: []
 ```
+
 
 ### Conditionals
 
@@ -131,13 +135,17 @@ case n of
 Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
-### Union Types
+
+### Custom Types
 
 ```elm
-type List = Empty | Node Int List
+type User
+  = Regular String Int
+  | Visitor String
 ```
 
-Not sure what this means? [Read this](http://guide.elm-lang.org/types/union_types.html).
+Not sure what this means? Read [this](https://guide.elm-lang.org/types/custom_types.html)!
+
 
 ### Records
 
@@ -146,7 +154,7 @@ the [initial announcement][v7], or [this academic paper][records].
 
   [exp]: /docs/records "Records in Elm"
   [v7]:  /blog/announce/0.7 "Elm version 0.7"
-  [records]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
+  [records]: https://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
 point =                         -- create a record
@@ -195,12 +203,13 @@ squares =
   List.map (\\n -> n^2) (List.range 1 100)
 ```
 
+
 ### Infix Operators
 
 You can create custom infix operators.
-[Precedence](http://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
+[Precedence](https://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
 9, where 9 is the tightest. The default precedence is 9 and the default
-[associativity](http://en.wikipedia.org/wiki/Operator_associativity) is left.
+[associativity](https://en.wikipedia.org/wiki/Operator_associativity) is left.
 You can set this yourself, but you cannot override built-in operators.
 
 ```elm
@@ -211,8 +220,8 @@ You can set this yourself, but you cannot override built-in operators.
 infixr 9 ?
 ```
 
-Use [`(<|)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
+Use [`(<|)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
+and [`(|>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
 to reduce parentheses usage. They are aliases for function application.
 
 ```elm
@@ -230,8 +239,8 @@ viewNames2 names =
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
 
-Relatedly, [`(<<)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
-and [`(>>)`](http://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>>)
+Relatedly, [`(<<)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
+and [`(>>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>>)
 are function composition operators.
 
 
@@ -370,7 +379,7 @@ distance {x,y} =
 ```
 
 Learn how to read types and use type annotations
-[here](http://guide.elm-lang.org/types/reading_types.html).
+[here](https://guide.elm-lang.org/types/reading_types.html).
 
 
 ### Type Aliases
@@ -391,7 +400,7 @@ origin =
 ```
 
 Learn more about type aliases
-[here](http://guide.elm-lang.org/types/type_aliases.html).
+[here](https://guide.elm-lang.org/types/type_aliases.html).
 
 
 ### JavaScript Interop
@@ -407,7 +416,7 @@ port time : Float -> Cmd msg
 From JS, you talk to these ports like this:
 
 ```javascript
-var app = Elm.Example.worker();
+var app = Elm.Example.init();
 
 app.ports.prices.send(42);
 app.ports.prices.send(13);
@@ -418,8 +427,8 @@ app.ports.time.unsubscribe(callback);
 
 Read more about [HTML embedding][html] and [JavaScript interop][js].
 
-[html]: http://guide.elm-lang.org/interop/javascript.html#step-1-embed-in-html
-[js]: http://guide.elm-lang.org/interop/javascript.html
+[html]: https://guide.elm-lang.org/interop/javascript.html#step-1-embed-in-html
+[js]: https://guide.elm-lang.org/interop/javascript.html
 
 
 """
