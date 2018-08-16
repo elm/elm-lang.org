@@ -21,7 +21,7 @@ This syntax reference is a minimal introduction to:
 - [Custom Types](#custom-types)
 - [Records](#records)
 - [Functions](#functions)
-- [Infix Operators](#infix-operators)
+- [Operators](#operators)
 - [Let Expressions](#let-expressions)
 - [Applying Functions](#applying-functions)
 - [Modules](#modules)
@@ -204,25 +204,10 @@ squares =
 ```
 
 
-### Infix Operators
+### Operators
 
-You can create custom infix operators.
-[Precedence](https://en.wikipedia.org/wiki/Order_of_operations) goes from 0 to
-9, where 9 is the tightest. The default precedence is 9 and the default
-[associativity](https://en.wikipedia.org/wiki/Operator_associativity) is left.
-You can set this yourself, but you cannot override built-in operators.
-
-```elm
-(?) : Maybe a -> a -> a
-(?) maybe default =
-  Maybe.withDefault default maybe
-
-infixr 9 ?
-```
-
-Use [`(<|)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>)
-to reduce parentheses usage. They are aliases for function application.
+In addition to the normal math operations for addition and subtraction, we have the [`(<|)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
+and [`(|>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>) operators. They are aliases for function application, allowing you to write fewer parentheses.
 
 ```elm
 viewNames1 names =
