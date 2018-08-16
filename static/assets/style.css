@@ -273,7 +273,7 @@ a:hover {
   text-align: center;
 }
 
-.get-started a {
+.buttons a {
   background-color: #34495E;
   border-radius: 6px;
   min-width: 120px;
@@ -284,7 +284,7 @@ a:hover {
   font-size: 1.5em;
 }
 
-.get-started a:hover {
+.buttons a:hover {
   background-color: #20374D;
   color: white;
   text-decoration: none;

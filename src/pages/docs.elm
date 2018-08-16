@@ -12,7 +12,7 @@ main =
     "Elm - Documentation"
     "docs"
     [ Center.markdown "600px" content
-    , div [ class "get-started" ]
+    , div [ class "buttons", style "text-align" "center" ]
         [ a [ href "https://guide.elm-lang.org/" ] [ text "Official Guide" ]
         , a [ href "https://package.elm-lang.org/" ] [ text "Package Docs" ]
         ]

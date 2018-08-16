@@ -17,7 +17,6 @@ main =
     , featureSection
     , exampleSection
     , userSection
-    , getStartedSection
     ]
 
 
@@ -49,18 +48,10 @@ size height padding =
 
 getStarted : Html msg
 getStarted =
-  div [ class "get-started" ]
-    [ a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
+  div [ class "buttons" ]
+    [ a [ href "/try" ] [ text "Try Online" ]
+    , a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
     ]
-
-
-getStartedSection : Html msg
-getStartedSection =
-  div
-    [ class "splash"
-    , style "margin" "100px 0"
-    ]
-    [ getStarted ]
 
 
 
