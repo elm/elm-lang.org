@@ -82,7 +82,7 @@ header name =
         ]
         [ logo 24
         ]
-    , ul [] (List.map (tab name) [ "docs", "community", "blog" ])
+    , ul [] (List.map (tab name) [ "examples", "docs", "community", "blog" ])
     ]
 
 
