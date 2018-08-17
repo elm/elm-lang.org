@@ -118,13 +118,15 @@ You can also have conditional behavior based on the structure of algebraic
 data types and literals
 
 ```elm
-case maybe of
+case maybeList of
   Just xs -> xs
   Nothing -> []
 
 case xs of
-  hd::tl -> Just (hd,tl)
-  []     -> Nothing
+  [] ->
+    Nothing
+  first :: rest ->
+    Just (first, rest)
 
 case n of
   0 -> 1
@@ -185,7 +187,7 @@ hypotenuse a b =
   sqrt (square a + square b)
 
 distance (a,b) (x,y) =
-  hypotenuse (a-x) (b-y)
+  hypotenuse (a - x) (b - y)
 ```
 
 Anonymous functions:
