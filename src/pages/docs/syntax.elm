@@ -18,7 +18,6 @@ This syntax reference is a minimal introduction to:
 - [Literals](#literals)
 - [Lists](#lists)
 - [Conditionals](#conditionals)
-- [Custom Types](#custom-types)
 - [Records](#records)
 - [Functions](#functions)
 - [Operators](#operators)
@@ -27,6 +26,7 @@ This syntax reference is a minimal introduction to:
 - [Modules](#modules)
 - [Type Annotations](#type-annotations)
 - [Type Aliases](#type-aliases)
+- [Custom Types](#custom-types)
 - [JavaScript Interop](#javascript-interop)
 
 Check out the [learning resources](/Learn.elm) for
@@ -138,17 +138,6 @@ Each pattern is indentation sensitive, meaning that you have to align
 all of your patterns.
 
 
-### Custom Types
-
-```elm
-type User
-  = Regular String Int
-  | Visitor String
-```
-
-Not sure what this means? Read [this](https://guide.elm-lang.org/types/custom_types.html)!
-
-
 ### Records
 
 For more explanation of Elm&rsquo;s record system, see [this overview][exp],
@@ -238,7 +227,7 @@ let
   sixteen =
     4 ^ 2
 in
-  twentyFour + sixteen
+twentyFour + sixteen
 ```
 
 This is useful when an expression is getting large. You can make a `let` to
@@ -256,7 +245,7 @@ let
   hypotenuse a b =
     sqrt (a^2 + b^2)
 in
-  hypotenuse three four
+hypotenuse three four
 ```
 
 Let-expressions are indentation sensitive, so each definition must align with
@@ -274,7 +263,7 @@ let
   increment n =
     n + 1
 in
-  increment 10
+increment 10
 ```
 
 It is best to only do this on *concrete* types. Break generic functions into
@@ -302,24 +291,15 @@ c2 = ((++) xs) ys
 The basic arithmetic infix operators all figure out what type they should have automatically.
 
 ```elm
-23 + 19    : number
-2.0 + 1    : Float
+23 + 19   : number
+2.0 + 1   : Float
 
-6 * 7      : number
-10 * 4.2   : Float
+6 * 7     : number
+10 * 4.2  : Float
 
 100 // 2  : Int
 1 / 2     : Float
 ```
-
-There is a special function for creating tuples:
-
-```elm
-(,) 1 2              == (1,2)
-(,,,) 1 True 'a' []  == (1,True,'a',[])
-```
-
-You can use as many commas as you want.
 
 
 ### Modules
@@ -328,16 +308,15 @@ You can use as many commas as you want.
 module MyModule exposing (..)
 
 -- qualified imports
-import List                    -- List.map, List.foldl
-import List as L               -- L.map, L.foldl
+import List                            -- List.map, List.foldl
+import List as L                       -- L.map, L.foldl
 
 -- open imports
-import List exposing (..)               -- map, foldl, concat, ...
-import List exposing ( map, foldl )     -- map, foldl
+import List exposing (..)              -- map, foldl, concat, ...
+import List exposing ( map, foldl )    -- map, foldl
 
-import Maybe exposing ( Maybe )         -- Maybe
-import Maybe exposing ( Maybe(..) )     -- Maybe, Just, Nothing
-import Maybe exposing ( Maybe(Just) )   -- Maybe, Just
+import Maybe exposing ( Maybe )        -- Maybe
+import Maybe exposing ( Maybe(..) )    -- Maybe, Just, Nothing
 ```
 
 Qualified imports are preferred. Module names must match their file name,
@@ -360,8 +339,7 @@ distance {x,y} =
   sqrt (x^2 + y^2)
 ```
 
-Learn how to read types and use type annotations
-[here](https://guide.elm-lang.org/types/reading_types.html).
+Learn how to read types and use type annotations [here](https://guide.elm-lang.org/types/reading_types.html).
 
 
 ### Type Aliases
@@ -381,8 +359,18 @@ origin =
   { x = 0, y = 0 }
 ```
 
-Learn more about type aliases
-[here](https://guide.elm-lang.org/types/type_aliases.html).
+Learn more about type aliases [here](https://guide.elm-lang.org/types/type_aliases.html).
+
+
+### Custom Types
+
+```elm
+type User
+  = Regular String Int
+  | Visitor String
+```
+
+Not sure what this means? Read [this](https://guide.elm-lang.org/types/custom_types.html)!
 
 
 ### JavaScript Interop
