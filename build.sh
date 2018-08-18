@@ -43,7 +43,7 @@ fi
 if [ ! -f bin/uglifyjs ]
 then
   npm install uglify-js
-  ln -s node_modules/uglify-js/bin/uglifyjs bin/uglifyjs
+  ln -s ../node_modules/uglify-js/bin/uglifyjs bin/uglifyjs
 fi
 PATH=$(pwd)/bin:$PATH
 
