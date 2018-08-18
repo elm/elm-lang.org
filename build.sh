@@ -31,13 +31,21 @@ EOF
 }
 
 
-## DOWNLOAD ELM BINARY
+## DOWNLOAD BINARIES
 
-if [ ! -f bin/elm ]; then
+if [ ! -f bin/elm ]
+then
   curl $ELM_URL | tar xz
   chmod 755 elm
   mkdir bin
   mv elm bin/
+fi
+if [ ! -f bin/uglifyjs ]
+then
+  npm install uglify-js
+  mkdir bin
+  mv node_modules/.bin/uglifyjs bin/
+  rm -rf node_modules
 fi
 PATH=$(pwd)/bin:$PATH
 
