@@ -198,34 +198,22 @@ blog = """
 
 ### Conference Videos
 
-* [Let’s be Mainstream!][curry-on] &mdash;
-  “If functional programming is so great, why is it still niche? We have a
-  product that can practically eliminate runtime errors, make refactoring much
-  easier, lighten the testing burden, all while being quite delightful to use.
-  What’s the hold up?”
+* [Let’s be Mainstream!](http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design) &mdash; 2015<br>“If functional programming is so great, why is it still niche? We have a product that can practically eliminate runtime errors, make refactoring much easier, lighten the testing burden, all while being quite delightful to use. What’s the hold up?”
 
-* [Accidentally Concurrent][cm2015] &mdash; This talk examines references,
-  objects, and reactivity in terms of concurrency. This reframing is a
-  useful way of understanding the “accidental complexity” in your code
-  base. [Full Abstract][cm2015-abstract]
+* [What is Success?](https://youtu.be/uGlzRt-FYto) &mdash; 2018<br>Is it GitHub stars? Maximizing package downloads? Weekly blog posts? Adding ever more features? This talk gets into the implicit values that people bring to Elm, and tries to outline what is important in the Elm community.
 
-* [Controlling Time and Space][sl2014] &mdash; Categorizes the many
-  formulations of FRP, showing how they relate to Elm and what benefits you
-  get from doing it the Elm way.
+* [Code is the Easy Part](https://youtu.be/DSjbTC-hvqQ) &mdash; 2016<br>People often think that contributing to an open-source project is strictly about adding code and adding features. This creates some really unhealthy incentives and interactions. This talk emphasizes the importance of personal relationships, helping each other, and community participation as the foundation of a fruitful collaboration.
 
-* [Functional Reactive Programming in Elm][sl2013] &mdash; Teaches the basics
-  of graphics and FRP in Elm and builds up to implementing a basic [Mario
-  game](/examples/mario) *and* it is pretty fun to watch.
+* [The Life of a File](https://youtu.be/XpDsk374LDE) &mdash; 2017<br>Many folks get anxious about their project structure. “If I get it wrong, I am doomed!” This talk outlines the recommended approach for growing a large codebase. With the compiler making refactors easy, it is not as hard as you might think!
 
-* [Elm: Making the Web Functional][sl2012] &mdash; First conference talk ever.
-  Covers the basics of graphics and FRP before Elm even had its record system!
+* [Accidentally Concurrent](https://youtu.be/DfLvDFxcAIA) &mdash; 2015<br>This talk examines references, objects, and reactivity in terms of concurrency. This reframing is a useful way of understanding the “accidental complexity” in your code base. ([abstract](http://www.codemesh.io/codemesh2015/evan-czaplicki))
 
-[curry-on]: http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design
-[cm2015]: https://youtu.be/DfLvDFxcAIA
-[cm2015-abstract]: http://www.codemesh.io/codemesh2015/evan-czaplicki
-[sl2014]: https://youtu.be/Agu6jipKfYw
-[sl2013]: http://www.infoq.com/presentations/elm-reactive-programming
+* [Controlling Time and Space](https://youtu.be/Agu6jipKfYw) &mdash; 2015<br>Categorizes the many formulations of FRP, showing how they relate to Elm and what benefits you get from doing it the Elm way.
+
+* [Functional Reactive Programming in Elm](http://www.infoq.com/presentations/elm-reactive-programming) &mdash; 2013<br>Teaches the basics of graphics and FRP in Elm and builds up to implementing a basic [Mario game](/examples/mario) *and* it is pretty fun to watch.
+
+* [Elm: Making the Web Functional](http://www.infoq.com/presentations/Elm) &mdash; 2012<br>First conference talk ever. Covers the basics of graphics and FRP before Elm even had its record system!
+
 [mlocjs]: http://www.ustream.tv/recorded/29330499
-[sl2012]: http://www.infoq.com/presentations/Elm
 
 """
