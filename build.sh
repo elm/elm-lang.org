@@ -34,7 +34,6 @@ EOF
 ## DOWNLOAD BINARIES
 
 mkdir -p bin
-
 if [ ! -f bin/elm ]
 then
   curl $ELM_URL | tar xz
@@ -44,9 +43,7 @@ fi
 if [ ! -f bin/uglifyjs ]
 then
   npm install uglify-js
-  mv node_modules/uglify-js/bin/uglifyjs bin/
-  rm -rf node_modules
-  rm package-lock.json
+  mv node_modules/.bin/uglifyjs bin/
 fi
 PATH=$(pwd)/bin:$PATH
 
