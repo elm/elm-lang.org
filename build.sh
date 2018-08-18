@@ -3,14 +3,14 @@
 set -e
 
 function makeHtml {
-  cat <<EOF > $2
+  cat <<EOF > $1
 <!DOCTYPE HTML>
 <html>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>$3</title>
+  <title>$2</title>
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/style.css?v=4">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
@@ -20,7 +20,7 @@ function makeHtml {
 <body>
 
 <script type="text/javascript">
-$(cat $1)
+$(cat $3)
 var app = Elm.Main.init();
 </script>
 
@@ -66,8 +66,10 @@ do
         echo "Compiling: $elm"
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --optimize --output=$js > /dev/null
-        # TODO minify the JavaScript
-        makeHtml $js $html $name
+        uglifyjs $js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' \
+          | uglifyjs --mangle \
+          | makeHtml $html $name
+        # makeHtml $html $name $js
         touch -r $elm $html
     fi
 done
