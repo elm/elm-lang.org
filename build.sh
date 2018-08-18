@@ -44,8 +44,9 @@ fi
 if [ ! -f bin/uglifyjs ]
 then
   npm install uglify-js
-  mv node_modules/.bin/uglifyjs bin/
+  mv node_modules/uglify-js/bin/uglifyjs bin/
   rm -rf node_modules
+  rm package-lock.json
 fi
 PATH=$(pwd)/bin:$PATH
 
