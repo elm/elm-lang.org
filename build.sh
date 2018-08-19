@@ -12,7 +12,7 @@ function makeHtml {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$2</title>
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
-  <link rel="stylesheet" href="/assets/style.css?v=4">
+  <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
   <script src="/assets/highlight/highlight.pack.js"></script>
 </head>
@@ -50,7 +50,8 @@ PATH=$(pwd)/bin:$PATH
 
 ## GENERATE HTML
 
-cp -r static _site
+mkdir -p _site
+cp -r static/* _site/
 
 mkdir -p _temp
 
