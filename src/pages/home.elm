@@ -70,7 +70,7 @@ type alias Feature msg =
   { title : String
   , height : Int
   , description : List (Html msg)
-  , dramatization : List (Html msg)
+  , image : List (Html msg)
   }
 
 
@@ -84,14 +84,14 @@ viewFeature feature =
         [ h2 [] [text feature.title]
         , p [] feature.description
         ]
-    , div [ class "feature-image" ] feature.dramatization
+    , div [ class "feature-image" ] feature.image
     ]
 
 
 features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
-      [ text "Elm uses type inference to detect corner cases and give friendly hints. For example, what if someone provides invalid inputs?! NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
+      [ text "Elm uses type inference to detect corner cases and give friendly hints. For example, what if someone provides invalid inputs? NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
       , a [href "/blog/compilers-as-assistants"] [text "details"]
       , text ")"
       ]
@@ -133,7 +133,7 @@ features =
           , text "\n\n    Changed:\n      - parseString : String -> Result String Node\n      + parseString : String -> Result Error Node\n\n      - parseValue : Value -> Result String Node\n      + parseValue : Value -> Result Error Node\n\n"
           ]
       ]
-  , Feature "JavaScript Interop" 100
+  , Feature "JavaScript Interop" 120
       [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. No major risk in trying it for something small! ("
       , a [href "http://guide.elm-lang.org/interop/"] [text "details"]
       , text ")"
