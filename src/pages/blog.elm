@@ -42,107 +42,107 @@ blog = """
 <table class="releases">
   <tbody>
     <tr>
-      <td>[0.18][18]</td>
+      <td>[0.18](/blog/the-perfect-bug-report)</td>
       <td>New debugger with session import/export</td>
       <td>Nov</td>
     </tr>
     <tr>
-      <td>[0.17][17]</td>
+      <td>[0.17](/blog/farewell-to-frp)</td>
       <td>Add subscriptions, remove signals</td>
       <td>May 2016</td>
     </tr>
     <tr>
-      <td>[0.16][16]</td>
+      <td>[0.16](/blog/compilers-as-assistants)</td>
       <td>Even better error messages!</td>
       <td>Nov</td>
       </tr>
     <tr>
-      <td>[0.15.1][151]</td>
+      <td>[0.15.1](/blog/compiler-errors-for-humans)</td>
       <td>Dramatically improved error messages</td>
       <td>Jun</td>
     </tr>
     <tr>
-      <td>[0.15][15]</td>
+      <td>[0.15](/blog/announce/0.15)</td>
       <td>Tasks, better HTTP library</td>
       <td>Apr</td>
     </tr>
     <tr>
-      <td>[0.14.1][141]</td>
+      <td>[0.14.1](https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0)</td>
       <td>HTML through main</td>
       <td>Jan 2015</td>
     </tr>
     <tr>
-      <td>[0.14][14]</td>
+      <td>[0.14](/blog/announce/0.14)</td>
       <td>Package manager, parallel builds, JSON</td>
       <td>Dec</td>
     </tr>
     <tr>
-      <td>[0.13][13]</td>
+      <td>[0.13](/blog/announce/0.13)</td>
       <td>Debugging with elm-reactor</td>
       <td>Sep</td>
     </tr>
     <tr>
-      <td>[0.12.3][123]</td>
+      <td>[0.12.3](/blog/announce/0.12.3)</td>
       <td>3D rendering with WebGL</td>
       <td>May</td>
     </tr>
     <tr>
-      <td>[0.12.1][121]</td>
+      <td>[0.12.1](/blog/announce/0.12.1)</td>
       <td>Fast Immutable Arrays</td>
       <td>May</td>
     </tr>
     <tr>
-      <td>[0.12][12]</td>
+      <td>[0.12](/blog/announce/0.12)</td>
       <td>Interactive UI Elements</td>
       <td>Mar</td>
     </tr>
     <tr>
-      <td>[0.11][11]</td>
+      <td>[0.11](/blog/announce/0.11)</td>
       <td>Drastically improved FFI with ports</td>
       <td>Jan 2014</td>
     </tr>
     <tr>
-      <td>[0.10.1][101]</td>
+      <td>[0.10.1](/blog/announce/0.10.1)</td>
       <td>Package manager integration</td>
       <td>Dec</td>
     </tr>
     <tr>
-      <td>[0.10][10]</td>
+      <td>[0.10](/blog/announce/0.10)</td>
       <td>Strings, Colors, Operators</td>
       <td>Oct</td>
     </tr>
     <tr>
-      <td>[0.9][9]</td>
+      <td>[0.9](/blog/announce/0.9)</td>
       <td>Fast and reliable type inference</td>
       <td>Aug</td>
     </tr>
     <tr>
-      <td>[0.8][8]</td>
+      <td>[0.8](/blog/announce/0.8)</td>
       <td>HTML/JS integration</td>
       <td>May</td>
     </tr>
     <tr>
-      <td>[0.7.1][71]</td>
+      <td>[0.7.1](/blog/announce/0.7.1)</td>
       <td>Libraries for touch, either, and keyboard</td>
       <td>Feb</td>
     </tr>
     <tr>
-      <td>[0.7][7]</td>
+      <td>[0.7](/blog/announce/0.7)</td>
       <td>Extensible records</td>
       <td>Jan 2013</td>
     </tr>
     <tr>
-      <td>[0.6][6]</td>
+      <td>[0.6](/blog/announce/0.6)</td>
       <td>Whitespace sensitivity</td>
       <td>Dec</td>
     </tr>
     <tr>
-      <td>[0.5][5]</td>
+      <td>[0.5](/blog/announce/0.5)</td>
       <td>Libraries for dictionaries, sets, and automata</td>
       <td>Oct</td>
     </tr>
     <tr>
-      <td>[0.4][4]</td>
+      <td>[0.4](/blog/announce/0.4)</td>
       <td>Markdown</td>
       <td>Sep</td>
     </tr>
@@ -169,30 +169,9 @@ blog = """
   </tbody>
 </table>
 
-  [3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
-  [35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
-  [36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/
-  [4]:  /blog/announce/0.4
-  [5]:  /blog/announce/0.5
-  [6]:  /blog/announce/0.6
-  [7]:  /blog/announce/0.7
-  [71]: /blog/announce/0.7.1
-  [8]:  /blog/announce/0.8
-  [9]:  /blog/announce/0.9
-  [10]: /blog/announce/0.10
-  [101]: /blog/announce/0.10.1
-  [11]: /blog/announce/0.11
-  [12]: /blog/announce/0.12
-  [121]: /blog/announce/0.12.1
-  [123]: /blog/announce/0.12.3
-  [13]: /blog/announce/0.13
-  [14]: /blog/announce/0.14
-  [141]: https://groups.google.com/forum/#!topic/elm-announce/6zRwjN68Ap0
-  [15]: /blog/announce/0.15
-  [151]: /blog/compiler-errors-for-humans
-  [16]: /blog/compilers-as-assistants
-  [17]: /blog/farewell-to-frp
-  [18]: /blog/the-perfect-bug-report
+[3]:  http://www.testblogpleaseignore.com/2012/06/19/announcing-elm-0-3-modules/
+[35]: http://www.testblogpleaseignore.com/2012/06/29/announcing-elm-0-3-5-javascript-integration-signal-filters-and-more/
+[36]: http://www.testblogpleaseignore.com/2012/08/16/elm-0-3-6json-support-and-better-error-messages/
 
 <br>
 
