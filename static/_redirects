@@ -1,3 +1,5 @@
+# example redirects
+/examples/*  http://www.elm-lang.org/examples/:splat
 
 # old roots
 Blog.elm             /blog
