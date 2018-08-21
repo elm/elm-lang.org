@@ -62,7 +62,7 @@ This is further compounded by the fact that `npm` allows many versions of the sa
 
 When you use the `--optimize` flag, you get a couple extra optimizations. One interesting one is **record field renaming** across your whole codebase. This optimization turns long names like `student.mostRecentGrade` into `s.m` instead. It tends to give a 5% to 10% reduction in asset size.
 
-Again, **this works across the entire Elm ecosystem** because every single package on `package.elm-lang.org` written completely in Elm. To acheive similar results in JavaScript, you must avoid `student['mostRecent' + info]` and statically figure out the difference between `student[field]` and `student[index]`. If you have ever tried to use `ADVANCED_OPTIMIZATIONS` in Google Closure Compiler, you know that this is extremely difficult even when you write all the code yourself, but it would have to work across the 700k `npm` packages out there to give comparable results.
+Again, **this works across the entire Elm ecosystem** because every single package on `package.elm-lang.org` written completely in Elm. To achieve similar results in JavaScript, you must avoid `student['mostRecent' + info]` and statically figure out the difference between `student[field]` and `student[index]`. If you have ever tried to use `ADVANCED_OPTIMIZATIONS` in Google Closure Compiler, you know that this is extremely difficult even when you write all the code yourself, but it would have to work across the 700k `npm` packages out there to give comparable results.
 
 
 ## Compile Times
