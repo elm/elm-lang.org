@@ -29,7 +29,7 @@ If you want faster page loads, you want smaller assets. **But it feels quite com
 
 part2 = """
 
-The Elm version is quite small! (Smaller is better. Smaller assets means faster downloads!) Note that the React library itself is 32kb. Just the library without any application code. The entire [Elm RealWorld App](https://github.com/rtfeldman/elm-spa-example/tree/0.19) is 29kb, so no amount of code splitting can make the React version smaller than the Elm version!
+The Elm version is quite small! (Smaller is better. Smaller assets means faster downloads!) Note that the React library itself is 32kb. Just the library without any application code. The entire [Elm RealWorld App](https://github.com/rtfeldman/elm-spa-example) is 29kb, so no amount of code splitting can make the React version smaller than the Elm version!
 
 I was really excited when I first saw these results, but the RealWorld App is not _that_ big. The Vue implementation is only about 2000 lines. So what about larger projects? We had a community member working on a **49,315 line** application try the new version and he got **114kb** after compilation, minification, and gzip. That is in the ballpark of the 100kb produced by the 2000 lines in the Vue implementation! So it looks like your projects need to get exceptionally large before you start running into the _baseline_ issues you see in JavaScript.
 
