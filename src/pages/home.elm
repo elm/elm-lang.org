@@ -133,6 +133,19 @@ features =
           , text "\n\n    Changed:\n      - parseString : String -> Result String Node\n      + parseString : String -> Result Error Node\n\n      - parseValue : Value -> Result String Node\n      + parseValue : Value -> Result Error Node\n\n"
           ]
       ]
+  , Feature "Small Assets" 280
+      [ text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
+      , code [] [ text "--optimize" ]
+      , text " flag and let the compiler do the rest. No complicated set up. ("
+      , a [href "/blog/small-assets-without-the-headache"] [text "details"]
+      , text ")"
+      ]
+      [ img
+            [ src "/assets/home/asset-sizes.png"
+            , style "width" "100%"
+            ]
+            []
+      ]
   , Feature "JavaScript Interop" 120
       [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. No major risk in trying it for something small! ("
       , a [href "http://guide.elm-lang.org/interop/"] [text "details"]
