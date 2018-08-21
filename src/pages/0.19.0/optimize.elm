@@ -18,19 +18,20 @@ Okay, but how do we get those numbers?
 
 Step one is to compile with the `--optimize` flag. This does things like shortening record field names and unboxing values.
 
-Step two is to call `uglifyjs` with a bunch of special flags. The flags unlock a bunch of optimizations that are unreliable in normal JS code, but work fine for us because Elm does not have side-effects! You can install `uglifyjs` with `npm install uglifyjs -g` if you need it.
+Step two is to call `uglifyjs` with a bunch of special flags. The flags unlock optimizations that are unreliable in normal JS code, but because Elm does not have side-effects, they work fine for us!
 
-So here is how I would optimize `src/Main.elm` with two terminal commands:
+Putting those together, here is how I would optimize `src/Main.elm` with two terminal commands:
 
 ```bash
 elm make src/Main.elm --optimize --output=elm.js
-uglifyjs elm.js --compress 'TODO' | uglifyjs --mangle --output=elm.min.js
+uglifyjs elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle --output=elm.min.js
 ```
 
 After this you will have an `elm.js` and a significantly smaller `elm.min.js` file!
 
-**Note:** `uglifyjs` is called twice there. First to `--compress` and second to `--mangle`. This is necessary! Otherwise `uglifyjs` will ignore our `pure_funcs` flag.
+**Note 1:** `uglifyjs` is called twice there. First to `--compress` and second to `--mangle`. This is necessary! Otherwise `uglifyjs` will ignore our `pure_funcs` flag.
 
+**Note 2:** If the `uglifyjs` command is not available in your terminal, you can run the command `npm install uglify-js --global` to download it. You probably already have `npm` from getting `elm repl` working, but if not, it is bundled with [nodejs](https://nodejs.org/).
 
 ## Scripts
 
@@ -48,7 +49,7 @@ min="elm.min.js"
 
 elm make --optimize --output=$js $@
 
-uglifyjs $js --compress 'TODO' | uglifyjs --mangle --output=$min
+uglifyjs $js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle --output=$min
 
 echo "Initial size: $(cat $js | wc -c) bytes  ($js)"
 echo "Minified size:$(cat $min | wc -c) bytes  ($min)"
