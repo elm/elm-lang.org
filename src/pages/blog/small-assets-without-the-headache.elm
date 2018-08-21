@@ -96,7 +96,7 @@ I feel like a robot talking about all those numbers. That stuff is nice and all,
 - Nicer parse errors. Should help a lot with the first few weeks of Elm!
 - Better docs on types, interop, and “single page apps” in [the official guide](https://guide.elm-lang.org/).
 - A simpler way to think about time and time zones in [`elm/time`](https://package.elm-lang.org/packages/elm/time/latest/).
-- The [`getViewport`](https://package.elm-lang.org/packages/elm/browser/latest/Browser-Dom#getViewport) family of funcions for getting scroll positions.
+- The [`getViewport`](https://package.elm-lang.org/packages/elm/browser/latest/Browser-Dom#getViewport) family of functions for getting scroll positions.
 
 These examples showcase the effort that has gone into continually making Elm simpler and friendlier, but there are a bunch of other improvements listed in [the release notes](https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md) in the same spirit!
 
