@@ -10,7 +10,7 @@ main =
     "Small Assets without the Headache"
     "Minification made easy with Elm 0.19"
     Skeleton.evan
-    (Skeleton.Date 2018 11 19)
+    (Skeleton.Date 2018 8 21)
     [ Center.markdown "600px" part1
     , a (href "https://gist.github.com/evancz/6b3d9a26f7238912e01b25b1b5c68db1" :: Center.styles "740px")
         [ img [ src "/assets/blog/0.19/asset-sizes.png", style "max-width" "100%" ] []
