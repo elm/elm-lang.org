@@ -40,9 +40,9 @@ The rest of this post will explore (1) the new optimizations that make these res
 > **Note:** Check out the full [release notes](https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md) to see everything that is new in Elm 0.19. The installers are available in the freshly updated [official guide](https://guide.elm-lang.org)!
 
 
-## Dead Code Elimination
+## Dead-Code Elimination
 
-The primary optimization in Elm 0.19 that gets us such small assets is **function-level dead code elimination**.
+The primary optimization in Elm 0.19 that gets us such small assets is **function-level dead-code elimination**.
 
 If you use a package with hundreds of functions, like `elm/html`, it automatically gets trimmed down to the 10 you actually use. The compiler can just figure it out. **This works across the entire ecosystem.** Using one function from a massive package with tons of dependencies? No problem. You just get that one function in the generated code.
 
@@ -51,18 +51,18 @@ This level of granularity is possible because:
 - **Elm functions cannot be redefined or removed at runtime.** This makes it easy to tell if something is needed. Is the code reachable from `main`? If so, keep it. If not, drop it. Whereas in JavaScript, any module might modify `window.Array` or `Array.prototype`, changing how code _elsewhere_ evaluates. So the fact that you do not call it directly does not prove it can be dropped.
 - **Every package on [`package.elm-lang.org`](https://package.elm-lang.org) is written entirely in Elm.** That means we have a 100% guarantee that there is nothing weird going on in any of your dependencies, so we can cut it up just as easily as your application. If packages contained arbitrary JavaScript code, we would inherit all the same optimization challenges and have to be more conservative.
 
-In JavaScript, the equivalent of dead code elimination is commonly called [tree shaking](https://webpack.js.org/guides/tree-shaking/). As that link says, tree shaking generally works with a granularity of modules (not functions) due to the potential redefinition and removal of functions. The larger granularity means you are more likely to get modules you do not use. And those modules can bring in _more_ modules you do not use. Even if you do not use any of their functions directly, you might rely on the functions they mutate. This leads to a cascading increase in asset size as projects get more complicated:
+In JavaScript, the equivalent of dead-code elimination is commonly called [tree shaking](https://webpack.js.org/guides/tree-shaking/). As that link says, tree shaking generally works with a granularity of modules (not functions) due to the potential redefinition and removal of functions. The larger granularity means you are more likely to get modules you do not use. And those modules can bring in _more_ modules you do not use. Even if you do not use any of their functions directly, you might rely on the functions they mutate. This leads to a cascading increase in asset size as projects get more complicated:
 
 ![](/assets/blog/0.19/dce.svg)
 
 This is further compounded by the fact that `npm` allows many versions of the same package in a single project. To work around all this, some JavaScript packages go so far as to chop themselves into individual functions, like [lodash-modularized](https://www.npmjs.com/search?q=keywords:lodash-modularized), so application developers have the _option_ to manually approximate what Elm does automatically. **So instead of sacrificing development time and code clarity to shave bits, Elm lets you just focus on making great packages and applications.** The compiler will take it from there!
 
 
-## Record Field Renaming
+## Record-Field Renaming
 
-When you use the `--optimize` flag, you get a couple extra optimizations. One interesting one is **record field renaming** across your whole codebase. This optimization turns long names like `student.mostRecentGrade` into `s.m` instead. It tends to give a 5% to 10% reduction in asset size.
+When you use the `--optimize` flag, you get a couple extra optimizations. One interesting one is **record-field renaming** across your whole codebase. This optimization turns long names like `student.mostRecentGrade` into `s.m` instead. It tends to give a 5% to 10% reduction in asset size.
 
-Again, **this works across the entire Elm ecosystem** because every single package on `package.elm-lang.org` written completely in Elm. To acheive similar results in JavaScript, you must avoid `student['mostRecent' + info]` and statically figure out the difference between `student[field]` and `student[index]`. If you have ever tried to use `ADVANCED_OPTIMIZATIONS` in Google Closure Compiler, you know that this is extremely difficult even when you write all the code yourself, but it would have to work across the 700k `npm` packages out there to give comparable results.
+Again, **this works across the entire Elm ecosystem** because every single package on `package.elm-lang.org` written completely in Elm. To achieve similar results in JavaScript, you must avoid `student['mostRecent' + info]` and statically figure out the difference between `student[field]` and `student[index]`. If you have ever tried to use `ADVANCED_OPTIMIZATIONS` in Google Closure Compiler, you know that this is extremely difficult even when you write all the code yourself, but it would have to work across the 700k `npm` packages out there to give comparable results.
 
 
 ## Compile Times
