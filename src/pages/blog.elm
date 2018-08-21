@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [Small Assets without the Headache](/blog/small-assets-without-the-headache)
  * [Google Summer of Code 2017](/blog/google-summer-of-code-2017)
  * [The Perfect Bug Report](/blog/the-perfect-bug-report)
  * [Blazing Fast HTML, Round Two](/blog/blazing-fast-html-round-two)
@@ -41,6 +42,11 @@ blog = """
 
 <table class="releases">
   <tbody>
+    <tr>
+      <td>[0.19](/blog/small-assets-without-the-headache)</td>
+      <td>Smaller assets, faster compiler</td>
+      <td>Aug 2018</td>
+    </tr>
     <tr>
       <td>[0.18](/blog/the-perfect-bug-report)</td>
       <td>New debugger with session import/export</td>
