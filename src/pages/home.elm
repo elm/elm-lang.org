@@ -49,8 +49,7 @@ size height padding =
 getStarted : Html msg
 getStarted =
   div [ class "buttons" ]
-    [ a [ href "https://ellie-app.com/new" ] [ text "Try Online" ]
-    , a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
+    [ a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
     ]
 
 
