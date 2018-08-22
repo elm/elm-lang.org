@@ -38,8 +38,8 @@ The same can be done with definitions and union types:
 
 > type User = Regular String | Visitor String
 
-> case Regular "Tom" of \
-|   Regular name -> "Hey again!" \
+> case Regular "Tom" of \\
+|   Regular name -> "Hey again!" \\
 |   Visitor name -> "Nice to meet you!"
 "Hey again!" : String
 ```
