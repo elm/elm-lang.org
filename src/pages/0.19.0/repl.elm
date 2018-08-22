@@ -8,7 +8,7 @@ The REPL lets you interact with Elm values and functions in your terminal.
 
 ## Use
 
-You can type in expressions, definitions, union types, and module imports using normal Elm syntax.
+You can type in expressions, definitions, custom types, and module imports using normal Elm syntax.
 
 ```elm
 > 1 + 1
@@ -18,7 +18,7 @@ You can type in expressions, definitions, union types, and module imports using 
 "helloworld" : String
 ```
 
-The same can be done with definitions and union types:
+The same can be done with definitions and custom types:
 
 ```elm
 > fortyTwo = 42
