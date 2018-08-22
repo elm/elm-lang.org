@@ -29,4 +29,16 @@ Elm will catch a bunch of errors statically, but it also has a really great test
 
 This can be particularly helpful for teams working on a large codebase. When you are editing code you have never seen before, it can be helpful to capture additional details and constraints in tests!
 
+
+## Other Starting Points
+
+One goal of `elm init` is to generate as little code as possible. It is mainly meant to get you to this page! If you would like a more elaborate starting point, I recommend starting projects with commands like these:
+
+```bash
+git clone https://github.com/evancz/elm-todomvc.git
+git clone https://github.com/rtfeldman/elm-spa-example.git
+```
+
+The idea is that the command line tools should be so simple that it is easy to just make your own little starter recipe for yourself and `git clone` when you start new projects. This also captures the fact that project structure _should_ evolve organically as your application develops, never ending up exactly the same as other porjects.
+
 """
