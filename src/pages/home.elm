@@ -225,13 +225,9 @@ exampleSection =
     , p [ class "home-paragraph"
         , style "margin-bottom" "40px"
         ]
-        [ text "We have some "
-        , a [href "/examples"] [text "simple"]
-        , text " and some "
-        , a [href "http://builtwithelm.co/"] [text "elaborate"]
-        , text " examples to help you as you move through "
-        , a [href "http://guide.elm-lang.org/"] [text "the official guide"]
-        , text ". Here are some particularly neat ones!"
+        [ text "The best way to learn is with "
+        , a [href "https://guide.elm-lang.org/"] [text "the official guide"]
+        , text ", but here are some examples that might be fun to look at:"
         ]
     , fluidList 400 2 examples
     ]
