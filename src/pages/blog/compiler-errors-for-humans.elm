@@ -1,16 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Compiler Errors for Humans"
     "Rethinking the terminal UX in Elm 0.15.1"
-    Blog.evan
-    (Blog.Date 2015 6 30)
+    Skeleton.evan
+    (Skeleton.Date 2015 6 30)
     [ Center.markdown "600px" content
     , image "/assets/blog/error-messages/0.15.1/naming.png"
     , Center.markdown "600px" formattingComment
@@ -22,14 +22,16 @@ main =
 
 
 image url =
-  div [class "content", Center.style "900px"] [
-    img
-      [ src url
-      , style [("display", "block"), ("margin", "1em auto")]
-      , alt "compiler output example"
-      ]
-      []
-  ]
+  div
+    (class "content" :: Center.styles "900px")
+    [ img
+        [ src url
+        , style "display" "block"
+        , style "margin" "1em auto"
+        , alt "compiler output example"
+        ]
+        []
+    ]
 
 
 content = """

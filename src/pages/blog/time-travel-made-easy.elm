@@ -1,19 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
-(=>) = (,)
-
-
 main =
-  Blog.blog
+  Skeleton.blog
     "Time Travel made Easy"
     "Introducing Elm Reactor"
-    Blog.michael
-    (Blog.Date 2014 9 24)
+    Skeleton.michael
+    (Skeleton.Date 2014 9 24)
     body
 
 
@@ -21,7 +18,11 @@ body =
   [ Center.markdown "600px" contentOne
   , iframe
         [ src "http://debug.elm-lang.org/edit/Thwomp.elm"
-        , style [ "border" => "none", "overflow" => "hidden", "height" => "400px", "width" => "80%", "padding" => "0 10%" ]
+        , style "border" "none"
+        , style "overflow" "hidden"
+        , style "height" "400px"
+        , style "width" "80%"
+        , style "padding" "0 10%"
         ]
         []
   , Center.markdown "600px" contentTwo

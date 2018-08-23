@@ -1,25 +1,25 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Compilers as Assistants"
     "Making Elm faster and friendlier in 0.16"
-    Blog.evan
-    (Blog.Date 2015 11 19)
+    Skeleton.evan
+    (Skeleton.Date 2015 11 19)
     [ Center.markdown "600px" content
-    , div [Center.style "600px"]
+    , div (Center.styles "600px")
         [div [ class "intrinsic-container" ]
           [ iframe
               [ src "https://www.youtube.com/embed/ARJ8cAGm6JE?start=60&end=87&rel=0&autoplay=0"
               , attribute "allowfullscreen" ""
               ] []
           ]
-        ]  
+        ]
     , Center.markdown "600px" afterVideo
     , image "big-record"
     , Center.markdown "600px" afterTypeDiffs
@@ -38,18 +38,16 @@ main =
     ]
 
 
-
-(=>) = (,)
-
-
 image name =
-  div [class "content", Center.style "600px"] [
-    img
-      [ src ("/assets/blog/error-messages/0.16/" ++ name ++ ".png")
-      , style [("display", "block"), ("margin", "1em auto")]
-      , alt "compiler output example"
-      ]
-      []
+  div
+    (class "content" :: Center.styles "600px")
+    [ img
+        [ src ("/assets/blog/error-messages/0.16/" ++ name ++ ".png")
+        , style "display" "block"
+        , style "margin" "1em auto"
+        , alt "compiler output example"
+        ]
+        []
     ]
 
 content = """
@@ -262,7 +260,7 @@ a helpful error message:
 afterIncomplete = """
 
 This is particularly helpful when you have a large codebase and add a tag to a
-union type. Now the compiler will point out all the `case` expressions scattered
+custom type. Now the compiler will point out all the `case` expressions scattered
 throughout your code that need to have an extra branch added to them!
 
 
@@ -416,7 +414,7 @@ Well it has been more than two years since then, and the results are in. Pretty
 much no one ever used field addition or deletion. In the few cases where people
 *did* use it, it got pretty crazy pretty quickly. The one real-world case I
 know of is recorded [here][extension-example] if you want to see, and the code
-could be rewritten with union types, which turned out nicer anyway.
+could be rewritten with custom types, which turned out nicer anyway.
 
 [extension-example]: https://github.com/elm-lang/elm-compiler/issues/985#issuecomment-121927230
 

@@ -1,15 +1,12 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
-(=>) = (,)
-
-
 main =
-  Blog.docs
+  Skeleton.docs
     "Records"
     [ Center.markdown "600px" content ]
 
@@ -45,7 +42,7 @@ avoid.
 It is also important to note that many languages try to use objects for
 *everything*. Records fill a much more limited role in Elm. If you want
 modularity, you use modules. If you want something that seems like subtyping,
-you probably want [union types](/guide/model-the-problem). So if you find
+you probably want [custom types](/types/custom_types.html). So if you find
 yourself struggling with records to make them act like objects, keep in mind
 that there is probably a different tool for the job.
 

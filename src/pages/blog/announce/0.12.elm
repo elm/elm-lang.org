@@ -1,14 +1,16 @@
-import Blog
+import Skeleton
 import Center
-import Debug
+import Html exposing (..)
+import Html.Attributes exposing (..)
+
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.12"
     "Interactive UI"
-    Blog.evan
-    (Blog.Date 2014 3 24)
+    Skeleton.evan
+    (Skeleton.Date 2014 3 24)
     [ Center.markdown "600px" content1
     , exampleBlock
     , Center.markdown "600px" content2
@@ -32,9 +34,13 @@ fields to clickable and hoverable elements.
 """
 
 
-exampleBlock =
-  Debug.crash "need to show examples"
-    [ "TextReverse", "Calculator", "Form", "Plot" ]
+exampleBlock = -- TODO [ "TextReverse", "Calculator", "Form", "Plot" ]
+  div
+    [ style "font-weight" "bold"
+    , style "text-align" "center"
+    ]
+    [ text "EXAMPLES OUT OF ORDER"
+    ]
 
 
 content2 = """

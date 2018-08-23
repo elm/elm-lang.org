@@ -2,19 +2,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
 
-import Blog
+import Skeleton
 import Center
 
 
-(=>) = (,)
-
-
 main =
-  Blog.blog
+  Skeleton.blog
     "Making Pong"
     "An intro to games in Elm"
-    Blog.evan
-    (Blog.Date 2012 12 14)
+    Skeleton.evan
+    (Skeleton.Date 2012 12 14)
     [ Center.markdown "600px" content ]
 
 

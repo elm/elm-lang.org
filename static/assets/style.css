@@ -1,0 +1,445 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic);
+
+html, head, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  color: #293c4b;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
+  font-weight: normal;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+a {
+  color: #60B5CC;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: rgb(234,21,122);
+}
+
+
+/* content */
+
+.content li {
+  margin-bottom: 6px;
+}
+
+.content img {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* home stuff */
+
+.home-section h1 {
+  text-align: center;
+  font-size: 3em;
+  margin-top: 100px;
+  margin-bottom: 0;
+}
+
+.home-paragraph {
+  display: block;
+  margin: 20px auto;
+  max-width: 600px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (min-width: 640px) {
+  .home-paragraph {
+    text-align: center;
+  }
+}
+
+.terminal {
+  border-radius: 4px;
+  padding: 12px;
+  min-width: 396px;
+  white-space: pre;
+  color: white;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  background-color: black;
+}
+
+
+/* features */
+
+.features {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.features li {
+  list-style-type: none;
+}
+
+@media (max-width: 820px) {
+  .feature {
+    margin: 4em 0;
+  }
+  .feature-description h2 {
+    text-align: center;
+  }
+  .feature-description {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+  .feature-image {
+    max-width: 420px;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 820px) {
+  .features {
+    max-width: 800px;
+  }
+  .feature {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 4em;
+  }
+  .feature-description {
+    max-width: 340px;
+  }
+  .feature-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+
+/* examples */
+
+.examples li {
+  margin-bottom: 4px;
+}
+
+.examples li ul {
+  margin-top: 6px;
+  margin-bottom: 20px;
+  padding-left: 1em;
+}
+
+.examples li li {
+  list-style-type: none;
+}
+
+
+/* users */
+
+.featured-user {
+  max-width: 600px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.featured-user .quote {
+  background: #eeeeee;
+  padding: 10px 30px;
+  border-radius: 10px;
+  position: relative;
+  color: #b4b4b4;
+  font-size: 20px;
+  color: #5A6378;
+  quotes: "\201C""\201D""\2018""\2019"
+}
+
+.featured-user .quote p:first-of-type:before {
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+.featured-user .quote:after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  right: 130px;
+  border-width: 20px 20px 0;
+  border-style: solid;
+  border-color: #eeeeee transparent;
+  display: block;
+  width: 0;
+}
+
+.featured-user .attribution {
+  height: 100px;
+}
+
+.featured-user .attribution-logo {
+  float: right;
+}
+
+.featured-user .attribution-author {
+  width: 300px;
+  display: block;
+  float: right;
+  font-size: 18px;
+  color: #5A6378;
+  text-align: center;
+  padding-top: 24px
+}
+
+.featured-user .attribution-author p {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 500px) {
+  .featured-user .quote:after {
+    right: calc(50% - 20px);
+  }
+  .featured-user .attribution {
+    height: auto;
+  }
+  .featured-user .attribution-logo {
+    float: none;
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .featured-user .attribution-author {
+    float: none;
+    width: 100%;
+  }
+}
+
+
+/* top bar */
+
+#tabs {
+  padding: 1em;
+  background-color: #60B5CC;
+}
+
+#tabs ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: center;
+}
+
+#tabs li {
+  display: inline-block;
+}
+
+.tab {
+  text-decoration: none;
+  color: #34495E;
+  padding-bottom: 13px;
+  margin: 0 1.5em;
+  font-size: 20px;
+}
+
+.tab:hover,
+.tab.current {
+  text-decoration: none;
+  color: #34495E;
+  border-bottom: 3px solid #34495E;
+}
+
+@media (max-width: 600px) {
+  .tab {
+    font-size: 15px;
+    margin: 0 0.5em;
+  }
+  .content {
+    margin: 0 0.5em !important;
+  }
+}
+
+
+
+/* splash */
+
+.splash {
+  padding: 1em;
+  background-color: #60B5CC;
+  color: white;
+  text-align: center;
+}
+
+.buttons a {
+  background-color: #34495E;
+  border-radius: 6px;
+  min-width: 120px;
+  padding: 12px 12px;
+  margin: 12px;
+  display: inline-block;
+  color: white;
+  font-size: 1.5em;
+}
+
+.buttons a:hover {
+  background-color: #20374D;
+  color: white;
+  text-decoration: none;
+}
+
+
+/* code */
+
+code {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+/* I heard using :not() is slow for reflows.
+Not really any of those on the website though AFAIK.
+*/
+:not(pre) > code {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+:not(pre) > code::before, :not(pre) > code::after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+pre > code {
+  display: block;
+  overflow-x: auto;
+}
+
+
+/* blogs */
+
+.author {
+  padding-top: 1em;
+  color: #ddd;
+  display: block;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-right: 10px;
+  text-align: right;
+}
+
+.author a {
+  color: #ddd;
+  text-decoration: underline;
+}
+
+/* Notes */
+
+blockquote {
+  display: block;
+  overflow-x: auto;
+  padding: 0 1em;
+  border-radius: 6px;
+  background-color: #ebebeb;
+  color: #6C7E8F;
+}
+
+blockquote p {
+  font-size: 14px;
+}
+
+
+/* comparison table */
+
+.comparison table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.comparison {
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #8C8C8C;
+  border-radius: 3px;
+}
+.comparison table td, .comparison table th {
+  padding: 5px 10px;
+}
+.comparison th {
+  color: white;
+  font-weight: normal;
+  background: #22809A;
+}
+.comparison tr:nth-child(odd) {
+  background: #f0f0f0;
+}
+
+
+/* release notes table */
+
+.releases {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.releases td {
+  padding: 5px 10px;
+}
+
+
+/* FOOTER */
+
+
+.footer {
+  text-align: center;
+  margin-top: 6em;
+  border-top: 1px solid #eeeeee;
+  padding: 2em 0;
+  color: #bbbbbb;
+}
+
+
+.grey-link {
+  color: #bbbbbb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.grey-link:hover {
+  color: #bbbbbb;
+}
+
+/* iframes */
+
+.intrinsic-container {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%; /*assuming 16/9 aspect ratio*/
+  max-width: 800px;
+}
+
+.intrinsic-container iframe {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

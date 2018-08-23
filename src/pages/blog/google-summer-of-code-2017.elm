@@ -2,22 +2,19 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Markdown
 
-import Blog
+import Skeleton
 import Center
 
 
 
-(=>) = (,)
-
-
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm + Google Summer of Code"
     ""
-    Blog.evan
-    (Blog.Date 2017 3 1)
+    Skeleton.evan
+    (Skeleton.Date 2017 3 1)
     [ Center.markdown "600px" intro
-    , div [Center.style "600px"]
+    , div (Center.styles "600px")
         [div [ class "intrinsic-container" ]
           [ iframe
               [ src "https://www.youtube.com/embed/DSjbTC-hvqQ?start=845&end=1608&rel=0&autoplay=0"

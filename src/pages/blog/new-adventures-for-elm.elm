@@ -1,22 +1,18 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "New Adventures for Elm"
     "Joining NoRedInk and creating Elm Software Foundation"
-    Blog.evan
-    (Blog.Date 2016 1 4)
+    Skeleton.evan
+    (Skeleton.Date 2016 1 4)
     [ Center.markdown "600px" content
     ]
-
-
-
-(=>) = (,)
 
 
 content = """

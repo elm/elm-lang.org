@@ -9,8 +9,14 @@ import Skeleton
 
 main =
   Skeleton.skeleton
+    "Elm - Documentation"
     "docs"
     [ Center.markdown "600px" content
+    , div [ class "buttons", style "text-align" "center" ]
+        [ a [ href "https://guide.elm-lang.org/" ] [ text "Official Guide" ]
+        , a [ href "https://package.elm-lang.org/" ] [ text "Package Docs" ]
+        ]
+    , Center.markdown "600px" additionalResources
     ]
 
 
@@ -18,31 +24,21 @@ content = """
 
 # Documentation
 
-### Quick Overview
+The best place to start is the official guide. It will give you a solid foundation for creating applications with Elm. Once you have worked through that, the next place to look for documentation is on the packages you are using.
 
-  * **[Get Started](/get-started)**
-  * [Examples](/examples)
-  * [The Elm Architecture](http://guide.elm-lang.org/architecture/)
-  * [Let's be Mainstream!](http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design)
+"""
 
 
-### Learn Elm
+additionalResources = """
 
-  * **[An Introduction to Elm](http://guide.elm-lang.org)**
-  * [FAQ](http://elm-community.github.io/elm-faq/)
-  * [Syntax](/docs/syntax)
-  * [Syntax vs JS](/docs/from-javascript)
-  * [Style Guide](/docs/style-guide)
-  * [Package Design](http://package.elm-lang.org/help/design-guidelines)
-  * [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
-  * [Advanced Topics](/docs/advanced-topics)
+### Additional Resources
 
-
-### Packages
-
-  * **[All Community Packages](http://package.elm-lang.org)**
-  * [Core](http://package.elm-lang.org/packages/elm-lang/core/latest/)
-  * [HTML](http://package.elm-lang.org/packages/elm-lang/html/latest/)
-
+* [FAQ](http://elm-community.github.io/elm-faq/)
+* [Syntax](/docs/syntax)
+* [Syntax vs JS](/docs/from-javascript)
+* [Style Guide](/docs/style-guide)
+* [Package Design](http://package.elm-lang.org/help/design-guidelines)
+* [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
+* [Advanced Topics](/docs/advanced-topics)
 
 """

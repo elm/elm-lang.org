@@ -1,15 +1,14 @@
-import Blog
+import Skeleton
 import Center
-import Color exposing (rgb)
 import Html
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.8"
     "Too many improvements to fit in a pithy title"
-    Blog.evan
-    (Blog.Date 2013 5 29)
+    Skeleton.evan
+    (Skeleton.Date 2013 5 29)
     [ Center.markdown "600px" content1
 
     , Html.div [] [ Html.text "TODO" ]
@@ -28,10 +27,10 @@ main =
     ]
 
 
-accent1 = rgb 96 181 204      -- #60B5CC  blue
-accent2 = rgb 240 173 0       -- #F0AD00  yellow
-accent3 = rgb 234 21 122      -- #EA157A  pink
-accent4 = rgb 127 209 59      -- #7FD13B  green
+--accent1 = rgb 96 181 204      -- #60B5CC  blue
+--accent2 = rgb 240 173 0       -- #F0AD00  yellow
+--accent3 = rgb 234 21 122      -- #EA157A  pink
+--accent4 = rgb 127 209 59      -- #7FD13B  green
 
 
 content1 = """

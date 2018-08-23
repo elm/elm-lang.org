@@ -1,16 +1,16 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "The Perfect Bug Report"
     "Debugging with Elm 0.18"
-    Blog.evan
-    (Blog.Date 2016 11 14)
+    Skeleton.evan
+    (Skeleton.Date 2016 11 14)
     [ Center.markdown "600px" intro
     , debuggerDemo
     , Center.markdown "600px" content
@@ -25,7 +25,8 @@ main =
 
 debuggerDemo : Html msg
 debuggerDemo =
-  div [ Center.style "800px" ]
+  div
+    (Center.styles "800px")
     [ div [ class "intrinsic-container" ]
         [ iframe
             [ src "https://www.youtube.com/embed/oNogm31F2mo?rel=0&autoplay=0&showinfo=0&color=white&modestbranding=1"
@@ -38,14 +39,16 @@ debuggerDemo =
 
 badHistory : Html msg
 badHistory =
-  div [class "content", Center.style "830px"] [
-    img
-      [ src "/assets/blog/0.18/error.png"
-      , style [("display", "block"), ("margin", "0 auto")]
-      , alt "attempting to load incompatible history"
-      ]
-      []
-  ]
+  div
+    (class "content" :: Center.styles "830px")
+    [ img
+        [ src "/assets/blog/0.18/error.png"
+        , style "display" "block"
+        , style "margin" "0 auto"
+        , alt "attempting to load incompatible history"
+        ]
+        []
+    ]
 
 
 

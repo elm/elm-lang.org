@@ -1,13 +1,13 @@
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Working on Elm full-time"
     "Elm ♥ Prezi"
-    Blog.evan
-    (Blog.Date 2013 5 21)
+    Skeleton.evan
+    (Skeleton.Date 2013 5 21)
     [ Center.markdown "600px" content ]
 
 

@@ -10,37 +10,36 @@ import Skeleton
 
 
 main =
-  Skeleton.skeleton "home"
+  Skeleton.skeleton
+    "Elm - A delightful language for reliable webapps"
+    "home"
     [ splash
     , featureSection
     , exampleSection
     , userSection
-    , getStartedSection
     ]
-
-
-(=>) = (,)
 
 
 
 -- SPLASH
 
 
+splash : Html msg
 splash =
   div [ class "splash" ]
-    [ div [ size 120 16 ] [ text "elm" ]
-    , div [ size 26 8 ] [ text "A delightful language for reliable webapps." ]
-    , div [ size 16 8 ] [ text "Generate JavaScript with great performance and no runtime exceptions." ]
+    [ div (size 120 16) [ text "elm" ]
+    , div (size 26 8) [ text "A delightful language for reliable webapps." ]
+    , div (size 16 8) [ text "Generate JavaScript with great performance and no runtime exceptions." ]
     , br [] []
     , getStarted
     ]
 
 
+size : Int -> Int -> List (Attribute msg)
 size height padding =
-  style
-    [ "font-size" => (toString height ++ "px")
-    , "padding" => (toString padding ++ "px 0")
-    ]
+  [ style "font-size" (String.fromInt height ++ "px")
+  , style "padding" (String.fromInt padding ++ "px 0")
+  ]
 
 
 
@@ -49,15 +48,9 @@ size height padding =
 
 getStarted : Html msg
 getStarted =
-  div [ class "get-started" ]
-    [ a [ href "/try" ] [ text "Try Online" ]
-    , a [ href "http://guide.elm-lang.org/install.html" ] [ text "Install" ]
+  div [ class "buttons" ]
+    [ a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
     ]
-
-
-getStartedSection : Html msg
-getStartedSection =
-  div [ class "splash", style [("margin", "100px 0")] ] [ getStarted ]
 
 
 
@@ -75,9 +68,8 @@ featureSection =
 type alias Feature msg =
   { title : String
   , height : Int
-  , image : String
-  , link : String
   , description : List (Html msg)
+  , image : List (Html msg)
   }
 
 
@@ -85,49 +77,141 @@ viewFeature : Feature msg -> Html msg
 viewFeature feature =
   li
     [ class "feature"
-    , style [ ( "min-height", toString feature.height ++ "px" ) ]
+    , style "min-height" (String.fromInt feature.height ++ "px")
     ]
     [ div [class "feature-description"]
         [ h2 [] [text feature.title]
         , p [] feature.description
         ]
-    , a [ class "feature-image"
-        , href feature.link
-        ]
-        [ img [src feature.image
-              , style [("width", "100%")]
-              ] []
-        ]
+    , div [ class "feature-image" ] feature.image
     ]
 
 
 features : List (Feature msg)
 features =
-  [ Feature "JavaScript Interop" 100 "/assets/home/embed.png" "/blog/how-to-use-elm-at-work" <|
-      [ text "Elm compiles to JavaScript, so trying out Elm is easy. Convert a small part of your app to Elm and "
-      , a [href "/blog/how-to-use-elm-at-work"] [text "embed it in JS"]
-      , text ". No full rewrites, no huge time investment. More about that "
-      , a [href "http://guide.elm-lang.org/interop/"] [text "here"]
-      , text "."
+  [ Feature "No Runtime Exceptions" 240
+      [ text "Elm uses type inference to detect corner cases and give friendly hints. For example, what if someone provides invalid inputs? NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
+      , a [href "/blog/compilers-as-assistants"] [text "details"]
+      , text ")"
       ]
-  , Feature "No Runtime Exceptions" 200 "/assets/home/errors.png" "/blog/compilers-as-assistants" <|
-      [ text "Unlike hand-written JavaScript, Elm code does not produce runtime exceptions in practice. Instead, Elm uses type inference to detect problems during compilation and give "
-      , a [href "/blog/compilers-as-assistants"] [text "friendly hints"]
-      , text ". This way problems never make it to your users. NoRedInk has 80k+ lines of Elm, and after more than a year in production, it still has not produced a single runtime exception."
+      [ div [ class "terminal" ]
+          [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
+          , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
+          , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
+          , text "\nThis `toInt` call produces:\n\n    "
+          , color dullYellow "Maybe"
+          , text " Int\n\nBut `drop` needs the 1st argument to be:\n\n    Int\n\n"
+          , span [ style "text-decoration" "underline" ] [ text "Hint" ]
+          , text ": Use "
+          , color green "Maybe.withDefault"
+          , text " to handle possible errors."
+          ]
       ]
-  , Feature "Great Performance" 320 "/assets/home/benchmark.png" "/blog/blazing-fast-html-round-two" <|
-      [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and "
-      , a [href "/blog/blazing-fast-html-round-two"] [text "the benchmarks"]
-      , text " show that this helps us generate particularly fast JavaScript code."
+  , Feature "Great Performance" 320
+      [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. ("
+      , a [href "/blog/blazing-fast-html-round-two"] [text "details"]
+      , text ")"
       ]
-  , Feature "Enforced Semantic Versioning" 280 "/assets/home/semver.png" "http://package.elm-lang.org" <|
-      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to force everything in "
-      , a [href "http://package.elm-lang.org"] [text "our package catalog"]
-      , text " to follow "
-      , a [href "https://github.com/elm-lang/elm-package/#version-rules"] [text "semantic versioning"]
-      , text " precisely. No more surprises in PATCH releases!"
+      [ img
+            [ src "/assets/home/benchmark.png"
+            , style "width" "100%"
+            ]
+            []
+      ]
+  , Feature "Enforced Semantic Versioning" 200
+      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No more surprises in PATCH releases! ("
+      , a [href "https://package.elm-lang.org"] [text "details"]
+      , text ")"
+      ]
+      [ div [ class "terminal" ]
+          [ color "plum" "$"
+          , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
+          , color green "MAJOR"
+          , text " change.\n\n"
+          , color cyan "---- JsonTree - MAJOR ----"
+          , text "\n\n    Changed:\n      - parseString : String -> Result String Node\n      + parseString : String -> Result Error Node\n\n      - parseValue : Value -> Result String Node\n      + parseValue : Value -> Result Error Node\n\n"
+          ]
+      ]
+  , Feature "Small Assets" 280
+      [ text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
+      , code [] [ text "--optimize" ]
+      , text " flag and let the compiler do the rest. No complicated set up. ("
+      , a [href "/blog/small-assets-without-the-headache"] [text "details"]
+      , text ")"
+      ]
+      [ img
+            [ src "/assets/home/asset-sizes.png"
+            , style "width" "100%"
+            ]
+            []
+      ]
+  , Feature "JavaScript Interop" 120
+      [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. No major risk in trying it for something small! ("
+      , a [href "http://guide.elm-lang.org/interop/"] [text "details"]
+      , text ")"
+      ]
+      [ div [ class "terminal" ]
+          [ var
+          , text " Elm "
+          , equals
+          , text " require("
+          , string "'./dist/elm/main.js'"
+          , text ");\n\n"
+          , var
+          , text " app "
+          , equals
+          , text " Elm.Main.init({\n  node: document.getElementById("
+          , string "'elm-app'"
+          , text ")\n});\n\n"
+          , color grey "// set up ports here"
+          ]
       ]
   ]
+
+
+var : Html msg
+var =
+  color cyan "var"
+
+
+equals : Html msg
+equals =
+  color dullRed "="
+
+
+string : String -> Html msg
+string str =
+  color dullYellow str
+
+
+color : String -> String -> Html msg
+color clr str =
+  span [ style "color" clr ] [ text str ]
+
+
+cyan : String
+cyan =
+  "rgb(51,187,200)"
+
+
+dullRed : String
+dullRed =
+  "rgb(194,54,33)"
+
+
+dullYellow : String
+dullYellow =
+  "rgb(173,173,39)"
+
+
+green : String
+green =
+  "rgb(49,231,34)"
+
+
+grey : String
+grey =
+  "rgb(143,144,145)"
 
 
 
@@ -138,14 +222,16 @@ exampleSection : Html msg
 exampleSection =
   section [class "home-section"]
     [ h1 [] [text "Examples"]
-    , p [class "home-paragraph", style [("margin-bottom","40px")] ]
-        [ text "Learning by example is important, so we have some "
+    , p [ class "home-paragraph"
+        , style "margin-bottom" "40px"
+        ]
+        [ text "We have some "
         , a [href "/examples"] [text "simple"]
-        , text " and "
+        , text " and some "
         , a [href "http://builtwithelm.co/"] [text "elaborate"]
         , text " examples to help you as you move through "
-        , a [href "http://guide.elm-lang.org/"] [text "An Introduction to Elm"]
-        , text ". Here are some nice ones!"
+        , a [href "http://guide.elm-lang.org/"] [text "the official guide"]
+        , text ". Here are some particularly neat ones!"
         ]
     , fluidList 400 2 examples
     ]
@@ -158,10 +244,6 @@ examples =
       "https://evancz.github.io/elm-todomvc"
       "https://github.com/evancz/elm-todomvc"
   , example
-      "hedley"
-      "https://gizra.github.io/elm-hedley"
-      "https://github.com/Gizra/elm-hedley"
-  , example
       "elm-spa-example"
       "http://rtfeldman.github.io/elm-spa-example/"
       "https://github.com/rtfeldman/elm-spa-example"
@@ -173,24 +255,24 @@ examples =
       "flatris"
       "https://unsoundscapes.itch.io/flatris"
       "https://github.com/w0rm/elm-flatris"
-  , example
-      "sketch-n-sketch"
-      "http://ravichugh.github.io/sketch-n-sketch/releases/v0.5/"
-      "https://github.com/ravichugh/sketch-n-sketch"
   ]
 
 
 example : String -> String -> String -> List (Html msg)
 example imgSrc demo code =
-  [ a [ href demo, style ["display" => "block"] ]
+  [ a [ href demo, style "display" "block" ]
       [ img
           [ src ("/assets/examples/" ++ imgSrc ++ ".png")
           , alt imgSrc
-          , style [("width", "100%")]
+          , style "width" "100%"
           ]
           []
       ]
-  , p [style ["display" => "block", "text-align" => "center", "margin" => "0", "height" => "60px" ]]
+  , p [ style "display" "block"
+      , style "text-align" "center"
+      , style "margin" "0"
+      , style "height" "60px"
+      ]
       [ a [href code] [text "source"]
       ]
   ]
@@ -205,21 +287,24 @@ fluidList itemWidth maxColumns itemList =
   let
     toPx : Int -> String
     toPx num =
-      toString num ++ "px"
+      String.fromInt num ++ "px"
 
-    bulletStyle =
-        [ "display" => "inline-block"
-        , "max-width" => toPx itemWidth
-        , "vertical-align" => "top"
-        , "text-align" => "left"
-        , "margin" => ("0 " ++ toPx gutter)
+    bulletStyles =
+        [ style "display" "inline-block"
+        , style "max-width" (toPx itemWidth)
+        , style "vertical-align" "top"
+        , style "text-align" "left"
+        , style "margin" ("0 " ++ toPx gutter)
         ]
 
     gutter = 30
   in
     section
-      [style ["max-width" => toPx (itemWidth*maxColumns + 2*gutter*maxColumns), "margin" => "auto", "text-align" => "center"]]
-      (List.map (section [style bulletStyle]) itemList)
+      [ style "max-width" (toPx (itemWidth*maxColumns + 2*gutter*maxColumns))
+      , style "margin" "auto"
+      , style "text-align" "center"
+      ]
+      (List.map (section bulletStyles) itemList)
 
 
 
@@ -232,8 +317,8 @@ userSection =
     [ h1 [] [text "Featured Users"]
     , div [ class "featured-user" ]
         [ div [ class "quote" ]
-            [ p [] [ text "We’ve had zero run-time failures, the filesize is ridiculously small, and it runs faster than anything else in our code base. We’ve also had fewer bugs... " ]
-            , p [] [ text "To sum it up, our manager has mandated that all new code be written in Elm." ]
+            [ p [] [ text "working with Elm was downright enjoyable. [...]" ]
+            , p [] [ text "We’ve had zero run-time failures, the filesize is ridiculously small, and it runs faster than anything else in our code base. We’ve also had fewer bugs [...]" ]
             ]
         , div [ class "attribution" ]
             [ div [ class "attribution-author" ]
@@ -244,14 +329,12 @@ userSection =
                 , href "https://www.pivotaltracker.com"
                 ]
                 [ div
-                    [ style
-                        [ "width" => "200px"
-                        , "height" => "100px"
-                        , "background-image" => ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
-                        , "background-repeat" => "no-repeat"
-                        , "background-position" => "center"
-                        , "display" => "block"
-                        ]
+                    [ style "width" "200px"
+                    , style "height" "100px"
+                    , style "background-image" ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
+                    , style "background-repeat" "no-repeat"
+                    , style "background-position" "center"
+                    , style "display" "block"
                     ]
                     []
                 ]
@@ -263,36 +346,12 @@ userSection =
             "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"
             "png"
         , company
-            "Carfax"
-            "https://www.carfax.com/"
-            "png"
-        , company
             "Futurice"
             "http://futurice.com/blog/elm-in-the-real-world"
             "svg"
         , company
             "Gizra"
             "http://www.gizra.com/content/thinking-choosing-elm/"
-            "png"
-        , company
-            "Prezi"
-            "https://prezi.com/"
-            "png"
-        , company
-            "TruQu"
-            "https://truqu.com/"
-            "png"
-        , company
-            "CircuitHub"
-            "https://circuithub.com/"
-            "png"
-        , company
-            "Beautiful Destinations"
-            "http://www.beautifuldestinations.com/"
-            "svg"
-        , company
-            "Hearken"
-            "https://www.wearehearken.com/"
             "png"
         ]
     ]
@@ -311,13 +370,11 @@ toLogo name website extension =
   in
     a [ href website ]
       [ div
-          [ style
-              [ "width" => "200px"
-              , "height" => "100px"
-              , "background-image" => ("url('" ++ imgSrc ++ "')")
-              , "background-repeat" => "no-repeat"
-              , "background-position" => "center"
-              ]
+          [ style "width" "200px"
+          , style "height" "100px"
+          , style "background-image" ("url('" ++ imgSrc ++ "')")
+          , style "background-repeat" "no-repeat"
+          , style "background-position" "center"
           ]
           []
       ]

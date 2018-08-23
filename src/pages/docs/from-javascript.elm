@@ -1,12 +1,12 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.docs
+  Skeleton.docs
     "From JavaScript?"
     [ Center.markdown "800px" content
     , syntaxTable "Literals" literals
@@ -28,8 +28,11 @@ minor syntactic difference.
 
 -- TABLE
 
+
+syntaxTable : String -> List (Value, Value) -> Html msg
 syntaxTable subtitle comparisions =
-  div [Center.style "800px"]
+  div
+    (Center.styles "800px")
     [ h2 [] [text subtitle]
     , div [class "comparison"]
         [ table []
@@ -40,29 +43,30 @@ syntaxTable subtitle comparisions =
     ]
 
 
+header : Html msg
 header =
   tr []
-    [ th [cellStyle] [text "JavaScript"]
-    , th [cellStyle] [text "Elm"]
+    [ th cellStyles [text "JavaScript"]
+    , th cellStyles [text "Elm"]
     ]
 
 
+row : (Value, Value) -> Html msg
 row (js, elm) =
   tr []
-    [ td [cellStyle] [value js]
-    , td [cellStyle] [value elm]
+    [ td cellStyles [value js]
+    , td cellStyles [value elm]
     ]
 
 
-cellStyle =
-  style [ ("width", "400px"), ("padding", "6px") ]
+cellStyles : List (Attribute msg)
+cellStyles =
+  [ style "width" "400px"
+  , style "padding" "6px"
+  ]
 
 
 type Value = Code String | Message String
-
-
-(=/=) js elm =
-  (Code js, Code elm)
 
 
 value v =
@@ -71,50 +75,50 @@ value v =
       code [] [text str]
 
     Message str ->
-      span [style [("color", "#CBCBCB")]] [text str]
+      span [ style "color" "#CBCBCB" ] [text str]
 
 
 -- COMPARISONS
 
 literals =
-  [ "3" =/= "3"
-  , "3.1415" =/= "3.1415"
-  , "\"Hello world!\"" =/= "\"Hello world!\""
+  [ (Code "3", Code "3")
+  , (Code "3.1415", Code "3.1415")
+  , (Code "\"Hello world!\"", Code "\"Hello world!\"")
   , (Message "Multiline strings not widely supported", Code "\"\"\"multiline string\"\"\"")
   , (Code "'Hello world!'", Message "Cannot use single quotes for strings")
   , (Message "No distinction between characters and strings", Code "'a'")
-  , "true" =/= "True"
-  , "[1,2,3]" =/= "[1,2,3]"
+  , (Code "true", Code "True")
+  , (Code "[1,2,3]", Code "[1,2,3]")
   ]
 
 
 records =
-  [ "{ x: 3, y: 4 }" =/= "{ x = 3, y = 4 }"
-  , "point.x" =/= "point.x"
-  , "point.x = 42" =/= "{ point | x = 42 }"
+  [ (Code "{ x: 3, y: 4 }", Code "{ x = 3, y = 4 }")
+  , (Code "point.x", Code "point.x")
+  , (Code "point.x = 42", Code "{ point | x = 42 }")
   ]
 
 
 functions =
-  [ "function(x, y) { return x + y; }" =/= "\\x y -> x + y"
-  , "Math.max(3, 4)" =/= "max 3 4"
-  , "Math.min(1, Math.pow(2, 4))" =/= "min 1 (2^4)"
-  , "numbers.map(Math.sqrt)" =/= "List.map sqrt numbers"
-  , "points.map(function(p) { return p.x })" =/= "List.map .x points"
+  [ (Code "function(x, y) { return x + y; }", Code "\\x y -> x + y")
+  , (Code "Math.max(3, 4)", Code "max 3 4")
+  , (Code "Math.min(1, Math.pow(2, 4))", Code "min 1 (2^4)")
+  , (Code "numbers.map(Math.sqrt)", Code "List.map sqrt numbers")
+  , (Code "points.map(function(p) { return p.x })", Code "List.map .x points")
   ]
 
 
 controlFlow =
-  [ "3 > 2 ? 'cat' : 'dog'" =/= "if 3 > 2 then \"cat\" else \"dog\""
-  , "var x = 42; ..." =/= "let x = 42 in ..."
+  [ (Code "3 > 2 ? 'cat' : 'dog'", Code "if 3 > 2 then \"cat\" else \"dog\"")
+  , (Code "var x = 42; ...", Code "let x = 42 in ...")
   , (Code "return 42", Message "Everything is an expression, no need for return")
   ]
 
 
 strings =
-  [ "'abc' + '123'" =/= "\"abc\" ++ \"123\""
-  , "'abc'.length" =/= "String.length \"abc\""
-  , "'abc'.toUpperCase()" =/= "String.toUpper \"abc\""
-  , "'abc' + 123" =/= "\"abc\" ++ toString 123"
+  [ (Code "'abc' + '123'", Code "\"abc\" ++ \"123\"")
+  , (Code "'abc'.length", Code "String.length \"abc\"")
+  , (Code "'abc'.toUpperCase()", Code "String.toUpper \"abc\"")
+  , (Code "'abc' + 123", Code "\"abc\" ++ toString 123")
   ]
 

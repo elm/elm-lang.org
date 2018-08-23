@@ -1,11 +1,11 @@
 import Html exposing (..)
 
-import Blog
+import Skeleton
 import Center
 
 
 main =
-  Blog.docs
+  Skeleton.docs
     "Style Guide"
     [ Center.markdown "600px" content
     ]

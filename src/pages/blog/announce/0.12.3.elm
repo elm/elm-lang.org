@@ -1,14 +1,15 @@
-import Blog
+import Skeleton
 import Center
-import Debug
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 main =
-  Blog.blog
+  Skeleton.blog
     "Elm 0.12.3"
     "Hardware accelerated 3D rendering with WebGL"
-    Blog.evan
-    (Blog.Date 2014 5 20)
+    Skeleton.evan
+    (Skeleton.Date 2014 5 20)
     [ Center.markdown "600px" content1
     , exampleBlock
     , Center.markdown "600px" content2
@@ -66,9 +67,13 @@ then play around with some examples to get a feel for actually using this API:
 """
 
 
-exampleBlock =
-  Debug.crash "Need to display 3D examples!"
-    [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+exampleBlock = -- [ "Triangle", "Cube", "Thwomp", "FirstPerson" ]
+  div
+    [ style "font-weight" "bold"
+    , style "text-align" "center"
+    ]
+    [ text "EXAMPLES OUT OF ORDER"
+    ]
 
 
 content2 = """
