@@ -175,7 +175,7 @@ a:hover {
 }
 
 .featured-user .quote:after {
-  content: "";
+  content: no-close-quote;
   position: absolute;
   bottom: -20px;
   right: 130px;

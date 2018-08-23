@@ -317,6 +317,30 @@ userSection =
     [ h1 [] [text "Featured Users"]
     , div [ class "featured-user" ]
         [ div [ class "quote" ]
+          [ p [] [ text "On top of the developer happiness, freedom from errors and easy refactoring, adopting Elm, more than any other single thing we’ve done at Culture Amp, has been the key to recruiting a steady stream of great front end engineers for our fast-growing team." ]
+            ]
+        , div [ class "attribution" ]
+            [ div [ class "attribution-author" ]
+                [ p [] [ text "Kevin Yank" ]
+                , p [] [ a [ href "https://twitter.com/sentience/status/1032226910388944896" ] [ text "@sentience" ] ]
+                ]
+            , a [ class "attribution-logo"
+                , href "https://www.cultureamp.com"
+                ]
+                [ div
+                    [ style "width" "200px"
+                    , style "height" "100px"
+                    , style "background-image" ("url('" ++ toLogoSrc "CultureAmp" "svg" ++ "')")
+                    , style "background-repeat" "no-repeat"
+                    , style "background-position" "center"
+                    , style "display" "block"
+                    ]
+                    []
+                ]
+            ]
+        ]
+    , div [ class "featured-user" ]
+        [ div [ class "quote" ]
             [ p [] [ text "working with Elm was downright enjoyable. [...]" ]
             , p [] [ text "We’ve had zero run-time failures, the filesize is ridiculously small, and it runs faster than anything else in our code base. We’ve also had fewer bugs [...]" ]
             ]
