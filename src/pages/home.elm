@@ -349,6 +349,14 @@ userSection =
             "http://www.gizra.com/content/thinking-choosing-elm/"
             "png"
         ]
+    , p [ class "home-paragraph"
+        , style "color" "#bbbbbb"
+        , style "margin-bottom" "40px"
+        ]
+        [ text "Want your company to get featured? Learn how "
+        , a [ class "grey-link", href "https://gist.github.com/evancz/1a54976c56775ed2883c16b2f296be27"] [text "here"]
+        , text "."
+        ]
     ]
 
 
