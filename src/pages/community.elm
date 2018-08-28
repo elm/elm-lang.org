@@ -58,12 +58,14 @@ The following folks write command line tools, publish packages, run conferences,
 
 ## Participate
 
-The following resources outline what it means to participate in the Elm community:
+The best way to get started in the community is to participate socially. Maybe that means setting up an [ElmBridge](https://github.com/elmbridge) event in your area or starting a meetup. Maybe it means helping friends, people at your company, or folks online.
+
+If you want to get involved with code, please check out the following resources:
 
 - [What is Success?](https://youtu.be/uGlzRt-FYto)
 - [Code is the Easy Part](https://youtu.be/DSjbTC-hvqQ)
 - [Building Trust](https://discourse.elm-lang.org/t/building-trust-what-has-worked/975)
 
-Please go through them! Especially if you are interested in working on  packages or tools. It is not about code. It is not about more features and more stars. These resources describe what it _is_ about in Elm, and they will likely save you a great deal of time!
+We have primarily volunteer labor, and having good working relationships is important is an important aspect of collaboration like this.
 
 """
