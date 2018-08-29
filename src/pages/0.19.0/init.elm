@@ -53,7 +53,7 @@ git clone https://github.com/evancz/elm-todomvc.git
 git clone https://github.com/rtfeldman/elm-spa-example.git
 ```
 
-The idea is that Elm projects should be so simple that nobody needs a tool to generate a bunch of stuff. This also captures the fact that project structure _should_ evolve organically as your application develops, never ending up exactly the same as other porjects.
+The idea is that Elm projects should be so simple that nobody needs a tool to generate a bunch of stuff. This also captures the fact that project structure _should_ evolve organically as your application develops, never ending up exactly the same as other projects.
 
 But if you have something particular you want, I recommend creating your own starter recipe and using `git clone` when you start new projects. That way (1) you can get exactly what you want and (2) we do not end up with a complex `elm init` that ends up being confusing for beginners!
 
