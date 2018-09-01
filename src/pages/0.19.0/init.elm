@@ -46,7 +46,7 @@ From there, we have a great testing package called [`elm-explorations/test`](htt
 
 ## How do I start fancier projects?
 
-I wanted `elm init` is to generate as little code as possible. It is mainly meant to get you to this page! If you would like a more elaborate starting point, I recommend starting projects with commands like these:
+I wanted `elm init` to generate as little code as possible. It is mainly meant to get you to this page! If you would like a more elaborate starting point, I recommend starting projects with commands like these:
 
 ```bash
 git clone https://github.com/evancz/elm-todomvc.git
