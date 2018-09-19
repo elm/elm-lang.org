@@ -36,6 +36,7 @@ EOF
 mkdir -p bin
 if [ ! -f bin/elm ]
 then
+  mkdir -p elm
   curl $ELM_URL | tar xz
   chmod 755 elm
   mv elm bin/
