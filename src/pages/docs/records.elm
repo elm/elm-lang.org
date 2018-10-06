@@ -256,7 +256,7 @@ type alias Moving a =
 
 This syntax is defining types that have *at least* certain fields, but may have
 others as well. So `Positioned a` is a record with at least an `x` and `y`
-field.
+fields.
 
 This means you can define records that have any subsection of these fields.
 For example,
@@ -298,7 +298,7 @@ positions =
   [ getPos origin, getPos dude ]
 ```
 
-The `getName` function works on anything with an `name` field, so it can
+The `getName` function works on anything with a `name` field, so it can
 be used on both `lady` and `dude`. Same for `getPos` which can work on
 anything with `x` and `y` fields.
 
