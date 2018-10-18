@@ -119,6 +119,6 @@ strings =
   [ (Code "'abc' + '123'", Code "\"abc\" ++ \"123\"")
   , (Code "'abc'.length", Code "String.length \"abc\"")
   , (Code "'abc'.toUpperCase()", Code "String.toUpper \"abc\"")
-  , (Code "'abc' + 123", Code "\"abc\" ++ String.fromInteger 123")
+  , (Code "'abc' + 123", Code "\"abc\" ++ String.fromInt 123")
   ]
 
