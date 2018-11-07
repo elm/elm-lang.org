@@ -36,9 +36,8 @@ EOF
 mkdir -p bin
 if [ ! -f bin/elm ]
 then
-  curl $ELM_URL | tar xz
-  chmod 755 elm
-  mv elm bin/
+  npm install elm
+  ln -s ../node_modules/elm/bin/elm bin/elm
 fi
 if [ ! -f bin/uglifyjs ]
 then
