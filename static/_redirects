@@ -1,5 +1,5 @@
 # example redirects
-/examples/*  http://try.elm-lang.org/examples/:splat
+/examples/*  /examples
 
 # old roots
 Blog.elm             /blog
