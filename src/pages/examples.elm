@@ -13,6 +13,7 @@ main =
     [ Center.markdown "600px" content
     , div [ class "buttons", style "text-align" "center" ]
         [ a [ href "https://guide.elm-lang.org/" ] [ text "Official Guide" ]
+        ]
     ]
 
 
