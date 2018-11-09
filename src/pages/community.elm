@@ -66,6 +66,6 @@ If you want to get involved with code, please check out the following resources:
 - [Code is the Easy Part](https://youtu.be/DSjbTC-hvqQ)
 - [Building Trust](https://discourse.elm-lang.org/t/building-trust-what-has-worked/975)
 
-We have primarily volunteer labor, and having good working relationships is important is an important aspect of collaboration like this.
+We have primarily volunteer labor, and having good working relationships is an important aspect of collaboration like this.
 
 """
