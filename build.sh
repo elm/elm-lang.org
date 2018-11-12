@@ -23,6 +23,7 @@ function makeHtml {
 $(cat $3)
 var app = Elm.Main.init();
 </script>
+<noscript>Please enable JavaScript to view this page.</script>
 
 </body>
 </html>
