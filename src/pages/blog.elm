@@ -15,6 +15,7 @@ blog = """
 
 ### Articles
 
+ * [Working with Files](/blog/working-with-files)
  * [Small Assets without the Headache](/blog/small-assets-without-the-headache)
  * [Google Summer of Code 2017](/blog/google-summer-of-code-2017)
  * [The Perfect Bug Report](/blog/the-perfect-bug-report)
