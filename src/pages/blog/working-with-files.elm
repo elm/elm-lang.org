@@ -36,8 +36,8 @@ From there you can use functions from [`elm/file`][file], [`elm/bytes`][bytes], 
 I made a couple examples to make sure everything fits together nicely:
 
 - Select files - [example](https://ellie-app.com/3SYtjPmN7Wja1)
-- Drag-and-drop files - [example](https://ellie-app.com/3SYCrHMXp7ta1)
-- Drag-and-drop files with image previews - [example](https://ellie-app.com/3SYD22vk8s6a1)
+- Drag-and-drop files - [example](https://ellie-app.com/3T5mNms7SwKa1)
+- Drag-and-drop files with image previews - [example](https://ellie-app.com/3T5pn2qH7Jba1)
 - Select files and then upload with progress - [code](https://github.com/elm/file/blob/master/examples/SelectFilesWithProgress.elm)
 - Select files and then upload with progress and cancellation - [code](https://github.com/elm/file/blob/master/examples/SelectFilesWithProgressAndCancellation.elm)
 
