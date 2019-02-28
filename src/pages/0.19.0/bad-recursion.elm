@@ -59,7 +59,7 @@ type alias Comment =
 type Responses = Responses (List Comment)
 ```
 
-You may have run into this definition in the [hints for recursive aliases](recursive-alias.md)! Anyway, once you have comments, you may want to turn them into JSON to send back to your server or to store in your database or whatever. So you will probably write some code like this:
+You may have run into this definition in the [hints for recursive aliases](recursive-alias)! Anyway, once you have comments, you may want to turn them into JSON to send back to your server or to store in your database or whatever. So you will probably write some code like this:
 
 ```elm
 import Json.Decode as Decode exposing (Decoder)
