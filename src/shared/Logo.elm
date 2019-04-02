@@ -167,9 +167,9 @@ stepShape dt shape =
         na = a + nva * dt
         dx = abs (tx - nx)
         dy = abs (ty - ny)
-        da = abs (ta - na)
+        da = abs (tt - na)
       in
-      if dx < 1 && dy < 1 && da < 0.02 && abs nvx < 0.3 && abs nvy < 0.3 && abs nva < 0.6 then
+      if dx < 1 && dy < 1 && da < 1 && abs nvx < 0.6 && abs nvy < 0.6 && abs nva < 0.6 then
         Static tx ty (normalize ta)
       else
         Moving nvx nvy nva nx ny na tx ty ta
@@ -217,7 +217,7 @@ perturb timeDelta x y dx dy model =
     model
   else
     let
-      dt = timeDelta / 1000
+      dt = max 1 timeDelta / 10
     in
     { tb1 = perturbShape dt x y dx dy model.tb1
     , tb2 = perturbShape dt x y dx dy model.tb2
@@ -229,35 +229,26 @@ perturb timeDelta x y dx dy model =
     }
 
 
--- Vague inspiration taken from:
---
---   https://en.wikipedia.org/wiki/Coulomb%27s_law
---   https://en.wikipedia.org/wiki/Lorentz_force
---
 perturbShape : Float -> Float -> Float -> Float -> Float -> Shape -> Shape
 perturbShape dt mx my dx dy shape =
   case shape of
     Static x y a ->
       let
-        rx = x - mx
-        ry = y - my
-        r2 = max 10000 (rx * rx + ry * ry)
-        ax = 80000 * dx / (dt * r2)
-        ay = 80000 * dy / (dt * r2)
-        vx = ax * dt
-        vy = ay * dt
+        rx = mx * 10 - x / 120
+        ry = my * 10 - y / 120
+        r2 = max 0.5 (rx * rx + ry * ry)
+        vx = dx / (dt * r2)
+        vy = dy / (dt * r2)
       in
       Moving vx vy 0 x y a x y a
 
     Moving vx vy va x y a tx ty ta ->
       let
-        rx = x - mx
-        ry = y - my
-        r2 = max 10000 (rx * rx + ry * ry)
-        ax = 80000 * dx / (dt * r2)
-        ay = 80000 * dy / (dt * r2)
-        nvx = vx + ax * dt
-        nvy = vy + ay * dt
+        rx = mx * 10 - x / 120
+        ry = my * 10 - y / 120
+        r2 = max 0.5 (rx * rx + ry * ry)
+        nvx = vx + dx / (dt * r2)
+        nvy = vy + dy / (dt * r2)
       in
       Moving nvx nvy va x y a tx ty ta
 
