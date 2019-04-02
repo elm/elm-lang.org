@@ -8,18 +8,23 @@ import Html.Lazy exposing (..)
 import Json.Decode as D
 import Markdown
 import String
+import Time
 
 import Center
 import Cycle
-import Skeleton
 import Logo
+import Skeleton
+import TextAnimation
 
+
+
+-- MAIN
 
 
 main =
   Browser.document
-    { init = \() -> (init, Cmd.none)
-    , update = \msg model -> (update msg model, Cmd.none)
+    { init = \() -> ( init, Cmd.none )
+    , update = \msg model -> ( update msg model, Cmd.none )
     , subscriptions = subscriptions
     , view = \model ->
         { title = "Elm - A delightful language for reliable webapps"
@@ -40,6 +45,7 @@ type alias Model =
   { time : Float
   , logo : Logo.Model
   , patterns : Cycle.Cycle Logo.Pattern
+  , taglines : TextAnimation.State
   , visibility : E.Visibility
   }
 
@@ -49,8 +55,17 @@ init =
   { time = 0
   , logo = Logo.start
   , visibility = E.Visible
+  , taglines =
+      TextAnimation.init
+        "for reliable webapps."
+        [ "with no runtime exceptions."
+        , "for data visualization."
+        , "for 3D graphics."
+        , "for 2D games."
+        ]
   , patterns =
-      Cycle.init Logo.heart
+      Cycle.init
+        Logo.heart
         [ Logo.camel
         , Logo.cat
         , Logo.bird
@@ -70,6 +85,7 @@ type Msg
   | MouseClicked
   | TimeDelta Float
   | VisibilityChanged E.Visibility
+  | TimePassed
 
 
 update : Msg -> Model -> Model
@@ -78,7 +94,7 @@ update msg model =
     MouseMoved t x y dx dy ->
       { model
           | time = t
-          , logo = Logo.perturb (t - model.time) (3 * x - 600) (600 - 3 * y) dx -dy model.logo
+          , logo = Logo.perturb (t - model.time) (x - 0.5) (0.5 - y) dx -dy model.logo
       }
 
     MouseClicked ->
@@ -89,13 +105,21 @@ update msg model =
 
     TimeDelta timeDelta ->
       { model
-          | logo = Logo.step timeDelta model.logo
+          | logo =
+              if Logo.isMoving model.logo
+              then Logo.step timeDelta model.logo
+              else model.logo
+          , taglines =
+              if TextAnimation.isMoving model.taglines
+              then TextAnimation.step model.taglines
+              else model.taglines
       }
 
     VisibilityChanged visibility ->
-      { model
-          | visibility = visibility
-      }
+      { model | visibility = visibility }
+
+    TimePassed ->
+      { model | taglines = TextAnimation.step model.taglines }
 
 
 
@@ -111,9 +135,9 @@ subscriptions model =
           Sub.none
 
         E.Visible ->
-          if Logo.isMoving model.logo
+          if Logo.isMoving model.logo || TextAnimation.isMoving model.taglines
           then E.onAnimationFrameDelta TimeDelta
-          else Sub.none
+          else Time.every 4000 (\_ -> TimePassed)
     ]
 
 
@@ -130,13 +154,19 @@ viewSplash model =
     , style "background-color" "#1293D8"
     , style "color" "white"
     ]
-    [ Logo.view
-        [ style "width" "400px"
-        , style "color" "white"
+    [ div
+        [ style "height" "400px"
+        , style "width" "400px"
         , onMouseMove
-        , onClick MouseClicked
         ]
-        model.logo
+        [ Logo.view
+            [ style "height" "400px"
+            , style "width" "400px"
+            , style "color" "white"
+            , onClick MouseClicked
+            ]
+            model.logo
+        ]
     , div
         [ style "display" "flex"
         , style "flex-direction" "column"
@@ -146,12 +176,7 @@ viewSplash model =
         [ div [ style "font-size" "32px" ]
             [ text "A delightful language"
             , br [] []
-            , text "for reliable webapps."
-            -- reliable webapps
-            -- learning programming
-            -- data visualization
-            -- 3D graphics
-            -- 2D games
+            , span [ class "tagline" ] [ text (TextAnimation.view model.taglines) ]
             ]
         , div
             [ class "buttons"
@@ -168,10 +193,17 @@ onMouseMove =
   on "mousemove" <|
     D.map5 MouseMoved
       (D.field "timeStamp" D.float)
-      (D.field "offsetX"   D.float)
-      (D.field "offsetY"   D.float)
+      (normalizedField "clientWidth"  "offsetX")
+      (normalizedField "clientHeight" "offsetY")
       (D.field "movementX" D.float)
       (D.field "movementY" D.float)
+
+
+normalizedField : String -> String -> D.Decoder Float
+normalizedField dimension position =
+  D.map2 (/)
+    (D.field position D.float)
+    (D.field "currentTarget" (D.field dimension D.float))
 
 
 
