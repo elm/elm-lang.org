@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic);
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans|IBM+Plex+Mono');
 
 html, head, body {
   margin: 0;
@@ -6,8 +6,8 @@ html, head, body {
 }
 
 body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
-  color: #293c4b;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #000E16;
 }
 
 h1, h2, h3, h4 {
@@ -20,14 +20,8 @@ p {
   line-height: 1.5em;
 }
 
-a {
-  color: #60B5CC;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-  color: rgb(234,21,122);
-}
+a { color: #1293D8; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 
 /* content */
@@ -71,7 +65,7 @@ a:hover {
   min-width: 396px;
   white-space: pre;
   color: white;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   background-color: black;
 }
@@ -145,128 +139,43 @@ a:hover {
 }
 
 
-/* users */
+/* header */
 
-.featured-user {
-  max-width: 600px;
-  padding-top: 40px;
-  padding-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
+.header {
+  background-color: #1293D8;
+  width: 100%;
 }
 
-.featured-user .quote {
-  background: #eeeeee;
-  padding: 10px 30px;
-  border-radius: 10px;
-  position: relative;
-  color: #b4b4b4;
-  font-size: 20px;
-  color: #5A6378;
-  quotes: "\201C""\201D""\2018""\2019"
+.nav {
+  max-width: 800px;
+  height: 64px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.featured-user .quote p:first-of-type:before {
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  margin-right: 0.25em;
-  vertical-align: -0.4em;
+.tabs {
+  display: flex;
+  align-items: center;
 }
 
-.featured-user .quote:after {
-  content: "";
-  position: absolute;
-  bottom: -20px;
-  right: 130px;
-  border-width: 20px 20px 0;
-  border-style: solid;
-  border-color: #eeeeee transparent;
-  display: block;
-  width: 0;
-}
-
-.featured-user .attribution {
-  height: 100px;
-}
-
-.featured-user .attribution-logo {
-  float: right;
-}
-
-.featured-user .attribution-author {
-  width: 300px;
-  display: block;
-  float: right;
-  font-size: 18px;
-  color: #5A6378;
-  text-align: center;
-  padding-top: 24px
-}
-
-.featured-user .attribution-author p {
-  padding: 0;
-  margin: 0;
-}
-
-@media (max-width: 500px) {
-  .featured-user .quote:after {
-    right: calc(50% - 20px);
-  }
-  .featured-user .attribution {
-    height: auto;
-  }
-  .featured-user .attribution-logo {
-    float: none;
-    width: 200px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .featured-user .attribution-author {
-    float: none;
-    width: 100%;
-  }
-}
-
-
-/* top bar */
-
-#tabs {
-  padding: 1em;
-  background-color: #60B5CC;
-}
-
-#tabs ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-align: center;
-}
-
-#tabs li {
-  display: inline-block;
-}
-
-.tab {
+.tabs a {
   text-decoration: none;
-  color: #34495E;
-  padding-bottom: 13px;
-  margin: 0 1.5em;
-  font-size: 20px;
+  color: white;
+  margin-left: 1em;
+  font-size: 16px;
 }
 
-.tab:hover,
-.tab.current {
-  text-decoration: none;
-  color: #34495E;
-  border-bottom: 3px solid #34495E;
+.tabs a:hover,
+.tabs a.current {
+  text-decoration: underline;
+  color: white;
 }
 
 @media (max-width: 600px) {
-  .tab {
-    font-size: 15px;
-    margin: 0 0.5em;
+  .tabs {
+    font-size: 14px;
   }
   .content {
     margin: 0 0.5em !important;
@@ -277,35 +186,31 @@ a:hover {
 
 /* splash */
 
-.splash {
-  padding: 1em;
-  background-color: #60B5CC;
-  color: white;
-  text-align: center;
+.buttons {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  margin-top: 24px;
 }
 
 .buttons a {
-  background-color: #34495E;
-  border-radius: 6px;
-  min-width: 120px;
-  padding: 12px 12px;
-  margin: 12px;
-  display: inline-block;
   color: white;
-  font-size: 1.5em;
+  border: 2px solid white;
+  text-decoration: none;
+  padding: 8px 24px;
+  margin-right: 24px;
 }
 
 .buttons a:hover {
-  background-color: #20374D;
-  color: white;
-  text-decoration: none;
+  color: #1293D8;
+  background-color: white;
 }
 
 
 /* code */
 
 code {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 /* I heard using :not() is slow for reflows.

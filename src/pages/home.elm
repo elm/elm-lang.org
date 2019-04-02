@@ -1,67 +1,188 @@
 
+import Browser
+import Browser.Events as E
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Html.Lazy exposing (..)
+import Json.Decode as D
 import Markdown
 import String
 
 import Center
+import Cycle
 import Skeleton
+import Logo
 
 
 
 main =
-  Skeleton.skeleton
-    "Elm - A delightful language for reliable webapps"
-    "home"
-    [ splash
-    , featureSection
-    , exampleSection
-    , userSection
+  Browser.document
+    { init = \() -> (init, Cmd.none)
+    , update = \msg model -> (update msg model, Cmd.none)
+    , subscriptions = subscriptions
+    , view = \model ->
+        { title = "Elm - A delightful language for reliable webapps"
+        , body =
+            [ lazy Skeleton.header Skeleton.Other
+            , viewSplash model
+            , viewFeatures
+            ]
+        }
+    }
+
+
+
+-- MODEL
+
+
+type alias Model =
+  { time : Float
+  , logo : Logo.Model
+  , patterns : Cycle.Cycle Logo.Pattern
+  , visibility : E.Visibility
+  }
+
+
+init : Model
+init =
+  { time = 0
+  , logo = Logo.start
+  , visibility = E.Visible
+  , patterns =
+      Cycle.init Logo.heart
+        [ Logo.camel
+        , Logo.cat
+        , Logo.bird
+        , Logo.house
+        , Logo.child
+        , Logo.logo
+        ]
+  }
+
+
+
+-- UPDATE
+
+
+type Msg
+  = MouseMoved Float Float Float Float Float
+  | MouseClicked
+  | TimeDelta Float
+  | VisibilityChanged E.Visibility
+
+
+update : Msg -> Model -> Model
+update msg model =
+  case msg of
+    MouseMoved t x y dx dy ->
+      { model
+          | time = t
+          , logo = Logo.perturb (t - model.time) (3 * x - 600) (600 - 3 * y) dx -dy model.logo
+      }
+
+    MouseClicked ->
+      { model
+          | patterns = Cycle.step model.patterns
+          , logo = Logo.setPattern (Cycle.next model.patterns) model.logo
+      }
+
+    TimeDelta timeDelta ->
+      { model
+          | logo = Logo.step timeDelta model.logo
+      }
+
+    VisibilityChanged visibility ->
+      { model
+          | visibility = visibility
+      }
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.batch
+    [ E.onVisibilityChange VisibilityChanged
+    , case model.visibility of
+        E.Hidden ->
+          Sub.none
+
+        E.Visible ->
+          if Logo.isMoving model.logo
+          then E.onAnimationFrameDelta TimeDelta
+          else Sub.none
     ]
 
 
 
--- SPLASH
+-- VIEW SPLASH
 
 
-splash : Html msg
-splash =
-  div [ class "splash" ]
-    [ div (size 120 16) [ text "elm" ]
-    , div (size 26 8) [ text "A delightful language for reliable webapps." ]
-    , div (size 16 8) [ text "Generate JavaScript with great performance and no runtime exceptions." ]
-    , br [] []
-    , getStarted
+viewSplash : Model -> Html Msg
+viewSplash model =
+  div
+    [ style "display" "flex"
+    , style "flex-direction" "row"
+    , style "justify-content" "center"
+    , style "background-color" "#1293D8"
+    , style "color" "white"
+    ]
+    [ Logo.view
+        [ style "width" "400px"
+        , style "color" "white"
+        , onMouseMove
+        , onClick MouseClicked
+        ]
+        model.logo
+    , div
+        [ style "display" "flex"
+        , style "flex-direction" "column"
+        , style "justify-content" "center"
+        , style "width" "400px"
+        ]
+        [ div [ style "font-size" "32px" ]
+            [ text "A delightful language"
+            , br [] []
+            , text "for reliable webapps."
+            -- reliable webapps
+            -- learning programming
+            -- data visualization
+            -- 3D graphics
+            -- 2D games
+            ]
+        , div
+            [ class "buttons"
+            ]
+            [ a [ href "/try" ] [ text "Try" ]
+            , a [ href "https://guide.elm-lang.org/install.html" ] [ text "Tutorial" ]
+            ]
+        ]
     ]
 
 
-size : Int -> Int -> List (Attribute msg)
-size height padding =
-  [ style "font-size" (String.fromInt height ++ "px")
-  , style "padding" (String.fromInt padding ++ "px 0")
-  ]
-
-
-
--- GET STARTED
-
-
-getStarted : Html msg
-getStarted =
-  div [ class "buttons" ]
-    [ a [ href "https://guide.elm-lang.org/install.html" ] [ text "Install" ]
-    ]
+onMouseMove : Attribute Msg
+onMouseMove =
+  on "mousemove" <|
+    D.map5 MouseMoved
+      (D.field "timeStamp" D.float)
+      (D.field "offsetX"   D.float)
+      (D.field "offsetY"   D.float)
+      (D.field "movementX" D.float)
+      (D.field "movementY" D.float)
 
 
 
 -- FEATURES
 
 
-featureSection : Html msg
-featureSection =
+viewFeatures : Html msg
+viewFeatures =
   section [class "home-section"]
-    [ h1 [] [text "Features"]
-    , ul [class "features"] (List.map viewFeature features)
+    [ h1 [] [ text "Features" ]
+    , ul [ class "features" ] (List.map viewFeature features)
     ]
 
 
@@ -213,182 +334,3 @@ grey : String
 grey =
   "rgb(143,144,145)"
 
-
-
--- EXAMPLES
-
-
-exampleSection : Html msg
-exampleSection =
-  section [class "home-section"]
-    [ h1 [] [text "Examples"]
-    , p [ class "home-paragraph"
-        , style "margin-bottom" "40px"
-        ]
-        [ text "The best way to learn is with "
-        , a [href "https://guide.elm-lang.org/"] [text "the official guide"]
-        , text ", but here are some examples that might be fun to look at:"
-        ]
-    , fluidList 400 2 examples
-    ]
-
-
-examples : List (List (Html msg))
-examples =
-  [ example
-      "todomvc"
-      "https://evancz.github.io/elm-todomvc"
-      "https://github.com/evancz/elm-todomvc"
-  , example
-      "elm-spa-example"
-      "http://rtfeldman.github.io/elm-spa-example/"
-      "https://github.com/rtfeldman/elm-spa-example"
-  , example
-      "package"
-      "http://package.elm-lang.org"
-      "https://github.com/elm-lang/package.elm-lang.org"
-  , example
-      "flatris"
-      "https://unsoundscapes.itch.io/flatris"
-      "https://github.com/w0rm/elm-flatris"
-  ]
-
-
-example : String -> String -> String -> List (Html msg)
-example imgSrc demo code =
-  [ a [ href demo, style "display" "block" ]
-      [ img
-          [ src ("/assets/examples/" ++ imgSrc ++ ".png")
-          , alt imgSrc
-          , style "width" "100%"
-          ]
-          []
-      ]
-  , p [ style "display" "block"
-      , style "text-align" "center"
-      , style "margin" "0"
-      , style "height" "60px"
-      ]
-      [ a [href code] [text "source"]
-      ]
-  ]
-
-
-
--- FLUID LIST
-
-
-fluidList : Int -> Int -> List (List (Html msg)) -> Html msg
-fluidList itemWidth maxColumns itemList =
-  let
-    toPx : Int -> String
-    toPx num =
-      String.fromInt num ++ "px"
-
-    bulletStyles =
-        [ style "display" "inline-block"
-        , style "max-width" (toPx itemWidth)
-        , style "vertical-align" "top"
-        , style "text-align" "left"
-        , style "margin" ("0 " ++ toPx gutter)
-        ]
-
-    gutter = 30
-  in
-    section
-      [ style "max-width" (toPx (itemWidth*maxColumns + 2*gutter*maxColumns))
-      , style "margin" "auto"
-      , style "text-align" "center"
-      ]
-      (List.map (section bulletStyles) itemList)
-
-
-
--- USERS
-
-
-userSection : Html msg
-userSection =
-  section [class "home-section"]
-    [ h1 [] [text "Featured Users"]
-    , div [ class "featured-user" ]
-        [ div [ class "quote" ]
-            [ p [] [ text "We’ve had zero run-time failures, the filesize is ridiculously small, and it runs faster than anything else in our code base. We’ve also had fewer bugs." ]
-            ]
-        , div [ class "attribution" ]
-            [ div [ class "attribution-author" ]
-                [ p [] [ text "Jeff Schomay" ]
-                , p [] [ a [ href "https://www.pivotaltracker.com/blog/Elm-pivotal-tracker/" ] [ text "Pivotal Tracker Blog" ] ]
-                ]
-            , a [ class "attribution-logo"
-                , href "https://www.pivotaltracker.com"
-                ]
-                [ div
-                    [ style "width" "200px"
-                    , style "height" "100px"
-                    , style "background-image" ("url('" ++ toLogoSrc "PivotalTracker" "svg" ++ "')")
-                    , style "background-repeat" "no-repeat"
-                    , style "background-position" "center"
-                    , style "display" "block"
-                    ]
-                    []
-                ]
-            ]
-        ]
-    , fluidList 200 3
-        [ company
-            "NoRedInk"
-            "http://tech.noredink.com/post/129641182738/building-a-live-validated-signup-form-in-elm"
-            "png"
-        , company
-            "Futurice"
-            "http://futurice.com/blog/elm-in-the-real-world"
-            "svg"
-        , company
-            "Gizra"
-            "http://www.gizra.com/content/thinking-choosing-elm/"
-            "png"
-        ]
-    , p [ class "home-paragraph"
-        , style "color" "#bbbbbb"
-        , style "margin-bottom" "40px"
-        ]
-        [ text "Want your company to get featured? Learn how "
-        , a [ class "grey-link", href "https://gist.github.com/evancz/1a54976c56775ed2883c16b2f296be27"] [text "here"]
-        , text "."
-        ]
-    ]
-
-
-company : String -> String -> String -> List (Html msg)
-company name website extension =
-  [ toLogo name website extension ]
-
-
-toLogo : String -> String -> String -> Html msg
-toLogo name website extension =
-  let
-    imgSrc =
-      toLogoSrc name extension
-  in
-    a [ href website ]
-      [ div
-          [ style "width" "200px"
-          , style "height" "100px"
-          , style "background-image" ("url('" ++ imgSrc ++ "')")
-          , style "background-repeat" "no-repeat"
-          , style "background-position" "center"
-          ]
-          []
-      ]
-
-
-toLogoSrc : String -> String -> String
-toLogoSrc name extension =
-  let
-    lowerName =
-      String.toLower name
-  in
-    "/assets/logos/"
-    ++ String.map (\c -> if c == ' ' then '-' else c) lowerName
-    ++ "." ++ extension
