@@ -1,5 +1,8 @@
 module Skeleton exposing
-  ( docs
+  ( Tab(..)
+  , header
+  --
+  , docs
   , hint
   , skeleton
   , blog
@@ -15,8 +18,87 @@ import Center
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Svg
-import Svg.Attributes as Svg
+
+
+
+-- SKELETON
+
+
+skeleton : String -> Tab -> List (Html Never) -> Program () () Never
+skeleton title tab content =
+  Browser.document
+    { init = \_ -> ((), Cmd.none)
+    , update = \_ _ -> ((), Cmd.none)
+    , subscriptions = \_ -> Sub.none
+    , view = \_ ->
+        { title = title
+        , body = header tab :: content ++ [footer]
+        }
+    }
+
+
+
+-- HEADER
+
+
+type Tab
+  = Examples
+  | Docs
+  | Community
+  | Blog
+  | Other
+
+
+header : Tab -> Html msg
+header tab =
+  div [ class "header" ]
+    [ div [ class "nav" ]
+        [ a [ href "/"
+            , style "color" "white"
+            , style "font-size" "32px"
+            ]
+            [ text "elm"
+            ]
+        , div [ class "tabs" ] <| List.map (viewTab tab) <|
+            [ TabInfo Examples "examples" "/examples"
+            , TabInfo Docs "docs" "/docs"
+            , TabInfo Community "community" "/community"
+            , TabInfo Blog "blog" "/blog"
+            ]
+        ]
+    ]
+
+
+viewTab : Tab -> TabInfo -> Html msg
+viewTab currentTab info =
+  let
+    attrs =
+      if currentTab == info.tab then
+        [ style "font-weight" "bold" ]
+      else
+        []
+  in
+  a (href info.link :: attrs) [ text info.name ]
+
+
+type alias TabInfo =
+  { tab : Tab
+  , name : String
+  , link : String
+  }
+
+
+
+-- FOOTER
+
+
+footer : Html msg
+footer =
+  div [class "footer"]
+    [ text "All code for this site is open source and written in Elm. "
+    , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Check it out" ]
+    , text "! — © 2012-2019 Evan Czaplicki"
+    ]
 
 
 
@@ -25,7 +107,7 @@ import Svg.Attributes as Svg
 
 docs : String -> List (Html Never) -> Program () () Never
 docs title body =
-  skeleton title "docs"
+  skeleton title Docs
     [ div
         [ style "padding" "4em 0 1em"
         , style "text-align" "center"
@@ -52,91 +134,12 @@ hint title markdown =
 
 
 
--- SKELETON
-
-
-skeleton : String -> String -> List (Html Never) -> Program () () Never
-skeleton title tabName content =
-  Browser.document
-    { init = \_ -> ((), Cmd.none)
-    , update = \_ _ -> ((), Cmd.none)
-    , subscriptions = \_ -> Sub.none
-    , view = \_ ->
-        { title = title
-        , body = header tabName :: content ++ [footer]
-        }
-    }
-
-
-
--- HEADER
-
-
-header : String -> Html msg
-header name =
-  div [ id "tabs" ]
-    [ a [ href "/"
-        , style "position" "absolute"
-        , style "left" "1em"
-        , style "top" "1em"
-        ]
-        [ logo 24
-        ]
-    , ul [] (List.map (tab name) [ "docs", "community", "blog" ])
-    ]
-
-
-tab : String -> String -> Html msg
-tab currentName name =
-  li []
-    [ a [ classList [ ("tab", True), ("current", currentName == name) ]
-        , href ("/" ++ name)
-        ]
-        [ text name ]
-    ]
-
-
-logo : Int -> Html.Html msg
-logo n =
-  Svg.svg
-    [ Svg.height (String.fromInt n)
-    , Svg.viewBox "0 0 600 600"
-    ]
-    [ shape "0,20 280,300 0,580"
-    , shape "20,600 300,320 580,600"
-    , shape "320,0 600,0 600,280"
-    , shape "20,0 280,0 402,122 142,122"
-    , shape "170,150 430,150 300,280"
-    , shape "320,300 450,170 580,300 450,430"
-    , shape "470,450 600,320 600,580"
-    ]
-
-
-shape : String -> Svg.Svg msg
-shape coordinates =
-  Svg.polygon [ Svg.fill "#34495E", Svg.points coordinates ] []
-
-
-
--- FOOTER
-
-
-footer : Html msg
-footer =
-  div [class "footer"]
-    [ text "All code for this site is open source and written in Elm. "
-    , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Check it out" ]
-    , text "! — © 2012-2019 Evan Czaplicki"
-    ]
-
-
-
 -- BLOG
 
 
 blog : String -> String -> Author -> Date -> List (Html Never) -> Program () () Never
 blog title subtitle author date body =
-  skeleton title "blog"
+  skeleton title Blog
     [ div
         [ style "padding" "4em 0 1em"
         , style "text-align" "center"

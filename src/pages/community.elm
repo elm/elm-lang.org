@@ -8,7 +8,7 @@ import Skeleton
 main =
   Skeleton.skeleton
     "Elm - Community"
-    "community"
+    Skeleton.Community
     [ Center.markdown "600px" community ]
 
 
