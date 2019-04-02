@@ -31,7 +31,7 @@ blog = """
  * [Elm package manager](/blog/announce/package-manager)
  * [Elm REPL](/blog/announce/repl)
  * [Hot-swapping in Elm](/blog/interactive-programming)
- * [Concepts behind the Elm Logo](https://prezi.com/npjjrmt_badc/tangrams-logo/)
+ * [Concepts behind the Elm Logo](https://prezi.com/oqd48bv5ef0s/tangrams-logo/)
  * [Elm in VentureBeat](http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/)
  * [Elm &hearts; Prezi](/blog/announce/elm-and-prezi)
  * [Escape from Callback Hell](/blog/escape-from-callback-hell)
