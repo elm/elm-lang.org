@@ -94,7 +94,7 @@ update msg model =
     MouseMoved t x y dx dy ->
       { model
           | time = t
-          , logo = Logo.perturb (t - model.time) (x - 0.5) (0.5 - y) dx -dy model.logo
+          , logo = Logo.perturb (t - model.time) x y dx dy model.logo
       }
 
     MouseClicked ->
@@ -191,19 +191,14 @@ viewSplash model =
 onMouseMove : Attribute Msg
 onMouseMove =
   on "mousemove" <|
-    D.map5 MouseMoved
+    D.map7 (\t x y dx dy w h -> MouseMoved t (x / w - 0.5) (0.5 - y / h) (dx / w) (-dy / h))
       (D.field "timeStamp" D.float)
-      (normalizedField "clientWidth"  "offsetX")
-      (normalizedField "clientHeight" "offsetY")
+      (D.field "offsetX" D.float)
+      (D.field "offsetY" D.float)
       (D.field "movementX" D.float)
       (D.field "movementY" D.float)
-
-
-normalizedField : String -> String -> D.Decoder Float
-normalizedField dimension position =
-  D.map2 (/)
-    (D.field position D.float)
-    (D.field "currentTarget" (D.field dimension D.float))
+      (D.field "currentTarget" (D.field "clientWidth" D.float))
+      (D.field "currentTarget" (D.field "clientHeight" D.float))
 
 
 

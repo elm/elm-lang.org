@@ -217,7 +217,7 @@ perturb timeDelta x y dx dy model =
     model
   else
     let
-      dt = max 1 timeDelta / 10
+      dt = max 1 timeDelta / 40000
     in
     { tb1 = perturbShape dt x y dx dy model.tb1
     , tb2 = perturbShape dt x y dx dy model.tb2
