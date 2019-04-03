@@ -32,6 +32,7 @@ main =
             [ lazy Skeleton.header Skeleton.Other
             , viewSplash model
             , viewFeatures
+            , Skeleton.footer
             ]
         }
     }

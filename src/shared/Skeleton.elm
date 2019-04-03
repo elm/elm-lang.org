@@ -1,6 +1,7 @@
 module Skeleton exposing
   ( Tab(..)
   , header
+  , footer
   --
   , docs
   , hint
