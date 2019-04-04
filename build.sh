@@ -122,18 +122,16 @@ for elm in $(find pages -type f -name "*.elm")
 do
     subpath="${elm#pages/}"
     name="${subpath%.elm}"
-
     js="_temp/$name.js"
     html="_site/$name.html"
 
-    mkdir -p $(dirname $js)
-    mkdir -p $(dirname $html)
-
-    if [ -f $html ] && [ $(date -r $elm +%s) -eq $(date -r $html +%s) ]
+    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]
     then
         echo "Cached: $elm"
     else
         echo "Compiling: $elm"
+        mkdir -p $(dirname $js)
+        mkdir -p $(dirname $html)
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --optimize --output=$js > /dev/null
         uglifyjs $js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' \
@@ -141,7 +139,6 @@ do
          | makePageHtml $html $name
         # elm make $elm --output=$js > /dev/null
         # cat $js | makePageHtml $html $name
-        touch -r $elm $html
     fi
 done
 
