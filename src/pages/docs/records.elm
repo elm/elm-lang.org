@@ -176,41 +176,12 @@ do this.
 It is often useful to &ldquo;update&rdquo; the values in a record.
 
 ```elm
-{ point2D | y = 1 }           -- { x=0, y=1 }
-{ point3D | x = 0, y = 0 }    -- { x=0, y=0, z=12 }
-{ steve | name = "Wozniak" }  -- { name="Wozniak", age=56 }
+{ point2D | y = 1 }           -- { x = 0, y = 1 }
+{ point3D | x = 0, y = 0 }    -- { x = 0, y = 0, z = 12 }
+{ steve | name = "Wozniak" }  -- { name = "Wozniak", age = 56 }
 ```
 
-You can update as many fields as you want, separating each update by a comma.
-You can even change the type of value in a field. Say the user inputs a bunch
-of personal data producing a record. It would be nice to convert some of the
-strings into numbers if possible. This is no problem:
-
-```elm
-rawInput =
-  { name = "Tom"
-  , country = "Finland"
-  , age = "34"
-  , height = "1.9"
-  }
-
-prettify person =
-  { person |
-      age = String.toInt person.age,
-      height = String.toFloat person.height
-  }
-
-input =
-  prettify rawInput
-```
-
-We started with a record in which `(person.age : String)`, providing little
-information about the validity of the input. The result is that
-`(person.age : Result String Int)`, fully capturing the type of input we are
-dealing with and whether or not it is valid.
-
-The update functions allow you to write fairly elaborate update functions
-with little trouble.
+Updates always produce a _new_ record.
 
 
 ## Record Types
