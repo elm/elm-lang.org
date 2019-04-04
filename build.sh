@@ -11,8 +11,8 @@ function makeHtml {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$2</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro">
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
   <script src="/assets/highlight/highlight.pack.js"></script>
