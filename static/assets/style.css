@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans|IBM+Plex+Mono');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro');
 
 html, head, body {
   margin: 0;
@@ -62,7 +62,7 @@ a:hover { text-decoration: underline; }
   min-width: 396px;
   white-space: pre;
   color: white;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Source Code Pro', monospace;
   font-size: 12px;
   background-color: black;
 }
@@ -211,7 +211,7 @@ a:hover { text-decoration: underline; }
 /* code */
 
 code {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'Source Code Pro', monospace;
 }
 
 /* I heard using :not() is slow for reflows.
