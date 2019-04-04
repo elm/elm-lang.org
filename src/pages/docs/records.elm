@@ -269,7 +269,7 @@ positions =
   [ getPos origin, getPos dude ]
 ```
 
-The `getName` function works on anything with an `name` field, so it can
+The `getName` function works on anything with a `name` field, so it can
 be used on both `lady` and `dude`. Same for `getPos` which can work on
 anything with `x` and `y` fields.
 
