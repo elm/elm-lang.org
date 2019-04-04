@@ -50,8 +50,8 @@ function makeExampleHtml {
   <title>$2</title>
 </head>
 <frameset cols="50%,50%">
-  <frame name="editor" src="/examples/$1/editor.html"></frame>
-  <frame name="output" src="/examples/$1/output.html"></frame>
+  <frame name="editor" src="/examples/$3/editor.html"></frame>
+  <frame name="output" src="/examples/$3/output.html"></frame>
 </frameset>
 </html>
 
@@ -147,6 +147,12 @@ done
 find editor/cm -type f -name "*.js" | xargs cat editor/editor.js | uglifyjs -o _site/assets/editor.js
 find editor -type f -name "*.css" | xargs cat > _site/assets/editor.css
 
+## try
+
+makeExampleHtml _site/try.html "Try Elm!" _empty
+makeEditorHtml _site/examples/_empty/editor.html
+cp editor/splash.html _site/examples/_empty/output.html
+
 ## examples
 
 for elm in $(find examples -type f -name "*.elm")
@@ -163,7 +169,7 @@ do
         mkdir -p _site/examples/$name
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --optimize --output=_site/examples/$1/output.html
-        makeExampleHtml $html $name
+        makeExampleHtml $html $name $name
         makeEditorHtml "_site/examples/$1/editor.html" $elm
     fi
 done
