@@ -6,7 +6,7 @@ module Skeleton exposing
   , docs
   , hint
   , skeleton
-  , blog
+  , news
   , Author
   , evan
   , michael
@@ -46,7 +46,7 @@ type Tab
   = Examples
   | Docs
   | Community
-  | Blog
+  | News
   | Other
 
 
@@ -64,7 +64,7 @@ header tab =
             [ TabInfo Examples "examples" "/examples"
             , TabInfo Docs "docs" "/docs"
             , TabInfo Community "community" "/community"
-            , TabInfo Blog "blog" "/blog"
+            , TabInfo News "news" "/news"
             ]
         ]
     ]
@@ -135,12 +135,12 @@ hint title markdown =
 
 
 
--- BLOG
+-- NEWS
 
 
-blog : String -> String -> Author -> Date -> List (Html Never) -> Program () () Never
-blog title subtitle author date body =
-  skeleton title Blog
+news : String -> String -> Author -> Date -> List (Html Never) -> Program () () Never
+news title subtitle author date body =
+  skeleton title News
     [ div
         [ style "padding" "4em 0 1em"
         , style "text-align" "center"
