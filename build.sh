@@ -2,7 +2,12 @@
 
 set -e
 
-function makeHtml {
+
+
+## MAKE PAGE HTML
+
+
+function makePageHtml {
   cat <<EOF > $1
 <!DOCTYPE HTML>
 <html>
@@ -32,7 +37,9 @@ EOF
 }
 
 
+
 ## DOWNLOAD BINARIES
+
 
 if ! [ -x "$(command -v elm)" ]
 then
@@ -46,16 +53,22 @@ then
 fi
 
 
+
 ## GENERATE HTML
 
-mkdir -p _site
-cp -r static/* _site/
 
+mkdir -p _site
 mkdir -p _temp
 
-for elm in $(find src/pages -type f -name "*.elm")
+## static
+
+cp -r static/* _site/
+
+## pages
+
+for elm in $(find pages -type f -name "*.elm")
 do
-    subpath="${elm#src/pages/}"
+    subpath="${elm#pages/}"
     name="${subpath%.elm}"
 
     js="_temp/$name.js"
@@ -72,12 +85,16 @@ do
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --optimize --output=$js > /dev/null
         uglifyjs $js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' \
-          | uglifyjs --mangle \
-          | makeHtml $html $name
+         | uglifyjs --mangle \
+         | makePageHtml $html $name
         # elm make $elm --output=$js > /dev/null
-        # cat $js | makeHtml $html $name
+        # cat $js | makePageHtml $html $name
         touch -r $elm $html
     fi
 done
+
+
+
+## REMOVE TEMP FILES
 
 rm -rf _temp
