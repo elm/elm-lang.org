@@ -38,6 +38,58 @@ EOF
 
 
 
+## MAKE EXAMPLE HTML
+
+
+function makeExampleHtml {
+  cat <<EOF > $1
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>$2</title>
+</head>
+<frameset cols="50%,50%">
+  <frame name="editor" src="/examples/$1/editor.html"></frame>
+  <frame name="output" src="/examples/$1/output.html"></frame>
+</frameset>
+</html>
+
+EOF
+
+}
+
+
+function makeEditorHtml {
+  cat <<EOF > _site/examples/$1/editor.html
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro"/>
+  <link rel="stylesheet" href="/assets/editor.css"/>
+</head>
+
+<body>
+<form id="editor" action="https://worker.elm-lang.org/compile" method="post" target="output">
+  <div class="options">
+    <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
+    <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile</div>
+    <div class="button green" title="Switch the color scheme" onclick="lights()">Lights</div>
+  </div>
+  <textarea id="code" name="code">$(cat $2)</textarea>
+</form>
+<script src="/assets/editor.js"></script>
+</body>
+
+</html>
+
+EOF
+
+}
+
+
+
 ## DOWNLOAD BINARIES
 
 
@@ -93,6 +145,31 @@ do
     fi
 done
 
+## editor
+
+find editor/cm -type f -name "*.js" | xargs cat editor/editor.js | uglifyjs -o _site/assets/editor.js
+find editor -type f -name "*.css" | xargs cat > _site/assets/editor.css
+
+## examples
+
+for elm in $(find examples -type f -name "*.elm")
+do
+    subpath="${elm#examples/}"
+    name="${subpath%.elm}"
+    html="_site/examples/$1.html"
+
+    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]
+    then
+        echo "Cached: $elm"
+    else
+        echo "Compiling: $elm"
+        mkdir -p _site/examples/$name
+        rm -f elm-stuff/*/Main.elm*
+        elm make $elm --optimize --output=_site/examples/$1/output.html
+        makeExampleHtml $html $name
+        makeEditorHtml "_site/examples/$1/editor.html" $elm
+    fi
+done
 
 
 ## REMOVE TEMP FILES
