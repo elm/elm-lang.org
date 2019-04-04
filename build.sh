@@ -34,18 +34,16 @@ EOF
 
 ## DOWNLOAD BINARIES
 
-mkdir -p bin
-if [ ! -f bin/elm ]
+if ! [ -x "$(command -v elm)" ]
 then
   npm install elm
-  ln -s ../node_modules/elm/bin/elm bin/elm
+  PATH=$(pwd)/node_modules/elm/bin:$PATH
 fi
-if [ ! -f bin/uglifyjs ]
+if ! [ -x "$(command -v uglifyjs)" ]
 then
   npm install uglify-js
-  ln -s ../node_modules/uglify-js/bin/uglifyjs bin/uglifyjs
+  PATH=$(pwd)/node_modules/uglify-js/bin:$PATH
 fi
-PATH=$(pwd)/bin:$PATH
 
 
 ## GENERATE HTML
