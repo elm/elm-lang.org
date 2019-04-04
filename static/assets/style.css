@@ -8,16 +8,13 @@ html, head, body {
 body {
   font-family: 'IBM Plex Sans', sans-serif;
   color: #000E16;
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4 {
   margin-top: 1.2em;
   margin-bottom: 0.8em;
   font-weight: normal;
-}
-
-p {
-  line-height: 1.5em;
 }
 
 a { color: #1293D8; text-decoration: none; }
