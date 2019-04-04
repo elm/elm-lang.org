@@ -23,9 +23,8 @@ Folks tend to congregate in the following forums:
 * [Discourse](https://discourse.elm-lang.org/) &mdash; ask questions, get feedback, show off your work
 * [Reddit](http://www.reddit.com/r/elm) &mdash; discuss blog posts
 * [Twitter](https://twitter.com/elmlang) &mdash; hear what is going on, share your experiences
-* [Meetups](https://www.elmlog.com/meetup_groups) &mdash; meet in real life, make something together
+* [Meetups](https://www.meetup.com/topics/elm-programming/all/) &mdash; meet in real life, make something together
 
-<br>
 
 ## Code of Conduct
 
@@ -33,14 +32,12 @@ Be kind, ask questions, and try to recognize [XY problems](https://en.wikipedia.
 
 Read the full [Code of Conduct](https://github.com/elm-community/discussions/blob/master/code-of-conduct.md) as well!
 
-<br>
 
 ## Share Code
 
 * [Applications](https://ellie-app.com) &mdash; edit programs online and share them with others
 * [Packages](http://package.elm-lang.org/) &mdash; learn about the packages you use
 
-<br>
 
 ## Core Team
 
@@ -55,7 +52,6 @@ The following folks write command line tools, publish packages, run conferences,
 * [Ilias Van Peer](https://github.com/zwilias/)
 * [Noah](https://github.com/eeue56)
 
-<br>
 
 ## Participate
 
