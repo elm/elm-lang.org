@@ -147,7 +147,7 @@ done
 
 echo "EDITOR"
 cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
-find editor -type f -name "*.css" | xargs cat > _site/assets/editor.css
+cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
 
 ## try
 
