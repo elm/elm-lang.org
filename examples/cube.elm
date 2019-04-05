@@ -78,7 +78,6 @@ type alias Uniforms =
   { rotation : Mat4
   , perspective : Mat4
   , camera : Mat4
-  , shade : Float
   }
 
 
@@ -90,7 +89,6 @@ uniforms angle =
         (Mat4.makeRotate (2 * angle) (vec3 1 0 0))
   , perspective = Mat4.makePerspective 45 1 0.01 100
   , camera = Mat4.makeLookAt (vec3 0 0 5) (vec3 0 0 0) (vec3 0 1 0)
-  , shade = 0.8
   }
 
 
@@ -161,9 +159,8 @@ fragmentShader : WebGL.Shader {} Uniforms { vcolor : Vec3 }
 fragmentShader =
   [glsl|
     precision mediump float;
-    uniform float shade;
     varying vec3 vcolor;
     void main () {
-        gl_FragColor = shade * vec4(vcolor, 1.0);
+        gl_FragColor = 0.8 * vec4(vcolor, 1.0);
     }
   |]
