@@ -118,6 +118,7 @@ cp -r static/* _site/
 
 ## pages
 
+echo "PAGES"
 for elm in $(find pages -type f -name "*.elm")
 do
     subpath="${elm#pages/}"
@@ -144,22 +145,25 @@ done
 
 ## editor
 
-find editor/cm -type f -name "*.js" | xargs cat editor/editor.js | uglifyjs -o _site/assets/editor.js
+echo "EDITOR"
+cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
 find editor -type f -name "*.css" | xargs cat > _site/assets/editor.css
 
 ## try
 
 makeExampleHtml _site/try.html "Try Elm!" _empty
-makeEditorHtml _site/examples/_empty/editor.html
+mkdir -p _site/examples/_empty
+echo "" | makeEditorHtml _empty
 cp editor/splash.html _site/examples/_empty/output.html
 
 ## examples
 
+echo "EXAMPLES"
 for elm in $(find examples -type f -name "*.elm")
 do
     subpath="${elm#examples/}"
     name="${subpath%.elm}"
-    html="_site/examples/$1.html"
+    html="_site/examples/$name.html"
 
     if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]
     then
@@ -168,9 +172,9 @@ do
         echo "Compiling: $elm"
         mkdir -p _site/examples/$name
         rm -f elm-stuff/*/Main.elm*
-        elm make $elm --optimize --output=_site/examples/$1/output.html
+        elm make $elm --optimize --output=_site/examples/$name/output.html > /dev/null
         makeExampleHtml $html $name $name
-        makeEditorHtml "_site/examples/$1/editor.html" $elm
+        cat $elm | makeEditorHtml $name
     fi
 done
 
