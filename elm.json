@@ -14,7 +14,9 @@
             "elm/random": "1.0.0",
             "elm/svg": "1.0.1",
             "elm/time": "1.0.0",
-            "elm-explorations/markdown": "1.0.0"
+            "elm-explorations/linear-algebra": "1.0.3",
+            "elm-explorations/markdown": "1.0.0",
+            "elm-explorations/webgl": "1.0.1"
         },
         "indirect": {
             "elm/bytes": "1.0.8",
