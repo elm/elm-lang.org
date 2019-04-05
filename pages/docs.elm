@@ -12,7 +12,7 @@ main =
     "Elm - Documentation"
     Skeleton.Docs
     [ Center.markdown "600px" content
-    , div [ class "buttons", style "text-align" "center" ]
+    , div [ class "docs-buttons" ]
         [ a [ href "https://guide.elm-lang.org/" ] [ text "Official Guide" ]
         , a [ href "https://package.elm-lang.org/" ] [ text "Package Docs" ]
         ]

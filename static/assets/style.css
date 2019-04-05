@@ -206,6 +206,29 @@ a:hover { text-decoration: underline; }
 }
 
 
+/* docs button */
+
+.docs-buttons {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  padding: 16px 0;
+}
+
+.docs-buttons a {
+  color: #1293D8;
+  border: 2px solid #1293D8;
+  text-decoration: none;
+  padding: 8px 24px;
+  margin-right: 24px;
+}
+
+.docs-buttons a:hover {
+  color: white;
+  background-color: #1293D8;
+}
+
+
 /* code */
 
 code {
