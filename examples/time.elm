@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/effects/time.html
+
 import Browser
 import Html exposing (..)
 import Task

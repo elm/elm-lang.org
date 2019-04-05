@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/effects/random.html
+
 import Browser
 import Html exposing (..)
 import Html.Events exposing (..)

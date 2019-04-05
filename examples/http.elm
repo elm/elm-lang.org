@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/effects/http.html
+
 import Browser
 import Html exposing (Html, text, pre)
 import Http

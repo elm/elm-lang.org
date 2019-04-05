@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/architecture/forms.html
+
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)

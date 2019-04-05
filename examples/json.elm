@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/effects/json.html
+
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)

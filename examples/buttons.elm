@@ -1,3 +1,6 @@
+-- Learn how this works in:
+-- https://guide.elm-lang.org/architecture/buttons.html
+
 import Browser
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
