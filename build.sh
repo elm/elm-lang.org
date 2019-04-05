@@ -172,7 +172,7 @@ do
         echo "Compiling: $elm"
         mkdir -p _site/examples/$name
         rm -f elm-stuff/*/Main.elm*
-        elm make $elm --optimize --output=_site/examples/$name/output.html > /dev/null
+        elm make $elm --output=_site/examples/$name/output.html > /dev/null
         makeExampleHtml $html $name $name
         cat $elm | makeEditorHtml $name
     fi
