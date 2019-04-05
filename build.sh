@@ -145,9 +145,12 @@ done
 
 ## editor
 
-echo "EDITOR"
-cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
-cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
+if ! [ -f _site/assets/editor.js ]
+then
+  echo "EDITOR"
+  cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
+  cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
+fi
 
 ## try
 
