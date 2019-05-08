@@ -19,11 +19,11 @@ community = """
 
 Folks tend to congregate in the following forums:
 
-* [Slack](http://elmlang.herokuapp.com/) &mdash; ask quick questions, help others, talk through ideas
+* [Slack](https://elmlang.herokuapp.com/) &mdash; ask quick questions, help others, talk through ideas
 * [Discourse](https://discourse.elm-lang.org/) &mdash; ask questions, get feedback, show off your work
 * [Reddit](http://www.reddit.com/r/elm) &mdash; discuss blog posts
 * [Twitter](https://twitter.com/elmlang) &mdash; hear what is going on, share your experiences
-* [Meetups](https://www.elmlog.com/meetup_groups) &mdash; meet in real life, make something together
+* [Meetups](https://www.meetup.com/topics/elm-programming/all/) &mdash; meet in real life, make something together
 
 <br>
 
