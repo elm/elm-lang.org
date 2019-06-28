@@ -23,41 +23,41 @@ It is not possible to give hugs online, so here are some tips on how to **be sup
 
 ✅ **Acknowledge their frustration**
 
-🐥: I am trying to do X.
+🐥: I am trying to do X.<br>
 🐨: Ah, that can be really tricky. I will try to help!
 
 ❌ **Deny their experience**
 
-🐥: I am trying to do X.
+🐥: I am trying to do X.<br>
 🐨: Oh, that is easy/obvious/simple!
 
 * * *
 
 ✅ **Ask Questions / learn about their situation**
 
-🐥: I am trying to do X.
-🐨: Ah, that can be really tricky. I will try to help!
-🐨: What resources have you been looking at so far?
-🐥: I read about it at https://guide.elm-lang.org/
+🐥: I am trying to do X.<br>
+🐨: Ah, that can be really tricky. I will try to help!<br>
+🐨: What resources have you been looking at so far?<br>
+🐥: I read about it at https://guide.elm-lang.org/<br>
 🐥: But now I am using USER/PROJECT now, and having trouble understanding how `func` can do X.
 
 ❌ **Give Orders / disregard their situation**
 
-🐥: I am trying to do X.
-🐨: Ah, that can be really tricky. I will try to help!
-🐨: You should read The Official Guide. It has a section about this.
+🐥: I am trying to do X.<br>
+🐨: Ah, that can be really tricky. I will try to help!<br>
+🐨: You should read The Official Guide. It has a section about this.<br>
 🐥: I read it, but I am still having trouble with X. That is why I am asking here!
 
 * * *
 
 ✅ **Offer support**
 
-🐥: I am going to try X and see what happens.
+🐥: I am going to try X and see what happens.<br>
 🐨: I'll be around for the next half hour, so ping me if you run into something else! Hope it works!
 
 ❌ **Move on immediately**
 
-🐥: I am going to try X and see what happens.
+🐥: I am going to try X and see what happens.<br>
 🐨: I think 🐙 can just `List.foldl` over it. It is tail-recursive.
 
 * * *
