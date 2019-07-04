@@ -192,8 +192,8 @@ squares =
 
 ### Operators
 
-In addition to the normal math operations for addition and subtraction, we have the [`(<|)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<|)
-and [`(|>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#|>) operators. They are aliases for function application, allowing you to write fewer parentheses.
+In addition to the normal math operations for addition and subtraction, we have the [`(<|)`](https://package.elm-lang.org/packages/elm/core/latest/Basics#<|)
+and [`(|>)`](https://package.elm-lang.org/packages/elm/core/latest/Basics#|>) operators. They are aliases for function application, allowing you to write fewer parentheses.
 
 ```elm
 viewNames1 names =
@@ -210,8 +210,8 @@ viewNames2 names =
 
 Historical note: this is borrowed from F#, inspired by Unix pipes.
 
-Relatedly, [`(<<)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#<<)
-and [`(>>)`](https://package.elm-lang.org/packages/elm-lang/core/latest/Basics#>>>)
+Relatedly, [`(<<)`](https://package.elm-lang.org/packages/elm/core/latest/Basics#<<)
+and [`(>>)`](https://package.elm-lang.org/packages/elm/core/latest/Basics#>>>)
 are function composition operators.
 
 
