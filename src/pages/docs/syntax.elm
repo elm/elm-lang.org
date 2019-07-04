@@ -274,7 +274,7 @@ their own top-level definitions.
 
 ```elm
 -- alias for appending lists and two lists
-append xs ys = xs ++ ys
+append listOne listTwo = listOne ++ listTwo
 xs = [1,2,3]
 ys = [4,5,6]
 
