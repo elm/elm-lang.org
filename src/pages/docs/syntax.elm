@@ -134,7 +134,7 @@ case n of
   _ -> fib (n-1) + fib (n-2)
 ```
 
-Each pattern is indentation sensitive, meaning that you have to align
+Each pattern is **__indentation sensitive**__, meaning that you have to align
 all of your patterns.
 
 
@@ -248,7 +248,7 @@ in
 hypotenuse three four
 ```
 
-Let-expressions are indentation sensitive, so each definition must align with
+Let-expressions are **__indentation sensitive__**, so each definition must align with
 the one above it.
 
 Finally, you can add type annotations in let-expressions.
