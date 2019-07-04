@@ -63,6 +63,7 @@ False : Bool
 
 42    : number  -- Int or Float depending on usage
 3.14  : Float
+0x4f  : number
 
 'a'   : Char
 "abc" : String
