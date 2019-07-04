@@ -39,7 +39,9 @@ very difficult to figure out where variables came from without this.
 
 Always have type annotations on top-level definitions.
 
-Always have 2 empty lines between top-level declarations.
+Always have 2 empty lines between top-level declarations. Using twice the 
+normal gap makes it easier to visually "chunk" together the top-level 
+declarations at a glance.
 
 Always bring the body of the declaration down one line.
 
@@ -88,9 +90,10 @@ We saved vertical lines here, but at the cost of regularity and ease of
 modification. If `Literal` ever becomes longer, all arrows must move. If any
 branch gets too long, everything needs to come down a line anyway.
 
-Having `case` appear *later* than the actual cases is strongly discouraged. It
-should serve as a context clue that makes glancing through code easy, but when
-indented in crazy ways, it becomes more difficult to glance through.
+Having `case` appear *later* than the actual cases (as in, further to the right)
+is strongly discouraged. It should serve as a context clue that makes glancing 
+through code easy, but when indented in crazy ways, it becomes more difficult to 
+glance through.
 
 
 ## Types
