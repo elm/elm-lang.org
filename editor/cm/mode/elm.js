@@ -44,7 +44,9 @@
         {
           return (char === '{' && source.eat('-'))
             ? switchState(source, setState, chompMultiComment(1))
-            : 'builtin';
+            : (char === '[' && source.match('glsl|'))
+                ? switchState(source, setState, chompGlsl)
+                : 'builtin';
         }
 
         if (char === '\'')
@@ -190,6 +192,20 @@
       source.skipToEnd();
       setState(normal());
       return 'error';
+    }
+
+    function chompGlsl(source, setState)
+    {
+      while (!source.eol())
+      {
+        var char = source.next();
+        if (char === '|' && source.eat(']'))
+        {
+          setState(normal());
+          return 'string';
+        }
+      }
+      return 'string';
     }
 
     var wellKnownWords = {
