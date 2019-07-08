@@ -25,7 +25,7 @@
 
     var digitRE = /[0-9]/;
     var hexRE = /[0-9A-Fa-f]/;
-    var symbolRE = /[-&*+.\/<>=?^|:]/;
+    var symbolRE = /[-&*+.\\/<>=?^|:]/;
     var specialRE = /[(),[\]{}]/;
     var spacesRE = /[ \v\f]/; // newlines are handled in tokenizer
 
