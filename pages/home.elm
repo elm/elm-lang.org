@@ -183,7 +183,7 @@ viewSplash model =
             [ class "buttons"
             ]
             [ a [ href "/try" ] [ text "Try" ]
-            , a [ href "https://guide.elm-lang.org/install.html" ] [ text "Tutorial" ]
+            , a [ href "https://guide.elm-lang.org" ] [ text "Tutorial" ]
             ]
         ]
     ]
