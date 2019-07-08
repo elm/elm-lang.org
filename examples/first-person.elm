@@ -63,14 +63,14 @@ type alias Person =
 init : () -> ( Model, Cmd Msg )
 init _ =
   ( { keys = noKeys
-    , width = 0
-    , height = 0
+    , width = 400
+    , height = 400
     , person = Person (vec3 0 eyeLevel -10) (vec3 0 0 0)
     , texture = Nothing
     }
   , Cmd.batch
-      [ Task.perform GotViewport Dom.getViewport
-      , Task.attempt GotTexture (Texture.load "/assets/wood-crate.jpg")
+      [ Task.attempt GotTexture (Texture.load "/assets/wood-crate.jpg")
+      , Task.perform (\{viewport} -> Resized viewport.width viewport.height) Dom.getViewport
       ]
   )
 
@@ -93,8 +93,7 @@ type Msg
   = GotTexture (Result Texture.Error Texture.Texture)
   | KeyChanged Bool String
   | TimeDelta Float
-  | GotViewport Dom.Viewport
-  | Resized Int Int
+  | Resized Float Float
   | VisibilityChanged E.Visibility
 
 
@@ -110,19 +109,13 @@ update msg model =
     TimeDelta dt ->
       { model | person = updatePerson dt model.keys model.person }
 
-    GotViewport { viewport } ->
-      { model
-          | width = viewport.width
-          , height = viewport.height
-      }
-
     Resized width height ->
       { model
-          | width = toFloat width
-          , height = toFloat height
+          | width = width
+          , height = height
       }
 
-    VisibilityChanged visibility ->
+    VisibilityChanged _ ->
       { model | keys = noKeys }
 
 
@@ -160,7 +153,7 @@ stepVelocity dt { left, right, up, down, space } person =
   else
     let
       toV positive negative =
-        if positive == negative then 0 else if positive then 1 else -1
+        (if positive then 1 else 0) - (if negative then 1 else 0)
     in
     vec3 (toV left right) (if space then 2 else 0) (toV up down)
 
@@ -172,7 +165,7 @@ stepVelocity dt { left, right, up, down, space } person =
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.batch
-    [ E.onResize Resized
+    [ E.onResize (\w h -> Resized (toFloat w) (toFloat h))
     , E.onKeyUp (D.map (KeyChanged False) (D.field "key" D.string))
     , E.onKeyDown (D.map (KeyChanged True) (D.field "key" D.string))
     , E.onAnimationFrameDelta TimeDelta
