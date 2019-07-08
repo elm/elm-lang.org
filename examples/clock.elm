@@ -35,7 +35,10 @@ type alias Model =
 init : () -> (Model, Cmd Msg)
 init _ =
   ( Model Time.utc (Time.millisToPosix 0)
-  , Task.perform AdjustTimeZone Time.here
+  , Cmd.batch
+      [ Task.perform AdjustTimeZone Time.here
+      , Task.perform Tick Time.now
+      ]
   )
 
 
@@ -89,9 +92,9 @@ view model =
     , height "400"
     ]
     [ circle [ cx "200", cy "200", r "120", fill "#1293D8" ] []
-    , viewHand 8 60 (hour/12)
-    , viewHand 8 90 (minute/60)
-    , viewHand 2 90 (second/60)
+    , viewHand 6 60 (hour/12)
+    , viewHand 6 90 (minute/60)
+    , viewHand 3 90 (second/60)
     ]
 
 
