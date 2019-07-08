@@ -10,35 +10,96 @@ main =
   Skeleton.skeleton
     "Elm - Examples"
     Skeleton.Examples
-    [ Center.markdown "600px" content
-    , div [ class "buttons", style "text-align" "center" ]
-        [ a [ href "https://guide.elm-lang.org/" ] [ text "Official Guide" ]
+    [ div (Center.styles "600px")
+        [ h1 [] [ text "Examples" ]
+        , div
+            [ style "display" "flex"
+            , style "flex-wrap" "wrap"
+            ]
+            [ viewExamples "Web Apps" "https://guide.elm-lang.org"
+                [ "Buttons"
+                , "Text Fields"
+                , "Forms"
+                , "HTTP"
+                , "JSON"
+                , "Random"
+                , "Time"
+                ]
+            , viewExamples "Charts" "https://package.elm-lang.org/packages/terezka/line-charts/latest/"
+                [ "Line Chart"
+                , "Upload Data"
+                ]
+            , viewExamples "Playground" "https://package.elm-lang.org/packages/evancz/elm-playground/latest"
+                [ "Triangles"
+                , "Pig"
+                , "Moving Square"
+                , "Turtle"
+                , "Mario"
+                , "Zelda"
+                ]
+            , viewExamples "Files" "https://package.elm-lang.org/packages/elm/file/latest"
+                [ "Upload"
+                , "Drag-and-Drop"
+                , "Image Previews"
+                ]
+            , viewExamples "Random" "https://package.elm-lang.org/packages/elm/random/latest"
+                [ "Dice"
+                , "Cards"
+                , "Art"
+                ]
+            , viewExamples "Testing" "https://package.elm-lang.org/packages/elm-explorations/test/latest/"
+                [ "Unit Tests"
+                , "Fuzz Tests"
+                ]
+            , viewExamples "SVG" "https://package.elm-lang.org/packages/elm/svg/latest"
+                [ "Shapes"
+                , "Clock"
+                , "Tangrams"
+                ]
+            , viewExamples "WebGL" "https://package.elm-lang.org/packages/elm-explorations/webgl/latest/"
+                [ "Triangle"
+                , "Cube"
+                , "Crate"
+                , "Thwomp"
+                , "First Person"
+                ]
+            , viewExamples "Parsing" "https://package.elm-lang.org/packages/elm/parser/latest"
+                [ "Math"
+                , "MIPS"
+                , "JSON"
+                ]
+            ]
         ]
     ]
 
 
-content = """
 
-# Examples
+-- VIEW EXAMPLES
 
-Elm was originally released with a simple online editor and a small set of
-examples. Not all of the examples match nicely with the modern learning resources
-about Elm, so it felt like it would be better to point folks to resources like
-[The Official Guide](https://guide.elm-lang.org/) for now.
 
-More specifically, the initial vision for the online editor and examples was to
-make it really easy for beginners to start playing around. It had simple 2D
-games and 3D animations. It was really neat, but over time, the learning resources
-become more focused on folks trying to make web apps. Many examples did not really
-fit with that, making the examples feel out of place for the audience coming from
-JavaScript.
+viewExamples : String -> String -> List String -> Html msg
+viewExamples sectionTitle externalLink examples =
+  div
+    [ style "width" "200px"
+    ]
+    [ h2 [ style "margin-bottom" "0" ] [ text sectionTitle ]
+    , ul
+        [ style "list-style-type" "none"
+        , style "padding-left" "16px"
+        , style "margin-top" "8px"
+        ]
+        (List.map viewExample examples ++ [ viewMore externalLink ])
+    ]
 
-Both of these audiences are important though! So rather than just keeping it
-sort of confusing for everyone, I think it makes sense to start improving the
-learning resources for beginners. In the end, someone new to programming and
-someone coming from JavaScript are going to be interested in very different
-examples, so focusing on different audiences directly seems like the best path
-to figuring out how an examples page should work. Especially when there are all
-sorts of different people checking out the language these days.
 
-"""
+viewExample : String -> Html msg
+viewExample example =
+  let
+    url = "/examples/" ++ String.replace " " "-" (String.toLower example)
+  in
+  li [] [ a [ href url ] [ text example ] ]
+
+
+viewMore : String -> Html msg
+viewMore url =
+  li [] [ a [ href url ] [ text "..." ] ]
