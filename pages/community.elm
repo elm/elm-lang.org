@@ -25,6 +25,8 @@ Folks tend to congregate in the following forums:
 * [Twitter](https://twitter.com/elmlang)
 * [Meetups](https://www.meetup.com/topics/elm-programming/all/)
 
+<br>
+
 
 ## Code of Conduct
 
