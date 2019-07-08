@@ -7,7 +7,7 @@ import Skeleton
 
 
 main =
-  Skeleton.skeleton "Elm - Chat Tips" "community"
+  Skeleton.skeleton "Elm - Chat Tips" Skeleton.Community
     [ Center.markdown "600px" content
     ]
 
