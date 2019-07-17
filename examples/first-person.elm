@@ -1,7 +1,11 @@
--- elm install elm-explorations/linear-algebra
--- elm install elm-explorations/webgl
-
--- Try adding the ability to crouch or to land on top of the crate.
+-- Walk around in 3D space using the keyboard.
+--
+-- Dependencies:
+--   elm install elm-explorations/linear-algebra
+--   elm install elm-explorations/webgl
+--
+-- Try adding the ability to crouch or to land on top of the crate!
+--
 
 
 import Browser

@@ -1,5 +1,8 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/effects/json.html
+-- Press a button to send a GET request for random cat GIFs.
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/effects/json.html
+--
 
 import Browser
 import Html exposing (..)

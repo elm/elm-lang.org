@@ -16,58 +16,47 @@ main =
             [ style "display" "flex"
             , style "flex-wrap" "wrap"
             ]
-            [ viewExamples "Web Apps" "https://guide.elm-lang.org"
+            [ viewExamples "HTML"
+                [ "Hello World"
+                , "Groceries"
+                , "Shapes"
+                ]
+            , viewExamples "User Input"
                 [ "Buttons"
                 , "Text Fields"
                 , "Forms"
-                , "HTTP"
-                , "JSON"
-                , "Random"
-                , "Time"
                 ]
-            , viewExamples "Charts" "https://package.elm-lang.org/packages/terezka/line-charts/latest/"
-                [ "Line Chart"
-                , "Upload Data"
+            , viewExamples "Random"
+                [ "Numbers"
+                , "Cards"
+                , "Positions"
                 ]
-            , viewExamples "Playground" "https://package.elm-lang.org/packages/evancz/elm-playground/latest"
-                [ "Triangles"
-                , "Pig"
-                , "Moving Square"
-                , "Turtle"
-                , "Mario"
-                , "Zelda"
+            , viewExamples "HTTP"
+                [ "Book"
+                , "Cat GIFs"
                 ]
-            , viewExamples "Files" "https://package.elm-lang.org/packages/elm/file/latest"
+            , viewExamples "Time"
+                [ "Time"
+                , "Clock"
+                ]
+            , viewExamples "Files"
                 [ "Upload"
                 , "Drag-and-Drop"
                 , "Image Previews"
                 ]
-            , viewExamples "Random" "https://package.elm-lang.org/packages/elm/random/latest"
-                [ "Dice"
-                , "Cards"
-                , "Art"
-                ]
-            , viewExamples "Testing" "https://package.elm-lang.org/packages/elm-explorations/test/latest/"
-                [ "Unit Tests"
-                , "Fuzz Tests"
-                ]
-            , viewExamples "SVG" "https://package.elm-lang.org/packages/elm/svg/latest"
-                [ "Shapes"
-                , "Clock"
-                , "Tangrams"
-                ]
-            , viewExamples "WebGL" "https://package.elm-lang.org/packages/elm-explorations/webgl/latest/"
+            , viewExamples "WebGL"
                 [ "Triangle"
                 , "Cube"
                 , "Crate"
                 , "Thwomp"
                 , "First Person"
                 ]
-            , viewExamples "Parsing" "https://package.elm-lang.org/packages/elm/parser/latest"
-                [ "Math"
-                , "MIPS"
-                , "JSON"
-                ]
+            ]
+        , p [ style "margin-top" "3em" ]
+            [ span [ style "font-weight" "bold" ] [ text "Reminder:" ]
+            , text " Read through "
+            , a [ href "https://guide.elm-lang.org" ] [ text "The Official Guide" ]
+            , text " to learn the basics of Elm. It will help a lot with understanding these examples!"
             ]
         ]
     ]
@@ -77,8 +66,8 @@ main =
 -- VIEW EXAMPLES
 
 
-viewExamples : String -> String -> List String -> Html msg
-viewExamples sectionTitle externalLink examples =
+viewExamples : String -> List String -> Html msg
+viewExamples sectionTitle examples =
   div
     [ style "width" "200px"
     ]
@@ -88,7 +77,7 @@ viewExamples sectionTitle externalLink examples =
         , style "padding-left" "16px"
         , style "margin-top" "8px"
         ]
-        (List.map viewExample examples ++ [ viewMore externalLink ])
+        (List.map viewExample examples)
     ]
 
 
@@ -98,8 +87,3 @@ viewExample example =
     url = "/examples/" ++ String.replace " " "-" (String.toLower example)
   in
   li [] [ a [ href url ] [ text example ] ]
-
-
-viewMore : String -> Html msg
-viewMore url =
-  li [] [ a [ href url ] [ text "..." ] ]

@@ -1,5 +1,8 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/architecture/buttons.html
+-- Press buttons to increment and decrement a counter.
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/architecture/buttons.html
+--
 
 import Browser
 import Html exposing (Html, button, div, text)

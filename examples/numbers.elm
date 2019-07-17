@@ -1,5 +1,8 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/effects/random.html
+-- Press a button to generate a random number between 1 and 6.
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/effects/random.html
+--
 
 import Browser
 import Html exposing (..)

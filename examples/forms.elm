@@ -1,5 +1,8 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/architecture/forms.html
+-- Input a user name and password. Make sure the password matches.
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/architecture/forms.html
+--
 
 import Browser
 import Html exposing (..)

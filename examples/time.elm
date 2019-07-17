@@ -1,5 +1,11 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/effects/time.html
+-- Show the current time in your time zone.
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/effects/time.html
+--
+-- For an analog clock, check out this SVG example:
+--   https://elm-lang.org/examples/clock
+--
 
 import Browser
 import Html exposing (..)

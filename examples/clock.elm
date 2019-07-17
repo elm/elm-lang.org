@@ -1,5 +1,12 @@
--- elm install elm/svg
-
+-- Show an analog clock for your time zone.
+--
+-- Dependencies:
+--   elm install elm/svg
+--   elm install elm/time
+--
+-- For a simpler version, check out:
+--   https://elm-lang.org/examples/time
+--
 
 import Browser
 import Html exposing (Html)

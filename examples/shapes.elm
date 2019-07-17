@@ -1,4 +1,9 @@
--- elm install elm/svg
+-- Scalable Vector Graphics (SVG) can be a nice way to draw things in 2D.
+-- Here are some common SVG shapes.
+--
+-- Dependencies:
+--   elm install elm/svg
+--
 
 
 import Html exposing (Html)
@@ -62,10 +67,8 @@ main =
         ]
     ]
 
-
--- Scalable Vector Graphics (SVG) can be a nice way to draw things in 2D.
--- There are a lot of odd things about the API though, so always try to
--- find examples to help you understand the weird stuff. Like these:
+-- There are a lot of odd things about SVG, so always try to find examples
+-- to help you understand the weird stuff. Like these:
 --
 --   https://www.w3schools.com/graphics/svg_examples.asp
 --   https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d

@@ -1,5 +1,8 @@
--- Learn how this works in:
--- https://guide.elm-lang.org/architecture/text-fields.html
+-- A text input for reversing text. Very useful!
+--
+-- Read how it works:
+--   https://guide.elm-lang.org/architecture/text-fields.html
+--
 
 import Browser
 import Html exposing (Html, Attribute, div, input, text)

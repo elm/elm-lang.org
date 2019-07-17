@@ -1,6 +1,9 @@
--- elm install elm-explorations/linear-algebra
--- elm install elm-explorations/webgl
-
+-- Demonstrate how to load textures and put them on a cube.
+--
+-- Dependencies:
+--   elm install elm-explorations/linear-algebra
+--   elm install elm-explorations/webgl
+--
 
 import Browser
 import Browser.Events as E
