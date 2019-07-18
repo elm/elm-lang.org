@@ -14,13 +14,13 @@ Learn.elm            /docs
 Libraries.elm        http://package.elm-lang.org
 
 # old blog posts
-blog/Introducing-Elm-Reactor.elm       /blog/time-travel-made-easy
-blog/Blazing-Fast-Html.elm             /blog/blazing-fast-html
-blog/announce/PackageManager.elm       /blog/announce/package-manager
-blog/announce/Repl.elm                 /blog/announce/repl
-blog/Interactive-Programming.elm       /blog/interactive-programming
-blog/announce/Elm-and-Prezi.elm        /blog/announce/elm-and-prezi
-blog/Pong.elm                          /blog/making-pong
+blog/Introducing-Elm-Reactor.elm       /news/time-travel-made-easy
+blog/Blazing-Fast-Html.elm             /news/blazing-fast-html
+blog/announce/PackageManager.elm       /news/package-manager
+blog/announce/Repl.elm                 /news/repl
+blog/Interactive-Programming.elm       /news/interactive-programming
+blog/announce/Elm-and-Prezi.elm        /news/elm-and-prezi
+blog/Pong.elm                          /news/making-pong
 
 # old learn
 learn/Escape-from-Callback-Hell.elm    /learn/escape-from-callback-hell
@@ -50,19 +50,23 @@ imgs/reactor-post/elm-webgl.png       /assets/blog/time-travel-made-easy/elm-web
 imgs/reactor-post/elm-d3.png          /assets/blog/time-travel-made-easy/elm-d3.png"
 
 # old announcements
-blog/announce/0.4.0.elm     /blog/announce/0.4.0
-blog/announce/0.5.0.elm     /blog/announce/0.5.0
-blog/announce/0.6.elm       /blog/announce/0.6
-blog/announce/0.7.elm       /blog/announce/0.7
-blog/announce/0.7.1.elm     /blog/announce/0.7.1
-blog/announce/0.8.elm       /blog/announce/0.8
-blog/announce/0.9.elm       /blog/announce/0.9
-blog/announce/0.10.elm      /blog/announce/0.10
-blog/announce/0.10.1.elm    /blog/announce/0.10.1
-blog/announce/0.11.elm      /blog/announce/0.11
-blog/announce/0.12.elm      /blog/announce/0.12
-blog/announce/0.12.1.elm    /blog/announce/0.12.1
-blog/announce/0.12.3.elm    /blog/announce/0.12.3
-blog/announce/0.13.elm      /blog/announce/0.13
-blog/announce/0.14.elm      /blog/announce/0.14
-blog/announce/0.15.elm      /blog/announce/0.15
+blog/announce/0.4.0.elm     /news/0.4.0
+blog/announce/0.5.0.elm     /news/0.5.0
+blog/announce/0.6.elm       /news/0.6
+blog/announce/0.7.elm       /news/0.7
+blog/announce/0.7.1.elm     /news/0.7.1
+blog/announce/0.8.elm       /news/0.8
+blog/announce/0.9.elm       /news/0.9
+blog/announce/0.10.elm      /news/0.10
+blog/announce/0.10.1.elm    /news/0.10.1
+blog/announce/0.11.elm      /news/0.11
+blog/announce/0.12.elm      /news/0.12
+blog/announce/0.12.1.elm    /news/0.12.1
+blog/announce/0.12.3.elm    /news/0.12.3
+blog/announce/0.13.elm      /news/0.13
+blog/announce/0.14.elm      /news/0.14
+blog/announce/0.15.elm      /news/0.15
+
+# blog redirect
+/blog/announce/* /news/:splat
+/blog/*          /news/:splat
