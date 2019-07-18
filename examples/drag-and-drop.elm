@@ -1,6 +1,9 @@
--- elm install elm/file
--- elm install elm/json
-
+-- Image upload with a drag and drop zone.
+--
+-- Dependencies:
+--   elm install elm/file
+--   elm install elm/json
+--
 
 import Browser
 import File exposing (File)

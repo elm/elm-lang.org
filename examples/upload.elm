@@ -1,5 +1,9 @@
--- elm install elm/file
--- elm install elm/json
+-- File upload with the <input type="file"> node.
+--
+-- Dependencies:
+--   elm install elm/file
+--   elm install elm/json
+--
 
 
 import Browser
