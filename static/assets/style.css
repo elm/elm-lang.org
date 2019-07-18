@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; }
   border-radius: 4px;
   padding: 12px;
   max-width: 396px;
-  width: calc(100% - 24px);
+  width: calc(100vw - 24px);
   overflow-x: auto;
   white-space: pre;
   color: white;
