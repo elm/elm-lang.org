@@ -1,10 +1,12 @@
--- elm install elm/http
--- elm install elm/json
--- elm install elm-explorations/linear-algebra
--- elm install elm-explorations/webgl
-
+-- Thwomp looks at your mouse. What is it up to?
+--
+-- Dependencies:
+--   elm install elm/json
+--   elm install elm-explorations/linear-algebra
+--   elm install elm-explorations/webgl
+--
 -- Thanks to The PaperNES Guy for the texture:
--- https://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
+--   https://the-papernes-guy.deviantart.com/art/Thwomps-Thwomps-Thwomps-186879685
 
 
 import Browser
