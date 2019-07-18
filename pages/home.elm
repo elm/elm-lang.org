@@ -229,7 +229,7 @@ viewFeature feature =
 features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
-      [ text "Elm uses type inference to detect corner cases and give friendly hints. For example, what if someone provides invalid inputs? NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
+      [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
       , a [href "/blog/compilers-as-assistants"] [text "details"]
       , text ")"
       ]
@@ -258,7 +258,7 @@ features =
             []
       ]
   , Feature "Enforced Semantic Versioning" 200
-      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No more surprises in PATCH releases! ("
+      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. ("
       , a [href "https://package.elm-lang.org"] [text "details"]
       , text ")"
       ]
@@ -285,7 +285,7 @@ features =
             []
       ]
   , Feature "JavaScript Interop" 120
-      [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. No major risk in trying it for something small! ("
+      [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. ("
       , a [href "http://guide.elm-lang.org/interop/"] [text "details"]
       , text ")"
       ]
