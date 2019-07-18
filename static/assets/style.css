@@ -88,7 +88,9 @@ a:hover { text-decoration: underline; }
 .terminal {
   border-radius: 4px;
   padding: 12px;
-  min-width: 396px;
+  max-width: 396px;
+  width: calc(100% - 24px);
+  overflow-x: scroll;
   white-space: pre;
   color: white;
   font-family: 'Source Code Pro', monospace;
