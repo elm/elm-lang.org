@@ -61,8 +61,8 @@ init =
         "for reliable webapps."
         [ "with no runtime exceptions."
         , "for data visualization."
+        , "with friendly error messages."
         , "for 3D graphics."
-        , "for 2D games."
         ]
   , patterns =
       Cycle.init
@@ -149,32 +149,22 @@ subscriptions model =
 viewSplash : Model -> Html Msg
 viewSplash model =
   div
-    [ style "display" "flex"
-    , style "flex-direction" "row"
-    , style "justify-content" "center"
-    , style "background-color" "#1293D8"
-    , style "color" "white"
+    [ class "splash"
     ]
     [ div
-        [ style "height" "400px"
-        , style "width" "400px"
+        [ class "tangram"
         , onMouseMove
         ]
         [ Logo.view
-            [ style "height" "400px"
-            , style "width" "400px"
-            , style "color" "white"
+            [ style "color" "white"
             , onClick MouseClicked
             ]
             model.logo
         ]
     , div
-        [ style "display" "flex"
-        , style "flex-direction" "column"
-        , style "justify-content" "center"
-        , style "width" "400px"
+        [ class "messages"
         ]
-        [ div [ style "font-size" "32px" ]
+        [ div []
             [ text "A delightful language"
             , br [] []
             , span [ class "tagline" ] [ text (TextAnimation.view model.taglines) ]

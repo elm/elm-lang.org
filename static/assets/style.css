@@ -33,25 +33,56 @@ a:hover { text-decoration: underline; }
 
 /* home stuff */
 
+.splash {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #1293D8;
+  color: white;
+}
+
+.tangram {
+  width: 400px;
+  height: 400px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 28px;
+  width: 400px;
+}
+
+@media all and (max-width: 840px) {
+  .tangram {
+    width: 280px;
+    height: 280px;
+  }
+}
+@media all and (max-width: 680px) {
+  .splash {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tangram {
+    width: 360px;
+    height: 360px;
+  }
+  .messages {
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+    width: 100%;
+    padding-bottom: 56px;
+  }
+}
+
 .home-section h1 {
   text-align: center;
   font-size: 3em;
   margin-top: 100px;
   margin-bottom: 0;
-}
-
-.home-paragraph {
-  display: block;
-  margin: 20px auto;
-  max-width: 600px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-@media (min-width: 640px) {
-  .home-paragraph {
-    text-align: center;
-  }
 }
 
 .terminal {
@@ -138,7 +169,9 @@ a:hover { text-decoration: underline; }
 
 .header {
   background-color: #1293D8;
-  width: 100%;
+  width: calc(100% - 40px);
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .nav {
@@ -203,6 +236,10 @@ a:hover { text-decoration: underline; }
 .buttons a:hover {
   color: #1293D8;
   background-color: white;
+}
+
+.buttons a:last-child {
+  margin-right: 0;
 }
 
 
