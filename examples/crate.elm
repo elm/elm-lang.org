@@ -46,7 +46,7 @@ init () =
   ( { angle = 0
     , texture = Nothing
     }
-  , Task.attempt GotTexture (Texture.load "/assets/wood-crate.jpg")
+  , Task.attempt GotTexture (Texture.load "https://elm-lang.org/assets/wood-crate.jpg")
   )
 
 

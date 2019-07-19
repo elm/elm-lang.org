@@ -63,8 +63,8 @@ init _ =
     }
   , Cmd.batch
       [ Task.perform GotViewport Dom.getViewport
-      , Task.attempt GotFace (Texture.loadWith options "/assets/thwomp-face.jpg")
-      , Task.attempt GotSide (Texture.loadWith options "/assets/thwomp-side.jpg")
+      , Task.attempt GotFace (Texture.loadWith options "https://elm-lang.org/assets/thwomp-face.jpg")
+      , Task.attempt GotSide (Texture.loadWith options "https://elm-lang.org/assets/thwomp-side.jpg")
       ]
   )
 
