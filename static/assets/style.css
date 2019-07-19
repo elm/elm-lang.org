@@ -333,16 +333,14 @@ blockquote p {
 
 /* comparison table */
 
+.comparison {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
 .comparison table {
   border-collapse: collapse;
   text-align: left;
   width: 100%;
-}
-.comparison {
-  background: #fff;
-  overflow: hidden;
-  border: 1px solid #8C8C8C;
-  border-radius: 3px;
 }
 .comparison table td, .comparison table th {
   padding: 5px 10px;
