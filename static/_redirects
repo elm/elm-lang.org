@@ -36,24 +36,6 @@ imgs/reactor-post/elm-html.png        /assets/blog/time-travel-made-easy/elm-htm
 imgs/reactor-post/elm-webgl.png       /assets/blog/time-travel-made-easy/elm-webgl.png
 imgs/reactor-post/elm-d3.png          /assets/blog/time-travel-made-easy/elm-d3.png"
 
-# old announcements
-blog/announce/0.4.0.elm     /news/0.4.0
-blog/announce/0.5.0.elm     /news/0.5.0
-blog/announce/0.6.elm       /news/0.6
-blog/announce/0.7.elm       /news/0.7
-blog/announce/0.7.1.elm     /news/0.7.1
-blog/announce/0.8.elm       /news/0.8
-blog/announce/0.9.elm       /news/0.9
-blog/announce/0.10.elm      /news/0.10
-blog/announce/0.10.1.elm    /news/0.10.1
-blog/announce/0.11.elm      /news/0.11
-blog/announce/0.12.elm      /news/0.12
-blog/announce/0.12.1.elm    /news/0.12.1
-blog/announce/0.12.3.elm    /news/0.12.3
-blog/announce/0.13.elm      /news/0.13
-blog/announce/0.14.elm      /news/0.14
-blog/announce/0.15.elm      /news/0.15
-
 # blog redirect
 /blog/announce/* /news/:splat
 /blog/*          /news/:splat
