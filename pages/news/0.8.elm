@@ -82,7 +82,7 @@ makes sense and HTML everywhere else.
 ## Type Annotations and Type Aliases
 
 If you are new to types, I recommend reading
-[Getting started with Types](/guide/model-the-problem)
+[this chapter](https://guide.elm-lang.org/types/) of the official guide
 which explains how types work in Elm.
 
 You can now add type information to your programs if you want. It is

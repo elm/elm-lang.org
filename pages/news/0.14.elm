@@ -148,7 +148,7 @@ explanation. For people who want to *teach* this concept, I have written up
 also written up [a full description][union] that explains what they are and
 shows a bunch of examples.
 
-[union]: /guide/model-the-problem
+[union]: https://guide.elm-lang.org/types/custom_types.html
 [gist]: https://gist.github.com/evancz/06fe634245a3aab4a61b
 [tagged]: http://en.wikipedia.org/wiki/Tagged_union
 

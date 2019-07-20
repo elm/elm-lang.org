@@ -188,7 +188,7 @@ Both `Ball` and `Player` have a position and velocity, but notice that a
 `Player` has one extra field for representing the player&rsquo;s score.
 
 We also want to be able to pause the game between volleys so the user can take
-a break. We do this with a [union type](/guide/model-the-problem)
+a break. We do this with a [union type](https://guide.elm-lang.org/types/custom_types.html
 which we can later extend if we want more game states for speeding up gameplay
 or whatever else.
 
