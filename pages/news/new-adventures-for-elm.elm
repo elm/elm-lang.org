@@ -41,7 +41,7 @@ privilege of learning from him personally over the past year. Our discussions
 created quite a powerful feedback loop. He inspired
 [start-app](https://github.com/evancz/start-app), helped crystallize some core
 communication [ideas](https://youtu.be/oYk8CKH7OhE), and motivated my work on
-[error messages](/blog/compilers-as-assistants) with his
+[error messages](/news/compilers-as-assistants) with his
 infectious excitement. Meanwhile Richard was using Elm at work more and more.
 Today NoRedInk has about 5 engineers writing Elm full-time ([and is looking for
 more](https://www.noredink.com/jobs)) and all of their new frontend code is
@@ -57,7 +57,7 @@ to work closely with such great folks!
 ## Creating Elm Software Foundation
 
 Even though I am changing jobs, Prezi is continuing to support Elm. [Prezi hired
-me to work on Elm](/blog/announce/elm-and-prezi) more than two years ago. Their
+me to work on Elm](/news/elm-and-prezi) more than two years ago. Their
 CTO, Péter Halácsy, knew that (a) his engineers would get more done in an
 ML-family language and (b) the big players in JS weren’t going to realize that
 on their own any time soon. So he decided to support Elm in 2013, when

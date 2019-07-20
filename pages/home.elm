@@ -230,7 +230,7 @@ features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
       [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
-      , a [href "/blog/compilers-as-assistants"] [text "details"]
+      , a [href "/news/compilers-as-assistants"] [text "details"]
       , text ")"
       ]
       [ div [ class "terminal" ]
@@ -248,7 +248,7 @@ features =
       ]
   , Feature "Great Performance" 320
       [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. ("
-      , a [href "/blog/blazing-fast-html-round-two"] [text "details"]
+      , a [href "/news/blazing-fast-html-round-two"] [text "details"]
       , text ")"
       ]
       [ img
@@ -275,7 +275,7 @@ features =
       [ text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
       , code [] [ text "--optimize" ]
       , text " flag and let the compiler do the rest. No complicated set up. ("
-      , a [href "/blog/small-assets-without-the-headache"] [text "details"]
+      , a [href "/news/small-assets-without-the-headache"] [text "details"]
       , text ")"
       ]
       [ img

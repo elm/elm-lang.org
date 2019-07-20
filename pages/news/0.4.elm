@@ -50,7 +50,7 @@ changes, which are detailed below with upgrade advice.
 
 I hope you enjoy Elm 0.4!
 
- [pong]: /blog/making-pong
+ [pong]: /news/making-pong
  [a]: /edit/examples/Elements/ToForm.elm "toForm"
  [b]: /edit/examples/Elements/Sprite.elm "sprites"
  [c]: /examples/texture "texture"

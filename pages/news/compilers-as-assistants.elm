@@ -106,7 +106,7 @@ Responding to this feedback has led to some extraordinarily nice error messages,
 so I want to highlight some of the user-reported issues that helped make this
 happen!
 
-[0.15.1]: /blog/compiler-errors-for-humans
+[0.15.1]: /news/compiler-errors-for-humans
 [emc]: https://github.com/elm-lang/error-message-catalog
 
 

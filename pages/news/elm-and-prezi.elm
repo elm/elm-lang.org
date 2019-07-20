@@ -30,7 +30,7 @@ This is actually a stronger guarantee than before.
 Yes! I have been talking with Prezi for the past couple months.
 I should be able to move a lot quicker now.
 
-  [0.8]: /blog/announce/0.8
+  [0.8]: /news/0.8
 
 #### Q: What might change because of this?
 I am still making the design decisions, so the goals are the same.

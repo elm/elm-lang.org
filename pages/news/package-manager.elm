@@ -22,7 +22,7 @@ use community libraries. This comes in two parts:
   2. [`elm-get` command line tool](https://github.com/elm-lang/elm-get#elm-get)
      for installing and publishing libraries
 
-[The recent 0.10.1 compiler release](/blog/announce/0.10.1) introduced
+[The recent 0.10.1 compiler release](/news/0.10.1) introduced
 integration with `elm-get` to make things easy to use. So once you [install
 `elm-get`](https://github.com/elm-lang/elm-get#install) with `cabal install elm-get`,
 you will be all set to start using any library in
@@ -171,7 +171,7 @@ projects and I am doing my best to make it easy and fun to contribute.
 
 # Thank you
 
-Thank you to everyone who attended or spoke at the [Elm Workshop](/blog/announce/Workshop-2013.elm)
+Thank you to everyone who attended or spoke at the [Elm Workshop](/news/Workshop-2013.elm)
 in Budapest! (We are working on getting the videos out!) I had a lot of fun and the talks
 and projects were great. I came away with some very good ideas about how to improve the
 Elm runtime, and more immediately, seeing everyones work was really inspiring and really

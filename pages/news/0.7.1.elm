@@ -31,7 +31,7 @@ Before we get started, there is some non-compiler news:
 * Grzegorz recently released [Preselm](https://github.com/grzegorzbalcerek/Preselm),
   an open source project for creating presentations.
   In addition to being really cool, it is a great example of how to effectively use
-  [the new record system](/blog/announce/0.7).
+  [the new record system](/news/0.7).
 
 * Mads is currently working on getting inline documentation working in the online editor.
   I think it is a big step towards making Elm really easy to learn for people from
@@ -41,7 +41,7 @@ Before we get started, there is some non-compiler news:
 
 Okay, now let&rsquo;s dive into Elm 0.7.1!
 
- [recs]: /blog/announce/0.7
+ [recs]: /news/0.7
  [draw]: /edit/examples/Reactive/Draw.elm
 
 ## Keyboard

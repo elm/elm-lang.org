@@ -53,7 +53,7 @@ deletion. You can read about why [here][16].
 
 [records]: /docs/records
 [daan]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf
-[16]: /blog/compilers-as-assistants#simplified-records
+[16]: /news/compilers-as-assistants#simplified-records
 
 
 ## Concurrency

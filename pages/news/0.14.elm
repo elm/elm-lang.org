@@ -70,7 +70,7 @@ is happening in syntax and libraries. As much as possible, I want people to see
 some code for the first time and *feel* how it works. I want to bring the
 learning curve down from days to minutes.
 
-[reactor]: /blog/time-travel-made-easy
+[reactor]: /news/time-travel-made-easy
 
 
 ### Philosophy in Action
@@ -294,7 +294,7 @@ Furthermore, it does it in a way that works great with time travel in
 [Elm Reactor][reactor].
 
 [random]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random
-[reactor]: /blog/time-travel-made-easy
+[reactor]: /news/time-travel-made-easy
 
 There is more info in [the `Random`
 docs](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),

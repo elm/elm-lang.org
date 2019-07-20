@@ -46,7 +46,7 @@ image name =
 intro = """
 
 Two years ago, we released an HTML rendering library for Elm, and it was
-[really fast](/blog/blazing-fast-html). Faster than React, Angular, and
+[really fast](/news/blazing-fast-html). Faster than React, Angular, and
 Ember. All these frameworks have improved their renderers since then, so
 I figured it would be interesting to run the numbers again:
 
@@ -86,7 +86,7 @@ I hope the information in this post will be helpful to all these different
 communities.
 
 [guide]: http://guide.elm-lang.org/
-[work]: /blog/how-to-use-elm-at-work
+[work]: /news/how-to-use-elm-at-work
 
 
 > **Note:** I had a bunch of folks review this post before sharing it, and we
@@ -328,7 +328,7 @@ Benchmarking is difficult, but hopefully I have made a convincing case that:
   - These results should generalize to apps of any size.
 
 That is all great, but this is kind of selling Elm short. We also have a
-compiler that gives [extraordinarily helpful hints](/blog/compilers-as-assistants)
+compiler that gives [extraordinarily helpful hints](/news/compilers-as-assistants)
 that prevents runtime errors. It is good enough that NoRedInk is running 36k
 lines of Elm in production and has never gotten a runtime error from their Elm
 code in more than a year of use. (Rollbar reports everything, and it is always
@@ -352,7 +352,7 @@ so I hope that breadth of experience can help folks make technical decisions
 without doing all this work!
 
 [guide]: http://guide.elm-lang.org/
-[work]: /blog/how-to-use-elm-at-work
+[work]: /news/how-to-use-elm-at-work
 [slack]: http://elmlang.herokuapp.com/
 [elm-discuss]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 [xy]: http://meta.stackexchange.com/questions/66377/what-is-the-xy-problem

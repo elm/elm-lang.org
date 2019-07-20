@@ -13,7 +13,7 @@ main =
 
 content = """
 
-[The 0.9 release](/blog/announce/0.9) touched almost every part of
+[The 0.9 release](/news/0.9) touched almost every part of
 the compiler, and since then, a lot of rough patches have been discovered
 and fixed. These improvements warrant a proper release on their own, but
 there are also a number of important new features and improvements that
@@ -28,7 +28,7 @@ are ready for release:
 
 There are also some improvements for Elm-related tools including
 [improved documentation](http://package.elm-lang.org/),
-[hot-swapping](/blog/interactive-programming) and better hints in
+[hot-swapping](/news/interactive-programming) and better hints in
 the online editor, and a big site redesign to make resources like
 [the beginner classes](/Learn.elm),
 [demo of html/js integration](https://github.com/evancz/elm-html-and-js#htmljs-integration--live-demo), and

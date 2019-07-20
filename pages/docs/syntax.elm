@@ -144,7 +144,7 @@ For more explanation of Elm&rsquo;s record system, see [this overview][exp],
 the [initial announcement][v7], or [this academic paper][records].
 
 [exp]: /docs/records "Records in Elm"
-[v7]:  /blog/announce/0.7 "Elm version 0.7"
+[v7]:  /news/0.7 "Elm version 0.7"
 [records]: https://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm

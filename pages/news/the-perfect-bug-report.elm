@@ -86,7 +86,7 @@ Elm first got into time-travel debugging with Laszlo Pandy’s work [in 2013](ht
 
   - **Debugging must work when Elm is embedded in JS or HTML.** Many folks who use Elm in production [embed it][embed] in a larger page. That means the debugger must work with JavaScript code that *cannot* time-travel safely. You can rewind your Elm program, but your JavaScript and database are not going to come along!
 
-[embed]: /blog/how-to-use-elm-at-work
+[embed]: /news/how-to-use-elm-at-work
 [mario]: https://www.youtube.com/watch?v=RUeLd7T7Xi4
 
 But what about the cool stuff? What about seeing Mario’s position over time [as the code changes][mario]? It turns out the features that demo well are not so important for baseline production usage. By dropping features like that *for now*, I could focus on a more specific problem and get folks a useful tool sooner! So my constrained goal for the debugger was: get import/export working and make it lovely to use.
@@ -107,7 +107,7 @@ That’s all there is to it, even if you are embedding Elm in a larger page. I e
 
 Elm is known for having [nice error messages][errors], and the debugger is no exception. It will give you helpful feedback if you find yourself in a tricky situation. For example, say you export a session history, but by the time it gets to a developer, the program has changed a bit. Maybe some messages have been renamed or removed in a refactor? Elm can figure this all out at compile-time, so it kindly explains *why* the history is incompatible:
 
-[errors]: /blog/compilers-as-assistants
+[errors]: /news/compilers-as-assistants
 
 """
 

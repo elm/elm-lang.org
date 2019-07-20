@@ -57,7 +57,7 @@ recently rewrote his writing app [Dreamwriter](https://dreamwriter.co/) from
 to [Elm and CoffeeScript](https://github.com/rtfeldman/dreamwriter/tree/strangeloop),
 which has been a very interesting case study.
 
-[elm-html]: /blog/blazing-fast-html
+[elm-html]: /news/blazing-fast-html
 
 Richard took the approach of rewriting the core of Dreamwriter in Elm, and then
 slowly expanding that core to cover as much as possible. This means he was able

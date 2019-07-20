@@ -110,13 +110,13 @@ and see how a specific function behaves.
 
 ## What happened to &ldquo;A New Kind of REPL&rdquo;?
 
-When I announced [hot-swapping in Elm](/blog/interactive-programming), I
+When I announced [hot-swapping in Elm](/news/interactive-programming), I
 called it a new kind of REPL. Riffing on Stephen Wolfram's
 [New Kind of Science](http://en.wikipedia.org/wiki/A_New_Kind_of_Science) definitely
 makes for a provocative title, but perhaps unsurprisingly, the old kind
 of REPL is still very important.
 
-It is clear that [hot-swapping](/blog/interactive-programming)
+It is clear that [hot-swapping](/news/interactive-programming)
 changes how we tweak and perfect our programs. It changes how we debug.
 It changes how beginners learn to program. It changes how developers dig
 into existing codebases. That is all great, but for some reason we still had
