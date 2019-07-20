@@ -1,10 +1,17 @@
-# links from old installers
-get-started   https://guide.elm-lang.org/install.html
-install       https://guide.elm-lang.org/install.html
+# 20 Jul 2019 - hints for 0.19.1
+/0.19.1/:hint  https://github.com/elm/compiler/blob/master/hints/:hint.md
 
-# old assets
-papers/concurrent.pdf  /assets/papers/concurrent.pdf
+# 20 Jul 2019 - hints for 0.19.0
+/0.19.0/:hint  https://github.com/elm/compiler/blob/master/hints/:hint.md
 
-# blog redirect
+# 20 Jul 2019 - rename /blog to /news
 /blog/announce/* /news/:splat
 /blog/*          /news/:splat
+
+# OLD - old installers have links to /get-started page
+/get-started   https://guide.elm-lang.org/install.html
+/install       https://guide.elm-lang.org/install.html
+
+# OLD - move some assets around
+/papers/concurrent.pdf  /assets/papers/concurrent.pdf
+
