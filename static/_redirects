@@ -2,27 +2,6 @@
 get-started   https://guide.elm-lang.org/install.html
 install       https://guide.elm-lang.org/install.html
 
-# old blog posts
-blog/Introducing-Elm-Reactor.elm       /news/time-travel-made-easy
-blog/Blazing-Fast-Html.elm             /news/blazing-fast-html
-blog/announce/PackageManager.elm       /news/package-manager
-blog/announce/Repl.elm                 /news/repl
-blog/Interactive-Programming.elm       /news/interactive-programming
-blog/announce/Elm-and-Prezi.elm        /news/elm-and-prezi
-blog/Pong.elm                          /news/making-pong
-
-# old learn
-learn/Escape-from-Callback-Hell.elm    /learn/escape-from-callback-hell
-learn/Syntax.elm                       /docs/syntax
-learn/FAQ.elm                          /docs/from-javascript
-learn/Understanding-Types.elm          https://guide.elm-lang.org/types/reading_types.html
-learn/Pattern-Matching.elm             https://guide.elm-lang.org/types/union_types.html
-learn/Union-Types.elm                  https://guide.elm-lang.org/types/union_types.html
-learn/Records.elm                      /docs/records
-learn/Tasks.elm                        https://guide.elm-lang.org/error_handling/task.html
-learn/Components.elm                   https://guide.elm-lang.org/interop/javascript.html
-learn/Ports.elm                        https://guide.elm-lang.org/interop/javascript.html
-
 # old guide
 guide/core-language       https://guide.elm-lang.org/core_language.html
 guide/architecture        https://github.com/evancz/elm-architecture-tutorial/
