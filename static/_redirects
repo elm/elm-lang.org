@@ -1,6 +1,3 @@
-# example redirects
-/examples/*  /examples
-
 # old roots
 Blog.elm             /blog
 Community.elm        /community
