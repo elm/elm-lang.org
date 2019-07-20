@@ -1,5 +1,8 @@
 # 20 Jul 2019 - hints for 0.19.1
-/0.19.1/:hint  https://github.com/elm/compiler/blob/master/hints/:hint.md
+/0.19.1/docs          https://package.elm-lang.org/help/documentation-format
+/0.19.1/ports         https://guide.elm-lang.org/interop/ports.html
+/0.19.1/custom-types  https://guide.elm-lang.org/types/custom_types.html
+/0.19.1/:hint         https://github.com/elm/compiler/blob/master/hints/:hint.md
 
 # 20 Jul 2019 - hints for 0.19.0
 /0.19.0/docs         https://package.elm-lang.org/help/documentation-format
