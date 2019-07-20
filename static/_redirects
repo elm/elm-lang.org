@@ -2,10 +2,6 @@
 get-started   https://guide.elm-lang.org/install.html
 install       https://guide.elm-lang.org/install.html
 
-# old guide
-guide/core-language       https://guide.elm-lang.org/core_language.html
-guide/architecture        https://github.com/evancz/elm-architecture-tutorial/
-
 # old assets
 papers/concurrent.pdf                 /assets/papers/concurrent.pdf
 
