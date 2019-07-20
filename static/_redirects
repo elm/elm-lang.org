@@ -3,7 +3,7 @@ get-started   https://guide.elm-lang.org/install.html
 install       https://guide.elm-lang.org/install.html
 
 # old assets
-papers/concurrent.pdf                 /assets/papers/concurrent.pdf
+papers/concurrent.pdf  /assets/papers/concurrent.pdf
 
 # blog redirect
 /blog/announce/* /news/:splat
