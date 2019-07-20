@@ -15,16 +15,16 @@ blog/Pong.elm                          /news/making-pong
 learn/Escape-from-Callback-Hell.elm    /learn/escape-from-callback-hell
 learn/Syntax.elm                       /docs/syntax
 learn/FAQ.elm                          /docs/from-javascript
-learn/Understanding-Types.elm          http://guide.elm-lang.org/types/reading_types.html
-learn/Pattern-Matching.elm             http://guide.elm-lang.org/types/union_types.html
-learn/Union-Types.elm                  http://guide.elm-lang.org/types/union_types.html
+learn/Understanding-Types.elm          https://guide.elm-lang.org/types/reading_types.html
+learn/Pattern-Matching.elm             https://guide.elm-lang.org/types/union_types.html
+learn/Union-Types.elm                  https://guide.elm-lang.org/types/union_types.html
 learn/Records.elm                      /docs/records
 learn/Tasks.elm                        https://guide.elm-lang.org/error_handling/task.html
-learn/Components.elm                   http://guide.elm-lang.org/interop/javascript.html
-learn/Ports.elm                        http://guide.elm-lang.org/interop/javascript.html
+learn/Components.elm                   https://guide.elm-lang.org/interop/javascript.html
+learn/Ports.elm                        https://guide.elm-lang.org/interop/javascript.html
 
 # old guide
-guide/core-language       http://guide.elm-lang.org/core_language.html
+guide/core-language       https://guide.elm-lang.org/core_language.html
 guide/architecture        https://github.com/evancz/elm-architecture-tutorial/
 
 # old assets
