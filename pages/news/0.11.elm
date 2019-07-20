@@ -16,7 +16,7 @@ content = """
 The key idea for this release comes from a “component model” for using Elm in
 production systems. A “component model” means you write small UI widgets or
 processing units in Elm and [embed them in a traditional
-project](/guide/interop) written in JS. So you can try
+project](https://guide.elm-lang.org/interop/) written in JS. So you can try
 Elm out on a specific problem and see if it works for you.
 
 <img src="/assets/blog/0.11/embed.png" alt="Component Model"
@@ -25,7 +25,7 @@ Elm out on a specific problem and see if it works for you.
 To make this “component model” possible, Elm 0.11 introduces
 [ports](http://guide.elm-lang.org/interop/javascript.html) which make it easy to
 communicate between Elm and JavaScript. Check out
-[how to embed Elm in HTML](/guide/interop) and
+[how to embed Elm in HTML](https://guide.elm-lang.org/interop/) and
 [how to communicate between Elm and JS](http://guide.elm-lang.org/interop/javascript.html)
 to learn the specifics of these new features. This post will focus
 on why ports are extremely important for Elm and how to understand
@@ -106,7 +106,7 @@ tough to do well, but at least sending values between Elm and JavaScript
 is pretty easy now!
 
 More example uses of ports can be found in
-[this document](/guide/interop),
+[this document](https://guide.elm-lang.org/interop/),
 [this complete example](https://github.com/evancz/elm-html-and-js), and
 [this small example](https://gist.github.com/evancz/8521339).
 

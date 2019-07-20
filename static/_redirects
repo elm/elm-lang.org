@@ -35,7 +35,6 @@ learn/Components.elm                   http://guide.elm-lang.org/interop/javascr
 learn/Ports.elm                        http://guide.elm-lang.org/interop/javascript.html
 
 # old guide
-guide/interop             http://guide.elm-lang.org/interop/javascript.html
 guide/core-language       http://guide.elm-lang.org/core_language.html
 guide/model-the-problem   http://guide.elm-lang.org/types/union_types.html
 guide/architecture        https://github.com/evancz/elm-architecture-tutorial/

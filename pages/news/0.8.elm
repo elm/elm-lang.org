@@ -67,7 +67,7 @@ or work with server-side JS. Using Elm is not an all-or-nothing choice anymore.
 This lowers the barrier if you want to experiment with Elm and makes it
 easier to convince your boss that it is okay to use Elm in an existing project.
 
-The description of [how to embed Elm code](/guide/interop)
+The description of [how to embed Elm code](https://guide.elm-lang.org/interop/)
 explains all of the details of the API.
 
 The following video is a short demo of how to embed Elm in a `<div>`.
