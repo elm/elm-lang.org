@@ -1,14 +1,6 @@
-# old roots
-Blog.elm             /blog
-Community.elm        /community
-Elm.elm              /
-Examples.elm         /examples
-Get-Started.elm      http://guide.elm-lang.org/install.html
-get-started          http://guide.elm-lang.org/install.html
-Install.elm          http://guide.elm-lang.org/install.html
-install              http://guide.elm-lang.org/install.html
-Learn.elm            /docs
-Libraries.elm        http://package.elm-lang.org
+# links from old installers
+get-started   https://guide.elm-lang.org/install.html
+install       https://guide.elm-lang.org/install.html
 
 # old blog posts
 blog/Introducing-Elm-Reactor.elm       /news/time-travel-made-easy
