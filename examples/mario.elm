@@ -1,4 +1,4 @@
--- Walk around with the arrow keys. Press [UP] to jump!
+-- Walk around with the arrow keys. Press the UP arrow to jump!
 --
 -- Learn more about the playground here:
 --   https://package.elm-lang.org/packages/evancz/elm-playground/latest/

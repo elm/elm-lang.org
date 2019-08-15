@@ -51,6 +51,14 @@ main =
                 , "Thwomp"
                 , "First Person"
                 ]
+            , viewExamples "Playground"
+                [ "Picture"
+                , "Animation"
+                , "Mouse"
+                , "Keyboard"
+                , "Turtle"
+                , "Mario"
+                ]
             ]
         , p [ style "margin-top" "3em" ]
             [ span [ style "font-weight" "bold" ] [ text "Reminder:" ]
