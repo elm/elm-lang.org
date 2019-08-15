@@ -73,7 +73,7 @@ init _ =
     , texture = Nothing
     }
   , Cmd.batch
-      [ Task.attempt GotTexture (Texture.load "https://elm-lang.org/assets/wood-crate.jpg")
+      [ Task.attempt GotTexture (Texture.load "https://elm-lang.org/images/wood-crate.jpg")
       , Task.perform (\{viewport} -> Resized viewport.width viewport.height) Dom.getViewport
       ]
   )
