@@ -1,2 +1,6 @@
 /assets/public-opinion.txt
   Access-Control-Allow-Origin: *
+/assets/*
+  Access-Control-Allow-Origin: https://worker.elm-lang.org
+/images/*
+  Access-Control-Allow-Origin: https://worker.elm-lang.org
