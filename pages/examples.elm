@@ -17,7 +17,7 @@ main =
             , style "flex-wrap" "wrap"
             ]
             [ viewExamples "HTML"
-                [ "Hello World"
+                [ "Hello"
                 , "Groceries"
                 , "Shapes"
                 ]
