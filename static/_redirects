@@ -16,8 +16,9 @@
 /blog/*          /news/:splat
 
 # OLD - old installers have links to /get-started page
-/get-started   https://guide.elm-lang.org/install.html
-/install       https://guide.elm-lang.org/install.html
+/Get-Started.elm   https://guide.elm-lang.org/install.html
+/get-started       https://guide.elm-lang.org/install.html
+/install           https://guide.elm-lang.org/install.html
 
 # OLD - move some assets around
 /papers/concurrent.pdf  /assets/papers/concurrent.pdf
