@@ -43,7 +43,8 @@ viewNews article =
 
 news : List News
 news =
-  [ News "Working with Files" "/news/working-with-files"
+  [ News "Towards a Homegrown Programming Language" "/news/elm-and-bekk"
+  , News "Working with Files" "/news/working-with-files"
   , News "Small Assets without the Headache" "/news/small-assets-without-the-headache"
   , News "Google Summer of Code 2017" "/news/google-summer-of-code-2017"
   , News "The Perfect Bug Report" "/news/the-perfect-bug-report"
