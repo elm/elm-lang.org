@@ -9,7 +9,7 @@ main =
     "Elm + Bekk"
     "Towards a Homegrown Programming Language"
     Skeleton.evan
-    (Skeleton.Date 2019 7 17)
+    (Skeleton.Date 2019 9 3)
     [ Center.markdown "600px" content ]
 
 
