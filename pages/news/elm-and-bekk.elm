@@ -17,7 +17,7 @@ content = """
 
 Did you know that Elm is big in Norway?
 
-So much so that a Norwegian consulting firm (Bekk) is supporting a core team member (Robin) to spend one workday each week working on Elm!
+So much so that a Norwegian tech firm (Bekk) is supporting a core team member (Robin) to spend one workday each week working on Elm!
 
 You can learn a lot about a programming language from who pays for it, so I will try to explain why this is important for Elm.
 
