@@ -25,7 +25,7 @@ notFound =
     , style "margin" "100px auto 0"
     , style "background" "#F5F5F5"
     , style "padding" "0 30px 10px"
-    , style "border-top" "4px solid #60B5CC"
+    , style "border-top" "4px solid #1293D8"
     ]
     """
 
