@@ -4,6 +4,7 @@ html, head, body {
   height: 100%;
   font-family: 'Source Code Pro', monospace;
   font-size: 14px;
+  background-color: #272822;
 }
 
 
@@ -15,7 +16,7 @@ html, head, body {
 }
 
 .options {
-  background-color: #333;
+  background-color: #272822;
   height: 36px;
   border-bottom: 4px solid #555;
   vertical-align: middle;
