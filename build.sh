@@ -77,7 +77,7 @@ function makeEditorHtml {
     <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile</div>
     <div class="button green" title="Switch the color scheme" onclick="lights()">Lights</div>
   </div>
-  <textarea id="code" name="code">$(cat $2)</textarea>
+  <textarea id="code" name="code" style="display:none;">$(cat $2)</textarea>
 </form>
 <script src="/assets/editor.js"></script>
 </body>
