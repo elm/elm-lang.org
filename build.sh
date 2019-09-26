@@ -92,18 +92,14 @@ EOF
 
 ## DOWNLOAD BINARIES
 
-
-if ! [ -x "$(command -v elm)" ]
-then
+if ! [ -x "$(command -v elm)" ]; then
   npm install elm
   PATH=$(pwd)/node_modules/elm/bin:$PATH
 fi
-if ! [ -x "$(command -v uglifyjs)" ]
-then
+if ! [ -x "$(command -v uglifyjs)" ]; then
   npm install uglify-js
   PATH=$(pwd)/node_modules/uglify-js/bin:$PATH
 fi
-
 
 
 ## GENERATE HTML
@@ -126,8 +122,7 @@ do
     js="_temp/$name.js"
     html="_site/$name.html"
 
-    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]
-    then
+    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]; then
         echo "Cached: $elm"
     else
         echo "Compiling: $elm"
@@ -145,8 +140,7 @@ done
 
 ## editor
 
-if ! [ -f _site/assets/editor.js ]
-then
+if ! [ -f _site/assets/editor.js ]; then
   echo "EDITOR"
   cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
@@ -168,8 +162,7 @@ do
     name="${subpath%.elm}"
     html="_site/examples/$name.html"
 
-    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]
-    then
+    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]; then
         echo "Cached: $elm"
     else
         echo "Compiling: $elm"
