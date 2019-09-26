@@ -46,5 +46,3 @@ notFound =
         , p [ style "text-align" "right", style "font-style" "italic" ] [ text "Robert Frost" ]
         ]
     ]
-
-
