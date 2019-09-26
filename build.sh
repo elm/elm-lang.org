@@ -92,13 +92,13 @@ EOF
 
 ## DOWNLOAD BINARIES
 
+PATH=$(pwd)/node_modules/.bin:$PATH
+
 if ! [ -x "$(command -v elm)" ]; then
   npm install elm
-  PATH=$(pwd)/node_modules/elm/bin:$PATH
 fi
 if ! [ -x "$(command -v uglifyjs)" ]; then
   npm install uglify-js
-  PATH=$(pwd)/node_modules/uglify-js/bin:$PATH
 fi
 
 
