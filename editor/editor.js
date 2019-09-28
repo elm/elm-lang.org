@@ -196,7 +196,7 @@ window.addEventListener('load', function() {
 	script.src = '/assets/editor-hints.js'
 	script.addEventListener('load', function()
 	{
-		hints = Elm.Hints.init({
+		hints = Elm.Main.init({
 			node: document.getElementsByClassName('hint')[0],
 			flags: document.getElementById('code').value
 		});
@@ -252,6 +252,7 @@ function getUpperHint(editor, line, token)
 		if (!/^import\b/.test(content)) return name;
 		var i1 = content.indexOf('as');
 		var i2 = content.indexOf('exposing');
+		if (i1 < 0 && i2 < 0) return 'module:' + name;
 		if (i1 > 0 && token.end < i1) return 'module:' + name;
 		if (i2 > 0 && token.end < i2) return 'module:' + name;
 	}
