@@ -229,6 +229,7 @@ function getHint(editor)
 	return type === 'variable' ? getLowerHint(editor, line, token)
 		: type === 'variable-2' ? getUpperHint(editor, line, token)
 		: type === 'keyword' ? getKeywordHint(editor, line, token)
+		: type === 'def' ? getDefHint(token.string)
 		: null;
 }
 
@@ -278,6 +279,14 @@ function getKeywordHint(editor, line, token)
 		default:
 			return token.string;
 	}
+}
+
+
+function getDefHint(name)
+{
+	return name === 'init' || name === 'view' || name === 'update' || name === 'subscriptions'
+		? 'def:' + name
+		: null;
 }
 
 
