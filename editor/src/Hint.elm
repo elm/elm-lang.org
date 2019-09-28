@@ -48,7 +48,7 @@ lookup name (Table table) =
 
 defaultTable : Table
 defaultTable =
-  Table keywords
+  Table keywordsAndConventions
 
 
 -- NOTE: The logic in editor.js normalizes certain keywords:
@@ -56,11 +56,14 @@ defaultTable =
 --   1. "type" is converted to "alias" if it appears to be in a type alias
 --   2. "as" is converted to "import" if it appears to be in an import
 --
-keywords : Dict String Info
-keywords =
+keywordsAndConventions : Dict String Info
+keywordsAndConventions =
   let
     hint t h = Specific (Hint t h)
+
     if_ = hint "If Expressions" "https://guide.elm-lang.org/core_language.html#if-expressions"
+    tea_ = hint "The Elm Architecture" "https://guide.elm-lang.org/architecture/"
+    subs_ = hint "Subscriptions" "https://guide.elm-lang.org/effects/"
     case_ = hint "Pattern Matching" "https://guide.elm-lang.org/types/pattern_matching.html"
     import_ = hint "Imports" "https://github.com/elm/compiler/blob/master/hints/imports.md"
   in
@@ -68,17 +71,30 @@ keywords =
     [ ("if", if_)
     , ("then", if_)
     , ("else", if_)
-    -- TODO, ("let", let_)
-    -- TODO, ("in", let_)
     , ("case", case_)
     , ("of", case_)
     , ("import", import_)
     , ("exposing", import_)
-    -- TODO, ("as", hint "As Patterns" "/TODO")
     , (":", hint "Reading Types" "https://guide.elm-lang.org/types/reading_types.html")
     , ("type", hint "Custom Types" "https://guide.elm-lang.org/types/custom_types.html")
     , ("alias", hint "Type Aliases" "https://guide.elm-lang.org/types/type_aliases.html")
     , ("port", hint "Ports" "https://guide.elm-lang.org/interop/ports.html")
+
+    -- CONVENTIONS
+
+    , ("Model", tea_)
+    , ("Msg", tea_)
+    , ("view", tea_)
+    , ("update", tea_)
+    , ("init", hint "init" "https://guide.elm-lang.org/effects/http.html#init")
+    , ("Cmd", hint "Commands" "https://guide.elm-lang.org/effects/")
+    , ("Sub", subs_)
+    , ("subscriptions", subs_)
+
+--  TODO add hints for `let` and `as` patterns
+--  , ("let", let_)
+--  , ("in", let_)
+--  , ("as", hint "As Patterns" "/TODO")
     ]
 
 
@@ -88,7 +104,7 @@ keywords =
 
 buildTable : Header.Imports -> Deps.Info -> Table
 buildTable (Header.Imports imports) depsInfo =
-  Table <| Dict.union keywords <|
+  Table <| Dict.union keywordsAndConventions <|
     List.foldl addHint Dict.empty (List.foldl (addImport depsInfo) [] imports)
 
 
