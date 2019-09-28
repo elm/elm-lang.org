@@ -88,7 +88,7 @@ keywordsAndConventions =
     , ("Sub", subs_)
     , ("def:view", tea_)
     , ("def:update", tea_)
-    , ("def:init", hint "init" "https://guide.elm-lang.org/effects/http.html#init")
+    , ("def:init", tea_)
     , ("def:subscriptions", subs_)
 
 --  TODO add hints for `let` and `as` patterns
