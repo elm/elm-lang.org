@@ -1,7 +1,7 @@
 -- A text input for reversing text. Very useful!
 --
 -- Read how it works:
---   https://guide.elm-lang.org/architecture/text-fields.html
+--   https://guide.elm-lang.org/architecture/text_fields.html
 --
 
 import Browser
