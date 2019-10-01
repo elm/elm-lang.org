@@ -4,27 +4,40 @@
 --   https://guide.elm-lang.org/architecture/buttons.html
 --
 
+
 import Browser
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
+
+
+
+-- MAIN
 
 
 main =
   Browser.sandbox { init = init, update = update, view = view }
 
 
+
 -- MODEL
 
+
 type alias Model = Int
+
 
 init : Model
 init =
   0
 
 
+
 -- UPDATE
 
-type Msg = Increment | Decrement
+
+type Msg
+  = Increment
+  | Decrement
+
 
 update : Msg -> Model -> Model
 update msg model =
@@ -36,7 +49,9 @@ update msg model =
       model - 1
 
 
+
 -- VIEW
+
 
 view : Model -> Html Msg
 view model =
@@ -45,3 +60,4 @@ view model =
     , div [] [ text (String.fromInt model) ]
     , button [ onClick Increment ] [ text "+" ]
     ]
+
