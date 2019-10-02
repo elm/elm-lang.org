@@ -33,6 +33,7 @@ additionalResources = """
 
 ### Additional Resources
 
+* [Install](https://github.com/elm/compiler/blob/master/installers/README.md)
 * [FAQ](http://elm-community.github.io/elm-faq/)
 * [Syntax](/docs/syntax)
 * [Syntax vs JS](/docs/from-javascript)
