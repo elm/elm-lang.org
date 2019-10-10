@@ -60,33 +60,26 @@ header tab =
             ]
             [ text "elm"
             ]
-        , div [ class "tabs" ] <| List.map (viewTab tab) <|
-            [ TabInfo Examples "examples" "/examples"
-            , TabInfo Docs "docs" "/docs"
-            , TabInfo Community "community" "/community"
-            , TabInfo News "news" "/news"
+        , div [ class "tabs" ]
+            [ viewTab tab Examples "examples" "/examples"
+            , viewTab tab Docs "docs" "/docs"
+            , viewTab tab Community "community" "/community"
+            , viewTab tab News "news" "/news"
             ]
         ]
     ]
 
 
-viewTab : Tab -> TabInfo -> Html msg
-viewTab currentTab info =
+viewTab : Tab -> Tab -> String -> String -> Html msg
+viewTab currentTab targetTab name link =
   let
     attrs =
-      if currentTab == info.tab then
+      if currentTab == targetTab then
         [ style "font-weight" "bold" ]
       else
         []
   in
-  a (href info.link :: attrs) [ text info.name ]
-
-
-type alias TabInfo =
-  { tab : Tab
-  , name : String
-  , link : String
-  }
+  a (href link :: attrs) [ text name ]
 
 
 
