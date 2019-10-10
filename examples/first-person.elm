@@ -199,7 +199,7 @@ view model =
     , style "width" (String.fromFloat model.width ++ "px")
     , style "height" (String.fromFloat model.height ++ "px")
     ]
-    [ WebGL.toHtmlWith [ WebGL.depth 1 ]
+    [ WebGL.toHtmlWith [ WebGL.depth 1, WebGL.clearColor 1 1 1 1 ]
         [ style "display" "block"
         , width (round model.width)
         , height (round model.height)
@@ -228,7 +228,6 @@ keyboardInstructions keys =
   div
     [ style "position" "absolute"
     , style "font-family" "monospace"
-    , style "color" "white"
     , style "text-align" "center"
     , style "left" "20px"
     , style "right" "20px"
