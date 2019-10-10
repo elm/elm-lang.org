@@ -33,7 +33,7 @@ additionalResources = """
 
 ### Additional Resources
 
-* [Install](https://guide.elm-lang.org/install/terminal.html)
+* [Install](https://guide.elm-lang.org/install/elm.html)
 * [FAQ](http://elm-community.github.io/elm-faq/)
 * [Syntax](/docs/syntax)
 * [Syntax vs JS](/docs/from-javascript)
