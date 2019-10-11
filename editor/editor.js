@@ -17,7 +17,7 @@ function lights()
 {
 	if (editor.getOption('theme') === 'dark')
 	{
-		optionsNode.style.background = '#ACAC96';
+		optionsNode.style.background = '#CFCFC2';
 		editor.setOption('theme', 'light');
 	}
 	else
