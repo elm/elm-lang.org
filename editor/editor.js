@@ -4,6 +4,7 @@
 
 var codeNode = document.getElementById('code');
 var editorNode = document.getElementById('editor');
+var optionsNode = document.getElementById('options');
 var dividerNode = document.getElementById('divider');
 var outputNode = document.getElementById('output');
 
@@ -12,11 +13,22 @@ var outputNode = document.getElementById('output');
 // BUTTONS
 
 
-function lights() {
-	editor.setOption('theme', editor.getOption('theme') === 'dark' ? 'light' : 'dark');
+function lights()
+{
+	if (editor.getOption('theme') === 'dark')
+	{
+		optionsNode.style.background = '#ACAC96';
+		editor.setOption('theme', 'light');
+	}
+	else
+	{
+		optionsNode.style.background = '#0B0E01';
+		editor.setOption('theme', 'dark');
+	}
 }
 
-function compile() {
+function compile()
+{
 	var source = editor.getValue();
 	codeNode.value = source;
 	editorNode.submit();

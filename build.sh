@@ -60,10 +60,10 @@ function makeExampleHtml {
 
 <body>
 <form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
-  <div class="options">
+  <div id="options">
     <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
     <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile<span></span></div>
-    <div class="button green" title="Switch the color scheme" onclick="lights()">Lights<span></span></div>
+    <div class="button gray" title="Switch the color scheme" onclick="lights()">Lights<span></span></div>
   </div>
   <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
 </form>

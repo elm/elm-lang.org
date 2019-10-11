@@ -44,8 +44,8 @@ body {
   background-color: #272822;
 }
 
-.options {
-  background-color: #0B0E01;
+#options {
+  background-color: #0B0E01; /* ACAC96 */
   height: 36px;
   vertical-align: middle;
   line-height: 36px;
@@ -72,8 +72,8 @@ body {
 .blue span { background-color: #1293D8; }
 .blue:hover { background-color: #1293D8; }
 
-.green span { background-color: #77F408; }
-.green:hover { background-color: #77F408; }
+.gray span { background-color: #75715e; }
+.gray:hover { background-color: #75715e; }
 
 .hint {
   display: block;
@@ -149,11 +149,11 @@ body {
 
 /**** LIGHT MODE - based on the Monokai theme in Sublime Text ****/
 
-.cm-s-light.CodeMirror { background: #FFFFFF; color: #000000; }
+.cm-s-light.CodeMirror { background: #f8f8f2; color: #272822; }
 
 /* gutters */
 
-.cm-s-light .CodeMirror-gutters { background: #FFFFFF; border-right: 0px; }
+.cm-s-light .CodeMirror-gutters { background: #f8f8f2; border-right: 0px; }
 .cm-s-light .CodeMirror-guttermarker { color: white; }
 .cm-s-light .CodeMirror-guttermarker-subtle { color: #d0d0d0; }
 .cm-s-light .CodeMirror-linenumber { color: #d0d0d0; }
@@ -175,7 +175,7 @@ body {
 .cm-s-light span.cm-builtin { color: #66d9ef; }
 .cm-s-light span.cm-string { color: #F25A00; }
 
-.cm-s-light span.cm-variable { color: #000000; }
+.cm-s-light span.cm-variable { color: #272822; }
 .cm-s-light span.cm-variable-2 { color: hsl(261, 100%, 75%); }
 .cm-s-light span.cm-variable-3 { color: #66d9ef; }
 .cm-s-light span.cm-type { color: #66d9ef; }
