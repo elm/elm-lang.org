@@ -2,17 +2,46 @@ html, head, body {
   padding: 0;
   margin: 0;
   height: 100%;
+}
+
+body {
   font-family: 'Source Code Pro', monospace;
   font-size: 14px;
-  background-color: #272822;
+  display: flex;
 }
 
 
-/**** CONTROLS ****/
+/**** OUTPUT ****/
+
+#output {
+  margin: 0;
+  width: 50%;
+  height: 100%;
+  border: none;
+}
+
+
+/**** DIVIDER ****/
+
+#divider {
+  width: 10px;
+  margin-left: -5px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  cursor: ew-resize;
+  z-index: 1;
+  height: 100%;
+}
+
+
+/**** EDITOR ****/
 
 #editor {
   margin: 0;
+  width: 50%;
   height: 100%;
+  background-color: #272822;
 }
 
 .options {

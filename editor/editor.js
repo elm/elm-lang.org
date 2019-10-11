@@ -1,12 +1,25 @@
 
+// NODES
+
+
+var codeNode = document.getElementById('code');
+var editorNode = document.getElementById('editor');
+var dividerNode = document.getElementById('divider');
+var outputNode = document.getElementById('output');
+
+
+
+// BUTTONS
+
+
 function lights() {
 	editor.setOption('theme', editor.getOption('theme') === 'dark' ? 'light' : 'dark');
 }
 
 function compile() {
 	var source = editor.getValue();
-	document.getElementById('code').value = source;
-	document.getElementById('editor').submit();
+	codeNode.value = source;
+	editorNode.submit();
 	hints && hints.ports.submissions.send(source);
 }
 
@@ -15,7 +28,7 @@ function compile() {
 // EDITOR
 
 
-var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+var editor = CodeMirror.fromTextArea(codeNode, {
 	lineNumbers: true,
 	matchBrackets: true,
 	theme: 'dark',
@@ -181,6 +194,39 @@ function handleClose(close)
 
 
 
+// RESIZE
+
+dividerNode.addEventListener('mousedown', function(e) {
+	editorNode.style.pointerEvents = 'none';
+	outputNode.style.pointerEvents = 'none';
+	document.body.addEventListener('mouseup', dividerUp);
+	document.body.addEventListener('mousemove', dividerMove);
+});
+
+function dividerUp()
+{
+	editorNode.style.pointerEvents = 'auto';
+	outputNode.style.pointerEvents = 'auto';
+	document.body.removeEventListener('mouseup', dividerUp);
+	document.body.removeEventListener('mousemove', dividerMove);
+}
+
+function dividerMove(e)
+{
+	if (e.buttons === 0)
+	{
+		dividerUp();
+		return;
+	}
+
+	var fraction = 100 * (e.pageX / window.innerWidth);
+	dividerNode.style.left = fraction + '%';
+	editorNode.style.width = fraction + '%';
+	outputNode.style.width = 100 - fraction + '%';
+}
+
+
+
 // HINTS
 //
 // We delay initialization of hints until page is fully loaded otherwise.
@@ -198,7 +244,7 @@ window.addEventListener('load', function() {
 	{
 		hints = Elm.Main.init({
 			node: document.getElementsByClassName('hint')[0],
-			flags: document.getElementById('code').value
+			flags: codeNode.value
 		});
 		editor.on("cursorActivity", function() {
 			hints.ports.cursorMoves.send(getHint(editor));

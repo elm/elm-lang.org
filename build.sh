@@ -41,31 +41,19 @@ EOF
 ## MAKE EXAMPLE HTML
 
 
+# ARGS:
+#   $1 = _site/examples/NAME.html
+#   $2 = <title>
+#   $3 = NAME
+#   $4 = code
+#
 function makeExampleHtml {
   cat <<EOF > $1
-<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>$2</title>
-</head>
-<frameset cols="50%,50%">
-  <frame name="editor" src="/examples/$3/editor.html"></frame>
-  <frame name="output" src="/examples/$3/output.html"></frame>
-</frameset>
-</html>
-
-EOF
-
-}
-
-
-function makeEditorHtml {
-  cat <<EOF > _site/examples/$1/editor.html
-<html>
-
-<head>
-  <meta charset="UTF-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro"/>
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>
@@ -77,8 +65,10 @@ function makeEditorHtml {
     <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile</div>
     <div class="button green" title="Switch the color scheme" onclick="lights()">Lights</div>
   </div>
-  <textarea id="code" name="code" style="display:none;">$(cat $2)</textarea>
+  <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
 </form>
+<div id="divider"></div>
+<iframe id="output" name="output" src="/examples/_compiled/$3.html"></iframe>
 <script src="/assets/editor.js"></script>
 </body>
 
@@ -149,13 +139,6 @@ if ! [ -f _site/assets/editor.js ]; then
   rm editor/elm.js
 fi
 
-## try
-
-makeExampleHtml _site/try.html "Try Elm!" _empty
-mkdir -p _site/examples/_empty
-echo "" | makeEditorHtml _empty
-cp editor/splash.html _site/examples/_empty/output.html
-
 ## examples
 
 echo "EXAMPLES"
@@ -169,13 +152,16 @@ do
         echo "Cached: $elm"
     else
         echo "Compiling: $elm"
-        mkdir -p _site/examples/$name
-        rm -f elm-stuff/*/Main.elm*
-        elm make $elm --output=_site/examples/$name/output.html > /dev/null
-        makeExampleHtml $html $name $name
-        cat $elm | makeEditorHtml $name
+        rm elm-stuff/*/Main.elm*
+        elm make $elm --output=_site/examples/_compiled/$name.html > /dev/null
+        cat $elm | makeExampleHtml $html $name $name
     fi
 done
+
+## try
+
+echo "" | makeExampleHtml _site/try.html "Try Elm!" _try
+cp editor/splash.html _site/examples/_compiled/_try.html
 
 
 ## REMOVE TEMP FILES
