@@ -239,6 +239,27 @@ function dividerMove(e)
 
 
 
+// JUMP TO PROBLEM
+//
+// When the <iframe> of results is filled with errors, clicking
+// the "Jump to Problem" should scroll it into view in the editor.
+//
+
+window.addEventListener("message", jumpToProblem, false);
+
+function jumpToProblem(event)
+{
+	if (event.origin !== "https://worker.elm-lang.org") return;
+	var region = JSON.parse(event.data);
+	var start = { line: region.start.line - 1, ch: region.start.column - 1 };
+	var end = { line: region.end.line - 1, ch: region.end.column - 1 }
+	editor.setSelection(start, end, { scroll: false });
+	editor.scrollIntoView({ from: start, to: end }, 200);
+	editor.focus();
+}
+
+
+
 // HINTS
 //
 // We delay initialization of hints until page is fully loaded otherwise.
