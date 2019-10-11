@@ -45,9 +45,8 @@ body {
 }
 
 .options {
-  background-color: #272822;
+  background-color: #0B0E01;
   height: 36px;
-  border-bottom: 4px solid #555;
   vertical-align: middle;
   line-height: 36px;
 }
@@ -59,12 +58,21 @@ body {
   cursor: pointer;
   color: white;
   text-align: center;
+  position: relative;
 }
 
-.blue { border-bottom: 4px solid #1293D8; }
+.button span {
+  width: 60px;
+  height: 2px;
+  bottom: 0;
+  left: 20px;
+  position: absolute;
+}
+
+.blue span { background-color: #1293D8; }
 .blue:hover { background-color: #1293D8; }
 
-.green { border-bottom: 4px solid #77F408; }
+.green span { background-color: #77F408; }
 .green:hover { background-color: #77F408; }
 
 .hint {
@@ -73,20 +81,20 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #888;
+  color: #75715e;
   margin: 0 20px;
   width: calc(100% - 240px);
   height: 36px;
 }
 
-.hint > a { color: #888; }
+.hint > a { color: #75715e; }
 .hint > a:hover { color: #aaa; }
 .hint > a:active { color: #ccc; }
 
 
 /**** CODE MIRROR ****/
 
-.CodeMirror { height: calc(100% - 40px); }
+.CodeMirror { height: calc(100% - 36px); }
 
 
 /**** DARK MODE - based on the Monokai theme in Sublime Text ****/
