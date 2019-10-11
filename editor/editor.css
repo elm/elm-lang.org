@@ -179,7 +179,7 @@ body {
 .cm-s-light span.cm-variable-2 { color: hsl(261, 100%, 75%); }
 .cm-s-light span.cm-variable-3 { color: #66d9ef; }
 .cm-s-light span.cm-type { color: #66d9ef; }
-.cm-s-light span.cm-def { color: hsl(80, 76%, 53%); }
+.cm-s-light span.cm-def { color: hsl(80, 100%, 43%); }
 .cm-s-light span.cm-bracket { color: #000000; }
 .cm-s-light span.cm-tag { color: #f92672; }
 .cm-s-light span.cm-header { color: #ae81ff; }
