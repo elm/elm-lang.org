@@ -89,9 +89,12 @@ viewTab currentTab targetTab name link =
 footer : Html msg
 footer =
   div [class "footer"]
-    [ text "All code for this site is open source and written in Elm. "
-    , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Check it out" ]
-    , text "! — © 2012-2019 Evan Czaplicki"
+    [ a [ class "grey-link", href "https://guide.elm-lang.org/install/elm.html" ] [ text "Install" ]
+    , text " — "
+    , a [ class "grey-link", href "https://github.com/elm/compiler/" ] [ text "Compiler Source" ]
+    , text " — "
+    , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Site Source" ]
+    , text " — © 2012-2019 Evan Czaplicki"
     ]
 
 
