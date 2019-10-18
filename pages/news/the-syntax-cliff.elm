@@ -11,7 +11,7 @@ main =
     "The Syntax Cliff"
     "Teaching syntax with Elm 0.19.1"
     Skeleton.evan
-    (Skeleton.Date 2019 9 3)
+    (Skeleton.Date 2019 10 21)
     [ Center.markdown "600px" intro
     , badImport
     , Center.markdown "600px" part1
