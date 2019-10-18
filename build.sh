@@ -152,7 +152,7 @@ do
         echo "Cached: $elm"
     else
         echo "Compiling: $elm"
-        rm elm-stuff/*/Main.elm*
+        rm -f elm-stuff/*/Main.elm*
         elm make $elm --output=_site/examples/_compiled/$name.html > /dev/null
         cat $elm | makeExampleHtml $html $name $name
     fi
