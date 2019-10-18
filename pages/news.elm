@@ -43,7 +43,8 @@ viewNews article =
 
 news : List News
 news =
-  [ News "Towards a Homegrown Programming Language" "/news/elm-and-bekk"
+  [ News "The Syntax Cliff" "/news/the-syntax-cliff"
+  , News "Towards a Homegrown Programming Language" "/news/elm-and-bekk"
   , News "Working with Files" "/news/working-with-files"
   , News "Small Assets without the Headache" "/news/small-assets-without-the-headache"
   , News "Google Summer of Code 2017" "/news/google-summer-of-code-2017"
@@ -91,8 +92,9 @@ viewRelease release =
 
 releases : List Release
 releases =
-  [ Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets, faster compiler" "Aug 2018"
-  , Release "0.18" "/news/the-perfect-bug-report" "New debugger with session import/export" "Nov"
+  [ Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints" "Oct 2019"
+  , Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets" "Aug 2018"
+  , Release "0.18" "/news/the-perfect-bug-report" "New debugger with import/export" "Nov"
   , Release "0.17" "/news/farewell-to-frp" "Add subscriptions, remove signals" "May 2016"
   , Release "0.16" "/news/compilers-as-assistants" "Even better error messages!" "Nov"
   , Release "0.15.1" "/news/compiler-errors-for-humans" "Dramatically improved error messages" "Jun"
