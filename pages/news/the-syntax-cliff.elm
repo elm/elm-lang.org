@@ -237,8 +237,10 @@ viewErrorMessage code error =
     , style "margin" "0 auto"
     ]
     [ div
-        [ style "white-space" "pre"
-        , style "width" "84ch"
+        [ style "width" "84ch"
+        , style "white-space" "pre"
+        , style "-webkit-text-size-adjust" "none"
+        , style "text-size-adjust" "none"
         , style "font-family" "'Source Code Pro', monospace"
         ]
         [ div
