@@ -46,14 +46,14 @@ Say you are learning Elm and do not know how to `import` modules yet. Maybe you 
 badImport : Html msg
 badImport =
   viewErrorMessage
-    [ color cyan "import", text " * ", color cyan "from", text " 'set'\n\n"
-    , color cyan "type alias", text " ", color green "Student", text " =\n"
+    [ color keyword "import", text " * ", color keyword "from", text " 'set'\n\n"
+    , color keyword "type alias", text " ", color def "Student", text " =\n"
     , text "    { firstName : String\n"
     , text "    , lastName : String\n"
     , text "    , completedAssignmentIds : Set Int\n"
     , text "    }\n\n"
-    , color green "toFullName", text " : Student -> String\n"
-    , color green "toFullName", text " student =\n"
+    , color def "toFullName", text " : Student -> String\n"
+    , color def "toFullName", text " student =\n"
     , text "  student.firstName ++ ", color dullYellow "\" \"", text " ++ student.lastName\n"
     ]
     [ color dullCyan "-- EXPECTING IMPORT NAME ------------------------------------------ src/Main.elm\n\n"
@@ -89,13 +89,13 @@ One of the major goals with the new parser was to improve this particular type o
 missingCurlyBrace : Html msg
 missingCurlyBrace =
   viewErrorMessage
-    [ color cyan "import", text " Set ", color cyan "exposing", text " (..)\n\n"
-    , color cyan "type alias", text " ", color green "Student", text " =\n"
+    [ color keyword "import", text " Set ", color keyword "exposing", text " (..)\n\n"
+    , color keyword "type alias", text " ", color def "Student", text " =\n"
     , text "    { firstName : String\n"
     , text "    , lastName : String\n"
     , text "    , completedAssignmentIds : Set Int\n\n\n"
-    , color green "toFullName", text " : Student -> String\n"
-    , color green "toFullName", text " student =\n"
+    , color def "toFullName", text " : Student -> String\n"
+    , color def "toFullName", text " student =\n"
     , text "  student.firstName ++ ", color dullYellow "\" \"", text " ++ student.lastName\n"
     ]
     [ color dullCyan "-- UNFINISHED RECORD TYPE ----------------------------------------- src/Main.elm\n\n"
@@ -138,14 +138,14 @@ So when someone is playing with the [examples](/examples) in the online editor, 
 capitalNameError : Html msg
 capitalNameError =
   viewErrorMessage
-    [ color cyan "import", text " Set ", color cyan "exposing", text " (..)\n\n"
-    , color cyan "type alias", text " ", color green "Student", text " =\n"
+    [ color keyword "import", text " Set ", color keyword "exposing", text " (..)\n\n"
+    , color keyword "type alias", text " ", color def "Student", text " =\n"
     , text "    { firstName : String\n"
     , text "    , lastName : String\n"
     , text "    , completedAssignmentIds : Set Int\n"
     , text "    }\n\n"
-    , color green "ToFullName", text " : Student -> String\n"
-    , color green "ToFullName", text " student =\n"
+    , color def "ToFullName", text " : Student -> String\n"
+    , color def "ToFullName", text " student =\n"
     , text "    student.firstName ++ ", color dullYellow "\" \"", text " ++ student.lastName\n"
     ]
     [ color dullCyan "-- UNEXPECTED CAPITAL LETTER -------------------------------------- src/Main.elm"
@@ -291,3 +291,13 @@ green =
 purple : String
 purple =
   "#ae81ff"
+
+
+keyword : String
+keyword =
+  "#d800af"
+
+
+def : String
+def =
+  "#7e1edf"
