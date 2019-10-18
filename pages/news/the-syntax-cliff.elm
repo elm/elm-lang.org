@@ -231,25 +231,29 @@ https://github.com/elm/error-message-catalog/issues/14  . else indentation
 viewErrorMessage : List (Html msg) -> List (Html msg) -> Html msg
 viewErrorMessage code error =
   div
-    [ style "white-space" "pre"
-    , style "overflow-x" "auto"
-    , style "width" "84ch"
+    [ style "overflow-x" "auto"
+    , style "max-width" "84ch"
     , style "display" "block"
     , style "margin" "0 auto"
-    , style "font-family" "'Source Code Pro', monospace"
     ]
     [ div
-        [ style "color" "black"
-        , style "background-color" "#fcfcfe"
-        , style "padding" "2ch"
+        [ style "white-space" "pre"
+        , style "width" "84ch"
+        , style "font-family" "'Source Code Pro', monospace"
         ]
-        code
-    , div
-        [ style "color" "white"
-        , style "background-color" "black"
-        , style "padding" "2ch"
+        [ div
+            [ style "color" "black"
+            , style "background-color" "#fcfcfe"
+            , style "padding" "2ch"
+            ]
+            code
+        , div
+            [ style "color" "white"
+            , style "background-color" "black"
+            , style "padding" "2ch"
+            ]
+            error
         ]
-        error
     ]
 
 
