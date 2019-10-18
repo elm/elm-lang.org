@@ -92,8 +92,8 @@ viewRelease release =
 
 releases : List Release
 releases =
-  [ Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints" "Oct 2019"
-  , Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets" "Aug 2018"
+  [ Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints, faster builds" "Oct 2019"
+  , Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets, faster builds" "Aug 2018"
   , Release "0.18" "/news/the-perfect-bug-report" "New debugger with import/export" "Nov"
   , Release "0.17" "/news/farewell-to-frp" "Add subscriptions, remove signals" "May 2016"
   , Release "0.16" "/news/compilers-as-assistants" "Even better error messages!" "Nov"
