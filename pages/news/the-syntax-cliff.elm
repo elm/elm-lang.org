@@ -46,7 +46,7 @@ Say you are learning Elm and do not know how to `import` modules yet. Maybe you 
 badImport : Html msg
 badImport =
   viewErrorMessage
-    [ color keyword "import", text " * ", color keyword "from", text " 'set'\n\n"
+    [ color keyword "import", text " * ", color keyword "as", text " Set ", color keyword "from", text " 'set'\n\n"
     , color keyword "type alias", text " ", color def "Student", text " =\n"
     , text "    { firstName : String\n"
     , text "    , lastName : String\n"
@@ -58,7 +58,7 @@ badImport =
     ]
     [ color dullCyan "-- EXPECTING IMPORT NAME ------------------------------------------ src/Main.elm\n\n"
     , text "I was parsing an `import` until I got stuck here:\n\n"
-    , text "1| import * from 'set'\n          ", color red "^"
+    , text "1| import * as Set from 'set'\n                 ", color red "^"
     , text "\nI was expecting to see a module name next, like in these examples:\n\n"
     , text "    ", color cyan "import", text " Dict\n"
     , text "    ", color cyan "import", text " Maybe\n"
