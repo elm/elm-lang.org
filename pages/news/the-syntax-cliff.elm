@@ -58,7 +58,7 @@ badImport =
     ]
     [ color dullCyan "-- EXPECTING IMPORT NAME ------------------------------------------ src/Main.elm\n\n"
     , text "I was parsing an `import` until I got stuck here:\n\n"
-    , text "1| import * as Set from 'set'\n                 ", color red "^"
+    , text "1| import * as Set from 'set'\n          ", color red "^"
     , text "\nI was expecting to see a module name next, like in these examples:\n\n"
     , text "    ", color cyan "import", text " Dict\n"
     , text "    ", color cyan "import", text " Maybe\n"
