@@ -72,7 +72,7 @@ badImport =
 part1 : String
 part1 = """
 
-The new error messages points to the spot where it got stuck, but more importantly, it tries to help by (1) giving examples and (2) linking to a page that explains how imports work. It tries to help you learn!
+The new error message points to the spot where it got stuck, but more importantly, it tries to help by (1) giving examples and (2) linking to a page that explains how imports work. It tries to help you learn!
 
 This syntax error is pretty easy to detect though. What about harder cases?
 
