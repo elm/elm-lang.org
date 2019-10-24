@@ -97,41 +97,41 @@ Here are three things that are equivalent:
 ### Conditionals
 
 ```elm
-if powerLevel > 9000 then "OVER 9000!!!" else "meh"
+  if powerLevel > 9000 then "OVER 9000!!!" else "meh"
 ```
 
 If you need to branch on many different conditions, you just chain this
 construct together.
 
 ```elm
-if key == 40 then
-    n + 1
+  if key == 40 then
+      n + 1
 
-else if key == 38 then
-    n - 1
+  else if key == 38 then
+      n - 1
 
-else
-    n
+  else
+      n
 ```
 
-You can also have conditional behavior based on the structure of algebraic
-data types and literals
+You can also have conditional behavior based on the structure of custom
+types and literals:
 
 ```elm
-case maybeList of
-  Just xs -> xs
-  Nothing -> []
+  case maybeList of
+    Just xs -> xs
+    Nothing -> []
 
-case xs of
-  [] ->
-    Nothing
-  first :: rest ->
-    Just (first, rest)
+  case xs of
+    [] ->
+      Nothing
+    first :: rest ->
+      Just (first, rest)
 
-case n of
-  0 -> 1
-  1 -> 1
-  _ -> fib (n-1) + fib (n-2)
+  case n of
+    0 -> 1
+    1 -> 1
+    _ -> fib (n-1) + fib (n-2)
 ```
 
 Each pattern is indentation sensitive, meaning that you have to align
@@ -220,14 +220,14 @@ are function composition operators.
 `let` these values be defined `in` this specific expression.
 
 ```elm
-let
-  twentyFour =
-    3 * 8
+  let
+    twentyFour =
+      3 * 8
 
-  sixteen =
-    4 ^ 2
-in
-twentyFour + sixteen
+    sixteen =
+      4 ^ 2
+  in
+  twentyFour + sixteen
 ```
 
 This is useful when an expression is getting large. You can make a `let` to
@@ -238,14 +238,14 @@ You can define functions and use &ldquo;destructuring assignment&rdquo; in let
 expressions too.
 
 ```elm
-let
-  ( three, four ) =
-    ( 3, 4 )
+  let
+    ( three, four ) =
+      ( 3, 4 )
 
-  hypotenuse a b =
-    sqrt (a^2 + b^2)
-in
-hypotenuse three four
+    hypotenuse a b =
+      sqrt (a^2 + b^2)
+  in
+  hypotenuse three four
 ```
 
 Let-expressions are indentation sensitive, so each definition must align with
@@ -254,16 +254,16 @@ the one above it.
 Finally, you can add type annotations in let-expressions.
 
 ```elm
-let
-  name : String
-  name =
-    "Hermann"
+  let
+    name : String
+    name =
+      "Hermann"
 
-  increment : Int -> Int
-  increment n =
-    n + 1
-in
-increment 10
+    increment : Int -> Int
+    increment n =
+      n + 1
+  in
+  increment 10
 ```
 
 It is best to only do this on *concrete* types. Break generic functions into
