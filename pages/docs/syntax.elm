@@ -29,8 +29,8 @@ This syntax reference is a minimal introduction to:
 - [Custom Types](#custom-types)
 - [JavaScript Interop](#javascript-interop)
 
-Check out the [learning resources](/Learn.elm) for
-tutorials and examples on actually *using* this syntax.
+Check out [The Official Guide](https://guide.elm-lang.org) for
+a tutorial (and examples) on actually *using* this syntax.
 
 
 ### Comments
