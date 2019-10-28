@@ -1,3 +1,5 @@
+module Main exposing (..)
+
 -- Press buttons to increment and decrement a counter.
 --
 -- Read how it works:
