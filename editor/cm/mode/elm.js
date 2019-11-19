@@ -168,7 +168,7 @@
 
     function chompSingleString(source, setState)
     {
-      while (source.skipTo('\\"')) {}
+      while (source.skipTo('\\"')) { source.next(); source.next(); }
       if (source.skipTo('"'))
       {
       	source.next();
@@ -182,7 +182,7 @@
 
     function chompChar(source, setState)
     {
-      while (source.skipTo("\\'")) {}
+      while (source.skipTo("\\'")) { source.next(); source.next(); }
       if (source.skipTo("'"))
       {
         source.next();
