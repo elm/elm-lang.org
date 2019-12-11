@@ -229,7 +229,7 @@ viewFeature feature =
 features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
-      [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
+      [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about five years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
       , a [href "/news/compilers-as-assistants"] [text "details"]
       , text ")"
       ]
