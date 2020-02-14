@@ -33,7 +33,7 @@ skeleton title tab content =
     , subscriptions = \_ -> Sub.none
     , view = \_ ->
         { title = title
-        , body = header tab :: content ++ [footer]
+        , body = [ header tab, div [ style "flex" "1" ] content, footer ]
         }
     }
 

@@ -1,12 +1,14 @@
 html, head, body {
   margin: 0;
-  height: 100%;
 }
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
   color: #000E16;
   line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 h1, h2, h3, h4 {
