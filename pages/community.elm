@@ -50,7 +50,6 @@ The following folks write command line tools, publish packages, run conferences,
 * [Robin Heggelund Hansen](https://github.com/Skinney)
 * [Aaron VonderHaar](https://github.com/avh4)
 * [Brian Hicks](https://github.com/brianhicks/)
-* [Luke Westby](https://github.com/lukewestby)
 * [Ilias Van Peer](https://github.com/zwilias/)
 * [Noah](https://github.com/eeue56)
 
