@@ -41,29 +41,18 @@ Read the full [Code of Conduct](https://github.com/elm-community/discussions/blo
 * [Packages](http://package.elm-lang.org/) &mdash; learn about the packages you use
 
 
-## Core Team
-
-The following folks write command line tools, publish packages, run conferences, help newcomers, and everything between:
-
-* [Evan Czaplicki](https://github.com/evancz/)
-* [Richard Feldman](https://github.com/rtfeldman/)
-* [Robin Heggelund Hansen](https://github.com/Skinney)
-* [Aaron VonderHaar](https://github.com/avh4)
-* [Brian Hicks](https://github.com/brianhicks/)
-* [Ilias Van Peer](https://github.com/zwilias/)
-* [Noah](https://github.com/eeue56)
-
-
 ## Participate
 
 The best way to get started in the community is to participate socially. Maybe that means setting up an [ElmBridge](https://github.com/elmbridge) event in your area or starting a meetup. Maybe it means helping friends, people at your company, or folks online.
 
-If you want to get involved with code, please check out the following resources:
+If you already did some of that and want to get involved with code, please check out the following resources:
 
 - [What is Success?](https://youtu.be/uGlzRt-FYto)
 - [Code is the Easy Part](https://youtu.be/DSjbTC-hvqQ)
 - [Building Trust](https://discourse.elm-lang.org/t/building-trust-what-has-worked/975)
 
-We have primarily volunteer labor, and having good working relationships is an important aspect of collaboration like this.
+We have primarily volunteer labor. One full-time dev, but outside of that, it is people working on nights and weekends because it is fun. This makes it hard to get to issues and pull requests as quickly as projects with paid "developer relations" staff to focus specifically on online interactions. So given our goals and resources, we have found that having good working relationships is crucial for collaboration on core code.
+
+If you are a company evaluating Elm, I encourage you to DM if you are worried about something, and it is totally reasonable to circle back to Elm later!
 
 """
