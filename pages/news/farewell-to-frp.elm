@@ -84,7 +84,7 @@ too!
 >  - Helpful messages when decoding JSON fails
 
 
-[plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
+[plan]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.17.md
 [arch]: http://guide.elm-lang.org/architecture/index.html
 [guide]: http://guide.elm-lang.org/
 
@@ -196,7 +196,7 @@ And remember, you can always come talk to us on [the Elm Slack channel][slack]!
 We are a friendly bunch that is happy to help folks learning new stuff or
 upgrading old code. Just ask!
 
-[plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
+[plan]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.17.md
 [guide]: http://guide.elm-lang.org/
 [arch]: http://guide.elm-lang.org/architecture/index.html
 [ports]: http://guide.elm-lang.org/interop/javascript.html

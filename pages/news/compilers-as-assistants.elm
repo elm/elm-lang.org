@@ -95,7 +95,7 @@ improving!
 and read the [upgrade docs][upgrade] for a concise list of changes and a
 thorough guide on upgrading your code. Should be quite simple and minimal!
 
-[upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md
+[upgrade]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.16.md
 
 
 # Improved Error Messages
@@ -299,7 +299,7 @@ more focused. All the changes are listed [here][upgrade-docs], so we will focus
 on the two major changes here: removing multi-way `if` and removing
 field addition/deletion.
 
-[upgrade-docs]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.16.md#updating-syntax
+[upgrade-docs]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.16.md#updating-syntax
 
 
 ### Simplified Ifs

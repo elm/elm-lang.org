@@ -75,7 +75,7 @@ This blog post also marks the release of Elm 0.18, so from here we are going to 
 > **Note:** Install 0.18 from [here][install], and be sure to read the [migration guide][upgrade]! The latest `elm-format` will do a lot of the migration automatically, so check it out as well.
 
 [install]: https://guide.elm-lang.org/install.html
-[upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md
+[upgrade]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.18.md
 
 
 # Designing for Real Life
@@ -131,7 +131,7 @@ I am pretty certain the debugger will help beginners understand The Elm Architec
 
 In addition to the debugger, there are some improvements to the error messages and core libraries. I will just be highlighting the most important stuff in this post, so check out the [migration guide][upgrade] for more details!
 
-[upgrade]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md
+[upgrade]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.18.md
 
 
 ## Improved Error Messages
@@ -168,7 +168,7 @@ Elm is already quite a small language, but there are a few oddities that seem to
 Again, all these cases are covered in more detail in [the migration guide][upgrade], and `elm-format` will handle most of these cases automatically. Folks using the 0.18 alpha reported that the upgrade was quite smooth, so feel free to ask for help on [the Elm slack][slack]. The Elm community is friendly and happy to help!
 
 [range]: http://package.elm-lang.org/packages/elm-lang/core/5.0.0/List#range
-[alt]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#backticks-and-andthen
+[alt]: https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.18.md#backticks-and-andthen
 [slack]: http://elmlang.herokuapp.com/
 
 
