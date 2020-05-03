@@ -7,34 +7,24 @@ module Cycle exposing
 
 
 type Cycle a =
-  Cycle (List a) a (List a)
+  Cycle a (List a)
 
 
 init : a -> List a -> Cycle a
 init x xs =
-  Cycle [] x xs
+  Cycle x xs
 
 
 next : Cycle a -> a
-next (Cycle _ x _) =
+next (Cycle x _) =
   x
 
 
 step : Cycle a -> Cycle a
-step (Cycle visited a unvisited) =
-  case unvisited of
+step (Cycle xold xs) =
+  case xs of
     [] ->
-      restart visited a []
-
-    x :: xs ->
-      Cycle (a :: visited) x xs
-
-
-restart : List a -> a -> List a -> Cycle a
-restart visited a unvisited =
-  case visited of
-    [] ->
-      Cycle [] a unvisited
-
-    x :: xs ->
-      restart xs x (a :: unvisited)
+      Cycle xold []
+    
+    xnew::xother ->
+      Cycle xnew (xother ++ [xold])
