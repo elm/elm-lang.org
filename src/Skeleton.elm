@@ -166,7 +166,7 @@ type alias Author =
 evan : Author
 evan =
   { name = "Evan Czaplicki"
-  , url = "https://twitter.com/czaplic"
+  , url = "https://twitter.com/evancz"
   }
 
 
