@@ -9,8 +9,16 @@ import Json.Decode as D
 import Markdown
 import String
 import Time
+import Element as E
+import Element.Font as F
+import Element.Lazy as L
+import Element.Region as R
+import Element.Input as I
+import Element.Background as B
+import Element.Border as Bo
 
 import Center
+import Grid
 import Cycle
 import Logo
 import Skeleton
@@ -27,12 +35,17 @@ main =
     , update = \msg model -> ( update msg model, Cmd.none )
     , subscriptions = subscriptions
     , view = \model ->
-        { title = "Elm - A delightful language for reliable webapps"
+        { title = "Elm -  delightful language for reliable webapps"
         , body =
-            [ lazy Skeleton.header Skeleton.Other
-            , viewSplash model
-            , viewFeatures
-            , Skeleton.footer
+            [ E.layout [ E.width E.fill, E.paddingXY 60 40, F.family [ F.typeface "IBM Plex Sans", F.sansSerif ] ] <|
+                E.column [ E.width E.fill, E.centerX ]
+                  [ L.lazy Skeleton.header Skeleton.Other
+                  , E.column [ E.width (E.fill |> E.maximum 1000) , E.centerX ]
+                    [ viewSplash model
+                    --, E.html viewFeatures
+                    , E.html Skeleton.footer
+                    ]
+                  ]
             ]
         }
     }
@@ -67,13 +80,7 @@ init =
   , patterns =
       Cycle.init
         Logo.heart
-        [ Logo.camel
-        , Logo.cat
-        , Logo.bird
-        , Logo.house
-        , Logo.child
-        , Logo.logo
-        ]
+        [ Logo.logo ]
   }
 
 
@@ -146,36 +153,59 @@ subscriptions model =
 -- VIEW SPLASH
 
 
-viewSplash : Model -> Html Msg
+viewSplash : Model -> E.Element Msg
 viewSplash model =
-  div
-    [ class "splash"
-    ]
-    [ div
-        [ class "tangram"
-        , onMouseMove
-        ]
-        [ Logo.view
-            [ style "color" "white"
+  E.row
+    [ E.width E.fill ]
+    [ E.el [ E.alignLeft, E.width (E.fillPortion 2) ] <| E.html <|
+        Logo.view
+            [ style "color" "black"
             , onClick MouseClicked
             ]
             model.logo
-        ]
-    , div
-        [ class "messages"
-        ]
-        [ div []
-            [ text "A delightful language"
-            , br [] []
-            , span [ class "tagline" ] [ text (TextAnimation.view model.taglines) ]
-            ]
-        , div
-            [ class "buttons"
-            ]
-            [ a [ href "/try" ] [ text "Try" ]
-            , a [ href "https://guide.elm-lang.org" ] [ text "Tutorial" ]
-            ]
-        ]
+    , E.el [ E.alignRight, E.width (E.fillPortion 3) ] <|
+        E.textColumn []
+          [ E.paragraph [ F.size 30 ]
+              [ E.text "A delightful language "
+              , E.text (TextAnimation.view model.taglines)
+              ]
+          , E.row [ E.spacing 15, E.paddingXY 0 15 ]
+              [ E.link
+                  [ E.padding 10
+                  , E.width (E.fillPortion 2)
+                  , F.center
+                  , Bo.color (E.rgb255 18 147 216)
+                  , Bo.width 2
+                  , Bo.solid
+                  , Bo.shadow
+                      { offset = ( 5, 5 )
+                      , size = 1
+                      , blur = 0
+                      , color = E.rgb255 18 147 216
+                      }
+                  ]
+                  { url = "/try"
+                  , label = E.text "Try"
+                  }
+              , E.link
+                  [ E.padding 10
+                  , E.width (E.fillPortion 2)
+                  , F.center
+                  , Bo.color (E.rgb255 18 147 216)
+                  , Bo.width 2
+                  , Bo.solid
+                  , Bo.shadow
+                      { offset = ( 5, 5 )
+                      , size = 1
+                      , blur = 0
+                      , color = E.rgb255 18 147 216
+                      }
+                  ]
+                  { url = "https://guide.elm-lang.org"
+                  , label = E.text "Tutorial"
+                  }
+              ]
+          ]
     ]
 
 

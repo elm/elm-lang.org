@@ -62,31 +62,31 @@ start =
 view : List (Html.Attribute msg) -> Model -> Html.Html msg
 view attrs model =
   svg
-    (viewBox "-600 -600 1200 1200" :: attrs)
+    (viewBox "-900 -900 1800 1800" :: attrs)
     [ g [ transform "scale(1 -1)"
         ]
-        [ viewShape model.tb1 triangleBig
-        , viewShape model.tb2 triangleBig
-        , viewShape model.tm  triangleMedium
-        , viewShape model.sqr square
-        , viewShape model.par parallelogram
-        , viewShape model.ts1 triangleSmall
-        , viewShape model.ts2 triangleSmall
+        [ viewShape "currentColor" model.tb1 triangleBig
+        , viewShape "currentColor" model.tb2 triangleBig
+        , viewShape "currentColor" model.tm  triangleMedium
+        , viewShape "#1293D8" model.sqr square
+        , viewShape "currentColor" model.par parallelogram
+        , viewShape "currentColor" model.ts1 triangleSmall
+        , viewShape "currentColor" model.ts2 triangleSmall
         ]
     ]
 
 
-viewShape : Shape -> String -> Svg msg
-viewShape shape coordinates =
+viewShape : String -> Shape -> String -> Svg msg
+viewShape color shape coordinates =
   case shape of
-    Static x y a             -> viewShapeHelp x y a coordinates
-    Moving _ _ _ x y a _ _ _ -> viewShapeHelp x y a coordinates
+    Static x y a             -> viewShapeHelp color x y a coordinates
+    Moving _ _ _ x y a _ _ _ -> viewShapeHelp color x y a coordinates
 
 
-viewShapeHelp : Float -> Float -> Float -> String -> Svg msg
-viewShapeHelp x y a coordinates =
+viewShapeHelp : String -> Float -> Float -> Float -> String -> Svg msg
+viewShapeHelp color x y a coordinates =
   polygon
-    [ fill "currentColor"
+    [ fill color
     , points coordinates
     , transform <|
         "translate(" ++ String.fromFloat x ++ " " ++ String.fromFloat y

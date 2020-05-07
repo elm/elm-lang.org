@@ -16,9 +16,13 @@ module Skeleton exposing
 
 import Browser
 import Center
+import Grid
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Element as E
+import Element.Font as F
+import Element.Region as R
 
 
 
@@ -33,7 +37,15 @@ skeleton title tab content =
     , subscriptions = \_ -> Sub.none
     , view = \_ ->
         { title = title
-        , body = [ header tab, div [ style "flex" "1" ] content, footer ]
+        , body =
+            [ Grid.view
+            , E.layout [ E.width E.fill ] <|
+                E.column []
+                  [ header tab
+                  , E.html (div [ style "flex" "1" ] content)
+                  , E.html footer
+                  ]
+            ]
         }
     }
 
@@ -50,22 +62,19 @@ type Tab
   | Other
 
 
-header : Tab -> Html msg
+header : Tab -> E.Element msg
 header tab =
-  div [ class "header" ]
-    [ div [ class "nav" ]
-        [ a [ href "/"
-            , style "color" "white"
-            , style "font-size" "32px"
-            ]
-            [ text "elm"
-            ]
-        , div [ class "tabs" ]
-            [ viewTab tab Examples "examples" "/examples"
-            , viewTab tab Docs "docs" "/docs"
-            , viewTab tab Community "community" "/community"
-            , viewTab tab News "news" "/news"
-            ]
+  E.row
+    [ E.width E.fill, E.centerX, R.navigation ]
+    [ E.el [ E.alignLeft, E.alignBottom, F.size 30 ] (E.text "elm")
+    , E.row [ E.alignRight, E.alignBottom, E.spacing 15, E.moveUp 3 ]
+        [ E.el [ F.size 15 ] (E.text "overview")
+        , E.el [ F.size 15 ] (E.text "featured")
+        , E.el [ F.size 15 ] (E.text "examples")
+        , E.el [ F.size 15 ] (E.text "documentation")
+        , E.el [ F.size 15 ] (E.text "community")
+        , E.el [ F.size 15 ] (E.text "news")
+        , E.el [ F.size 15 ] (E.text "limitations")
         ]
     ]
 
