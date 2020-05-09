@@ -64,11 +64,12 @@ type Tab
 
 header : Tab -> E.Element msg
 header tab =
-  E.row
-    [ E.width E.fill, E.centerX, R.navigation ]
-    [ E.el [ E.alignLeft, E.alignBottom, F.size 30 ] (E.text "elm")
-    , E.row [ E.alignRight, E.alignBottom, E.spacing 15, E.moveUp 3 ]
-        [ E.el [ F.size 15 ] (E.text "overview")
+  E.column
+    [ E.width (E.fillPortion 2) ]
+    [ E.textColumn
+        [ F.alignRight, R.navigation ]
+        [ E.el [ F.size 30 ] (E.text "elm")
+        , E.el [ F.size 15 ] (E.text "overview")
         , E.el [ F.size 15 ] (E.text "featured")
         , E.el [ F.size 15 ] (E.text "examples")
         , E.el [ F.size 15 ] (E.text "documentation")

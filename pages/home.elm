@@ -37,19 +37,99 @@ main =
     , view = \model ->
         { title = "Elm -  delightful language for reliable webapps"
         , body =
-            [ E.layout [ E.width E.fill, E.paddingXY 60 40, F.family [ F.typeface "IBM Plex Sans", F.sansSerif ] ] <|
-                E.column [ E.width E.fill, E.centerX ]
-                  [ L.lazy Skeleton.header Skeleton.Other
-                  , E.column [ E.width (E.fill |> E.maximum 1000) , E.centerX ]
-                    [ viewSplash model
-                    --, E.html viewFeatures
-                    , E.html Skeleton.footer
-                    ]
+            [ E.layout
+                [ E.width E.fill
+                , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+                ] <|
+                E.row
+                  [ E.width E.fill
+                  , E.padding 40
+                  ]
+                  [ E.html Grid.view
+                  , E.column
+                      [ E.width (E.fillPortion 5)
+                      , E.height E.fill
+                      , Bo.color (E.rgb255 18 147 216)
+                      , Bo.widthEach { bottom = 1, left = 1, right = 0, top = 1 }
+                      , Bo.solid
+                      ]
+                      [ E.el [ F.size 40, E.padding 10 ] (E.text "elm") ]
+                  , E.column
+                      [ E.width (E.fillPortion 10)
+                      , E.height E.fill
+                      , R.navigation
+                      , Bo.color (E.rgb255 18 147 216)
+                      , Bo.width 1
+                      , Bo.solid
+                      ]
+                      [ navitem "overview"
+                      , navitem "featured"
+                      , navitem "examples"
+                      , navitem "documentation"
+                      , navitem "community"
+                      , navitem "news"
+                      , E.el
+                          [ F.size 20
+                          , E.paddingEach
+                              { bottom = 10
+                              , left = 10
+                              , right = 10
+                              , top = 10
+                              }
+                          , E.width E.fill
+                          , Bo.color (E.rgb255 18 147 216)
+                          , Bo.widthEach
+                              { bottom = 0
+                              , left = 0
+                              , right = 0
+                              , top = 0
+                              }
+                          ]
+                          (E.text "limitations")
+                      ]
+                  , E.column
+                      [ E.width (E.fillPortion 30)
+                      , E.height E.fill
+                      , Bo.color (E.rgb255 18 147 216)
+                      , E.padding 20
+                      , E.alignTop
+                      , Bo.widthEach
+                          { bottom = 1
+                          , left = 0
+                          , right = 1
+                          , top = 1
+                          }
+                      ]
+                      [ viewSplash model
+                      --, E.html viewFeatures
+                      --, E.html Skeleton.footer
+                      ]
                   ]
             ]
         }
     }
 
+
+navitem : String -> E.Element msg
+navitem name =
+  E.el
+    [ F.size 20
+    , E.paddingEach
+        { bottom = 10
+        , left = 10
+        , right = 10
+        , top = 10
+        }
+    , E.width E.fill
+    , Bo.color (E.rgb255 18 147 216)
+    , Bo.widthEach
+        { bottom = 1
+        , left = 0
+        , right = 0
+        , top = 0
+        }
+    ]
+    (E.text name)
 
 
 -- MODEL
@@ -156,14 +236,9 @@ subscriptions model =
 viewSplash : Model -> E.Element Msg
 viewSplash model =
   E.row
-    [ E.width E.fill ]
-    [ E.el [ E.alignLeft, E.width (E.fillPortion 2) ] <| E.html <|
-        Logo.view
-            [ style "color" "black"
-            , onClick MouseClicked
-            ]
-            model.logo
-    , E.el [ E.alignRight, E.width (E.fillPortion 3) ] <|
+    [ E.width E.fill, E.centerX, E.centerY ]
+    [ E.el [ E.width (E.fillPortion 1) ] E.none
+    , E.el [ E.width (E.fillPortion 5) ] <|
         E.textColumn []
           [ E.paragraph [ F.size 30 ]
               [ E.text "A delightful language "
@@ -206,6 +281,7 @@ viewSplash model =
                   }
               ]
           ]
+    , E.el [ E.width (E.fillPortion 1) ] E.none
     ]
 
 
