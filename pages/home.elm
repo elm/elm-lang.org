@@ -58,30 +58,18 @@ main =
                   , E.row
                       [ E.width E.fill
                       , E.height E.fill
-                      , E.paddingXY 0 20
+                      , E.paddingXY 0 60
                       ]
                       [ E.el [ F.size 134, E.paddingXY 0 20, E.moveUp 2, E.moveLeft 5, E.alignTop, E.width (E.fillPortion 1) ] (E.text "elm")
                       , viewSplash model
                       ]
                   , E.row
                       [ E.width E.fill ]
-                      [ E.html <| Tabs.view [ "Features", "Projects", "Examples" ] ]
-                  , E.row
-                      [ E.width E.fill
-                      , E.spacing 10
-                      , E.paddingXY 20 0
-                      , Bo.color (E.rgb255 18 147 216)
-                      , Bo.solid
-                      , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
-                      ]
-                      [ navitem2 True "FEATURES"
-                      , navitem2 False "PROJECTS"
-                      , navitem2 False "EXAMPLES"
-                      ]
+                      [ E.html <| Tabs.view [ (True, "Features"), (False, "Projects"), ( False, "Examples") ] ]
                   , E.row
                       [ E.width E.fill
                       , E.spacing 40
-                      , E.paddingXY 0 20
+                      , E.paddingXY 20 0
                       ]
                       [ runtime
                       , runtime
