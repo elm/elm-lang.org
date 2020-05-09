@@ -22,6 +22,7 @@ import Grid
 import Cycle
 import Logo
 import Skeleton
+import Tabs
 import TextAnimation
 
 
@@ -37,72 +38,53 @@ main =
     , view = \model ->
         { title = "Elm -  delightful language for reliable webapps"
         , body =
-            [ E.layout
+            [ -- Grid.view ,
+              E.layout
                 [ E.width E.fill
                 , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
                 ] <|
-                E.row
-                  [ E.width E.fill
-                  , E.padding 40
+                E.column
+                  [ E.width (E.fill |> E.maximum 1000)
+                  , E.paddingXY 40 20
+                  , E.centerX
                   ]
-                  [ E.html Grid.view
-                  , E.column
-                      [ E.width (E.fillPortion 5)
-                      , E.height E.fill
-                      , Bo.color (E.rgb255 18 147 216)
-                      , Bo.widthEach { bottom = 1, left = 1, right = 0, top = 1 }
-                      , Bo.solid
-                      ]
-                      [ E.el [ F.size 40, E.padding 10 ] (E.text "elm") ]
-                  , E.column
-                      [ E.width (E.fillPortion 10)
-                      , E.height E.fill
-                      , R.navigation
-                      , Bo.color (E.rgb255 18 147 216)
-                      , Bo.width 1
-                      , Bo.solid
-                      ]
-                      [ navitem "overview"
-                      , navitem "featured"
-                      , navitem "examples"
-                      , navitem "documentation"
+                  [ E.row
+                      [ E.width E.fill, E.spacing 40 ]
+                      [ navitem "documentation"
+                      , navitem "packages"
                       , navitem "community"
-                      , navitem "news"
-                      , E.el
-                          [ F.size 20
-                          , E.paddingEach
-                              { bottom = 10
-                              , left = 10
-                              , right = 10
-                              , top = 10
-                              }
-                          , E.width E.fill
-                          , Bo.color (E.rgb255 18 147 216)
-                          , Bo.widthEach
-                              { bottom = 0
-                              , left = 0
-                              , right = 0
-                              , top = 0
-                              }
-                          ]
-                          (E.text "limitations")
+                      , navitem "download"
                       ]
-                  , E.column
-                      [ E.width (E.fillPortion 30)
+                  , E.row
+                      [ E.width E.fill
                       , E.height E.fill
-                      , Bo.color (E.rgb255 18 147 216)
-                      , E.padding 20
-                      , E.alignTop
-                      , Bo.widthEach
-                          { bottom = 1
-                          , left = 0
-                          , right = 1
-                          , top = 1
-                          }
+                      , E.paddingXY 0 20
                       ]
-                      [ viewSplash model
-                      --, E.html viewFeatures
-                      --, E.html Skeleton.footer
+                      [ E.el [ F.size 134, E.paddingXY 0 20, E.moveUp 2, E.moveLeft 5, E.alignTop, E.width (E.fillPortion 1) ] (E.text "elm")
+                      , viewSplash model
+                      ]
+                  , E.row
+                      [ E.width E.fill ]
+                      [ E.html <| Tabs.view [ "Features", "Projects", "Examples" ] ]
+                  , E.row
+                      [ E.width E.fill
+                      , E.spacing 10
+                      , E.paddingXY 20 0
+                      , Bo.color (E.rgb255 18 147 216)
+                      , Bo.solid
+                      , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+                      ]
+                      [ navitem2 True "FEATURES"
+                      , navitem2 False "PROJECTS"
+                      , navitem2 False "EXAMPLES"
+                      ]
+                  , E.row
+                      [ E.width E.fill
+                      , E.spacing 40
+                      , E.paddingXY 0 20
+                      ]
+                      [ runtime
+                      , runtime
                       ]
                   ]
             ]
@@ -113,24 +95,76 @@ main =
 navitem : String -> E.Element msg
 navitem name =
   E.el
-    [ F.size 20
-    , E.paddingEach
-        { bottom = 10
-        , left = 10
-        , right = 10
-        , top = 10
-        }
-    , E.width E.fill
-    , Bo.color (E.rgb255 18 147 216)
-    , Bo.widthEach
-        { bottom = 1
-        , left = 0
-        , right = 0
-        , top = 0
-        }
+    [ F.size 18
+    , F.bold
+    , Bo.color (E.rgb 0 0 0)
+    , Bo.solid
+    , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+    , E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
     ]
     (E.text name)
 
+
+navitem2 : Bool -> String -> E.Element msg
+navitem2 chosen name =
+  E.el
+    [ F.size 14
+    , F.bold
+    , F.letterSpacing 2
+    , if chosen then E.moveDown 2 else E.moveDown 0
+    , if chosen then F.color (E.rgb255 18 147 216) else F.color (E.rgb255 0 0 0)
+    , B.color (E.rgb255 255 255 255)
+    , Bo.color (E.rgb255 18 147 216)
+    , Bo.solid
+    , Bo.roundEach { topLeft = 5, topRight = 5, bottomLeft = 0, bottomRight = 0 }
+    , Bo.widthEach { bottom = 0, left = 2, right = 2, top = 2 }
+    , E.paddingXY 20 10
+    ]
+    (E.text name)
+
+
+runtime : E.Element msg
+runtime =
+  E.column
+    [ E.width E.fill
+    , E.width E.fill
+    , E.spacing 40
+    ]
+    [ E.textColumn
+        [ E.width (E.fillPortion 1)
+        , E.alignLeft
+        , E.alignTop
+        ]
+        [ E.el
+            [ F.size 25
+            , E.paddingXY 0 15
+            ]
+            (E.text "No Runtime Exceptions")
+        , E.paragraph
+            [ F.size 15 ]
+            [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. (details)" ]
+        ]
+    , E.el
+        [ E.width (E.fillPortion 1)
+        , E.alignRight
+        ] <|
+          E.html <|
+            div [ class "terminal" ]
+                [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
+                , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
+                , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
+                , text "\nThis `toInt` call produces:\n\n    "
+                , color dullYellow "Maybe"
+                , text " Int\n\nBut `drop` needs the 1st argument to be:\n\n    Int\n\n"
+                , span [ style "text-decoration" "underline" ] [ text "Hint" ]
+                , text ": Use "
+                , color green "Maybe.withDefault"
+                , text " to handle possible errors."
+                ]
+    ]
+
+
+-- "overview" "featured" "documentation" "community" "news" "limitations"
 
 -- MODEL
 
@@ -235,54 +269,61 @@ subscriptions model =
 
 viewSplash : Model -> E.Element Msg
 viewSplash model =
-  E.row
-    [ E.width E.fill, E.centerX, E.centerY ]
-    [ E.el [ E.width (E.fillPortion 1) ] E.none
-    , E.el [ E.width (E.fillPortion 5) ] <|
-        E.textColumn []
-          [ E.paragraph [ F.size 30 ]
-              [ E.text "A delightful language "
-              , E.text (TextAnimation.view model.taglines)
-              ]
-          , E.row [ E.spacing 15, E.paddingXY 0 15 ]
-              [ E.link
-                  [ E.padding 10
-                  , E.width (E.fillPortion 2)
-                  , F.center
-                  , Bo.color (E.rgb255 18 147 216)
-                  , Bo.width 2
-                  , Bo.solid
-                  , Bo.shadow
-                      { offset = ( 5, 5 )
-                      , size = 1
-                      , blur = 0
-                      , color = E.rgb255 18 147 216
-                      }
-                  ]
-                  { url = "/try"
-                  , label = E.text "Try"
-                  }
-              , E.link
-                  [ E.padding 10
-                  , E.width (E.fillPortion 2)
-                  , F.center
-                  , Bo.color (E.rgb255 18 147 216)
-                  , Bo.width 2
-                  , Bo.solid
-                  , Bo.shadow
-                      { offset = ( 5, 5 )
-                      , size = 1
-                      , blur = 0
-                      , color = E.rgb255 18 147 216
-                      }
-                  ]
-                  { url = "https://guide.elm-lang.org"
-                  , label = E.text "Tutorial"
-                  }
-              ]
-          ]
-    , E.el [ E.width (E.fillPortion 1) ] E.none
+  E.column
+    [ E.width (E.fillPortion 2)
+    , E.paddingXY 0 30
+    , E.alignTop
+    , E.spacing 20
     ]
+    [ E.row
+       [ E.width E.fill ]
+       [ E.textColumn
+            [ E.alignTop
+            , E.width (E.fillPortion 3)
+            ]
+            [ E.paragraph
+               [ F.size 30
+               , Bo.color (E.rgb255 211 211 211)
+               , Bo.dotted
+               , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+               ]
+               [ E.text "A delightful language "
+               , E.html (Html.br [] [])
+               , case TextAnimation.view model.taglines of
+                   "" ->  E.html <| Html.br [] []
+                   s -> E.text s
+               ]
+            ]
+        , E.el [ E.width (E.fillPortion 1) ] E.none
+        ]
+    , E.row
+        [ E.width E.fill, E.spacing 15, E.paddingXY 0 5 ]
+        [ coolButton "/try"  "Try"
+        , coolButton "https://guide.elm-lang.org" "Tutorial"
+        ]
+    ]
+
+
+coolButton : String -> String -> E.Element msg
+coolButton link label =
+  E.link
+    [ E.padding 10
+    , E.width (E.fillPortion 2)
+    , F.center
+    , B.color (E.rgb255 255 255 255)
+    , Bo.color (E.rgb255 18 147 216)
+    , Bo.width 2
+    , Bo.solid
+    , Bo.shadow
+        { offset = ( 5, 5 )
+        , size = 1
+        , blur = 0
+        , color = E.rgb255 18 147 216
+        }
+    ]
+    { url = link
+    , label = E.text label
+    }
 
 
 onMouseMove : Attribute Msg
