@@ -9,6 +9,7 @@ import Json.Decode as D
 import Markdown
 import String
 import Time
+
 import Element as E
 import Element.Font as F
 import Element.Lazy as L
@@ -16,6 +17,11 @@ import Element.Region as R
 import Element.Input as I
 import Element.Background as B
 import Element.Border as Bo
+
+import Svg
+import Svg.Attributes
+import Svg.Coordinates
+import Svg.Plot
 
 import Center
 import Grid
@@ -102,19 +108,20 @@ main =
                     , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
                     ]
                     <| E.row
-                        [ E.width E.fill
+                        [ E.width (E.fill |> E.maximum 860)
                         , E.spacing 40
                         , E.paddingXY 0 10
                         , E.centerX
                         ]
                         [ E.el
-                            [ F.size 30
-                            , E.alignTop
-                            ]
-                            (E.text "elm")
-                        , navColumn "Quick links" [ "Install", "Packages", "Guide", "Limitations" ]
+                          [ F.size 30
+                          , E.alignTop
+                          , E.width E.fill
+                          ]
+                          (E.text "elm")
+                        , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
+                        , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
                         , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
-                        , navColumn "Learner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ" ]
                         , navColumn "Contributing" [ "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
                         ]
                 ]
@@ -134,14 +141,12 @@ navColumn title items =
 navitem : Bool -> String -> E.Element msg
 navitem isTitle name =
   E.el
-    [ F.size 13
-    , E.padding 5
+    [ E.padding 5
     , E.width E.fill
-    , if isTitle then Bo.color (E.rgb255 18 147 216) else Bo.color (E.rgb 0 0 0)
-    , if isTitle then F.color (E.rgb255 18 147 216) else F.color (E.rgb255 0 0 0)
+    , if isTitle then E.paddingXY 0 10 else E.paddingXY 0 5
+    , if isTitle then F.size 16 else F.size 13
+    , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
     , if isTitle then F.bold else F.regular
-    , Bo.solid
-    , Bo.widthEach { bottom = 0, left = 0, right = 0, top = 2 }
     --, E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
     ]
     (E.text name)
@@ -310,7 +315,7 @@ viewSplash model =
     , E.row
         [ E.width E.fill, E.spacing 15, E.paddingXY 0 5 ]
         [ coolButton "/try"  "Try"
-        , coolButton "https://guide.elm-lang.org" "Guide"
+        , coolButton "https://guide.elm-lang.org" "Tutorial"
         ]
     , E.paragraph
         [ E.width E.fill
@@ -449,11 +454,7 @@ features =
       , E.link [] { url = "/news/blazing-fast-html-round-two", label = E.text "details" }
       , E.text ")"
       ]
-      [ img
-            [ src "/assets/home/benchmark.png"
-            , style "width" "100%"
-            ]
-            []
+      [ performanceChart
       ]
   , Feature "Enforced Semantic Versioning" 200
       [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. ("
@@ -476,11 +477,7 @@ features =
       , E.link [] { url = "/news/small-assets-without-the-headache", label = E.text "details" }
       , E.text ")"
       ]
-      [ img
-            [ src "/assets/home/asset-sizes.png"
-            , style "width" "100%"
-            ]
-            []
+      [ assetsChart
       ]
   , Feature "JavaScript Interop" 120
       [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. ("
@@ -504,6 +501,161 @@ features =
           ]
       ]
   ]
+
+
+performanceChart : Html msg
+performanceChart =
+  let plane =
+        { x = Svg.Coordinates.Axis 40 0 400 0 6
+        , y = Svg.Coordinates.Axis 40 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
+        }
+
+      group : Int -> List Float -> List (Svg.Plot.Bar msg)
+      group index =
+          List.map <| Svg.Plot.Bar <|
+            if index == 4 then
+              [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
+            else
+              [ Svg.Attributes.stroke "rgba(18, 147, 216, 0.5)", Svg.Attributes.fill "rgba(18, 147, 216, 0.5)" ]
+
+      place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
+      place point xOff yOff style label =
+        Svg.g
+          [ Svg.Coordinates.placeWithOffset plane point xOff yOff
+          , Svg.Attributes.style (style ++ "font-size: 12px;")
+          ]
+          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
+
+      xLabels =
+        Svg.g [] <|
+          List.indexedMap
+            (\i l -> place { x = toFloat (i + 1), y = 0 } 0 20 "text-anchor: middle;" l)
+            [ "Ember", "React", "Angular 1", "Angular 2", "Elm" ]
+
+      yLabels =
+        Svg.g [] <|
+          List.map
+          (\y -> place { x = 0, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
+          yLabelValues
+
+      markers : Svg.Svg msg
+      markers =
+        Svg.g [] <|
+          List.indexedMap
+          (\i y -> place { x = toFloat (i + 1), y = y } 0 -7 "text-anchor: middle;" (String.fromFloat y))
+          yValues
+
+      yLabelValues =
+        [ 1000, 2000, 3000, 4000, 5000 ]
+
+      yValues =
+        [ 4326, 4612, 3838, 3494, 2480 ]
+
+      viewText : Float -> Float -> Int -> String -> String -> Svg.Svg msg
+      viewText x y size style label =
+        Svg.g
+          [ Svg.Attributes.transform <| "translate( " ++ String.fromFloat x ++ "," ++ String.fromFloat y ++ ")"
+          , Svg.Attributes.style <| "text-anchor: middle; font-size: " ++ String.fromInt size ++ "px; " ++ style
+          ]
+          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
+  in
+  Svg.svg
+    [ Svg.Attributes.width (String.fromFloat plane.x.length)
+    , Svg.Attributes.height (String.fromFloat plane.y.length)
+    ]
+    [ Svg.Plot.grouped plane
+        { groups = List.indexedMap group (List.map List.singleton yValues)
+        , width = 0.75
+        }
+    , Svg.Plot.fullHorizontal plane [] 0
+    , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
+    , xLabels
+    , Svg.Plot.fullVertical plane [] 0
+    , Svg.Plot.yTicks plane 5 [] 0 yLabelValues
+    , yLabels
+    , viewText 30 25 12 "text-anchor: end;" "ms"
+    , markers
+    , viewText 200 20 16 "" "Benchmarks Times on Chrome 52"
+    , viewText 280 40 12 "fill: grey;" "Lower is better."
+    ]
+
+
+assetsChart : Html msg
+assetsChart =
+  let plane =
+        { x = Svg.Coordinates.Axis 40 0 400 0 5
+        , y = Svg.Coordinates.Axis 50 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
+        }
+
+      group : Int -> List Float -> List (Svg.Plot.Bar msg)
+      group index =
+          List.map <| Svg.Plot.Bar <|
+            if index == 3 then
+              [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
+            else
+              [ Svg.Attributes.stroke "rgba(18, 147, 216, 0.5)", Svg.Attributes.fill "rgba(18, 147, 216, 0.5)" ]
+
+      place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
+      place point xOff yOff style label =
+        Svg.g
+          [ Svg.Coordinates.placeWithOffset plane point xOff yOff
+          , Svg.Attributes.style (style ++ "font-size: 12px;")
+          ]
+          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
+
+      xLabels =
+        Svg.g [] <|
+          List.indexedMap
+            (\i l -> place { x = toFloat (i + 1), y = 0 } 0 20 "text-anchor: middle;" l)
+            [ "Vue", "Angular 6", "React 16.4", "Elm 19.0" ]
+
+      yLabels =
+        Svg.g [] <|
+          List.map
+          (\y -> place { x = 0, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
+          yLabelValues
+
+      markers : Svg.Svg msg
+      markers =
+        Svg.g [] <|
+          List.indexedMap
+          (\i y -> place { x = toFloat (i + 1), y = y } 0 -7 "text-anchor: middle;" (String.fromFloat y))
+          yValues
+
+      yLabelValues =
+        [ 25, 50, 75, 100 ]
+
+      yValues =
+        [ 100, 93, 77, 29 ]
+
+      viewText : Float -> Float -> Int -> String -> String -> Svg.Svg msg
+      viewText x y size style label =
+        Svg.g
+          [ Svg.Attributes.transform <| "translate( " ++ String.fromFloat x ++ "," ++ String.fromFloat y ++ ")"
+          , Svg.Attributes.style <| "text-anchor: middle; font-size: " ++ String.fromInt size ++ "px; " ++ style
+          ]
+          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
+  in
+  Svg.svg
+    [ Svg.Attributes.width (String.fromFloat plane.x.length)
+    , Svg.Attributes.height (String.fromFloat plane.y.length)
+    ]
+    [ Svg.Plot.grouped plane
+        { groups = List.indexedMap group (List.map List.singleton yValues)
+        , width = 0.75
+        }
+    , Svg.Plot.fullHorizontal plane [] 0
+    , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
+    , xLabels
+    , Svg.Plot.fullVertical plane [] 0
+    , Svg.Plot.yTicks plane 5 [] 0 yLabelValues
+    , yLabels
+    , viewText 30 30 12 "text-anchor: end;" "kb"
+    , markers
+    , viewText 200 20 16 "" "RealWorld Asset Size"
+    , viewText 320 20 12 "fill: grey;" "(uglify + gzip)"
+    ]
+
 
 
 var : Html msg
