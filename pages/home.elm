@@ -122,7 +122,7 @@ main =
                         , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
                         , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
                         , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
-                        , navColumn "Contributing" [ "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
+                        , navColumn "Contributing" [ "How to", "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
                         ]
                 ]
             ]
@@ -385,48 +385,26 @@ viewFeature index feature =
     [ E.width E.fill
     , E.width E.fill
     , E.spacing 60
-    ] <|
-    if (modBy 2 index == 0) then
-      [
-       E.textColumn
-          [ E.width (E.fillPortion 1)
-          , E.alignLeft
-          , E.alignTop
-          ]
-          [ E.el
-              [ F.size 25
-              , E.paddingXY 0 15
-              ]
-              (E.html <| Html.span [ class "highlight"] [Html.text feature.title])
-          , E.paragraph
-              [ F.size 15 ]
-              feature.description
-          ]
-      , E.el
-          [ E.width (E.fillPortion 1)
-          , E.alignRight
-          ] <| E.html <| div [] feature.image
-      ]
-      else
-      [ E.el
-          [ E.width (E.fillPortion 1)
-          , E.alignRight
-          ] <| E.html <| div [] feature.image
-      , E.textColumn
-          [ E.width (E.fillPortion 1)
-          , E.alignLeft
-          , E.alignTop
-          ]
-          [ E.el
-              [ F.size 25
-              , E.paddingXY 0 15
-              ]
-              (E.text feature.title)
-          , E.paragraph
-              [ F.size 15 ]
-              feature.description
-          ]
-      ]
+    ]
+    [ E.textColumn
+        [ E.width (E.fillPortion 1)
+        , E.alignLeft
+        , E.alignTop
+        ]
+        [ E.el
+            [ F.size 25
+            , E.paddingXY 0 15
+            ]
+            (E.html <| Html.span [ class "highlight"] [Html.text feature.title])
+        , E.paragraph
+            [ F.size 15 ]
+            feature.description
+        ]
+    , E.el
+        [ E.width (E.fillPortion 1)
+        , E.alignRight
+        ] <| E.html <| div [] feature.image
+    ]
 
 
 features : List (Feature msg)
@@ -506,7 +484,7 @@ features =
 performanceChart : Html msg
 performanceChart =
   let plane =
-        { x = Svg.Coordinates.Axis 40 0 400 0 6
+        { x = Svg.Coordinates.Axis 40 0 400 0.5 5.5
         , y = Svg.Coordinates.Axis 40 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
         }
 
@@ -570,8 +548,8 @@ performanceChart =
     , Svg.Plot.fullHorizontal plane [] 0
     , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
     , xLabels
-    , Svg.Plot.fullVertical plane [] 0
-    , Svg.Plot.yTicks plane 5 [] 0 yLabelValues
+    , Svg.Plot.fullVertical plane [] 0.5
+    , Svg.Plot.yTicks plane 5 [] 0.5 yLabelValues
     , yLabels
     , viewText 30 25 12 "text-anchor: end;" "ms"
     , markers
@@ -583,7 +561,7 @@ performanceChart =
 assetsChart : Html msg
 assetsChart =
   let plane =
-        { x = Svg.Coordinates.Axis 30 0 400 0 5
+        { x = Svg.Coordinates.Axis 30 0 400 0.5 4.5
         , y = Svg.Coordinates.Axis 50 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
         }
 
@@ -647,8 +625,8 @@ assetsChart =
     , Svg.Plot.fullHorizontal plane [] 0
     , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
     , xLabels
-    , Svg.Plot.fullVertical plane [] 0
-    , Svg.Plot.yTicks plane 5 [] 0 yLabelValues
+    , Svg.Plot.fullVertical plane [] 0.5
+    , Svg.Plot.yTicks plane 5 [] 0.5 yLabelValues
     , yLabels
     , viewText 30 30 12 "text-anchor: end;" "kb"
     , markers
