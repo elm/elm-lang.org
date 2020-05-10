@@ -494,7 +494,7 @@ performanceChart =
             if index == 4 then
               [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
             else
-              [ Svg.Attributes.stroke "rgba(18, 147, 216, 0.5)", Svg.Attributes.fill "rgba(18, 147, 216, 0.5)" ]
+              [ Svg.Attributes.stroke "rgb(149, 201, 236)", Svg.Attributes.fill "rgb(149, 201, 236)" ]
 
       place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
       place point xOff yOff style label =
@@ -513,7 +513,7 @@ performanceChart =
       yLabels =
         Svg.g [] <|
           List.map
-          (\y -> place { x = 0, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
+          (\y -> place { x = 0.5, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
           yLabelValues
 
       markers : Svg.Svg msg
@@ -543,7 +543,7 @@ performanceChart =
     ]
     [ Svg.Plot.grouped plane
         { groups = List.indexedMap group (List.map List.singleton yValues)
-        , width = 0.75
+        , width = 0.7
         }
     , Svg.Plot.fullHorizontal plane [] 0
     , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
@@ -571,7 +571,7 @@ assetsChart =
             if index == 3 then
               [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
             else
-              [ Svg.Attributes.stroke "rgba(18, 147, 216, 0.5)", Svg.Attributes.fill "rgba(18, 147, 216, 0.5)" ]
+              [ Svg.Attributes.stroke "rgb(149, 201, 236)", Svg.Attributes.fill "rgb(149, 201, 236)" ]
 
       place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
       place point xOff yOff style label =
@@ -590,7 +590,7 @@ assetsChart =
       yLabels =
         Svg.g [] <|
           List.map
-          (\y -> place { x = 0, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
+          (\y -> place { x = 0.5, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
           yLabelValues
 
       markers : Svg.Svg msg
@@ -620,7 +620,7 @@ assetsChart =
     ]
     [ Svg.Plot.grouped plane
         { groups = List.indexedMap group (List.map List.singleton yValues)
-        , width = 0.75
+        , width = 0.6
         }
     , Svg.Plot.fullHorizontal plane [] 0
     , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
@@ -628,10 +628,10 @@ assetsChart =
     , Svg.Plot.fullVertical plane [] 0.5
     , Svg.Plot.yTicks plane 5 [] 0.5 yLabelValues
     , yLabels
-    , viewText 30 30 12 "text-anchor: end;" "kb"
+    , viewText 20 35 12 "text-anchor: end;" "kb"
     , markers
     , viewText 200 20 16 "" "RealWorld Asset Size"
-    , viewText 320 20 12 "fill: grey;" "(uglify + gzip)"
+    , viewText 320 18 12 "fill: grey;" "(uglify + gzip)"
     ]
 
 
