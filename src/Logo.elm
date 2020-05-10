@@ -62,16 +62,16 @@ start =
 view : List (Html.Attribute msg) -> Model -> Html.Html msg
 view attrs model =
   svg
-    (viewBox "-900 -900 1800 1800" :: attrs)
+    (viewBox "-500 -500 1000 1000" :: attrs)
     [ g [ transform "scale(1 -1)"
         ]
-        [ viewShape "currentColor" model.tb1 triangleBig
-        , viewShape "currentColor" model.tb2 triangleBig
-        , viewShape "currentColor" model.tm  triangleMedium
-        , viewShape "#1293D8" model.sqr square
-        , viewShape "currentColor" model.par parallelogram
-        , viewShape "currentColor" model.ts1 triangleSmall
-        , viewShape "currentColor" model.ts2 triangleSmall
+        [ viewShape "rgba(18, 147, 216, 1)" model.tb1 triangleBig
+        , viewShape "rgba(18, 147, 216, 1)" model.tb2 triangleBig
+        , viewShape "rgba(18, 147, 216, 0.75)" model.tm  triangleMedium
+        , viewShape "rgba(18, 147, 216, 1)" model.sqr square
+        , viewShape "rgba(18, 147, 216, 0.75)" model.par parallelogram
+        , viewShape "rgba(18, 147, 216, 0.75)" model.ts1 triangleSmall
+        , viewShape "rgba(18, 147, 216, 0.75)" model.ts2 triangleSmall
         ]
     ]
 

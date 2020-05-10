@@ -22,7 +22,6 @@ import Grid
 import Cycle
 import Logo
 import Skeleton
-import Tabs
 import TextAnimation
 
 
@@ -38,57 +37,131 @@ main =
     , view = \model ->
         { title = "Elm -  delightful language for reliable webapps"
         , body =
-            [ -- Grid.view ,
-              E.layout
+            [ Grid.view
+            , E.layout
                 [ E.width E.fill
                 , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
                 ] <|
                 E.column
-                  [ E.width (E.fill |> E.maximum 1000)
-                  , E.paddingXY 40 20
-                  , E.centerX
-                  ]
+                  [ E.width E.fill ]
                   [ E.row
-                      [ E.width E.fill, E.spacing 40 ]
-                      [ navitem "documentation"
-                      , navitem "packages"
-                      , navitem "community"
-                      , navitem "download"
-                      ]
-                  , E.row
                       [ E.width E.fill
-                      , E.height E.fill
-                      , E.paddingXY 0 60
+                      , E.paddingXY 40 34
                       ]
-                      [ E.el [ F.size 134, E.paddingXY 0 20, E.moveUp 2, E.moveLeft 5, E.alignTop, E.width (E.fillPortion 1) ] (E.text "elm")
-                      , viewSplash model
+                      [ E.el
+                          [ F.size 35
+                          , E.alignLeft
+                          , E.moveUp 4
+                          ]
+                          (E.text "elm")
+                      , E.el
+                          [ E.alignRight
+                          ] <|
+                          E.paragraph
+                            [ F.size 16
+                            , F.bold
+                            , E.moveDown 3
+                            ]
+                            [ E.text "Looking for the package website? "
+                            , E.html <| Html.span [ class "effect" ] [ Html.text " →" ]
+                            ]
                       ]
-                  , E.row
-                      [ E.width E.fill ]
-                      [ E.html <| Tabs.view [ (True, "Features"), (False, "Projects"), ( False, "Examples") ] ]
-                  , E.row
-                      [ E.width E.fill
-                      , E.spacing 40
-                      , E.paddingXY 20 0
+                  , E.column
+                      [ E.width (E.fill |> E.maximum 920)
+                      , E.paddingXY 0 0
+                      , E.centerX
                       ]
-                      [ runtime
-                      , runtime
+                      [ E.row
+                          [ E.width E.fill
+                          , E.height E.fill
+                          , E.paddingEach { bottom = 100, left = 0, right = 0, top = 60 }
+                          ]
+                          [ E.el
+                              [ E.width (E.fillPortion 2)
+                              , E.paddingXY 0 0
+                              ]
+                              (E.html <|
+                               div
+                                  [ class "tangram"
+                                  , onMouseMove
+                                  ]
+                                  [ Logo.view
+                                      [ style "color" "white"
+                                      , onClick MouseClicked
+                                      ]
+                                      model.logo
+                                  ])
+                          , viewSplash model
+                          ]
+                      , E.column
+                          [ E.width E.fill
+                          , E.spacing 80
+                          , E.paddingXY 60 40
+                          ]
+                          (List.indexedMap viewFeature features)
+
                       ]
                   ]
+            , Html.div [ class "fixed-menu" ]
+                [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
+                    [ E.width E.fill
+                    , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+                    ]
+                    <| E.row
+                              [ E.width E.fill
+                              , E.spacing 40
+                              , E.paddingXY 0 80
+                              , E.centerX
+                              ]
+                              [ E.el
+                                  [ F.size 80
+                                  , E.alignTop
+                                  ]
+                                  (E.text "elm")
+                              , navColumn "Quick links" [ "Install", "Packages", "Guide", "Limitations" ]
+                              , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
+                              , navColumn "Learner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ" ]
+                              , navColumn "Contributing" [ "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
+                              ]
+                ]
             ]
         }
     }
 
+navColumn : String -> List String -> E.Element msg
+navColumn title items =
+  E.column
+    [ E.width E.fill
+    , E.alignTop
+    ]
+    (navitem True title :: List.map (navitem False) items)
 
-navitem : String -> E.Element msg
-navitem name =
+
+navitem : Bool -> String -> E.Element msg
+navitem isTitle name =
+  E.el
+    [ F.size 13
+    , E.padding 5
+    , E.width E.fill
+    , if isTitle then Bo.color (E.rgb255 18 147 216) else Bo.color (E.rgb 0 0 0)
+    , if isTitle then F.color (E.rgb255 18 147 216) else F.color (E.rgb255 0 0 0)
+    , if isTitle then F.bold else F.regular
+    , Bo.solid
+    , Bo.widthEach { bottom = 0, left = 0, right = 0, top = 2 }
+    --, E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
+    ]
+    (E.text name)
+
+
+navitemTop : Bool -> String -> E.Element msg
+navitemTop selected name =
   E.el
     [ F.size 18
-    , F.bold
-    , Bo.color (E.rgb 0 0 0)
-    , Bo.solid
-    , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+    , E.padding 5
     , E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
+    --, Bo.color (E.rgb 0 0 0)
+    --, Bo.solid
+    --, Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
     ]
     (E.text name)
 
@@ -110,46 +183,6 @@ navitem2 chosen name =
     ]
     (E.text name)
 
-
-runtime : E.Element msg
-runtime =
-  E.column
-    [ E.width E.fill
-    , E.width E.fill
-    , E.spacing 40
-    ]
-    [ E.textColumn
-        [ E.width (E.fillPortion 1)
-        , E.alignLeft
-        , E.alignTop
-        ]
-        [ E.el
-            [ F.size 25
-            , E.paddingXY 0 15
-            ]
-            (E.text "No Runtime Exceptions")
-        , E.paragraph
-            [ F.size 15 ]
-            [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. (details)" ]
-        ]
-    , E.el
-        [ E.width (E.fillPortion 1)
-        , E.alignRight
-        ] <|
-          E.html <|
-            div [ class "terminal" ]
-                [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
-                , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
-                , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
-                , text "\nThis `toInt` call produces:\n\n    "
-                , color dullYellow "Maybe"
-                , text " Int\n\nBut `drop` needs the 1st argument to be:\n\n    Int\n\n"
-                , span [ style "text-decoration" "underline" ] [ text "Hint" ]
-                , text ": Use "
-                , color green "Maybe.withDefault"
-                , text " to handle possible errors."
-                ]
-    ]
 
 
 -- "overview" "featured" "documentation" "community" "news" "limitations"
@@ -173,11 +206,12 @@ init =
   , visibility = E.Visible
   , taglines =
       TextAnimation.init
-        "for reliable webapps."
+        "for reliable web applications."
         [ "with no runtime exceptions."
         , "for data visualization."
         , "with friendly error messages."
         , "for 3D graphics."
+        , "with great performance."
         ]
   , patterns =
       Cycle.init
@@ -259,35 +293,42 @@ viewSplash : Model -> E.Element Msg
 viewSplash model =
   E.column
     [ E.width (E.fillPortion 2)
-    , E.paddingXY 0 30
-    , E.alignTop
+    , E.paddingXY 20 30
+    , E.centerX
+    , E.centerY
     , E.spacing 20
     ]
-    [ E.row
-       [ E.width E.fill ]
-       [ E.textColumn
-            [ E.alignTop
-            , E.width (E.fillPortion 3)
+    [ E.textColumn
+        [ E.alignTop
+        , E.width (E.fillPortion 3)
+        ]
+        [ E.paragraph
+            [ F.size 30
+            , F.center
             ]
-            [ E.paragraph
-               [ F.size 30
-               , Bo.color (E.rgb255 211 211 211)
-               , Bo.dotted
-               , Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
-               ]
-               [ E.text "A delightful language "
-               , E.html (Html.br [] [])
-               , case TextAnimation.view model.taglines of
-                   "" ->  E.html <| Html.br [] []
-                   s -> E.text s
-               ]
+            [ E.text "A delightful language "
+            , E.html (Html.br [] [])
+            , case TextAnimation.view model.taglines of
+               "" ->  E.html <| Html.br [] []
+               s -> E.text s
             ]
-        , E.el [ E.width (E.fillPortion 1) ] E.none
         ]
     , E.row
         [ E.width E.fill, E.spacing 15, E.paddingXY 0 5 ]
         [ coolButton "/try"  "Try"
-        , coolButton "https://guide.elm-lang.org" "Tutorial"
+        , coolButton "https://guide.elm-lang.org" "Guide"
+        ]
+    , E.paragraph
+        [ E.width E.fill
+        , F.size 18
+        , F.center
+        ]
+        [ E.text "or "
+        , E.link
+            [ F.color (E.rgb255 18 147 216) ]
+            { url = "/"
+            , label = E.text "download the installer."
+            }
         ]
     ]
 
@@ -331,42 +372,70 @@ onMouseMove =
 -- FEATURES
 
 
-viewFeatures : Html msg
-viewFeatures =
-  section [class "home-section"]
-    [ h1 [] [ text "Features" ]
-    , ul [ class "features" ] (List.map viewFeature features)
-    ]
-
-
 type alias Feature msg =
   { title : String
   , height : Int
-  , description : List (Html msg)
+  , description : List (E.Element msg)
   , image : List (Html msg)
   }
 
 
-viewFeature : Feature msg -> Html msg
-viewFeature feature =
-  li
-    [ class "feature"
-    , style "min-height" (String.fromInt feature.height ++ "px")
-    ]
-    [ div [class "feature-description"]
-        [ h2 [] [text feature.title]
-        , p [] feature.description
-        ]
-    , div [ class "feature-image" ] feature.image
-    ]
+viewFeature : Int -> Feature msg -> E.Element msg
+viewFeature index feature =
+  E.row
+    [ E.width E.fill
+    , E.width E.fill
+    , E.spacing 60
+    ] <|
+    if (modBy 2 index == 0) then
+      [
+       E.textColumn
+          [ E.width (E.fillPortion 1)
+          , E.alignLeft
+          , E.alignTop
+          ]
+          [ E.el
+              [ F.size 25
+              , E.paddingXY 0 15
+              ]
+              (E.html <| Html.span [ class "highlight"] [Html.text feature.title])
+          , E.paragraph
+              [ F.size 15 ]
+              feature.description
+          ]
+      , E.el
+          [ E.width (E.fillPortion 1)
+          , E.alignRight
+          ] <| E.html <| div [] feature.image
+      ]
+      else
+      [ E.el
+          [ E.width (E.fillPortion 1)
+          , E.alignRight
+          ] <| E.html <| div [] feature.image
+      , E.textColumn
+          [ E.width (E.fillPortion 1)
+          , E.alignLeft
+          , E.alignTop
+          ]
+          [ E.el
+              [ F.size 25
+              , E.paddingXY 0 15
+              ]
+              (E.text feature.title)
+          , E.paragraph
+              [ F.size 15 ]
+              feature.description
+          ]
+      ]
 
 
 features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
-      [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
-      , a [href "/news/compilers-as-assistants"] [text "details"]
-      , text ")"
+      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
+      , E.link [] { url = "/news/compilers-as-assistants", label = E.text "details" }
+      , E.text ")"
       ]
       [ div [ class "terminal" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
@@ -382,9 +451,9 @@ features =
           ]
       ]
   , Feature "Great Performance" 320
-      [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. ("
-      , a [href "/news/blazing-fast-html-round-two"] [text "details"]
-      , text ")"
+      [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. ("
+      , E.link [] { url = "/news/blazing-fast-html-round-two", label = E.text "details" }
+      , E.text ")"
       ]
       [ img
             [ src "/assets/home/benchmark.png"
@@ -393,9 +462,9 @@ features =
             []
       ]
   , Feature "Enforced Semantic Versioning" 200
-      [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. ("
-      , a [href "https://package.elm-lang.org"] [text "details"]
-      , text ")"
+      [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. ("
+      , E.link [] { url = "https://package.elm-lang.org", label = E.text "details" }
+      , E.text ")"
       ]
       [ div [ class "terminal" ]
           [ color "plum" "$"
@@ -407,11 +476,11 @@ features =
           ]
       ]
   , Feature "Small Assets" 280
-      [ text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
-      , code [] [ text "--optimize" ]
-      , text " flag and let the compiler do the rest. No complicated set up. ("
-      , a [href "/news/small-assets-without-the-headache"] [text "details"]
-      , text ")"
+      [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
+      , E.html (Html.code [] [ Html.text "--optimize" ])
+      , E.text " flag and let the compiler do the rest. No complicated set up. ("
+      , E.link [] { url = "/news/small-assets-without-the-headache", label = E.text "details" }
+      , E.text ")"
       ]
       [ img
             [ src "/assets/home/asset-sizes.png"
@@ -420,9 +489,9 @@ features =
             []
       ]
   , Feature "JavaScript Interop" 120
-      [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. ("
-      , a [href "http://guide.elm-lang.org/interop/"] [text "details"]
-      , text ")"
+      [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. ("
+      , E.link [] { url = "http://guide.elm-lang.org/interop/", label = E.text "details" }
+      , E.text ")"
       ]
       [ div [ class "terminal" ]
           [ var
