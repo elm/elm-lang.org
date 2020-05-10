@@ -583,7 +583,7 @@ performanceChart =
 assetsChart : Html msg
 assetsChart =
   let plane =
-        { x = Svg.Coordinates.Axis 40 0 400 0 5
+        { x = Svg.Coordinates.Axis 30 0 400 0 5
         , y = Svg.Coordinates.Axis 50 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
         }
 
