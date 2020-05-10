@@ -29,6 +29,7 @@ import Cycle
 import Logo
 import Skeleton
 import TextAnimation
+import Chart
 
 
 
@@ -62,8 +63,8 @@ main =
                             , F.bold
                             , E.moveDown 3
                             ]
-                            [ E.text "Looking for the package website? "
-                            , E.html <| Html.span [ class "effect" ] [ Html.text " →" ]
+                            [ -- E.text "→ package website"
+                            --, E.html <| Html.span [ class "effect" ] [ Html.text " →" ]
                             ]
                       ]
                   , E.column
@@ -74,7 +75,7 @@ main =
                       [ E.row
                           [ E.width E.fill
                           , E.height E.fill
-                          , E.paddingEach { bottom = 100, left = 0, right = 0, top = 60 }
+                          , E.paddingEach { bottom = 80, left = 0, right = 0, top = 60 }
                           ]
                           [ E.el
                               [ E.width (E.fillPortion 2)
@@ -92,6 +93,13 @@ main =
                                       model.logo
                                   ])
                           , viewSplash model
+                          ]
+                      , E.row
+                          [ E.centerX
+                          , E.padding 10
+                          , F.size 28
+                          ]
+                          [ -- E.el [ F.color (E.rgb255 18 147 216) ] <| E.text "↓"
                           ]
                       , E.column
                           [ E.width E.fill
@@ -121,7 +129,7 @@ main =
                           (E.text "elm")
                         , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
                         , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
-                        , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
+                        , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct", "Sharing code" ]
                         , navColumn "Contributing" [ "How to", "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
                         ]
                 ]
@@ -483,157 +491,32 @@ features =
 
 performanceChart : Html msg
 performanceChart =
-  let plane =
-        { x = Svg.Coordinates.Axis 40 0 400 0.5 5.5
-        , y = Svg.Coordinates.Axis 40 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
-        }
-
-      group : Int -> List Float -> List (Svg.Plot.Bar msg)
-      group index =
-          List.map <| Svg.Plot.Bar <|
-            if index == 4 then
-              [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
-            else
-              [ Svg.Attributes.stroke "rgb(149, 201, 236)", Svg.Attributes.fill "rgb(149, 201, 236)" ]
-
-      place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
-      place point xOff yOff style label =
-        Svg.g
-          [ Svg.Coordinates.placeWithOffset plane point xOff yOff
-          , Svg.Attributes.style (style ++ "font-size: 12px;")
-          ]
-          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
-
-      xLabels =
-        Svg.g [] <|
-          List.indexedMap
-            (\i l -> place { x = toFloat (i + 1), y = 0 } 0 20 "text-anchor: middle;" l)
-            [ "Ember", "React", "Angular 1", "Angular 2", "Elm" ]
-
-      yLabels =
-        Svg.g [] <|
-          List.map
-          (\y -> place { x = 0.5, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
-          yLabelValues
-
-      markers : Svg.Svg msg
-      markers =
-        Svg.g [] <|
-          List.indexedMap
-          (\i y -> place { x = toFloat (i + 1), y = y } 0 -7 "text-anchor: middle;" (String.fromFloat y))
-          yValues
-
-      yLabelValues =
-        [ 1000, 2000, 3000, 4000, 5000 ]
-
-      yValues =
-        [ 4326, 4612, 3838, 3494, 2480 ]
-
-      viewText : Float -> Float -> Int -> String -> String -> Svg.Svg msg
-      viewText x y size style label =
-        Svg.g
-          [ Svg.Attributes.transform <| "translate( " ++ String.fromFloat x ++ "," ++ String.fromFloat y ++ ")"
-          , Svg.Attributes.style <| "text-anchor: middle; font-size: " ++ String.fromInt size ++ "px; " ++ style
-          ]
-          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
-  in
-  Svg.svg
-    [ Svg.Attributes.width (String.fromFloat plane.x.length)
-    , Svg.Attributes.height (String.fromFloat plane.y.length)
-    ]
-    [ Svg.Plot.grouped plane
-        { groups = List.indexedMap group (List.map List.singleton yValues)
-        , width = 0.7
-        }
-    , Svg.Plot.fullHorizontal plane [] 0
-    , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
-    , xLabels
-    , Svg.Plot.fullVertical plane [] 0.5
-    , Svg.Plot.yTicks plane 5 [] 0.5 yLabelValues
-    , yLabels
-    , viewText 30 25 12 "text-anchor: end;" "ms"
-    , markers
-    , viewText 200 20 16 "" "Benchmarks Times on Chrome 52"
-    , viewText 280 40 12 "fill: grey;" "Lower is better."
-    ]
+  Chart.view
+    { marginTop = 40
+    , marginLeft = 40
+    , yTickValues = [ 1000, 2000, 3000, 4000, 5000 ]
+    , values = [ Chart.Value "Ember" 4326, Chart.Value "React" 4612, Chart.Value "Angular 1" 3838, Chart.Value "Angular 2" 3494, Chart.Value "Elm" 2480 ]
+    , overlays =
+        [ Chart.Overlay 30 25 "text-anchor: end; font-size: 12;" "ms"
+        , Chart.Overlay 200 20 "text-anchor: middle; font-size: 16;" "Benchmarks Times on Chrome 52"
+        , Chart.Overlay 280 40 "text-anchor: middle; font-size: 12; fill: grey;" "Lower is better."
+        ]
+    }
 
 
 assetsChart : Html msg
 assetsChart =
-  let plane =
-        { x = Svg.Coordinates.Axis 30 0 400 0.5 4.5
-        , y = Svg.Coordinates.Axis 50 23 300 0 (Svg.Coordinates.maximum identity yLabelValues)
-        }
-
-      group : Int -> List Float -> List (Svg.Plot.Bar msg)
-      group index =
-          List.map <| Svg.Plot.Bar <|
-            if index == 3 then
-              [ Svg.Attributes.stroke "#1293D8", Svg.Attributes.fill "#1293D8" ]
-            else
-              [ Svg.Attributes.stroke "rgb(149, 201, 236)", Svg.Attributes.fill "rgb(149, 201, 236)" ]
-
-      place : Svg.Coordinates.Point -> Float -> Float -> String -> String -> Svg.Svg msg
-      place point xOff yOff style label =
-        Svg.g
-          [ Svg.Coordinates.placeWithOffset plane point xOff yOff
-          , Svg.Attributes.style (style ++ "font-size: 12px;")
-          ]
-          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
-
-      xLabels =
-        Svg.g [] <|
-          List.indexedMap
-            (\i l -> place { x = toFloat (i + 1), y = 0 } 0 20 "text-anchor: middle;" l)
-            [ "Vue", "Angular 6", "React 16.4", "Elm 19.0" ]
-
-      yLabels =
-        Svg.g [] <|
-          List.map
-          (\y -> place { x = 0.5, y = y } -10 5 "text-anchor: end;" (String.fromFloat y))
-          yLabelValues
-
-      markers : Svg.Svg msg
-      markers =
-        Svg.g [] <|
-          List.indexedMap
-          (\i y -> place { x = toFloat (i + 1), y = y } 0 -7 "text-anchor: middle;" (String.fromFloat y))
-          yValues
-
-      yLabelValues =
-        [ 25, 50, 75, 100 ]
-
-      yValues =
-        [ 100, 93, 77, 29 ]
-
-      viewText : Float -> Float -> Int -> String -> String -> Svg.Svg msg
-      viewText x y size style label =
-        Svg.g
-          [ Svg.Attributes.transform <| "translate( " ++ String.fromFloat x ++ "," ++ String.fromFloat y ++ ")"
-          , Svg.Attributes.style <| "text-anchor: middle; font-size: " ++ String.fromInt size ++ "px; " ++ style
-          ]
-          [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
-  in
-  Svg.svg
-    [ Svg.Attributes.width (String.fromFloat plane.x.length)
-    , Svg.Attributes.height (String.fromFloat plane.y.length)
-    ]
-    [ Svg.Plot.grouped plane
-        { groups = List.indexedMap group (List.map List.singleton yValues)
-        , width = 0.6
-        }
-    , Svg.Plot.fullHorizontal plane [] 0
-    , Svg.Plot.xTicks plane 5 [] 0 [ 1, 2, 3, 4, 5 ]
-    , xLabels
-    , Svg.Plot.fullVertical plane [] 0.5
-    , Svg.Plot.yTicks plane 5 [] 0.5 yLabelValues
-    , yLabels
-    , viewText 20 35 12 "text-anchor: end;" "kb"
-    , markers
-    , viewText 200 20 16 "" "RealWorld Asset Size"
-    , viewText 320 18 12 "fill: grey;" "(uglify + gzip)"
-    ]
-
+  Chart.view
+    { marginTop = 40
+    , marginLeft = 30
+    , yTickValues = [ 25, 50, 75, 100 ]
+    , values = [ Chart.Value "Vue" 100, Chart.Value "Angular 6" 93, Chart.Value "React 16.4" 77, Chart.Value "Elm 19.0" 29 ]
+    , overlays =
+        [ Chart.Overlay 20 25 "text-anchor: end; font-size: 12;" "kb"
+        , Chart.Overlay 200 20 "text-anchor: middle; font-size: 16;" "RealWorld Asset Size"
+        , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12; fill: grey;" "(uglify + gzip)"
+        ]
+    }
 
 
 var : Html msg
