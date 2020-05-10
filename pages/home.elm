@@ -49,12 +49,6 @@ main =
                       , E.paddingXY 40 34
                       ]
                       [ E.el
-                          [ F.size 35
-                          , E.alignLeft
-                          , E.moveUp 4
-                          ]
-                          (E.text "elm")
-                      , E.el
                           [ E.alignRight
                           ] <|
                           E.paragraph
@@ -108,21 +102,21 @@ main =
                     , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
                     ]
                     <| E.row
-                              [ E.width E.fill
-                              , E.spacing 40
-                              , E.paddingXY 0 80
-                              , E.centerX
-                              ]
-                              [ E.el
-                                  [ F.size 80
-                                  , E.alignTop
-                                  ]
-                                  (E.text "elm")
-                              , navColumn "Quick links" [ "Install", "Packages", "Guide", "Limitations" ]
-                              , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
-                              , navColumn "Learner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ" ]
-                              , navColumn "Contributing" [ "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
-                              ]
+                        [ E.width E.fill
+                        , E.spacing 40
+                        , E.paddingXY 0 10
+                        , E.centerX
+                        ]
+                        [ E.el
+                            [ F.size 30
+                            , E.alignTop
+                            ]
+                            (E.text "elm")
+                        , navColumn "Quick links" [ "Install", "Packages", "Guide", "Limitations" ]
+                        , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct" ]
+                        , navColumn "Learner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ" ]
+                        , navColumn "Contributing" [ "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
+                        ]
                 ]
             ]
         }

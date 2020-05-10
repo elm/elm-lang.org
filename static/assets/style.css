@@ -74,7 +74,7 @@ a:hover { text-decoration: underline; }
   background: white;
   bottom: -340px;
   padding: 0 40px;
-  border-top: 30px solid #1293D8;
+  border-top: 2px solid #1293D8;
   box-sizing: border-box;
   transition: bottom 0.5s;
   z-index: 1000;
