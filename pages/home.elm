@@ -63,6 +63,7 @@ main =
                       [ E.width pageColumn
                       , E.centerX
                       , E.spacing 140
+                      , E.paddingEach { top = 0, bottom = 140, left = 0, right = 0 }
                       ]
                       (List.map viewFeature features)
                   ]
