@@ -69,7 +69,8 @@ a:hover { text-decoration: underline; }
 }
 
 .fixed-menu {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   width: 100%;
   background: white;
   bottom: -175px;
