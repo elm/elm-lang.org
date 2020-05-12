@@ -92,7 +92,20 @@ a:hover { text-decoration: underline; }
   right: 38px;
   color: #1293D8;
   font-size: 30px;
+
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: bounce-2;
+  animation-timing-function: ease;
+  transform-origin: bottom;
 }
+
+@keyframes bounce-2 {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+}
+
 
 /* content */
 
@@ -118,7 +131,6 @@ a:hover { text-decoration: underline; }
 
 .tangram {
   width: 400px;
-  height: 100vh;
 }
 
 .messages {

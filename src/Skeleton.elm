@@ -16,7 +16,6 @@ module Skeleton exposing
 
 import Browser
 import Center
-import Grid
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -38,8 +37,7 @@ skeleton title tab content =
     , view = \_ ->
         { title = title
         , body =
-            [ Grid.view
-            , E.layout [ E.width E.fill ] <|
+            [ E.layout [ E.width E.fill ] <|
                 E.column []
                   [ header tab
                   , E.html (div [ style "flex" "1" ] content)

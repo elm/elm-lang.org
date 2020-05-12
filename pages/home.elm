@@ -24,7 +24,6 @@ import Svg.Coordinates
 import Svg.Plot
 
 import Center
-import Grid
 import Cycle
 import Logo
 import Skeleton
@@ -44,8 +43,7 @@ main =
     , view = \model ->
         { title = "Elm - delightful language for reliable web applications"
         , body =
-            [ Grid.view
-            , E.layout
+            [ E.layout
                 [ E.width E.fill
                 , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
                 ] <|
@@ -63,7 +61,7 @@ main =
                       [ E.width pageColumn
                       , E.centerX
                       , E.spacing 140
-                      , E.paddingEach { top = 0, bottom = 140, left = 0, right = 0 }
+                      , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
                       ]
                       (List.map viewFeature features)
                   ]
@@ -137,36 +135,6 @@ navitem isTitle name =
     (E.text name)
 
 
-navitemTop : Bool -> String -> E.Element msg
-navitemTop selected name =
-  E.el
-    [ F.size 18
-    , E.padding 5
-    , E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
-    ]
-    (E.text name)
-
-
-navitem2 : Bool -> String -> E.Element msg
-navitem2 chosen name =
-  E.el
-    [ F.size 14
-    , F.bold
-    , F.letterSpacing 2
-    , if chosen then E.moveDown 2 else E.moveDown 0
-    , if chosen then F.color (E.rgb255 18 147 216) else F.color (E.rgb255 0 0 0)
-    , B.color (E.rgb255 255 255 255)
-    , Bo.color (E.rgb255 18 147 216)
-    , Bo.solid
-    , Bo.roundEach { topLeft = 5, topRight = 5, bottomLeft = 0, bottomRight = 0 }
-    , Bo.widthEach { bottom = 0, left = 2, right = 2, top = 2 }
-    , E.paddingXY 20 10
-    ]
-    (E.text name)
-
-
-
--- "overview" "featured" "documentation" "community" "news" "limitations"
 
 -- MODEL
 
@@ -341,7 +309,7 @@ viewTangram model =
     div
       [ class "tangram" , onMouseMove ]
       [ Logo.view
-          [ style "height" "100vh"
+          [ style "height" "calc(100vh - 60px)"
           , style "width" "500px"
           , style "position" "relative"
           , style "left" "-50px"
