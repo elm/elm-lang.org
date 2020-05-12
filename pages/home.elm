@@ -42,7 +42,7 @@ main =
     , update = \msg model -> ( update msg model, Cmd.none )
     , subscriptions = subscriptions
     , view = \model ->
-        { title = "Elm -  delightful language for reliable webapps"
+        { title = "Elm - delightful language for reliable web applications"
         , body =
             [ Grid.view
             , E.layout
