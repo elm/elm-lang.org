@@ -120,7 +120,7 @@ navColumn title items =
     [ E.width E.fill
     , E.alignTop
     ]
-    (navitem True title :: List.map (navitem False) items)
+    (navitem True title)
 
 
 navitem : Bool -> String -> E.Element msg
