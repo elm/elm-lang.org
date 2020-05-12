@@ -52,90 +52,66 @@ main =
                 E.column
                   [ E.width E.fill ]
                   [ E.row
-                      [ E.width E.fill
-                      , E.paddingXY 40 34
-                      ]
-                      [ E.el
-                          [ E.alignRight
-                          ] <|
-                          E.paragraph
-                            [ F.size 16
-                            , F.bold
-                            , E.moveDown 3
-                            ]
-                            [ -- E.text "→ package website"
-                            --, E.html <| Html.span [ class "effect" ] [ Html.text " →" ]
-                            ]
-                      ]
-                  , E.column
-                      [ E.width (E.fill |> E.maximum 920)
-                      , E.paddingXY 0 0
+                      [ E.height E.fill
+                      , E.width pageColumn
                       , E.centerX
                       ]
-                      [ E.row
-                          [ E.width E.fill
-                          , E.height E.fill
-                          , E.paddingEach { bottom = 80, left = 0, right = 0, top = 60 }
-                          ]
-                          [ E.el
-                              [ E.width (E.fillPortion 2)
-                              , E.paddingXY 0 0
-                              ]
-                              (E.html <|
-                               div
-                                  [ class "tangram"
-                                  , onMouseMove
-                                  ]
-                                  [ Logo.view
-                                      [ style "color" "white"
-                                      , onClick MouseClicked
-                                      ]
-                                      model.logo
-                                  ])
-                          , viewSplash model
-                          ]
-                      , E.row
-                          [ E.centerX
-                          , E.padding 10
-                          , F.size 28
-                          ]
-                          [ -- E.el [ F.color (E.rgb255 18 147 216) ] <| E.text "↓"
-                          ]
-                      , E.column
-                          [ E.width E.fill
-                          , E.spacing 80
-                          , E.paddingXY 60 40
-                          ]
-                          (List.indexedMap viewFeature features)
-
+                      [ E.el [ E.width E.fill ] (viewTangram model)
+                      , viewSplash model
                       ]
+                  , E.column
+                      [ E.width pageColumn
+                      , E.centerX
+                      , E.spacing 140
+                      ]
+                      (List.map viewFeature features)
                   ]
-            , Html.div [ class "fixed-menu" ]
-                [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
-                    [ E.width E.fill
-                    , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-                    ]
-                    <| E.row
-                        [ E.width (E.fill |> E.maximum 860)
-                        , E.spacing 40
-                        , E.paddingXY 0 10
-                        , E.centerX
-                        ]
-                        [ E.el
-                          [ F.size 30
-                          , E.alignTop
-                          , E.width E.fill
-                          ]
-                          (E.text "elm")
-                        , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
-                        , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
-                        , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct", "Sharing code" ]
-                        , navColumn "Contributing" [ "How to", "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
-                        ]
-                ]
+            , fixedPointer
+            , fixedMenu
             ]
         }
     }
+
+
+pageColumn : E.Length
+pageColumn =
+  E.fill |> E.maximum 920
+
+
+fixedPointer : Html msg
+fixedPointer =
+  Html.div
+    [ class "fixed-pointer" ]
+    [ text "↓" ]
+
+
+fixedMenu : Html msg
+fixedMenu =
+  Html.div
+    [ class "fixed-menu" ]
+    [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
+        [ E.width E.fill
+        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+        ]
+        <| E.row
+            [ E.width pageColumn
+            , E.centerX
+            , E.spacing 40
+            , E.paddingEach { top = 10, bottom = 20, left = 0, right = 0 }
+            ]
+            [ E.el
+              [ F.size 30
+              , E.alignTop
+              , E.width E.fill
+              ]
+              (E.text "elm")
+            , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
+            , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
+            , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct", "Sharing code" ]
+            , navColumn "Contributing" [ "How to", "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
+            ]
+    ]
+
 
 navColumn : String -> List String -> E.Element msg
 navColumn title items =
@@ -166,9 +142,6 @@ navitemTop selected name =
     [ F.size 18
     , E.padding 5
     , E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
-    --, Bo.color (E.rgb 0 0 0)
-    --, Bo.solid
-    --, Bo.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
     ]
     (E.text name)
 
@@ -299,8 +272,7 @@ subscriptions model =
 viewSplash : Model -> E.Element Msg
 viewSplash model =
   E.column
-    [ E.width (E.fillPortion 2)
-    , E.paddingXY 20 30
+    [ E.width E.fill
     , E.centerX
     , E.centerY
     , E.spacing 20
@@ -321,7 +293,7 @@ viewSplash model =
             ]
         ]
     , E.row
-        [ E.width E.fill, E.spacing 15, E.paddingXY 0 5 ]
+        [ E.width E.fill, E.spacing 20, E.paddingXY 0 5 ]
         [ coolButton "/try"  "Try"
         , coolButton "https://guide.elm-lang.org" "Tutorial"
         ]
@@ -362,6 +334,22 @@ coolButton link label =
     }
 
 
+viewTangram : Model -> E.Element Msg
+viewTangram model =
+  E.html <|
+    div
+      [ class "tangram" , onMouseMove ]
+      [ Logo.view
+          [ style "height" "100vh"
+          , style "width" "500px"
+          , style "position" "relative"
+          , style "left" "-50px"
+          , onClick MouseClicked
+          ]
+          model.logo
+      ]
+
+
 onMouseMove : Attribute Msg
 onMouseMove =
   on "mousemove" <|
@@ -387,12 +375,12 @@ type alias Feature msg =
   }
 
 
-viewFeature : Int -> Feature msg -> E.Element msg
-viewFeature index feature =
+viewFeature : Feature msg -> E.Element msg
+viewFeature feature =
   E.row
     [ E.width E.fill
     , E.width E.fill
-    , E.spacing 60
+    , E.spacing 100
     ]
     [ E.textColumn
         [ E.width (E.fillPortion 1)
@@ -403,9 +391,9 @@ viewFeature index feature =
             [ F.size 25
             , E.paddingXY 0 15
             ]
-            (E.html <| Html.span [ class "highlight"] [Html.text feature.title])
+            (E.text feature.title)
         , E.paragraph
-            [ F.size 15 ]
+            [ F.size 16 ]
             feature.description
         ]
     , E.el
@@ -498,7 +486,7 @@ performanceChart =
     , values = [ Chart.Value "Ember" 4326, Chart.Value "React" 4612, Chart.Value "Angular 1" 3838, Chart.Value "Angular 2" 3494, Chart.Value "Elm" 2480 ]
     , overlays =
         [ Chart.Overlay 30 25 "text-anchor: end; font-size: 12;" "ms"
-        , Chart.Overlay 200 20 "text-anchor: middle; font-size: 16;" "Benchmarks Times on Chrome 52"
+        , Chart.Overlay 203 20 "text-anchor: middle; font-size: 16;" "Benchmark Times on Chrome 52"
         , Chart.Overlay 280 40 "text-anchor: middle; font-size: 12; fill: grey;" "Lower is better."
         ]
     }

@@ -72,7 +72,7 @@ a:hover { text-decoration: underline; }
   position: fixed;
   width: 100%;
   background: white;
-  bottom: -165px;
+  bottom: -175px;
   padding: 0 40px;
   border-top: 2px solid lightgrey;
   box-sizing: border-box;
@@ -82,6 +82,14 @@ a:hover { text-decoration: underline; }
 
 .fixed-menu:hover {
   bottom: 0;
+}
+
+.fixed-pointer {
+  position: absolute;
+  bottom: 60px;
+  right: 38px;
+  color: #1293D8;
+  font-size: 30px;
 }
 
 /* content */
@@ -108,7 +116,7 @@ a:hover { text-decoration: underline; }
 
 .tangram {
   width: 400px;
-  height: 400px;
+  height: 100vh;
 }
 
 .messages {

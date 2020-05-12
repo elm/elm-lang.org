@@ -31,8 +31,8 @@ view : Config -> Svg msg
 view config =
   let plane : Plane
       plane =
-        { x = Svg.Coordinates.Axis config.marginLeft 0 400 0.5 (List.length config.values |> add 0.5)
-        , y = Svg.Coordinates.Axis config.marginTop 23 300 0 (maximum identity config.yTickValues)
+        { x = Axis config.marginLeft 0 400 0.5 (List.length config.values |> add 0.5)
+        , y = Axis config.marginTop 23 300 0 (maximum identity config.yTickValues)
         }
 
       isElm : Int -> Bool
