@@ -83,8 +83,11 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
   let
-    hour   = String.fromInt (Time.toHour   model.zone model.time)
-    minute = String.fromInt (Time.toMinute model.zone model.time)
-    second = String.fromInt (Time.toSecond model.zone model.time)
+    twoDigitNumber =
+      String.padLeft 2 '0'
+
+    hour   = String.fromInt (Time.toHour   model.zone model.time) |> twoDigitNumber
+    minute = String.fromInt (Time.toMinute model.zone model.time) |> twoDigitNumber
+    second = String.fromInt (Time.toSecond model.zone model.time) |> twoDigitNumber
   in
   h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
