@@ -19,7 +19,7 @@ community = """
 
 Folks tend to congregate in the following forums:
 
-* [Slack](https://elm-slack.herokuapp.com/)
+* [Slack](https://elmlang.herokuapp.com/)
 * [Discourse](https://discourse.elm-lang.org/)
 * [Reddit](http://www.reddit.com/r/elm)
 * [Twitter](https://twitter.com/elmlang)
