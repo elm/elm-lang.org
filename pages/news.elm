@@ -10,19 +10,19 @@ main =
     [ div (Center.styles "600px")
         [ h1 [] [ text "News" ]
         , p []
-            [ text "This page focuses on news about the compiler and core libraries. People who stick with Elm tend to like that our slow release cycle (1) creates a stable foundation for package and application authors and (2) focuses more capacity on long range projects. For more frequent news, check out "
-            , a [ href "https://twitter.com/elmlang" ] [ text "@elmlang" ]
+            [ text "This page focuses on news about the compiler and core libraries. For more frequent news, check out "
+            , a [ href "https://twitter.com/elmlang" ] [ text "these retweets" ]
             , text " and "
             , a [ href "/community" ] [ text "the community forums" ]
-            , text " to hear community members share their packages, tooling, editors, blogs, projects, etc."
+            , text " to hear about packages, tooling, editors, blogs, projects, etc."
             ]
         , h2 [] [ text "Announcements" ]
         , ul [] (List.map viewNews news)
         , h2 [] [ text "Releases" ]
         , p []
-            [ text "Read these "
-            , a [ href "https://github.com/elm/compiler/blob/master/roadmap.md" ] [ text "notes" ]
-            , text " to get some idea of what future releases might look like."
+            [ text "Elm 0.19.1 will be stable for quite some time, but you can get some idea of the ongoing compiler work " ]
+            , a [ href "https://github.com/elm/compiler/blob/master/roadmap.md" ] [ text "here" ]
+            , text "."
             ]
         , table [ class "releases" ]
             [ tbody [] (List.map viewRelease releases)
