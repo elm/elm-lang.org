@@ -12,7 +12,7 @@ main =
         , p []
             [ text "This page focuses on news about the compiler and core libraries. For more frequent news, check out the "
             , a [ href "/community" ] [ text "community forums" ]
-            , text " to hear about conferences, blog posts, local meetups, etc."
+            , text " to hear about conferences, blog posts, local meetups, packages, tooling, etc."
             ]
         , h2 [] [ text "Announcements" ]
         , ul [] (List.map viewNews news)
