@@ -20,7 +20,7 @@ main =
         , ul [] (List.map viewNews news)
         , h2 [] [ text "Releases" ]
         , p []
-            [ text "Elm 0.19.1 will be stable for quite some time, but you can get some idea of the ongoing compiler work " ]
+            [ text "Elm 0.19.1 will be stable for quite some time, but you can get some idea of the ongoing compiler work "
             , a [ href "https://github.com/elm/compiler/blob/master/roadmap.md" ] [ text "here" ]
             , text "."
             ]
