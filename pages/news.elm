@@ -10,14 +10,7 @@ main =
     [ div (Center.styles "600px")
         [ h1 [] [ text "News" ]
         , p []
-            [ text "This page focuses on news about the compiler and core libraries. High quality compiler work takes time, so it may be a number of years between releases. People who stick with Elm tend to like that this approach (1) creates a stable foundation for package and application authors and (2) focuses more capacity on "
-            , a [ href "https://github.com/elm/compiler/blob/master/roadmap.md" ] [ text "long range projects" ]
-            , text ". This prioritization can be surprising for people used to "
-            , a [ href "https://discourse.elm-lang.org/t/costs-funding-in-open-source-languages/5722" ] [ text "TAC funded languages" ]
-            , text " which tend to have much larger bugdets and different priorities. So I hope you have a good experience with Elm, even if you ultimately find a different language that works better for you!"
-            ]
-        , p []
-            [ text "For more frequent news, check out "
+            [ text "This page focuses on news about the compiler and core libraries. People who stick with Elm tend to like that our slow release cycle (1) creates a stable foundation for package and application authors and (2) focuses more capacity on long range projects. For more frequent news, check out "
             , a [ href "https://twitter.com/elmlang" ] [ text "@elmlang" ]
             , text " and "
             , a [ href "/community" ] [ text "the community forums" ]
@@ -26,6 +19,11 @@ main =
         , h2 [] [ text "Announcements" ]
         , ul [] (List.map viewNews news)
         , h2 [] [ text "Releases" ]
+        , p []
+            [ text "Read these "
+            , a [ href "https://github.com/elm/compiler/blob/master/roadmap.md" ] [ text "notes" ]
+            , text " to get some idea of what future releases might look like."
+            ]
         , table [ class "releases" ]
             [ tbody [] (List.map viewRelease releases)
             ]
