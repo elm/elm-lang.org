@@ -158,6 +158,8 @@ videos : List Video
 videos =
   [ Video "Let’s be Mainstream!" "http://www.elmbark.com/2016/03/16/mainstream-elm-user-focused-design" 2015
       "“If functional programming is so great, why is it still niche? We have a product that can practically eliminate runtime errors, make refactoring much easier, lighten the testing burden, all while being quite delightful to use. What’s the hold up?”"
+  , Video "The Hard Parts of Open Source" "https://thestrangeloop.com/2018/the-hard-parts-of-open-source.html" 2018
+      "An inside perspective on running an open source project, expanding into “a cultural history of open source” that suggests paths to more civil and productive online communication in general."
   , Video "What is Success?" "https://youtu.be/uGlzRt-FYto" 2018
       "Is it GitHub stars? Maximizing package downloads? Weekly blog posts? Adding ever more features? This talk gets into the implicit values that people bring to Elm, and tries to outline what is important in the Elm community."
   , Video "Code is the Easy Part" "https://youtu.be/DSjbTC-hvqQ" 2016
