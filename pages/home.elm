@@ -337,60 +337,6 @@ viewSplash model =
     ]
 
 
-coolButton : Msg -> String -> String -> E.Element Msg
-coolButton onHover link label =
-  E.link
-    [ E.padding 10
-    , E.width (E.fillPortion 2)
-    , F.center
-    , B.color (E.rgb255 255 255 255)
-    , Bo.color (E.rgb255 18 147 216)
-    , Bo.width 2
-    , Bo.solid
-    , Bo.shadow
-        { offset = ( 5, 5 )
-        , size = 1
-        , blur = 0
-        , color = E.rgb255 18 147 216
-        }
-    , Ev.onMouseEnter onHover
-    , Ev.onMouseLeave UnhoveringButton
-    , E.mouseOver
-        [ E.moveDown 3
-        , E.moveRight 3
-        , Bo.shadow
-            { offset = ( 2, 2 )
-            , size = 1
-            , blur = 0
-            , color = E.rgb255 18 147 216
-            }
-        ]
-    , E.mouseDown
-        [ E.moveDown 3
-        , E.moveRight 3
-        , Bo.shadow
-            { offset = ( 2, 2 )
-            , size = 1
-            , blur = 0
-            , color = E.rgb255 18 147 216
-            }
-        ]
-    , E.focused
-        [ E.moveDown 3
-        , E.moveRight 3
-        , Bo.shadow
-            { offset = ( 2, 2 )
-            , size = 1
-            , blur = 0
-            , color = E.rgb255 18 147 216
-            }
-        ]
-    ]
-    { url = link
-    , label = E.text label
-    }
-
-
 viewTangram : Model -> E.Element Msg
 viewTangram model =
   E.html <|
