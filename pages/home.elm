@@ -44,131 +44,9 @@ main =
     , subscriptions = subscriptions
     , view = \model ->
         { title = "Elm - delightful language for reliable web applications"
-        , body =
-            [ E.layout
-                [ E.width E.fill
-                , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-                ] <|
-                E.column
-                  [ E.width E.fill ]
-                  [ E.row
-                      [ E.height E.fill
-                      , E.width pageColumn
-                      , E.centerX
-                      ]
-                      [ E.el [ E.width E.fill ] (viewTangram model)
-                      , viewSplash model
-                      ]
-                  , E.column
-                      [ E.width pageColumn
-                      , E.centerX
-                      , E.spacing 140
-                      , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
-                      ]
-                      (List.map viewFeature features)
-                  ]
-            , fixedPointer
-            , fixedMenu
-            ]
+        , body = view model
         }
     }
-
-
-pageColumn : E.Length
-pageColumn =
-  E.fill |> E.maximum 920
-
-
-fixedPointer : Html msg
-fixedPointer =
-  Html.div
-    [ class "fixed-pointer" ]
-    [ text "↓" ]
-
-
-fixedMenu : Html msg
-fixedMenu =
-  Html.div
-    [ class "fixed-menu" ]
-    [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
-        [ E.width E.fill
-        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-        ]
-        <| E.row
-            [ E.width pageColumn
-            , E.centerX
-            , E.spacing 40
-            , E.paddingEach { top = 10, bottom = 20, left = 0, right = 0 }
-            ]
-            [ E.el
-              [ F.size 30
-              , E.alignTop
-              , E.width E.fill
-              ]
-              (E.text "elm")
-            , navColumn "Quick links"
-                [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
-                , Link "Packages" "https://package.elm-lang.org/"
-                , Link "Guide" "https://guide.elm-lang.org/"
-                , Link "News" "https://elm-lang.org/news"
-                ]
-            , navColumn "Beginner"
-                [ Link "Tutorial" "https://guide.elm-lang.org/"
-                , Link "Examples" "https://elm-lang.org/examples"
-                , Link "Try online" "https://elm-lang.org/try"
-                , Link "Talks" "https://elm-lang.org/news#talks"
-                , Link "Syntax" "https://elm-lang.org/docs/syntax"
-                , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
-                , Link "FAQ" "http://faq.elm-community.org/"
-                , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
-                -- , Link "Limitations" TODO
-                ]
-            , navColumn "Community"
-                [ Link "News" "https://elm-lang.org/news"
-                , Link "Slack" "https://elmlang.herokuapp.com/"
-                , Link "Discourse" "https://discourse.elm-lang.org/"
-                , Link "Twitter" "https://twitter.com/elmlang"
-                , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-                , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-                , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
-                ]
-            , navColumn "Contributing"
-                [ Link "How to" "https://elm-lang.org/community#sharing-code"
-                , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-                , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
-                , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
-                ]
-            ]
-    ]
-
-
-type alias Link =
-  { title : String
-  , url : String
-  }
-
-
-navColumn : String -> List Link -> E.Element msg
-navColumn title items =
-  E.column
-    [ E.width E.fill
-    , E.alignTop
-    ]
-    (navitem True title :: List.map (.title >> navitem False) items)
-
-
-navitem : Bool -> String -> E.Element msg
-navitem isTitle link =
-  E.el
-    [ E.padding 5
-    , E.width E.fill
-    , if isTitle then E.paddingXY 0 10 else E.paddingXY 0 5
-    , if isTitle then F.size 16 else F.size 13
-    , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
-    , if isTitle then F.bold else F.regular
-    ]
-    (E.text link)
-
 
 
 -- MODEL
@@ -283,6 +161,135 @@ subscriptions model =
           then E.onAnimationFrameDelta TimeDelta
           else Time.every 4000 (\_ -> TimePassed)
     ]
+
+
+
+-- VIEW
+
+
+view : Model -> List (Html Msg)
+view model =
+  [ E.layout
+      [ E.width E.fill
+      , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+      ] <|
+      E.column
+        [ E.width E.fill ]
+        [ E.row
+            [ E.height E.fill
+            , E.width pageColumn
+            , E.centerX
+            ]
+            [ E.el [ E.width E.fill ] (viewTangram model)
+            , viewSplash model
+            ]
+        , E.column
+            [ E.width pageColumn
+            , E.centerX
+            , E.spacing 140
+            , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
+            ]
+            (List.map viewFeature features)
+        ]
+  , fixedPointer
+  , fixedMenu
+  ]
+
+
+pageColumn : E.Length
+pageColumn =
+  E.fill |> E.maximum 920
+
+
+fixedPointer : Html msg
+fixedPointer =
+  Html.div
+    [ class "fixed-pointer" ]
+    [ text "↓" ]
+
+
+fixedMenu : Html msg
+fixedMenu =
+  Html.div
+    [ class "fixed-menu" ]
+    [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
+        [ E.width E.fill
+        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+        ]
+        <| E.row
+            [ E.width pageColumn
+            , E.centerX
+            , E.spacing 40
+            , E.paddingEach { top = 10, bottom = 20, left = 0, right = 0 }
+            ]
+            [ E.el
+              [ F.size 30
+              , E.alignTop
+              , E.width E.fill
+              ]
+              (E.text "elm")
+            , navColumn "Quick links"
+                [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+                , Link "Packages" "https://package.elm-lang.org/"
+                , Link "Guide" "https://guide.elm-lang.org/"
+                , Link "News" "https://elm-lang.org/news"
+                ]
+            , navColumn "Beginner"
+                [ Link "Tutorial" "https://guide.elm-lang.org/"
+                , Link "Examples" "https://elm-lang.org/examples"
+                , Link "Try online" "https://elm-lang.org/try"
+                , Link "Talks" "https://elm-lang.org/news#talks"
+                , Link "Syntax" "https://elm-lang.org/docs/syntax"
+                , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+                , Link "FAQ" "http://faq.elm-community.org/"
+                , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+                -- , Link "Limitations" TODO
+                ]
+            , navColumn "Community"
+                [ Link "News" "https://elm-lang.org/news"
+                , Link "Slack" "https://elmlang.herokuapp.com/"
+                , Link "Discourse" "https://discourse.elm-lang.org/"
+                , Link "Twitter" "https://twitter.com/elmlang"
+                , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+                , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+                , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+                ]
+            , navColumn "Contributing"
+                [ Link "How to" "https://elm-lang.org/community#sharing-code"
+                , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+                , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+                , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+                ]
+            ]
+    ]
+
+
+type alias Link =
+  { title : String
+  , url : String
+  }
+
+
+navColumn : String -> List Link -> E.Element msg
+navColumn title items =
+  E.column
+    [ E.width E.fill
+    , E.alignTop
+    ]
+    (navitem True title :: List.map (.title >> navitem False) items)
+
+
+navitem : Bool -> String -> E.Element msg
+navitem isTitle link =
+  E.el
+    [ E.padding 5
+    , E.width E.fill
+    , if isTitle then E.paddingXY 0 10 else E.paddingXY 0 5
+    , if isTitle then F.size 16 else F.size 13
+    , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
+    , if isTitle then F.bold else F.regular
+    ]
+    (E.text link)
 
 
 
