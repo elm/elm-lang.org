@@ -17,6 +17,7 @@ import Element.Region as R
 import Element.Input as I
 import Element.Background as B
 import Element.Border as Bo
+import Element.Events as Ev
 
 import Svg
 import Svg.Attributes
@@ -104,25 +105,59 @@ fixedMenu =
               , E.width E.fill
               ]
               (E.text "elm")
-            , navColumn "Quick links" [ "Install", "Packages", "Guide", "News" ]
-            , navColumn "Beginner" [ "Tutorial", "Examples", "Try online", "Talks", "Syntax", "FAQ", "Limitations" ]
-            , navColumn "Community" [ "News", "Slack", "Discourse", "Twitter", "Meetup", "Code of Conduct", "Sharing code" ]
-            , navColumn "Contributing" [ "How to", "Package Design", "Style Guide", "Writing Documentation", "Advanced Topics" ]
+            , navColumn "Quick links"
+                [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+                , Link "Packages" "https://package.elm-lang.org/"
+                , Link "Guide" "https://guide.elm-lang.org/"
+                , Link "News" "https://elm-lang.org/news"
+                ]
+            , navColumn "Beginner"
+                [ Link "Tutorial" "https://guide.elm-lang.org/"
+                , Link "Examples" "https://elm-lang.org/examples"
+                , Link "Try online" "https://elm-lang.org/try"
+                , Link "Talks" "https://elm-lang.org/news#talks"
+                , Link "Syntax" "https://elm-lang.org/docs/syntax"
+                , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+                , Link "FAQ" "http://faq.elm-community.org/"
+                , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+                -- , Link "Limitations" TODO
+                ]
+            , navColumn "Community"
+                [ Link "News" "https://elm-lang.org/news"
+                , Link "Slack" "https://elmlang.herokuapp.com/"
+                , Link "Discourse" "https://discourse.elm-lang.org/"
+                , Link "Twitter" "https://twitter.com/elmlang"
+                , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+                , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+                , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+                ]
+            , navColumn "Contributing"
+                [ Link "How to" "https://elm-lang.org/community#sharing-code"
+                , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+                , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+                , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+                ]
             ]
     ]
 
 
-navColumn : String -> List String -> E.Element msg
+type alias Link =
+  { title : String
+  , url : String
+  }
+
+
+navColumn : String -> List Link -> E.Element msg
 navColumn title items =
   E.column
     [ E.width E.fill
     , E.alignTop
     ]
-    (navitem True title :: List.map (navitem False) items)
+    (navitem True title :: List.map (.title >> navitem False) items)
 
 
 navitem : Bool -> String -> E.Element msg
-navitem isTitle name =
+navitem isTitle link =
   E.el
     [ E.padding 5
     , E.width E.fill
@@ -131,7 +166,7 @@ navitem isTitle name =
     , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
     , if isTitle then F.bold else F.regular
     ]
-    (E.text name)
+    (E.text link)
 
 
 
@@ -178,6 +213,10 @@ type Msg
   | TimeDelta Float
   | VisibilityChanged E.Visibility
   | TimePassed
+  | HoveringTry
+  | HoveringGuide
+  | HoveringInstaller
+  | UnhoveringButton
 
 
 update : Msg -> Model -> Model
@@ -212,6 +251,18 @@ update msg model =
 
     TimePassed ->
       { model | taglines = TextAnimation.step model.taglines }
+
+    HoveringTry ->
+      { model | logo = Logo.setPattern Logo.child model.logo }
+
+    HoveringGuide ->
+      { model | logo = Logo.setPattern Logo.house model.logo }
+
+    HoveringInstaller ->
+      { model | logo = Logo.setPattern Logo.heart model.logo }
+
+    UnhoveringButton ->
+      { model | logo = Logo.setPattern Logo.logo model.logo }
 
 
 
@@ -262,8 +313,8 @@ viewSplash model =
         ]
     , E.row
         [ E.width E.fill, E.spacing 20, E.paddingXY 0 5 ]
-        [ coolButton "/try"  "Try"
-        , coolButton "https://guide.elm-lang.org" "Tutorial"
+        [ coolButton HoveringTry "/try" "Try"
+        , coolButton HoveringGuide "https://guide.elm-lang.org" "Tutorial"
         ]
     , E.paragraph
         [ E.width E.fill
@@ -272,16 +323,19 @@ viewSplash model =
         ]
         [ E.text "or "
         , E.link
-            [ F.color (E.rgb255 18 147 216) ]
-            { url = "/"
+            [ F.color (E.rgb255 18 147 216)
+            , Ev.onMouseEnter HoveringInstaller
+            , Ev.onMouseLeave UnhoveringButton
+            ]
+            { url = "https://guide.elm-lang.org/install/elm.html"
             , label = E.text "download the installer."
             }
         ]
     ]
 
 
-coolButton : String -> String -> E.Element msg
-coolButton link label =
+coolButton : Msg -> String -> String -> E.Element Msg
+coolButton onHover link label =
   E.link
     [ E.padding 10
     , E.width (E.fillPortion 2)
@@ -296,6 +350,38 @@ coolButton link label =
         , blur = 0
         , color = E.rgb255 18 147 216
         }
+    , Ev.onMouseEnter onHover
+    , Ev.onMouseLeave UnhoveringButton
+    , E.mouseOver
+        [ E.moveDown 3
+        , E.moveRight 3
+        , Bo.shadow
+            { offset = ( 2, 2 )
+            , size = 1
+            , blur = 0
+            , color = E.rgb255 18 147 216
+            }
+        ]
+    , E.mouseDown
+        [ E.moveDown 3
+        , E.moveRight 3
+        , Bo.shadow
+            { offset = ( 2, 2 )
+            , size = 1
+            , blur = 0
+            , color = E.rgb255 18 147 216
+            }
+        ]
+    , E.focused
+        [ E.moveDown 3
+        , E.moveRight 3
+        , Bo.shadow
+            { offset = ( 2, 2 )
+            , size = 1
+            , blur = 0
+            , color = E.rgb255 18 147 216
+            }
+        ]
     ]
     { url = link
     , label = E.text label

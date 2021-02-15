@@ -29,7 +29,7 @@ a:hover { text-decoration: underline; }
   position: sticky;
   width: 100%;
   background: white;
-  bottom: -175px;
+  bottom: -200px;
   padding: 0 40px;
   border-top: 2px solid lightgrey;
   box-sizing: border-box;
