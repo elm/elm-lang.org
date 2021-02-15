@@ -130,7 +130,6 @@ navitem isTitle name =
     , if isTitle then F.size 16 else F.size 13
     , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
     , if isTitle then F.bold else F.regular
-    --, E.paddingEach { bottom = 5, left = 0, right = 0, top = 0 }
     ]
     (E.text name)
 
