@@ -24,6 +24,7 @@ import Svg.Attributes
 import Svg.Coordinates
 import Svg.Plot
 
+import Ui
 import Center
 import Cycle
 import Logo
@@ -313,8 +314,14 @@ viewSplash model =
         ]
     , E.row
         [ E.width E.fill, E.spacing 20, E.paddingXY 0 5 ]
-        [ coolButton HoveringTry "/try" "Try"
-        , coolButton HoveringGuide "https://guide.elm-lang.org" "Tutorial"
+        [ Ui.linkButton "/try" "Try"
+            [ Ev.onMouseEnter HoveringTry
+            , Ev.onMouseLeave UnhoveringButton
+            ]
+        , Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
+            [ Ev.onMouseEnter HoveringGuide
+            , Ev.onMouseLeave UnhoveringButton
+            ]
         ]
     , E.paragraph
         [ E.width E.fill
@@ -322,14 +329,10 @@ viewSplash model =
         , F.center
         ]
         [ E.text "or "
-        , E.link
-            [ F.color (E.rgb255 18 147 216)
-            , Ev.onMouseEnter HoveringInstaller
+        , Ui.link "https://guide.elm-lang.org/install/elm.html" "download the installer."
+            [ Ev.onMouseEnter HoveringInstaller
             , Ev.onMouseLeave UnhoveringButton
             ]
-            { url = "https://guide.elm-lang.org/install/elm.html"
-            , label = E.text "download the installer."
-            }
         ]
     ]
 
