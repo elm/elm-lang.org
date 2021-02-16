@@ -8,12 +8,13 @@ import Element.Input as I
 import Element.Background as B
 import Element.Border as Bo
 import Element.Events as Ev
+import Colors as C
 
 
 link : String -> String -> List (Attribute msg) -> Element msg
 link url label attrs =
   E.link
-    ([ F.color (E.rgb255 18 147 216)
+    ([ F.color C.blue
      ] ++ attrs)
     { url = url
     , label = E.text label
@@ -26,15 +27,15 @@ linkButton url label events =
         [ E.padding 10
         , E.width (E.fillPortion 2)
         , F.center
-        , B.color (E.rgb255 255 255 255)
-        , Bo.color (E.rgb255 18 147 216)
+        , B.color C.white
+        , Bo.color C.blue
         , Bo.width 2
         , Bo.solid
         , Bo.shadow
             { offset = ( 5, 5 )
             , size = 1
             , blur = 0
-            , color = E.rgb255 18 147 216
+            , color = C.blue
             }
         , E.mouseOver pressed
         , E.mouseDown pressed
@@ -48,7 +49,7 @@ linkButton url label events =
             { offset = ( 2, 2 )
             , size = 1
             , blur = 0
-            , color = E.rgb255 18 147 216
+            , color = C.blue
             }
         ]
   in

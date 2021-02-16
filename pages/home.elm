@@ -1,10 +1,9 @@
 
 import Browser
 import Browser.Events as E
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Html.Lazy exposing (..)
+import Html exposing (Html, Attribute, div, span, text)
+import Html.Attributes exposing (style, class)
+import Html.Events exposing (onClick, on)
 import Json.Decode as D
 import Markdown
 import String
@@ -31,6 +30,8 @@ import Logo
 import Skeleton
 import TextAnimation
 import Chart
+import Colors as C
+import Highlight exposing (..)
 
 
 
@@ -208,6 +209,16 @@ fixedPointer =
     [ text "↓" ]
 
 
+
+-- MENU
+
+
+type alias Link =
+  { title : String
+  , url : String
+  }
+
+
 fixedMenu : Html msg
 fixedMenu =
   Html.div
@@ -264,12 +275,6 @@ fixedMenu =
     ]
 
 
-type alias Link =
-  { title : String
-  , url : String
-  }
-
-
 navColumn : String -> List Link -> E.Element msg
 navColumn title items =
   E.column
@@ -286,7 +291,7 @@ navTitle title =
     , E.width E.fill
     , E.paddingXY 0 10
     , F.size 16
-    , F.color (E.rgb255 128 128 128)
+    , F.color C.gray
     , F.bold
     ]
     (E.text title)
@@ -300,7 +305,7 @@ navitem link =
     , E.width E.fill
     , E.paddingXY 0 5
     , F.size 13
-    , F.color (E.rgb255 0 0 0)
+    , F.color C.black
     , F.regular
     ]
     { url = link.url
@@ -358,6 +363,10 @@ viewSplash model =
             ]
         ]
     ]
+
+
+
+-- TANGRAM
 
 
 viewTangram : Model -> E.Element Msg
@@ -526,49 +535,4 @@ assetsChart =
         , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12; fill: grey;" "(uglify + gzip)"
         ]
     }
-
-
-var : Html msg
-var =
-  color cyan "var"
-
-
-equals : Html msg
-equals =
-  color dullRed "="
-
-
-string : String -> Html msg
-string str =
-  color dullYellow str
-
-
-color : String -> String -> Html msg
-color clr str =
-  span [ style "color" clr ] [ text str ]
-
-
-cyan : String
-cyan =
-  "rgb(51,187,200)"
-
-
-dullRed : String
-dullRed =
-  "rgb(194,54,33)"
-
-
-dullYellow : String
-dullYellow =
-  "rgb(173,173,39)"
-
-
-green : String
-green =
-  "rgb(49,231,34)"
-
-
-grey : String
-grey =
-  "rgb(143,144,145)"
 
