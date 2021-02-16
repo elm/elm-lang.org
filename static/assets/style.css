@@ -31,7 +31,7 @@ a:hover { text-decoration: underline; }
   background: white;
   bottom: -200px;
   padding: 0 40px;
-  border-top: 2px solid lightgrey;
+  border-top: 1px solid #cdcdcd;
   box-sizing: border-box;
   transition: bottom 0.5s;
   z-index: 1000;
