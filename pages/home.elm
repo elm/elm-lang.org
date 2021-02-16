@@ -265,7 +265,7 @@ fixedMenu =
               , E.spacing 40
               , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
               ]
-              (elmTitle :: List.map navColumn grouped)
+              (elmTitle 30 :: List.map navColumn grouped)
           , E.row
               [ E.centerX
               , E.spacing 20
@@ -345,7 +345,7 @@ viewMedium model =
             , F.size 14
             , E.paddingXY 0 20
             ]
-            [ elmTitle
+            [ elmTitle 30
             , E.row
                 [ E.width E.fill
                 , E.alignRight
@@ -411,7 +411,7 @@ viewSmall model =
             , F.size 14
             , E.paddingXY 0 20
             ]
-            (List.map (Ui.link []) toplevel)
+            (elmTitle 20 :: List.map (Ui.link [ E.paddingXY 5 0, F.size 13 ]) toplevel)
         , E.column
             [ E.width E.fill
             , E.centerX
@@ -477,10 +477,10 @@ pageColumn =
   E.fill |> E.maximum 920
 
 
-elmTitle : E.Element msg
-elmTitle =
+elmTitle : Int -> E.Element msg
+elmTitle size =
   E.el
-    [ F.size 30
+    [ F.size size
     , E.alignTop
     , E.width E.fill
     ]
