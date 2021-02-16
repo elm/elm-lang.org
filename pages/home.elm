@@ -40,7 +40,7 @@ import Highlight exposing (..)
 
 main =
   Browser.document
-    { init = \() -> ( init, Cmd.none )
+    { init = \flags -> ( init flags, Cmd.none )
     , update = \msg model -> ( update msg model, Cmd.none )
     , subscriptions = subscriptions
     , view = \model ->
@@ -54,7 +54,8 @@ main =
 
 
 type alias Model =
-  { time : Float
+  { window : { width : Int, height : Int }
+  , time : Float
   , logo : Logo.Model
   , patterns : Cycle.Cycle Logo.Pattern
   , taglines : TextAnimation.State
@@ -62,9 +63,10 @@ type alias Model =
   }
 
 
-init : Model
-init =
-  { time = 0
+init : { width : Int, height : Int } -> Model
+init window =
+  { window = window
+  , time = 0
   , logo = Logo.start
   , visibility = E.Visible
   , taglines =
@@ -88,7 +90,8 @@ init =
 
 
 type Msg
-  = MouseMoved Float Float Float Float Float
+  = OnResize Int Int
+  | MouseMoved Float Float Float Float Float
   | MouseClicked
   | TimeDelta Float
   | VisibilityChanged E.Visibility
@@ -102,6 +105,9 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
   case msg of
+    OnResize width height ->
+      { model | window = { width = width, height = height } }
+
     MouseMoved t x y dx dy ->
       { model
           | time = t
@@ -152,7 +158,8 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.batch
-    [ E.onVisibilityChange VisibilityChanged
+    [ E.onResize OnResize
+    , E.onVisibilityChange VisibilityChanged
     , case model.visibility of
         E.Hidden ->
           Sub.none
@@ -170,6 +177,7 @@ subscriptions model =
 
 view : Model -> List (Html Msg)
 view model =
+  let device = E.classifyDevice model.window in
   [ E.layout
       [ E.width E.fill
       , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
@@ -190,10 +198,10 @@ view model =
             , E.spacing 140
             , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
             ]
-            (List.map viewFeature features)
+            (List.map (viewFeature device) features)
         ]
   , fixedPointer
-  , fixedMenu
+  , fixedMenu device
   ]
 
 
@@ -219,8 +227,8 @@ type alias Link =
   }
 
 
-fixedMenu : Html msg
-fixedMenu =
+fixedMenu : E.Device -> Html msg
+fixedMenu device =
   Html.div
     [ class "fixed-menu" ]
     [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
@@ -231,51 +239,7 @@ fixedMenu =
           [ E.width pageColumn
           , E.centerX
           ]
-          [ E.row
-              [ E.width E.fill
-              , E.centerX
-              , E.spacing 40
-              , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
-              ]
-              [ E.el
-                [ F.size 30
-                , E.alignTop
-                , E.width E.fill
-                ]
-                (E.text "elm")
-              , navColumn "Quick links"
-                  [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
-                  , Link "Packages" "https://package.elm-lang.org/"
-                  , Link "Guide" "https://guide.elm-lang.org/"
-                  , Link "News" "https://elm-lang.org/news"
-                  ]
-              , navColumn "Beginner"
-                  [ Link "Tutorial" "https://guide.elm-lang.org/"
-                  , Link "Examples" "https://elm-lang.org/examples"
-                  , Link "Try online" "https://elm-lang.org/try"
-                  , Link "Talks" "https://elm-lang.org/news#talks"
-                  , Link "Syntax" "https://elm-lang.org/docs/syntax"
-                  , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
-                  , Link "FAQ" "http://faq.elm-community.org/"
-                  , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
-                  -- , Link "Limitations" TODO
-                  ]
-              , navColumn "Community"
-                  [ Link "News" "https://elm-lang.org/news"
-                  , Link "Slack" "https://elmlang.herokuapp.com/"
-                  , Link "Discourse" "https://discourse.elm-lang.org/"
-                  , Link "Twitter" "https://twitter.com/elmlang"
-                  , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-                  , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-                  , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
-                  ]
-              , navColumn "Contributing"
-                  [ Link "How to" "https://elm-lang.org/community#sharing-code"
-                  , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-                  , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
-                  , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
-                  ]
-              ]
+          [ largeNav
           , E.row
               [ E.centerX
               , E.spacing 20
@@ -288,6 +252,70 @@ fixedMenu =
               , E.text "© 2012-2021 Evan Czaplicki"
               ]
           ]
+    ]
+
+
+smallNav : E.Element msg
+smallNav =
+  E.row
+    [ E.width E.fill
+    , E.centerX
+    , E.spaceEvenly
+    , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
+    ]
+    [ Ui.link "Examples" "https://elm-lang.org/examples" [] -- TODO
+    , Ui.link "Docs" "https://elm-lang.org/docs" [] -- TODO
+    , Ui.link "Community" "https://elm-lang.org/community" [] -- TODO
+    , Ui.link "News" "https://elm-lang.org/news" [] -- TODO
+    ]
+
+
+largeNav : E.Element msg
+largeNav =
+  E.row
+    [ E.width E.fill
+    , E.centerX
+    , E.spacing 40
+    , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
+    ]
+    [ E.el
+      [ F.size 30
+      , E.alignTop
+      , E.width E.fill
+      ]
+      (E.text "elm")
+    , navColumn "Quick links"
+        [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+        , Link "Packages" "https://package.elm-lang.org/"
+        , Link "Guide" "https://guide.elm-lang.org/"
+        , Link "News" "https://elm-lang.org/news"
+        ]
+    , navColumn "Beginner"
+        [ Link "Tutorial" "https://guide.elm-lang.org/"
+        , Link "Examples" "https://elm-lang.org/examples"
+        , Link "Try online" "https://elm-lang.org/try"
+        , Link "Talks" "https://elm-lang.org/news#talks"
+        , Link "Syntax" "https://elm-lang.org/docs/syntax"
+        , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+        , Link "FAQ" "http://faq.elm-community.org/"
+        , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+        -- , Link "Limitations" TODO
+        ]
+    , navColumn "Community"
+        [ Link "News" "https://elm-lang.org/news"
+        , Link "Slack" "https://elmlang.herokuapp.com/"
+        , Link "Discourse" "https://discourse.elm-lang.org/"
+        , Link "Twitter" "https://twitter.com/elmlang"
+        , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+        , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+        , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+        ]
+    , navColumn "Contributing"
+        [ Link "How to" "https://elm-lang.org/community#sharing-code"
+        , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+        , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+        , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+        ]
     ]
 
 
@@ -426,32 +454,55 @@ type alias Feature msg =
   }
 
 
-viewFeature : Feature msg -> E.Element msg
-viewFeature feature =
-  E.row
+viewFeature : E.Device -> Feature msg -> E.Element msg
+viewFeature device feature =
+  let container =
+        case device.class of
+          E.Phone -> vertical
+          E.Tablet -> horizontal
+          E.Desktop -> horizontal
+          E.BigDesktop -> horizontal
+
+      horizontal attrs {left, right} =
+        E.row attrs
+          [ left
+              [ E.alignLeft
+              , E.alignTop
+              ]
+          , right
+              [ E.alignRight ]
+          ]
+
+      vertical attrs {left, right} =
+        E.column (E.paddingXY 30 0 :: attrs)
+          [ left
+              [ E.centerX
+              ]
+          , right
+              [ E.centerX ]
+          ]
+
+  in
+  container
     [ E.width E.fill
     , E.width E.fill
     , E.spacing 100
     ]
-    [ E.textColumn
-        [ E.width (E.fillPortion 1)
-        , E.alignLeft
-        , E.alignTop
-        ]
-        [ E.el
-            [ F.size 25
-            , E.paddingXY 0 15
-            ]
-            (E.text feature.title)
-        , E.paragraph
-            [ F.size 16 ]
-            feature.description
-        ]
-    , E.el
-        [ E.width (E.fillPortion 1)
-        , E.alignRight
-        ] <| E.html <| div [] feature.image
-    ]
+    { left = \attrs ->
+        E.textColumn (E.width E.fill :: attrs)
+          [ E.el
+              [ F.size 25
+              , E.paddingXY 0 15
+              ]
+              (E.text feature.title)
+          , E.paragraph
+              [ F.size 16 ]
+              feature.description
+          ]
+    , right = \attrs ->
+        E.el (E.width E.fill :: attrs) <|
+          E.html <| div [] feature.image
+    }
 
 
 features : List (Feature msg)

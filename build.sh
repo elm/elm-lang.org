@@ -27,7 +27,7 @@ function makePageHtml {
 
 <script type="text/javascript">
 $(cat $3)
-var app = Elm.Main.init();
+var app = Elm.Main.init({ flags: { width: window.innerWidth, height : window.innerHeight } });
 </script>
 
 </body>
