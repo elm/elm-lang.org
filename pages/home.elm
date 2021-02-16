@@ -432,9 +432,8 @@ viewFeature feature =
 features : List (Feature msg)
 features =
   [ Feature "No Runtime Exceptions" 240
-      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. ("
-      , E.link [] { url = "/news/compilers-as-assistants", label = E.text "details" }
-      , E.text ")"
+      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
+      , Ui.link "/news/compilers-as-assistants" "Read more" []
       ]
       [ div [ class "terminal" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
@@ -450,16 +449,14 @@ features =
           ]
       ]
   , Feature "Great Performance" 320
-      [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. ("
-      , E.link [] { url = "/news/blazing-fast-html-round-two", label = E.text "details" }
-      , E.text ")"
+      [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
+      , Ui.link "/news/blazing-fast-html-round-two" "Read more" []
       ]
       [ performanceChart
       ]
   , Feature "Enforced Semantic Versioning" 200
-      [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. ("
-      , E.link [] { url = "https://package.elm-lang.org", label = E.text "details" }
-      , E.text ")"
+      [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
+      , Ui.link "https://package.elm-lang.org" "Read more" []
       ]
       [ div [ class "terminal" ]
           [ color "plum" "$"
@@ -473,16 +470,14 @@ features =
   , Feature "Small Assets" 280
       [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
       , E.html (Html.code [] [ Html.text "--optimize" ])
-      , E.text " flag and let the compiler do the rest. No complicated set up. ("
-      , E.link [] { url = "/news/small-assets-without-the-headache", label = E.text "details" }
-      , E.text ")"
+      , E.text " flag and let the compiler do the rest. No complicated set up. "
+      , Ui.link "/news/small-assets-without-the-headache" "Read more" []
       ]
       [ assetsChart
       ]
   , Feature "JavaScript Interop" 120
-      [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. ("
-      , E.link [] { url = "http://guide.elm-lang.org/interop/", label = E.text "details" }
-      , E.text ")"
+      [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
+      , Ui.link "http://guide.elm-lang.org/interop/" "Read more" []
       ]
       [ div [ class "terminal" ]
           [ var
