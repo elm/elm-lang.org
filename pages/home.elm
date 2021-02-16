@@ -226,52 +226,68 @@ fixedMenu =
     [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
         [ E.width E.fill
         , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-        ]
-        <| E.row
-            [ E.width pageColumn
-            , E.centerX
-            , E.spacing 40
-            , E.paddingEach { top = 10, bottom = 20, left = 0, right = 0 }
-            ]
-            [ E.el
-              [ F.size 30
-              , E.alignTop
-              , E.width E.fill
+        ] <|
+        E.column
+          [ E.width pageColumn
+          , E.centerX
+          ]
+          [ E.row
+              [ E.width E.fill
+              , E.centerX
+              , E.spacing 40
+              , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
               ]
-              (E.text "elm")
-            , navColumn "Quick links"
-                [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
-                , Link "Packages" "https://package.elm-lang.org/"
-                , Link "Guide" "https://guide.elm-lang.org/"
-                , Link "News" "https://elm-lang.org/news"
+              [ E.el
+                [ F.size 30
+                , E.alignTop
+                , E.width E.fill
                 ]
-            , navColumn "Beginner"
-                [ Link "Tutorial" "https://guide.elm-lang.org/"
-                , Link "Examples" "https://elm-lang.org/examples"
-                , Link "Try online" "https://elm-lang.org/try"
-                , Link "Talks" "https://elm-lang.org/news#talks"
-                , Link "Syntax" "https://elm-lang.org/docs/syntax"
-                , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
-                , Link "FAQ" "http://faq.elm-community.org/"
-                , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
-                -- , Link "Limitations" TODO
-                ]
-            , navColumn "Community"
-                [ Link "News" "https://elm-lang.org/news"
-                , Link "Slack" "https://elmlang.herokuapp.com/"
-                , Link "Discourse" "https://discourse.elm-lang.org/"
-                , Link "Twitter" "https://twitter.com/elmlang"
-                , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-                , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-                , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
-                ]
-            , navColumn "Contributing"
-                [ Link "How to" "https://elm-lang.org/community#sharing-code"
-                , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-                , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
-                , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
-                ]
-            ]
+                (E.text "elm")
+              , navColumn "Quick links"
+                  [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+                  , Link "Packages" "https://package.elm-lang.org/"
+                  , Link "Guide" "https://guide.elm-lang.org/"
+                  , Link "News" "https://elm-lang.org/news"
+                  ]
+              , navColumn "Beginner"
+                  [ Link "Tutorial" "https://guide.elm-lang.org/"
+                  , Link "Examples" "https://elm-lang.org/examples"
+                  , Link "Try online" "https://elm-lang.org/try"
+                  , Link "Talks" "https://elm-lang.org/news#talks"
+                  , Link "Syntax" "https://elm-lang.org/docs/syntax"
+                  , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+                  , Link "FAQ" "http://faq.elm-community.org/"
+                  , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+                  -- , Link "Limitations" TODO
+                  ]
+              , navColumn "Community"
+                  [ Link "News" "https://elm-lang.org/news"
+                  , Link "Slack" "https://elmlang.herokuapp.com/"
+                  , Link "Discourse" "https://discourse.elm-lang.org/"
+                  , Link "Twitter" "https://twitter.com/elmlang"
+                  , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+                  , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+                  , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+                  ]
+              , navColumn "Contributing"
+                  [ Link "How to" "https://elm-lang.org/community#sharing-code"
+                  , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+                  , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+                  , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+                  ]
+              ]
+          , E.row
+              [ E.centerX
+              , E.spacing 20
+              , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+              , F.size 14
+              , F.color C.gray
+              ]
+              [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
+              , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
+              , E.text "© 2012-2021 Evan Czaplicki"
+              ]
+          ]
     ]
 
 

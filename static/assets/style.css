@@ -29,7 +29,7 @@ a:hover { text-decoration: underline; }
   position: sticky;
   width: 100%;
   background: white;
-  bottom: -200px;
+  bottom: -245px;
   padding: 0 40px;
   border-top: 1px solid #cdcdcd;
   box-sizing: border-box;
@@ -38,7 +38,7 @@ a:hover { text-decoration: underline; }
 }
 
 .fixed-menu:hover {
-  bottom: 0;
+  bottom: -35px;
 }
 
 .fixed-pointer {
