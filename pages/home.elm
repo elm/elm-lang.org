@@ -23,7 +23,7 @@ import Svg.Attributes
 import Svg.Coordinates
 import Svg.Plot
 
-import Ui
+import Ui exposing (Link)
 import Center
 import Cycle
 import Logo
@@ -273,7 +273,7 @@ fixedMenu =
               , F.size 14
               , F.color C.gray
               ] <|
-              (List.map (\l -> Ui.grayLink l.url l.title) sources) ++ [copyRight]
+              (List.map Ui.grayLink sources) ++ [ copyRight ]
           ]
     ]
 
@@ -351,7 +351,7 @@ viewMedium model =
                 , E.alignRight
                 , E.spacing 20
                 ]
-                (List.map (\l -> Ui.link l.url l.title [ E.alignRight ]) toplevel)
+                (List.map (Ui.link [ E.alignRight ]) toplevel)
             ]
         , E.column
             [ E.width E.fill
@@ -376,7 +376,7 @@ viewMedium model =
               , F.size 14
               , F.color C.gray
               ] <|
-              (List.map (\l -> Ui.grayLink l.url l.title) sources) ++ [copyRight]
+              (List.map Ui.grayLink sources) ++ [copyRight]
         ]
   ]
 
@@ -411,7 +411,7 @@ viewSmall model =
             , F.size 14
             , E.paddingXY 0 20
             ]
-            (List.map (\l -> Ui.link l.url l.title []) toplevel)
+            (List.map (Ui.link []) toplevel)
         , E.column
             [ E.width E.fill
             , E.centerX
@@ -442,7 +442,7 @@ viewSmall model =
                   , F.center
                   , E.spacing 20
                   ]
-                  (List.map (\l -> Ui.grayLink l.url l.title) sources)
+                  (List.map Ui.grayLink sources)
               , copyRight
               ]
         ]
@@ -563,10 +563,11 @@ downloadLink =
     , F.center
     ]
     [ E.text "or "
-    , Ui.link "https://guide.elm-lang.org/install/elm.html" "download the installer."
+    , Ui.link
         [ Ev.onMouseEnter HoveringInstaller
         , Ev.onMouseLeave UnhoveringButton
         ]
+        (Link "download the installer." "https://guide.elm-lang.org/install/elm.html")
     ]
 
 
@@ -599,13 +600,8 @@ onMouseMove =
       (D.field "currentTarget" (D.field "clientHeight" D.float))
 
 
+
 -- CONTENT / NAVIGATION
-
-
-type alias Link =
-  { title : String
-  , url : String
-  }
 
 
 toplevel : List Link
@@ -687,10 +683,13 @@ type alias Feature msg =
 
 features : List (Feature msg)
 features =
+  let readMore url =
+        Ui.link [] (Link "Read more" url)
+  in
   [ { title = "No Runtime Exceptions"
     , description =
       [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
-      , Ui.link "/news/compilers-as-assistants" "Read more" []
+      , readMore "/news/compilers-as-assistants"
       ]
     , image =
         div [ class "terminal" ]
@@ -709,14 +708,14 @@ features =
   , { title = "Great Performance"
     , description =
         [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
-        , Ui.link "/news/blazing-fast-html-round-two" "Read more" []
+        , readMore "/news/blazing-fast-html-round-two"
         ]
     , image = performanceChart
     }
   , { title = "Enforced Semantic Versioning"
     , description =
         [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
-        , Ui.link "https://package.elm-lang.org" "Read more" []
+        , readMore "https://package.elm-lang.org"
         ]
     , image =
         div [ class "terminal" ]
@@ -733,14 +732,14 @@ features =
         [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
         , E.html (Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ])
         , E.text " flag and let the compiler do the rest. No complicated set up. "
-        , Ui.link "/news/small-assets-without-the-headache" "Read more" []
+        , readMore "/news/small-assets-without-the-headache"
         ]
     , image = assetsChart
     }
   , { title = "JavaScript Interop"
     , description =
         [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
-        , Ui.link "http://guide.elm-lang.org/interop/" "Read more" []
+        , readMore "http://guide.elm-lang.org/interop/"
         ]
     , image =
         div [ class "terminal" ]

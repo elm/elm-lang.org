@@ -9,23 +9,30 @@ import Element.Background as B
 import Element.Border as Bo
 import Element.Events as Ev
 import Colors as C
+import Html.Attributes exposing (class)
 
 
-link : String -> String -> List (Attribute msg) -> Element msg
-link url label attrs =
+type alias Link =
+  { title : String
+  , url : String
+  }
+
+
+link : List (Attribute msg) -> Link -> Element msg
+link attrs config =
   E.link
     ([ F.color C.blue
      ] ++ attrs)
-    { url = url
-    , label = E.text label
+    { url = config.url
+    , label = E.text config.title
     }
 
 
-grayLink : String -> String -> Element msg
-grayLink url label =
-  E.link []
-    { url = url
-    , label = E.text label
+grayLink : Link -> Element msg
+grayLink config =
+  E.link [ F.color C.gray ]
+    { url = config.url
+    , label = E.text config.title
     }
 
 
@@ -62,7 +69,7 @@ linkButton url label events =
             }
         ]
   in
-  E.link (styles ++ events)
+  E.link (styles ++ events ++ [ E.htmlAttribute (class "special-button")])
     { url = url
     , label = E.text label
     }

@@ -18,9 +18,14 @@ h1, h2, h3, h4 {
   font-weight: normal;
 }
 
+
 a { color: #1293D8; text-decoration: none; }
 a:hover { text-decoration: underline; }
 a:focus { text-decoration: underline; }
+
+
+a.special-button:hover { text-decoration: none; }
+a.special-button:focus { text-decoration: none; }
 
 
 /* Menu */
