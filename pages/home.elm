@@ -195,24 +195,8 @@ viewLarge model =
           , E.width E.fill
           , E.spacing 100
           ]
-          [ E.textColumn
-              [ E.width E.fill
-              , E.alignLeft
-              , E.alignTop
-              ]
-              [ E.paragraph
-                  [ F.size 25
-                  , E.paddingXY 0 15
-                  , E.width E.fill
-                  ]
-                  [ E.text feature.title ]
-              , E.paragraph [ F.size 16 ] feature.description
-              ]
-          , E.el
-              [ E.width E.fill
-              , E.alignRight
-              ] <|
-              E.html <| feature.image
+          [ featureText feature
+          , featureImage feature
           ]
   in
   [ container True <|
@@ -343,23 +327,8 @@ viewMedium model =
           , E.width E.fill
           , E.spacing 40
           ]
-          [ E.textColumn
-              [ E.width E.fill
-              , E.alignLeft
-              , E.alignTop
-              ]
-              [ E.paragraph
-                  [ F.size 25
-                  , E.paddingXY 0 15
-                  , E.width E.fill
-                  ]
-                  [ E.text feature.title ]
-              , E.paragraph [ F.size 16, E.width E.fill ] feature.description
-              ]
-          , E.el
-              [ E.width E.fill
-              , E.alignRight
-              ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
+          [ featureText feature
+          , featureImage feature
           ]
   in
   [ container True <|
@@ -370,20 +339,20 @@ viewMedium model =
         , E.spacing 50
         ]
         [ E.row
-          [ E.width E.fill
-          , E.spaceEvenly
-          , E.centerX
-          , F.size 14
-          , E.paddingXY 0 20
-          ]
-          [ elmTitle
-          , E.row
-              [ E.width E.fill
-              , E.alignRight
-              , E.spacing 20
-              ]
-              (List.map (\l -> Ui.link l.url l.title [ E.alignRight ]) toplevel)
-          ]
+            [ E.width E.fill
+            , E.spaceEvenly
+            , E.centerX
+            , F.size 14
+            , E.paddingXY 0 20
+            ]
+            [ elmTitle
+            , E.row
+                [ E.width E.fill
+                , E.alignRight
+                , E.spacing 20
+                ]
+                (List.map (\l -> Ui.link l.url l.title [ E.alignRight ]) toplevel)
+            ]
         , E.column
             [ E.width E.fill
             , E.centerX
@@ -424,23 +393,8 @@ viewSmall model =
           , E.width E.fill
           , E.spacing 40
           ]
-          [ E.textColumn
-              [ E.width E.fill
-              , E.alignLeft
-              , E.alignTop
-              ]
-              [ E.paragraph
-                  [ F.size 25
-                  , E.paddingXY 0 15
-                  , E.width E.fill
-                  ]
-                  [ E.text feature.title ]
-              , E.paragraph [ F.size 16, E.width E.fill ] feature.description
-              ]
-          , E.el
-              [ E.width E.fill
-              , E.alignRight
-              ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
+          [ featureText feature
+          , featureImage feature
           ]
   in
   [ container True <|
@@ -451,13 +405,13 @@ viewSmall model =
         , E.spacing 50
         ]
         [ E.row
-          [ E.width E.fill
-          , E.spaceEvenly
-          , E.centerX
-          , F.size 14
-          , E.paddingXY 0 20
-          ]
-          (List.map (\l -> Ui.link l.url l.title []) toplevel)
+            [ E.width E.fill
+            , E.spaceEvenly
+            , E.centerX
+            , F.size 14
+            , E.paddingXY 0 20
+            ]
+            (List.map (\l -> Ui.link l.url l.title []) toplevel)
         , E.column
             [ E.width E.fill
             , E.centerX
@@ -518,8 +472,6 @@ container isPrimary content =
       content
 
 
-
-
 pageColumn : E.Length
 pageColumn =
   E.fill |> E.maximum 920
@@ -533,6 +485,35 @@ elmTitle =
     , E.width E.fill
     ]
     (E.text "elm")
+
+
+featureText : Feature Msg -> E.Element Msg
+featureText feature =
+  E.textColumn
+    [ E.width E.fill
+    , E.alignLeft
+    , E.alignTop
+    ]
+    [ E.paragraph
+        [ F.size 25
+        , E.paddingXY 0 15
+        , E.width E.fill
+        ]
+        [ E.text feature.title ]
+    , E.paragraph
+        [ F.size 16
+        , E.width E.fill
+        ]
+        feature.description
+    ]
+
+
+featureImage : Feature Msg -> E.Element Msg
+featureImage feature =
+  E.el
+    [ E.width E.fill
+    , E.alignRight
+    ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
 
 
 
