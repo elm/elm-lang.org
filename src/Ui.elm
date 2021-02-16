@@ -57,3 +57,57 @@ linkButton url label events =
     { url = url
     , label = E.text label
     }
+
+
+
+-- RESPONSIVENESS
+
+
+isSmall : E.Device -> Bool
+isSmall device =
+  case device.class of
+    E.Phone -> True
+    E.Tablet -> True
+    E.Desktop -> False
+    E.BigDesktop -> False
+
+
+type alias Stacking msg =
+  { attrs : List (Attribute msg)
+  , left : List (Attribute msg) -> E.Element msg
+  , right : List (Attribute msg) -> E.Element msg
+  }
+
+
+stacking : E.Device -> Stacking msg -> E.Element msg
+stacking device =
+  let horizontal {attrs, left, right} =
+        E.row attrs
+          [ left
+              [ E.width E.fill
+              , E.alignLeft
+              , E.alignTop
+              ]
+          , right
+              [ E.width E.fill
+              , E.alignRight
+              ]
+          ]
+
+      vertical {attrs, left, right} =
+        E.column (E.paddingXY 30 0 :: attrs)
+          [ left
+              [ E.width E.fill
+              , E.centerX
+              ]
+          , right
+              [ E.width E.fill
+              , E.centerX ]
+          ]
+
+  in
+  case device.class of
+    E.Phone -> vertical
+    E.Tablet -> horizontal
+    E.Desktop -> horizontal
+    E.BigDesktop -> horizontal

@@ -74,8 +74,8 @@ view config =
           [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
   in
   svg
-    [ width (String.fromFloat plane.x.length)
-    , height (String.fromFloat plane.y.length)
+    [ width "100%"
+    , viewBox ("0 0 " ++ String.fromFloat plane.x.length ++ " " ++ String.fromFloat plane.y.length)
     ]
     [ grouped plane
         { groups = List.map List.singleton (List.indexedMap toBar config.values)

@@ -131,7 +131,7 @@ a:hover { text-decoration: underline; }
   padding: 12px;
   border: 1px solid lightgrey;
   max-width: 396px;
-  width: calc(100vw - 24px);
+  width: 100%;
   overflow-x: auto;
   white-space: pre;
   color: black;
@@ -139,6 +139,7 @@ a:hover { text-decoration: underline; }
   font-size: 12px;
   background-color: white;
   box-shadow: 5px 5px 0px 1px lightgrey;
+  box-sizing: border-box;
 }
 
 

@@ -184,14 +184,24 @@ view model =
       ] <|
       E.column
         [ E.width E.fill ]
-        [ E.row
-            [ E.height E.fill
-            , E.width pageColumn
-            , E.centerX
-            ]
-            [ E.el [ E.width E.fill ] (viewTangram model)
-            , viewSplash model
-            ]
+        [ if Ui.isSmall device then smallNav else E.none
+        , if Ui.isSmall device then
+            E.row
+              [ E.height E.fill
+              , E.width pageColumn
+              , E.centerX
+              , E.paddingXY 30 30
+              ]
+              [ viewSplash device model ]
+          else
+            E.row
+              [ E.height E.fill
+              , E.width pageColumn
+              , E.centerX
+              ]
+              [ E.el [ E.width E.fill ] (viewTangram model)
+              , viewSplash device model
+              ]
         , E.column
             [ E.width pageColumn
             , E.centerX
@@ -199,9 +209,10 @@ view model =
             , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
             ]
             (List.map (viewFeature device) features)
+        , if Ui.isSmall device then footer device else E.none
         ]
-  , fixedPointer
-  , fixedMenu device
+  , if Ui.isSmall device then Html.text "" else fixedPointer
+  , if Ui.isSmall device then Html.text "" else fixedMenu device
   ]
 
 
@@ -239,18 +250,52 @@ fixedMenu device =
           [ E.width pageColumn
           , E.centerX
           ]
-          [ largeNav
-          , E.row
-              [ E.centerX
-              , E.spacing 20
-              , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
-              , F.size 14
-              , F.color C.gray
+          [ E.row
+              [ E.width E.fill
+              , E.centerX
+              , E.spacing 40
+              , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
               ]
-              [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
-              , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
-              , E.text "© 2012-2021 Evan Czaplicki"
+              [ E.el
+                [ F.size 30
+                , E.alignTop
+                , E.width E.fill
+                ]
+                (E.text "elm")
+              , navColumn "Quick links"
+                  [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+                  , Link "Packages" "https://package.elm-lang.org/"
+                  , Link "Guide" "https://guide.elm-lang.org/"
+                  , Link "News" "https://elm-lang.org/news"
+                  ]
+              , navColumn "Beginner"
+                  [ Link "Tutorial" "https://guide.elm-lang.org/"
+                  , Link "Examples" "https://elm-lang.org/examples"
+                  , Link "Try online" "https://elm-lang.org/try"
+                  , Link "Talks" "https://elm-lang.org/news#talks"
+                  , Link "Syntax" "https://elm-lang.org/docs/syntax"
+                  , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+                  , Link "FAQ" "http://faq.elm-community.org/"
+                  , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+                  -- , Link "Limitations" TODO
+                  ]
+              , navColumn "Community"
+                  [ Link "News" "https://elm-lang.org/news"
+                  , Link "Slack" "https://elmlang.herokuapp.com/"
+                  , Link "Discourse" "https://discourse.elm-lang.org/"
+                  , Link "Twitter" "https://twitter.com/elmlang"
+                  , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+                  , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+                  , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+                  ]
+              , navColumn "Contributing"
+                  [ Link "How to" "https://elm-lang.org/community#sharing-code"
+                  , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+                  , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+                  , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+                  ]
               ]
+          , footer device
           ]
     ]
 
@@ -259,64 +304,58 @@ smallNav : E.Element msg
 smallNav =
   E.row
     [ E.width E.fill
+    , E.paddingXY 20 10
     , E.centerX
     , E.spaceEvenly
-    , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
-    ]
-    [ Ui.link "Examples" "https://elm-lang.org/examples" [] -- TODO
-    , Ui.link "Docs" "https://elm-lang.org/docs" [] -- TODO
-    , Ui.link "Community" "https://elm-lang.org/community" [] -- TODO
-    , Ui.link "News" "https://elm-lang.org/news" [] -- TODO
-    ]
-
-
-largeNav : E.Element msg
-largeNav =
-  E.row
-    [ E.width E.fill
-    , E.centerX
-    , E.spacing 40
-    , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
     ]
     [ E.el
-      [ F.size 30
-      , E.alignTop
-      , E.width E.fill
-      ]
-      (E.text "elm")
-    , navColumn "Quick links"
-        [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
-        , Link "Packages" "https://package.elm-lang.org/"
-        , Link "Guide" "https://guide.elm-lang.org/"
-        , Link "News" "https://elm-lang.org/news"
+        [ F.size 30
+        , E.alignTop
+        , E.width E.fill
         ]
-    , navColumn "Beginner"
-        [ Link "Tutorial" "https://guide.elm-lang.org/"
-        , Link "Examples" "https://elm-lang.org/examples"
-        , Link "Try online" "https://elm-lang.org/try"
-        , Link "Talks" "https://elm-lang.org/news#talks"
-        , Link "Syntax" "https://elm-lang.org/docs/syntax"
-        , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
-        , Link "FAQ" "http://faq.elm-community.org/"
-        , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
-        -- , Link "Limitations" TODO
+        (E.text "elm")
+    , E.row
+        [ E.width E.fill
+        , E.spacing 10
+        , F.size 14
         ]
-    , navColumn "Community"
-        [ Link "News" "https://elm-lang.org/news"
-        , Link "Slack" "https://elmlang.herokuapp.com/"
-        , Link "Discourse" "https://discourse.elm-lang.org/"
-        , Link "Twitter" "https://twitter.com/elmlang"
-        , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-        , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-        , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
-        ]
-    , navColumn "Contributing"
-        [ Link "How to" "https://elm-lang.org/community#sharing-code"
-        , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-        , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
-        , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+        [ Ui.link "https://elm-lang.org/examples" "Examples" [] -- TODO
+        , Ui.link "https://elm-lang.org/docs" "Docs" [] -- TODO
+        , Ui.link "https://elm-lang.org/community" "Community" [] -- TODO
+        , Ui.link "https://elm-lang.org/news" "News" [] -- TODO
         ]
     ]
+
+
+footer : E.Device -> E.Element msg
+footer device =
+  if Ui.isSmall device then
+    E.column
+      [ E.centerX
+      , E.spacing 20
+      , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+      , F.size 14
+      , F.color C.gray
+      , F.center
+      ]
+      [ E.row [ E.width E.fill, E.centerX, E.spacing 20, F.center ]
+          [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
+          , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
+          ]
+      , E.el [ E.centerX ] (E.text "© 2012-2021 Evan Czaplicki")
+      ]
+  else
+    E.row
+      [ E.centerX
+      , E.spacing 20
+      , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+      , F.size 14
+      , F.color C.gray
+      ]
+      [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
+      , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
+      , E.text "© 2012-2021 Evan Czaplicki"
+      ]
 
 
 navColumn : String -> List Link -> E.Element msg
@@ -361,8 +400,8 @@ navitem link =
 -- VIEW SPLASH
 
 
-viewSplash : Model -> E.Element Msg
-viewSplash model =
+viewSplash : E.Device -> Model -> E.Element Msg
+viewSplash device model =
   E.column
     [ E.width E.fill
     , E.centerX
@@ -384,7 +423,7 @@ viewSplash model =
                s -> E.text s
             ]
         ]
-    , E.row
+    , (if Ui.isSmall device then E.column else E.row)
         [ E.width E.fill, E.spacing 20, E.paddingXY 0 5 ]
         [ Ui.linkButton "/try" "Try"
             [ Ev.onMouseEnter HoveringTry
@@ -456,40 +495,14 @@ type alias Feature msg =
 
 viewFeature : E.Device -> Feature msg -> E.Element msg
 viewFeature device feature =
-  let container =
-        case device.class of
-          E.Phone -> vertical
-          E.Tablet -> horizontal
-          E.Desktop -> horizontal
-          E.BigDesktop -> horizontal
-
-      horizontal attrs {left, right} =
-        E.row attrs
-          [ left
-              [ E.alignLeft
-              , E.alignTop
-              ]
-          , right
-              [ E.alignRight ]
-          ]
-
-      vertical attrs {left, right} =
-        E.column (E.paddingXY 30 0 :: attrs)
-          [ left
-              [ E.centerX
-              ]
-          , right
-              [ E.centerX ]
-          ]
-
-  in
-  container
-    [ E.width E.fill
-    , E.width E.fill
-    , E.spacing 100
-    ]
-    { left = \attrs ->
-        E.textColumn (E.width E.fill :: attrs)
+  Ui.stacking device
+    { attrs =
+        [ E.width E.fill
+        , E.width E.fill
+        , E.spacing (if Ui.isSmall device then 50 else 100)
+        ]
+    , left = \attrs ->
+        E.textColumn attrs
           [ E.el
               [ F.size 25
               , E.paddingXY 0 15
@@ -500,7 +513,7 @@ viewFeature device feature =
               feature.description
           ]
     , right = \attrs ->
-        E.el (E.width E.fill :: attrs) <|
+        E.el attrs <|
           E.html <| div [] feature.image
     }
 
