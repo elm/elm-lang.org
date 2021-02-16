@@ -175,15 +175,12 @@ subscriptions model =
 
 view : Model -> List (Html Msg)
 view model =
-  let device = E.classifyDevice model.window in
-  case device.class of
-    E.Phone -> viewSmall model
-    E.Tablet ->
-      case device.orientation of
-        E.Portrait -> viewMedium model
-        E.Landscape -> viewLarge model
-    E.Desktop -> viewLarge model
-    E.BigDesktop -> viewLarge model
+  if model.window.width > 950 then
+    viewLarge model
+  else if model.window.width > 750 then
+    viewMedium model
+  else
+    viewSmall model
 
 
 
