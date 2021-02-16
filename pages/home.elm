@@ -494,7 +494,7 @@ features =
       ]
   , Feature "Small Assets" 280
       [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
-      , E.html (Html.code [] [ Html.text "--optimize" ])
+      , E.html (Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ])
       , E.text " flag and let the compiler do the rest. No complicated set up. "
       , Ui.link "/news/small-assets-without-the-headache" "Read more" []
       ]
