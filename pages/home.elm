@@ -276,20 +276,36 @@ navColumn title items =
     [ E.width E.fill
     , E.alignTop
     ]
-    (navitem True title :: List.map (.title >> navitem False) items)
+    (navTitle title :: List.map navitem items)
 
 
-navitem : Bool -> String -> E.Element msg
-navitem isTitle link =
+navTitle : String -> E.Element msg
+navTitle title =
   E.el
     [ E.padding 5
     , E.width E.fill
-    , if isTitle then E.paddingXY 0 10 else E.paddingXY 0 5
-    , if isTitle then F.size 16 else F.size 13
-    , if isTitle then F.color (E.rgb255 128 128 128) else F.color (E.rgb255 0 0 0)
-    , if isTitle then F.bold else F.regular
+    , E.paddingXY 0 10
+    , F.size 16
+    , F.color (E.rgb255 128 128 128)
+    , F.bold
     ]
-    (E.text link)
+    (E.text title)
+
+
+
+navitem : Link -> E.Element msg
+navitem link =
+  E.link
+    [ E.padding 5
+    , E.width E.fill
+    , E.paddingXY 0 5
+    , F.size 13
+    , F.color (E.rgb255 0 0 0)
+    , F.regular
+    ]
+    { url = link.url
+    , label = E.text link.title
+    }
 
 
 
