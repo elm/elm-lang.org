@@ -50,14 +50,15 @@ main =
     }
 
 
+
 -- MODEL
 
 
 type alias Model =
   { window : { width : Int, height : Int }
+  , patterns : Cycle.Cycle Logo.Pattern
   , time : Float
   , logo : Logo.Model
-  , patterns : Cycle.Cycle Logo.Pattern
   , taglines : TextAnimation.State
   , visibility : E.Visibility
   }
@@ -78,10 +79,7 @@ init window =
         , "for 3D graphics."
         , "with great performance."
         ]
-  , patterns =
-      Cycle.init
-        Logo.heart
-        [ Logo.logo ]
+  , patterns = Cycle.init Logo.heart [ Logo.logo ]
   }
 
 
@@ -178,47 +176,90 @@ subscriptions model =
 view : Model -> List (Html Msg)
 view model =
   let device = E.classifyDevice model.window in
-  [ E.layout
-      [ E.width E.fill
-      , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-      ] <|
+  case device.class of
+    E.Phone -> viewSmall model
+    E.Tablet ->
+      case device.orientation of
+        E.Portrait -> viewMedium model
+        E.Landscape -> viewLarge model
+    E.Desktop -> viewLarge model
+    E.BigDesktop -> viewLarge model
+
+
+
+-- VIEW LARGE
+
+
+viewLarge : Model -> List (Html Msg)
+viewLarge model =
+  let viewFeature feature =
+        E.row
+          [ E.width E.fill
+          , E.width E.fill
+          , E.spacing 100
+          ]
+          [ E.textColumn
+              [ E.width E.fill
+              , E.alignLeft
+              , E.alignTop
+              ]
+              [ E.paragraph
+                  [ F.size 25
+                  , E.paddingXY 0 15
+                  , E.width E.fill
+                  ]
+                  [ E.text feature.title ]
+              , E.paragraph [ F.size 16 ] feature.description
+              ]
+          , E.el
+              [ E.width E.fill
+              , E.alignRight
+              ] <|
+              E.html <| feature.image
+          ]
+  in
+  [ container True <|
       E.column
-        [ E.width E.fill ]
-        [ if Ui.isSmall device then smallNav else E.none
-        , if Ui.isSmall device then
-            E.row
-              [ E.height E.fill
-              , E.width pageColumn
-              , E.centerX
-              , E.paddingXY 30 30
-              ]
-              [ viewSplash device model ]
-          else
-            E.row
-              [ E.height E.fill
-              , E.width pageColumn
-              , E.centerX
-              ]
-              [ E.el [ E.width E.fill ] (viewTangram model)
-              , viewSplash device model
-              ]
-        , E.column
-            [ E.width pageColumn
-            , E.centerX
-            , E.spacing 140
-            , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
-            ]
-            (List.map (viewFeature device) features)
-        , if Ui.isSmall device then footer device else E.none
+        [ E.width E.fill
+        , E.paddingXY 20 0
         ]
-  , if Ui.isSmall device then Html.text "" else fixedPointer
-  , if Ui.isSmall device then Html.text "" else fixedMenu device
+        [ E.row
+            [ E.htmlAttribute (style "min-height" "calc(100vh - 60px)")
+            , E.width E.fill
+            ]
+            [ E.el
+                [ E.width E.fill
+                , E.moveLeft 50
+                ]
+                (tangram model)
+            , E.column
+                [ E.width E.fill
+                , E.centerX
+                , E.centerY
+                , E.spacing 20
+                ]
+                [ movingText model
+                , E.row
+                    [ E.width E.fill
+                    , E.spacing 20
+                    , E.paddingXY 0 5
+                    ]
+                    [ tryButton
+                    , tutorialButton
+                    ]
+                , downloadLink
+                ]
+            ]
+        , E.column
+            [ E.width E.fill
+            , E.spacing 140
+            , E.paddingEach { top = 40, bottom = 200, left = 0, right = 0 }
+            ] <|
+            List.map viewFeature features
+        ]
+  , fixedPointer
+  , fixedMenu
   ]
-
-
-pageColumn : E.Length
-pageColumn =
-  E.fill |> E.maximum 920
 
 
 fixedPointer : Html msg
@@ -228,24 +269,11 @@ fixedPointer =
     [ text "↓" ]
 
 
-
--- MENU
-
-
-type alias Link =
-  { title : String
-  , url : String
-  }
-
-
-fixedMenu : E.Device -> Html msg
-fixedMenu device =
+fixedMenu : Html Msg
+fixedMenu =
   Html.div
     [ class "fixed-menu" ]
-    [ E.layoutWith { options = [ E.noStaticStyleSheet ] }
-        [ E.width E.fill
-        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-        ] <|
+    [ container False <|
         E.column
           [ E.width pageColumn
           , E.centerX
@@ -256,115 +284,26 @@ fixedMenu device =
               , E.spacing 40
               , E.paddingEach { top = 10, bottom = 10, left = 0, right = 0 }
               ]
-              [ E.el
-                [ F.size 30
-                , E.alignTop
-                , E.width E.fill
-                ]
-                (E.text "elm")
-              , navColumn "Quick links"
-                  [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
-                  , Link "Packages" "https://package.elm-lang.org/"
-                  , Link "Guide" "https://guide.elm-lang.org/"
-                  , Link "News" "https://elm-lang.org/news"
-                  ]
-              , navColumn "Beginner"
-                  [ Link "Tutorial" "https://guide.elm-lang.org/"
-                  , Link "Examples" "https://elm-lang.org/examples"
-                  , Link "Try online" "https://elm-lang.org/try"
-                  , Link "Talks" "https://elm-lang.org/news#talks"
-                  , Link "Syntax" "https://elm-lang.org/docs/syntax"
-                  , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
-                  , Link "FAQ" "http://faq.elm-community.org/"
-                  , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
-                  -- , Link "Limitations" TODO
-                  ]
-              , navColumn "Community"
-                  [ Link "News" "https://elm-lang.org/news"
-                  , Link "Slack" "https://elmlang.herokuapp.com/"
-                  , Link "Discourse" "https://discourse.elm-lang.org/"
-                  , Link "Twitter" "https://twitter.com/elmlang"
-                  , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-                  , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-                  , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
-                  ]
-              , navColumn "Contributing"
-                  [ Link "How to" "https://elm-lang.org/community#sharing-code"
-                  , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-                  , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
-                  , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
-                  ]
-              ]
-          , footer device
+              (elmTitle :: List.map navColumn grouped)
+          , E.row
+              [ E.centerX
+              , E.spacing 20
+              , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+              , F.size 14
+              , F.color C.gray
+              ] <|
+              (List.map (\l -> Ui.grayLink l.url l.title) sources) ++ [copyRight]
           ]
     ]
 
 
-smallNav : E.Element msg
-smallNav =
-  E.row
-    [ E.width E.fill
-    , E.paddingXY 20 10
-    , E.centerX
-    , E.spaceEvenly
-    ]
-    [ E.el
-        [ F.size 30
-        , E.alignTop
-        , E.width E.fill
-        ]
-        (E.text "elm")
-    , E.row
-        [ E.width E.fill
-        , E.spacing 10
-        , F.size 14
-        ]
-        [ Ui.link "https://elm-lang.org/examples" "Examples" [] -- TODO
-        , Ui.link "https://elm-lang.org/docs" "Docs" [] -- TODO
-        , Ui.link "https://elm-lang.org/community" "Community" [] -- TODO
-        , Ui.link "https://elm-lang.org/news" "News" [] -- TODO
-        ]
-    ]
-
-
-footer : E.Device -> E.Element msg
-footer device =
-  if Ui.isSmall device then
-    E.column
-      [ E.centerX
-      , E.spacing 20
-      , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
-      , F.size 14
-      , F.color C.gray
-      , F.center
-      ]
-      [ E.row [ E.width E.fill, E.centerX, E.spacing 20, F.center ]
-          [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
-          , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
-          ]
-      , E.el [ E.centerX ] (E.text "© 2012-2021 Evan Czaplicki")
-      ]
-  else
-    E.row
-      [ E.centerX
-      , E.spacing 20
-      , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
-      , F.size 14
-      , F.color C.gray
-      ]
-      [ E.link [] { url = "https://github.com/elm/compiler", label = E.text "Compiler Source" }
-      , E.link [] { url = "https://github.com/elm/elm-lang.org", label = E.text "Site Source" }
-      , E.text "© 2012-2021 Evan Czaplicki"
-      ]
-
-
-navColumn : String -> List Link -> E.Element msg
-navColumn title items =
+navColumn : { title : String, links : List Link } -> E.Element msg
+navColumn {title, links} =
   E.column
     [ E.width E.fill
     , E.alignTop
     ]
-    (navTitle title :: List.map navitem items)
+    (navTitle title :: List.map navitem links)
 
 
 navTitle : String -> E.Element msg
@@ -378,7 +317,6 @@ navTitle title =
     , F.bold
     ]
     (E.text title)
-
 
 
 navitem : Link -> E.Element msg
@@ -397,75 +335,277 @@ navitem link =
 
 
 
--- VIEW SPLASH
+-- VIEW MEDIUM
 
 
-viewSplash : E.Device -> Model -> E.Element Msg
-viewSplash device model =
-  E.column
-    [ E.width E.fill
-    , E.centerX
-    , E.centerY
-    , E.spacing 20
-    ]
-    [ E.textColumn
-        [ E.alignTop
-        , E.width (E.fillPortion 3)
+viewMedium : Model -> List (Html Msg)
+viewMedium model =
+  let viewFeature feature =
+        E.column
+          [ E.width E.fill
+          , E.width E.fill
+          , E.spacing 40
+          ]
+          [ E.textColumn
+              [ E.width E.fill
+              , E.alignLeft
+              , E.alignTop
+              ]
+              [ E.paragraph
+                  [ F.size 25
+                  , E.paddingXY 0 15
+                  , E.width E.fill
+                  ]
+                  [ E.text feature.title ]
+              , E.paragraph [ F.size 16, E.width E.fill ] feature.description
+              ]
+          , E.el
+              [ E.width E.fill
+              , E.alignRight
+              ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
+          ]
+  in
+  [ container True <|
+      E.column
+        [ E.width (E.maximum 600 E.fill)
+        , E.centerX
+        , E.paddingXY 20 0
+        , E.spacing 50
         ]
-        [ E.paragraph
-            [ F.size 30
-            , F.center
+        [ E.row
+          [ E.width E.fill
+          , E.spaceEvenly
+          , E.centerX
+          , F.size 14
+          , E.paddingXY 0 20
+          ]
+          [ elmTitle
+          , E.row
+              [ E.width E.fill
+              , E.alignRight
+              , E.spacing 20
+              ]
+              (List.map (\l -> Ui.link l.url l.title [ E.alignRight ]) toplevel)
+          ]
+        , E.column
+            [ E.width E.fill
+            , E.centerX
+            , E.centerY
+            , E.spacing 20
             ]
-            [ E.text "A delightful language "
-            , E.html (Html.br [] [])
-            , case TextAnimation.view model.taglines of
-               "" ->  E.html <| Html.br [] []
-               s -> E.text s
+            [ movingText model
+            , tryButton
+            , tutorialButton
             ]
+        , E.column
+            [ E.width E.fill
+            , E.spacing 50
+            , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            ] <|
+            List.map viewFeature features
+        , E.row
+              [ E.centerX
+              , E.spacing 20
+              , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+              , F.size 14
+              , F.color C.gray
+              ] <|
+              (List.map (\l -> Ui.grayLink l.url l.title) sources) ++ [copyRight]
         ]
-    , (if Ui.isSmall device then E.column else E.row)
-        [ E.width E.fill, E.spacing 20, E.paddingXY 0 5 ]
-        [ Ui.linkButton "/try" "Try"
-            [ Ev.onMouseEnter HoveringTry
-            , Ev.onMouseLeave UnhoveringButton
-            ]
-        , Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
-            [ Ev.onMouseEnter HoveringGuide
-            , Ev.onMouseLeave UnhoveringButton
-            ]
+  ]
+
+
+
+-- VIEW SMALL
+
+
+viewSmall : Model -> List (Html Msg)
+viewSmall model =
+  let viewFeature feature =
+        E.column
+          [ E.width E.fill
+          , E.width E.fill
+          , E.spacing 40
+          ]
+          [ E.textColumn
+              [ E.width E.fill
+              , E.alignLeft
+              , E.alignTop
+              ]
+              [ E.paragraph
+                  [ F.size 25
+                  , E.paddingXY 0 15
+                  , E.width E.fill
+                  ]
+                  [ E.text feature.title ]
+              , E.paragraph [ F.size 16, E.width E.fill ] feature.description
+              ]
+          , E.el
+              [ E.width E.fill
+              , E.alignRight
+              ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
+          ]
+  in
+  [ container True <|
+      E.column
+        [ E.width (E.maximum 500 E.fill)
+        , E.centerX
+        , E.paddingXY 20 0
+        , E.spacing 50
         ]
-    , E.paragraph
+        [ E.row
+          [ E.width E.fill
+          , E.spaceEvenly
+          , E.centerX
+          , F.size 14
+          , E.paddingXY 0 20
+          ]
+          (List.map (\l -> Ui.link l.url l.title []) toplevel)
+        , E.column
+            [ E.width E.fill
+            , E.centerX
+            , E.centerY
+            , E.spacing 20
+            ]
+            [ movingText model
+            , tryButton
+            , tutorialButton
+            ]
+        , E.column
+            [ E.width E.fill
+            , E.spacing 50
+            , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            ] <|
+            List.map viewFeature features
+        , E.column
+              [ E.centerX
+              , E.spacing 20
+              , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
+              , F.size 14
+              , F.color C.gray
+              , F.center
+              ]
+              [ E.row
+                  [ E.width E.fill
+                  , E.centerX
+                  , F.center
+                  , E.spacing 20
+                  ]
+                  (List.map (\l -> Ui.grayLink l.url l.title) sources)
+              , copyRight
+              ]
+        ]
+  ]
+
+
+
+-- VIEW HELPERS
+
+
+container : Bool -> E.Element Msg -> Html Msg
+container isPrimary content =
+  let attributes =
         [ E.width E.fill
-        , F.size 18
+        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+        ]
+
+      wrap =
+        if isPrimary then E.layout attributes
+        else E.layoutWith { options = [ E.noStaticStyleSheet ] } attributes
+  in
+  wrap <|
+    E.el
+      [ E.width pageColumn
+      , E.centerX
+      ]
+      content
+
+
+
+
+pageColumn : E.Length
+pageColumn =
+  E.fill |> E.maximum 920
+
+
+elmTitle : E.Element msg
+elmTitle =
+  E.el
+    [ F.size 30
+    , E.alignTop
+    , E.width E.fill
+    ]
+    (E.text "elm")
+
+
+
+-- CONTENT / INTRODUCTION
+
+
+movingText : Model -> E.Element Msg
+movingText model =
+  E.textColumn
+    [ E.alignTop
+    , E.width E.fill
+    ]
+    [ E.paragraph
+        [ F.size 30
         , F.center
         ]
-        [ E.text "or "
-        , Ui.link "https://guide.elm-lang.org/install/elm.html" "download the installer."
-            [ Ev.onMouseEnter HoveringInstaller
-            , Ev.onMouseLeave UnhoveringButton
-            ]
+        [ E.text "A delightful language "
+        , E.html (Html.br [] [])
+        , case TextAnimation.view model.taglines of
+           "" ->  E.html <| Html.br [] []
+           s -> E.text s
+        ]
+    ]
+
+
+tryButton : E.Element Msg
+tryButton =
+  Ui.linkButton "/try" "Try"
+    [ Ev.onMouseEnter HoveringTry
+    , Ev.onMouseLeave UnhoveringButton
+    ]
+
+
+tutorialButton : E.Element Msg
+tutorialButton =
+  Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
+    [ Ev.onMouseEnter HoveringGuide
+    , Ev.onMouseLeave UnhoveringButton
+    ]
+
+
+downloadLink : E.Element Msg
+downloadLink =
+  E.paragraph
+    [ E.width E.fill
+    , F.size 18
+    , F.center
+    ]
+    [ E.text "or "
+    , Ui.link "https://guide.elm-lang.org/install/elm.html" "download the installer."
+        [ Ev.onMouseEnter HoveringInstaller
+        , Ev.onMouseLeave UnhoveringButton
         ]
     ]
 
 
 
--- TANGRAM
+-- CONTENT / TANGRAM
 
 
-viewTangram : Model -> E.Element Msg
-viewTangram model =
+tangram : Model -> E.Element Msg
+tangram model =
   E.html <|
-    div
-      [ class "tangram" , onMouseMove ]
-      [ Logo.view
-          [ style "height" "calc(100vh - 60px)"
-          , style "width" "500px"
-          , style "position" "relative"
-          , style "left" "-50px"
-          , onClick MouseClicked
-          ]
-          model.logo
+    Logo.view
+      [ style "max-height" "500px"
+      , style "max-width" "500px"
+      , onMouseMove
+      , onClick MouseClicked
       ]
+      model.logo
 
 
 onMouseMove : Attribute Msg
@@ -481,50 +621,101 @@ onMouseMove =
       (D.field "currentTarget" (D.field "clientHeight" D.float))
 
 
+-- CONTENT / NAVIGATION
 
--- FEATURES
+
+type alias Link =
+  { title : String
+  , url : String
+  }
+
+
+toplevel : List Link
+toplevel =
+  [ Link "Examples" "https://elm-lang.org/examples"
+  , Link "Docs" "https://elm-lang.org/docs"
+  , Link "Community" "https://elm-lang.org/community"
+  , Link "News" "https://elm-lang.org/news"
+  ]
+
+
+grouped : List { title : String, links : List Link }
+grouped =
+  [ { title = "Quick links"
+    , links =
+        [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
+        , Link "Packages" "https://package.elm-lang.org/"
+        , Link "Guide" "https://guide.elm-lang.org/"
+        , Link "News" "https://elm-lang.org/news"
+        ]
+    }
+  , { title = "Beginner"
+    , links =
+        [ Link "Tutorial" "https://guide.elm-lang.org/"
+        , Link "Examples" "https://elm-lang.org/examples"
+        , Link "Try online" "https://elm-lang.org/try"
+        , Link "Talks" "https://elm-lang.org/news#talks"
+        , Link "Syntax" "https://elm-lang.org/docs/syntax"
+        , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+        , Link "FAQ" "http://faq.elm-community.org/"
+        , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+        -- , Link "Limitations" TODO
+        ]
+    }
+  , { title = "Community"
+    , links =
+        [ Link "News" "https://elm-lang.org/news"
+        , Link "Slack" "https://elmlang.herokuapp.com/"
+        , Link "Discourse" "https://discourse.elm-lang.org/"
+        , Link "Twitter" "https://twitter.com/elmlang"
+        , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
+        , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
+        , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+        ]
+    }
+  , { title = "Contributing"
+    , links =
+        [ Link "How to" "https://elm-lang.org/community#sharing-code"
+        , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+        , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+        , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
+        ]
+    }
+  ]
+
+
+sources : List Link
+sources =
+  [ Link "Compiler Source" "https://github.com/elm/compiler"
+  , Link "Site Source" "https://github.com/elm/elm-lang.org"
+  ]
+
+
+copyRight : E.Element Msg
+copyRight =
+  E.text "© 2012-2021 Evan Czaplicki"
+
+
+
+ -- CONTENT / FEATURES
 
 
 type alias Feature msg =
   { title : String
-  , height : Int
   , description : List (E.Element msg)
-  , image : List (Html msg)
+  , image : Html msg
   }
-
-
-viewFeature : E.Device -> Feature msg -> E.Element msg
-viewFeature device feature =
-  Ui.stacking device
-    { attrs =
-        [ E.width E.fill
-        , E.width E.fill
-        , E.spacing (if Ui.isSmall device then 50 else 100)
-        ]
-    , left = \attrs ->
-        E.textColumn attrs
-          [ E.el
-              [ F.size 25
-              , E.paddingXY 0 15
-              ]
-              (E.text feature.title)
-          , E.paragraph
-              [ F.size 16 ]
-              feature.description
-          ]
-    , right = \attrs ->
-        E.el attrs <|
-          E.html <| div [] feature.image
-    }
 
 
 features : List (Feature msg)
 features =
-  [ Feature "No Runtime Exceptions" 240
+  [ { title = "No Runtime Exceptions"
+    , description =
       [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
       , Ui.link "/news/compilers-as-assistants" "Read more" []
       ]
-      [ div [ class "terminal" ]
+    , image =
+        div [ class "terminal" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
           , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
           , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
@@ -536,18 +727,21 @@ features =
           , color green "Maybe.withDefault"
           , text " to handle possible errors."
           ]
-      ]
-  , Feature "Great Performance" 320
-      [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
-      , Ui.link "/news/blazing-fast-html-round-two" "Read more" []
-      ]
-      [ performanceChart
-      ]
-  , Feature "Enforced Semantic Versioning" 200
-      [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
-      , Ui.link "https://package.elm-lang.org" "Read more" []
-      ]
-      [ div [ class "terminal" ]
+    }
+  , { title = "Great Performance"
+    , description =
+        [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
+        , Ui.link "/news/blazing-fast-html-round-two" "Read more" []
+        ]
+    , image = performanceChart
+    }
+  , { title = "Enforced Semantic Versioning"
+    , description =
+        [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
+        , Ui.link "https://package.elm-lang.org" "Read more" []
+        ]
+    , image =
+        div [ class "terminal" ]
           [ color "plum" "$"
           , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
           , color green "MAJOR"
@@ -555,20 +749,23 @@ features =
           , color cyan "---- JsonTree - MAJOR ----"
           , text "\n\n    Changed:\n      - parseString : String -> Result String Node\n      + parseString : String -> Result Error Node\n\n      - parseValue : Value -> Result String Node\n      + parseValue : Value -> Result Error Node\n\n"
           ]
-      ]
-  , Feature "Small Assets" 280
-      [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
-      , E.html (Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ])
-      , E.text " flag and let the compiler do the rest. No complicated set up. "
-      , Ui.link "/news/small-assets-without-the-headache" "Read more" []
-      ]
-      [ assetsChart
-      ]
-  , Feature "JavaScript Interop" 120
-      [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
-      , Ui.link "http://guide.elm-lang.org/interop/" "Read more" []
-      ]
-      [ div [ class "terminal" ]
+    }
+  , { title = "Small Assets"
+    , description =
+        [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
+        , E.html (Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ])
+        , E.text " flag and let the compiler do the rest. No complicated set up. "
+        , Ui.link "/news/small-assets-without-the-headache" "Read more" []
+        ]
+    , image = assetsChart
+    }
+  , { title = "JavaScript Interop"
+    , description =
+        [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
+        , Ui.link "http://guide.elm-lang.org/interop/" "Read more" []
+        ]
+    , image =
+        div [ class "terminal" ]
           [ var
           , text " Elm "
           , equals
@@ -583,7 +780,7 @@ features =
           , text ")\n});\n\n"
           , color grey "// set up ports here"
           ]
-      ]
+    }
   ]
 
 
@@ -615,4 +812,3 @@ assetsChart =
         , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12; fill: grey;" "(uglify + gzip)"
         ]
     }
-

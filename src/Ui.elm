@@ -21,11 +21,20 @@ link url label attrs =
     }
 
 
+grayLink : String -> String -> Element msg
+grayLink url label =
+  E.link []
+    { url = url
+    , label = E.text label
+    }
+
+
 linkButton : String -> String -> List (Attribute msg) -> E.Element msg
 linkButton url label events =
   let styles =
         [ E.padding 10
-        , E.width (E.fillPortion 2)
+        , E.width (E.maximum 400 E.fill)
+        , E.centerX
         , F.center
         , B.color C.white
         , Bo.color C.blue

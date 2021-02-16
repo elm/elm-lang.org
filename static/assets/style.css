@@ -84,10 +84,6 @@ a:hover { text-decoration: underline; }
   color: white;
 }
 
-.tangram {
-  width: 400px;
-}
-
 .messages {
   display: flex;
   flex-direction: column;
@@ -96,20 +92,10 @@ a:hover { text-decoration: underline; }
   width: 400px;
 }
 
-@media all and (max-width: 840px) {
-  .tangram {
-    width: 280px;
-    height: 280px;
-  }
-}
 @media all and (max-width: 680px) {
   .splash {
     flex-direction: column;
     align-items: center;
-  }
-  .tangram {
-    width: 360px;
-    height: 360px;
   }
   .messages {
     align-items: center;
@@ -130,8 +116,6 @@ a:hover { text-decoration: underline; }
 .terminal {
   padding: 12px;
   border: 1px solid lightgrey;
-  max-width: 396px;
-  width: 100%;
   overflow-x: auto;
   white-space: pre;
   color: black;

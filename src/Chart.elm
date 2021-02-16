@@ -74,7 +74,7 @@ view config =
           [ Svg.text_ [] [ Svg.tspan [] [ Svg.text label ] ] ]
   in
   svg
-    [ width "100%"
+    [ Attributes.style "box-sizing: border-box; width: 100%; max-width: 500px; margin: 0 auto;"
     , viewBox ("0 0 " ++ String.fromFloat plane.x.length ++ " " ++ String.fromFloat plane.y.length)
     ]
     [ grouped plane
