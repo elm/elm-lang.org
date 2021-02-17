@@ -458,6 +458,7 @@ container isPrimary content =
   let attributes =
         [ E.width E.fill
         , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+        , E.htmlAttribute (style "background-image" "url(/images/grid.svg)")
         ]
 
       wrap =
