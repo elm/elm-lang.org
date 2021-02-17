@@ -34,6 +34,8 @@ import Colors as C
 import Highlight exposing (..)
 
 
+-- TODO make # links real
+
 
 -- MAIN
 
@@ -628,7 +630,6 @@ grouped =
         [ Link "Tutorial" "https://guide.elm-lang.org/"
         , Link "Examples" "https://elm-lang.org/examples"
         , Link "Try online" "https://elm-lang.org/try"
-        , Link "Talks" "https://elm-lang.org/news#talks"
         , Link "Syntax" "https://elm-lang.org/docs/syntax"
         , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
         , Link "FAQ" "http://faq.elm-community.org/"
@@ -644,12 +645,12 @@ grouped =
         , Link "Twitter" "https://twitter.com/elmlang"
         , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
         , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-        , Link "Sharing code" "https://elm-lang.org/community#sharing-code"
+        , Link "Sharing code" "https://elm-lang.org/community#share-code"
         ]
     }
   , { title = "Contributing"
     , links =
-        [ Link "How to" "https://elm-lang.org/community#sharing-code"
+        [ Link "How to" "https://elm-lang.org/community#share-code"
         , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
         , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
         , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
