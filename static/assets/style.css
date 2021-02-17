@@ -35,7 +35,7 @@ a.special-button:focus { text-decoration: none; }
   position: sticky;
   width: 100%;
   background: white;
-  bottom: -245px;
+  bottom: -220px;
   padding: 0 40px;
   border-top: 1px solid #cdcdcd;
   box-sizing: border-box;
