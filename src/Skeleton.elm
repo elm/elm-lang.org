@@ -19,9 +19,6 @@ import Center
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Element as E
-import Element.Font as F
-import Element.Region as R
 
 
 
@@ -36,14 +33,7 @@ skeleton title tab content =
     , subscriptions = \_ -> Sub.none
     , view = \_ ->
         { title = title
-        , body =
-            [ E.layout [ E.width E.fill ] <|
-                E.column []
-                  [ header tab
-                  , E.html (div [ style "flex" "1" ] content)
-                  , E.html footer
-                  ]
-            ]
+        , body = [ header tab, div [ style "flex" "1" ] content, footer ]
         }
     }
 
@@ -60,20 +50,22 @@ type Tab
   | Other
 
 
-header : Tab -> E.Element msg
+header : Tab -> Html msg
 header tab =
-  E.column
-    [ E.width (E.fillPortion 2) ]
-    [ E.textColumn
-        [ F.alignRight, R.navigation ]
-        [ E.el [ F.size 30 ] (E.text "elm")
-        , E.el [ F.size 15 ] (E.text "overview")
-        , E.el [ F.size 15 ] (E.text "featured")
-        , E.el [ F.size 15 ] (E.text "examples")
-        , E.el [ F.size 15 ] (E.text "documentation")
-        , E.el [ F.size 15 ] (E.text "community")
-        , E.el [ F.size 15 ] (E.text "news")
-        , E.el [ F.size 15 ] (E.text "limitations")
+  div [ class "header" ]
+    [ div [ class "nav" ]
+        [ a [ href "/"
+            , style "color" "white"
+            , style "font-size" "32px"
+            ]
+            [ text "elm"
+            ]
+        , div [ class "tabs" ]
+            [ viewTab tab Examples "examples" "/examples"
+            , viewTab tab Docs "docs" "/docs"
+            , viewTab tab Community "community" "/community"
+            , viewTab tab News "news" "/news"
+            ]
         ]
     ]
 
@@ -102,7 +94,7 @@ footer =
     , a [ class "grey-link", href "https://github.com/elm/compiler/" ] [ text "Compiler Source" ]
     , text " — "
     , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Site Source" ]
-    , text " — © 2012-2020 Evan Czaplicki"
+    , text " — © 2012-2021 Evan Czaplicki"
     ]
 
 

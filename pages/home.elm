@@ -27,7 +27,6 @@ import Ui exposing (Link)
 import Center
 import Cycle
 import Logo
-import Skeleton
 import TextAnimation
 import Chart
 import Colors as C
@@ -458,7 +457,10 @@ container isPrimary content =
   let attributes =
         [ E.width E.fill
         , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-        , E.htmlAttribute (style "background-image" "url(/images/grid.svg)")
+        , if isPrimary then
+            E.htmlAttribute (style "background-image" "url(/images/grid.svg)")
+          else
+            E.htmlAttribute (style "" "")
         ]
 
       wrap =
