@@ -34,8 +34,6 @@ import Colors as C
 import Highlight exposing (..)
 
 
--- TODO make # links real
-
 
 -- MAIN
 
@@ -608,10 +606,10 @@ onMouseMove =
 
 toplevel : List Link
 toplevel =
-  [ Link "Examples" "https://elm-lang.org/examples"
-  , Link "Docs" "https://elm-lang.org/docs"
-  , Link "Community" "https://elm-lang.org/community"
-  , Link "News" "https://elm-lang.org/news"
+  [ Link "Examples" "/examples"
+  , Link "Docs" "/docs"
+  , Link "Community" "/community"
+  , Link "News" "/news"
   ]
 
 
@@ -622,37 +620,37 @@ grouped =
         [ Link "Install" "https://guide.elm-lang.org/install/elm.html"
         , Link "Packages" "https://package.elm-lang.org/"
         , Link "Guide" "https://guide.elm-lang.org/"
-        , Link "News" "https://elm-lang.org/news"
+        , Link "News" "/news"
         ]
     }
   , { title = "Beginner"
     , links =
         [ Link "Tutorial" "https://guide.elm-lang.org/"
-        , Link "Examples" "https://elm-lang.org/examples"
-        , Link "Try online" "https://elm-lang.org/try"
-        , Link "Syntax" "https://elm-lang.org/docs/syntax"
-        , Link "Syntax vs JS" "https://elm-lang.org/docs/from-javascript"
+        , Link "Examples" "/examples"
+        , Link "Try online" "/try"
+        , Link "Syntax" "/docs/syntax"
+        , Link "Syntax vs JS" "/docs/from-javascript"
         , Link "FAQ" "http://faq.elm-community.org/"
-        , Link "Advanced Topics" "https://elm-lang.org/docs/advanced-topics"
+        , Link "Advanced Topics" "/docs/advanced-topics"
         -- , Link "Limitations" TODO
         ]
     }
   , { title = "Community"
     , links =
-        [ Link "News" "https://elm-lang.org/news"
+        [ Link "News" "/news"
         , Link "Slack" "https://elmlang.herokuapp.com/"
         , Link "Discourse" "https://discourse.elm-lang.org/"
         , Link "Twitter" "https://twitter.com/elmlang"
         , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"
-        , Link "Code of Conduct" "https://elm-lang.org/community#code-of-conduct"
-        , Link "Sharing code" "https://elm-lang.org/community#share-code"
+        , Link "Code of Conduct" "/community#code-of-conduct"
+        , Link "Sharing code" "/community#share-code"
         ]
     }
   , { title = "Contributing"
     , links =
-        [ Link "How to" "https://elm-lang.org/community#share-code"
+        [ Link "How to" "/community#share-code"
         , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
-        , Link "Style Guide" "https://elm-lang.org/docs/style-guide"
+        , Link "Style Guide" "/docs/style-guide"
         , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
         ]
     }
