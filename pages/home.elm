@@ -791,29 +791,3 @@ assetsChart =
         , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12px; fill: grey;" "(uglify + gzip)"
         ]
     }
-    }
-  , { image = "/images/logos/struction-site.png"
-    , size = 80
-    , alt = "StructionSite"
-    , link = "https://structionsite.com/"
-    }
-  , { image = "/images/logos/orange.png"
-    , size = 80
-    , alt = "Orange"
-    , link = "https://www.orange.fr"
-    }
-  , { image = "/images/logos/bekk.png"
-    , size = 80
-    , alt = "Bekk"
-    , link = "https://www.bekk.no/"
-    }
-  , { image = "/images/logos/humio.svg"
-    , size = 80
-    , alt = "Humio"
-    , link = "https://www.humio.com/"
-    }
-  ]
-
-
-
-
