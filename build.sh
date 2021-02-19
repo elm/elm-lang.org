@@ -10,11 +10,12 @@ set -e
 function makePageHtml {
   cat <<EOF > $1
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="Description" content="$2">
   <title>$2</title>
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro">
@@ -49,10 +50,11 @@ EOF
 #
 function makeExampleHtml {
   cat <<EOF > $1
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="Description" content="$2">
   <title>$2</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro"/>
   <link rel="stylesheet" href="/assets/editor.css"/>
