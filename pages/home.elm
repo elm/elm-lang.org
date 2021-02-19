@@ -771,9 +771,9 @@ performanceChart =
     , yTickValues = [ 1000, 2000, 3000, 4000, 5000 ]
     , values = [ Chart.Value "Ember" 4326, Chart.Value "React" 4612, Chart.Value "Angular 1" 3838, Chart.Value "Angular 2" 3494, Chart.Value "Elm" 2480 ]
     , overlays =
-        [ Chart.Overlay 30 25 "text-anchor: end; font-size: 12;" "ms"
-        , Chart.Overlay 203 20 "text-anchor: middle; font-size: 16;" "Benchmark Times on Chrome 52"
-        , Chart.Overlay 280 40 "text-anchor: middle; font-size: 12; fill: grey;" "Lower is better."
+        [ Chart.Overlay 30 25 "text-anchor: end; font-size: 12px;" "ms"
+        , Chart.Overlay 203 20 "text-anchor: middle; font-size: 16px;" "Benchmark Times on Chrome 52"
+        , Chart.Overlay 280 40 "text-anchor: middle; font-size: 12px; fill: grey;" "Lower is better."
         ]
     }
 
@@ -786,8 +786,34 @@ assetsChart =
     , yTickValues = [ 25, 50, 75, 100 ]
     , values = [ Chart.Value "Vue" 100, Chart.Value "Angular 6" 93, Chart.Value "React 16.4" 77, Chart.Value "Elm 19.0" 29 ]
     , overlays =
-        [ Chart.Overlay 20 25 "text-anchor: end; font-size: 12;" "kb"
-        , Chart.Overlay 200 20 "text-anchor: middle; font-size: 16;" "RealWorld Asset Size"
-        , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12; fill: grey;" "(uglify + gzip)"
+        [ Chart.Overlay 20 25 "text-anchor: end; font-size: 12px;" "kb"
+        , Chart.Overlay 200 20 "text-anchor: middle; font-size: 16px;" "RealWorld Asset Size"
+        , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12px; fill: grey;" "(uglify + gzip)"
         ]
     }
+    }
+  , { image = "/images/logos/struction-site.png"
+    , size = 80
+    , alt = "StructionSite"
+    , link = "https://structionsite.com/"
+    }
+  , { image = "/images/logos/orange.png"
+    , size = 80
+    , alt = "Orange"
+    , link = "https://www.orange.fr"
+    }
+  , { image = "/images/logos/bekk.png"
+    , size = 80
+    , alt = "Bekk"
+    , link = "https://www.bekk.no/"
+    }
+  , { image = "/images/logos/humio.svg"
+    , size = 80
+    , alt = "Humio"
+    , link = "https://www.humio.com/"
+    }
+  ]
+
+
+
+
