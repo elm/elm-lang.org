@@ -10,7 +10,7 @@ set -e
 function makePageHtml {
   cat <<EOF > $1
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 
 <head>
   <title>$2</title>
