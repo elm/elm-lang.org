@@ -32,7 +32,7 @@ view config =
   let plane : Plane
       plane =
         { x = Axis config.marginLeft 0 400 0.5 (List.length config.values |> add 0.5)
-        , y = Axis config.marginTop 23 300 0 (maximum identity config.yTickValues)
+        , y = Axis config.marginTop 23 280 0 (maximum identity config.yTickValues)
         }
 
       isElm : Int -> Bool
