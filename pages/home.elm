@@ -682,7 +682,7 @@ type alias Feature msg =
 features : List (Feature msg)
 features =
   let readMore url =
-        Ui.link [] (Link "Read more" url)
+        Ui.link [] (Link "Learn more." url)
   in
   [ { title = "No Runtime Exceptions"
     , description =
