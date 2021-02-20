@@ -18,10 +18,8 @@ import Element.Background as B
 import Element.Border as Bo
 import Element.Events as Ev
 
-import Svg
-import Svg.Attributes
-import Svg.Coordinates
-import Svg.Plot
+import Svg as S
+import Svg.Attributes as SA
 
 import Ui exposing (Link)
 import Center
@@ -189,51 +187,57 @@ view model =
 viewLarge : Model -> List (Html Msg)
 viewLarge model =
   let viewFeature feature =
-        E.row
+        E.el
           [ E.width E.fill
-          , E.width E.fill
+          ] <|
+          E.row
+          [ E.width pageColumn
+          , E.centerX
+          , E.paddingXY 0 70
           , E.spacing 100
           ]
           [ featureText feature
           , featureImage feature
           ]
   in
-  [ container True <|
+  [ container <|
       E.column
         [ E.width E.fill
-        , E.paddingXY 20 0
         ]
-        [ E.row
-            [ E.htmlAttribute (style "min-height" "calc(100vh - 60px)")
-            , E.width E.fill
-            ]
-            [ E.el
-                [ E.width E.fill
-                , E.moveLeft 50
-                ]
-                (tangram model)
-            , E.column
-                [ E.width E.fill
-                , E.centerX
-                , E.centerY
-                , E.spacing 20
-                ]
-                [ movingText model
-                , E.row
-                    [ E.width E.fill
-                    , E.spacing 20
-                    , E.paddingXY 0 5
-                    ]
-                    [ tryButton
-                    , tutorialButton
-                    ]
-                , downloadLink
-                ]
+        [ E.el
+            [ E.width E.fill
+            ] <|
+            E.row
+              [ E.htmlAttribute (style "min-height" "calc(100vh - 50px)")
+              , E.width pageColumn
+              , E.centerX
+              ]
+              [ E.el
+                  [ E.width E.fill
+                  , E.moveLeft 50
+                  ]
+                  (tangram model)
+              , E.column
+                  [ E.width E.fill
+                  , E.centerX
+                  , E.centerY
+                  , E.spacing 20
+                  ]
+                  [ movingText model
+                  , E.row
+                      [ E.width E.fill
+                      , E.spacing 20
+                      , E.paddingXY 0 5
+                      ]
+                      [ tryButton
+                      , tutorialButton
+                      ]
+                  , downloadLink
+                  ]
             ]
         , E.column
             [ E.width E.fill
-            , E.spacing 140
-            , E.paddingEach { top = 40, bottom = 200, left = 0, right = 0 }
+            , E.paddingEach { top = 40, bottom = 140, left = 0, right = 0 }
             ] <|
             List.map viewFeature features
         ]
@@ -253,7 +257,7 @@ fixedMenu : Html Msg
 fixedMenu =
   Html.div
     [ class "fixed-menu" ]
-    [ container False <|
+    [ subContainer <|
         E.column
           [ E.width pageColumn
           , E.centerX
@@ -323,14 +327,13 @@ viewMedium model =
   let viewFeature feature =
         E.column
           [ E.width E.fill
-          , E.width E.fill
           , E.spacing 40
           ]
           [ featureText feature
           , featureImage feature
           ]
   in
-  [ container True <|
+  [ container <|
       E.column
         [ E.width (E.maximum 600 E.fill)
         , E.centerX
@@ -396,7 +399,7 @@ viewSmall model =
           , featureImage feature
           ]
   in
-  [ container True <|
+  [ container <|
       E.column
         [ E.width (E.maximum 500 E.fill)
         , E.centerX
@@ -452,32 +455,25 @@ viewSmall model =
 -- VIEW HELPERS
 
 
-container : Bool -> E.Element Msg -> Html Msg
-container isPrimary content =
-  let attributes =
-        [ E.width E.fill
-        , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
-        , if isPrimary then
-            E.htmlAttribute (style "background-image" "url(/images/grid.svg)")
-          else
-            E.htmlAttribute (style "" "")
-        ]
+container : E.Element Msg -> Html Msg
+container =
+  E.layout
+    [ E.width E.fill
+    , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+    ]
 
-      wrap =
-        if isPrimary then E.layout attributes
-        else E.layoutWith { options = [ E.noStaticStyleSheet ] } attributes
-  in
-  wrap <|
-    E.el
-      [ E.width pageColumn
-      , E.centerX
-      ]
-      content
+
+subContainer : E.Element Msg -> Html Msg
+subContainer =
+  E.layoutWith { options = [ E.noStaticStyleSheet ] }
+    [ E.width E.fill
+    , F.family [ F.typeface "IBM Plex Sans", F.sansSerif ]
+    ]
 
 
 pageColumn : E.Length
 pageColumn =
-  E.fill |> E.maximum 920
+  E.maximum 920 E.fill
 
 
 elmTitle : Int -> E.Element msg
