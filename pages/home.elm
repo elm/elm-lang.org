@@ -684,7 +684,27 @@ features =
   let readMore url =
         Ui.link [] (Link "Learn more." url)
   in
-  [ { title = "No Runtime Exceptions"
+  [ { title = "Single Simple Architecture"
+    , description =
+      [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign once. "
+      , readMore "https://guide.elm-lang.org/architecture/"
+      ]
+    , image =
+        div [ class "terminal" ]
+          [ color grey "-- THE ELM ARCHITECTURE"
+          , text "\n"
+          , text "\n"
+          , color cyan "init"
+          , text " : Model\n"
+          , text "\n"
+          , color cyan "update"
+          , text " : Msg -> Model -> Model\n"
+          , text "\n"
+          , color cyan "view"
+          , text " : Model -> Html Msg\n"
+          ]
+    }
+  , { title = "No Runtime Exceptions"
     , description =
       [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
       , readMore "/news/compilers-as-assistants"
