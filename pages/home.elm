@@ -186,14 +186,13 @@ view model =
 
 viewLarge : Model -> List (Html Msg)
 viewLarge model =
-  let viewFeature feature =
-        E.el
-          [ E.width E.fill
-          ] <|
-          E.row
+  let viewQuoteTitle =
+        E.el [ F.size 32, E.centerX ] (E.text quoteTitle)
+
+      viewFeature feature =
+        E.el [ E.width E.fill ] <| E.row
           [ E.width pageColumn
           , E.centerX
-          , E.paddingXY 0 70
           , E.spacing 100
           ]
           [ featureText feature
@@ -237,7 +236,8 @@ viewLarge model =
             ]
         , E.column
             [ E.width E.fill
-            , E.paddingEach { top = 0, bottom = 140, left = 0, right = 0 }
+            , E.paddingEach { top = 60, bottom = 200, left = 0, right = 0 }
+            , E.spacing 150
             ] <|
             List.map viewFeature features
         ]
@@ -512,7 +512,31 @@ featureImage feature =
   E.el
     [ E.width E.fill
     , E.alignRight
-    ] <| E.el [ E.width E.fill ] <| E.html <| feature.image
+    ] <| E.el [ E.width E.fill ] <| feature.image
+
+
+viewQuote : Quote -> E.Element msg
+viewQuote quote =
+  E.textColumn
+    [ E.width E.fill
+    , E.alignTop
+    ]
+    [ E.paragraph
+        [ F.size 22
+        , F.italic
+        , E.htmlAttribute (Html.Attributes.style "background-image" "url(\"/assets/home/quotes.svg\")")
+        , E.htmlAttribute (Html.Attributes.style "background-repeat" "no-repeat")
+        , E.htmlAttribute (Html.Attributes.style "background-size" "150px")
+        , E.paddingEach { top = 30, bottom = 20, left = 0, right = 0 }
+        ]
+        [ E.text quote.quote
+        ]
+    , E.paragraph
+      [ F.size 16
+      , E.alignRight
+      ]
+      [ E.text quote.author ]
+    ]
 
 
 
@@ -540,7 +564,7 @@ movingText model =
 
 tryButton : E.Element Msg
 tryButton =
-  Ui.linkButton "/try" "Try"
+  Ui.linkButton "/try" "Playground"
     [ Ev.onMouseEnter HoveringTry
     , Ev.onMouseLeave UnhoveringButton
     ]
@@ -675,7 +699,7 @@ copyRight =
 type alias Feature msg =
   { title : String
   , description : List (E.Element msg)
-  , image : Html msg
+  , image : E.Element msg
   }
 
 
@@ -684,12 +708,23 @@ features =
   let readMore url =
         Ui.link [] (Link "Learn more." url)
   in
-  [ { title = "Single Simple Architecture"
+  [ { title = "Fearless refactoring"
     , description =
-      [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign once. "
-      , readMore "https://guide.elm-lang.org/architecture/"
+      [ E.text "The compiler guides you safely through your changes, ensuring confidence even during the most widereaching refactorings."
       ]
     , image =
+        viewQuote
+          { quote = "Whether it's renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
+          , author = "James Carlson, Elm developer"
+          , link = Nothing
+          }
+    }
+  , { title = "Learn once, know all"
+    , description =
+        [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign ones. "
+        , readMore "https://guide.elm-lang.org/architecture/"
+        ]
+    , image = E.html <|
         div [ class "terminal" ]
           [ color grey "-- THE ELM ARCHITECTURE"
           , text "\n"
@@ -704,12 +739,23 @@ features =
           , text " : Model -> Html Msg\n"
           ]
     }
+  , { title = "Fast and useful feedback"
+    , description =
+      [ E.text "Even on large codebases.. TODO."
+      ]
+    , image =
+        viewQuote
+          { quote = "I love how fast Elm is. I make a change and I get an immediate response. It’s like I’m having a conversation with the compiler about how best to build things."
+          , author = "Wolfgang Schuster, Elm developer"
+          , link = Nothing
+          }
+    }
   , { title = "No Runtime Exceptions"
     , description =
       [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
       , readMore "/news/compilers-as-assistants"
       ]
-    , image =
+    , image = E.html <|
         div [ class "terminal" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
           , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
@@ -728,14 +774,25 @@ features =
         [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
         , readMore "/news/blazing-fast-html-round-two"
         ]
-    , image = performanceChart
+    , image = E.html performanceChart
+    }
+  , { title = "Great libraries"
+    , description =
+      [ E.text "..TODO"
+      ]
+    , image =
+        viewQuote
+          { quote = "Everything in core fits together like Lego."
+          , author = "Atle Wee Førre, Elm developer"
+          , link = Nothing
+          }
     }
   , { title = "Enforced Semantic Versioning"
     , description =
         [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
         , readMore "https://package.elm-lang.org"
         ]
-    , image =
+    , image = E.html <|
         div [ class "terminal" ]
           [ color "plum" "$"
           , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
@@ -752,14 +809,14 @@ features =
         , E.text " flag and let the compiler do the rest. No complicated set up. "
         , readMore "/news/small-assets-without-the-headache"
         ]
-    , image = assetsChart
+    , image = E.html assetsChart
     }
   , { title = "JavaScript Interop"
     , description =
         [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
         , readMore "http://guide.elm-lang.org/interop/"
         ]
-    , image =
+    , image = E.html <|
         div [ class "terminal" ]
           [ var
           , text " Elm "
@@ -807,3 +864,55 @@ assetsChart =
         , Chart.Overlay 320 18 "text-anchor: middle; font-size: 12px; fill: grey;" "(uglify + gzip)"
         ]
     }
+
+
+
+-- CONTENT / QUOTES
+
+
+quoteTitle : String
+quoteTitle =
+  "The Experience"
+
+
+type alias Quote =
+  { quote : String
+  , author : String
+  , link : Maybe String
+  }
+
+
+quotes : List Quote
+quotes =
+  [ { quote = "It relieves me from the pressure of getting everything right from the beginning."
+    , author = "Agus Zubiaga on refactoring in Elm"
+    , link = Nothing
+    }
+  , { quote = "Whether its renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
+    , author = "James Carlson"
+    , link = Nothing
+    }
+  ]
+
+
+
+quotes2 : List Quote
+quotes2 =
+  [ { quote = "It relieves me from the pressure of getting everything right from the beginning."
+    , author = "Agus Zubiaga on refactoring in Elm"
+    , link = Nothing
+    }
+  , { quote = "Whether its renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
+    , author = "James Carlson"
+    , link = Nothing
+    }
+  , { quote = "One of the most important things to me [..] is the feeling of joy and relaxation when writing Elm code."
+    , author = "lucamug on working in Elm"
+    , link = Nothing
+    }
+  ]
+
+
+
+
+
