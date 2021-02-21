@@ -101,6 +101,18 @@ h2 content =
       [ Html.text content ]
 
 
+quote : String -> E.Element msg
+quote content =
+  E.html <|
+    Html.q
+      [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "margin" "0"
+      , Html.Attributes.style "padding" "0"
+      , Html.Attributes.style "background" "transparent"
+      ]
+      [ Html.text content ]
+
+
 blockquote : String -> E.Element msg
 blockquote content =
   E.html <|

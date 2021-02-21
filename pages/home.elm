@@ -225,27 +225,6 @@ viewLarge model =
           [ featureText feature
           , featureImage feature
           ]
-
-      viewQuickQuote string =
-        E.paragraph [ F.size 18, F.color C.gray, F.italic ]
-          [ E.html <|
-              Html.q [] [ text string ]
-          ]
-
-      viewDot index quote =
-        I.button
-          [ E.width (E.px 7)
-          , E.height (E.px 7)
-          , Bo.rounded 100
-          , if Cycle.next model.quotes == quote then
-              B.color C.blue
-            else
-              B.color (E.rgb255 230 230 230)
-          , R.description "Next quote"
-          ]
-          { onPress = Just (JumpToQuote index)
-          , label = E.none
-          }
   in
   [ container <|
       E.column
@@ -282,14 +261,7 @@ viewLarge model =
                   , downloadLink
                   ]
             ]
-        , E.column
-            [ E.centerX
-            , E.spacing 15
-            , E.paddingEach { top = 0, bottom = 100, left = 0, right = 0 }
-            ]
-            [ viewQuickQuote (Cycle.next model.quotes)
-            , E.row [ E.spacing 10, E.centerX ] (List.indexedMap viewDot (Cycle.toList model.quotes))
-            ]
+        , smallQuotes 0 100 model
         , E.column
             [ E.width E.fill
             , E.paddingEach { top = 60, bottom = 200, left = 0, right = 0 }
@@ -426,10 +398,11 @@ viewMedium model =
             , tryButton
             , tutorialButton
             ]
+        , smallQuotes 40 20 model
         , E.column
             [ E.width E.fill
             , E.spacing 50
-            , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            , E.paddingEach { top = 0, bottom = 20, left = 0, right = 0 }
             , R.mainContent
             ] <|
             List.map viewFeature features
@@ -489,10 +462,11 @@ viewSmall model =
             , tryButton
             , tutorialButton
             ]
+        , smallQuotes 40 20 model
         , E.column
             [ E.width E.fill
             , E.spacing 50
-            , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            , E.paddingEach { top = 0, bottom = 20, left = 0, right = 0 }
             , R.mainContent
             ] <|
             List.map viewFeature features
@@ -559,10 +533,10 @@ featureText feature =
     [ E.width E.fill
     , E.alignLeft
     , E.alignTop
+    , E.spacing 15
     ]
     [ E.paragraph
         [ F.size 25
-        , E.paddingXY 0 15
         , E.width E.fill
         ]
         [ Ui.h2 feature.title
@@ -583,8 +557,8 @@ featureImage feature =
     ] <| E.el [ E.width E.fill ] <| feature.image
 
 
-viewQuote : Quote -> E.Element msg
-viewQuote quote =
+featureQuote : Quote -> E.Element msg
+featureQuote quote =
   E.textColumn
     [ E.width E.fill
     , E.alignTop
@@ -607,6 +581,45 @@ viewQuote quote =
       [ Ui.figcaption quote.author
       ]
     ]
+
+
+smallQuotes : Int -> Int -> Model -> E.Element Msg
+smallQuotes top bottom model =
+  let viewOne quote =
+        E.paragraph
+          [ F.size 18
+          , F.color C.gray
+          , F.italic
+          , F.center
+          ]
+          [ Ui.quote quote ]
+
+      viewDot index quote =
+        I.button
+          [ E.width (E.px 7)
+          , E.height (E.px 7)
+          , Bo.rounded 100
+          , if Cycle.next model.quotes == quote then
+              B.color C.blue
+            else
+              B.color (E.rgb255 230 230 230)
+          , R.description "Next quote"
+          ]
+          { onPress = Just (JumpToQuote index)
+          , label = E.none
+          }
+  in
+  E.column
+    [ E.width E.fill
+    , E.spacing 15
+    , E.paddingEach { top = top, bottom = bottom, left = 0, right = 0 }
+    ]
+    [ viewOne (Cycle.next model.quotes)
+    , E.row
+        [ E.spacing 10, E.centerX ]
+        (List.indexedMap viewDot (Cycle.toList model.quotes))
+    ]
+
 
 
 
@@ -798,20 +811,20 @@ features =
           , text " to handle possible errors."
           ]
     }
-  , { title = "Fearless refactoring"
+  , { title = "If it compiles, it works"
     , description =
-      [ E.text "The compiler guides you safely through your changes, ensuring confidence even during the most widereaching refactorings."
+      [ E.text "The compiler guides you safely through your changes, ensuring confidence even through the most widereaching refactorings in unfamiliar codebases. "
       ]
     , image =
-        viewQuote
+        featureQuote
           { quote = "Whether it's renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
           , author = "James Carlson, Elm developer"
           , link = Nothing
           }
     }
-  , { title = "Learn once, know all"
+  , { title = "One way to do it all"
     , description =
-        [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign ones. "
+        [ E.text "All Elm programs are written in the same pattern, eliminating confustion and doubt when building new projects and making it easy to navigate old or foreign codebases. This is been proven especially valuable for companies with many engineers and large codebases! "
         , readMore "https://guide.elm-lang.org/architecture/"
         ]
     , image = E.html <|
@@ -820,10 +833,13 @@ features =
           , text "\n"
           , text "\n"
           , color cyan "init"
-          , text " : Model\n"
+          , text " : ( Model, Cmd Msg )\n"
           , text "\n"
           , color cyan "update"
-          , text " : Msg -> Model -> Model\n"
+          , text " : Msg -> Model -> ( Model, Cmd Msg )\n"
+          , text "\n"
+          , color cyan "subscriptions"
+          , text " : Model -> Sub Msg\n"
           , text "\n"
           , color cyan "view"
           , text " : Model -> Html Msg\n"
@@ -834,7 +850,7 @@ features =
       [ E.text "Even on large codebases, compilation is blazing fast."
       ]
     , image =
-        viewQuote
+        featureQuote
           { quote = "I love how fast Elm is. I make a change and I get an immediate response. It’s like I’m having a conversation with the compiler about how best to build things."
           , author = "Wolfgang Schuster, Elm developer"
           , link = Nothing
@@ -852,7 +868,7 @@ features =
       [ E.text "..TODO"
       ]
     , image =
-        viewQuote
+        featureQuote
           { quote = "Everything in core fits together like Lego."
           , author = "Atle Wee Førre, Equinor"
           , link = Nothing
