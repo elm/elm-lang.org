@@ -9,6 +9,7 @@ import Element.Background as B
 import Element.Border as Bo
 import Element.Events as Ev
 import Colors as C
+import Html
 import Html.Attributes exposing (class)
 
 
@@ -73,4 +74,29 @@ linkButton url label events =
     { url = url
     , label = E.text label
     }
+
+
+role : String -> E.Attribute msg
+role role_ =
+  E.htmlAttribute (Html.Attributes.attribute "role" role_)
+
+
+h1 : List String -> E.Element msg
+h1 contents =
+  E.html <|
+    Html.h1
+      [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "margin" "0"
+      ]
+      (List.map Html.text contents |> List.intersperse (Html.br [] []))
+
+
+h2 : String -> E.Element msg
+h2 content =
+  E.html <|
+    Html.h2
+      [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "margin" "0"
+      ]
+      [ Html.text content ]
 

@@ -2,7 +2,7 @@
 import Browser
 import Browser.Events as E
 import Html exposing (Html, Attribute, div, span, text)
-import Html.Attributes exposing (style, class)
+import Html.Attributes exposing (style, class, attribute)
 import Html.Events exposing (onClick, on)
 import Json.Decode as D
 import Markdown
@@ -210,7 +210,7 @@ viewLarge model =
           [ E.width pageColumn
           , E.centerX
           , E.spacing 100
-          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
+          , Ui.role "article"
           ]
           [ featureText feature
           , featureImage feature
@@ -368,7 +368,7 @@ viewMedium model =
         E.column
           [ E.width E.fill
           , E.spacing 40
-          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
+          , Ui.role "article"
           ]
           [ featureText feature
           , featureImage feature
@@ -438,7 +438,7 @@ viewSmall model =
           [ E.width E.fill
           , E.width E.fill
           , E.spacing 40
-          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
+          , Ui.role "article"
           ]
           [ featureText feature
           , featureImage feature
@@ -546,12 +546,7 @@ featureText feature =
         , E.paddingXY 0 15
         , E.width E.fill
         ]
-        [ E.html <|
-            Html.h2
-              [ Html.Attributes.style "font-size" "inherit"
-              , Html.Attributes.style "margin" "0"
-              ]
-              [ Html.text feature.title ]
+        [ Ui.h2 feature.title
         ]
     , E.paragraph
         [ F.size 16
@@ -574,7 +569,7 @@ viewQuote quote =
   E.textColumn
     [ E.width E.fill
     , E.alignTop
-    , E.htmlAttribute (Html.Attributes.attribute "role" "figure")
+    , Ui.role "figure"
     ]
     [ E.paragraph
         [ F.size 22
@@ -616,15 +611,10 @@ movingText model =
         [ F.size 30
         , F.center
         ]
-        [ E.html <|
-            Html.h1
-              [ Html.Attributes.style "font-size" "inherit"
-              , Html.Attributes.style "margin" "0"
-              ]
-              [ Html.text "A delightful language "
-              , Html.br [] []
-              , Html.text "for reliable web applications."
-              ]
+        [ Ui.h1
+            [ "A delightful language "
+            , "for reliable web applications."
+            ]
         ]
     ]
 
@@ -783,7 +773,7 @@ features =
       , readMore "/news/compilers-as-assistants"
       ]
     , image = E.html <|
-        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
+        div [ class "terminal", attribute "role" "figure" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
           , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
           , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
@@ -813,7 +803,7 @@ features =
         , readMore "https://guide.elm-lang.org/architecture/"
         ]
     , image = E.html <|
-        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
+        div [ class "terminal", attribute "role" "figure" ]
           [ color grey "-- THE ELM ARCHITECTURE"
           , text "\n"
           , text "\n"
@@ -862,7 +852,7 @@ features =
         , readMore "https://package.elm-lang.org"
         ]
     , image = E.html <|
-        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
+        div [ class "terminal", attribute "role" "figure" ]
           [ color "plum" "$"
           , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
           , color green "MAJOR"
@@ -886,7 +876,7 @@ features =
         , readMore "http://guide.elm-lang.org/interop/"
         ]
     , image = E.html <|
-        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
+        div [ class "terminal", attribute "role" "figure" ]
           [ var
           , text " Elm "
           , equals
@@ -962,26 +952,3 @@ quotes =
     , link = Nothing
     }
   ]
-
-
-
-quotes2 : List Quote
-quotes2 =
-  [ { quote = "It relieves me from the pressure of getting everything right from the beginning."
-    , author = "Agus Zubiaga on refactoring in Elm"
-    , link = Nothing
-    }
-  , { quote = "Whether its renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
-    , author = "James Carlson"
-    , link = Nothing
-    }
-  , { quote = "One of the most important things to me [..] is the feeling of joy and relaxation when writing Elm code."
-    , author = "lucamug on working in Elm"
-    , link = Nothing
-    }
-  ]
-
-
-
-
-
