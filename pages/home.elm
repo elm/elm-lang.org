@@ -579,20 +579,13 @@ viewQuote quote =
         , E.htmlAttribute (Html.Attributes.style "background-size" "150px")
         , E.paddingEach { top = 30, bottom = 20, left = 0, right = 0 }
         ]
-        [ E.html <|
-            Html.blockquote
-              [ Html.Attributes.style "font-size" "inherit"
-              , Html.Attributes.style "margin" "0"
-              , Html.Attributes.style "background" "transparent"
-              ]
-              [ text quote.quote ]
+        [ Ui.blockquote quote.quote
         ]
     , E.paragraph
       [ F.size 16
       , E.alignRight
       ]
-      [ E.html <|
-            Html.figcaption [] [ text quote.author ]
+      [ Ui.figcaption quote.author
       ]
     ]
 

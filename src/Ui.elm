@@ -100,3 +100,20 @@ h2 content =
       ]
       [ Html.text content ]
 
+
+blockquote : String -> E.Element msg
+blockquote content =
+  E.html <|
+    Html.blockquote
+      [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "margin" "0"
+      , Html.Attributes.style "padding" "0"
+      , Html.Attributes.style "background" "transparent"
+      ]
+      [ Html.text content ]
+
+
+figcaption : String -> E.Element msg
+figcaption content =
+  E.html <|
+    Html.figcaption [] [ Html.text content ]
