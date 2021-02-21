@@ -4,6 +4,7 @@ module Cycle exposing
   , next
   , step
   , toList
+  , select
   )
 
 
@@ -43,4 +44,16 @@ restart visited a unvisited =
 
 toList : Cycle a -> List a
 toList (Cycle visited a unvisited) =
-  visited ++ [ a ] ++  unvisited
+  visited ++ [ a ] ++ unvisited
+
+
+select : Int -> Cycle a -> Cycle a
+select index cycle =
+  let list = toList cycle in
+  case ( List.take index list, List.drop index list ) of
+    ( visited, selected :: unvisited ) -> Cycle visited selected unvisited
+    ( visited, unvisited ) -> cycle
+
+
+
+

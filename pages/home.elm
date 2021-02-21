@@ -54,9 +54,10 @@ main =
 type alias Model =
   { window : { width : Int, height : Int }
   , patterns : Cycle.Cycle Logo.Pattern
-  , quotes : Cycle.Cycle String
   , time : Float
   , logo : Logo.Model
+  , quotes : Cycle.Cycle String
+  , justSelected : Bool
   , taglines : TextAnimation.State
   , visibility : E.Visibility
   }
@@ -83,6 +84,7 @@ init window =
         , "[Elm] libraries don’t tend to break underneath your feet when you update them like they do in other languages"
         , "Its simplicity and powerful guarantees make it possible to create reliable, useful tools for working with Elm."
         ]
+  , justSelected = False
   , taglines =
       TextAnimation.init
         "for reliable web applications."
@@ -111,6 +113,7 @@ type Msg
   | HoveringGuide
   | HoveringInstaller
   | UnhoveringButton
+  | JumpToQuote Int
 
 
 update : Msg -> Model -> Model
@@ -149,7 +152,11 @@ update msg model =
     TimePassed ->
       { model
       | taglines = TextAnimation.step model.taglines
-      , quotes = Cycle.step model.quotes
+      , quotes =
+          if model.justSelected
+          then model.quotes
+          else Cycle.step model.quotes
+      , justSelected = False
       }
 
     HoveringTry ->
@@ -163,6 +170,9 @@ update msg model =
 
     UnhoveringButton ->
       { model | logo = Logo.setPattern Logo.logo model.logo }
+
+    JumpToQuote index ->
+      { model | quotes = Cycle.select index model.quotes, justSelected = True }
 
 
 
@@ -222,11 +232,20 @@ viewLarge model =
               Html.q [] [ text string ]
           ]
 
-      viewDot quote =
-        if Cycle.next model.quotes == quote then
-          E.el [ E.width (E.px 7), E.height (E.px 7), Bo.rounded 100, B.color C.blue ] E.none
-        else
-          E.el [ E.width (E.px 7), E.height (E.px 7), Bo.rounded 100, B.color (E.rgb255 230 230 230) ] E.none
+      viewDot index quote =
+        I.button
+          [ E.width (E.px 7)
+          , E.height (E.px 7)
+          , Bo.rounded 100
+          , if Cycle.next model.quotes == quote then
+              B.color C.blue
+            else
+              B.color (E.rgb255 230 230 230)
+          , R.description "Next quote"
+          ]
+          { onPress = Just (JumpToQuote index)
+          , label = E.none
+          }
   in
   [ container <|
       E.column
@@ -269,7 +288,7 @@ viewLarge model =
             , E.paddingEach { top = 0, bottom = 100, left = 0, right = 0 }
             ]
             [ viewQuickQuote (Cycle.next model.quotes)
-            , E.row [ E.spacing 10, E.centerX ] (List.map viewDot (Cycle.toList model.quotes))
+            , E.row [ E.spacing 10, E.centerX ] (List.indexedMap viewDot (Cycle.toList model.quotes))
             ]
         , E.column
             [ E.width E.fill
