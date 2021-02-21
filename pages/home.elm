@@ -54,6 +54,7 @@ main =
 type alias Model =
   { window : { width : Int, height : Int }
   , patterns : Cycle.Cycle Logo.Pattern
+  , quotes : Cycle.Cycle String
   , time : Float
   , logo : Logo.Model
   , taglines : TextAnimation.State
@@ -67,6 +68,21 @@ init window =
   , time = 0
   , logo = Logo.start
   , visibility = E.Visible
+  , quotes =
+      Cycle.init
+        "It is the most productive programming language I have used."
+        [ "You can learn it in a day and keep it in your head even if you don’t use it for a few weeks."
+        , "One of the most important things to me is the feeling of joy and relaxation when writing Elm code."
+        , "Elm relieves me from the pressure of getting everything right from the beginning."
+        , "Elm allows the architecture of my app to find itself and naturally evolve with new product requirements."
+        , "The strong type system [..] makes me account for all error pathways in code, not just the happy path."
+        , "Thanks to Elm, now I just go and build things in peace. It’s wonderful."
+        , "You just follow the compiler errors and come out the other end with a working app."
+        , "The language helps steer you towards writing api’s that are simple and clear."
+        , "I love how fast Elm is. I make a change and I get an immediate response."
+        , "[Elm] libraries don’t tend to break underneath your feet when you update them like they do in other languages"
+        , "Its simplicity and powerful guarantees make it possible to create reliable, useful tools for working with Elm."
+        ]
   , taglines =
       TextAnimation.init
         "for reliable web applications."
@@ -131,7 +147,10 @@ update msg model =
       { model | visibility = visibility }
 
     TimePassed ->
-      { model | taglines = TextAnimation.step model.taglines }
+      { model
+      | taglines = TextAnimation.step model.taglines
+      , quotes = Cycle.step model.quotes
+      }
 
     HoveringTry ->
       { model | logo = Logo.setPattern Logo.child model.logo }
@@ -162,7 +181,7 @@ subscriptions model =
         E.Visible ->
           if Logo.isMoving model.logo || TextAnimation.isMoving model.taglines
           then E.onAnimationFrameDelta TimeDelta
-          else Time.every 4000 (\_ -> TimePassed)
+          else Time.every 3000 (\_ -> TimePassed)
     ]
 
 
@@ -186,18 +205,28 @@ view model =
 
 viewLarge : Model -> List (Html Msg)
 viewLarge model =
-  let viewQuoteTitle =
-        E.el [ F.size 32, E.centerX ] (E.text quoteTitle)
-
-      viewFeature feature =
+  let viewFeature feature =
         E.el [ E.width E.fill ] <| E.row
           [ E.width pageColumn
           , E.centerX
           , E.spacing 100
+          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
           ]
           [ featureText feature
           , featureImage feature
           ]
+
+      viewQuickQuote string =
+        E.paragraph [ F.size 18, F.color C.gray, F.italic ]
+          [ E.html <|
+              Html.q [] [ text string ]
+          ]
+
+      viewDot quote =
+        if Cycle.next model.quotes == quote then
+          E.el [ E.width (E.px 7), E.height (E.px 7), Bo.rounded 100, B.color C.blue ] E.none
+        else
+          E.el [ E.width (E.px 7), E.height (E.px 7), Bo.rounded 100, B.color (E.rgb255 230 230 230) ] E.none
   in
   [ container <|
       E.column
@@ -207,7 +236,7 @@ viewLarge model =
             [ E.width E.fill
             ] <|
             E.row
-              [ E.htmlAttribute (style "min-height" "calc(100vh - 50px)")
+              [ E.htmlAttribute (style "min-height" "calc(100vh - 130px)")
               , E.width pageColumn
               , E.centerX
               ]
@@ -235,13 +264,22 @@ viewLarge model =
                   ]
             ]
         , E.column
+            [ E.centerX
+            , E.spacing 15
+            , E.paddingEach { top = 0, bottom = 100, left = 0, right = 0 }
+            ]
+            [ viewQuickQuote (Cycle.next model.quotes)
+            , E.row [ E.spacing 10, E.centerX ] (List.map viewDot (Cycle.toList model.quotes))
+            ]
+        , E.column
             [ E.width E.fill
             , E.paddingEach { top = 60, bottom = 200, left = 0, right = 0 }
-            , E.spacing 150
+            , E.spacing 120
+            , R.mainContent
             ] <|
             List.map viewFeature features
         ]
-  , fixedPointer
+  --, fixedPointer
   , fixedMenu
   ]
 
@@ -275,6 +313,7 @@ fixedMenu =
               , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
               , F.size 14
               , F.color C.gray
+              , R.footer
               ] <|
               (List.map Ui.grayLink sources) ++ [ copyRight ]
           ]
@@ -286,6 +325,7 @@ navColumn {title, links} =
   E.column
     [ E.width E.fill
     , E.alignTop
+    , R.navigation
     ]
     (navTitle title :: List.map navitem links)
 
@@ -328,6 +368,7 @@ viewMedium model =
         E.column
           [ E.width E.fill
           , E.spacing 40
+          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
           ]
           [ featureText feature
           , featureImage feature
@@ -352,6 +393,7 @@ viewMedium model =
                 [ E.width E.fill
                 , E.alignRight
                 , E.spacing 20
+                , R.navigation
                 ]
                 (List.map (Ui.link [ E.alignRight ]) toplevel)
             ]
@@ -369,6 +411,7 @@ viewMedium model =
             [ E.width E.fill
             , E.spacing 50
             , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            , R.mainContent
             ] <|
             List.map viewFeature features
         , E.row
@@ -377,6 +420,7 @@ viewMedium model =
               , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
               , F.size 14
               , F.color C.gray
+              , R.footer
               ] <|
               (List.map Ui.grayLink sources) ++ [copyRight]
         ]
@@ -394,6 +438,7 @@ viewSmall model =
           [ E.width E.fill
           , E.width E.fill
           , E.spacing 40
+          , E.htmlAttribute (Html.Attributes.attribute "role" "article")
           ]
           [ featureText feature
           , featureImage feature
@@ -412,6 +457,7 @@ viewSmall model =
             , E.centerX
             , F.size 14
             , E.paddingXY 0 20
+            , R.navigation
             ]
             (elmTitle 20 :: List.map (Ui.link [ E.paddingXY 5 0, F.size 13 ]) toplevel)
         , E.column
@@ -428,6 +474,7 @@ viewSmall model =
             [ E.width E.fill
             , E.spacing 50
             , E.paddingEach { top = 40, bottom = 20, left = 0, right = 0 }
+            , R.mainContent
             ] <|
             List.map viewFeature features
         , E.column
@@ -437,6 +484,7 @@ viewSmall model =
               , F.size 14
               , F.color C.gray
               , F.center
+              , R.footer
               ]
               [ E.row
                   [ E.width E.fill
@@ -498,7 +546,13 @@ featureText feature =
         , E.paddingXY 0 15
         , E.width E.fill
         ]
-        [ E.text feature.title ]
+        [ E.html <|
+            Html.h2
+              [ Html.Attributes.style "font-size" "inherit"
+              , Html.Attributes.style "margin" "0"
+              ]
+              [ Html.text feature.title ]
+        ]
     , E.paragraph
         [ F.size 16
         , E.width E.fill
@@ -520,6 +574,7 @@ viewQuote quote =
   E.textColumn
     [ E.width E.fill
     , E.alignTop
+    , E.htmlAttribute (Html.Attributes.attribute "role" "figure")
     ]
     [ E.paragraph
         [ F.size 22
@@ -529,13 +584,21 @@ viewQuote quote =
         , E.htmlAttribute (Html.Attributes.style "background-size" "150px")
         , E.paddingEach { top = 30, bottom = 20, left = 0, right = 0 }
         ]
-        [ E.text quote.quote
+        [ E.html <|
+            Html.blockquote
+              [ Html.Attributes.style "font-size" "inherit"
+              , Html.Attributes.style "margin" "0"
+              , Html.Attributes.style "background" "transparent"
+              ]
+              [ text quote.quote ]
         ]
     , E.paragraph
       [ F.size 16
       , E.alignRight
       ]
-      [ E.text quote.author ]
+      [ E.html <|
+            Html.figcaption [] [ text quote.author ]
+      ]
     ]
 
 
@@ -553,11 +616,15 @@ movingText model =
         [ F.size 30
         , F.center
         ]
-        [ E.text "A delightful language "
-        , E.html (Html.br [] [])
-        , case TextAnimation.view model.taglines of
-           "" ->  E.html <| Html.br [] []
-           s -> E.text s
+        [ E.html <|
+            Html.h1
+              [ Html.Attributes.style "font-size" "inherit"
+              , Html.Attributes.style "margin" "0"
+              ]
+              [ Html.text "A delightful language "
+              , Html.br [] []
+              , Html.text "for reliable web applications."
+              ]
         ]
     ]
 
@@ -567,6 +634,7 @@ tryButton =
   Ui.linkButton "/try" "Playground"
     [ Ev.onMouseEnter HoveringTry
     , Ev.onMouseLeave UnhoveringButton
+    , R.description "Go to playground"
     ]
 
 
@@ -575,6 +643,7 @@ tutorialButton =
   Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
     [ Ev.onMouseEnter HoveringGuide
     , Ev.onMouseLeave UnhoveringButton
+    , R.description "Go to Tutorial"
     ]
 
 
@@ -708,7 +777,26 @@ features =
   let readMore url =
         Ui.link [] (Link "Learn more." url)
   in
-  [ { title = "Fearless refactoring"
+  [ { title = "No Runtime Exceptions"
+    , description =
+      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
+      , readMore "/news/compilers-as-assistants"
+      ]
+    , image = E.html <|
+        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
+          [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
+          , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
+          , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
+          , text "\nThis `toInt` call produces:\n\n    "
+          , color dullYellow "Maybe"
+          , text " Int\n\nBut `drop` needs the 1st argument to be:\n\n    Int\n\n"
+          , span [ style "text-decoration" "underline" ] [ text "Hint" ]
+          , text ": Use "
+          , color green "Maybe.withDefault"
+          , text " to handle possible errors."
+          ]
+    }
+  , { title = "Fearless refactoring"
     , description =
       [ E.text "The compiler guides you safely through your changes, ensuring confidence even during the most widereaching refactorings."
       ]
@@ -725,7 +813,7 @@ features =
         , readMore "https://guide.elm-lang.org/architecture/"
         ]
     , image = E.html <|
-        div [ class "terminal" ]
+        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
           [ color grey "-- THE ELM ARCHITECTURE"
           , text "\n"
           , text "\n"
@@ -741,7 +829,7 @@ features =
     }
   , { title = "Fast and useful feedback"
     , description =
-      [ E.text "Even on large codebases.. TODO."
+      [ E.text "Even on large codebases, compilation is blazing fast."
       ]
     , image =
         viewQuote
@@ -749,25 +837,6 @@ features =
           , author = "Wolfgang Schuster, Elm developer"
           , link = Nothing
           }
-    }
-  , { title = "No Runtime Exceptions"
-    , description =
-      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
-      , readMore "/news/compilers-as-assistants"
-      ]
-    , image = E.html <|
-        div [ class "terminal" ]
-          [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
-          , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
-          , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
-          , text "\nThis `toInt` call produces:\n\n    "
-          , color dullYellow "Maybe"
-          , text " Int\n\nBut `drop` needs the 1st argument to be:\n\n    Int\n\n"
-          , span [ style "text-decoration" "underline" ] [ text "Hint" ]
-          , text ": Use "
-          , color green "Maybe.withDefault"
-          , text " to handle possible errors."
-          ]
     }
   , { title = "Great Performance"
     , description =
@@ -783,7 +852,7 @@ features =
     , image =
         viewQuote
           { quote = "Everything in core fits together like Lego."
-          , author = "Atle Wee Førre, Elm developer"
+          , author = "Atle Wee Førre, Equinor"
           , link = Nothing
           }
     }
@@ -793,7 +862,7 @@ features =
         , readMore "https://package.elm-lang.org"
         ]
     , image = E.html <|
-        div [ class "terminal" ]
+        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
           [ color "plum" "$"
           , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
           , color green "MAJOR"
@@ -817,7 +886,7 @@ features =
         , readMore "http://guide.elm-lang.org/interop/"
         ]
     , image = E.html <|
-        div [ class "terminal" ]
+        div [ class "terminal", Html.Attributes.attribute "role" "figure" ]
           [ var
           , text " Elm "
           , equals

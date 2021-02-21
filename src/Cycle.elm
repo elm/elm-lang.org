@@ -3,6 +3,7 @@ module Cycle exposing
   , init
   , next
   , step
+  , toList
   )
 
 
@@ -38,3 +39,8 @@ restart visited a unvisited =
 
     x :: xs ->
       restart xs x (a :: unvisited)
+
+
+toList : Cycle a -> List a
+toList (Cycle visited a unvisited) =
+  visited ++ [ a ] ++  unvisited

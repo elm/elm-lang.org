@@ -4,6 +4,7 @@ import Svg exposing (..)
 import Svg.Attributes as Attributes exposing (..)
 import Svg.Coordinates exposing (..)
 import Svg.Plot exposing (..)
+import Html.Attributes
 
 
 {-| -}
@@ -75,6 +76,7 @@ view config =
   in
   svg
     [ Attributes.style "box-sizing: border-box; width: 100%; max-width: 500px; margin: 0 auto;"
+    , Html.Attributes.attribute "role" "figure"
     , viewBox ("0 0 " ++ String.fromFloat plane.x.length ++ " " ++ String.fromFloat plane.y.length)
     ]
     [ grouped plane
