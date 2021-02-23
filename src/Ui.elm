@@ -106,6 +106,7 @@ quote content =
   E.html <|
     Html.q
       [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "font-style" "italic"
       , Html.Attributes.style "margin" "0"
       , Html.Attributes.style "padding" "0"
       , Html.Attributes.style "background" "transparent"
@@ -131,12 +132,13 @@ cite maybeLink content =
   E.html <|
     Html.cite
       [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "font-style" "normal"
       , Html.Attributes.style "margin" "0"
       , Html.Attributes.style "padding" "0"
       , Html.Attributes.style "background" "transparent"
       ]
       [ case maybeLink of
-          Just url -> Html.a [ Html.Attributes.href url, Html.Attributes.style "color" "inherit" ] [ Html.text content  ]
+          Just url -> Html.a [ Html.Attributes.href url, Html.Attributes.style "color" "inherit" ] [ Html.text content ]
           Nothing -> Html.text content
       ]
 
@@ -144,4 +146,13 @@ cite maybeLink content =
 figcaption : String -> E.Element msg
 figcaption content =
   E.html <|
-    Html.figcaption [] [ Html.text content ]
+    Html.figcaption []
+    [ Html.cite
+        [ Html.Attributes.style "font-size" "inherit"
+        , Html.Attributes.style "font-style" "normal"
+        , Html.Attributes.style "margin" "0"
+        , Html.Attributes.style "padding" "0"
+        , Html.Attributes.style "background" "transparent"
+        ]
+        [ Html.text content ]
+    ]

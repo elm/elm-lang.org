@@ -78,9 +78,9 @@ init window =
   , quotes =
       Cycle.init
         (QuoteByEmployee "It is the most productive programming language I have used." "Rupert Smith" (Just "https://github.com/the-sett") "Software Engineer" "The Sett Ltd" Nothing)
-        [ QuoteByEmployee "Using Elm, I can deploy and go to sleep!" "Mario Uher" (Just "https://github.com/ream88") "CTO" "yodel.io" (Just "https://www.yodel.io/")
+        [ QuoteByEmployee "[My favorite thing] is the feeling of joy and relaxation when writing Elm code." "Luca Mugnaini" (Just "https://github.com/lucamug") "Software Engineer" "Rakuten" (Just "https://www.rakuten.com/")
+        , QuoteByEmployee "Using Elm, I can deploy and go to sleep!" "Mario Uher" (Just "https://github.com/ream88") "CTO" "yodel.io" (Just "https://www.yodel.io/")
         , QuoteByAuthor "You just follow the compiler errors and come out the other end with a working app." "James Carlson" (Just "https://jxxcarlson.io/")
-        , QuoteByEmployee "[To me it's] the feeling of joy and relaxation when writing Elm code." "Luca Mugnaini" (Just "https://github.com/lucamug") "Software Engineer" "Rakuten" (Just "https://www.rakuten.com/")
         , QuoteByAuthor "You can learn it in a day and keep it in your head even if you don’t use it for weeks." "Jeremy Brown" (Just "https://github.com/jhbrown94")
         , QuoteByAuthor "The language helps steer you towards writing api’s that are simple and clear." "Eric Henry" Nothing
         , QuoteByAuthor "My favorite thing about Elm is that I don’t have to worry when coding" "David Andrews" (Just "https://github.com/DavidDTA")
@@ -593,7 +593,6 @@ smallQuotes top bottom model =
         E.paragraph
           [ F.size 18
           , F.color C.gray
-          , F.italic
           , F.center
           , E.width (E.maximum 700 E.fill)
           ] <|
@@ -859,7 +858,7 @@ features =
   , { title = "One way to do anything"
     , description =
         paragraphLinked "https://guide.elm-lang.org/architecture/"
-          [ text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign codebases. This has been proven especially valuable for companies with many engineers and large codebases!" ]
+          [ text "All Elm programs are written in the same pattern, eliminating doubt and lenghty discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
     , image = E.html <|
         div [ class "terminal", attribute "role" "figure" ]
           [ color grey "-- THE ELM ARCHITECTURE"
