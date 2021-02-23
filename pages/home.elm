@@ -628,7 +628,7 @@ smallQuotes top bottom model =
               B.color C.blue
             else
               B.color (E.rgb255 230 230 230)
-          , R.description "Next quote"
+          , R.description ("See quote number " ++ String.fromInt (index + 1))
           ]
           { onPress = Just (JumpToQuote index)
           , label = E.none
