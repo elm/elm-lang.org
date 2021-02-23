@@ -202,11 +202,16 @@ subscriptions model =
 view : Model -> List (Html Msg)
 view model =
   if model.window.width > 950 then
-    viewLarge model
+    positionStickySafariFix :: viewLarge model
   else if model.window.width > 750 then
     viewMedium model
   else
     viewSmall model
+
+
+positionStickySafariFix : Html msg
+positionStickySafariFix =
+  Html.node "style" [] [ text "body { height: unset !important; }" ]
 
 
 
