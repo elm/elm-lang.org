@@ -859,10 +859,10 @@ features =
           , link = Nothing
           }
     }
-  , { title = "One way to do anything"
+  , { title = "Understand anyone's code"
     , description =
         paragraphLinked "https://guide.elm-lang.org/architecture/"
-          [ text "All Elm programs are written in the same pattern, eliminating doubt and lenghty discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
+          [ text "Including your own, six months later. All Elm programs are written in the same pattern, eliminating doubt and lenghty discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
     , image = E.html <|
         snippet
           [ color grey "-- THE ELM ARCHITECTURE"
@@ -881,10 +881,13 @@ features =
           , text " : Model -> Html Msg\n"
           ]
     }
-  , { title = "Fast and useful feedback"
+  , { title = "Fast and friendly feedback"
     , description =
         paragraph
-          [ text "Even on large codebases, compilation is blazing fast." ]
+          [ text "Enjoy Elm's "
+          , Html.a [ href "https://twitter.com/ID_AA_Carmack/status/735197548034412546?s=20" ] [ text "famously helpful" ]
+          , text " error messages. Even on codebases with hundreds of thousands lines of code, compilation is done in a blink."
+          ]
     , image =
         featureQuote
           { quote = "I love how fast Elm is. I make a change and I get an immediate response. It’s like I’m having a conversation with the compiler about how best to build things."
@@ -901,7 +904,7 @@ features =
   , { title = "Enforced Semantic Versioning"
     , description =
         paragraphLinked "https://package.elm-lang.org"
-          [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases." ]
+          [ text "Elm detects all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases." ]
     , image = E.html <|
         snippet
           [ color "plum" "$"
