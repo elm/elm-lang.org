@@ -1,4 +1,4 @@
-html, head, body {
+html, head, body, pre {
   margin: 0;
 }
 
@@ -119,7 +119,7 @@ a.special-button:focus { text-decoration: none; }
 }
 
 .terminal {
-  padding: 12px;
+  padding: 0 12px;
   border: 1px solid lightgrey;
   overflow-x: auto;
   white-space: pre;

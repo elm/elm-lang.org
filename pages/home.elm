@@ -824,13 +824,18 @@ features =
 
       paragraph content =
         [ E.html <| Html.p [] content ]
+
+      snippet content =
+        Html.code [ class "terminal", attribute "role" "figure" ]
+          [ Html.pre [] content
+          ]
   in
   [ { title = "No Runtime Exceptions"
     , description =
         paragraphLinked "/news/compilers-as-assistants"
           [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production." ]
     , image = E.html <|
-        div [ class "terminal", attribute "role" "figure" ]
+        snippet
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
           , text "\n\nThe 1st argument to `drop` is not what I expect:\n\n8|   List.drop (String.toInt userInput) [1,2,3,4,5,6]\n                "
           , color dullRed "^^^^^^^^^^^^^^^^^^^^^^"
@@ -859,7 +864,7 @@ features =
         paragraphLinked "https://guide.elm-lang.org/architecture/"
           [ text "All Elm programs are written in the same pattern, eliminating doubt and lenghty discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
     , image = E.html <|
-        div [ class "terminal", attribute "role" "figure" ]
+        snippet
           [ color grey "-- THE ELM ARCHITECTURE"
           , text "\n"
           , text "\n"
@@ -898,7 +903,7 @@ features =
         paragraphLinked "https://package.elm-lang.org"
           [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases." ]
     , image = E.html <|
-        div [ class "terminal", attribute "role" "figure" ]
+        snippet
           [ color "plum" "$"
           , text " elm diff Microsoft/elm-json-tree-view 1.0.0 2.0.0\nThis is a "
           , color green "MAJOR"
@@ -922,7 +927,7 @@ features =
         [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
         ]
     , image = E.html <|
-        div [ class "terminal", attribute "role" "figure" ]
+        snippet
           [ var
           , text " Elm "
           , equals
