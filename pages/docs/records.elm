@@ -244,8 +244,7 @@ a custom type that makes these relationships explicit!
 And if you are feeling the urge to break files into smaller parts too, start by checking
 out some additional resources on how to grow Elm code:
 
-- [Modules](https://guide.elm-lang.org/webapps/modules.html) and
-- [Code Structure](https://guide.elm-lang.org/webapps/structure.html)
+- [Modules](https://guide.elm-lang.org/webapps/modules.html) and [Code Structure](https://guide.elm-lang.org/webapps/structure.html)
 - [The Life of a File](https://youtu.be/XpDsk374LDE)
 - [Scaling Elm Apps](https://youtu.be/DoA4Txr4GUs)
 
