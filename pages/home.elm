@@ -56,11 +56,17 @@ type alias Model =
   , patterns : Cycle.Cycle Logo.Pattern
   , time : Float
   , logo : Logo.Model
-  , quotes : Cycle.Cycle String
+  , quotes : Cycle.Cycle SmallQuote
   , justSelected : Bool
   , taglines : TextAnimation.State
   , visibility : E.Visibility
   }
+
+
+type SmallQuote
+  = QuoteByAuthor String String (Maybe String)
+  | QuoteByEmployee String String (Maybe String) String String (Maybe String)
+
 
 
 init : { width : Int, height : Int } -> Model
@@ -71,18 +77,16 @@ init window =
   , visibility = E.Visible
   , quotes =
       Cycle.init
-        "It is the most productive programming language I have used."
-        [ "You can learn it in a day and keep it in your head even if you don’t use it for a few weeks."
-        , "One of the most important things to me is the feeling of joy and relaxation when writing Elm code."
-        , "Elm relieves me from the pressure of getting everything right from the beginning."
-        , "Elm allows the architecture of my app to find itself and naturally evolve with new product requirements."
-        , "The strong type system [..] makes me account for all error pathways in code, not just the happy path."
-        , "Thanks to Elm, now I just go and build things in peace. It’s wonderful."
-        , "You just follow the compiler errors and come out the other end with a working app."
-        , "The language helps steer you towards writing api’s that are simple and clear."
-        , "I love how fast Elm is. I make a change and I get an immediate response."
-        , "[Elm] libraries don’t tend to break underneath your feet when you update them like they do in other languages"
-        , "Its simplicity and powerful guarantees make it possible to create reliable, useful tools for working with Elm."
+        (QuoteByEmployee "It is the most productive programming language I have used." "Rupert Smith" Nothing "Software Engineer" "The Sett Ltd" Nothing)
+        [ QuoteByAuthor "You just follow the compiler errors and come out the other end with a working app." "James Carlson" (Just "https://jxxcarlson.io/")
+        , QuoteByEmployee "To me it's the feeling of joy and relaxation when writing Elm code." "Luca Mugnaini" (Just "https://github.com/lucamug") "Software Engineer" "Rakuten" (Just "https://www.rakuten.com/")
+        , QuoteByEmployee "Using Elm, I can deploy and go to sleep!" "Mario Uher" (Just "https://github.com/ream88") "CTO" "yodel.io" (Just "https://www.yodel.io/")
+        , QuoteByAuthor "You can learn it in a day and keep it in your head even if you don’t use it for weeks." "Jeremy Brown" (Just "https://github.com/jhbrown94")
+        , QuoteByAuthor "The language helps steer you towards writing api’s that are simple and clear." "Eric Henry" Nothing
+        , QuoteByAuthor "My favorite thing about Elm is that I don’t have to worry when coding" "David Andrews" (Just "https://github.com/DavidDTA")
+        , QuoteByAuthor "I love how fast Elm is. I make a change and I get an immediate response." "Wolfgang Schuster" (Just "https://github.com/wolfadex")
+        , QuoteByEmployee "Everything in core fits together like Lego." "Atle Wee Førre" (Just "https://github.com/atlewee") "Software Engineer" "Equinor" (Just "https://www.equinor.com")
+        , QuoteByEmployee "Thanks to Elm, now I just go and build things in peace. It’s wonderful." "Agus Zubiaga" (Just "https://github.com/agu-z") "Head of Engineering" "PINATA" (Just "https://www.gopinata.com/")
         ]
   , justSelected = False
   , taglines =
@@ -234,7 +238,7 @@ viewLarge model =
             [ E.width E.fill
             ] <|
             E.row
-              [ E.htmlAttribute (style "min-height" "calc(100vh - 130px)")
+              [ E.htmlAttribute (style "min-height" "calc(100vh - 135px)")
               , E.width pageColumn
               , E.centerX
               ]
@@ -591,8 +595,29 @@ smallQuotes top bottom model =
           , F.color C.gray
           , F.italic
           , F.center
-          ]
-          [ Ui.quote quote ]
+          , E.width (E.maximum 700 E.fill)
+          ] <|
+          case quote of
+            QuoteByAuthor text author gitlink ->
+              [ Ui.quote text
+              , E.html (Html.br [] [])
+              , E.el [ F.size 16 ] (Ui.cite gitlink author)
+              , E.el [ F.size 16 ] (E.text ", Software engineer")
+              ]
+
+            QuoteByEmployee text author gitlink title company link ->
+              [ Ui.quote text
+              , E.html (Html.br [] [])
+              , E.el [ F.size 16 ] (Ui.cite gitlink author)
+              , E.el [ F.size 16 ] (E.text ", ")
+              , E.el [ F.size 16 ] (E.text title)
+              , E.el [ F.size 16 ] (E.text ", ")
+              , case link of
+                  Just url -> E.link [ F.size 16 ] { url = url, label = E.text company }
+                  Nothing -> E.el [ F.size 16 ] (E.text company)
+
+              ]
+
 
       viewDot index quote =
         I.button
@@ -614,7 +639,7 @@ smallQuotes top bottom model =
     , E.spacing 15
     , E.paddingEach { top = top, bottom = bottom, left = 0, right = 0 }
     ]
-    [ viewOne (Cycle.next model.quotes)
+    [ E.el [ E.centerX ] (viewOne (Cycle.next model.quotes))
     , E.row
         [ E.spacing 10, E.centerX ]
         (List.indexedMap viewDot (Cycle.toList model.quotes))
@@ -787,6 +812,13 @@ type alias Feature msg =
   }
 
 
+type alias Quote =
+  { quote : String
+  , author : String
+  , link : Maybe String
+  }
+
+
 features : List (Feature msg)
 features =
   let readMore url =
@@ -811,7 +843,7 @@ features =
           , text " to handle possible errors."
           ]
     }
-  , { title = "If it compiles, it works"
+  , { title = "When it compiles, it works"
     , description =
       [ E.text "The compiler guides you safely through your changes, ensuring confidence even through the most widereaching refactorings in unfamiliar codebases. "
       ]
@@ -822,9 +854,9 @@ features =
           , link = Nothing
           }
     }
-  , { title = "One way to do it all"
+  , { title = "One way to do anything"
     , description =
-        [ E.text "All Elm programs are written in the same pattern, eliminating confustion and doubt when building new projects and making it easy to navigate old or foreign codebases. This is been proven especially valuable for companies with many engineers and large codebases! "
+        [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign codebases. This has been proven especially valuable for companies with many engineers and large codebases! "
         , readMore "https://guide.elm-lang.org/architecture/"
         ]
     , image = E.html <|
@@ -862,17 +894,6 @@ features =
         , readMore "/news/blazing-fast-html-round-two"
         ]
     , image = E.html performanceChart
-    }
-  , { title = "Great libraries"
-    , description =
-      [ E.text "..TODO"
-      ]
-    , image =
-        featureQuote
-          { quote = "Everything in core fits together like Lego."
-          , author = "Atle Wee Førre, Equinor"
-          , link = Nothing
-          }
     }
   , { title = "Enforced Semantic Versioning"
     , description =
@@ -952,31 +973,3 @@ assetsChart =
         ]
     }
 
-
-
--- CONTENT / QUOTES
-
-
-quoteTitle : String
-quoteTitle =
-  "The Experience"
-
-
-type alias Quote =
-  { quote : String
-  , author : String
-  , link : Maybe String
-  }
-
-
-quotes : List Quote
-quotes =
-  [ { quote = "It relieves me from the pressure of getting everything right from the beginning."
-    , author = "Agus Zubiaga on refactoring in Elm"
-    , link = Nothing
-    }
-  , { quote = "Whether its renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
-    , author = "James Carlson"
-    , link = Nothing
-    }
-  ]

@@ -121,8 +121,24 @@ blockquote content =
       , Html.Attributes.style "margin" "0"
       , Html.Attributes.style "padding" "0"
       , Html.Attributes.style "background" "transparent"
+      , Html.Attributes.style "overflow" "visible"
       ]
       [ Html.text content ]
+
+
+cite : Maybe String -> String -> E.Element msg
+cite maybeLink content =
+  E.html <|
+    Html.cite
+      [ Html.Attributes.style "font-size" "inherit"
+      , Html.Attributes.style "margin" "0"
+      , Html.Attributes.style "padding" "0"
+      , Html.Attributes.style "background" "transparent"
+      ]
+      [ case maybeLink of
+          Just url -> Html.a [ Html.Attributes.href url, Html.Attributes.style "color" "inherit" ] [ Html.text content  ]
+          Nothing -> Html.text content
+      ]
 
 
 figcaption : String -> E.Element msg

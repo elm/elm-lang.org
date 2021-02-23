@@ -44,14 +44,14 @@ restart visited a unvisited =
 
 toList : Cycle a -> List a
 toList (Cycle visited a unvisited) =
-  visited ++ [ a ] ++ unvisited
+  List.reverse visited ++ [ a ] ++ unvisited
 
 
 select : Int -> Cycle a -> Cycle a
 select index cycle =
   let list = toList cycle in
   case ( List.take index list, List.drop index list ) of
-    ( visited, selected :: unvisited ) -> Cycle visited selected unvisited
+    ( visited, selected :: unvisited ) -> Cycle (List.reverse visited) selected unvisited
     ( visited, unvisited ) -> cycle
 
 
