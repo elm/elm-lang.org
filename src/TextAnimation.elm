@@ -22,7 +22,7 @@ type State
 
 init : String -> List String -> State
 init x xs =
-  Done (Cycle.init x xs)
+  Deleting "" 0 (Cycle.init x xs)
 
 
 step : State -> State
