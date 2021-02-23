@@ -24,6 +24,7 @@ The structure of the following document is as follows:
 - [Pattern Matching for Records](#pattern-matching)
 - [Updating Fields](#updating-records)
 - [Record Types](#record-types)
+- [Large Records](#large-records)
 
 ## Comparison of Records and Objects
 
@@ -211,71 +212,53 @@ hypotenuse {x,y} =
   sqrt (x^2 + y^2)
 ```
 
-You can also define extensible records. This use has not come up much in
-practice so far, but it is pretty cool nonetheless.
+Record type aliases are extremely common in Elm code!
 
-```elm
-type alias Positioned a =
-  { a | x : Float, y : Float }
 
-type alias Named a =
-  { a | name : String }
+## Large Records
 
-type alias Moving a =
-  { a | velocity : Float, angle : Float }
-```
+People coming from JavaScript tend to (1) overuse records and (2) have a habit of breaking
+records into smaller records and to distribute them among a bunch of different files. These
+are both traps in Elm!
 
-This syntax is defining types that have *at least* certain fields, but may have
-others as well. So `Positioned a` is a record with at least an `x` and `y`
-field.
+Large records are no problem in Elm. Records can often have ten or twenty or more fields.
+The thing to focus on is the relationships between fields. Joël Quenneville recognized two
+common pitfalls for people new to Elm records:
 
-This means you can define records that have any subsection of these fields.
-For example,
+- [Overuse of `Bool` fields](https://thoughtbot.com/blog/booleans-and-enums).
+- [Overuse of `Maybe` fields](https://thoughtbot.com/blog/modeling-with-union-types)
 
-```elm
-lady : Named { age:Int }
-lady =
-  { name = "Lois Lane"
-  , age = 31
-  }
+In both cases, the problems arise from imprecise data modeling. Two or three fields are
+used to model a single concept. Rather than trying to shuffle record fields around, the
+best path is often to create a [custom type](https://guide.elm-lang.org/types/custom_types.html)
+to model the possible situations more precisely. Richard Feldman called this
+[Making Impossible States Impossible](https://youtu.be/IcgmSRJHu_8). When you
+discover that two or three fields can be better represented by a single custom type,
+it does not just make the record nicer. All the code that uses this data structure
+will fit together nicer as well!
 
-dude : Named (Moving (Positioned {}))
-dude =
-  { x = 0
-  , y = 0
-  , name = "Clark Kent"
-  , velocity = 42
-  , angle = degrees 30
-  }
-```
+So a record that feels "too large" is often a signal that there are relationships between
+fields that are not modeled explicitly. Instead of shuffling fields around, try to find
+a custom type that makes these relationships explicit!
 
-Then we can make functions that only require some of those fields:
+And if you are feeling the urge to break files into smaller parts too, start by checking
+out some additional resources on how to grow Elm code:
 
-```elm
-getName : Named a -> String
-getName {name} =
-  name
+- [Modules](https://guide.elm-lang.org/webapps/modules.html) and
+- [Code Structure](https://guide.elm-lang.org/webapps/structure.html)
+- [The Life of a File](https://youtu.be/XpDsk374LDE)
+- [Scaling Elm Apps](https://youtu.be/DoA4Txr4GUs)
 
-names : List String
-names =
-  [ getName dude, getName lady ]
+I hope these resources will help you develop an instinct for when to reach for records vs
+when to reach for custom types and modules! The skillful use of custom types seems to come
+with experience, so do not feel discouraged if it is not intuitive at first. I have been
+programming in languages like Elm for more than a decade and still struggle to get certain
+custom types *just* right!
 
-getPos : Positioned a -> (Float,Float)
-getPos {x,y} =
-  (x,y)
-
-positions : List (Float,Float)
-positions =
-  [ getPos origin, getPos dude ]
-```
-
-The `getName` function works on anything with a `name` field, so it can be used on both `lady` and `dude`. Same for `getPos` which can work on
-anything with `x` and `y` fields.
-
-So you can write small orthogonal functions that work with a wide variety of
-records. You get much of the freedom of a dynamically
-typed language, but the type checker will make sure that these functions are
-used safely!
-
+I found that a great way to improve is to share your scenario with others and ask for help,
+especially if you find someone with good instincts! It seems like people slowly build a
+mental catalog of techniques as they discover nice custom types, and their instincts slowly
+improve as they try things out in their own code. It will come with time, and I hope the
+resources here are a good start! 
 
 """
