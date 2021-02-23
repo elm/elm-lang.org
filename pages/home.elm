@@ -290,7 +290,7 @@ fixedPointer =
 fixedMenu : Html Msg
 fixedMenu =
   Html.div
-    [ class "fixed-menu" ]
+    [ class "fixed-menu", attribute "role" "menu" ]
     [ subContainer <|
         E.column
           [ E.width pageColumn
