@@ -855,7 +855,7 @@ features =
     , image =
         featureQuote
           { quote = "Whether it's renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
-          , author = "James Carlson, Elm developer"
+          , author = "James Carlson, Software engineer"
           , link = Nothing
           }
     }
@@ -891,7 +891,7 @@ features =
     , image =
         featureQuote
           { quote = "I love how fast Elm is. I make a change and I get an immediate response. It’s like I’m having a conversation with the compiler about how best to build things."
-          , author = "Wolfgang Schuster, Elm developer"
+          , author = "Wolfgang Schuster, Software engineer"
           , link = Nothing
           }
     }
