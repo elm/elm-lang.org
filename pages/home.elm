@@ -114,7 +114,6 @@ type Msg
   | VisibilityChanged E.Visibility
   | TimePassed
   | HoveringTry
-  | HoveringGuide
   | HoveringInstaller
   | UnhoveringButton
   | JumpToQuote Int
@@ -165,9 +164,6 @@ update msg model =
 
     HoveringTry ->
       { model | logo = Logo.setPattern Logo.child model.logo }
-
-    HoveringGuide ->
-      { model | logo = Logo.setPattern Logo.house model.logo }
 
     HoveringInstaller ->
       { model | logo = Logo.setPattern Logo.heart model.logo }
@@ -680,9 +676,7 @@ tryButton =
 tutorialButton : E.Element Msg
 tutorialButton =
   Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
-    [ Ev.onMouseEnter HoveringGuide
-    , Ev.onMouseLeave UnhoveringButton
-    , R.description "Go to Tutorial"
+    [ R.description "Go to Tutorial"
     ]
 
 
