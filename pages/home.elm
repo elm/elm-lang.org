@@ -2,7 +2,7 @@
 import Browser
 import Browser.Events as E
 import Html exposing (Html, Attribute, div, span, text)
-import Html.Attributes exposing (style, class, attribute)
+import Html.Attributes exposing (style, class, attribute, href)
 import Html.Events exposing (onClick, on)
 import Json.Decode as D
 import Markdown
@@ -77,7 +77,7 @@ init window =
   , visibility = E.Visible
   , quotes =
       Cycle.init
-        (QuoteByEmployee "It is the most productive programming language I have used." "Rupert Smith" Nothing "Software Engineer" "The Sett Ltd" Nothing)
+        (QuoteByEmployee "It is the most productive programming language I have used." "Rupert Smith" (Just "https://github.com/the-sett") "Software Engineer" "The Sett Ltd" Nothing)
         [ QuoteByEmployee "Using Elm, I can deploy and go to sleep!" "Mario Uher" (Just "https://github.com/ream88") "CTO" "yodel.io" (Just "https://www.yodel.io/")
         , QuoteByAuthor "You just follow the compiler errors and come out the other end with a working app." "James Carlson" (Just "https://jxxcarlson.io/")
         , QuoteByEmployee "[To me it's] the feeling of joy and relaxation when writing Elm code." "Luca Mugnaini" (Just "https://github.com/lucamug") "Software Engineer" "Rakuten" (Just "https://www.rakuten.com/")
@@ -821,14 +821,16 @@ type alias Quote =
 
 features : List (Feature msg)
 features =
-  let readMore url =
-        Ui.link [] (Link "Learn more." url)
+  let paragraphLinked url content =
+        [ E.html <| Html.p [] (content ++ [ text " ", Html.a [ href url ] [ Html.text "Learn more." ] ]) ]
+
+      paragraph content =
+        [ E.html <| Html.p [] content ]
   in
   [ { title = "No Runtime Exceptions"
     , description =
-      [ E.text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production. "
-      , readMore "/news/compilers-as-assistants"
-      ]
+        paragraphLinked "/news/compilers-as-assistants"
+          [ text "Elm uses type inference to detect corner cases and give friendly hints. NoRedInk switched to Elm about two years ago, and 250k+ lines later, they still have not had to scramble to fix a confusing runtime exception in production." ]
     , image = E.html <|
         div [ class "terminal", attribute "role" "figure" ]
           [ color cyan "-- TYPE MISMATCH ---------------------------- Main.elm"
@@ -845,8 +847,8 @@ features =
     }
   , { title = "Fearless refactoring"
     , description =
-      [ E.text "The compiler guides you safely through your changes, ensuring confidence even through the most widereaching refactorings in unfamiliar codebases. "
-      ]
+        paragraph
+          [ text "The compiler guides you safely through your changes, ensuring confidence even through the most widereaching refactorings in unfamiliar codebases." ]
     , image =
         featureQuote
           { quote = "Whether it's renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
@@ -856,9 +858,8 @@ features =
     }
   , { title = "One way to do anything"
     , description =
-        [ E.text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign codebases. This has been proven especially valuable for companies with many engineers and large codebases! "
-        , readMore "https://guide.elm-lang.org/architecture/"
-        ]
+        paragraphLinked "https://guide.elm-lang.org/architecture/"
+          [ text "All Elm programs are written in the same pattern, eliminating doubt when building new projects and making it easy to navigate old or foreign codebases. This has been proven especially valuable for companies with many engineers and large codebases!" ]
     , image = E.html <|
         div [ class "terminal", attribute "role" "figure" ]
           [ color grey "-- THE ELM ARCHITECTURE"
@@ -879,8 +880,8 @@ features =
     }
   , { title = "Fast and useful feedback"
     , description =
-      [ E.text "Even on large codebases, compilation is blazing fast."
-      ]
+        paragraph
+          [ text "Even on large codebases, compilation is blazing fast." ]
     , image =
         featureQuote
           { quote = "I love how fast Elm is. I make a change and I get an immediate response. It’s like I’m having a conversation with the compiler about how best to build things."
@@ -890,16 +891,14 @@ features =
     }
   , { title = "Great Performance"
     , description =
-        [ E.text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code. "
-        , readMore "/news/blazing-fast-html-round-two"
-        ]
+        paragraphLinked "/news/blazing-fast-html-round-two"
+          [ text "Elm has its own virtual DOM implementation, designed for simplicity and speed. All values are immutable in Elm, and the benchmarks show that this helps us generate particularly fast JavaScript code." ]
     , image = E.html performanceChart
     }
   , { title = "Enforced Semantic Versioning"
     , description =
-        [ E.text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases. "
-        , readMore "https://package.elm-lang.org"
-        ]
+        paragraphLinked "https://package.elm-lang.org"
+          [ text "Elm can detect all API changes automatically thanks to its type system. We use that information to guarantee that every single Elm package follows semantic versioning precisely. No surprises in PATCH releases." ]
     , image = E.html <|
         div [ class "terminal", attribute "role" "figure" ]
           [ color "plum" "$"
@@ -912,17 +911,17 @@ features =
     }
   , { title = "Small Assets"
     , description =
-        [ E.text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
-        , E.html (Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ])
-        , E.text " flag and let the compiler do the rest. No complicated set up. "
-        , readMore "/news/small-assets-without-the-headache"
-        ]
+        paragraphLinked "/news/small-assets-without-the-headache"
+          [ text "Smaller assets means faster downloads and faster page loads, so Elm does a bunch of optimizations to make small assets the default. Just compile with the "
+          , Html.code [ style "display" "inline-block" ] [ Html.text "--optimize" ]
+          , text " flag and let the compiler do the rest. No complicated set up."
+          ]
     , image = E.html assetsChart
     }
   , { title = "JavaScript Interop"
     , description =
-        [ E.text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
-        , readMore "http://guide.elm-lang.org/interop/"
+        paragraphLinked "http://guide.elm-lang.org/interop/"
+        [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
         ]
     , image = E.html <|
         div [ class "terminal", attribute "role" "figure" ]
