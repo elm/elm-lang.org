@@ -862,7 +862,7 @@ features =
   , { title = "Understand anyone's code"
     , description =
         paragraphLinked "https://guide.elm-lang.org/architecture/"
-          [ text "Including your own, six months later. All Elm programs are written in the same pattern, eliminating doubt and lenghty discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
+          [ text "Including your own, six months later. All Elm programs are written in the same pattern, eliminating doubt and lengthy discussions when deciding how to build new projects and making it easy to navigate old or foreign codebases." ]
     , image = E.html <|
         snippet
           [ color grey "-- THE ELM ARCHITECTURE"
