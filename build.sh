@@ -19,7 +19,7 @@ function makePageHtml {
   <meta name="description" content="A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
   <meta name=”robots” content="index, follow">
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro">
+  <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro&display=swap">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
   <script src="/assets/highlight/highlight.pack.js"></script>
