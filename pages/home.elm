@@ -759,7 +759,7 @@ grouped =
         , Link "Examples" "/examples"
         , Link "Try online" "/try"
         , Link "Syntax" "/docs/syntax"
-        , Link "Syntax vs JS" "/docs/from-javascript"
+        , Link "From Javascript?" "/docs/from-javascript"
         , Link "FAQ" "http://faq.elm-community.org/"
         , Link "Advanced Topics" "/docs/advanced-topics"
         -- , Link "Limitations" TODO
@@ -778,8 +778,8 @@ grouped =
     }
   , { title = "Contributing"
     , links =
-        [ Link "How to" "/community#share-code"
-        , Link "Package Design" "https://package.elm-lang.org/help/design-guidelines"
+        [ Link "Sharing code" "/community#share-code"
+        , Link "Design Guidelines" "https://package.elm-lang.org/help/design-guidelines"
         , Link "Style Guide" "/docs/style-guide"
         , Link "Writing Documentation" "https://package.elm-lang.org/help/documentation-format"
         ]
