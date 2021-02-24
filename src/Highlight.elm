@@ -28,7 +28,7 @@ color clr str =
 
 cyan : String
 cyan =
-  "rgb(51,187,200)"
+  "rgb(36,163,175)"
 
 
 dullRed : String
@@ -43,7 +43,7 @@ dullYellow =
 
 green : String
 green =
-  "rgb(49,231,34)"
+  "rgb(40,187,28)"
 
 
 grey : String

@@ -308,7 +308,7 @@ fixedMenu =
               , E.spacing 20
               , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
               , F.size 14
-              , F.color C.gray
+              , F.color C.darkGray
               , R.footer
               ] <|
               (List.map Ui.grayLink sources) ++ [ copyRight ]
@@ -333,7 +333,7 @@ navTitle title =
     , E.width E.fill
     , E.paddingXY 0 10
     , F.size 16
-    , F.color C.gray
+    , F.color C.darkGray
     , F.bold
     ]
     (E.text title)
@@ -416,7 +416,7 @@ viewMedium model =
               , E.spacing 20
               , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
               , F.size 14
-              , F.color C.gray
+              , F.color C.darkGray
               , R.footer
               ] <|
               (List.map Ui.grayLink sources) ++ [copyRight]
@@ -480,7 +480,7 @@ viewSmall model =
               , E.spacing 20
               , E.paddingEach { top = 20, bottom = 20, left = 0, right = 0 }
               , F.size 14
-              , F.color C.gray
+              , F.color C.darkGray
               , F.center
               , R.footer
               ]
@@ -593,7 +593,7 @@ smallQuotes top bottom model =
   let viewOne quote =
         E.paragraph
           [ F.size 18
-          , F.color C.gray
+          , F.color C.darkGray
           , F.center
           , E.width (E.maximum 700 E.fill)
           ] <|
@@ -627,7 +627,7 @@ smallQuotes top bottom model =
           , if Cycle.next model.quotes == quote then
               B.color C.blue
             else
-              B.color (E.rgb255 230 230 230)
+              B.color (E.rgb255 200 200 200)
           , R.description ("See quote number " ++ String.fromInt (index + 1))
           ]
           { onPress = Just (JumpToQuote index)

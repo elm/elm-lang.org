@@ -18,7 +18,7 @@ h1, h2, h3, h4 {
 }
 
 
-a { color: #1293D8; text-decoration: none; }
+a { color: rgb(12, 145, 216); text-decoration: none; }
 a:hover { text-decoration: underline; }
 a:focus { text-decoration: underline; }
 

@@ -22,7 +22,7 @@ type alias Link =
 link : List (Attribute msg) -> Link -> Element msg
 link attrs config =
   E.link
-    ([ F.color C.blue
+    ([ F.color C.darkBlue
      ] ++ attrs)
     { url = config.url
     , label = E.text config.title
@@ -31,7 +31,7 @@ link attrs config =
 
 grayLink : Link -> Element msg
 grayLink config =
-  E.link [ F.color C.gray ]
+  E.link [ F.color C.darkGray ]
     { url = config.url
     , label = E.text config.title
     }
