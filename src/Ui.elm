@@ -72,7 +72,7 @@ linkButton url label events =
   in
   E.link (styles ++ events ++ [ E.htmlAttribute (class "special-button")])
     { url = url
-    , label = E.text label
+    , label = E.el [ E.width (E.minimum 100 E.fill) ] (E.text label)
     }
 
 

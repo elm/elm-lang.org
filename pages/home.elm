@@ -261,7 +261,7 @@ viewLarge model =
                       , E.paddingXY 0 5
                       ]
                       [ tryButton
-                      , tutorialButton
+                      , guideButton
                       ]
                   , downloadLink
                   ]
@@ -401,7 +401,7 @@ viewMedium model =
             ]
             [ movingText model
             , tryButton
-            , tutorialButton
+            , guideButton
             ]
         , smallQuotes 40 20 model
         , E.column
@@ -465,7 +465,7 @@ viewSmall model =
             ]
             [ movingText model
             , tryButton
-            , tutorialButton
+            , guideButton
             ]
         , smallQuotes 40 20 model
         , E.column
@@ -678,10 +678,10 @@ tryButton =
     ]
 
 
-tutorialButton : E.Element Msg
-tutorialButton =
-  Ui.linkButton "https://guide.elm-lang.org" "Tutorial"
-    [ R.description "Go to Tutorial"
+guideButton : E.Element Msg
+guideButton =
+  Ui.linkButton "https://guide.elm-lang.org" "Guide"
+    [ R.description "Go to Guide"
     ]
 
 
@@ -755,7 +755,7 @@ grouped =
     }
   , { title = "Beginner"
     , links =
-        [ Link "Tutorial" "https://guide.elm-lang.org/"
+        [ Link "Guide" "https://guide.elm-lang.org/"
         , Link "Examples" "/examples"
         , Link "Try online" "/try"
         , Link "Syntax" "/docs/syntax"
