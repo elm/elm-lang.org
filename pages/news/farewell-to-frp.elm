@@ -103,14 +103,14 @@ The simplest subscription is time. It is the basis of this SVG clock:
 
 middle = """
 
-Quickly check out [the source code](/examples/time) for this program. It is
+Quickly check out [the source code](/examples/clock) for this program. It is
 very typical Elm code, following The Elm Architecture. The only new part is
 the following definition:
 
 ```elm
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Time.every second Tick
+  Time.every 1000 Tick
 ```
 
 Based on the current model, we are describing all the active subscriptions. In
