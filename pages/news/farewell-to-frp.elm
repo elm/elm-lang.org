@@ -19,7 +19,7 @@ main =
         , style "height" "306px"
         , style "margin" "0 auto"
         , style "border" "none"
-        , src "/examples/time/result"
+        , src "/examples/_compiled/clock.html"
         ]
         []
     , Center.markdown "600px" middle
