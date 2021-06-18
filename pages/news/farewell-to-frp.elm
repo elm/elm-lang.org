@@ -15,8 +15,8 @@ main =
     [ Center.markdown "600px" start
     , iframe
         [ style "display" "block"
-        , style "width" "306px"
-        , style "height" "306px"
+        , style "width" "400px"
+        , style "height" "400px"
         , style "margin" "0 auto"
         , style "border" "none"
         , src "/examples/_compiled/clock.html"
