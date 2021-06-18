@@ -16,7 +16,7 @@ main =
     , iframe
         [ style "display" "block"
         , style "width" "400px"
-        , style "height" "400px"
+        , style "height" "406px"
         , style "margin" "0 auto"
         , style "border" "none"
         , src "/examples/_compiled/clock.html"
