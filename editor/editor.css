@@ -5,7 +5,7 @@ html, head, body {
 }
 
 body {
-  font-family: 'Courier Prime', monospace;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-size: 14px;
   display: flex;
 }
@@ -42,38 +42,71 @@ body {
   width: 50%;
   height: 100%;
   background-color: #272822;
+  border-right: 1px solid #E6E6E6;
 }
 
 #options {
-  background-color: #0B0E01; /* CFCFC2 */
-  height: 36px;
+  background-color: #0B0E01;
+  height: 30px;
   vertical-align: middle;
-  line-height: 36px;
+  line-height: 30px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  border-top: 1px solid #E6E6E6;
+  z-index: 100;
+  color: #464646;
 }
 
-.button {
-  width: 100px;
+#options.theme-light {
+  background-color: white;
+  color: #464646;
+}
+
+#options.theme-dark {
+  background-color: #171d1f;
+  color: white;
+}
+
+
+/**** BUTTONS ****/
+
+#options button {
+  font-family: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0 10px;
+  height: 100%;
   display: block;
   float: right;
   cursor: pointer;
-  color: white;
   text-align: center;
   position: relative;
+  color: inherit;
 }
 
-.button span {
-  width: 60px;
-  height: 2px;
-  bottom: 0;
-  left: 20px;
-  position: absolute;
+.icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+  top: -1px;
 }
 
-.blue span { background-color: #1293D8; }
-.blue:hover { background-color: #1293D8; }
+.moon {
+  background: url(/images/moon.svg);
+  background-repeat: no-repeat;
+  background-size: 14px 14px;
+}
 
-.gray span { background-color: #75715e; }
-.gray:hover { background-color: #75715e; }
+.refresh {
+  background: url(/images/refresh.svg);
+  background-repeat: no-repeat;
+  background-size: 14px 14px;
+}
 
 .hint {
   display: block;
@@ -81,13 +114,12 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #75715e;
+  color: #464646;
   margin: 0 20px;
-  width: calc(100% - 240px);
-  height: 36px;
+  height: 30px;
 }
 
-.hint > a { color: #75715e; }
+.hint > a { color: #464646; }
 .hint > a:hover { color: #aaa; }
 .hint > a:active { color: #ccc; }
 
@@ -95,9 +127,10 @@ body {
 /**** CODE MIRROR ****/
 
 .CodeMirror {
-  height: calc(100% - 36px);
+  height: calc(100% - 30px);
   line-height: 1.25;
   font-size: 14px;
+  font-family: 'Courier Prime', monospace;
 }
 
 .CodeMirror-linenumber {

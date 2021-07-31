@@ -17,12 +17,12 @@ function lights()
 {
 	if (editor.getOption('theme') === 'dark')
 	{
-		optionsNode.style.background = '#CFCFC2';
+		optionsNode.className = 'theme-light';
 		editor.setOption('theme', 'light');
 	}
 	else
 	{
-		optionsNode.style.background = '#0B0E01';
+		optionsNode.className = 'theme-light';
 		editor.setOption('theme', 'dark');
 	}
 }
