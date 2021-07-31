@@ -55,7 +55,7 @@ function makeExampleHtml {
 
 <head>
   <meta charset="UTF-8">
-  <title>Elm | $2</title>
+  <title>Elm | $2 example</title>
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>
