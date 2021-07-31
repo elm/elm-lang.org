@@ -5,7 +5,7 @@ html, head, body {
 }
 
 body {
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Courier Prime', monospace;
   font-size: 14px;
   display: flex;
 }
@@ -94,7 +94,15 @@ body {
 
 /**** CODE MIRROR ****/
 
-.CodeMirror { height: calc(100% - 36px); }
+.CodeMirror {
+  height: calc(100% - 36px);
+  line-height: 1.25;
+  font-size: 14px;
+}
+
+.CodeMirror-linenumber {
+  padding: 1px 10px 0 5px;
+}
 
 
 /**** DARK MODE - based on the Monokai theme in Sublime Text ****/
@@ -147,46 +155,47 @@ body {
 }
 
 
-/**** LIGHT MODE - based on the Monokai theme in Sublime Text ****/
+/**** LIGHT MODE ****/
 
-.cm-s-light.CodeMirror { background: #f8f8f2; color: #272822; }
+.cm-s-light.CodeMirror { background: #fff; color: #C8C8C8; }
 
 /* gutters */
 
-.cm-s-light .CodeMirror-gutters { background: #f8f8f2; border-right: 0px; }
+.cm-s-light .CodeMirror-gutters { background: #fff; border-right: 0px; }
 .cm-s-light .CodeMirror-guttermarker { color: white; }
-.cm-s-light .CodeMirror-guttermarker-subtle { color: #d0d0d0; }
-.cm-s-light .CodeMirror-linenumber { color: #d0d0d0; }
+.cm-s-light .CodeMirror-guttermarker-subtle { color: #AAAAAA; }
+.cm-s-light .CodeMirror-linenumber { color: #AAAAAA; }
 
 /* code */
 
 .cm-s-light span.cm-comment { color: #75715e; }
 .cm-s-light span.cm-atom { color: #ae81ff; }
-.cm-s-light span.cm-number { color: #ae81ff; }
+.cm-s-light span.cm-number { color: #dd25ce; }
 
 .cm-s-light span.cm-comment.cm-attribute { color: #97b757; }
-.cm-s-light span.cm-comment.cm-def { color: #bc9262; }
+.cm-s-light span.cm-comment.cm-def { color: #045ca4; }
 .cm-s-light span.cm-comment.cm-tag { color: #bc6283; }
 .cm-s-light span.cm-comment.cm-type { color: #5998a6; }
 
 .cm-s-light span.cm-property { color: #a6e22e; }
 .cm-s-light span.cm-attribute { color: #a6e22e; }
-.cm-s-light span.cm-keyword { color: #f92672; }
-.cm-s-light span.cm-builtin { color: hsl(190, 81%, 56%); }
-.cm-s-light span.cm-string { color: #F25A00; }
+.cm-s-light span.cm-keyword { color: #058eda; }
+.cm-s-light span.cm-builtin { color: #045ca4; }
+.cm-s-light span.cm-string { color: #dd25ce; }
 
-.cm-s-light span.cm-variable { color: #272822; }
-.cm-s-light span.cm-variable-2 { color: hsl(261, 100%, 65%); }
+.cm-s-light span.cm-variable { color: #555555; }
+.cm-s-light span.cm-variable-2 { color: #d7670a; }
 .cm-s-light span.cm-variable-3 { color: #66d9ef; }
 .cm-s-light span.cm-type { color: #66d9ef; }
-.cm-s-light span.cm-def { color: hsl(106, 100%, 42%); }
+.cm-s-light span.cm-def { color: #045ca4; }
 .cm-s-light span.cm-bracket { color: #000000; }
-.cm-s-light span.cm-tag { color: #f92672; }
+.cm-s-light span.cm-tag { color: #058eda; }
 .cm-s-light span.cm-header { color: #ae81ff; }
 .cm-s-light span.cm-link { color: #ae81ff; }
-.cm-s-light span.cm-error { background: #f92672; color: #f8f8f0; }
+.cm-s-light span.cm-error { background: #058eda; color: #f8f8f0; }
 
-.cm-s-light .CodeMirror-activeline-background { background: #373831; }
+.cm-s-light .CodeMirror-activeline-background { background: #eff6ff; }
+.cm-s-light .CodeMirror-gutter-background.CodeMirror-activeline-gutter { background: #eff6ff; }
 .cm-s-light .CodeMirror-matchingbracket {
   text-decoration: underline;
   color: white !important;
