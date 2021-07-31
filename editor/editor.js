@@ -22,7 +22,7 @@ function lights()
 	}
 	else
 	{
-		optionsNode.className = 'theme-light';
+		optionsNode.className = 'theme-dark';
 		editor.setOption('theme', 'dark');
 	}
 }
@@ -39,12 +39,11 @@ function compile()
 
 // EDITOR
 
-
 var editor = CodeMirror.fromTextArea(codeNode, {
 	lineNumbers: true,
 	matchBrackets: true,
 	styleActiveLine: true,
-	theme: 'dark',
+	theme: 'light',
 	tabSize: 2,
 	indentWithTabs: false,
 	extraKeys: {
