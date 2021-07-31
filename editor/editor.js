@@ -43,6 +43,7 @@ function compile()
 var editor = CodeMirror.fromTextArea(codeNode, {
 	lineNumbers: true,
 	matchBrackets: true,
+	styleActiveLine: true,
 	theme: 'dark',
 	tabSize: 2,
 	indentWithTabs: false,
