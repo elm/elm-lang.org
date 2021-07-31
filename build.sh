@@ -51,12 +51,12 @@ EOF
 #
 function makeExampleHtml {
   cat <<EOF > $1
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>$2</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courier+Prime"/>
+  <title>Elm | $2</title>
+  <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>
 
@@ -64,8 +64,8 @@ function makeExampleHtml {
 <form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
   <div id="options">
     <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
-    <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile<span></span></div>
-    <div class="button gray" title="Switch the color scheme" onclick="lights()">Lights<span></span></div>
+    <button alt="Compile your code (Ctrl-Enter)" onclick="compile()"><i class="icon refresh"></i>Check changes</button>
+    <button alt="Switch the color scheme" onclick="lights()"><i class="icon moon"></i>Lights</button>
   </div>
   <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
 </form>
