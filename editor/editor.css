@@ -83,6 +83,9 @@ body {
   color: inherit;
 }
 
+
+/**** ICONS ****/
+
 .icon {
   width: 14px;
   height: 14px;
@@ -93,17 +96,13 @@ body {
   top: -1px;
 }
 
-.moon {
-  background: url(/images/moon.svg);
-  background-repeat: no-repeat;
-  background-size: 14px 14px;
+.icon.blue {
+  color: #058eda;
 }
 
-.refresh {
-  background: url(/images/refresh.svg);
-  background-repeat: no-repeat;
-  background-size: 14px 14px;
-}
+
+/**** HINT ****/
+
 
 .hint {
   display: block;

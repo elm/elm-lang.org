@@ -188,16 +188,19 @@ view model =
           lazy2 viewHint token model.table
     , button
         [ attribute "aria-label" "Compile your code (Ctrl-Enter)", onClick OnCompile ]
-        [ icon "#refresh", text "Check changes" ]
+        [ icon "blue" "#refresh", text "Check changes" ]
     , button
-        [ attribute "aria-label" "Switch the color scheme", onClick OnToggleLights ]
-        [ icon "#moon", text "Lights" ]
+        [ attribute "aria-label" "Switch the color scheme", onClick OnToggleLights ] <|
+        if model.isLight then
+          [ icon "" "#moon", text "Lights off" ]
+        else
+          [ icon "" "#sun", text "Lights on" ]
     ]
 
 
-icon : String -> Html msg
-icon name =
-  svg [ SA.class "icon" ] [ use [ xlinkHref name ] [] ]
+icon : String -> String -> Html msg
+icon colorClass name =
+  svg [ SA.class ("icon " ++ colorClass) ] [ use [ xlinkHref name ] [] ]
 
 
 
