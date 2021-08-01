@@ -48,7 +48,7 @@ type alias Model =
   , table : Hint.Table
   , imports : Header.Imports
   , dependencies : DepsInfo
-  , lights : Bool
+  , isLight : Bool
   }
 
 
@@ -151,8 +151,8 @@ update msg model =
     OnToggleLights ->
       ( model, toggleLights () )
 
-    GotLights lights ->
-      ( { model | lights = lights }, Cmd.none )
+    GotLights isLight ->
+      ( { model | isLight = isLight }, Cmd.none )
 
 
 
@@ -176,7 +176,7 @@ view : Model -> Html Msg
 view model =
   nav
     [ id "navigation"
-    , class (if model.lights then "theme-light" else "theme-dark")
+    , class (if model.isLight then "theme-light" else "theme-dark")
     ]
     [ case model.token of
         Nothing ->

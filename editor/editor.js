@@ -15,20 +15,20 @@ var outputNode = document.getElementById('output');
 
 function lights()
 {
-	var isDark = editor.getOption('theme') === 'dark';
+	var isLight = editor.getOption('theme') === 'light';
 
-	if (isDark)
-	{
-		if (!navigation) navigationNode.className = 'theme-light';
-		editor.setOption('theme', 'light');
-	}
-	else
+	if (isLight)
 	{
 		if (!navigation) navigationNode.className = 'theme-dark';
 		editor.setOption('theme', 'dark');
 	}
+	else
+	{
+		if (!navigation) navigationNode.className = 'theme-light';
+		editor.setOption('theme', 'light');
+	}
 
-	navigation && navigation.ports.gotLights.send(isDark);
+	navigation && navigation.ports.gotLights.send(!isLight);
 }
 
 function compile()
