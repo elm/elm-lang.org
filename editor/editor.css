@@ -46,41 +46,62 @@ body {
 }
 
 #navigation {
-  background-color: #0B0E01;
-  height: 30px;
-  vertical-align: middle;
-  line-height: 30px;
-  position: absolute;
   width: 100%;
-  bottom: 0;
+  max-height: 30px;
   border-top: 1px solid #E6E6E6;
-  z-index: 100;
   background-color: white;
   color: #464646;
+  vertical-align: middle;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  transition: max-height 0.5s;
+}
+
+#navigation.open {
+  max-height: 100%;
 }
 
 #navigation.theme-dark {
   border-top: 1px solid #373d3e;
   background-color: #161717;
   color: #b0b0b0;
+  padding: 0 10px 0 10px;
+}
+
+#topbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+
+}
+
+#topbar aside {
+  display: flex;
+  align-items: start;
 }
 
 
 /**** BUTTONS ****/
 
 #navigation button {
+  display: inline-block;
   font-family: inherit;
   background: transparent;
   border: 0;
   padding: 0;
   margin: 0 10px;
   height: 100%;
-  display: block;
-  float: right;
   cursor: pointer;
   text-align: center;
   position: relative;
   color: inherit;
+}
+
+#navigation button span:nth-child(2) {
+  margin-left: 8px;
 }
 
 
@@ -91,7 +112,6 @@ body {
   height: 14px;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 8px;
   position: relative;
   top: -1px;
 }
@@ -105,13 +125,11 @@ body {
 
 
 .hint {
-  display: block;
-  float: left;
+  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: 0 20px;
-  height: 30px;
+  margin: 0 10px;
 }
 
 .hint > a { color: inherit; }

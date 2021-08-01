@@ -51,11 +51,12 @@ EOF
 #
 function makeExampleHtml {
   cat <<EOF > $1
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Elm | $2 example</title>
+  <title>$2 example | Elm</title>
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>
@@ -84,19 +85,31 @@ function makeExampleHtml {
     <line x1="18" y1="6" x2="6" y2="18"></line>
     <line x1="6" y1="6" x2="18" y2="18"></line>
   </symbol>
+  <symbol id="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"/>
+  </symbol>
+  <symbol id="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </symbol>
 </svg>
 
 <!-- NAVIGATION -->
 <nav id="navigation">
-  <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
-  <button alt="Compile your code (Ctrl-Enter)" onclick="compile()">
-    <svg class="icon"><use xlink:href="#refresh"></svg>
-    Compile
-  </button>
-  <button alt="Switch the color scheme" onclick="lights()">
-    <svg class="icon"><use xlink:href="#moon"></svg>
-    Lights
-  </button>
+  <section id="topbar">
+    <aside>
+      <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
+    </aside>
+    <aside>
+      <button alt="Compile your code (Ctrl-Enter)" onclick="compile()">
+        <svg class="icon"><use xlink:href="#refresh"></svg>
+        Compile
+      </button>
+      <button alt="Switch the color scheme" onclick="lights()">
+        <svg class="icon"><use xlink:href="#sun"></svg>
+        Lights
+      </button>
+    </aside>
+  </section>
 </nav>
 
 <!-- EDITOR -->

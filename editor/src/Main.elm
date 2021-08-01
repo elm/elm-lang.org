@@ -51,6 +51,7 @@ type alias Model =
   , imports : Header.Imports
   , dependencies : DepsInfo
   , isLight : Bool
+  , isMenuOpen : Bool
   }
 
 
@@ -68,12 +69,24 @@ init : String -> ( Model, Cmd Msg )
 init source =
   case Header.parse source of
     Nothing ->
-      ( Model Nothing Hint.defaultTable Header.defaultImports Loading True
+      ( { token = Nothing
+        , table = Hint.defaultTable
+        , imports = Header.defaultImports
+        , dependencies = Loading
+        , isLight = True
+        , isMenuOpen = False
+        }
       , fetchDepsInfo
       )
 
-    Just (imports, importEnd) ->
-      ( Model Nothing Hint.defaultTable imports Loading True
+    Just ( imports, importEnd ) ->
+      ( { token = Nothing
+        , table = Hint.defaultTable
+        , imports = imports
+        , dependencies = Loading
+        , isLight = True
+        , isMenuOpen = False
+        }
       , Cmd.batch
           [ fetchDepsInfo
           , importEndLines importEnd
@@ -101,6 +114,7 @@ type Msg
   | OnCompile
   | OnToggleLights
   | GotLights Bool
+  | OnToggleMenu
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -156,6 +170,9 @@ update msg model =
     GotLights isLight ->
       ( { model | isLight = isLight }, Cmd.none )
 
+    OnToggleMenu ->
+      ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
 
 
 -- SUBSCRIPTIONS
@@ -178,24 +195,68 @@ view : Model -> Html Msg
 view model =
   nav
     [ id "navigation"
-    , class (if model.isLight then "theme-light" else "theme-dark")
+    , classList
+        [ ( "theme-light", model.isLight )
+        , ( "theme-dark", not model.isLight )
+        , ( "open", model.isMenuOpen )
+        , ( "closed", not model.isMenuOpen )
+        ]
     ]
-    [ case model.token of
-        Nothing ->
-          viewExamplesLink
+    [ section
+        [ id "topbar" ]
+        [ aside []
+            [ menuButton
+                { icon = if model.isMenuOpen then "#up" else "#down"
+                , iconColor = ""
+                , label = Nothing
+                , alt = if model.isMenuOpen then "Close menu" else "Open menu"
+                , onClick = OnToggleMenu
+                }
 
-        Just token ->
-          lazy2 viewHint token model.table
-    , button
-        [ attribute "aria-label" "Compile your code (Ctrl-Enter)", onClick OnCompile ]
-        [ icon "blue" "#refresh", text "Check changes" ]
-    , button
-        [ attribute "aria-label" "Switch the color scheme", onClick OnToggleLights ] <|
-        if model.isLight then
-          [ icon "" "#moon", text "Lights off" ]
-        else
-          [ icon "" "#sun", text "Lights on" ]
+            , case model.token of
+                Nothing ->
+                  viewExamplesLink
+
+                Just token ->
+                  lazy2 viewHint token model.table
+            ]
+
+        , aside []
+            [ menuButton
+                { icon = "#refresh"
+                , iconColor = "blue"
+                , label = Just "Check changes"
+                , alt = "Compile your code (Ctrl-Enter)"
+                , onClick = OnCompile
+                }
+
+            , menuButton
+                { icon = if model.isLight then "#moon" else "#sun"
+                , iconColor = ""
+                , label = Just (if model.isLight then "Lights off" else "Lights on")
+                , alt = "Switch the color scheme"
+                , onClick = OnToggleLights
+                }
+            ]
+        ]
+    , div [ style "height" "300px" ] []
     ]
+
+
+menuButton :
+  { icon : String
+  , iconColor : String
+  , label : Maybe String
+  , alt : String
+  , onClick : msg
+  }
+  -> Html msg
+menuButton config =
+   button
+    [ attribute "aria-label" config.alt, onClick config.onClick ] <|
+    case config.label of
+      Just label -> [ icon config.iconColor config.icon, span [] [ text label ] ]
+      Nothing -> [ icon config.iconColor config.icon ]
 
 
 icon : String -> String -> Html msg
@@ -210,8 +271,8 @@ icon colorClass name =
 viewExamplesLink : Html msg
 viewExamplesLink =
   div [ class "hint" ]
-    [ text "More Examples "
-    , a [ href "/examples", target "_blank" ] [ text "Here" ]
+    [ text "More examples "
+    , a [ href "/examples", target "_blank" ] [ text "here" ]
     ]
 
 
