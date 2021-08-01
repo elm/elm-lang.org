@@ -4,7 +4,7 @@
 
 var codeNode = document.getElementById('code');
 var editorNode = document.getElementById('editor');
-var optionsNode = document.getElementById('options');
+var navigationNode = document.getElementById('navigation');
 var dividerNode = document.getElementById('divider');
 var outputNode = document.getElementById('output');
 
@@ -15,16 +15,20 @@ var outputNode = document.getElementById('output');
 
 function lights()
 {
-	if (editor.getOption('theme') === 'dark')
+	var isDark = editor.getOption('theme') === 'dark';
+
+	if (isDark)
 	{
-		optionsNode.className = 'theme-light';
+		if (!navigation) navigationNode.className = 'theme-light';
 		editor.setOption('theme', 'light');
 	}
 	else
 	{
-		optionsNode.className = 'theme-dark';
+		if (!navigation) navigationNode.className = 'theme-dark';
 		editor.setOption('theme', 'dark');
 	}
+
+	navigation && navigation.ports.gotLights.send(isDark);
 }
 
 function compile()
@@ -32,9 +36,48 @@ function compile()
 	var source = editor.getValue();
 	codeNode.value = source;
 	editorNode.submit();
-	hints && hints.ports.submissions.send(source);
+	navigation && navigation.ports.submissions.send(source);
 }
 
+
+// ELM
+//
+// We delay initialization of the navigation until page is fully loaded otherwise.
+// It is fine if hints do not work at first (or even not at all)
+// Seems more important for the editor to appear as quickly as possible!
+//
+
+var navigation = null;
+var importEnd = 0;
+
+window.addEventListener('load', function() {
+	var script = document.createElement('script');
+	script.src = '/assets/editor-navigation.js'
+	script.addEventListener('load', function()
+	{
+		navigation = Elm.Main.init({
+			node: navigationNode,
+			flags: codeNode.value
+		});
+
+		navigation.ports.compile.subscribe(function() {
+			compile();
+		});
+
+		navigation.ports.toggleLights.subscribe(function() {
+			lights();
+		});
+
+		editor.on("cursorActivity", function() {
+			navigation.ports.cursorMoves.send(getHint(editor));
+		});
+
+		navigation.ports.importEndLines.subscribe(function(n) {
+			importEnd = n;
+		});
+	});
+	document.head.appendChild(script);
+});
 
 
 // EDITOR
@@ -257,36 +300,6 @@ function jumpToProblem(event)
 	editor.scrollIntoView({ from: start, to: end }, 200);
 	editor.focus();
 }
-
-
-
-// HINTS
-//
-// We delay initialization of hints until page is fully loaded otherwise.
-// It is fine if hints do not work at first (or even not at all)
-// Seems more important for the editor to appear as quickly as possible!
-//
-
-var hints = null;
-var importEnd = 0;
-
-window.addEventListener('load', function() {
-	var script = document.createElement('script');
-	script.src = '/assets/editor-hints.js'
-	script.addEventListener('load', function()
-	{
-		hints = Elm.Main.init({
-			node: document.getElementsByClassName('hint')[0],
-			flags: codeNode.value
-		});
-		editor.on("cursorActivity", function() {
-			hints.ports.cursorMoves.send(getHint(editor));
-		});
-		hints.ports.importEndLines.subscribe(function(n) { importEnd = n; });
-	});
-	document.head.appendChild(script);
-});
-
 
 
 // GET HINT

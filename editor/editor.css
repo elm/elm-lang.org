@@ -45,7 +45,7 @@ body {
   border-right: 1px solid #E6E6E6;
 }
 
-#options {
+#navigation {
   background-color: #0B0E01;
   height: 30px;
   vertical-align: middle;
@@ -59,7 +59,7 @@ body {
   color: #464646;
 }
 
-#options.theme-dark {
+#navigation.theme-dark {
   border-top: 1px solid #373d3e;
   background-color: #161717;
   color: #b0b0b0;
@@ -68,7 +68,7 @@ body {
 
 /**** BUTTONS ****/
 
-#options button {
+#navigation button {
   font-family: inherit;
   background: transparent;
   border: 0;

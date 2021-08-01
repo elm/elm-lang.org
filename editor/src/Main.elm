@@ -8,6 +8,7 @@ import Header
 import Hint
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Html.Lazy exposing (..)
 import Http
 
@@ -18,7 +19,10 @@ import Http
 
 port submissions : (String -> msg) -> Sub msg
 port cursorMoves : (Maybe String -> msg) -> Sub msg
+port gotLights : (Bool -> msg) -> Sub msg
 port importEndLines : Int -> Cmd msg
+port compile : () -> Cmd msg
+port toggleLights : () -> Cmd msg
 
 
 
@@ -44,6 +48,7 @@ type alias Model =
   , table : Hint.Table
   , imports : Header.Imports
   , dependencies : DepsInfo
+  , lights : Bool
   }
 
 
@@ -61,12 +66,12 @@ init : String -> ( Model, Cmd Msg )
 init source =
   case Header.parse source of
     Nothing ->
-      ( Model Nothing Hint.defaultTable Header.defaultImports Loading
+      ( Model Nothing Hint.defaultTable Header.defaultImports Loading True
       , fetchDepsInfo
       )
 
     Just (imports, importEnd) ->
-      ( Model Nothing Hint.defaultTable imports Loading
+      ( Model Nothing Hint.defaultTable imports Loading True
       , Cmd.batch
           [ fetchDepsInfo
           , importEndLines importEnd
@@ -91,6 +96,9 @@ type Msg
   = Submitted String
   | CursorMoved (Maybe String)
   | GotDepsInfo (Result Http.Error Deps.Info)
+  | OnCompile
+  | OnToggleLights
+  | GotLights Bool
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -137,6 +145,15 @@ update msg model =
           , Cmd.none
           )
 
+    OnCompile ->
+      ( model, compile () )
+
+    OnToggleLights ->
+      ( model, toggleLights () )
+
+    GotLights lights ->
+      ( { model | lights = lights }, Cmd.none )
+
 
 
 -- SUBSCRIPTIONS
@@ -147,6 +164,7 @@ subscriptions _ =
   Sub.batch
     [ submissions Submitted
     , cursorMoves CursorMoved
+    , gotLights GotLights
     ]
 
 
@@ -154,14 +172,26 @@ subscriptions _ =
 -- VIEW
 
 
-view : Model -> Html msg
+view : Model -> Html Msg
 view model =
-  case model.token of
-    Nothing ->
-      viewExamplesLink
+  nav
+    [ id "navigation"
+    , class (if model.lights then "theme-light" else "theme-dark")
+    ]
+    [ case model.token of
+        Nothing ->
+          viewExamplesLink
 
-    Just token ->
-      lazy2 viewHint token model.table
+        Just token ->
+          lazy2 viewHint token model.table
+    , button
+        [ attribute "aria-label" "Compile your code (Ctrl-Enter)", onClick OnCompile ]
+        [ i [ class "icon refresh" ] [], text "Check changes" ]
+    , button
+        [ attribute "aria-label" "Switch the color scheme", onClick OnToggleLights ]
+        [ i [ class "icon moon" ] [], text "Lights" ]
+    ]
+
 
 
 
