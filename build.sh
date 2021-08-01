@@ -51,7 +51,7 @@ EOF
 #
 function makeExampleHtml {
   cat <<EOF > $1
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -61,16 +61,40 @@ function makeExampleHtml {
 </head>
 
 <body>
+<!-- ICONS -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </symbol>
+  <symbol id="refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="1 4 1 10 7 10"></polyline>
+    <polyline points="23 20 23 14 17 14"></polyline>
+    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+  </symbol>
+</svg>
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+  <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
+  <button alt="Compile your code (Ctrl-Enter)" onclick="compile()">
+    <svg class="icon"><use xlink:href="#refresh"></svg>
+    Compile
+  </button>
+  <button alt="Switch the color scheme" onclick="lights()">
+    <svg class="icon"><use xlink:href="#moon"></svg>
+    Lights
+  </button>
+</nav>
+
+<!-- EDITOR -->
 <form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
-  <div id="options">
-    <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
-    <button alt="Compile your code (Ctrl-Enter)" onclick="compile()"><i class="icon refresh"></i>Check changes</button>
-    <button alt="Switch the color scheme" onclick="lights()"><i class="icon moon"></i>Lights</button>
-  </div>
   <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
 </form>
+
+<!-- RESULT -->
 <div id="divider"></div>
 <iframe id="output" name="output" src="/examples/_compiled/$3.html"></iframe>
+
 <script src="/assets/editor.js"></script>
 </body>
 

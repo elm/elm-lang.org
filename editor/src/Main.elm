@@ -10,6 +10,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Html.Lazy exposing (..)
+import Svg exposing (svg, use)
+import Svg.Attributes as SA exposing (xlinkHref)
 import Http
 
 
@@ -186,12 +188,16 @@ view model =
           lazy2 viewHint token model.table
     , button
         [ attribute "aria-label" "Compile your code (Ctrl-Enter)", onClick OnCompile ]
-        [ i [ class "icon refresh" ] [], text "Check changes" ]
+        [ icon "#refresh", text "Check changes" ]
     , button
         [ attribute "aria-label" "Switch the color scheme", onClick OnToggleLights ]
-        [ i [ class "icon moon" ] [], text "Lights" ]
+        [ icon "#moon", text "Lights" ]
     ]
 
+
+icon : String -> Html msg
+icon name =
+  svg [ SA.class "icon" ] [ use [ xlinkHref name ] [] ]
 
 
 
