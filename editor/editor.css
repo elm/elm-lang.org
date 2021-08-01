@@ -59,7 +59,7 @@ body {
 }
 
 #navigation.open {
-  max-height: 100%;
+  max-height: 330px;
 }
 
 #navigation.theme-dark {
