@@ -10,6 +10,20 @@ body {
   display: flex;
 }
 
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
+}
+
+a:hover {
+  color: black;
+  text-decoration: underline;
+}
+
 
 /**** OUTPUT ****/
 
@@ -59,7 +73,7 @@ body {
 }
 
 #navigation.open {
-  max-height: 330px;
+  max-height: 100%;
 }
 
 #navigation.theme-dark {
