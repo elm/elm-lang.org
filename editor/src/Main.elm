@@ -205,17 +205,18 @@ view model =
     [ section
         [ id "topbar" ]
         [ aside []
-            [ menuButton
-                { icon = if model.isMenuOpen then "#up" else "#down"
-                , iconColor = ""
-                , label = Nothing
-                , alt = if model.isMenuOpen then "Close menu" else "Open menu"
-                , onClick = OnToggleMenu
-                }
+            [ viewExamplesLink
+              --menuButton
+              --  { icon = if model.isMenuOpen then "#down" else "#up"
+              --  , iconColor = ""
+              --  , label = Just "More examples"
+              --  , alt = if model.isMenuOpen then "Close menu" else "Open menu"
+              --  , onClick = OnToggleMenu
+              --  }
 
             , case model.token of
                 Nothing ->
-                  viewExamplesLink
+                  text ""
 
                 Just token ->
                   lazy2 viewHint token model.table
@@ -223,23 +224,21 @@ view model =
 
         , aside []
             [ menuButton
-                { icon = "#refresh"
-                , iconColor = "blue"
-                , label = Just "Check changes"
-                , alt = "Compile your code (Ctrl-Enter)"
-                , onClick = OnCompile
-                }
-
-            , menuButton
                 { icon = if model.isLight then "#moon" else "#sun"
                 , iconColor = ""
                 , label = Just (if model.isLight then "Lights off" else "Lights on")
                 , alt = "Switch the color scheme"
                 , onClick = OnToggleLights
                 }
+            , menuButton
+                { icon = "#refresh"
+                , iconColor = "blue"
+                , label = Just "Check changes"
+                , alt = "Compile your code (Ctrl-Enter)"
+                , onClick = OnCompile
+                }
             ]
         ]
-    , div [ style "height" "300px" ] []
     ]
 
 
@@ -265,18 +264,6 @@ icon colorClass name =
 
 
 
--- VIEW EXAMPLES LINK
-
-
-viewExamplesLink : Html msg
-viewExamplesLink =
-  div [ class "hint" ]
-    [ text "More examples "
-    , a [ href "/examples", target "_blank" ] [ text "here" ]
-    ]
-
-
-
 -- VIEW HINT
 
 
@@ -286,13 +273,26 @@ viewHint token table =
     Just info ->
       case info of
         Hint.Ambiguous ->
-          viewExamplesLink
+          text ""
 
         Hint.Specific hint ->
-          div [ class "hint" ]
-            [ text "Hint: "
+          div
+            [ class "hint" ]
+            [ span [ style "margin-right" "20px" ] [ text "·" ]
+            , text "Hint: "
             , a [ href hint.href, target "_blank" ] [ text hint.text ]
             ]
 
     Nothing ->
-      viewExamplesLink
+      text ""
+
+
+-- VIEW EXAMPLES LINK
+
+
+viewExamplesLink : Html msg
+viewExamplesLink =
+  div [ class "hint" ]
+    [ a [ href "/examples", target "_blank" ] [ text "More examples" ]
+    ]
+
