@@ -11,16 +11,16 @@ body {
 }
 
 a {
-  color: black;
+  color: inherit;
   text-decoration: none;
 }
 
 a:visited {
-  color: black;
+  color: inherit;
 }
 
 a:hover {
-  color: black;
+  color: inherit;
   text-decoration: underline;
 }
 
@@ -80,7 +80,6 @@ a:hover {
   border-top: 1px solid #373d3e;
   background-color: #161717;
   color: #b0b0b0;
-  padding: 0 10px 0 10px;
 }
 
 #topbar {
@@ -146,10 +145,6 @@ a:hover {
   margin: 0 10px;
 }
 
-.hint > a { color: inherit; }
-.hint > a:hover { color: #aaa; }
-.hint > a:active { color: #ccc; }
-
 
 /**** CODE MIRROR ****/
 
@@ -194,7 +189,7 @@ a:hover {
 .cm-s-dark span.cm-property { color: #a6e22e; }
 .cm-s-dark span.cm-attribute { color: #a6e22e; }
 .cm-s-dark span.cm-keyword { color: #238fca; }
-.cm-s-dark span.cm-builtin { color: #66d9ef; }
+.cm-s-dark span.cm-builtin { color: #238fca; }
 .cm-s-dark span.cm-string { color: #dd25ce; }
 
 .cm-s-dark span.cm-variable { color: #b0b0b0; }
