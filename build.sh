@@ -200,14 +200,14 @@ do
     name="${subpath%.elm}"
     html="_site/examples/$name.html"
 
-    # if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]; then
-    #     echo "Cached: $elm"
-    # else
+    if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]; then
+        echo "Cached: $elm"
+    else
         echo "Compiling: $elm"
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --output=_site/examples/_compiled/$name.html > /dev/null
         cat $elm | makeExampleHtml $html $name $name
-    # fi
+    fi
 done
 
 ## try
