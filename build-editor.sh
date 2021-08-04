@@ -48,11 +48,31 @@ function makeExampleHtml {
     <line x1="18" y1="6" x2="6" y2="18"></line>
     <line x1="6" y1="6" x2="18" y2="18"></line>
   </symbol>
+  <svg id="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
   <symbol id="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="18 15 12 9 6 15"/>
   </symbol>
   <symbol id="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="6 9 12 15 18 9"/>
+  </symbol>
+  <symbol id="package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+    <line x1="12" y1="22.08" x2="12" y2="12"/>
+  </symbol>
+  <symbol id="send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="22" y1="2" x2="11" y2="13"/>
+    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+  </symbol>
+  <symbol id="chain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </symbol>
+  <symbol id="code-tags" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16 18 22 12 16 6"/>
+    <polyline points="8 6 2 12 8 18"/>
   </symbol>
 </svg>
 
@@ -83,7 +103,7 @@ function makeExampleHtml {
     function gotErrors(event) {
       // TODO if (event.origin !== "https://worker.elm-lang.org") return;
       var message = JSON.parse(event.data);
-      main.ports.gotErrors.send(message.errors);
+      main.ports.gotErrors.send(message);
     }
 
   });
@@ -128,7 +148,7 @@ cp -r static/* _site/
   cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor.js
   cat editor/code-editor.js editor/split-page.js > _site/assets/code-editor.js
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
-  (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
+  (cd editor ; elm make src/Main.elm --output=elm.js)
   cat editor/elm.js > _site/assets/editor-navigation.js
   # uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-navigation.js
   rm editor/elm.js

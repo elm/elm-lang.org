@@ -23,12 +23,7 @@
       }
 
       connectedCallback() {
-        var observer = new MutationObserver(function(mutations) {
-          this._init();
-        });
-
         this._init();
-        observer.observe(this, { childList: true });
       }
 
       disconnectedCallback() {
@@ -36,28 +31,30 @@
       }
 
       _init() {
-        this.style = "width: 100%; display: flex;"
-        const [a, b] = this.children;
-        a.style.width = this._split + "%";
-        b.style.width = (100 - this._split) + "%";
         const fragment = template.content.cloneNode(true);
-        this.insertBefore(fragment, b);
+        this.appendChild(fragment);
         const divider = this.querySelector('#divider');
+
+        const sendDownEvent = debounce(() => {
+          this.dispatchEvent(new Event('down'));
+        });
 
         const sendMoveEvent = debounce(() => {
           this.dispatchEvent(new Event('move'));
         });
 
+        const sendUpEvent = debounce(() => {
+          this.dispatchEvent(new Event('up'));
+        });
+
         divider.addEventListener('mousedown', function(e) {
-          a.style.pointerEvents = 'none';
-          b.style.pointerEvents = 'none';
+          sendDownEvent();
           document.body.addEventListener('mouseup', dividerUp);
           document.body.addEventListener('mousemove', dividerMove);
         });
 
         const dividerUp = (function() {
-          a.style.pointerEvents = 'auto';
-          b.style.pointerEvents = 'auto';
+          sendUpEvent();
           document.body.removeEventListener('mouseup', dividerUp);
           document.body.removeEventListener('mousemove', dividerMove);
         }).bind(this);
@@ -70,8 +67,6 @@
 
           var fraction = 100 * (e.pageX / window.innerWidth);
           divider.style.left = fraction + '%';
-          a.style.width = fraction + '%';
-          b.style.width = 100 - fraction + '%';
           this._split = fraction;
           sendMoveEvent();
         }).bind(this);

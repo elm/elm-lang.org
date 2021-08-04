@@ -40,6 +40,52 @@ a:hover {
   border: none;
 }
 
+#errors {
+  padding: 20px;
+  max-width: 700px;
+}
+
+#errors .error-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+#errors .error-container {
+  position: relative;
+}
+
+#errors .error-header:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #E6E6E6;
+  top: 10px;
+}
+
+#errors .error-title {
+  color: #238fca;
+  background: white;
+  z-index: 1;
+  margin-left: 10px;
+  padding: 0 10px;
+}
+
+#errors .error-region {
+  background: white;
+  z-index: 1;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+
+#errors .error-body {
+  font-family: 'Courier Prime', monospace;
+  white-space: pre-wrap;
+  margin-top: 20px;
+}
+
 
 /**** DIVIDER ****/
 
@@ -137,6 +183,10 @@ a:hover {
 
 .icon.blue {
   color: #058eda;
+}
+
+.icon.green {
+  color: rgb(68, 201, 72);
 }
 
 
