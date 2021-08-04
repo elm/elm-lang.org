@@ -24,6 +24,7 @@ import Elm.Error as Error
 
 port submitSource : String -> Cmd msg
 port gotErrors : (E.Value -> msg) -> Sub msg
+port gotSuccess : (() -> msg) -> Sub msg
 
 
 
@@ -55,8 +56,16 @@ type alias Model =
   , name : String
   , split : Float
   , isMovingSplit : Bool
-  , errors : Maybe (Result D.Error Error.Error)
+  , status : Status
   }
+
+
+type Status
+  = Changed (Maybe Error.Error)
+  | Compiling
+  | Compiled
+  | Problems Error.Error
+  | Failed String
 
 
 type DepsInfo
@@ -84,7 +93,7 @@ init flags =
         , name = flags.name
         , split = 50
         , isMovingSplit = False
-        , errors = Nothing
+        , status = Compiled
         }
       , fetchDepsInfo
       )
@@ -101,7 +110,7 @@ init flags =
         , name = flags.name
         , split = 50
         , isMovingSplit = False
-        , errors = Nothing
+        , status = Compiled
         }
       , fetchDepsInfo
       )
@@ -132,6 +141,7 @@ type Msg
   | GotErrors E.Value
   | OnDownSplit
   | OnUpSplit
+  | GotSuccess ()
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -144,7 +154,21 @@ update msg model =
       ( { model | isMovingSplit = False }, Cmd.none )
 
     OnChange source ->
-      ( { model | source = source }, Cmd.none )
+      ( { model
+          | source = source
+          , status =
+              case model.status of
+                Changed errors ->
+                  Changed errors
+
+                Problems errors ->
+                  Changed (Just errors)
+
+                _ ->
+                  Changed Nothing
+      }
+      , Cmd.none
+      )
 
     OnHint token ->
       ( { model | token = token }, Cmd.none )
@@ -190,7 +214,10 @@ update msg model =
           )
 
     OnCompile ->
-      ( { model | errors = Nothing }, submitSource model.source )
+      ( { model | status = Compiling }, submitSource model.source )
+
+    GotSuccess _ ->
+      ( { model | status = Compiled }, Cmd.none )
 
     OnToggleLights ->
       ( { model | isLight = not model.isLight }, Cmd.none )
@@ -199,7 +226,12 @@ update msg model =
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
     GotErrors value ->
-      ( { model | errors = Just <| D.decodeValue Error.decoder value }, Cmd.none )
+      case D.decodeValue Error.decoder value of
+        Ok errors ->
+          ( { model | status = Problems errors }, Cmd.none )
+
+        Err _ ->
+          ( { model | status = Failed "Could not decode errors." }, Cmd.none )
 
 
 
@@ -209,7 +241,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-  gotErrors GotErrors
+  Sub.batch [ gotErrors GotErrors, gotSuccess GotSuccess ]
 
 
 
@@ -255,8 +287,9 @@ view model =
             , iframe
               [ id "output"
               , name "output"
-              , case model.errors of
-                  Just (Ok _) -> style "display" "none"
+              , case model.status of
+                  Changed (Just _) -> style "display" "none"
+                  Problems _ -> style "display" "none"
                   _ -> style "display" "block"
               , src ("/examples/_compiled/" ++ model.name ++ ".html")
               ]
@@ -283,19 +316,16 @@ viewEditor source lights importEnd =
 
 viewErrors : Model -> Html Msg
 viewErrors model =
-  case model.errors of
-    Nothing ->
-      text ""
+  case model.status of
+    Failed msg ->
+      text msg -- TODO
 
-    Just (Err _) ->
-      text "Could not decode errors" -- TODO
-
-    Just (Ok (Error.GeneralProblem problem)) ->
+    Changed (Just (Error.GeneralProblem problem)) ->
       div
         [ id "errors" ]
         [ viewError problem.title problem.message (Err problem.path) ]
 
-    Just (Ok (Error.ModuleProblems modules)) ->
+    Changed (Just (Error.ModuleProblems modules)) ->
       let viewModuleError module_ =
             div [ id "error-module" ] (List.map viewProblem module_.problems)
 
@@ -305,6 +335,25 @@ viewErrors model =
       div
         [ id "errors" ]
         (List.map viewModuleError modules)
+
+    Problems (Error.GeneralProblem problem) ->
+      div
+        [ id "errors" ]
+        [ viewError problem.title problem.message (Err problem.path) ]
+
+    Problems (Error.ModuleProblems modules) ->
+      let viewModuleError module_ =
+            div [ id "error-module" ] (List.map viewProblem module_.problems)
+
+          viewProblem problem =
+            viewError problem.title problem.message (Ok problem.region)
+      in
+      div
+        [ id "errors" ]
+        (List.map viewModuleError modules)
+
+    _ ->
+        text ""
 
 
 viewError : String -> List Error.Chunk -> Result (Maybe String) Error.Region -> Html Msg
@@ -437,9 +486,27 @@ viewNavigation model =
 
         , aside []
             [ menuButton
-                { icon = "#refresh"
-                , iconColor = "blue"
-                , label = Just "Check changes"
+                { icon =
+                    case model.status of
+                      Changed _ -> "#refresh"
+                      Compiling -> "#refresh"
+                      Compiled -> "#checkmark"
+                      Problems _ -> "#x"
+                      Failed _ -> "#x"
+                , iconColor =
+                    case model.status of
+                      Changed _ -> "blue"
+                      Compiling -> "blue"
+                      Compiled -> "green"
+                      Problems _ -> "red"
+                      Failed _ -> "red"
+                , label = Just <|
+                    case model.status of
+                      Changed _ -> "Check changes"
+                      Compiling -> "Compiling..."
+                      Compiled -> "Success"
+                      Problems _ -> "Problems found"
+                      Failed _ -> "Failed"
                 , alt = "Compile your code (Ctrl-Enter)"
                 , onClick = OnCompile
                 }
