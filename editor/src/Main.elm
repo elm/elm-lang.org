@@ -8,30 +8,27 @@ import Header
 import Hint
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, on)
 import Html.Lazy exposing (..)
 import Svg exposing (svg, use)
 import Svg.Attributes as SA exposing (xlinkHref)
 import Http
+import Json.Encode as E
+import Json.Decode as D
 
 
 
 -- PORTS
 
 
-port submissions : (String -> msg) -> Sub msg
-port cursorMoves : (Maybe String -> msg) -> Sub msg
-port gotLights : (Bool -> msg) -> Sub msg
-port importEndLines : Int -> Cmd msg
-port compile : () -> Cmd msg
-port toggleLights : () -> Cmd msg
+port submitSource : String -> Cmd msg
+port gotErrors : (E.Value -> msg) -> Sub msg
 
 
 
 -- MAIN
 
 
-main : Program String Model Msg
 main =
   Browser.element
     { init = init
@@ -50,8 +47,12 @@ type alias Model =
   , table : Hint.Table
   , imports : Header.Imports
   , dependencies : DepsInfo
+  , source : String
   , isLight : Bool
   , isMenuOpen : Bool
+  , importEnd : Int
+  , name : String
+  , split : Float
   }
 
 
@@ -65,16 +66,20 @@ type DepsInfo
 -- INIT
 
 
-init : String -> ( Model, Cmd Msg )
-init source =
-  case Header.parse source of
+init : { original : String, name : String } -> ( Model, Cmd Msg )
+init flags =
+  case Header.parse flags.original of
     Nothing ->
       ( { token = Nothing
         , table = Hint.defaultTable
         , imports = Header.defaultImports
         , dependencies = Loading
+        , source = flags.original
         , isLight = True
         , isMenuOpen = False
+        , importEnd = 0
+        , name = flags.name
+        , split = 50
         }
       , fetchDepsInfo
       )
@@ -84,13 +89,14 @@ init source =
         , table = Hint.defaultTable
         , imports = imports
         , dependencies = Loading
+        , source = flags.original
         , isLight = True
         , isMenuOpen = False
+        , importEnd = importEnd
+        , name = flags.name
+        , split = 50
         }
-      , Cmd.batch
-          [ fetchDepsInfo
-          , importEndLines importEnd
-          ]
+      , fetchDepsInfo
       )
 
 
@@ -108,24 +114,35 @@ fetchDepsInfo =
 
 
 type Msg
-  = Submitted String
-  | CursorMoved (Maybe String)
+  = OnChange String
+  | Submitted String
   | GotDepsInfo (Result Http.Error Deps.Info)
   | OnCompile
   | OnToggleLights
-  | GotLights Bool
   | OnToggleMenu
+  | OnHint (Maybe String)
+  | OnMoveSplit Float
+  | GotErrors E.Value
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
+    OnChange source ->
+      ( { model | source = source }, Cmd.none )
+
+    OnHint token ->
+      ( { model | token = token }, Cmd.none )
+
+    OnMoveSplit split ->
+      ( { model | split = split }, Cmd.none )
+
     Submitted source ->
       case Header.parse source of
         Nothing ->
           ( model, Cmd.none )
 
-        Just (imports, importEnd) ->
+        Just ( imports, importEnd ) ->
           case model.dependencies of
             Failure ->
               ( model, Cmd.none )
@@ -137,14 +154,10 @@ update msg model =
               ( { model
                     | table = Hint.buildTable imports info
                     , imports = imports
+                    , importEnd = importEnd
                 }
-              , importEndLines importEnd
+              , Cmd.none
               )
-
-    CursorMoved token ->
-      ( { model | token = token }
-      , Cmd.none
-      )
 
     GotDepsInfo result ->
       case result of
@@ -162,16 +175,17 @@ update msg model =
           )
 
     OnCompile ->
-      ( model, compile () )
+      ( model, submitSource model.source )
 
     OnToggleLights ->
-      ( model, toggleLights () )
-
-    GotLights isLight ->
-      ( { model | isLight = isLight }, Cmd.none )
+      ( { model | isLight = not model.isLight }, Cmd.none )
 
     OnToggleMenu ->
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
+    GotErrors v ->
+      ( model, Cmd.none )
+
 
 
 
@@ -180,11 +194,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-  Sub.batch
-    [ submissions Submitted
-    , cursorMoves CursorMoved
-    , gotLights GotLights
-    ]
+  gotErrors GotErrors
 
 
 
@@ -193,6 +203,47 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
+  main_
+    [ id "main" ]
+    [ viewNavigation model
+
+    , node "split-page"
+        [ on "move" (D.map OnMoveSplit (D.at [ "target", "split" ] D.float))
+        , property "split" (E.float model.split)
+        ]
+        [ Html.form
+            [ id "editor"
+            , action "http://localhost:8000/compile/v2"
+            , method "post"
+            , enctype "multipart/form-data"
+            , target "output"
+            ]
+            [ textarea [ id "code", name "code", style "display" "none" ] []
+            , lazy3 viewEditor model.source model.isLight model.importEnd
+            ]
+
+        , iframe [ id "output", name "output", src ("/examples/_compiled/" ++ model.name ++ ".html") ] []
+        ]
+    ]
+
+
+viewEditor : String -> Bool -> Int -> Html Msg
+viewEditor source lights importEnd =
+  let theme =
+        if lights then "light" else "dark"
+  in
+  node "code-editor"
+    [ property "source" (E.string source)
+    , property "theme" (E.string theme)
+    , property "importEnd" (E.int importEnd)
+    , on "change" (D.map OnChange (D.at [ "target", "source" ] D.string))
+    , on "hint" (D.map OnHint (D.at [ "target", "hint" ] (D.nullable D.string)))
+    ]
+    []
+
+
+viewNavigation : Model -> Html Msg
+viewNavigation model =
   nav
     [ id "navigation"
     , classList
