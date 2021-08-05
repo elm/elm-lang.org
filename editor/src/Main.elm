@@ -10,7 +10,7 @@ import Navigation
 import Errors
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, on)
+import Html.Events exposing (onClick, on, onMouseOver, onMouseLeave)
 import Html.Lazy exposing (..)
 import Svg exposing (svg, use)
 import Svg.Attributes as SA exposing (xlinkHref)
@@ -57,6 +57,7 @@ type alias Model =
   , importEnd : Int
   , name : String
   , split : Float
+  , isHoveringDivider : Bool
   , isMovingSplit : Bool
   , status : Status
   }
@@ -94,6 +95,7 @@ init flags =
         , importEnd = 0
         , name = flags.name
         , split = 50
+        , isHoveringDivider = False
         , isMovingSplit = False
         , status = Compiled
         }
@@ -111,6 +113,7 @@ init flags =
         , importEnd = importEnd
         , name = flags.name
         , split = 50
+        , isHoveringDivider = False
         , isMovingSplit = False
         , status = Compiled
         }
@@ -145,6 +148,7 @@ type Msg
   | OnDownSplit
   | OnUpSplit
   | GotSuccess ()
+  | OnHoveringDivider Bool
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -155,6 +159,9 @@ update msg model =
 
     OnUpSplit ->
       ( { model | isMovingSplit = False }, Cmd.none )
+
+    OnHoveringDivider isHovering ->
+      ( { model | isHoveringDivider = isHovering }, Cmd.none )
 
     OnChange source ->
       ( { model
@@ -182,7 +189,7 @@ update msg model =
       ( { model | token = token }, Cmd.none )
 
     OnMoveSplit split ->
-      ( { model | split = split }, Cmd.none )
+      ( { model | split = if split < 2 then 0 else if split > 98 then 100 else split }, Cmd.none )
 
     Submitted source ->
       case Header.parse source of
@@ -258,6 +265,11 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
+  let split =
+        if model.isHoveringDivider && not model.isMovingSplit
+        then model.split |> Basics.max 1 |> Basics.min 99
+        else model.split
+  in
   main_
     [ id "main"
     , classList
@@ -272,9 +284,10 @@ view model =
         ]
         [ div
             [ id "left-side"
-            , style "width" (String.fromFloat model.split ++ "%")
+            , style "width" (String.fromFloat split ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             , style "user-select" (if model.isMovingSplit then "none" else "auto")
+            , style "transition" (if model.isMovingSplit then "none" else "width 0.1s")
             ]
             [ Html.form
                 [ id "editor"
@@ -293,15 +306,18 @@ view model =
             [ on "move" (D.map OnMoveSplit (D.at [ "target", "split" ] D.float))
             , on "down" (D.succeed OnDownSplit)
             , on "up" (D.succeed OnUpSplit)
-            , property "split" (E.float model.split)
+            , property "split" (E.float split)
+            , onMouseOver (OnHoveringDivider True)
+            , onMouseLeave (OnHoveringDivider False)
             ]
             []
 
         , div
             [ id "right-side"
-            , style "width" (String.fromFloat (100 - model.split) ++ "%")
+            , style "width" (String.fromFloat (100 - split) ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             , style "user-select" (if model.isMovingSplit then "none" else "auto")
+            , style "transition" (if model.isMovingSplit then "none" else "width 0.1s")
             ]
             [ case model.status of
                 Changed (Just error) ->

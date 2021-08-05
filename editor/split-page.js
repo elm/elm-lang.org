@@ -32,8 +32,7 @@
 
       _init() {
         const fragment = template.content.cloneNode(true);
-        this.appendChild(fragment);
-        const divider = this.querySelector('#divider');
+        this.setAttribute('id', "divider");
 
         const sendDownEvent = debounce(() => {
           this.dispatchEvent(new Event('down'));
@@ -47,7 +46,7 @@
           this.dispatchEvent(new Event('up'));
         });
 
-        divider.addEventListener('mousedown', function(e) {
+        this.addEventListener('mousedown', function(e) {
           sendDownEvent();
           document.body.addEventListener('mouseup', dividerUp);
           document.body.addEventListener('mousemove', dividerMove);
@@ -66,7 +65,7 @@
           }
 
           var fraction = 100 * (e.pageX / window.innerWidth);
-          divider.style.left = fraction + '%';
+          this.style.left = fraction + '%';
           this._split = fraction;
           sendMoveEvent();
         }).bind(this);
@@ -78,6 +77,7 @@
 
       set split(updated) {
         this._split = updated;
+        this.style.left = updated + '%';
       }
   }
 

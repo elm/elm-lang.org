@@ -42,6 +42,10 @@ a:hover {
   background: white;
 }
 
+#right-side {
+
+}
+
 .theme-dark #right-side {
   background: #161717;
   color: #b0b0b0;
@@ -118,8 +122,8 @@ a:hover {
 /**** DIVIDER ****/
 
 #divider {
-  width: 10px;
-  margin-left: -5px;
+  width: 20px;
+  margin-left: -10px;
   position: absolute;
   top: 0;
   left: 50%;
@@ -135,6 +139,7 @@ a:hover {
   border-right: 1px solid #E6E6E6;
   position: relative;
   overflow: hidden;
+
 }
 
 #editor {
