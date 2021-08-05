@@ -20,6 +20,7 @@
         super();
         this._split = 50;
         this._init = this._init.bind(this);
+        this._updateDivider = this._updateDivider.bind(this);
       }
 
       connectedCallback() {
@@ -65,10 +66,24 @@
           }
 
           var fraction = 100 * (e.pageX / window.innerWidth);
-          this.style.left = fraction + '%';
           this._split = fraction;
+          this._updateDivider();
           sendMoveEvent();
         }).bind(this);
+      }
+
+      _updateDivider() {
+        this.style.left = this._split + '%';
+        if (this._split <= 3) {
+          this.style.width = '90px';
+          this.style.marginLeft = '-85px';
+        } else if (this._split >= 97) {
+          this.style.width = '90px';
+          this.style.marginLeft = '-5px';
+        } else {
+          this.style.width = '10px';
+          this.style.marginLeft = '-5px';
+        }
       }
 
       get split() {
@@ -77,7 +92,7 @@
 
       set split(updated) {
         this._split = updated;
-        this.style.left = updated + '%';
+        this._updateDivider();
       }
   }
 

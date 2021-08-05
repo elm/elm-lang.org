@@ -122,8 +122,8 @@ a:hover {
 /**** DIVIDER ****/
 
 #divider {
-  width: 90px;
-  margin-left: -45px;
+  width: 10px;
+  margin-left: -5px;
   position: absolute;
   top: 0;
   left: 50%;
