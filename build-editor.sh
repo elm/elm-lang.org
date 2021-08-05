@@ -25,6 +25,20 @@ function makeExampleHtml {
 </head>
 
 <body>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="logo" viewBox="-300 -300 600 600" fill="currentColor">
+    <g transform="scale(1 -1)">
+    <polygon points="-280,-90 0,190 280,-90" transform="translate(0 -210) rotate(0)"></polygon>
+      <polygon points="-280,-90 0,190 280,-90" transform="translate(-210 0) rotate(-90)"></polygon>
+      <polygon points="-198,-66 0,132 198,-66" transform="translate(207 207) rotate(-45)"></polygon>
+      <polygon points="-130,0 0,-130 130,0 0,130" transform="translate(150 0) rotate(0)"></polygon>
+      <polygon points="-191,61 69,61 191,-61 -69,-61" transform="translate(-89 239) rotate(0)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(0 106) rotate(-180)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(256 -150) rotate(-270)"></polygon>
+    </g>
+  </symbol>
+</svg>
+
 <main id="main"></main>
 <textarea id="original" style="display:none;">$(cat $4)</textarea>
 
@@ -109,14 +123,14 @@ cp -r static/* _site/
 
 ## examples
 
-echo "EXAMPLES: buttons"
+echo "EXAMPLES: share"
 
 # if [ -f $html ] && [ $(date -r $elm +%s) -le $(date -r $html +%s) ]; then
 #     echo "Cached: $elm"
 # else
     rm -f elm-stuff/*/Main.elm*
-    elm make examples/buttons.elm --output=_site/examples/_compiled/buttons.html > /dev/null
-    cat examples/buttons.elm | makeExampleHtml "_site/examples/buttons.html" "buttons" "buttons"
+    elm make examples/share.elm --output=_site/examples/_compiled/share.html > /dev/null
+    cat examples/share.elm | makeExampleHtml "_site/examples/share.html" "share" "share"
 # fi
 
 ## try

@@ -29,7 +29,6 @@ a:hover {
   height: 100%;
   display: flex;
   position: fixed;
-  height: calc(100% - 30px);
 }
 
 
@@ -132,12 +131,17 @@ a:hover {
 
 /**** EDITOR ****/
 
+#left-side {
+  border-right: 1px solid #E6E6E6;
+  position: relative;
+  overflow: hidden;
+}
+
 #editor {
   margin: 0;
-  width: 50%;
-  height: 100%;
+  width: 100%;
+  height: calc(100% - 30px);
   background-color: white;
-  border-right: 1px solid #E6E6E6;
 }
 
 .theme-dark #editor {
@@ -150,11 +154,12 @@ a:hover {
 #navigation {
   width: 100%;
   max-height: 30px;
+  min-width: max-content;
   border-top: 1px solid #E6E6E6;
   background-color: white;
   color: #464646;
   vertical-align: middle;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   z-index: 100;
   transition: max-height 0.5s;
@@ -206,6 +211,25 @@ a:hover {
 
 
 /**** ICONS ****/
+
+.icon-link {
+  display: inline-block;
+  padding: 0 10px;
+  color: inherit;
+  transition: color 0.25s;
+}
+
+.icon-link:hover {
+  color: #058eda;
+}
+
+.icon-link svg {
+  vertical-align: middle;
+}
+
+.icon-link span:nth-child(2) {
+  margin-left: 8px;
+}
 
 .icon {
   display: inline-block;

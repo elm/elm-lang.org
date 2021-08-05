@@ -133,6 +133,7 @@ fetchDepsInfo =
 
 type Msg
   = OnChange String
+  | OnSave String
   | Submitted String
   | GotDepsInfo (Result Http.Error Deps.Info)
   | OnCompile
@@ -170,6 +171,11 @@ update msg model =
                   Changed Nothing
       }
       , Cmd.none
+      )
+
+    OnSave source ->
+      ( { model | source = source, status = Compiling }
+      , submitSource source
       )
 
     OnHint token ->
@@ -259,25 +265,28 @@ view model =
         , ( "theme-dark", not model.isLight )
         ]
     ]
-    [ viewNavigation model
-
-    , div
+    [ div
         [ id "double-pane"
         , style "width" "100%"
         , style "display" "flex"
         ]
-        [ Html.form
-            [ id "editor"
-            , action "http://localhost:8000/compile/v2"
-            , method "post"
-            , enctype "multipart/form-data"
-            , target "output"
+        [ div
+            [ id "left-side"
             , style "width" (String.fromFloat model.split ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             , style "user-select" (if model.isMovingSplit then "none" else "auto")
             ]
-            [ textarea [ id "code", name "code", style "display" "none" ] []
-            , lazy3 viewEditor model.source model.isLight model.importEnd
+            [ Html.form
+                [ id "editor"
+                , action "http://localhost:8000/compile/v2"
+                , method "post"
+                , enctype "multipart/form-data"
+                , target "output"
+                ]
+                [ textarea [ id "code", name "code", style "display" "none" ] []
+                , lazy3 viewEditor model.source model.isLight model.importEnd
+                ]
+            , viewNavigation model
             ]
 
         , node "split-page"
@@ -331,6 +340,7 @@ viewEditor source lights importEnd =
     [ property "source" (E.string source)
     , property "theme" (E.string theme)
     , property "importEnd" (E.int importEnd)
+    , on "save" (D.map OnSave (D.at [ "target", "source" ] D.string))
     , on "change" (D.map OnChange (D.at [ "target", "source" ] D.string))
     , on "hint" (D.map OnHint (D.at [ "target", "hint" ] (D.nullable D.string)))
     ]
@@ -346,7 +356,8 @@ viewNavigation model =
     { isLight = model.isLight
     , isOpen = model.isMenuOpen
     , left =
-        [ Navigation.lights OnToggleLights model.isLight
+        [ Navigation.elmLogo
+        , Navigation.lights OnToggleLights model.isLight
         , case model.token of
             Nothing ->
               text ""
@@ -362,7 +373,7 @@ viewNavigation model =
               Compiled   -> Navigation.Success
               Problems _ -> Navigation.ProblemsFound
               Failed _   -> Navigation.CouldNotCompile
-        , Navigation.share OnToggleLights -- TODO
+        --, Navigation.share OnToggleLights -- TODO
         , Navigation.deploy OnToggleLights -- TODO
         ]
     }

@@ -1,6 +1,6 @@
 module Navigation exposing
   ( Navigation, view
-  , toggleOpen, lights, Status(..), compilation, share, deploy
+  , elmLogo, toggleOpen, lights, Status(..), compilation, share, deploy
   , Button, menuButton
   )
 
@@ -12,6 +12,8 @@ import FeatherIcons as I
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
+import Svg exposing (svg, use)
+import Svg.Attributes as SA
 
 
 {-| -}
@@ -43,6 +45,20 @@ view config =
 
 
 -- BUTTON / PREMADE
+
+
+{-| -}
+elmLogo : Html msg
+elmLogo =
+  a [ href "/", class "icon-link" ]
+    [ svg
+        [ SA.height "14"
+        , SA.width "14"
+        ]
+        [ use [ SA.xlinkHref "#logo" ] []
+        ]
+    --, span [] [ text "Elm" ]
+    ]
 
 
 {-| -}
@@ -140,8 +156,8 @@ deploy onClick_ =
   menuButton
     { icon = I.send
     , iconColor = Nothing
-    , label = Just "Deploy"
-    , alt = "Deploy this code"
+    , label = Just "Publish"
+    , alt = "Publish this code"
     , onClick = onClick_
     }
 
@@ -176,5 +192,3 @@ menuButton config =
         Just label -> span [] [ text label ]
         Nothing -> text ""
     ]
-
-

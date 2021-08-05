@@ -80,7 +80,8 @@
           "Tab": handleTab,
           "Shift-Tab": handleUntab,
           "Backspace": handleBackspace,
-          "Ctrl-Enter": function(cm) { sendChangeEvent(); }
+          'Cmd-S': function(cm) { sendSaveEvent(); },
+          "Ctrl-Enter": function(cm) { sendSaveEvent(); }
         }
       });
 
