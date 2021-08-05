@@ -189,7 +189,7 @@ update msg model =
       ( { model | token = token }, Cmd.none )
 
     OnMoveSplit split ->
-      ( { model | split = if split < 2 then 0 else if split > 98 then 100 else split }, Cmd.none )
+      ( { model | split = split }, Cmd.none )
 
     Submitted source ->
       case Header.parse source of
@@ -266,9 +266,14 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   let split =
-        if model.isHoveringDivider && not model.isMovingSplit
-        then model.split |> Basics.max 1 |> Basics.min 99
-        else model.split
+        if model.isHoveringDivider && not model.isMovingSplit then
+          model.split |> Basics.max 3 |> Basics.min 97
+        else if not model.isHoveringDivider && not model.isMovingSplit then
+          if model.split < 3 then 0 else
+          if model.split > 97 then 100
+          else  model.split
+        else
+          model.split
   in
   main_
     [ id "main"
