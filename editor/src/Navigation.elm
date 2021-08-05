@@ -29,9 +29,7 @@ view config =
   nav
     [ id "navigation"
     , classList
-        [ ( "theme-light", config.isLight )
-        , ( "theme-dark", not config.isLight )
-        , ( "open", config.isOpen )
+        [ ( "open", config.isOpen )
         , ( "closed", not config.isOpen )
         ]
     ]

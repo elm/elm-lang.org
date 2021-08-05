@@ -253,11 +253,17 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   main_
-    [ id "main" ]
+    [ id "main"
+    , classList
+        [ ( "theme-light", model.isLight )
+        , ( "theme-dark", not model.isLight )
+        ]
+    ]
     [ viewNavigation model
 
     , div
-        [ style "width" "100%"
+        [ id "double-pane"
+        , style "width" "100%"
         , style "display" "flex"
         ]
         [ Html.form
@@ -268,6 +274,7 @@ view model =
             , target "output"
             , style "width" (String.fromFloat model.split ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
+            , style "user-select" (if model.isMovingSplit then "none" else "auto")
             ]
             [ textarea [ id "code", name "code", style "display" "none" ] []
             , lazy3 viewEditor model.source model.isLight model.importEnd
@@ -282,8 +289,10 @@ view model =
             []
 
         , div
-            [ style "width" (String.fromFloat (100 - model.split) ++ "%")
+            [ id "right-side"
+            , style "width" (String.fromFloat (100 - model.split) ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
+            , style "user-select" (if model.isMovingSplit then "none" else "auto")
             ]
             [ case model.status of
                 Changed (Just error) ->

@@ -28,6 +28,8 @@ a:hover {
   width: 100%;
   height: 100%;
   display: flex;
+  position: fixed;
+  height: calc(100% - 30px);
 }
 
 
@@ -36,13 +38,32 @@ a:hover {
 #output {
   margin: 0;
   width: 100%;
-  height: calc(100% - 30px);
+  height: 100%;
   border: none;
+  background: white;
 }
+
+.theme-dark #right-side {
+  background: #161717;
+  color: #b0b0b0;
+}
+
+/**** ERRORS ****/
 
 #errors {
   padding: 20px;
   max-width: 700px;
+  height: 100%;
+  background: white;
+}
+
+.theme-dark #errors {
+  background: #161717;
+  color: #b0b0b0;
+}
+
+#errors .error-module {
+  background: inherit;
 }
 
 #errors .error-header {
@@ -51,9 +72,13 @@ a:hover {
   width: 100%;
 }
 
-
 #errors .error-container {
   position: relative;
+  background: inherit;
+}
+
+#errors .error-header {
+  background: inherit;
 }
 
 #errors .error-header:before {
@@ -65,16 +90,20 @@ a:hover {
   top: 10px;
 }
 
+.theme-dark #errors .error-header:before {
+  background: #373d3e;
+}
+
 #errors .error-title {
   color: #238fca;
-  background: white;
+  background: inherit;
   z-index: 1;
   margin-left: 10px;
   padding: 0 10px;
 }
 
 #errors .error-region {
-  background: white;
+  background: inherit;
   z-index: 1;
   margin-right: 10px;
   padding: 0 10px;
@@ -111,6 +140,13 @@ a:hover {
   border-right: 1px solid #E6E6E6;
 }
 
+.theme-dark #editor {
+  border-right: 1px solid #373d3e;
+}
+
+
+/**** NAVIGATION ****/
+
 #navigation {
   width: 100%;
   max-height: 30px;
@@ -128,7 +164,7 @@ a:hover {
   max-height: 100%;
 }
 
-#navigation.theme-dark {
+.theme-dark #navigation {
   border-top: 1px solid #373d3e;
   background-color: #161717;
   color: #b0b0b0;
@@ -235,7 +271,7 @@ a:hover {
 /**** CODE MIRROR ****/
 
 .CodeMirror {
-  height: calc(100% - 30px);
+  height: 100%;
   line-height: 1.25;
   font-size: 14px;
   font-family: 'Courier Prime', monospace;

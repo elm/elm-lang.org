@@ -24,7 +24,7 @@ view error =
 
     Error.ModuleProblems modules ->
       let viewModuleError module_ =
-            div [ id "error-module" ] (List.map viewProblem module_.problems)
+            div [ class "error-module" ] (List.map viewProblem module_.problems)
 
           viewProblem problem =
             viewContainer
