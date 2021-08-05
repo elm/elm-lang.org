@@ -178,17 +178,46 @@ a:hover {
   top: -1px;
 }
 
-.icon.blue {
+.blue {
   color: #058eda;
 }
 
-.icon.green {
+.green {
   color: rgb(68, 201, 72);
 }
 
-.icon.red {
+.red {
   color: rgb(215, 31, 10);
 }
+
+.magenta {
+  color: #dd25ce;
+}
+
+.yellow {
+  color: #f28600;
+}
+
+.cyan {
+  color: red;
+}
+
+.white {
+  color: white;
+}
+
+.black {
+  color: black;
+}
+
+.error-bold {
+  font-weight: bold;
+}
+
+.error-underline {
+  text-decoration: underline;
+}
+
 
 
 /**** HINT ****/

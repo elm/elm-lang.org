@@ -7,6 +7,7 @@ import Deps
 import Header
 import Hint
 import Navigation
+import Errors
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
@@ -284,17 +285,29 @@ view model =
             [ style "width" (String.fromFloat (100 - model.split) ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             ]
-            [ viewErrors model
+            [ case model.status of
+                Changed (Just error) ->
+                  Errors.view error
+
+                Problems error ->
+                  Errors.view error
+
+                Failed msg ->
+                  text msg -- TODO
+
+                _ ->
+                  text ""
+
             , iframe
-              [ id "output"
-              , name "output"
-              , case model.status of
-                  Changed (Just _) -> style "display" "none"
-                  Problems _ -> style "display" "none"
-                  _ -> style "display" "block"
-              , src ("/examples/_compiled/" ++ model.name ++ ".html")
-              ]
-              []
+                [ id "output"
+                , name "output"
+                , case model.status of
+                    Changed (Just _) -> style "display" "none"
+                    Problems _ -> style "display" "none"
+                    _ -> style "display" "block"
+                , src ("/examples/_compiled/" ++ model.name ++ ".html")
+                ]
+                []
             ]
         ]
     ]
@@ -315,140 +328,12 @@ viewEditor source lights importEnd =
     []
 
 
-viewErrors : Model -> Html Msg
-viewErrors model =
-  case model.status of
-    Failed msg ->
-      text msg -- TODO
-
-    Changed (Just (Error.GeneralProblem problem)) ->
-      div
-        [ id "errors" ]
-        [ viewError problem.title problem.message (Err problem.path) ]
-
-    Changed (Just (Error.ModuleProblems modules)) ->
-      let viewModuleError module_ =
-            div [ id "error-module" ] (List.map viewProblem module_.problems)
-
-          viewProblem problem =
-            viewError problem.title problem.message (Ok problem.region)
-      in
-      div
-        [ id "errors" ]
-        (List.map viewModuleError modules)
-
-    Problems (Error.GeneralProblem problem) ->
-      div
-        [ id "errors" ]
-        [ viewError problem.title problem.message (Err problem.path) ]
-
-    Problems (Error.ModuleProblems modules) ->
-      let viewModuleError module_ =
-            div [ id "error-module" ] (List.map viewProblem module_.problems)
-
-          viewProblem problem =
-            viewError problem.title problem.message (Ok problem.region)
-      in
-      div
-        [ id "errors" ]
-        (List.map viewModuleError modules)
-
-    _ ->
-        text ""
-
-
-viewError : String -> List Error.Chunk -> Result (Maybe String) Error.Region -> Html Msg
-viewError title message area =
-  div [ class "error-container" ]
-    [ div
-        [ class "error-header" ]
-        [ div [ class "error-title"] [ text title ]
-        , case area of
-            Ok region -> div [ class "error-region"] [ text "Jump to problem" ]
-            Err (Just name) -> div [ class "error-region"] [ text name ]
-            Err Nothing -> text ""
-        ]
-    , div [ class "error-body" ] (viewMessage message)
-    ]
-
-
-viewMessage : List Error.Chunk -> List (Html msg)
-viewMessage chunks =
-    case chunks of
-      [] ->
-        [ text "\n\n\n" ]
-
-      chunk :: others ->
-        let
-          htmlChunk =
-            case chunk of
-              Error.Unstyled string ->
-                text string
-
-              Error.Styled style string ->
-                span (styleToAttrs style) [ text string ]
-        in
-        htmlChunk :: viewMessage others
-
-
-styleToAttrs : Error.Style -> List (Attribute msg)
-styleToAttrs { bold, underline, color } =
-  addBold bold <| addUnderline underline <| addColor color []
-
-
-addBold : Bool -> List (Attribute msg) -> List (Attribute msg)
-addBold bool attrs =
-  if bool then
-    style "font-weight" "bold" :: attrs
-  else
-    attrs
-
-
-addUnderline : Bool -> List (Attribute msg) -> List (Attribute msg)
-addUnderline bool attrs =
-  if bool then
-    style "text-decoration" "underline" :: attrs
-  else
-    attrs
-
-
-addColor : Maybe Error.Color -> List (Attribute msg) -> List (Attribute msg)
-addColor maybeColor attrs =
-  case maybeColor of
-    Nothing ->
-      attrs
-
-    Just color ->
-      style "color" (colorToCss color) :: attrs
-
-
-colorToCss : Error.Color -> String
-colorToCss color =
-  case color of
-    Error.Red -> "rgb(194,54,33)"
-    Error.RED -> "rgb(252,57,31)"
-    Error.Magenta -> "rgb(211,56,211)"
-    Error.MAGENTA -> "rgb(249,53,248)"
-    Error.Yellow -> "rgb(27 126 205)"
-    Error.YELLOW -> "rgb(234,236,35)"
-    Error.Green -> "rgb(37,188,36)"
-    Error.GREEN -> "rgb(40,139,32)"
-    Error.Cyan -> "rgb(51,187,200)"
-    Error.CYAN -> "rgb(20,240,240)"
-    Error.Blue -> "rgb(73,46,225)"
-    Error.BLUE -> "rgb(88,51,255)"
-    Error.White -> "rgb(203,204,205)"
-    Error.WHITE -> "rgb(233,235,235)"
-    Error.Black -> "rgb(0,0,0)"
-    Error.BLACK -> "rgb(129,131,131)"
-
-
 
 -- NAVIGATION
 
 viewNavigation : Model -> Html Msg
 viewNavigation model =
-  Navigation.navigation
+  Navigation.view
     { isLight = model.isLight
     , isOpen = model.isMenuOpen
     , left =

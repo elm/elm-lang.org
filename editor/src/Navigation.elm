@@ -1,8 +1,12 @@
 module Navigation exposing
-  ( Navigation, navigation
+  ( Navigation, view
   , toggleOpen, lights, Status(..), compilation, share, deploy
   , Button, menuButton
   )
+
+{-| The navigation bar.
+
+-}
 
 import FeatherIcons as I
 import Html exposing (..)
@@ -20,8 +24,8 @@ type alias Navigation msg =
 
 
 {-| -}
-navigation : Navigation msg -> Html msg
-navigation config =
+view : Navigation msg -> Html msg
+view config =
   nav
     [ id "navigation"
     , classList
