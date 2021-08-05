@@ -6,6 +6,7 @@ import Dict exposing (Dict)
 import Deps
 import Header
 import Hint
+import Navigation
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
@@ -447,107 +448,30 @@ colorToCss color =
 
 viewNavigation : Model -> Html Msg
 viewNavigation model =
-  nav
-    [ id "navigation"
-    , classList
-        [ ( "theme-light", model.isLight )
-        , ( "theme-dark", not model.isLight )
-        , ( "open", model.isMenuOpen )
-        , ( "closed", not model.isMenuOpen )
+  Navigation.navigation
+    { isLight = model.isLight
+    , isOpen = model.isMenuOpen
+    , left =
+        [ Navigation.lights OnToggleLights model.isLight
+        , case model.token of
+            Nothing ->
+              text ""
+
+            Just token ->
+              lazy2 viewHint token model.table
         ]
-    ]
-    [ section
-        [ id "topbar" ]
-        [ aside []
-            [ menuButton
-                { icon = if model.isLight then "#moon" else "#sun"
-                , iconColor = ""
-                , label = Just (if model.isLight then "Lights off" else "Lights on")
-                , alt = "Switch the color scheme"
-                , onClick = OnToggleLights
-                }
-
-            --, viewExamplesLink
-              --menuButton
-              --  { icon = if model.isMenuOpen then "#down" else "#up"
-              --  , iconColor = ""
-              --  , label = Just "More examples"
-              --  , alt = if model.isMenuOpen then "Close menu" else "Open menu"
-              --  , onClick = OnToggleMenu
-              --  }
-
-            , case model.token of
-                Nothing ->
-                  text ""
-
-                Just token ->
-                  lazy2 viewHint token model.table
-            ]
-
-        , aside []
-            [ menuButton
-                { icon =
-                    case model.status of
-                      Changed _ -> "#refresh"
-                      Compiling -> "#refresh"
-                      Compiled -> "#checkmark"
-                      Problems _ -> "#x"
-                      Failed _ -> "#x"
-                , iconColor =
-                    case model.status of
-                      Changed _ -> "blue"
-                      Compiling -> "blue"
-                      Compiled -> "green"
-                      Problems _ -> "red"
-                      Failed _ -> "red"
-                , label = Just <|
-                    case model.status of
-                      Changed _ -> "Check changes"
-                      Compiling -> "Compiling..."
-                      Compiled -> "Success"
-                      Problems _ -> "Problems found"
-                      Failed _ -> "Failed"
-                , alt = "Compile your code (Ctrl-Enter)"
-                , onClick = OnCompile
-                }
-            , menuButton
-                { icon = "#chain"
-                , iconColor = ""
-                , label = Just "Share"
-                , alt = "Compile your code (Ctrl-Enter)"
-                , onClick = OnCompile
-                }
-            , menuButton
-                { icon = "#send"
-                , iconColor = ""
-                , label = Just "Deploy"
-                , alt = "Compile your code (Ctrl-Enter)"
-                , onClick = OnCompile
-                }
-            ]
+    , right =
+        [ Navigation.compilation OnCompile <|
+            case model.status of
+              Changed _  -> Navigation.Changed
+              Compiling  -> Navigation.Compiling
+              Compiled   -> Navigation.Success
+              Problems _ -> Navigation.ProblemsFound
+              Failed _   -> Navigation.CouldNotCompile
+        , Navigation.share OnToggleLights -- TODO
+        , Navigation.deploy OnToggleLights -- TODO
         ]
-    ]
-
-
-menuButton :
-  { icon : String
-  , iconColor : String
-  , label : Maybe String
-  , alt : String
-  , onClick : msg
-  }
-  -> Html msg
-menuButton config =
-   button
-    [ attribute "aria-label" config.alt, onClick config.onClick ] <|
-    case config.label of
-      Just label -> [ icon config.iconColor config.icon, span [] [ text label ] ]
-      Nothing -> [ icon config.iconColor config.icon ]
-
-
-icon : String -> String -> Html msg
-icon colorClass name =
-  svg [ SA.class ("icon " ++ colorClass) ] [ use [ xlinkHref name ] [] ]
+    }
 
 
 

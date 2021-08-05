@@ -36,7 +36,7 @@ a:hover {
 #output {
   margin: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 30px);
   border: none;
 }
 
@@ -172,8 +172,6 @@ a:hover {
 /**** ICONS ****/
 
 .icon {
-  width: 14px;
-  height: 14px;
   display: inline-block;
   vertical-align: middle;
   position: relative;
