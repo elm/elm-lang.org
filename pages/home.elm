@@ -239,8 +239,11 @@ viewLarge model =
             [ E.width E.fill
             ] <|
             E.row
-              [ E.htmlAttribute (style "min-height" "calc(100vh - 135px)")
-              , E.htmlAttribute (style "max-height" "900px")
+              [ E.htmlAttribute <|
+                  if model.window.height > 900 then
+                    style "height" "calc(900px - 135px)"
+                  else
+                    style "min-height" "calc(100vh - 135px)"
               , E.width pageColumn
               , E.centerX
               ]
