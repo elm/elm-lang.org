@@ -240,6 +240,7 @@ viewLarge model =
             ] <|
             E.row
               [ E.htmlAttribute (style "min-height" "calc(100vh - 135px)")
+              , E.htmlAttribute (style "max-height" "900px")
               , E.width pageColumn
               , E.centerX
               ]
