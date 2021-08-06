@@ -15,10 +15,10 @@
   const template = document.createElement('template');
   template.innerHTML = "<div id=\"divider\"></div>";
 
-  class SplitPage extends HTMLElement {
+  class ColumnDivider extends HTMLElement {
       constructor() {
         super();
-        this._split = 50;
+        this._percentage = 50;
         this._init = this._init.bind(this);
         this._updateDivider = this._updateDivider.bind(this);
       }
@@ -28,7 +28,7 @@
       }
 
       disconnectedCallback() {
-        this._split = 50;
+        this._percentage = 50;
       }
 
       _init() {
@@ -65,32 +65,32 @@
             return;
           }
 
-          var fraction = 100 * (e.pageX / window.innerWidth);
-          this._split = fraction >= 98 ? 98 : (fraction < 2.5 ? 2.5 : fraction);
+          var updated = 100 * (e.pageX / window.innerWidth);
+          this._percentage = updated >= 98 ? 98 : (updated < 2.5 ? 2.5 : updated);
           this._updateDivider();
           sendMoveEvent();
         }).bind(this);
       }
 
       _updateDivider() {
-        this.style.left = this._split + '%';
-        if (this._split >= 98) {
+        this.style.left = this._percentage + '%';
+        if (this._percentage >= 98) {
           this.style.width = '90px';
         } else {
           this.style.width = '10px';
         }
       }
 
-      get split() {
-        return this._split;
+      get percentage() {
+        return this._percentage;
       }
 
-      set split(updated) {
-        this._split = updated;
+      set percentage(updated) {
+        this._percentage = updated;
         this._updateDivider();
       }
   }
 
-  customElements.define('split-page', SplitPage);
+  customElements.define('column-divider', ColumnDivider);
 
 })();

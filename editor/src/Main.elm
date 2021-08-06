@@ -329,11 +329,11 @@ view model =
             , viewNavigation model
             ]
 
-        , node "split-page"
-            [ on "move" (D.map OnDividerMove (D.at [ "target", "split" ] D.float))
-            , on "down" (D.map OnDividerDown (D.at [ "target", "split" ] D.float))
-            , on "up" (D.map OnDividerUp (D.at [ "target", "split" ] D.float))
-            , property "split" (E.float percentage)
+        , node "column-divider"
+            [ on "move" (D.map OnDividerMove (D.at [ "target", "percentage" ] D.float))
+            , on "down" (D.map OnDividerDown (D.at [ "target", "percentage" ] D.float))
+            , on "up" (D.map OnDividerUp (D.at [ "target", "percentage" ] D.float))
+            , property "percentage" (E.float percentage)
             ]
             []
 

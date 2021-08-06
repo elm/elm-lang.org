@@ -112,7 +112,7 @@ cp -r static/* _site/
 # if ! [ -f _site/assets/editor.js ]; then
   echo "EDITOR"
   cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor.js
-  cat editor/code-editor.js editor/split-page.js > _site/assets/code-editor.js
+  cat editor/code-editor.js editor/column-divider.js > _site/assets/code-editor.js
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
   (cd editor ; elm make src/Main.elm --output=elm.js)
   cat editor/elm.js > _site/assets/editor-navigation.js
