@@ -18,8 +18,8 @@
       this._editor = null;
       this._theme = 'light';
       this._source = null;
-      this._line = null;
-      this._character = null;
+      this._start = null;
+      this._end = null;
       this._importEnd = 0;
 
       this._init = this._init.bind(this);
@@ -36,8 +36,8 @@
       this._editor = null;
       this._theme = 'light';
       this._source = null;
-      this._line = null;
-      this._character = null;
+      this._start = null;
+      this._end = null;
       this._importEnd = 0;
     }
 
@@ -111,9 +111,17 @@
     _updateCursor() {
       if (!this._editor) return;
 
-      if (this._line !== null && this._character !== null) {
+      const isStartNull = isPositionNull(this._start);
+      const isEndNull = isPositionNull(this._end);
+
+      if (!(isStartNull && isEndNull)) {
+        const start_ = isStartNull ? this._end : this._start;
+        const end_ = isEndNull ? this._start : this._end;
+        const start = { line: start_.line - 1, ch: start_.column - 1 };
+        const end = { line: end_.line - 1, ch: end_.column - 1 }
+        this._editor.setSelection(start, end, { scroll: false });
+        this._editor.scrollIntoView({ from: start, to: end }, 200);
         this._editor.focus();
-        this._editor.setCursor({ line: this._line, ch: this._character });
       }
     }
 
@@ -151,22 +159,18 @@
 
     // PROPERTY: CURSOR
 
-    get cursor() {
-      return { line: this._line, character: this._character };
+    get selection() {
+      return { start: this._start, end: this._end };
     }
 
-    set cursor(updated) {
-      const oldLine = this._line;
-      const oldChar = this._character;
-      this._line = updated.line;
-      this._character = updated.character;
+    set selection(updated) {
+      const oldStart = this._start;
+      const oldEnd = this._end;
+      this._start = updated.start;
+      this._end = updated.end;
 
-      const isNull = updated === null || updated.line === null || updated.character === null;
-      const isSame = updated.line === oldLine && updated.character === oldChar;
-
-      if (!isNull && !isSame) {
-        this._updateCursor();
-      }
+      const isSame = isPositionEqual(updated.start, oldStart) && isPositionEqual(updated.end, oldEnd);
+      if (!isSame) { this._updateCursor(); }
     }
 
     // PROPERTY: IMPORT END
@@ -186,6 +190,16 @@
 
       return getHint(this._editor, this._importEnd);
     }
+  }
+
+  // HELPERS
+
+  function isPositionNull(position) {
+    return position === null || position.line === null || position.column === null;
+  }
+
+  function isPositionEqual(a, b) {
+    return (b && b.line) === (a && a.line) && (b && b.column) === (a && a.column);
   }
 
 

@@ -57,6 +57,7 @@ type alias Model =
   , importEnd : Int
   , name : String
   , percentage : Percentage
+  , selection : Maybe Error.Region
   , status : Status
   }
 
@@ -68,7 +69,7 @@ type Percentage
 
 type Status
   = Changed (Maybe Error.Error)
-  | Compiling
+  | Compiling (Maybe Error.Error)
   | Compiled
   | Problems Error.Error
   | Failed String
@@ -97,6 +98,7 @@ init flags =
         , importEnd = 0
         , name = flags.name
         , percentage = Percentage 50
+        , selection = Nothing
         , status = Compiled
         }
   in
@@ -137,6 +139,7 @@ type Msg
   | OnDividerMove Float
   | OnDividerUp Float
   | OnLeftSideClick
+  | OnJumpToProblem Error.Region
   | OnToggleLights
   | OnToggleMenu
 
@@ -172,12 +175,25 @@ update msg model =
       ( { model | token = token }, Cmd.none )
 
     OnSourceSave source ->
-      ( updateImports { model | source = source, status = Compiling }
+      ( updateImports
+          { model | source = source
+          , status =
+              case model.status of
+                Changed errors  -> Compiling errors
+                Problems errors -> Compiling (Just errors)
+                _               -> Compiling Nothing
+          }
       , submitSource source
       )
 
     OnCompile ->
-      ( updateImports { model | status = Compiling }
+      ( updateImports
+          { model | status =
+              case model.status of
+                Changed errors  -> Compiling errors
+                Problems errors -> Compiling (Just errors)
+                _               -> Compiling Nothing
+          }
       , submitSource model.source
       )
 
@@ -231,6 +247,9 @@ update msg model =
                 Percentage (if latest <= 5 then 100 else latest)
       in
       ( { model | percentage = final }, Cmd.none )
+
+    OnJumpToProblem region ->
+      ( { model | selection = Just region }, Cmd.none )
 
     OnToggleLights ->
       ( { model | isLight = not model.isLight }, Cmd.none )
@@ -286,16 +305,33 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
-  let preventEdges =
+  let hasErrors =
+        case model.status of
+          Changed (Just error) ->
+            True
+
+          Compiling (Just error) ->
+            True
+
+          Problems error ->
+            True
+
+          Failed msg ->
+            True
+
+          _ ->
+            False
+
+      preventEdges =
         Basics.max 2.5 >> Basics.min 98
 
       ( percentage, areColumnsMoving ) =
         case model.percentage of
           Moving _ latest ->
-            ( preventEdges latest, True )
+            ( if hasErrors then 100 else preventEdges latest, True )
 
           Percentage latest ->
-            ( preventEdges latest, False )
+            ( if hasErrors then 100 else preventEdges latest, False )
   in
   main_
     [ id "main"
@@ -324,8 +360,16 @@ view model =
                 , target "output"
                 ]
                 [ textarea [ id "code", name "code", style "display" "none" ] []
-                , lazy3 viewEditor model.source model.isLight model.importEnd
+                , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
                 ]
+            , div
+                [ id "popup"
+                , if percentage >= 98 then
+                    style "transform" "translateY(0)"
+                  else
+                    style "transform" "translateY(100%)"
+                ]
+                [ viewErrors model ]
             , viewNavigation model
             ]
 
@@ -334,6 +378,7 @@ view model =
             , on "down" (D.map OnDividerDown (D.at [ "target", "percentage" ] D.float))
             , on "up" (D.map OnDividerUp (D.at [ "target", "percentage" ] D.float))
             , property "percentage" (E.float percentage)
+            , if percentage == 100 then style "display" "none" else style "" ""
             ]
             []
 
@@ -344,20 +389,7 @@ view model =
             , style "user-select" (if areColumnsMoving then "none" else "auto")
             , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
             ]
-            [ case model.status of
-                Changed (Just error) ->
-                  Errors.view error
-
-                Problems error ->
-                  Errors.view error
-
-                Failed msg ->
-                  text msg -- TODO
-
-                _ ->
-                  text ""
-
-            , iframe
+            [ iframe
                 [ id "output"
                 , name "output"
                 , case model.status of
@@ -372,8 +404,8 @@ view model =
     ]
 
 
-viewEditor : String -> Bool -> Int -> Html Msg
-viewEditor source lights importEnd =
+viewEditor : String -> Maybe Error.Region -> Bool -> Int -> Html Msg
+viewEditor source selection lights importEnd =
   let theme =
         if lights then "light" else "dark"
   in
@@ -381,12 +413,44 @@ viewEditor source lights importEnd =
     [ property "source" (E.string source)
     , property "theme" (E.string theme)
     , property "importEnd" (E.int importEnd)
+    , property "selection" <|
+        case selection of
+          Nothing ->
+            E.object
+              [ ( "start", E.null )
+              , ( "end", E.null )
+              ]
+
+          Just { start, end } ->
+            E.object
+              [ ( "start", E.object [ ( "line", E.int start.line ), ( "column", E.int start.column ) ] )
+              , ( "end", E.object [ ( "line", E.int end.line ), ( "column", E.int end.column ) ] )
+              ]
     , on "save" (D.map OnSourceSave (D.at [ "target", "source" ] D.string))
     , on "change" (D.map OnSourceChange (D.at [ "target", "source" ] D.string))
     , on "hint" (D.map OnSourceHint (D.at [ "target", "hint" ] (D.nullable D.string)))
     , onClick OnLeftSideClick
     ]
     []
+
+
+viewErrors : Model -> Html Msg
+viewErrors model =
+  case model.status of
+    Changed (Just error) ->
+      Errors.view OnJumpToProblem error
+
+    Compiling (Just error) ->
+      Errors.view OnJumpToProblem error
+
+    Problems error ->
+      Errors.view OnJumpToProblem error
+
+    Failed msg ->
+      text msg -- TODO
+
+    _ ->
+      text ""
 
 
 
@@ -411,11 +475,11 @@ viewNavigation model =
     , right =
         [ Navigation.compilation OnCompile <|
             case model.status of
-              Changed _  -> Navigation.Changed
-              Compiling  -> Navigation.Compiling
-              Compiled   -> Navigation.Success
-              Problems _ -> Navigation.ProblemsFound
-              Failed _   -> Navigation.CouldNotCompile
+              Changed _   -> Navigation.Changed
+              Compiling _ -> Navigation.Compiling
+              Compiled    -> Navigation.Success
+              Problems _  -> Navigation.ProblemsFound
+              Failed _    -> Navigation.CouldNotCompile
         ]
     }
 

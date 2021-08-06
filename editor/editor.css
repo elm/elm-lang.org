@@ -53,12 +53,33 @@ a:hover {
 
 /**** ERRORS ****/
 
+#popup {
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+  font-size: 13px;
+  border: 1px solid #E6E6E6;
+  border-right: 0;
+  background: white;
+  z-index: 90;
+  transition: transform 0.25s;
+  transition-delay: 0.5s;
+  max-height: calc(100% - 30px);
+  overflow: scroll;
+}
+
 #errors {
   padding: 20px;
   width: 700px;
   height: 100%;
   background: white;
   box-sizing: border-box;
+}
+
+
+#popup #errors {
+  width: auto;
+  max-width: 700px;
 }
 
 .theme-dark #errors {

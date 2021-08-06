@@ -10,8 +10,8 @@ import Html.Events exposing (onClick, on)
 import Elm.Error as Error
 
 
-view : Error.Error -> Html msg
-view error =
+view : (Error.Region -> msg) -> Error.Error -> Html msg
+view onJumpToProblem error =
   case error of
     Error.GeneralProblem problem ->
       div
@@ -28,7 +28,7 @@ view error =
 
           viewProblem problem =
             viewContainer
-              [ viewHeader [ viewTitle problem.title, viewRegion problem.region ]
+              [ viewHeader [ viewTitle problem.title, viewRegion onJumpToProblem problem.region ]
               , viewBody problem.message
               ]
       in
@@ -50,9 +50,9 @@ viewTitle title =
   div [ class "error-title"] [ text title ]
 
 
-viewRegion : Error.Region -> Html msg
-viewRegion region =
-  div [ class "error-region"] [ text "Jump to problem" ]
+viewRegion : (Error.Region -> msg) -> Error.Region -> Html msg
+viewRegion onJumpToProblem region =
+  div [ class "error-region", onClick (onJumpToProblem region) ] [ text "Jump to problem" ]
 
 
 viewModuleName : Maybe String -> Html msg

@@ -1,12 +1,5 @@
 module Main exposing (..)
 
--- Press buttons to increment and decrement a counter.
---
--- Read how it works:
---   https://guide.elm-lang.org/architecture/buttons.html
---
-
-
 import Browser
 import Html exposing (Html, button, div, h1, h2, text)
 import Html.Attributes exposing (..)
@@ -62,32 +55,36 @@ view model =
     [ style "margin" "100px auto"
     , style "padding" "40px"
     , style "text-align" "center"
-    , style "min-width" "max-content"
     , style "font-family" "\"IBM Plex Sans\", sans-serif"
     ]
     [ Html.node "link" [ rel "stylesheet", href "https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap" ] []
     , h1
-        [ style "font-size" "100px"
+        [ style "font-size" "60px"
         , style "font-weight" "300"
         , style "margin-bottom" "10px"
         ]
         [ text "elm-share" ]
     , h2
-        [ style "font-size" "40px"
+        [ style "font-size" "20px"
         , style "font-weight" "300"
         , style "margin-top" "10px"
         ]
         [ text "Easily build and share your Elm website" ]
-    , button
-        [ onClick Increment
-        , style "margin" "0 auto"
-        , style "border" "2px solid rgb(18, 147, 216)"
-        , style "box-shadow" "5px 5px 0px 1px rgba(18,147,216,1)"
-        , style "background" "white"
-        , style "padding" "10px 20px"
-        , style "font-size" "20px"
-        , style "font-family" "\"IBM Plex Sans\", sans-serif"
-        , style "width" "300px"
-        ]
-        [ text "Try it out" ]
+    , viewButton "Try it out"
     ]
+
+
+viewButton : String -> Html Msg
+viewButton text_ =
+  button
+    [ onClick Increment
+    , style "margin" "0 auto"
+    , style "border" "2px solid rgb(18, 147, 216)"
+    , style "box-shadow" "5px 5px 0px 1px rgba(18,147,216,1)"
+    , style "background" "white"
+    , style "padding" "10px 20px"
+    , style "font-size" "16px"
+    , style "font-family" "\"IBM Plex Sans\", sans-serif"
+    , style "width" "300px"
+    ]
+    [ text text_ ]
