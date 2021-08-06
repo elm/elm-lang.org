@@ -52,7 +52,7 @@ viewTitle title =
 
 viewRegion : (Error.Region -> msg) -> Error.Region -> Html msg
 viewRegion onJumpToProblem region =
-  div [ class "error-region", onClick (onJumpToProblem region) ] [ text "Jump to problem" ]
+  a [ class "error-region", onClick (onJumpToProblem region) ] [ text "Jump to problem" ]
 
 
 viewModuleName : Maybe String -> Html msg

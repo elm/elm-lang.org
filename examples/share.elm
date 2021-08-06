@@ -55,6 +55,7 @@ view model =
     [ style "margin" "100px auto"
     , style "padding" "40px"
     , style "text-align" "center"
+    , style "min-width" "400px"
     , style "font-family" "\"IBM Plex Sans\", sans-serif"
     ]
     [ Html.node "link" [ rel "stylesheet", href "https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap" ] []

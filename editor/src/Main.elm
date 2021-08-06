@@ -328,10 +328,10 @@ view model =
       ( percentage, areColumnsMoving ) =
         case model.percentage of
           Moving _ latest ->
-            ( if hasErrors then 100 else preventEdges latest, True )
+            ( preventEdges latest, True )
 
           Percentage latest ->
-            ( if hasErrors then 100 else preventEdges latest, False )
+            ( preventEdges latest, False )
   in
   main_
     [ id "main"
@@ -368,6 +368,10 @@ view model =
                     style "transform" "translateY(0)"
                   else
                     style "transform" "translateY(100%)"
+                , if percentage >= 98 then
+                    style "transition-delay" "0.5s;"
+                  else
+                    style "transition-delay" "0s;"
                 ]
                 [ viewErrors model ]
             , viewNavigation model
@@ -389,7 +393,11 @@ view model =
             , style "user-select" (if areColumnsMoving then "none" else "auto")
             , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
             ]
-            [ iframe
+            [ if percentage >= 98 then
+                text ""
+              else
+                viewErrors model
+            , iframe
                 [ id "output"
                 , name "output"
                 , case model.status of

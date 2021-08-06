@@ -13,6 +13,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:visited {
@@ -57,13 +58,11 @@ a:hover {
   position: absolute;
   bottom: 30px;
   right: 0;
-  font-size: 13px;
   border: 1px solid #E6E6E6;
   border-right: 0;
   background: white;
   z-index: 90;
   transition: transform 0.25s;
-  transition-delay: 0.5s;
   max-height: calc(100% - 30px);
   overflow: scroll;
 }
@@ -72,6 +71,7 @@ a:hover {
   padding: 20px;
   width: 700px;
   height: 100%;
+  font-size: 13px;
   background: white;
   box-sizing: border-box;
 }
