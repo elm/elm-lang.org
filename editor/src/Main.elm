@@ -56,11 +56,14 @@ type alias Model =
   , isMenuOpen : Bool
   , importEnd : Int
   , name : String
-  , split : Float
-  , splitInit : Float
-  , isMovingSplit : Bool
+  , percentage : Percentage
   , status : Status
   }
+
+
+type Percentage
+  = Moving Float Float
+  | Percentage Float
 
 
 type Status
@@ -83,9 +86,8 @@ type DepsInfo
 
 init : { original : String, name : String } -> ( Model, Cmd Msg )
 init flags =
-  case Header.parse flags.original of
-    Nothing ->
-      ( { token = Nothing
+  let defaults =
+        { token = Nothing
         , table = Hint.defaultTable
         , imports = Header.defaultImports
         , dependencies = Loading
@@ -94,29 +96,18 @@ init flags =
         , isMenuOpen = False
         , importEnd = 0
         , name = flags.name
-        , splitInit = 50
-        , split = 50
-        , isMovingSplit = False
+        , percentage = Percentage 50
         , status = Compiled
         }
+  in
+  case Header.parse flags.original of
+    Nothing ->
+      ( defaults
       , fetchDepsInfo
       )
 
     Just ( imports, importEnd ) ->
-      ( { token = Nothing
-        , table = Hint.defaultTable
-        , imports = imports
-        , dependencies = Loading
-        , source = flags.original
-        , isLight = True
-        , isMenuOpen = False
-        , importEnd = importEnd
-        , name = flags.name
-        , splitInit = 50
-        , split = 50
-        , isMovingSplit = False
-        , status = Compiled
-        }
+      ( { defaults | imports = imports, importEnd = importEnd }
       , fetchDepsInfo
       )
 
@@ -135,95 +126,24 @@ fetchDepsInfo =
 
 
 type Msg
-  = OnChange String
-  | OnSave String
-  | Submitted String
-  | GotDepsInfo (Result Http.Error Deps.Info)
+  = GotDepsInfo (Result Http.Error Deps.Info)
+  | OnSourceChange String
+  | OnSourceSave String
+  | OnSourceHint (Maybe String)
   | OnCompile
+  | GotSuccess
+  | GotErrors E.Value
+  | OnDividerDown Float
+  | OnDividerMove Float
+  | OnDividerUp Float
+  | OnLeftSideClick
   | OnToggleLights
   | OnToggleMenu
-  | OnHint (Maybe String)
-  | OnDownSplit Float
-  | OnMoveSplit Float
-  | OnUpSplit Float
-  | GotErrors E.Value
-  | OnFocusditor
-  | GotSuccess ()
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    OnDownSplit split ->
-      ( { model | isMovingSplit = True, splitInit = split }
-      , Cmd.none
-      )
-
-    OnUpSplit split ->
-      let newSplit =
-            if split == model.splitInit then toNextSplit split else split
-      in
-      ( { model
-          | isMovingSplit = False
-          , splitInit = newSplit
-          , split = newSplit
-          }
-      , Cmd.none
-      )
-
-    OnMoveSplit split ->
-      ( { model | split = split }, Cmd.none )
-
-    OnFocusditor ->
-      ( { model | split = if model.split <= 5 then 100 else model.split }, Cmd.none )
-
-    OnChange source ->
-      ( { model
-          | source = source
-          , status =
-              case model.status of
-                Changed errors ->
-                  Changed errors
-
-                Problems errors ->
-                  Changed (Just errors)
-
-                _ ->
-                  Changed Nothing
-      }
-      , Cmd.none
-      )
-
-    OnSave source ->
-      ( { model | source = source, status = Compiling }
-      , submitSource source
-      )
-
-    OnHint token ->
-      ( { model | token = token }, Cmd.none )
-
-    Submitted source ->
-      case Header.parse source of
-        Nothing ->
-          ( model, Cmd.none )
-
-        Just ( imports, importEnd ) ->
-          case model.dependencies of
-            Failure ->
-              ( model, Cmd.none )
-
-            Loading ->
-              ( model, Cmd.none )
-
-            Success info ->
-              ( { model
-                    | table = Hint.buildTable imports info
-                    , imports = imports
-                    , importEnd = importEnd
-                }
-              , Cmd.none
-              )
-
     GotDepsInfo result ->
       case result of
         Err _ ->
@@ -232,24 +152,37 @@ update msg model =
           )
 
         Ok info ->
-          ( { model
-                | table = Hint.buildTable model.imports info
-                , dependencies = Success info
-            }
+          ( { model | table = Hint.buildTable model.imports info, dependencies = Success info }
           , Cmd.none
           )
 
+    OnSourceChange source ->
+      ( { model
+          | source = source
+          , status =
+              case model.status of
+                Changed errors  -> Changed errors
+                Problems errors -> Changed (Just errors)
+                _               -> Changed Nothing
+      }
+      , Cmd.none
+      )
+
+    OnSourceHint token ->
+      ( { model | token = token }, Cmd.none )
+
+    OnSourceSave source ->
+      ( updateImports { model | source = source, status = Compiling }
+      , submitSource source
+      )
+
     OnCompile ->
-      ( { model | status = Compiling }, submitSource model.source )
+      ( updateImports { model | status = Compiling }
+      , submitSource model.source
+      )
 
-    GotSuccess _ ->
+    GotSuccess ->
       ( { model | status = Compiled }, Cmd.none )
-
-    OnToggleLights ->
-      ( { model | isLight = not model.isLight }, Cmd.none )
-
-    OnToggleMenu ->
-      ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
     GotErrors value ->
       case D.decodeValue Error.decoder value of
@@ -259,13 +192,82 @@ update msg model =
         Err _ ->
           ( { model | status = Failed "Could not decode errors." }, Cmd.none )
 
+    OnDividerDown percentage ->
+      ( { model | percentage = Moving percentage percentage }
+      , Cmd.none
+      )
 
-toNextSplit : Float -> Float
-toNextSplit split =
-  if split == 98 then 2.5 else
-  if split == 2.5 then 98 else
-  if split > 50 then 98 else
-  if split <= 50 then 2.5
+    OnDividerMove latest ->
+      let final =
+            case model.percentage of
+              Moving initial _ ->
+                Moving initial latest
+
+              Percentage previous ->
+                Moving previous latest
+      in
+      ( { model | percentage = final }, Cmd.none )
+
+    OnDividerUp latest ->
+      let final =
+            case model.percentage of
+              Moving initial _ ->
+                Percentage (if latest == initial then toNextPercentage latest else latest)
+
+              Percentage _ ->
+                Percentage latest
+      in
+      ( { model | percentage = final }
+      , Cmd.none
+      )
+
+    OnLeftSideClick ->
+      let final =
+            case model.percentage of
+              Moving _ latest ->
+                Percentage (if latest <= 5 then 100 else latest)
+
+              Percentage latest ->
+                Percentage (if latest <= 5 then 100 else latest)
+      in
+      ( { model | percentage = final }, Cmd.none )
+
+    OnToggleLights ->
+      ( { model | isLight = not model.isLight }, Cmd.none )
+
+    OnToggleMenu ->
+      ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
+
+
+updateImports : Model -> Model
+updateImports model =
+  case Header.parse model.source of
+    Nothing ->
+      model
+
+    Just ( imports, importEnd ) ->
+      case model.dependencies of
+        Failure ->
+          model
+
+        Loading ->
+          model
+
+        Success info ->
+          { model
+            | table = Hint.buildTable imports info
+            , imports = imports
+            , importEnd = importEnd
+          }
+
+
+toNextPercentage : Float -> Float
+toNextPercentage percentage =
+  if percentage == 98 then 2.5 else
+  if percentage == 2.5 then 98 else
+  if percentage > 50 then 98 else
+  if percentage <= 50 then 2.5
   else 2.5
 
 
@@ -275,7 +277,7 @@ toNextSplit split =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-  Sub.batch [ gotErrors GotErrors, gotSuccess GotSuccess ]
+  Sub.batch [ gotErrors GotErrors, gotSuccess (always GotSuccess) ]
 
 
 
@@ -284,10 +286,16 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
-  let split =
-        model.split
-          |> Basics.max 2.5
-          |> Basics.min 98
+  let preventEdges =
+        Basics.max 2.5 >> Basics.min 98
+
+      ( percentage, areColumnsMoving ) =
+        case model.percentage of
+          Moving _ latest ->
+            ( preventEdges latest, True )
+
+          Percentage latest ->
+            ( preventEdges latest, False )
   in
   main_
     [ id "main"
@@ -303,10 +311,10 @@ view model =
         ]
         [ div
             [ id "left-side"
-            , style "width" (String.fromFloat split ++ "%")
-            , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
-            , style "user-select" (if model.isMovingSplit then "none" else "auto")
-            , style "transition" (if model.isMovingSplit then "none" else "width 0.5s")
+            , style "width" (String.fromFloat percentage ++ "%")
+            , style "pointer-events" (if areColumnsMoving then "none" else "auto")
+            , style "user-select" (if areColumnsMoving then "none" else "auto")
+            , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
             ]
             [ Html.form
                 [ id "editor"
@@ -322,19 +330,19 @@ view model =
             ]
 
         , node "split-page"
-            [ on "move" (D.map OnMoveSplit (D.at [ "target", "split" ] D.float))
-            , on "down" (D.map OnDownSplit (D.at [ "target", "split" ] D.float))
-            , on "up" (D.map OnUpSplit (D.at [ "target", "split" ] D.float))
-            , property "split" (E.float split)
+            [ on "move" (D.map OnDividerMove (D.at [ "target", "split" ] D.float))
+            , on "down" (D.map OnDividerDown (D.at [ "target", "split" ] D.float))
+            , on "up" (D.map OnDividerUp (D.at [ "target", "split" ] D.float))
+            , property "split" (E.float percentage)
             ]
             []
 
         , div
             [ id "right-side"
-            , style "width" (String.fromFloat (100 - split) ++ "%")
-            , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
-            , style "user-select" (if model.isMovingSplit then "none" else "auto")
-            , style "transition" (if model.isMovingSplit then "none" else "width 0.5s")
+            , style "width" (String.fromFloat (100 - percentage) ++ "%")
+            , style "pointer-events" (if areColumnsMoving then "none" else "auto")
+            , style "user-select" (if areColumnsMoving then "none" else "auto")
+            , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
             ]
             [ case model.status of
                 Changed (Just error) ->
@@ -373,10 +381,10 @@ viewEditor source lights importEnd =
     [ property "source" (E.string source)
     , property "theme" (E.string theme)
     , property "importEnd" (E.int importEnd)
-    , on "save" (D.map OnSave (D.at [ "target", "source" ] D.string))
-    , on "change" (D.map OnChange (D.at [ "target", "source" ] D.string))
-    , on "hint" (D.map OnHint (D.at [ "target", "hint" ] (D.nullable D.string)))
-    , onClick OnFocusditor
+    , on "save" (D.map OnSourceSave (D.at [ "target", "source" ] D.string))
+    , on "change" (D.map OnSourceChange (D.at [ "target", "source" ] D.string))
+    , on "hint" (D.map OnSourceHint (D.at [ "target", "hint" ] (D.nullable D.string)))
+    , onClick OnLeftSideClick
     ]
     []
 
@@ -392,7 +400,6 @@ viewNavigation model =
     , isOpen = model.isMenuOpen
     , left =
         [ Navigation.elmLogo
-        --, Navigation.toggleSplit <| OnMoveSplit (toNextSplit model.split)
         , Navigation.lights OnToggleLights model.isLight
         , case model.token of
             Nothing ->
