@@ -1,7 +1,7 @@
 module Navigation exposing
   ( Navigation, view
-  , elmLogo, toggleOpen, lights, Status(..), compilation, share, deploy
-  , Button, menuButton
+  , elmLogo, toggleOpen, lights, Status(..), compilation, share, deploy, toggleSplit
+  , IconButton, iconButton
   )
 
 {-| The navigation bar.
@@ -64,7 +64,7 @@ elmLogo =
 {-| -}
 toggleOpen : msg -> Bool -> Html msg
 toggleOpen onClick_ isMenuOpen =
-  menuButton
+  iconButton []
     { icon = if isMenuOpen then I.chevronDown else I.chevronUp
     , iconColor = Nothing
     , label = Nothing
@@ -74,12 +74,23 @@ toggleOpen onClick_ isMenuOpen =
 
 
 {-| -}
+toggleSplit : msg -> Html msg
+toggleSplit onClick_ =
+  iconButton [ style "padding" "0 5px" ]
+    { icon = I.code
+    , iconColor = Nothing
+    , label = Nothing
+    , alt = "Open or close result"
+    , onClick = onClick_
+    }
+
+{-| -}
 lights : msg -> Bool -> Html msg
 lights onClick_ isLight =
-  menuButton
+  iconButton []
     { icon = if isLight then I.moon else I.sun
     , iconColor = Nothing
-    , label = Just (if isLight then "Lights off" else "Lights on")
+    , label = Nothing
     , alt = "Switch the color scheme"
     , onClick = onClick_
     }
@@ -129,7 +140,7 @@ compilation onClick_ status =
             , "Try again later."
             )
   in
-  menuButton
+  iconButton []
     { icon = icon
     , iconColor = iconColor
     , label = Just label
@@ -141,7 +152,7 @@ compilation onClick_ status =
 {-| -}
 share : msg -> Html msg
 share onClick_ =
-  menuButton
+  iconButton []
     { icon = I.link
     , iconColor = Nothing
     , label = Just "Share"
@@ -153,7 +164,7 @@ share onClick_ =
 {-| -}
 deploy : msg -> Html msg
 deploy onClick_ =
-  menuButton
+  iconButton []
     { icon = I.send
     , iconColor = Nothing
     , label = Just "Publish"
@@ -166,7 +177,7 @@ deploy onClick_ =
 -- BUTTON / GENERAL
 
 
-type alias Button msg =
+type alias IconButton msg =
   { icon : I.Icon
   , iconColor : Maybe String
   , label : Maybe String
@@ -175,8 +186,8 @@ type alias Button msg =
   }
 
 
-menuButton : Button msg -> Html msg
-menuButton config =
+iconButton : List (Attribute msg) -> IconButton msg -> Html msg
+iconButton attrs config =
   let viewIcon =
         config.icon
           |> I.withSize 14
@@ -184,11 +195,29 @@ menuButton config =
           |> I.toHtml []
   in
   button
-    [ attribute "aria-label" config.alt
-    , onClick config.onClick
-    ]
+    (attrs ++
+      [ attribute "aria-label" config.alt
+      , onClick config.onClick
+      ])
     [ viewIcon
     , case config.label of
         Just label -> span [] [ text label ]
         Nothing -> text ""
     ]
+
+
+type alias LabelButton msg =
+  { label : String
+  , alt : String
+  , onClick : msg
+  }
+
+
+labelButton : List (Attribute msg) -> LabelButton msg -> Html msg
+labelButton attrs config =
+  button
+    (attrs ++
+      [ attribute "aria-label" config.alt
+      , onClick config.onClick
+      ])
+    [ text config.label ]

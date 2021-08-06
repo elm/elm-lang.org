@@ -57,7 +57,6 @@ type alias Model =
   , importEnd : Int
   , name : String
   , split : Float
-  , isHoveringDivider : Bool
   , isMovingSplit : Bool
   , status : Status
   }
@@ -95,7 +94,6 @@ init flags =
         , importEnd = 0
         , name = flags.name
         , split = 50
-        , isHoveringDivider = False
         , isMovingSplit = False
         , status = Compiled
         }
@@ -113,7 +111,6 @@ init flags =
         , importEnd = importEnd
         , name = flags.name
         , split = 50
-        , isHoveringDivider = False
         , isMovingSplit = False
         , status = Compiled
         }
@@ -147,8 +144,8 @@ type Msg
   | GotErrors E.Value
   | OnDownSplit
   | OnUpSplit
+  | OnFocusditor
   | GotSuccess ()
-  | OnHoveringDivider Bool
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -160,8 +157,8 @@ update msg model =
     OnUpSplit ->
       ( { model | isMovingSplit = False }, Cmd.none )
 
-    OnHoveringDivider isHovering ->
-      ( { model | isHoveringDivider = isHovering }, Cmd.none )
+    OnFocusditor ->
+      ( { model | split = if model.split <= 5 then 100 else model.split }, Cmd.none )
 
     OnChange source ->
       ( { model
@@ -266,14 +263,7 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   let split =
-        if model.isHoveringDivider && not model.isMovingSplit then
-          model.split |> Basics.max 3 |> Basics.min 97
-        else if not model.isHoveringDivider && not model.isMovingSplit then
-          if model.split < 3 then 0 else
-          if model.split > 97 then 100
-          else  model.split
-        else
-          model.split
+        Basics.max 4.5 model.split
   in
   main_
     [ id "main"
@@ -292,7 +282,7 @@ view model =
             , style "width" (String.fromFloat split ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             , style "user-select" (if model.isMovingSplit then "none" else "auto")
-            , style "transition" (if model.isMovingSplit then "none" else "width 0.1s")
+            , style "transition" (if model.isMovingSplit then "none" else "width 0.5s")
             ]
             [ Html.form
                 [ id "editor"
@@ -312,8 +302,6 @@ view model =
             , on "down" (D.succeed OnDownSplit)
             , on "up" (D.succeed OnUpSplit)
             , property "split" (E.float split)
-            , onMouseOver (OnHoveringDivider True)
-            , onMouseLeave (OnHoveringDivider False)
             ]
             []
 
@@ -322,7 +310,7 @@ view model =
             , style "width" (String.fromFloat (100 - split) ++ "%")
             , style "pointer-events" (if model.isMovingSplit then "none" else "auto")
             , style "user-select" (if model.isMovingSplit then "none" else "auto")
-            , style "transition" (if model.isMovingSplit then "none" else "width 0.1s")
+            , style "transition" (if model.isMovingSplit then "none" else "width 0.5s")
             ]
             [ case model.status of
                 Changed (Just error) ->
@@ -364,12 +352,14 @@ viewEditor source lights importEnd =
     , on "save" (D.map OnSave (D.at [ "target", "source" ] D.string))
     , on "change" (D.map OnChange (D.at [ "target", "source" ] D.string))
     , on "hint" (D.map OnHint (D.at [ "target", "hint" ] (D.nullable D.string)))
+    , onClick OnFocusditor
     ]
     []
 
 
 
 -- NAVIGATION
+
 
 viewNavigation : Model -> Html Msg
 viewNavigation model =
@@ -378,6 +368,14 @@ viewNavigation model =
     , isOpen = model.isMenuOpen
     , left =
         [ Navigation.elmLogo
+        , Navigation.toggleSplit <| OnMoveSplit <|
+            if model.split == 100 then 50 else
+            if model.split == 50 then 4.5 else
+            if model.split == 4.5 then 100 else
+            if model.split > 50 then 50 else
+            if model.split <= 50 then 4.5
+            else 4.5
+
         , Navigation.lights OnToggleLights model.isLight
         , case model.token of
             Nothing ->

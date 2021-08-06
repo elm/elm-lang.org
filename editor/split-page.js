@@ -66,7 +66,7 @@
           }
 
           var fraction = 100 * (e.pageX / window.innerWidth);
-          this._split = fraction;
+          this._split = fraction < 4.5 ? 4.5 : fraction;
           this._updateDivider();
           sendMoveEvent();
         }).bind(this);
@@ -74,16 +74,6 @@
 
       _updateDivider() {
         this.style.left = this._split + '%';
-        if (this._split <= 3) {
-          this.style.width = '90px';
-          this.style.marginLeft = '-85px';
-        } else if (this._split >= 97) {
-          this.style.width = '90px';
-          this.style.marginLeft = '-5px';
-        } else {
-          this.style.width = '10px';
-          this.style.marginLeft = '-5px';
-        }
       }
 
       get split() {
