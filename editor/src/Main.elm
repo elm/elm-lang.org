@@ -57,6 +57,7 @@ type alias Model =
   , importEnd : Int
   , name : String
   , split : Float
+  , splitInit : Float
   , isMovingSplit : Bool
   , status : Status
   }
@@ -93,6 +94,7 @@ init flags =
         , isMenuOpen = False
         , importEnd = 0
         , name = flags.name
+        , splitInit = 50
         , split = 50
         , isMovingSplit = False
         , status = Compiled
@@ -110,6 +112,7 @@ init flags =
         , isMenuOpen = False
         , importEnd = importEnd
         , name = flags.name
+        , splitInit = 50
         , split = 50
         , isMovingSplit = False
         , status = Compiled
@@ -140,10 +143,10 @@ type Msg
   | OnToggleLights
   | OnToggleMenu
   | OnHint (Maybe String)
+  | OnDownSplit Float
   | OnMoveSplit Float
+  | OnUpSplit Float
   | GotErrors E.Value
-  | OnDownSplit
-  | OnUpSplit
   | OnFocusditor
   | GotSuccess ()
 
@@ -151,11 +154,25 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    OnDownSplit ->
-      ( { model | isMovingSplit = True }, Cmd.none )
+    OnDownSplit split ->
+      ( { model | isMovingSplit = True, splitInit = split }
+      , Cmd.none
+      )
 
-    OnUpSplit ->
-      ( { model | isMovingSplit = False }, Cmd.none )
+    OnUpSplit split ->
+      let newSplit =
+            if split == model.splitInit then toNextSplit split else split
+      in
+      ( { model
+          | isMovingSplit = False
+          , splitInit = newSplit
+          , split = newSplit
+          }
+      , Cmd.none
+      )
+
+    OnMoveSplit split ->
+      ( { model | split = split }, Cmd.none )
 
     OnFocusditor ->
       ( { model | split = if model.split <= 5 then 100 else model.split }, Cmd.none )
@@ -184,9 +201,6 @@ update msg model =
 
     OnHint token ->
       ( { model | token = token }, Cmd.none )
-
-    OnMoveSplit split ->
-      ( { model | split = split }, Cmd.none )
 
     Submitted source ->
       case Header.parse source of
@@ -246,6 +260,14 @@ update msg model =
           ( { model | status = Failed "Could not decode errors." }, Cmd.none )
 
 
+toNextSplit : Float -> Float
+toNextSplit split =
+  if split == 98 then 2.5 else
+  if split == 2.5 then 98 else
+  if split > 50 then 98 else
+  if split <= 50 then 2.5
+  else 2.5
+
 
 
 -- SUBSCRIPTIONS
@@ -263,7 +285,9 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   let split =
-        Basics.max 4.5 model.split
+        model.split
+          |> Basics.max 2.5
+          |> Basics.min 98
   in
   main_
     [ id "main"
@@ -299,8 +323,8 @@ view model =
 
         , node "split-page"
             [ on "move" (D.map OnMoveSplit (D.at [ "target", "split" ] D.float))
-            , on "down" (D.succeed OnDownSplit)
-            , on "up" (D.succeed OnUpSplit)
+            , on "down" (D.map OnDownSplit (D.at [ "target", "split" ] D.float))
+            , on "up" (D.map OnUpSplit (D.at [ "target", "split" ] D.float))
             , property "split" (E.float split)
             ]
             []
@@ -368,14 +392,7 @@ viewNavigation model =
     , isOpen = model.isMenuOpen
     , left =
         [ Navigation.elmLogo
-        , Navigation.toggleSplit <| OnMoveSplit <|
-            if model.split == 100 then 50 else
-            if model.split == 50 then 4.5 else
-            if model.split == 4.5 then 100 else
-            if model.split > 50 then 50 else
-            if model.split <= 50 then 4.5
-            else 4.5
-
+        --, Navigation.toggleSplit <| OnMoveSplit (toNextSplit model.split)
         , Navigation.lights OnToggleLights model.isLight
         , case model.token of
             Nothing ->

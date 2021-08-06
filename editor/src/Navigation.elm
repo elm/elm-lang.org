@@ -90,7 +90,7 @@ lights onClick_ isLight =
   iconButton []
     { icon = if isLight then I.moon else I.sun
     , iconColor = Nothing
-    , label = Nothing
+    , label = Just "Lights"
     , alt = "Switch the color scheme"
     , onClick = onClick_
     }
