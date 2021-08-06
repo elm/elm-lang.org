@@ -416,8 +416,6 @@ viewNavigation model =
               Compiled   -> Navigation.Success
               Problems _ -> Navigation.ProblemsFound
               Failed _   -> Navigation.CouldNotCompile
-        --, Navigation.share OnToggleLights -- TODO
-        , Navigation.deploy OnToggleLights -- TODO
         ]
     }
 
