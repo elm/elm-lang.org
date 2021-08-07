@@ -67,15 +67,19 @@ a:hover {
   overflow: scroll;
 }
 
+.theme-dark #popup {
+  border-color: #373d3e;
+}
+
 #errors {
   padding: 20px;
-  width: 700px;
+  min-width: 500px;
+  max-width: 700px;
   height: 100%;
   font-size: 13px;
   background: white;
   box-sizing: border-box;
 }
-
 
 #popup #errors {
   width: auto;

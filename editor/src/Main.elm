@@ -283,7 +283,8 @@ updateImports model =
 
 toNextPercentage : Float -> Float
 toNextPercentage percentage =
-  if percentage == 98 then 2.5 else
+  if percentage == 98 then 50 else
+  if percentage == 50 then 2.5 else
   if percentage == 2.5 then 98 else
   if percentage > 50 then 98 else
   if percentage <= 50 then 2.5
