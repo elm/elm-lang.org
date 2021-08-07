@@ -91,6 +91,12 @@ a:hover {
   color: #b0b0b0;
 }
 
+#errors nav {
+  background: inherit;
+  z-index: 1;
+  margin-right: 10px;
+}
+
 #errors .error-module {
   background: inherit;
 }
@@ -134,7 +140,6 @@ a:hover {
 #errors .error-region {
   background: inherit;
   z-index: 1;
-  margin-right: 10px;
   padding: 0 10px;
 }
 
@@ -222,7 +227,7 @@ a:hover {
 
 /**** BUTTONS ****/
 
-#navigation button {
+.navigation-button {
   display: inline-block;
   font-family: inherit;
   background: transparent;
@@ -235,7 +240,11 @@ a:hover {
   color: inherit;
 }
 
-#navigation button span:nth-child(2) {
+.navigation-button:disabled {
+  color: #b0b0b0;
+}
+
+.navigation-button span:nth-child(2) {
   margin-left: 8px;
 }
 

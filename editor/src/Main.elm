@@ -58,6 +58,7 @@ type alias Model =
   , name : String
   , percentage : Percentage
   , selection : Maybe Error.Region
+  , currentProblem : Int
   , status : Status
   }
 
@@ -68,10 +69,10 @@ type Percentage
 
 
 type Status
-  = Changed (Maybe Error.Error)
-  | Compiling (Maybe Error.Error)
+  = Changed (Maybe (List Errors.Problem))
+  | Compiling (Maybe (List Errors.Problem))
   | Compiled
-  | Problems Error.Error
+  | Problems (List Errors.Problem)
   | Failed String
 
 
@@ -79,6 +80,18 @@ type DepsInfo
   = Loading
   | Failure
   | Success Deps.Info
+
+
+getCurrentProblems : Status -> List Errors.Problem
+getCurrentProblems status =
+  case status of
+    Changed (Just problems)   -> problems
+    Changed Nothing           -> []
+    Compiling (Just problems) -> problems
+    Compiling Nothing         -> []
+    Problems problems         -> problems
+    Failed msg                -> []
+    Compiled                  -> []
 
 
 
@@ -99,6 +112,7 @@ init flags =
         , name = flags.name
         , percentage = Percentage 50
         , selection = Nothing
+        , currentProblem = 0
         , status = Compiled
         }
   in
@@ -139,6 +153,7 @@ type Msg
   | OnDividerMove Float
   | OnDividerUp Float
   | OnLeftSideClick
+  | OnProblem Int
   | OnJumpToProblem Error.Region
   | OnToggleLights
   | OnToggleMenu
@@ -164,8 +179,8 @@ update msg model =
           | source = source
           , status =
               case model.status of
-                Changed errors  -> Changed errors
-                Problems errors -> Changed (Just errors)
+                Changed problems  -> Changed problems
+                Problems problems -> Changed (Just problems)
                 _               -> Changed Nothing
       }
       , Cmd.none
@@ -179,8 +194,8 @@ update msg model =
           { model | source = source
           , status =
               case model.status of
-                Changed errors  -> Compiling errors
-                Problems errors -> Compiling (Just errors)
+                Changed problems  -> Compiling problems
+                Problems problems -> Compiling (Just problems)
                 _               -> Compiling Nothing
           }
       , submitSource source
@@ -190,8 +205,8 @@ update msg model =
       ( updateImports
           { model | status =
               case model.status of
-                Changed errors  -> Compiling errors
-                Problems errors -> Compiling (Just errors)
+                Changed problems  -> Compiling problems
+                Problems problems -> Compiling (Just problems)
                 _               -> Compiling Nothing
           }
       , submitSource model.source
@@ -203,10 +218,10 @@ update msg model =
     GotErrors value ->
       case D.decodeValue Error.decoder value of
         Ok errors ->
-          ( { model | status = Problems errors }, Cmd.none )
+          ( { model | status = Problems (Errors.toIndexedProblems errors), currentProblem = 0 }, Cmd.none )
 
         Err _ ->
-          ( { model | status = Failed "Could not decode errors." }, Cmd.none )
+          ( { model | status = Failed "Could not decode compilation problems." }, Cmd.none )
 
     OnDividerDown percentage ->
       ( { model | percentage = Moving percentage percentage }
@@ -247,6 +262,9 @@ update msg model =
                 Percentage (if latest <= 5 then 100 else latest)
       in
       ( { model | percentage = final }, Cmd.none )
+
+    OnProblem index ->
+      ( { model | currentProblem = index }, Cmd.none )
 
     OnJumpToProblem region ->
       ( { model | selection = Just region }, Cmd.none )
@@ -307,21 +325,7 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   let hasErrors =
-        case model.status of
-          Changed (Just error) ->
-            True
-
-          Compiling (Just error) ->
-            True
-
-          Problems error ->
-            True
-
-          Failed msg ->
-            True
-
-          _ ->
-            False
+        not <| List.isEmpty (getCurrentProblems model.status)
 
       preventEdges =
         Basics.max 2.5 >> Basics.min 98
@@ -363,18 +367,27 @@ view model =
                 [ textarea [ id "code", name "code", style "display" "none" ] []
                 , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
                 ]
-            , div
-                [ id "popup"
-                , if percentage >= 98 then
-                    style "transform" "translateY(0)"
-                  else
-                    style "transform" "translateY(100%)"
-                , if percentage >= 98 then
-                    style "transition-delay" "0.5s;"
-                  else
-                    style "transition-delay" "0s;"
-                ]
-                [ viewErrors model ]
+            , if hasErrors then
+                div
+                  [ id "popup"
+                  , if percentage >= 98 then
+                      style "transform" "translateY(0)"
+                    else
+                      style "transform" "translateY(100%)"
+                  , if percentage >= 98 then
+                      style "transition-delay" "0.5s;"
+                    else
+                      style "transition-delay" "0s;"
+                  ]
+                  [ Errors.view
+                      { onJump = OnJumpToProblem
+                      , onProblem = OnProblem
+                      , current = model.currentProblem
+                      }
+                      (getCurrentProblems model.status)
+                  ]
+              else
+                text ""
             , viewNavigation model
             ]
 
@@ -394,10 +407,10 @@ view model =
             , style "user-select" (if areColumnsMoving then "none" else "auto")
             , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
             ]
-            [ if percentage >= 98 then
+            [ if percentage >= 98 || not hasErrors then
                 text ""
               else
-                viewErrors model
+                Errors.viewList OnJumpToProblem (getCurrentProblems model.status)
             , iframe
                 [ id "output"
                 , name "output"
@@ -441,25 +454,6 @@ viewEditor source selection lights importEnd =
     , onClick OnLeftSideClick
     ]
     []
-
-
-viewErrors : Model -> Html Msg
-viewErrors model =
-  case model.status of
-    Changed (Just error) ->
-      Errors.view OnJumpToProblem error
-
-    Compiling (Just error) ->
-      Errors.view OnJumpToProblem error
-
-    Problems error ->
-      Errors.view OnJumpToProblem error
-
-    Failed msg ->
-      text msg -- TODO
-
-    _ ->
-      text ""
 
 
 

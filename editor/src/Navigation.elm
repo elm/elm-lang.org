@@ -69,7 +69,7 @@ toggleOpen onClick_ isMenuOpen =
     , iconColor = Nothing
     , label = Nothing
     , alt = if isMenuOpen then "Close menu" else "Open menu"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 
@@ -81,7 +81,7 @@ toggleSplit onClick_ =
     , iconColor = Nothing
     , label = Nothing
     , alt = "Open or close result"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 {-| -}
@@ -92,7 +92,7 @@ lights onClick_ isLight =
     , iconColor = Nothing
     , label = Just "Lights"
     , alt = "Switch the color scheme"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 
@@ -145,7 +145,7 @@ compilation onClick_ status =
     , iconColor = iconColor
     , label = Just label
     , alt = "Compile your code (Ctrl-Enter)"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 
@@ -157,7 +157,7 @@ share onClick_ =
     , iconColor = Nothing
     , label = Just "Share"
     , alt = "Copy link to this code"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 
@@ -169,7 +169,7 @@ deploy onClick_ =
     , iconColor = Nothing
     , label = Just "Publish"
     , alt = "Publish this code"
-    , onClick = onClick_
+    , onClick = Just onClick_
     }
 
 
@@ -182,7 +182,7 @@ type alias IconButton msg =
   , iconColor : Maybe String
   , label : Maybe String
   , alt : String
-  , onClick : msg
+  , onClick : Maybe msg
   }
 
 
@@ -197,7 +197,10 @@ iconButton attrs config =
   button
     (attrs ++
       [ attribute "aria-label" config.alt
-      , onClick config.onClick
+      , class "navigation-button"
+      , case config.onClick of
+          Just msg -> onClick msg
+          Nothing -> disabled True
       ])
     [ viewIcon
     , case config.label of

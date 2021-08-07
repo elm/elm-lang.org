@@ -8,31 +8,129 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
 import Elm.Error as Error
+import Navigation
+import FeatherIcons as I
 
 
-view : (Error.Region -> msg) -> Error.Error -> Html msg
-view onJumpToProblem error =
-  case error of
+
+-- PROCESSING
+
+
+type alias Problem =
+  { index : Int
+  , location : Location
+  , title : String
+  , message : List Error.Chunk
+  }
+
+
+type Location
+  = General { path : Maybe String }
+  | Specific { path : String, name : String, region : Error.Region }
+
+
+toIndexedProblems : Error.Error -> List  Problem
+toIndexedProblems errors =
+  case errors of
     Error.GeneralProblem problem ->
-      div
-        [ id "errors" ]
-        [ viewContainer
-            [ viewHeader [ viewTitle problem.title, viewModuleName problem.path ]
-            , viewBody problem.message
-            ]
-        ]
+      [ { index = 0
+        , location = General { path = problem.path }
+        , title = problem.title
+        , message = problem.message
+        }
+      ]
 
     Error.ModuleProblems modules ->
-      let viewModuleError module_ =
-            div [ class "error-module" ] (List.map viewProblem module_.problems)
+      let toModuleProblems module_ ( nextIndex, all ) =
+            List.foldr (toSingleProblem module_) ( nextIndex, all ) module_.problems
 
-          viewProblem problem =
-            viewContainer
-              [ viewHeader [ viewTitle problem.title, viewRegion onJumpToProblem problem.region ]
-              , viewBody problem.message
-              ]
+          toSingleProblem module_ problem ( nextIndex, all ) =
+            let indexedProblem =
+                  { index = nextIndex
+                  , location =
+                      Specific
+                        { path = module_.path
+                        , name = module_.name
+                        , region = problem.region
+                        }
+                  , title = problem.title
+                  , message = problem.message
+                  }
+            in
+            ( nextIndex + 1, indexedProblem :: all )
       in
-      div [ id "errors" ] (List.map viewModuleError modules)
+      List.foldr toModuleProblems ( 0, [] ) modules
+        |> Tuple.second
+
+
+
+-- VIEW
+
+
+type alias Config msg =
+  { onJump : Error.Region -> msg
+  , onProblem : Int -> msg
+  , current : Int
+  }
+
+
+view : Config msg -> List Problem -> Html msg
+view config problems =
+  let viewProblem problem =
+        viewContainer
+          [ viewHeader
+              [ viewTitle problem.title
+              , nav []
+                  [ viewLocation config.onJump problem.location
+                  , Navigation.iconButton []
+                      { icon = I.chevronLeft
+                      , iconColor = Nothing
+                      , label = Nothing
+                      , alt = "See previous problem"
+                      , onClick =
+                          if config.current - 1 < 0 then Nothing
+                          else Just <| config.onProblem (config.current - 1)
+                      }
+                  , Navigation.iconButton []
+                      { icon = I.chevronRight
+                      , iconColor = Nothing
+                      , label = Nothing
+                      , alt = "See next problem"
+                      , onClick =
+                          if config.current + 1 >= total then Nothing
+                          else Just <| config.onProblem (config.current + 1)
+                      }
+                  ]
+              ]
+          , viewBody problem.message
+          ]
+
+      total =
+        List.length problems
+
+      isCurrent problem =
+        problem.index == config.current
+  in
+  div [ id "errors" ]
+    [ case List.head (List.filter isCurrent problems) of
+      Nothing -> text ""
+      Just problem -> viewProblem problem
+    ]
+
+
+viewList : (Error.Region -> msg) -> List Problem -> Html msg
+viewList onJumpToProblem problems =
+  let viewProblem problem =
+        viewContainer
+          [ viewHeader
+              [ viewTitle problem.title
+              , nav []
+                  [ viewLocation onJumpToProblem problem.location ]
+              ]
+          , viewBody problem.message
+          ]
+  in
+  div [ id "errors" ] (List.map viewProblem problems)
 
 
 viewContainer : List (Html msg) -> Html msg
@@ -48,6 +146,13 @@ viewHeader =
 viewTitle : String -> Html msg
 viewTitle title =
   div [ class "error-title"] [ text title ]
+
+
+viewLocation : (Error.Region -> msg) -> Location -> Html msg
+viewLocation onJumpToProblem location =
+  case location of
+    General { path } -> viewModuleName path
+    Specific { path, name, region } -> viewRegion onJumpToProblem region
 
 
 viewRegion : (Error.Region -> msg) -> Error.Region -> Html msg
