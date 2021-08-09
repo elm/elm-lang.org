@@ -73,12 +73,15 @@ a:hover {
 
 #errors {
   padding: 20px;
-  min-width: 500px;
-  max-width: 700px;
+  width: 580px;
   height: 100%;
   font-size: 13px;
   background: white;
   box-sizing: border-box;
+}
+
+#errors-mini {
+  display: flex;
 }
 
 #popup #errors {
@@ -137,7 +140,7 @@ a:hover {
   padding: 0 10px;
 }
 
-#errors .error-region {
+.error-region {
   background: inherit;
   z-index: 1;
   padding: 0 10px;
@@ -363,8 +366,8 @@ a:hover {
 /* code */
 
 .cm-s-dark span.cm-comment { color: #75715e; }
-.cm-s-dark span.cm-atom { color: #dd25ce; }
-.cm-s-dark span.cm-number { color: #dd25ce; }
+.cm-s-dark span.cm-atom { color: #cf2fc2; }
+.cm-s-dark span.cm-number { color: #cf2fc2; }
 
 .cm-s-dark span.cm-comment.cm-attribute { color: #97b757; }
 .cm-s-dark span.cm-comment.cm-def { color: #bc9262; }
@@ -375,7 +378,7 @@ a:hover {
 .cm-s-dark span.cm-attribute { color: #a6e22e; }
 .cm-s-dark span.cm-keyword { color: #238fca; }
 .cm-s-dark span.cm-builtin { color: #238fca; }
-.cm-s-dark span.cm-string { color: #dd25ce; }
+.cm-s-dark span.cm-string { color: #cf2fc2; }
 
 .cm-s-dark span.cm-variable { color: #b0b0b0; }
 .cm-s-dark span.cm-variable-2 { color: #d56c16; }
@@ -384,8 +387,8 @@ a:hover {
 .cm-s-dark span.cm-def { color: #55b0fc; }
 .cm-s-dark span.cm-bracket { color: #b0b0b0; }
 .cm-s-dark span.cm-tag { color: #238fca; }
-.cm-s-dark span.cm-header { color: #dd25ce; }
-.cm-s-dark span.cm-link { color: #dd25ce; }
+.cm-s-dark span.cm-header { color: #cf2fc2; }
+.cm-s-dark span.cm-link { color: #cf2fc2; }
 .cm-s-dark span.cm-error { background: #238fca; color: #f8f8f0; }
 
 .cm-s-dark .CodeMirror-activeline-background { background: #2a2c2c; }

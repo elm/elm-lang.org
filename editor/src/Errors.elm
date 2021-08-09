@@ -63,6 +63,38 @@ toIndexedProblems errors =
         |> Tuple.second
 
 
+getSummary : Problem -> String
+getSummary problem =
+  case problem.message of
+      [] ->
+        ""
+
+      chunk :: others ->
+        let getFirstLine str =
+              let firstLine = List.head (String.split "\n" str)
+                  firstColon = List.head (String.split ":" str)
+              in
+              case ( firstLine, firstColon ) of
+                ( Just firstLine_, Just firstColon_ ) ->
+                  if String.length firstLine_ > String.length firstColon_ then firstColon_ else firstLine_
+
+                ( Just firstLine_, Nothing ) ->
+                  firstLine_
+
+                ( Nothing, Just firstColon_ ) ->
+                  firstColon_
+
+                ( Nothing, Nothing ) ->
+                  "Click to see full error message!"
+        in
+        case chunk of
+          Error.Unstyled string ->
+            getFirstLine string
+
+          Error.Styled style string ->
+            getFirstLine string -- TODO
+
+
 
 -- VIEW
 
@@ -70,51 +102,91 @@ toIndexedProblems errors =
 type alias Config msg =
   { onJump : Error.Region -> msg
   , onProblem : Int -> msg
+  , onMinimize : msg
   , current : Int
   }
 
 
-view : Config msg -> List Problem -> Html msg
-view config problems =
-  let viewProblem problem =
-        viewContainer
-          [ viewHeader
-              [ viewTitle problem.title
-              , nav []
-                  [ viewLocation config.onJump problem.location
-                  , Navigation.iconButton []
-                      { icon = I.chevronLeft
-                      , iconColor = Nothing
-                      , label = Nothing
-                      , alt = "See previous problem"
-                      , onClick =
-                          if config.current - 1 < 0 then Nothing
-                          else Just <| config.onProblem (config.current - 1)
-                      }
-                  , Navigation.iconButton []
-                      { icon = I.chevronRight
-                      , iconColor = Nothing
-                      , label = Nothing
-                      , alt = "See next problem"
-                      , onClick =
-                          if config.current + 1 >= total then Nothing
-                          else Just <| config.onProblem (config.current + 1)
-                      }
-                  ]
-              ]
-          , viewBody problem.message
-          ]
-
-      total =
+viewCurrent : Config msg -> (Config msg -> Int -> Problem -> Html msg) -> List Problem -> Html msg
+viewCurrent config view problems =
+  let total =
         List.length problems
 
       isCurrent problem =
         problem.index == config.current
   in
-  div [ id "errors" ]
-    [ case List.head (List.filter isCurrent problems) of
+  case List.head (List.filter isCurrent problems) of
       Nothing -> text ""
-      Just problem -> viewProblem problem
+      Just problem -> view config total problem
+
+
+viewCarousel : Config msg -> Int -> Problem -> Html msg
+viewCarousel config total problem =
+  div
+    [ id "errors" ]
+    [ viewContainer
+        [ viewHeader
+            [ viewTitle problem.title
+            , nav []
+                [ viewLocation config.onJump problem.location
+                , Navigation.iconButton []
+                    { icon = I.chevronLeft
+                    , iconColor = Nothing
+                    , label = Nothing
+                    , alt = "See previous problem"
+                    , onClick =
+                        if config.current - 1 < 0 then Nothing
+                        else Just <| config.onProblem (config.current - 1)
+                    }
+                , Navigation.iconButton []
+                    { icon = I.chevronRight
+                    , iconColor = Nothing
+                    , label = Nothing
+                    , alt = "See next problem"
+                    , onClick =
+                        if config.current + 1 >= total then Nothing
+                        else Just <| config.onProblem (config.current + 1)
+                    }
+                , Navigation.iconButton []
+                    { icon = I.minimize2
+                    , iconColor = Nothing
+                    , label = Nothing
+                    , alt = "Minimize problem view"
+                    , onClick = Just config.onMinimize
+                    }
+                ]
+            ]
+        , viewBody problem.message
+        ]
+    ]
+
+
+viewCarouselMini : Config msg -> Int -> Problem -> Html msg
+viewCarouselMini config total problem =
+  div
+    [ id "errors-mini" ]
+    [ viewLocation config.onJump problem.location
+    , a [ onClick config.onMinimize ] [ text (getSummary problem) ]
+    , nav []
+        [ Navigation.iconButton []
+            { icon = I.chevronLeft
+            , iconColor = Nothing
+            , label = Nothing
+            , alt = "See previous problem"
+            , onClick =
+                if config.current - 1 < 0 then Nothing
+                else Just <| config.onProblem (config.current - 1)
+            }
+        , Navigation.iconButton []
+            { icon = I.chevronRight
+            , iconColor = Nothing
+            , label = Nothing
+            , alt = "See next problem"
+            , onClick =
+                if config.current + 1 >= total then Nothing
+                else Just <| config.onProblem (config.current + 1)
+            }
+        ]
     ]
 
 
@@ -152,12 +224,13 @@ viewLocation : (Error.Region -> msg) -> Location -> Html msg
 viewLocation onJumpToProblem location =
   case location of
     General { path } -> viewModuleName path
-    Specific { path, name, region } -> viewRegion onJumpToProblem region
+    Specific { path, name, region } -> viewRegion onJumpToProblem name region
 
 
-viewRegion : (Error.Region -> msg) -> Error.Region -> Html msg
-viewRegion onJumpToProblem region =
-  a [ class "error-region", onClick (onJumpToProblem region) ] [ text "Jump to problem" ]
+viewRegion : (Error.Region -> msg) -> String -> Error.Region -> Html msg
+viewRegion onJumpToProblem name region =
+  a [ class "error-region", onClick (onJumpToProblem region) ]
+    [ text (name ++ ":" ++ String.fromInt region.start.line) ]
 
 
 viewModuleName : Maybe String -> Html msg

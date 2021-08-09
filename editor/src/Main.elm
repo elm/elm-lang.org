@@ -20,6 +20,12 @@ import Json.Decode as D
 import Elm.Error as Error
 
 
+-- TODO
+-- Clean up styles
+-- Fix column divider bugs
+-- Make sure mini errors goes away when pane is moved in
+
+
 
 -- PORTS
 
@@ -58,6 +64,7 @@ type alias Model =
   , name : String
   , percentage : Percentage
   , selection : Maybe Error.Region
+  , areProblemsMini : Bool
   , currentProblem : Int
   , status : Status
   }
@@ -113,6 +120,7 @@ init flags =
         , percentage = Percentage 50
         , selection = Nothing
         , currentProblem = 0
+        , areProblemsMini = False
         , status = Compiled
         }
   in
@@ -155,6 +163,7 @@ type Msg
   | OnLeftSideClick
   | OnProblem Int
   | OnJumpToProblem Error.Region
+  | OnMinimizeProblem Bool
   | OnToggleLights
   | OnToggleMenu
 
@@ -269,6 +278,9 @@ update msg model =
     OnJumpToProblem region ->
       ( { model | selection = Just region }, Cmd.none )
 
+    OnMinimizeProblem isMini ->
+      ( { model | areProblemsMini = isMini }, Cmd.none )
+
     OnToggleLights ->
       ( { model | isLight = not model.isLight }, Cmd.none )
 
@@ -324,8 +336,11 @@ subscriptions _ =
 
 view : Model -> Html Msg
 view model =
-  let hasErrors =
-        not <| List.isEmpty (getCurrentProblems model.status)
+  let currentProblems =
+        getCurrentProblems model.status
+
+      hasErrors =
+        not (List.isEmpty currentProblems)
 
       preventEdges =
         Basics.max 2.5 >> Basics.min 98
@@ -367,7 +382,7 @@ view model =
                 [ textarea [ id "code", name "code", style "display" "none" ] []
                 , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
                 ]
-            , if hasErrors then
+            , if hasErrors && not model.areProblemsMini then
                 div
                   [ id "popup"
                   , if percentage >= 98 then
@@ -379,16 +394,18 @@ view model =
                     else
                       style "transition-delay" "0s;"
                   ]
-                  [ Errors.view
+                  [ Errors.viewCurrent
                       { onJump = OnJumpToProblem
                       , onProblem = OnProblem
+                      , onMinimize = OnMinimizeProblem True
                       , current = model.currentProblem
                       }
-                      (getCurrentProblems model.status)
+                      Errors.viewCarousel
+                      currentProblems
                   ]
               else
                 text ""
-            , viewNavigation model
+            , viewNavigation model hasErrors currentProblems
             ]
 
         , node "column-divider"
@@ -460,8 +477,8 @@ viewEditor source selection lights importEnd =
 -- NAVIGATION
 
 
-viewNavigation : Model -> Html Msg
-viewNavigation model =
+viewNavigation : Model -> Bool -> List Errors.Problem -> Html Msg
+viewNavigation model hasErrors currentProblems =
   Navigation.view
     { isLight = model.isLight
     , isOpen = model.isMenuOpen
@@ -476,6 +493,23 @@ viewNavigation model =
               lazy2 viewHint token model.table
         ]
     , right =
+        let problemEls =
+              if hasErrors && model.areProblemsMini then
+                [ Errors.viewCurrent
+                    { onJump = OnJumpToProblem
+                    , onProblem = OnProblem
+                    , onMinimize = OnMinimizeProblem False
+                    , current = model.currentProblem
+                    }
+                    Errors.viewCarouselMini
+                    currentProblems
+                , span [ style "margin-left" "10px" ] [ text "" ]
+                ]
+              else
+                []
+
+        in
+        problemEls ++
         [ Navigation.compilation OnCompile <|
             case model.status of
               Changed _   -> Navigation.Changed
