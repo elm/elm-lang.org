@@ -3,11 +3,6 @@ port module Main exposing (main)
 
 import Browser
 import Dict exposing (Dict)
-import Deps
-import Header
-import Hint
-import Navigation
-import Errors
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, onMouseOver, onMouseLeave)
@@ -19,13 +14,19 @@ import Json.Encode as E
 import Json.Decode as D
 import Elm.Error as Error
 
+import Data.Deps as Deps
+import Data.Header as Header
+import Data.Hint as Hint
+import Data.Problem as Problem
+import Ui.Problem
+import Ui.Navigation
+
 
 -- TODO
 -- Clean up styles
 -- Fix column divider bugs
 -- Make sure mini errors goes away when pane is moved in
 -- Make state more exact
--- Clean up dir structure
 -- Make deps hints work again
 -- See if hints can be optimized futher
 
@@ -80,10 +81,10 @@ type Percentage
 
 
 type Status
-  = Changed (Maybe (List Errors.Problem))
-  | Compiling (Maybe (List Errors.Problem))
+  = Changed (Maybe (List Problem.Problem))
+  | Compiling (Maybe (List Problem.Problem))
   | Compiled
-  | Problems (List Errors.Problem)
+  | Problems (List Problem.Problem)
   | Failed String
 
 
@@ -93,7 +94,7 @@ type DepsInfo
   | Success Deps.Info
 
 
-getCurrentProblems : Status -> List Errors.Problem
+getCurrentProblems : Status -> List Problem.Problem
 getCurrentProblems status =
   case status of
     Changed (Just problems)   -> problems
@@ -231,7 +232,7 @@ update msg model =
     GotErrors value ->
       case D.decodeValue Error.decoder value of
         Ok errors ->
-          ( { model | status = Problems (Errors.toIndexedProblems errors), currentProblem = 0 }, Cmd.none )
+          ( { model | status = Problems (Problem.toIndexedProblems errors), currentProblem = 0 }, Cmd.none )
 
         Err _ ->
           ( { model | status = Failed "Could not decode compilation problems." }, Cmd.none )
@@ -398,13 +399,13 @@ view model =
                     else
                       style "transition-delay" "0s;"
                   ]
-                  [ Errors.viewCurrent
+                  [ Ui.Problem.viewCurrent
                       { onJump = OnJumpToProblem
                       , onProblem = OnProblem
                       , onMinimize = OnMinimizeProblem True
                       , current = model.currentProblem
                       }
-                      Errors.viewCarousel
+                      Ui.Problem.viewCarousel
                       currentProblems
                   ]
               else
@@ -431,7 +432,7 @@ view model =
             [ if percentage >= 98 || not hasErrors then
                 text ""
               else
-                Errors.viewList OnJumpToProblem (getCurrentProblems model.status)
+                Ui.Problem.viewList OnJumpToProblem (getCurrentProblems model.status)
             , iframe
                 [ id "output"
                 , name "output"
@@ -481,14 +482,14 @@ viewEditor source selection lights importEnd =
 -- NAVIGATION
 
 
-viewNavigation : Model -> Bool -> List Errors.Problem -> Html Msg
+viewNavigation : Model -> Bool -> List Problem.Problem -> Html Msg
 viewNavigation model hasErrors currentProblems =
-  Navigation.view
+  Ui.Navigation.view
     { isLight = model.isLight
     , isOpen = model.isMenuOpen
     , left =
-        [ Navigation.elmLogo
-        , Navigation.lights OnToggleLights model.isLight
+        [ Ui.Navigation.elmLogo
+        , Ui.Navigation.lights OnToggleLights model.isLight
         , case model.token of
             Nothing ->
               text ""
@@ -499,13 +500,13 @@ viewNavigation model hasErrors currentProblems =
     , right =
         let problemEls =
               if hasErrors && model.areProblemsMini then
-                [ Errors.viewCurrent
+                [ Ui.Problem.viewCurrent
                     { onJump = OnJumpToProblem
                     , onProblem = OnProblem
                     , onMinimize = OnMinimizeProblem False
                     , current = model.currentProblem
                     }
-                    Errors.viewCarouselMini
+                    Ui.Problem.viewCarouselMini
                     currentProblems
                 , span [ style "margin-left" "10px" ] [ text "" ]
                 ]
@@ -514,13 +515,13 @@ viewNavigation model hasErrors currentProblems =
 
         in
         problemEls ++
-        [ Navigation.compilation OnCompile <|
+        [ Ui.Navigation.compilation OnCompile <|
             case model.status of
-              Changed _   -> Navigation.Changed
-              Compiling _ -> Navigation.Compiling
-              Compiled    -> Navigation.Success
-              Problems _  -> Navigation.ProblemsFound
-              Failed _    -> Navigation.CouldNotCompile
+              Changed _   -> Ui.Navigation.Changed
+              Compiling _ -> Ui.Navigation.Compiling
+              Compiled    -> Ui.Navigation.Success
+              Problems _  -> Ui.Navigation.ProblemsFound
+              Failed _    -> Ui.Navigation.CouldNotCompile
         ]
     }
 
