@@ -18,8 +18,10 @@ import Data.Deps as Deps
 import Data.Header as Header
 import Data.Hint as Hint
 import Data.Problem as Problem
+import Data.Window exposing (Window)
 import Ui.Problem
 import Ui.Navigation
+import Ui.ColumnDivider
 
 
 -- TODO
@@ -67,17 +69,13 @@ type alias Model =
   , isMenuOpen : Bool
   , importEnd : Int
   , name : String
-  , percentage : Percentage
+  , divider : Ui.ColumnDivider.Model
   , selection : Maybe Error.Region
   , areProblemsMini : Bool
   , currentProblem : Int
   , status : Status
+  , window : Window
   }
-
-
-type Percentage
-  = Moving Float Float
-  | Percentage Float
 
 
 type Status
@@ -110,9 +108,12 @@ getCurrentProblems status =
 -- INIT
 
 
-init : { original : String, name : String } -> ( Model, Cmd Msg )
+init : { original : String, name : String, width : Float, height : Float } -> ( Model, Cmd Msg )
 init flags =
-  let defaults =
+  let window =
+        { width = flags.width, height = flags.height }
+
+      defaults =
         { token = Nothing
         , table = Hint.defaultTable
         , imports = Header.defaultImports
@@ -122,11 +123,12 @@ init flags =
         , isMenuOpen = False
         , importEnd = 0
         , name = flags.name
-        , percentage = Percentage 50
+        , divider = Ui.ColumnDivider.init window
         , selection = Nothing
         , currentProblem = 0
         , areProblemsMini = False
         , status = Compiled
+        , window = window
         }
   in
   case Header.parse flags.original of
@@ -162,10 +164,7 @@ type Msg
   | OnCompile
   | GotSuccess
   | GotErrors E.Value
-  | OnDividerDown Float
-  | OnDividerMove Float
-  | OnDividerUp Float
-  | OnLeftSideClick
+  | OnDividerMsg Ui.ColumnDivider.Msg
   | OnProblem Int
   | OnJumpToProblem Error.Region
   | OnMinimizeProblem Bool
@@ -237,45 +236,10 @@ update msg model =
         Err _ ->
           ( { model | status = Failed "Could not decode compilation problems." }, Cmd.none )
 
-    OnDividerDown percentage ->
-      ( { model | percentage = Moving percentage percentage }
+    OnDividerMsg subMsg ->
+      ( { model | divider = Ui.ColumnDivider.update model.window subMsg model.divider }
       , Cmd.none
       )
-
-    OnDividerMove latest ->
-      let final =
-            case model.percentage of
-              Moving initial _ ->
-                Moving initial latest
-
-              Percentage previous ->
-                Moving previous latest
-      in
-      ( { model | percentage = final }, Cmd.none )
-
-    OnDividerUp latest ->
-      let final =
-            case model.percentage of
-              Moving initial _ ->
-                Percentage (if latest == initial then toNextPercentage latest else latest)
-
-              Percentage _ ->
-                Percentage latest
-      in
-      ( { model | percentage = final }
-      , Cmd.none
-      )
-
-    OnLeftSideClick ->
-      let final =
-            case model.percentage of
-              Moving _ latest ->
-                Percentage (if latest <= 5 then 100 else latest)
-
-              Percentage latest ->
-                Percentage (if latest <= 5 then 100 else latest)
-      in
-      ( { model | percentage = final }, Cmd.none )
 
     OnProblem index ->
       ( { model | currentProblem = index }, Cmd.none )
@@ -316,16 +280,6 @@ updateImports model =
           }
 
 
-toNextPercentage : Float -> Float
-toNextPercentage percentage =
-  if percentage == 98 then 50 else
-  if percentage == 50 then 2.5 else
-  if percentage == 2.5 then 98 else
-  if percentage > 50 then 98 else
-  if percentage <= 50 then 2.5
-  else 2.5
-
-
 
 -- SUBSCRIPTIONS
 
@@ -346,17 +300,6 @@ view model =
 
       hasErrors =
         not (List.isEmpty currentProblems)
-
-      preventEdges =
-        Basics.max 2.5 >> Basics.min 98
-
-      ( percentage, areColumnsMoving ) =
-        case model.percentage of
-          Moving _ latest ->
-            ( preventEdges latest, True )
-
-          Percentage latest ->
-            ( preventEdges latest, False )
   in
   main_
     [ id "main"
@@ -365,85 +308,54 @@ view model =
         , ( "theme-dark", not model.isLight )
         ]
     ]
-    [ div
-        [ id "double-pane"
-        , style "width" "100%"
-        , style "display" "flex"
+    [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
+        [ Html.form
+            [ id "editor"
+            , action "http://localhost:8000/compile/v2"
+            , method "post"
+            , enctype "multipart/form-data"
+            , target "output"
+            ]
+            [ textarea [ id "code", name "code", style "display" "none" ] []
+            , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
+            ]
+        , if hasErrors && not model.areProblemsMini then
+            div
+              [ id "popup"
+              , if Ui.ColumnDivider.isTooLarge model.window model.divider
+                then style "transform" "translateY(0)"
+                else style "transform" "translateY(100%)"
+              , if Ui.ColumnDivider.isTooLarge model.window model.divider
+                then style "transition-delay" "0.5s;"
+                else style "transition-delay" "0s;"
+              ]
+              [ Ui.Problem.viewCurrent
+                  { onJump = OnJumpToProblem
+                  , onProblem = OnProblem
+                  , onMinimize = OnMinimizeProblem True
+                  , current = model.currentProblem
+                  }
+                  Ui.Problem.viewCarousel
+                  currentProblems
+              ]
+          else
+            text ""
+        , viewNavigation model hasErrors currentProblems
         ]
-        [ div
-            [ id "left-side"
-            , style "width" (String.fromFloat percentage ++ "%")
-            , style "pointer-events" (if areColumnsMoving then "none" else "auto")
-            , style "user-select" (if areColumnsMoving then "none" else "auto")
-            , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
-            ]
-            [ Html.form
-                [ id "editor"
-                , action "http://localhost:8000/compile/v2"
-                , method "post"
-                , enctype "multipart/form-data"
-                , target "output"
-                ]
-                [ textarea [ id "code", name "code", style "display" "none" ] []
-                , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
-                ]
-            , if hasErrors && not model.areProblemsMini then
-                div
-                  [ id "popup"
-                  , if percentage >= 98 then
-                      style "transform" "translateY(0)"
-                    else
-                      style "transform" "translateY(100%)"
-                  , if percentage >= 98 then
-                      style "transition-delay" "0.5s;"
-                    else
-                      style "transition-delay" "0s;"
-                  ]
-                  [ Ui.Problem.viewCurrent
-                      { onJump = OnJumpToProblem
-                      , onProblem = OnProblem
-                      , onMinimize = OnMinimizeProblem True
-                      , current = model.currentProblem
-                      }
-                      Ui.Problem.viewCarousel
-                      currentProblems
-                  ]
-              else
-                text ""
-            , viewNavigation model hasErrors currentProblems
-            ]
-
-        , node "column-divider"
-            [ on "move" (D.map OnDividerMove (D.at [ "target", "percentage" ] D.float))
-            , on "down" (D.map OnDividerDown (D.at [ "target", "percentage" ] D.float))
-            , on "up" (D.map OnDividerUp (D.at [ "target", "percentage" ] D.float))
-            , property "percentage" (E.float percentage)
-            , if percentage == 100 then style "display" "none" else style "" ""
+        [ if not hasErrors || Ui.ColumnDivider.isTooLarge model.window model.divider then
+            text ""
+          else
+            Ui.Problem.viewList OnJumpToProblem (getCurrentProblems model.status)
+        , iframe
+            [ id "output"
+            , name "output"
+            , case model.status of
+                Changed (Just _) -> style "display" "none"
+                Problems _ -> style "display" "none"
+                _ -> style "display" "block"
+            , src ("/examples/_compiled/" ++ model.name ++ ".html")
             ]
             []
-
-        , div
-            [ id "right-side"
-            , style "width" (String.fromFloat (100 - percentage) ++ "%")
-            , style "pointer-events" (if areColumnsMoving then "none" else "auto")
-            , style "user-select" (if areColumnsMoving then "none" else "auto")
-            , style "transition" (if areColumnsMoving then "none" else "width 0.5s")
-            ]
-            [ if percentage >= 98 || not hasErrors then
-                text ""
-              else
-                Ui.Problem.viewList OnJumpToProblem (getCurrentProblems model.status)
-            , iframe
-                [ id "output"
-                , name "output"
-                , case model.status of
-                    Changed (Just _) -> style "display" "none"
-                    Problems _ -> style "display" "none"
-                    _ -> style "display" "block"
-                , src ("/examples/_compiled/" ++ model.name ++ ".html")
-                ]
-                []
-            ]
         ]
     ]
 
@@ -473,7 +385,7 @@ viewEditor source selection lights importEnd =
     , on "save" (D.map OnSourceSave (D.at [ "target", "source" ] D.string))
     , on "change" (D.map OnSourceChange (D.at [ "target", "source" ] D.string))
     , on "hint" (D.map OnSourceHint (D.at [ "target", "hint" ] (D.nullable D.string)))
-    , onClick OnLeftSideClick
+    --, onClick OnLeftSideClick TODO
     ]
     []
 

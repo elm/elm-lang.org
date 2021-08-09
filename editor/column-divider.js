@@ -12,15 +12,12 @@
     };
   };
 
-  const template = document.createElement('template');
-  template.innerHTML = "<div id=\"divider\"></div>";
-
   class ColumnDivider extends HTMLElement {
       constructor() {
         super();
-        this._percentage = 50;
+        this._pixels = null;
+        this._isClick = true;
         this._init = this._init.bind(this);
-        this._updateDivider = this._updateDivider.bind(this);
       }
 
       connectedCallback() {
@@ -28,12 +25,12 @@
       }
 
       disconnectedCallback() {
-        this._percentage = 50;
+        this._pixels = null;
+        this._isClick = true;
       }
 
       _init() {
-        const fragment = template.content.cloneNode(true);
-        this.setAttribute('id', "divider");
+        this.setAttribute('id', 'divider');
 
         const sendDownEvent = debounce(() => {
           this.dispatchEvent(new Event('down'));
@@ -47,47 +44,54 @@
           this.dispatchEvent(new Event('up'));
         });
 
+        const sendClickEvent = debounce(() => {
+          this.dispatchEvent(new Event('_click'));
+        });
+
         this.addEventListener('mousedown', function(e) {
           sendDownEvent();
+          this._isClick = true;
           document.body.addEventListener('mouseup', dividerUp);
+          document.body.addEventListener('mouseleave', dividerUp);
           document.body.addEventListener('mousemove', dividerMove);
         });
 
-        const dividerUp = (function() {
-          sendUpEvent();
+        const dividerUp = (function(e) {
+          this._pixels = e.pageX;
+
+          window.getSelection().empty();
+          window.getSelection().removeAllRanges();
+
+          if (this._isClick) {
+            sendClickEvent();
+          } else {
+            sendUpEvent();
+          }
+
           document.body.removeEventListener('mouseup', dividerUp);
+          document.body.removeEventListener('mouseleave', dividerUp);
           document.body.removeEventListener('mousemove', dividerMove);
         }).bind(this);
 
         const dividerMove = (function(e) {
+          this._isClick = false;
+
           if (e.buttons === 0) {
-            dividerUp();
+            dividerUp(e);
             return;
           }
 
-          var updated = 100 * (e.pageX / window.innerWidth);
-          this._percentage = updated >= 98 ? 98 : (updated < 2.5 ? 2.5 : updated);
-          this._updateDivider();
+          this._pixels = e.pageX;
           sendMoveEvent();
         }).bind(this);
       }
 
-      _updateDivider() {
-        this.style.left = this._percentage + '%';
-        if (this._percentage >= 98) {
-          this.style.width = '90px';
-        } else {
-          this.style.width = '10px';
-        }
+      get pixels() {
+        return this._pixels;
       }
 
-      get percentage() {
-        return this._percentage;
-      }
-
-      set percentage(updated) {
-        this._percentage = updated;
-        this._updateDivider();
+      set pixels(updated) {
+        this._pixels = updated;
       }
   }
 

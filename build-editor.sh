@@ -50,7 +50,7 @@ function makeExampleHtml {
     var originalCode = document.getElementById('original').textContent;
     main = Elm.Main.init({
       node: document.getElementById('main'),
-      flags: { original: originalCode, name: "$3" }
+      flags: { original: originalCode, name: "$3", width: window.innerWidth, height: window.innerHeight }
     });
 
     main.ports.submitSource.subscribe(function(source) {
