@@ -24,6 +24,10 @@ import Elm.Error as Error
 -- Clean up styles
 -- Fix column divider bugs
 -- Make sure mini errors goes away when pane is moved in
+-- Make state more exact
+-- Clean up dir structure
+-- Make deps hints work again
+-- See if hints can be optimized futher
 
 
 
