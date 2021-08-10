@@ -158,8 +158,8 @@ fetchDepsInfo =
 
 type Msg
   = GotDepsInfo (Result Http.Error Deps.Info)
-  | OnSourceChange String
-  | OnSourceSave String
+  | OnSourceChange String (Maybe Error.Region)
+  | OnSourceSave String (Maybe Error.Region)
   | OnSourceHint (Maybe String)
   | OnCompile
   | GotSuccess
@@ -187,9 +187,10 @@ update msg model =
           , Cmd.none
           )
 
-    OnSourceChange source ->
+    OnSourceChange source selection ->
       ( { model
           | source = source
+          , selection = selection
           , status =
               case model.status of
                 Changed problems  -> Changed problems
@@ -202,9 +203,9 @@ update msg model =
     OnSourceHint token ->
       ( { model | token = token }, Cmd.none )
 
-    OnSourceSave source ->
+    OnSourceSave source selection ->
       ( updateImports
-          { model | source = source
+          { model | source = source, selection = selection
           , status =
               case model.status of
                 Changed problems  -> Compiling problems
@@ -371,23 +372,54 @@ viewEditor source selection lights importEnd =
     , property "importEnd" (E.int importEnd)
     , property "selection" <|
         case selection of
-          Nothing ->
-            E.object
-              [ ( "start", E.null )
-              , ( "end", E.null )
-              ]
-
-          Just { start, end } ->
-            E.object
-              [ ( "start", E.object [ ( "line", E.int start.line ), ( "column", E.int start.column ) ] )
-              , ( "end", E.object [ ( "line", E.int end.line ), ( "column", E.int end.column ) ] )
-              ]
-    , on "save" (D.map OnSourceSave (D.at [ "target", "source" ] D.string))
-    , on "change" (D.map OnSourceChange (D.at [ "target", "source" ] D.string))
-    , on "hint" (D.map OnSourceHint (D.at [ "target", "hint" ] (D.nullable D.string)))
-    --, onClick OnLeftSideClick TODO
+          Nothing -> encodeBlankSelection
+          Just region -> encodeSelection region
+    , on "save" (D.map2 OnSourceSave decodeSource decodeSelection)
+    , on "change" (D.map2 OnSourceChange decodeSource decodeSelection)
+    , on "hint" (D.map OnSourceHint decodeHint)
     ]
     []
+
+
+encodeSelection : Error.Region -> E.Value
+encodeSelection { start, end } =
+  E.object
+    [ ( "start", E.object [ ( "line", E.int start.line ), ( "column", E.int start.column ) ] )
+    , ( "end", E.object [ ( "line", E.int end.line ), ( "column", E.int end.column ) ] )
+    ]
+
+
+encodeBlankSelection : E.Value
+encodeBlankSelection =
+  E.object
+    [ ( "start", E.null )
+    , ( "end", E.null )
+    ]
+
+
+decodeSource : D.Decoder String
+decodeSource =
+  D.at [ "target", "source" ] D.string
+
+
+decodeSelection : D.Decoder (Maybe Error.Region)
+decodeSelection =
+  D.at [ "target", "selection" ] <|
+    D.map2 (Maybe.map2 Error.Region)
+      (D.field "start" (D.nullable decodePosition))
+      (D.field "end" (D.nullable decodePosition))
+
+
+decodePosition : D.Decoder Error.Position
+decodePosition =
+  D.map2 Error.Position
+    (D.field "line" D.int)
+    (D.field "column" D.int)
+
+
+decodeHint : D.Decoder (Maybe String)
+decodeHint =
+  D.at [ "target", "hint" ] (D.nullable D.string)
 
 
 

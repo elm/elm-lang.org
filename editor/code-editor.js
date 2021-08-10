@@ -122,6 +122,8 @@
         this._editor.setSelection(start, end, { scroll: false });
         this._editor.scrollIntoView({ from: start, to: end }, 200);
         this._editor.focus();
+        this._start = null;
+        this._end = null;
       }
     }
 
