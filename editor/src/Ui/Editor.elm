@@ -21,6 +21,7 @@ import Data.Deps as Deps
 import Data.Header as Header
 import Data.Hint as Hint
 import Data.Problem as Problem
+import Data.Status as Status
 
 
 
@@ -44,16 +45,8 @@ type alias Model =
   , importEnd : Int
   , dependencies : DepsInfo
   , selection : Maybe Region
-  , status : Status
+  , status : Status.Status
   }
-
-
-type Status
-  = Changed (Maybe (List Problem.Problem))
-  | Compiling (Maybe (List Problem.Problem))
-  | Compiled
-  | Problems (List Problem.Problem)
-  | Failed String
 
 
 type DepsInfo
@@ -62,22 +55,21 @@ type DepsInfo
   | Success Deps.Info
 
 
-getCurrentProblems : Model -> List Problem.Problem
-getCurrentProblems model =
-  case model.status of
-    Changed (Just problems)   -> problems
-    Changed Nothing           -> []
-    Compiling (Just problems) -> problems
-    Compiling Nothing         -> []
-    Problems problems         -> problems
-    Failed msg                -> []
-    Compiled                  -> []
-
+getStatus : Model -> Status.Status
+getStatus model =
+  model.status
 
 
 setSelection : Region -> Model -> Model
 setSelection region model =
   { model | selection = Just region }
+
+
+orderCompilation : Model -> ( Model, Cmd Msg )
+orderCompilation model =
+  ( updateImports { model | status = Status.compiling model.status }
+  , submitSource model.source
+  )
 
 
 
@@ -94,7 +86,7 @@ init source =
         , importEnd = 0
         , dependencies = Loading
         , selection = Nothing
-        , status = Compiled
+        , status = Status.success
         }
   in
   case Header.parse source of
@@ -136,14 +128,10 @@ update msg model =
   case msg of
     OnChange source selection ->
       ( { model
-          | source = source
-          , selection = selection
-          , status =
-              case model.status of
-                Changed problems  -> Changed problems
-                Problems problems -> Changed (Just problems)
-                _               -> Changed Nothing
-      }
+        | source = source
+        , selection = selection
+        , status = Status.changed model.status
+        }
       , Cmd.none
       )
 
@@ -152,24 +140,16 @@ update msg model =
 
     OnSave source selection ->
       ( updateImports
-          { model | source = source, selection = selection
-          , status =
-              case model.status of
-                Changed problems  -> Compiling problems
-                Problems problems -> Compiling (Just problems)
-                _               -> Compiling Nothing
+          { model
+          | source = source
+          , selection = selection
+          , status = Status.compiling model.status
           }
       , submitSource source
       )
 
     OnCompile ->
-      ( updateImports
-          { model | status =
-              case model.status of
-                Changed problems  -> Compiling problems
-                Problems problems -> Compiling (Just problems)
-                _               -> Compiling Nothing
-          }
+      ( updateImports { model | status = Status.compiling model.status }
       , submitSource model.source
       )
 
@@ -186,15 +166,10 @@ update msg model =
           )
 
     GotSuccess ->
-      ( { model | status = Compiled }, Cmd.none )
+      ( { model | status = Status.success }, Cmd.none )
 
-    GotErrors value ->
-      case D.decodeValue Error.decoder value of
-        Ok errors ->
-          ( { model | status = Problems (Problem.toIndexedProblems errors) }, Cmd.none )
-
-        Err _ ->
-          ( { model | status = Failed "Could not decode compilation problems." }, Cmd.none )
+    GotErrors errors ->
+      ( { model | status = Status.problems errors }, Cmd.none )
 
 
 updateImports : Model -> Model

@@ -17,6 +17,7 @@ import Elm.Error as Error
 import Data.Deps as Deps
 import Data.Header as Header
 import Data.Hint as Hint
+import Data.Status as Status
 import Data.Problem as Problem
 import Data.Window exposing (Window)
 import Ui.Problem
@@ -90,12 +91,12 @@ init flags =
 
 
 
-
 -- UPDATE
 
 
 type Msg
   = OnEditorMsg Ui.Editor.Msg
+  | OnOrderCompile
   | OnDividerMsg Ui.ColumnDivider.Msg
   | OnProblem Int
   | OnJumpToProblem Error.Region
@@ -110,6 +111,14 @@ update msg model =
     OnEditorMsg subMsg ->
       let ( editor, editorCmd ) =
             Ui.Editor.update subMsg model.editor
+      in
+      ( { model | editor = editor }
+      , Cmd.map OnEditorMsg editorCmd
+      )
+
+    OnOrderCompile ->
+      let ( editor, editorCmd ) =
+            Ui.Editor.orderCompilation model.editor
       in
       ( { model | editor = editor }
       , Cmd.map OnEditorMsg editorCmd
@@ -153,7 +162,7 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
   let currentProblems =
-        Ui.Editor.getCurrentProblems model.editor
+        Status.getProblems (Ui.Editor.getStatus model.editor)
 
       hasErrors =
         not (List.isEmpty currentProblems)
@@ -198,10 +207,9 @@ view model =
         , iframe
             [ id "output"
             , name "output"
-            , case model.editor.status of
-                Ui.Editor.Changed (Just _) -> style "display" "none"
-                Ui.Editor.Problems _ -> style "display" "none"
-                _ -> style "display" "block"
+            , if Status.hasProblems (Ui.Editor.getStatus model.editor)
+              then style "display" "none"
+              else style "display" "block"
             , src ("/examples/_compiled/" ++ model.name ++ ".html")
             ]
             []
@@ -241,13 +249,15 @@ viewNavigation model hasErrors currentProblems =
 
         in
         problemEls ++
-        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) <|
-            case model.editor.status of
-              Ui.Editor.Changed _   -> Ui.Navigation.Changed
-              Ui.Editor.Compiling _ -> Ui.Navigation.Compiling
-              Ui.Editor.Compiled    -> Ui.Navigation.Success
-              Ui.Editor.Problems _  -> Ui.Navigation.ProblemsFound
-              Ui.Editor.Failed _    -> Ui.Navigation.CouldNotCompile
+        [ Ui.Navigation.compilation OnOrderCompile <|
+            case Ui.Editor.getStatus model.editor of
+              Status.Changed                       -> Ui.Navigation.Changed
+              Status.Compiling                     -> Ui.Navigation.Compiling
+              Status.Success                       -> Ui.Navigation.Success
+              Status.Failed _                      -> Ui.Navigation.CouldNotCompile
+              Status.HasProblems pbs               -> Ui.Navigation.ProblemsFound
+              Status.HasProblemsButChanged pbs     -> Ui.Navigation.Changed
+              Status.HasProblemsButRecompiling pbs -> Ui.Navigation.Compiling
         ]
     }
 
