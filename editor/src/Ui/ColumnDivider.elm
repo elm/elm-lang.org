@@ -1,5 +1,11 @@
-module Ui.ColumnDivider exposing (..)
+module Ui.ColumnDivider exposing (Model, isUpperLimit, init, Msg, update, view)
 
+
+{-| Control the sizes of the two columns, editor and result.
+
+Relies on column-divider.js being present.
+
+-}
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
