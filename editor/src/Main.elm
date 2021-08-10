@@ -1,4 +1,4 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 
 import Browser
@@ -22,24 +22,17 @@ import Data.Window exposing (Window)
 import Ui.Problem
 import Ui.Navigation
 import Ui.ColumnDivider
+import Ui.Editor
 
 
 -- TODO
 -- Clean up styles
--- Fix column divider bugs
 -- Make sure mini errors goes away when pane is moved in
 -- Make state more exact
 -- Make deps hints work again
 -- See if hints can be optimized futher
-
-
-
--- PORTS
-
-
-port submitSource : String -> Cmd msg
-port gotErrors : (E.Value -> msg) -> Sub msg
-port gotSuccess : (() -> msg) -> Sub msg
+-- add window resizing
+-- fix current problem on recompile
 
 
 
@@ -60,48 +53,15 @@ main =
 
 
 type alias Model =
-  { token : Maybe String
-  , table : Hint.Table
-  , imports : Header.Imports
-  , dependencies : DepsInfo
-  , source : String
+  { name : String
+  , window : Window
+  , editor : Ui.Editor.Model
+  , divider : Ui.ColumnDivider.Model
+  , currentProblem : Int
   , isLight : Bool
   , isMenuOpen : Bool
-  , importEnd : Int
-  , name : String
-  , divider : Ui.ColumnDivider.Model
-  , selection : Maybe Error.Region
   , areProblemsMini : Bool
-  , currentProblem : Int
-  , status : Status
-  , window : Window
   }
-
-
-type Status
-  = Changed (Maybe (List Problem.Problem))
-  | Compiling (Maybe (List Problem.Problem))
-  | Compiled
-  | Problems (List Problem.Problem)
-  | Failed String
-
-
-type DepsInfo
-  = Loading
-  | Failure
-  | Success Deps.Info
-
-
-getCurrentProblems : Status -> List Problem.Problem
-getCurrentProblems status =
-  case status of
-    Changed (Just problems)   -> problems
-    Changed Nothing           -> []
-    Compiling (Just problems) -> problems
-    Compiling Nothing         -> []
-    Problems problems         -> problems
-    Failed msg                -> []
-    Compiled                  -> []
 
 
 
@@ -110,45 +70,23 @@ getCurrentProblems status =
 
 init : { original : String, name : String, width : Float, height : Float } -> ( Model, Cmd Msg )
 init flags =
-  let window =
+  let ( editor, editorCmd ) =
+        Ui.Editor.init flags.original
+
+      window =
         { width = flags.width, height = flags.height }
-
-      defaults =
-        { token = Nothing
-        , table = Hint.defaultTable
-        , imports = Header.defaultImports
-        , dependencies = Loading
-        , source = flags.original
-        , isLight = True
-        , isMenuOpen = False
-        , importEnd = 0
-        , name = flags.name
-        , divider = Ui.ColumnDivider.init window
-        , selection = Nothing
-        , currentProblem = 0
-        , areProblemsMini = False
-        , status = Compiled
-        , window = window
-        }
   in
-  case Header.parse flags.original of
-    Nothing ->
-      ( defaults
-      , fetchDepsInfo
-      )
-
-    Just ( imports, importEnd ) ->
-      ( { defaults | imports = imports, importEnd = importEnd }
-      , fetchDepsInfo
-      )
-
-
-fetchDepsInfo : Cmd Msg
-fetchDepsInfo =
-  Http.get
-    { url = "https://worker.elm-lang.org/compile/deps-info.json"
-    , expect = Http.expectJson GotDepsInfo Deps.decoder
+  ( { name = flags.name
+    , window = window
+    , editor = editor
+    , divider = Ui.ColumnDivider.init window
+    , currentProblem = 0
+    , isLight = True
+    , isMenuOpen = False
+    , areProblemsMini = False
     }
+  , Cmd.map OnEditorMsg editorCmd
+  )
 
 
 
@@ -157,13 +95,7 @@ fetchDepsInfo =
 
 
 type Msg
-  = GotDepsInfo (Result Http.Error Deps.Info)
-  | OnSourceChange String (Maybe Error.Region)
-  | OnSourceSave String (Maybe Error.Region)
-  | OnSourceHint (Maybe String)
-  | OnCompile
-  | GotSuccess
-  | GotErrors E.Value
+  = OnEditorMsg Ui.Editor.Msg
   | OnDividerMsg Ui.ColumnDivider.Msg
   | OnProblem Int
   | OnJumpToProblem Error.Region
@@ -175,67 +107,13 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    GotDepsInfo result ->
-      case result of
-        Err _ ->
-          ( { model | dependencies = Failure }
-          , Cmd.none
-          )
-
-        Ok info ->
-          ( { model | table = Hint.buildTable model.imports info, dependencies = Success info }
-          , Cmd.none
-          )
-
-    OnSourceChange source selection ->
-      ( { model
-          | source = source
-          , selection = selection
-          , status =
-              case model.status of
-                Changed problems  -> Changed problems
-                Problems problems -> Changed (Just problems)
-                _               -> Changed Nothing
-      }
-      , Cmd.none
+    OnEditorMsg subMsg ->
+      let ( editor, editorCmd ) =
+            Ui.Editor.update subMsg model.editor
+      in
+      ( { model | editor = editor }
+      , Cmd.map OnEditorMsg editorCmd
       )
-
-    OnSourceHint token ->
-      ( { model | token = token }, Cmd.none )
-
-    OnSourceSave source selection ->
-      ( updateImports
-          { model | source = source, selection = selection
-          , status =
-              case model.status of
-                Changed problems  -> Compiling problems
-                Problems problems -> Compiling (Just problems)
-                _               -> Compiling Nothing
-          }
-      , submitSource source
-      )
-
-    OnCompile ->
-      ( updateImports
-          { model | status =
-              case model.status of
-                Changed problems  -> Compiling problems
-                Problems problems -> Compiling (Just problems)
-                _               -> Compiling Nothing
-          }
-      , submitSource model.source
-      )
-
-    GotSuccess ->
-      ( { model | status = Compiled }, Cmd.none )
-
-    GotErrors value ->
-      case D.decodeValue Error.decoder value of
-        Ok errors ->
-          ( { model | status = Problems (Problem.toIndexedProblems errors), currentProblem = 0 }, Cmd.none )
-
-        Err _ ->
-          ( { model | status = Failed "Could not decode compilation problems." }, Cmd.none )
 
     OnDividerMsg subMsg ->
       ( { model | divider = Ui.ColumnDivider.update model.window subMsg model.divider }
@@ -246,7 +124,7 @@ update msg model =
       ( { model | currentProblem = index }, Cmd.none )
 
     OnJumpToProblem region ->
-      ( { model | selection = Just region }, Cmd.none )
+      ( { model | editor = Ui.Editor.setSelection region model.editor }, Cmd.none )
 
     OnMinimizeProblem isMini ->
       ( { model | areProblemsMini = isMini }, Cmd.none )
@@ -259,35 +137,13 @@ update msg model =
 
 
 
-updateImports : Model -> Model
-updateImports model =
-  case Header.parse model.source of
-    Nothing ->
-      model
-
-    Just ( imports, importEnd ) ->
-      case model.dependencies of
-        Failure ->
-          model
-
-        Loading ->
-          model
-
-        Success info ->
-          { model
-            | table = Hint.buildTable imports info
-            , imports = imports
-            , importEnd = importEnd
-          }
-
-
-
 -- SUBSCRIPTIONS
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
-  Sub.batch [ gotErrors GotErrors, gotSuccess (always GotSuccess) ]
+subscriptions model =
+  Ui.Editor.subscriptions model.editor
+    |> Sub.map OnEditorMsg
 
 
 
@@ -297,7 +153,7 @@ subscriptions _ =
 view : Model -> Html Msg
 view model =
   let currentProblems =
-        getCurrentProblems model.status
+        Ui.Editor.getCurrentProblems model.editor
 
       hasErrors =
         not (List.isEmpty currentProblems)
@@ -310,16 +166,8 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Html.form
-            [ id "editor"
-            , action "http://localhost:8000/compile/v2"
-            , method "post"
-            , enctype "multipart/form-data"
-            , target "output"
-            ]
-            [ textarea [ id "code", name "code", style "display" "none" ] []
-            , lazy4 viewEditor model.source model.selection model.isLight model.importEnd
-            ]
+        [ Ui.Editor.viewEditor model.isLight model.editor
+            |> Html.map OnEditorMsg
         , if hasErrors && not model.areProblemsMini then
             div
               [ id "popup"
@@ -346,80 +194,19 @@ view model =
         [ if not hasErrors || Ui.ColumnDivider.isUpperLimit model.window model.divider then
             text ""
           else
-            Ui.Problem.viewList OnJumpToProblem (getCurrentProblems model.status)
+            Ui.Problem.viewList OnJumpToProblem currentProblems
         , iframe
             [ id "output"
             , name "output"
-            , case model.status of
-                Changed (Just _) -> style "display" "none"
-                Problems _ -> style "display" "none"
+            , case model.editor.status of
+                Ui.Editor.Changed (Just _) -> style "display" "none"
+                Ui.Editor.Problems _ -> style "display" "none"
                 _ -> style "display" "block"
             , src ("/examples/_compiled/" ++ model.name ++ ".html")
             ]
             []
         ]
     ]
-
-
-viewEditor : String -> Maybe Error.Region -> Bool -> Int -> Html Msg
-viewEditor source selection lights importEnd =
-  let theme =
-        if lights then "light" else "dark"
-  in
-  node "code-editor"
-    [ property "source" (E.string source)
-    , property "theme" (E.string theme)
-    , property "importEnd" (E.int importEnd)
-    , property "selection" <|
-        case selection of
-          Nothing -> encodeBlankSelection
-          Just region -> encodeSelection region
-    , on "save" (D.map2 OnSourceSave decodeSource decodeSelection)
-    , on "change" (D.map2 OnSourceChange decodeSource decodeSelection)
-    , on "hint" (D.map OnSourceHint decodeHint)
-    ]
-    []
-
-
-encodeSelection : Error.Region -> E.Value
-encodeSelection { start, end } =
-  E.object
-    [ ( "start", E.object [ ( "line", E.int start.line ), ( "column", E.int start.column ) ] )
-    , ( "end", E.object [ ( "line", E.int end.line ), ( "column", E.int end.column ) ] )
-    ]
-
-
-encodeBlankSelection : E.Value
-encodeBlankSelection =
-  E.object
-    [ ( "start", E.null )
-    , ( "end", E.null )
-    ]
-
-
-decodeSource : D.Decoder String
-decodeSource =
-  D.at [ "target", "source" ] D.string
-
-
-decodeSelection : D.Decoder (Maybe Error.Region)
-decodeSelection =
-  D.at [ "target", "selection" ] <|
-    D.map2 (Maybe.map2 Error.Region)
-      (D.field "start" (D.nullable decodePosition))
-      (D.field "end" (D.nullable decodePosition))
-
-
-decodePosition : D.Decoder Error.Position
-decodePosition =
-  D.map2 Error.Position
-    (D.field "line" D.int)
-    (D.field "column" D.int)
-
-
-decodeHint : D.Decoder (Maybe String)
-decodeHint =
-  D.at [ "target", "hint" ] (D.nullable D.string)
 
 
 
@@ -434,12 +221,7 @@ viewNavigation model hasErrors currentProblems =
     , left =
         [ Ui.Navigation.elmLogo
         , Ui.Navigation.lights OnToggleLights model.isLight
-        , case model.token of
-            Nothing ->
-              text ""
-
-            Just token ->
-              lazy2 viewHint token model.table
+        , Ui.Editor.viewHint model.editor
         ]
     , right =
         let problemEls =
@@ -459,47 +241,14 @@ viewNavigation model hasErrors currentProblems =
 
         in
         problemEls ++
-        [ Ui.Navigation.compilation OnCompile <|
-            case model.status of
-              Changed _   -> Ui.Navigation.Changed
-              Compiling _ -> Ui.Navigation.Compiling
-              Compiled    -> Ui.Navigation.Success
-              Problems _  -> Ui.Navigation.ProblemsFound
-              Failed _    -> Ui.Navigation.CouldNotCompile
+        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) <|
+            case model.editor.status of
+              Ui.Editor.Changed _   -> Ui.Navigation.Changed
+              Ui.Editor.Compiling _ -> Ui.Navigation.Compiling
+              Ui.Editor.Compiled    -> Ui.Navigation.Success
+              Ui.Editor.Problems _  -> Ui.Navigation.ProblemsFound
+              Ui.Editor.Failed _    -> Ui.Navigation.CouldNotCompile
         ]
     }
 
-
-
--- VIEW HINT
-
-
-viewHint : String -> Hint.Table -> Html msg
-viewHint token table =
-  case Hint.lookup token table of
-    Just info ->
-      case info of
-        Hint.Ambiguous ->
-          text ""
-
-        Hint.Specific hint ->
-          div
-            [ class "hint" ]
-            [ span [ style "margin-right" "20px" ] [ text "·" ]
-            , text "Hint: "
-            , a [ href hint.href, target "_blank" ] [ text hint.text ]
-            ]
-
-    Nothing ->
-      text ""
-
-
--- VIEW EXAMPLES LINK
-
-
-viewExamplesLink : Html msg
-viewExamplesLink =
-  div [ class "hint" ]
-    [ a [ href "/examples", target "_blank" ] [ text "More examples" ]
-    ]
 
