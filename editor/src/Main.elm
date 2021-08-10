@@ -322,10 +322,10 @@ view model =
         , if hasErrors && not model.areProblemsMini then
             div
               [ id "popup"
-              , if Ui.ColumnDivider.isTooLarge model.window model.divider
+              , if Ui.ColumnDivider.isUpperLimit model.window model.divider
                 then style "transform" "translateY(0)"
                 else style "transform" "translateY(100%)"
-              , if Ui.ColumnDivider.isTooLarge model.window model.divider
+              , if Ui.ColumnDivider.isUpperLimit model.window model.divider
                 then style "transition-delay" "0.5s;"
                 else style "transition-delay" "0s;"
               ]
@@ -342,7 +342,7 @@ view model =
             text ""
         , viewNavigation model hasErrors currentProblems
         ]
-        [ if not hasErrors || Ui.ColumnDivider.isTooLarge model.window model.divider then
+        [ if not hasErrors || Ui.ColumnDivider.isUpperLimit model.window model.divider then
             text ""
           else
             Ui.Problem.viewList OnJumpToProblem (getCurrentProblems model.status)

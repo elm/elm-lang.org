@@ -12,20 +12,19 @@ import Data.Window exposing (Window)
 
 
 type alias Model =
-  { pixels : Float
-  , movingFrom : Maybe Float
-  , isSignificant : Bool
+  { current : Float
+  , movement : Movement
   }
 
 
-isTooSmall : Model -> Bool
-isTooSmall model =
-  model.pixels <= lowerLimit
+type Movement
+  = None
+  | Moving Float Bool
 
 
-isTooLarge : Window -> Model -> Bool
-isTooLarge window model =
-  model.pixels >= upperLimit window
+isUpperLimit : Window -> Model -> Bool
+isUpperLimit window model =
+  model.current >= upperLimit window
 
 
 lowerLimit : Float
@@ -49,18 +48,23 @@ clamp window =
 
 
 jump : Window -> Float -> Float
-jump window pixels =
-  if pixels <= lowerLimit then upperLimit window
-  else if pixels >= upperLimit window then halfPoint window
-  else if pixels > halfPoint window then upperLimit window
+jump window current =
+  if current <= lowerLimit then upperLimit window
+  else if current >= upperLimit window then halfPoint window
+  else if current > halfPoint window then upperLimit window
   else lowerLimit
+
+
+isSignificant : Float -> Float -> Bool
+isSignificant initial current =
+  abs (initial - current) < 4
 
 
 isMoving : Model -> Bool
 isMoving model =
-  case model.movingFrom of
-    Just _ -> True
-    Nothing -> False
+  case model.movement of
+    Moving _ _ -> True
+    None -> False
 
 
 
@@ -69,9 +73,8 @@ isMoving model =
 
 init : Window -> Model
 init window =
-  { pixels = window.width / 2
-  , movingFrom = Nothing
-  , isSignificant = False
+  { current = window.width / 2
+  , movement = None
   }
 
 
@@ -87,33 +90,40 @@ update : Window -> Msg -> Model -> Model
 update window msg model =
   case msg of
     OnDown ->
-      { model | movingFrom = Just model.pixels, isSignificant = False }
+      { model | movement = Moving model.current False }
 
-    OnMove px ->
-      if model.isSignificant then
-        { model | pixels = clamp window px }
-      else
-        case model.movingFrom of
-          Just initial ->
-            if abs (initial - px) < 4
-            then { model | pixels = clamp window px }
-            else { model | pixels = clamp window px, isSignificant = True }
+    OnMove latest ->
+      case model.movement of
+        Moving initial True ->
+          { model | current = clamp window latest }
 
-          Nothing ->
-            { model | pixels = clamp window px }
+        Moving initial False ->
+          if isSignificant initial latest
+          then { model | current = clamp window latest }
+          else { model | current = clamp window latest, movement = Moving initial True }
 
-    OnUp px ->
-      if model.isSignificant
-      then { model | movingFrom = Nothing, pixels = clamp window px }
-      else { model | movingFrom = Nothing, pixels = jump window (Maybe.withDefault px model.movingFrom) }
+        None ->
+          { model | current = clamp window latest }
+
+    OnUp latest ->
+      case model.movement of
+        Moving _ True ->
+          { model | movement = None, current = clamp window latest }
+
+        Moving initial False ->
+          { model | movement = None, current = jump window initial }
+
+        None ->
+          { model | movement = None, current = jump window model.current }
 
     OnClick ->
-      { model | movingFrom = Nothing, pixels = jump window model.pixels }
+      { model | movement = None, current = jump window model.current }
 
     OnClickLeft ->
-      if model.pixels <= lowerLimit
-      then { model | pixels = upperLimit window }
-      else model
+      if model.current <= lowerLimit then
+        { model | current = upperLimit window }
+      else
+        model
 
 
 view : (Msg -> msg) -> Window -> Model -> List (Html msg) -> List (Html msg) -> Html msg
@@ -134,7 +144,7 @@ viewLeft onMsg window model =
   div
     [ id "left-side"
     , onClick (onMsg OnClickLeft)
-    , style "width" (String.fromFloat model.pixels ++ "px")
+    , style "width" (String.fromFloat model.current ++ "px")
     , style "pointer-events" (if isMoving model then "none" else "auto")
     , style "user-select" (if isMoving model then "none" else "auto")
     , style "transition" (if isMoving model then "none" else "width 0.5s")
@@ -145,7 +155,7 @@ viewRight : Window -> Model -> List (Html msg) -> Html msg
 viewRight window model =
   div
     [ id "right-side"
-    , style "width" (String.fromFloat (window.width - model.pixels) ++ "px")
+    , style "width" (String.fromFloat (window.width - model.current) ++ "px")
     , style "pointer-events" (if isMoving model then "none" else "auto")
     , style "user-select" (if isMoving model then "none" else "auto")
     , style "transition" (if isMoving model then "none" else "width 0.5s")
@@ -159,9 +169,9 @@ viewDivider window model =
     , on "move" (D.map OnMove decodePixels)
     , on "up" (D.map OnUp decodePixels)
     , on "_click" (D.succeed OnClick)
-    , property "pixels" (E.float model.pixels)
-    , style "width" (if isTooLarge window model then "40px" else "10px")
-    , style "left" (String.fromFloat model.pixels ++ "px")
+    , property "pixels" (E.float model.current)
+    , style "width" (if isUpperLimit window model then "40px" else "10px")
+    , style "left" (String.fromFloat model.current ++ "px")
     ]
     []
 
