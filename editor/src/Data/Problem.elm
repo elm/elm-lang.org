@@ -8,7 +8,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
 import Elm.Error as Error
-import Navigation
 import FeatherIcons as I
 
 
