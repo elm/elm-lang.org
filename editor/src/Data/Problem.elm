@@ -63,6 +63,59 @@ toIndexedProblems errors =
         |> Tuple.second
 
 
+
+-- MANY
+
+
+type alias Problems =
+  ( List Problem, Problem, List Problem )
+
+
+init : List Problem -> Maybe Problems
+init pbs =
+  case pbs of
+    first :: rest -> Just ( [], first, rest )
+    _ -> Nothing
+
+
+getAll : Problems -> List Problem
+getAll ( prev, curr, next ) =
+  List.reverse prev ++ [ curr ] ++ next
+
+
+getFocused : Problems -> Problem
+getFocused ( _, current, _ ) =
+  current
+
+
+hasPrevious : Problems -> Bool
+hasPrevious ( prev, curr, next ) =
+  not (List.isEmpty prev)
+
+
+hasNext : Problems -> Bool
+hasNext ( prev, curr, next ) =
+  not (List.isEmpty next)
+
+
+focusNext : Problems -> Problems
+focusNext pbs =
+  case pbs of
+    ( prev, curr, next :: remaining ) -> ( curr :: prev, next, remaining )
+    ( prev, curr, [] ) -> pbs
+
+
+focusPrevious : Problems -> Problems
+focusPrevious pbs =
+  case pbs of
+    ( prev :: remaining, curr, next ) -> ( remaining, prev, curr :: next )
+    ( [], curr, next ) -> pbs
+
+
+
+-- HELPERS
+
+
 getSummary : Problem -> String
 getSummary problem =
   case problem.message of

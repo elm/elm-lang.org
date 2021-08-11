@@ -58,7 +58,6 @@ type alias Model =
   , window : Window
   , editor : Ui.Editor.Model
   , divider : Ui.ColumnDivider.Model
-  , currentProblem : Int
   , isLight : Bool
   , isMenuOpen : Bool
   , areProblemsMini : Bool
@@ -82,7 +81,6 @@ init flags =
     , window = window
     , editor = editor
     , divider = Ui.ColumnDivider.init window
-    , currentProblem = 0
     , isLight = True
     , isMenuOpen = False
     , areProblemsMini = False
@@ -99,7 +97,8 @@ init flags =
 type Msg
   = OnEditorMsg Ui.Editor.Msg
   | OnDividerMsg Ui.ColumnDivider.Msg
-  | OnProblem Int
+  | OnPreviousProblem
+  | OnNextProblem
   | OnJumpToProblem Error.Region
   | OnMinimizeProblem Bool
   | OnToggleLights
@@ -113,9 +112,7 @@ update msg model =
       let ( editor, status, editorCmd ) =
             Ui.Editor.update subMsg model.editor model.status
       in
-      ( { model | editor = editor, status = status
-        , currentProblem = if Status.isCompiling status then 0 else model.currentProblem
-        }
+      ( { model | editor = editor, status = status }
       , Cmd.map OnEditorMsg editorCmd
       )
 
@@ -124,8 +121,11 @@ update msg model =
       , Cmd.none
       )
 
-    OnProblem index ->
-      ( { model | currentProblem = index }, Cmd.none )
+    OnPreviousProblem ->
+      ( { model | status = Status.withProblems model.status Problem.focusPrevious }, Cmd.none )
+
+    OnNextProblem ->
+      ( { model | status = Status.withProblems model.status Problem.focusNext }, Cmd.none )
 
     OnJumpToProblem region ->
       ( { model | editor = Ui.Editor.setSelection region model.editor }, Cmd.none )
@@ -156,11 +156,8 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-  let currentProblems =
-        Status.getProblems model.status
-
-      hasErrors =
-        not (List.isEmpty currentProblems)
+  let hasErrors =
+        Status.hasProblems model.status
   in
   main_
     [ id "main"
@@ -172,33 +169,42 @@ view model =
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
         [ Ui.Editor.viewEditor model.isLight model.editor
             |> Html.map OnEditorMsg
-        , if hasErrors && not model.areProblemsMini then
-            div
-              [ id "popup"
-              , if Ui.ColumnDivider.isUpperLimit model.window model.divider
-                then style "transform" "translateY(0)"
-                else style "transform" "translateY(100%)"
-              , if Ui.ColumnDivider.isUpperLimit model.window model.divider
-                then style "transition-delay" "0.5s;"
-                else style "transition-delay" "0s;"
-              ]
-              [ Ui.Problem.viewCurrent
-                  { onJump = OnJumpToProblem
-                  , onProblem = OnProblem
-                  , onMinimize = OnMinimizeProblem True
-                  , current = model.currentProblem
-                  }
-                  Ui.Problem.viewCarousel
-                  currentProblems
-              ]
-          else
-            text ""
-        , viewNavigation model hasErrors currentProblems
+        , case Status.getProblems model.status of
+            Just problems ->
+              if model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
+                text ""
+              else
+                div
+                  [ id "popup"
+                  , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                    then style "transform" "translateY(0)"
+                    else style "transform" "translateY(100%)"
+                  , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                    then style "transition-delay" "0.5s;"
+                    else style "transition-delay" "0s;"
+                  ]
+                  [ Ui.Problem.viewCarousel
+                      { onJump = OnJumpToProblem
+                      , onPrevious = OnPreviousProblem
+                      , onNext = OnNextProblem
+                      , onMinimize = OnMinimizeProblem True
+                      }
+                      problems
+                  ]
+
+            Nothing ->
+              text ""
+        , viewNavigation model
         ]
-        [ if not hasErrors || Ui.ColumnDivider.isUpperLimit model.window model.divider then
-            text ""
-          else
-            Ui.Problem.viewList OnJumpToProblem currentProblems
+        [ case Status.getProblems model.status of
+            Just problems ->
+              if Ui.ColumnDivider.isUpperLimit model.window model.divider then
+                text ""
+              else
+                Ui.Problem.viewList OnJumpToProblem problems
+
+            Nothing ->
+              text ""
         , iframe
             [ id "output"
             , name "output"
@@ -216,8 +222,8 @@ view model =
 -- NAVIGATION
 
 
-viewNavigation : Model -> Bool -> List Problem.Problem -> Html Msg
-viewNavigation model hasErrors currentProblems =
+viewNavigation : Model -> Html Msg
+viewNavigation model =
   Ui.Navigation.view
     { isLight = model.isLight
     , isOpen = model.isMenuOpen
@@ -228,19 +234,23 @@ viewNavigation model hasErrors currentProblems =
         ]
     , right =
         let problemEls =
-              if hasErrors && model.areProblemsMini then
-                [ Ui.Problem.viewCurrent
-                    { onJump = OnJumpToProblem
-                    , onProblem = OnProblem
-                    , onMinimize = OnMinimizeProblem False
-                    , current = model.currentProblem
-                    }
-                    Ui.Problem.viewCarouselMini
-                    currentProblems
-                , span [ style "margin-left" "10px" ] [ text "" ]
-                ]
-              else
-                []
+              case Status.getProblems model.status of
+                Just problems ->
+                  if not model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
+                    []
+                  else
+                    [ Ui.Problem.viewCarouselMini
+                        { onJump = OnJumpToProblem
+                        , onPrevious = OnPreviousProblem
+                        , onNext = OnNextProblem
+                        , onMinimize = OnMinimizeProblem False
+                        }
+                        problems
+                    , span [ style "margin-left" "10px" ] [ text "" ]
+                    ]
+
+                Nothing ->
+                  []
 
         in
         problemEls ++

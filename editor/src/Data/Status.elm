@@ -1,6 +1,6 @@
 module Data.Status exposing
   ( Status(..)
-  , getProblems, hasProblems, isCompiling
+  , getProblems, hasProblems, withProblems, isCompiling
   , changed, compiling, success, problems
   )
 
@@ -8,29 +8,30 @@ module Data.Status exposing
 import Json.Encode as E
 import Json.Decode as D
 import Elm.Error as Error
-import Data.Problem as Problem exposing (Problem)
+import Data.Problem as Problem exposing (Problem, Problems)
 
 
 type Status
   = Changed
   | Compiling
   | Success
-  | HasProblems (List Problem)
-  | HasProblemsButChanged (List Problem)
-  | HasProblemsButRecompiling (List Problem)
+  | HasProblems Problems
+  | HasProblemsButChanged Problems
+  | HasProblemsButRecompiling Problems
   | Failed String
 
 
-getProblems : Status -> List Problem
+
+getProblems : Status -> Maybe Problems
 getProblems status =
   case status of
-    Changed                       -> []
-    Compiling                     -> []
-    Success                       -> []
-    Failed _                      -> []
-    HasProblems pbs               -> pbs
-    HasProblemsButChanged pbs     -> pbs
-    HasProblemsButRecompiling pbs -> pbs
+    Changed                       -> Nothing
+    Compiling                     -> Nothing
+    Success                       -> Nothing
+    Failed _                      -> Nothing
+    HasProblems pbs               -> Just pbs
+    HasProblemsButChanged pbs     -> Just pbs
+    HasProblemsButRecompiling pbs -> Just pbs
 
 
 hasProblems : Status -> Bool
@@ -43,6 +44,18 @@ hasProblems status =
     HasProblems _                 -> True
     HasProblemsButChanged _       -> True
     HasProblemsButRecompiling _   -> True
+
+
+withProblems : Status -> (Problems -> Problems) -> Status
+withProblems status func =
+  case status of
+    Changed                       -> Changed
+    Compiling                     -> Compiling
+    Success                       -> Success
+    Failed msg                    -> Failed msg
+    HasProblems pbs               -> HasProblems (func pbs)
+    HasProblemsButChanged pbs     -> HasProblemsButChanged (func pbs)
+    HasProblemsButRecompiling pbs -> HasProblemsButRecompiling (func pbs)
 
 
 isCompiling : Status -> Bool
@@ -90,8 +103,11 @@ problems : E.Value -> Status
 problems value =
   case D.decodeValue Error.decoder value of
     Ok errors ->
-      HasProblems (Problem.toIndexedProblems errors)
+      case Problem.init (Problem.toIndexedProblems errors) of
+        Just pbs -> HasProblems pbs
+        Nothing -> Failed "Somehow returned zero problems."
 
     Err _ ->
       Failed "Could not decode compilation problems." -- TODO
+
 
