@@ -82,6 +82,7 @@ a:hover {
 
 #errors-mini {
   display: flex;
+  margin-left: 10px;
 }
 
 #popup #errors {

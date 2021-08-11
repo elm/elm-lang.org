@@ -39,14 +39,14 @@ viewCarousel config problems =
                     , iconColor = Nothing
                     , label = Nothing
                     , alt = "See previous problem"
-                    , onClick = if hasPrevious problems then Nothing else Just config.onPrevious
+                    , onClick = if hasPrevious problems then Just config.onPrevious else Nothing
                     }
                 , Navigation.iconButton []
                     { icon = I.chevronRight
                     , iconColor = Nothing
                     , label = Nothing
                     , alt = "See next problem"
-                    , onClick = if hasNext problems then Nothing else Just config.onNext
+                    , onClick = if hasNext problems then Just config.onNext else Nothing
                     }
                 , Navigation.iconButton []
                     { icon = I.minimize2
@@ -77,14 +77,14 @@ viewCarouselMini config problems =
             , iconColor = Nothing
             , label = Nothing
             , alt = "See previous problem"
-            , onClick = if hasPrevious problems then Nothing else Just config.onPrevious
+            , onClick = if hasPrevious problems then Just config.onPrevious else Nothing
             }
         , Navigation.iconButton []
             { icon = I.chevronRight
             , iconColor = Nothing
             , label = Nothing
             , alt = "See next problem"
-            , onClick = if hasNext problems then Nothing else Just config.onNext
+            , onClick = if hasNext problems then Just config.onNext else Nothing
             }
         ]
     ]

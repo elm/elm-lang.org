@@ -171,26 +171,26 @@ view model =
             |> Html.map OnEditorMsg
         , case Status.getProblems model.status of
             Just problems ->
-              if model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
-                text ""
-              else
-                div
-                  [ id "popup"
-                  , if Ui.ColumnDivider.isUpperLimit model.window model.divider
-                    then style "transform" "translateY(0)"
-                    else style "transform" "translateY(100%)"
-                  , if Ui.ColumnDivider.isUpperLimit model.window model.divider
-                    then style "transition-delay" "0.5s;"
-                    else style "transition-delay" "0s;"
-                  ]
-                  [ Ui.Problem.viewCarousel
-                      { onJump = OnJumpToProblem
-                      , onPrevious = OnPreviousProblem
-                      , onNext = OnNextProblem
-                      , onMinimize = OnMinimizeProblem True
-                      }
-                      problems
-                  ]
+              div
+                [ id "popup"
+                , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                  then style "transform" "translateY(0)"
+                  else style "transform" "translateY(100%)"
+                , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                  then style "transition-delay" "0.5s;"
+                  else style "transition-delay" "0s;"
+                ]
+                [ if model.areProblemsMini then
+                    text ""
+                  else
+                    Ui.Problem.viewCarousel
+                        { onJump = OnJumpToProblem
+                        , onPrevious = OnPreviousProblem
+                        , onNext = OnNextProblem
+                        , onMinimize = OnMinimizeProblem True
+                        }
+                        problems
+                ]
 
             Nothing ->
               text ""
@@ -233,28 +233,22 @@ viewNavigation model =
         , Ui.Editor.viewHint model.editor
         ]
     , right =
-        let problemEls =
-              case Status.getProblems model.status of
-                Just problems ->
-                  if not model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
-                    []
-                  else
-                    [ Ui.Problem.viewCarouselMini
-                        { onJump = OnJumpToProblem
-                        , onPrevious = OnPreviousProblem
-                        , onNext = OnNextProblem
-                        , onMinimize = OnMinimizeProblem False
-                        }
-                        problems
-                    , span [ style "margin-left" "10px" ] [ text "" ]
-                    ]
+        [ case Status.getProblems model.status of
+            Just problems ->
+              if not model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
+                text ""
+              else
+                Ui.Problem.viewCarouselMini
+                    { onJump = OnJumpToProblem
+                    , onPrevious = OnPreviousProblem
+                    , onNext = OnNextProblem
+                    , onMinimize = OnMinimizeProblem False
+                    }
+                    problems
 
-                Nothing ->
-                  []
-
-        in
-        problemEls ++
-        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
+            Nothing ->
+              text ""
+        , Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
         ]
     }
 
