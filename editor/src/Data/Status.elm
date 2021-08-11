@@ -21,7 +21,6 @@ type Status
   | Failed String
 
 
-
 getProblems : Status -> Maybe Problems
 getProblems status =
   case status of

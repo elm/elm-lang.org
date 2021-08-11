@@ -97,8 +97,8 @@ init flags =
 type Msg
   = OnEditorMsg Ui.Editor.Msg
   | OnDividerMsg Ui.ColumnDivider.Msg
-  | OnPreviousProblem
-  | OnNextProblem
+  | OnPreviousProblem (Maybe Error.Region)
+  | OnNextProblem (Maybe Error.Region)
   | OnJumpToProblem Error.Region
   | OnMinimizeProblem Bool
   | OnToggleLights
@@ -121,14 +121,20 @@ update msg model =
       , Cmd.none
       )
 
-    OnPreviousProblem ->
-      ( { model | status = Status.withProblems model.status Problem.focusPrevious }, Cmd.none )
+    OnPreviousProblem maybeRegion ->
+      ( { model | status = Status.withProblems model.status Problem.focusPrevious }
+          |> (Maybe.withDefault identity (Maybe.map jumpToRegion maybeRegion))
+      , Cmd.none
+      )
 
-    OnNextProblem ->
-      ( { model | status = Status.withProblems model.status Problem.focusNext }, Cmd.none )
+    OnNextProblem maybeRegion ->
+      ( { model | status = Status.withProblems model.status Problem.focusNext }
+          |> (Maybe.withDefault identity (Maybe.map jumpToRegion maybeRegion))
+      , Cmd.none
+      )
 
     OnJumpToProblem region ->
-      ( { model | editor = Ui.Editor.setSelection region model.editor }, Cmd.none )
+      ( jumpToRegion region model, Cmd.none )
 
     OnMinimizeProblem isMini ->
       ( { model | areProblemsMini = isMini }, Cmd.none )
@@ -138,6 +144,11 @@ update msg model =
 
     OnToggleMenu ->
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
+
+jumpToRegion : Error.Region -> Model -> Model
+jumpToRegion region model =
+  { model | editor = Ui.Editor.setSelection region model.editor }
 
 
 

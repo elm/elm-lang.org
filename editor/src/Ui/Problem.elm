@@ -16,8 +16,8 @@ import Data.Problem exposing (..)
 
 type alias Config msg =
   { onJump : Error.Region -> msg
-  , onPrevious : msg
-  , onNext : msg
+  , onPrevious : Maybe Error.Region -> msg
+  , onNext : Maybe Error.Region -> msg
   , onMinimize : msg
   }
 
@@ -34,8 +34,8 @@ viewCarousel config problems =
             [ viewTitle focused.title
             , nav []
                 [ viewLocation config.onJump focused.location
-                , viewPreviousButton config.onPrevious problems
-                , viewNextButton config.onNext problems
+                , viewPreviousButton (config.onPrevious Nothing) problems
+                , viewNextButton (config.onNext Nothing) problems
                 , viewMinimize config.onMinimize
                 ]
             ]
@@ -48,14 +48,19 @@ viewCarouselMini : Config msg -> Problems -> Html msg
 viewCarouselMini config problems =
   let focused =
         getFocused problems
+
+      region =
+        case focused.location of
+          General _ -> Nothing
+          Specific specific -> Just specific.region
   in
   div
     [ id "errors-mini" ]
     [ viewLocation config.onJump focused.location
     , a [ onClick config.onMinimize ] [ text (getSummary focused) ]
     , nav []
-        [ viewPreviousButton config.onPrevious problems
-        , viewNextButton config.onNext problems
+        [ viewPreviousButton (config.onPrevious region) problems
+        , viewNextButton (config.onNext region) problems
         ]
     ]
 
