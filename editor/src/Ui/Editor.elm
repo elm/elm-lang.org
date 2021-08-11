@@ -45,7 +45,6 @@ type alias Model =
   , importEnd : Int
   , dependencies : DepsInfo
   , selection : Maybe Region
-  , status : Status.Status
   }
 
 
@@ -55,21 +54,9 @@ type DepsInfo
   | Success Deps.Info
 
 
-getStatus : Model -> Status.Status
-getStatus model =
-  model.status
-
-
 setSelection : Region -> Model -> Model
 setSelection region model =
   { model | selection = Just region }
-
-
-orderCompilation : Model -> ( Model, Cmd Msg )
-orderCompilation model =
-  ( updateImports { model | status = Status.compiling model.status }
-  , submitSource model.source
-  )
 
 
 
@@ -86,7 +73,6 @@ init source =
         , importEnd = 0
         , dependencies = Loading
         , selection = Nothing
-        , status = Status.success
         }
   in
   case Header.parse source of
@@ -123,33 +109,34 @@ type Msg
   | GotErrors E.Value
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : Msg -> Model -> Status.Status -> ( Model, Status.Status, Cmd Msg )
+update msg model status =
   case msg of
     OnChange source selection ->
       ( { model
         | source = source
         , selection = selection
-        , status = Status.changed model.status
         }
+      , Status.changed status
       , Cmd.none
       )
 
     OnHint hint ->
-      ( { model | hint = hint }, Cmd.none )
+      ( { model | hint = hint }, status, Cmd.none )
 
     OnSave source selection ->
       ( updateImports
           { model
           | source = source
           , selection = selection
-          , status = Status.compiling model.status
           }
+      , Status.compiling status
       , submitSource source
       )
 
     OnCompile ->
-      ( updateImports { model | status = Status.compiling model.status }
+      ( updateImports model
+      , Status.compiling status
       , submitSource model.source
       )
 
@@ -157,19 +144,21 @@ update msg model =
       case result of
         Err _ ->
           ( { model | dependencies = Failure }
+          , status
           , Cmd.none
           )
 
         Ok info ->
           ( { model | hintTable = Hint.buildTable model.imports info, dependencies = Success info }
+          , status
           , Cmd.none
           )
 
     GotSuccess ->
-      ( { model | status = Status.success }, Cmd.none )
+      ( model, Status.success, Cmd.none )
 
     GotErrors errors ->
-      ( { model | status = Status.problems errors }, Cmd.none )
+      ( model, Status.problems errors, Cmd.none )
 
 
 updateImports : Model -> Model

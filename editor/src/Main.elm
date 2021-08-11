@@ -62,6 +62,7 @@ type alias Model =
   , isLight : Bool
   , isMenuOpen : Bool
   , areProblemsMini : Bool
+  , status : Status.Status
   }
 
 
@@ -85,6 +86,7 @@ init flags =
     , isLight = True
     , isMenuOpen = False
     , areProblemsMini = False
+    , status = Status.success
     }
   , Cmd.map OnEditorMsg editorCmd
   )
@@ -96,7 +98,6 @@ init flags =
 
 type Msg
   = OnEditorMsg Ui.Editor.Msg
-  | OnOrderCompile
   | OnDividerMsg Ui.ColumnDivider.Msg
   | OnProblem Int
   | OnJumpToProblem Error.Region
@@ -109,18 +110,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
     OnEditorMsg subMsg ->
-      let ( editor, editorCmd ) =
-            Ui.Editor.update subMsg model.editor
+      let ( editor, status, editorCmd ) =
+            Ui.Editor.update subMsg model.editor model.status
       in
-      ( { model | editor = editor }
-      , Cmd.map OnEditorMsg editorCmd
-      )
-
-    OnOrderCompile ->
-      let ( editor, editorCmd ) =
-            Ui.Editor.orderCompilation model.editor
-      in
-      ( { model | editor = editor }
+      ( { model | editor = editor, status = status
+        , currentProblem = if Status.isCompiling status then 0 else model.currentProblem
+        }
       , Cmd.map OnEditorMsg editorCmd
       )
 
@@ -162,7 +157,7 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
   let currentProblems =
-        Status.getProblems (Ui.Editor.getStatus model.editor)
+        Status.getProblems model.status
 
       hasErrors =
         not (List.isEmpty currentProblems)
@@ -207,7 +202,7 @@ view model =
         , iframe
             [ id "output"
             , name "output"
-            , if Status.hasProblems (Ui.Editor.getStatus model.editor)
+            , if Status.hasProblems model.status
               then style "display" "none"
               else style "display" "block"
             , src ("/examples/_compiled/" ++ model.name ++ ".html")
@@ -249,8 +244,8 @@ viewNavigation model hasErrors currentProblems =
 
         in
         problemEls ++
-        [ Ui.Navigation.compilation OnOrderCompile <|
-            case Ui.Editor.getStatus model.editor of
+        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) <|
+            case model.status of
               Status.Changed                       -> Ui.Navigation.Changed
               Status.Compiling                     -> Ui.Navigation.Compiling
               Status.Success                       -> Ui.Navigation.Success

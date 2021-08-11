@@ -1,6 +1,6 @@
 module Data.Status exposing
   ( Status(..)
-  , getProblems, hasProblems
+  , getProblems, hasProblems, isCompiling
   , changed, compiling, success, problems
   )
 
@@ -42,6 +42,18 @@ hasProblems status =
     Failed _                      -> False
     HasProblems _                 -> True
     HasProblemsButChanged _       -> True
+    HasProblemsButRecompiling _   -> True
+
+
+isCompiling : Status -> Bool
+isCompiling status =
+  case status of
+    Changed                       -> False
+    Compiling                     -> True
+    Success                       -> False
+    Failed _                      -> False
+    HasProblems _                 -> False
+    HasProblemsButChanged _       -> False
     HasProblemsButRecompiling _   -> True
 
 
