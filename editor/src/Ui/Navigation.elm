@@ -1,6 +1,6 @@
 module Ui.Navigation exposing
   ( Navigation, view
-  , elmLogo, toggleOpen, lights, Status(..), compilation, share, deploy, toggleSplit
+  , elmLogo, toggleOpen, lights, compilation, share, deploy, toggleSplit
   , IconButton, iconButton
   )
 
@@ -14,6 +14,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
 import Svg exposing (svg, use)
 import Svg.Attributes as SA
+import Data.Status as Status
 
 
 {-| -}
@@ -96,45 +97,49 @@ lights onClick_ isLight =
     }
 
 
-{-| -}
-type Status
-  = Changed
-  | Compiling
-  | Success
-  | ProblemsFound
-  | CouldNotCompile
-
 
 {-| -}
-compilation : msg -> Status -> Html msg
+compilation : msg -> Status.Status -> Html msg
 compilation onClick_ status =
   let ( icon, iconColor, label ) =
         case status of
-          Changed ->
+          Status.Changed ->
             ( I.refreshCcw
             , Just "blue"
             , "Check changes"
             )
 
-          Compiling ->
+          Status.Compiling ->
             ( I.loader
             , Nothing
             , "Compiling..."
             )
 
-          Success ->
+          Status.Success ->
             ( I.check
             , Just "green"
             , "Success"
             )
 
-          ProblemsFound ->
+          Status.HasProblems _ ->
             ( I.x
             , Just "red"
             , "Problems found"
             )
 
-          CouldNotCompile ->
+          Status.HasProblemsButChanged _ ->
+            ( I.refreshCcw
+            , Just "blue"
+            , "Check changes"
+            )
+
+          Status.HasProblemsButRecompiling _ ->
+            ( I.loader
+            , Nothing
+            , "Compiling..."
+            )
+
+          Status.Failed _ ->
             ( I.x
             , Just "red"
             , "Try again later."

@@ -254,15 +254,7 @@ viewNavigation model =
 
         in
         problemEls ++
-        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) <|
-            case model.status of
-              Status.Changed                       -> Ui.Navigation.Changed
-              Status.Compiling                     -> Ui.Navigation.Compiling
-              Status.Success                       -> Ui.Navigation.Success
-              Status.Failed _                      -> Ui.Navigation.CouldNotCompile
-              Status.HasProblems pbs               -> Ui.Navigation.ProblemsFound
-              Status.HasProblemsButChanged pbs     -> Ui.Navigation.Changed
-              Status.HasProblemsButRecompiling pbs -> Ui.Navigation.Compiling
+        [ Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
         ]
     }
 
