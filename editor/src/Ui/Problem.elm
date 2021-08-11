@@ -34,27 +34,9 @@ viewCarousel config problems =
             [ viewTitle focused.title
             , nav []
                 [ viewLocation config.onJump focused.location
-                , Navigation.iconButton []
-                    { icon = I.chevronLeft
-                    , iconColor = Nothing
-                    , label = Nothing
-                    , alt = "See previous problem"
-                    , onClick = if hasPrevious problems then Just config.onPrevious else Nothing
-                    }
-                , Navigation.iconButton []
-                    { icon = I.chevronRight
-                    , iconColor = Nothing
-                    , label = Nothing
-                    , alt = "See next problem"
-                    , onClick = if hasNext problems then Just config.onNext else Nothing
-                    }
-                , Navigation.iconButton []
-                    { icon = I.minimize2
-                    , iconColor = Nothing
-                    , label = Nothing
-                    , alt = "Minimize problem view"
-                    , onClick = Just config.onMinimize
-                    }
+                , viewPreviousButton config.onPrevious problems
+                , viewNextButton config.onNext problems
+                , viewMinimize config.onMinimize
                 ]
             ]
         , viewBody focused.message
@@ -72,22 +54,47 @@ viewCarouselMini config problems =
     [ viewLocation config.onJump focused.location
     , a [ onClick config.onMinimize ] [ text (getSummary focused) ]
     , nav []
-        [ Navigation.iconButton []
-            { icon = I.chevronLeft
-            , iconColor = Nothing
-            , label = Nothing
-            , alt = "See previous problem"
-            , onClick = if hasPrevious problems then Just config.onPrevious else Nothing
-            }
-        , Navigation.iconButton []
-            { icon = I.chevronRight
-            , iconColor = Nothing
-            , label = Nothing
-            , alt = "See next problem"
-            , onClick = if hasNext problems then Just config.onNext else Nothing
-            }
+        [ viewPreviousButton config.onPrevious problems
+        , viewNextButton config.onNext problems
         ]
     ]
+
+
+viewPreviousButton : msg -> Problems -> Html msg
+viewPreviousButton onPrevious problems =
+  Navigation.iconButton []
+    { icon = I.chevronLeft
+    , iconColor = Nothing
+    , label = Nothing
+    , alt = "See previous problem"
+    , onClick = if hasPrevious problems then Just onPrevious else Nothing
+    }
+
+
+viewNextButton : msg -> Problems -> Html msg
+viewNextButton onNext problems =
+  Navigation.iconButton []
+    { icon = I.chevronRight
+    , iconColor = Nothing
+    , label = Nothing
+    , alt = "See next problem"
+    , onClick = if hasNext problems then Just onNext else Nothing
+    }
+
+
+viewMinimize : msg -> Html msg
+viewMinimize onMinimize =
+  Navigation.iconButton []
+    { icon = I.minimize2
+    , iconColor = Nothing
+    , label = Nothing
+    , alt = "Minimize problem view"
+    , onClick = Just onMinimize
+    }
+
+
+
+-- AS LIST
 
 
 viewList : (Error.Region -> msg) -> Problems -> Html msg
@@ -103,6 +110,10 @@ viewList onJumpToProblem problems =
           ]
   in
   div [ id "errors" ] (List.map viewProblem (getAll problems))
+
+
+
+-- PARTS
 
 
 viewContainer : List (Html msg) -> Html msg
