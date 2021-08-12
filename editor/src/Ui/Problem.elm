@@ -32,7 +32,8 @@ viewCarousel config problems =
     [ viewContainer
         [ viewHeader
             [ viewTitle focused.title
-            , nav []
+            , nav
+                [ id "errors-nav" ]
                 [ viewLocation config.onJump focused.location
                 , viewPreviousButton (config.onPrevious Nothing) problems
                 , viewNextButton (config.onNext Nothing) problems
@@ -49,18 +50,28 @@ viewCarouselMini config problems =
   let focused =
         getFocused problems
 
-      region =
+      previousRegion =
+        Maybe.andThen getRegion (getPrevious problems)
+
+      nextRegion =
+        Maybe.andThen getRegion (getNext problems)
+
+      viewLocationMini =
         case focused.location of
-          General _ -> Nothing
-          Specific specific -> Just specific.region
+          General _ ->
+            text ""
+
+          Specific specific ->
+            a [ class "error-region", onClick (config.onJump specific.region) ]
+              [ text (String.fromInt specific.region.start.line ++ "| ") ]
   in
   div
     [ id "errors-mini" ]
-    [ viewLocation config.onJump focused.location
+    [ viewLocationMini
     , a [ onClick config.onMinimize ] [ text (getSummary focused) ]
-    , nav []
-        [ viewPreviousButton (config.onPrevious region) problems
-        , viewNextButton (config.onNext region) problems
+    , nav [ id "errors-nav" ]
+        [ viewPreviousButton (config.onPrevious previousRegion) problems
+        , viewNextButton (config.onNext nextRegion) problems
         ]
     ]
 
@@ -145,7 +156,7 @@ viewLocation onJumpToProblem location =
 viewRegion : (Error.Region -> msg) -> String -> Error.Region -> Html msg
 viewRegion onJumpToProblem name region =
   a [ class "error-region", onClick (onJumpToProblem region) ]
-    [ text (name ++ ":" ++ String.fromInt region.start.line) ]
+    [ text "Jump to problem" ]
 
 
 viewModuleName : Maybe String -> Html msg

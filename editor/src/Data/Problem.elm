@@ -62,6 +62,13 @@ toIndexedProblems errors =
         |> Tuple.second
 
 
+getRegion : Problem -> Maybe Error.Region
+getRegion problem =
+  case problem.location of
+    General _ -> Nothing
+    Specific specific -> Just specific.region
+
+
 
 -- MANY
 
@@ -85,6 +92,20 @@ getAll ( prev, curr, next ) =
 getFocused : Problems -> Problem
 getFocused ( _, current, _ ) =
   current
+
+
+getPrevious : Problems -> Maybe Problem
+getPrevious ( prev, _, _ ) =
+  case prev of
+    first :: _ -> Just first
+    [] -> Nothing
+
+
+getNext : Problems -> Maybe Problem
+getNext ( _, _, next ) =
+  case next of
+    first :: _ -> Just first
+    [] -> Nothing
 
 
 hasPrevious : Problems -> Bool
@@ -117,34 +138,38 @@ focusPrevious pbs =
 
 getSummary : Problem -> String
 getSummary problem =
-  case problem.message of
-      [] ->
-        ""
+  let plainText = getPlainText problem
+      firstLine = List.head (String.split "\n\n" plainText)
+      firstColon = List.head (String.split ":" plainText)
+  in
+  case ( firstLine, firstColon ) of
+    ( Just firstLine_, Just firstColon_ ) ->
+      if String.length firstLine_ > String.length firstColon_ then firstColon_ else firstLine_
 
-      chunk :: others ->
-        let getFirstLine str =
-              let firstLine = List.head (String.split "\n" str)
-                  firstColon = List.head (String.split ":" str)
-              in
-              case ( firstLine, firstColon ) of
-                ( Just firstLine_, Just firstColon_ ) ->
-                  if String.length firstLine_ > String.length firstColon_ then firstColon_ else firstLine_
+    ( Just firstLine_, Nothing ) ->
+      firstLine_
 
-                ( Just firstLine_, Nothing ) ->
-                  firstLine_
+    ( Nothing, Just firstColon_ ) ->
+      firstColon_
 
-                ( Nothing, Just firstColon_ ) ->
-                  firstColon_
-
-                ( Nothing, Nothing ) ->
-                  "Click to see full error message!"
-        in
-        case chunk of
-          Error.Unstyled string ->
-            getFirstLine string
-
-          Error.Styled style string ->
-            getFirstLine string -- TODO
+    ( Nothing, Nothing ) ->
+      "Click to see full error message!"
 
 
+getPlainText : Problem -> String
+getPlainText problem =
+  let toPlain chunks =
+        case chunks of
+          [] ->
+            ""
+
+          chunk :: rest ->
+            case chunk of
+              Error.Unstyled string ->
+                string ++ toPlain rest
+
+              Error.Styled _ string ->
+                string ++ toPlain rest
+  in
+  toPlain problem.message
 

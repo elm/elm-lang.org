@@ -83,11 +83,13 @@ a:hover {
 #errors-mini {
   display: flex;
   margin-left: 10px;
+  font-size: 13px;
 }
 
 #popup #errors {
   width: auto;
   max-width: 700px;
+  padding-bottom: 0;
 }
 
 .theme-dark #errors {
@@ -98,6 +100,11 @@ a:hover {
 #errors nav {
   background: inherit;
   z-index: 1;
+  margin-right: 10px;
+}
+
+#errors-mini nav {
+  margin-left: 5px;
   margin-right: 10px;
 }
 
@@ -129,8 +136,25 @@ a:hover {
   top: 10px;
 }
 
+#popup #errors .error-header:before {
+  display: none;
+}
+
 .theme-dark #errors .error-header:before {
   background: #373d3e;
+}
+
+#errors-mini #errors-nav button {
+  padding: 0 5px;
+}
+
+#popup #errors-nav {
+  margin: 0;
+}
+
+#popup #errors-nav button {
+  padding-right: 0;
+  padding-left: 15px;
 }
 
 #errors .error-title {
@@ -141,10 +165,23 @@ a:hover {
   padding: 0 10px;
 }
 
+#popup .error-title {
+  margin-left: 0px;
+  padding: 0;
+}
+
 .error-region {
   background: inherit;
   z-index: 1;
   padding: 0 10px;
+}
+
+#popup .error-region {
+  padding: 0;
+}
+
+#errors-mini .error-region {
+  color: #75715e;
 }
 
 #errors .error-body {

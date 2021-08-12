@@ -28,12 +28,8 @@ import Ui.Editor
 
 -- TODO
 -- Clean up styles
--- Make sure mini errors goes away when pane is moved in
--- Make state more exact
--- Make deps hints work again
 -- See if hints can be optimized futher
 -- add window resizing
--- fix current problem on recompile
 
 
 
