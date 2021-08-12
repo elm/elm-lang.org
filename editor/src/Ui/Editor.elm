@@ -16,12 +16,14 @@ import Http
 import Json.Encode as E
 import Json.Decode as D
 import Elm.Error as Error exposing (Region)
+import FeatherIcons as I
 
 import Data.Deps as Deps
 import Data.Header as Header
 import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
+import Ui.Navigation as Navigation
 
 
 
@@ -253,12 +255,13 @@ viewHint_ token table =
           text ""
 
         Hint.Specific hint ->
-          div
-            [ class "hint" ]
-            [ span [ style "margin-right" "20px" ] [ text "·" ]
-            , text "Hint: "
-            , a [ href hint.href, target "_blank" ] [ text hint.text ]
-            ]
+          Navigation.iconLink []
+            { icon = I.helpCircle
+            , iconColor = Nothing
+            , label = Just hint.text
+            , alt = "Read more about " ++ hint.text
+            , link = hint.href
+            }
 
     Nothing ->
       text ""

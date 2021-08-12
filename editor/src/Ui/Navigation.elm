@@ -2,6 +2,7 @@ module Ui.Navigation exposing
   ( Navigation, view
   , elmLogo, toggleOpen, lights, compilation, share, deploy, toggleSplit
   , IconButton, iconButton
+  , IconLink, iconLink
   )
 
 {-| The navigation bar.
@@ -229,3 +230,38 @@ labelButton attrs config =
       , onClick config.onClick
       ])
     [ text config.label ]
+
+
+
+-- LINK / GENERAL
+
+
+type alias IconLink =
+  { icon : I.Icon
+  , iconColor : Maybe String
+  , label : Maybe String
+  , alt : String
+  , link : String
+  }
+
+
+iconLink : List (Attribute msg) -> IconLink -> Html msg
+iconLink attrs config =
+  let viewIcon =
+        config.icon
+          |> I.withSize 14
+          |> I.withClass ("icon " ++ Maybe.withDefault "" config.iconColor)
+          |> I.toHtml []
+  in
+  a
+    (attrs ++
+      [ attribute "aria-label" config.alt
+      , class "navigation-button"
+      , target "_blank"
+      , href config.link
+      ])
+    [ viewIcon
+    , case config.label of
+        Just label -> span [] [ text label ]
+        Nothing -> text ""
+    ]
