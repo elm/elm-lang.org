@@ -331,7 +331,7 @@ a:hover {
 }
 
 .magenta {
-  color: #dd25ce;
+  color: #ed25b0;
 }
 
 .yellow {
@@ -452,7 +452,7 @@ a:hover {
 
 .cm-s-light span.cm-comment { color: #75715e; }
 .cm-s-light span.cm-atom { color: #ae81ff; }
-.cm-s-light span.cm-number { color: #dd25ce; }
+.cm-s-light span.cm-number { color: #ed25b0; }
 
 .cm-s-light span.cm-comment.cm-attribute { color: #97b757; }
 .cm-s-light span.cm-comment.cm-def { color: #045ca4; }
@@ -463,7 +463,7 @@ a:hover {
 .cm-s-light span.cm-attribute { color: #a6e22e; }
 .cm-s-light span.cm-keyword { color: #058eda; }
 .cm-s-light span.cm-builtin { color: #045ca4; }
-.cm-s-light span.cm-string { color: #dd25ce; }
+.cm-s-light span.cm-string { color: #ed25b0; }
 
 .cm-s-light span.cm-variable { color: #555555; }
 .cm-s-light span.cm-variable-2 { color: #d7670a; }
