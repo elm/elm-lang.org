@@ -41,6 +41,7 @@
             return;
           }
 
+          this._pixels = e.pageX;
           sendDownEvent();
           this._isClick = true;
           document.body.addEventListener('mouseup', dividerUp);
