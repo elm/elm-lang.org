@@ -49,6 +49,10 @@
         });
 
         this.addEventListener('mousedown', function(e) {
+          if (e.buttons === 2) { // is right click
+            return;
+          }
+
           sendDownEvent();
           this._isClick = true;
           document.body.addEventListener('mouseup', dividerUp);
