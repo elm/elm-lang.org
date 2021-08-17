@@ -30,7 +30,6 @@ import Ui.Editor
 -- TODO
 -- Clean up styles
 -- See if hints can be optimized futher
--- add window resizing
 -- remove localhost statics
 -- mobile view
 
