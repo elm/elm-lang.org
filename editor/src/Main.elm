@@ -32,6 +32,7 @@ import Ui.Editor
 -- See if hints can be optimized futher
 -- remove localhost statics
 -- mobile view
+-- check browser comp
 
 
 

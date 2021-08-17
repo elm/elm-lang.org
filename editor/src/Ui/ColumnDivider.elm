@@ -63,7 +63,7 @@ jump window percent =
 
 isSignificant : Float -> Float -> Bool
 isSignificant initial latest =
-  abs (initial - latest) < 4
+  abs (initial - latest) > 4
 
 
 isMoving : Model -> Bool
@@ -95,7 +95,7 @@ init window =
 
 
 type Msg
-  = OnDown
+  = OnDown Float
   | OnMove Float
   | OnUp Float
   | OnClick
@@ -105,18 +105,18 @@ type Msg
 update : Window -> Msg -> Model -> Model
 update window msg model =
   case msg of
-    OnDown ->
-      { model | movement = Moving (fromPercentage window model.percent) False }
+    OnDown initial ->
+      { model | movement = Moving initial False }
 
     OnMove latest ->
       case model.movement of
-        Moving initial True ->
-          { model | percent = clamp window latest }
-
         Moving initial False ->
           if isSignificant initial latest
-          then { model | percent = clamp window latest }
-          else { model | percent = clamp window latest, movement = Moving initial True }
+          then { model | percent = clamp window latest, movement = Moving initial True }
+          else { model | percent = clamp window latest }
+
+        Moving _ True ->
+          { model | percent = clamp window latest }
 
         None ->
           { model | percent = clamp window latest }
@@ -181,7 +181,7 @@ viewRight window model =
 viewDivider : Window -> Model -> Html Msg
 viewDivider window model =
   node "column-divider"
-    [ on "down" (D.succeed OnDown)
+    [ on "down" (D.map OnDown decodePixels)
     , on "move" (D.map OnMove decodePixels)
     , on "up" (D.map OnUp decodePixels)
     , on "_click" (D.succeed OnClick)
