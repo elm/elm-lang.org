@@ -18,7 +18,7 @@ import Data.Window exposing (Window)
 
 
 type alias Model =
-  { current : Float
+  { percent : Float
   , movement : Movement
   }
 
@@ -30,40 +30,40 @@ type Movement
 
 isUpperLimit : Window -> Model -> Bool
 isUpperLimit window model =
-  model.current >= upperLimit window
+  model.percent >= upperLimit window
 
 
-lowerLimit : Float
-lowerLimit =
-  35
+lowerLimit :  Window -> Float
+lowerLimit window =
+  toPercentage window 35
 
 
 upperLimit : Window -> Float
 upperLimit window =
-  window.width - lowerLimit
+  100 - lowerLimit window
 
 
-halfPoint : Window -> Float
-halfPoint window =
-  window.width / 2
+halfPoint : Float
+halfPoint =
+  50
 
 
 clamp : Window -> Float -> Float
 clamp window =
-  Basics.max lowerLimit >> Basics.min (upperLimit window)
+  toPercentage window >> Basics.max (lowerLimit window) >> Basics.min (upperLimit window)
 
 
 jump : Window -> Float -> Float
-jump window current =
-  if current <= lowerLimit then upperLimit window
-  else if current >= upperLimit window then halfPoint window
-  else if current > halfPoint window then upperLimit window
-  else lowerLimit
+jump window percent =
+  if percent <= lowerLimit window then upperLimit window
+  else if percent >= upperLimit window then halfPoint
+  else if percent > halfPoint then upperLimit window
+  else lowerLimit window
 
 
 isSignificant : Float -> Float -> Bool
-isSignificant initial current =
-  abs (initial - current) < 4
+isSignificant initial latest =
+  abs (initial - latest) < 4
 
 
 isMoving : Model -> Bool
@@ -73,13 +73,23 @@ isMoving model =
     None -> False
 
 
+toPercentage : Window -> Float -> Float
+toPercentage window percent =
+  percent * 100 / toFloat window.width
+
+
+fromPercentage : Window -> Float -> Float
+fromPercentage window percent =
+  percent * toFloat window.width / 100
+
+
 
 -- INIT
 
 
 init : Window -> Model
 init window =
-  { current = window.width / 2
+  { percent = 50
   , movement = None
   }
 
@@ -96,38 +106,38 @@ update : Window -> Msg -> Model -> Model
 update window msg model =
   case msg of
     OnDown ->
-      { model | movement = Moving model.current False }
+      { model | movement = Moving model.percent False }
 
     OnMove latest ->
       case model.movement of
         Moving initial True ->
-          { model | current = clamp window latest }
+          { model | percent = clamp window latest }
 
         Moving initial False ->
           if isSignificant initial latest
-          then { model | current = clamp window latest }
-          else { model | current = clamp window latest, movement = Moving initial True }
+          then { model | percent = clamp window latest }
+          else { model | percent = clamp window latest, movement = Moving initial True }
 
         None ->
-          { model | current = clamp window latest }
+          { model | percent = clamp window latest }
 
     OnUp latest ->
       case model.movement of
         Moving _ True ->
-          { model | movement = None, current = clamp window latest }
+          { model | movement = None, percent = clamp window latest }
 
         Moving initial False ->
-          { model | movement = None, current = jump window initial }
+          { model | movement = None, percent = jump window (toPercentage window initial) }
 
         None ->
-          { model | movement = None, current = jump window model.current }
+          { model | movement = None, percent = jump window model.percent }
 
     OnClick ->
-      { model | movement = None, current = jump window model.current }
+      { model | movement = None, percent = jump window model.percent }
 
     OnClickLeft ->
-      if model.current <= lowerLimit then
-        { model | current = upperLimit window }
+      if model.percent <= lowerLimit window then
+        { model | percent = upperLimit window }
       else
         model
 
@@ -150,7 +160,7 @@ viewLeft onMsg window model =
   div
     [ id "left-side"
     , onClick (onMsg OnClickLeft)
-    , style "width" (String.fromFloat model.current ++ "px")
+    , style "width" (String.fromFloat model.percent ++ "%")
     , style "pointer-events" (if isMoving model then "none" else "auto")
     , style "user-select" (if isMoving model then "none" else "auto")
     , style "transition" (if isMoving model then "none" else "width 0.5s")
@@ -161,7 +171,7 @@ viewRight : Window -> Model -> List (Html msg) -> Html msg
 viewRight window model =
   div
     [ id "right-side"
-    , style "width" (String.fromFloat (window.width - model.current) ++ "px")
+    , style "width" (String.fromFloat (100 - model.percent) ++ "%")
     , style "pointer-events" (if isMoving model then "none" else "auto")
     , style "user-select" (if isMoving model then "none" else "auto")
     , style "transition" (if isMoving model then "none" else "width 0.5s")
@@ -175,9 +185,9 @@ viewDivider window model =
     , on "move" (D.map OnMove decodePixels)
     , on "up" (D.map OnUp decodePixels)
     , on "_click" (D.succeed OnClick)
-    , property "pixels" (E.float model.current)
+    , property "pixels" (E.float (fromPercentage window model.percent))
     , style "width" (if isUpperLimit window model then "40px" else "10px")
-    , style "left" (String.fromFloat model.current ++ "px")
+    , style "left" (String.fromFloat model.percent ++ "%")
     ]
     []
 

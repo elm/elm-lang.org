@@ -2,6 +2,7 @@ module Main exposing (main)
 
 
 import Browser
+import Browser.Events
 import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -67,7 +68,7 @@ type alias Model =
 -- INIT
 
 
-init : { original : String, name : String, width : Float, height : Float } -> ( Model, Cmd Msg )
+init : { original : String, name : String, width : Int, height : Int } -> ( Model, Cmd Msg )
 init flags =
   let ( editor, editorCmd ) =
         Ui.Editor.init flags.original
@@ -101,6 +102,7 @@ type Msg
   | OnMinimizeProblem Bool
   | OnToggleLights
   | OnToggleMenu
+  | OnWindowSize Int Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -143,6 +145,9 @@ update msg model =
     OnToggleMenu ->
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
+    OnWindowSize width height ->
+      ( { model | window = { width = width, height = height } }, Cmd.none )
+
 
 jumpToRegion : Error.Region -> Model -> Model
 jumpToRegion region model =
@@ -155,8 +160,11 @@ jumpToRegion region model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Ui.Editor.subscriptions model.editor
-    |> Sub.map OnEditorMsg
+  Sub.batch
+    [ Ui.Editor.subscriptions model.editor
+        |> Sub.map OnEditorMsg
+    , Browser.Events.onResize OnWindowSize
+    ]
 
 
 
