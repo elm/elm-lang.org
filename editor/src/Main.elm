@@ -29,7 +29,6 @@ import Ui.Editor
 
 -- TODO
 -- Clean up styles
--- See if hints can be optimized futher
 -- remove localhost statics
 -- check browser comp
 

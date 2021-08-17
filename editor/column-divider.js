@@ -1,17 +1,5 @@
 (function() {
 
-  const debounce = func => {
-    let token;
-    return function() {
-      const later = () => {
-        token = null;
-        func.apply(null, arguments);
-      };
-      cancelIdleCallback(token);
-      token = requestIdleCallback(later);
-    };
-  };
-
   class ColumnDivider extends HTMLElement {
       constructor() {
         super();
@@ -32,21 +20,21 @@
       _init() {
         this.setAttribute('id', 'divider');
 
-        const sendDownEvent = debounce(() => {
+        const sendDownEvent = (() => {
           this.dispatchEvent(new Event('down'));
-        });
+        }).bind(this);
 
-        const sendMoveEvent = debounce(() => {
+        const sendMoveEvent = (() => {
           this.dispatchEvent(new Event('move'));
-        });
+        }).bind(this);
 
-        const sendUpEvent = debounce(() => {
+        const sendUpEvent = (() => {
           this.dispatchEvent(new Event('up'));
-        });
+        }).bind(this);
 
-        const sendClickEvent = debounce(() => {
+        const sendClickEvent = (() => {
           this.dispatchEvent(new Event('_click'));
-        });
+        }).bind(this);
 
         this.addEventListener('mousedown', function(e) {
           if (e.buttons === 2) { // is right click
