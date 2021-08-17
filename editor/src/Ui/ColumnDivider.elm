@@ -106,7 +106,7 @@ update : Window -> Msg -> Model -> Model
 update window msg model =
   case msg of
     OnDown ->
-      { model | movement = Moving model.percent False }
+      { model | movement = Moving (fromPercentage window model.percent) False }
 
     OnMove latest ->
       case model.movement of
