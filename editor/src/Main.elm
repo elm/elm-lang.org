@@ -31,7 +31,6 @@ import Ui.Editor
 -- Clean up styles
 -- See if hints can be optimized futher
 -- remove localhost statics
--- mobile view
 -- check browser comp
 
 
@@ -186,6 +185,7 @@ view model =
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
         [ Ui.Editor.viewEditor model.isLight model.editor
             |> Html.map OnEditorMsg
+
         , case Status.getProblems model.status of
             Just problems ->
               div
@@ -200,15 +200,8 @@ view model =
                 [ if model.areProblemsMini then
                     text ""
                   else
-                    Ui.Problem.viewCarousel
-                        { onJump = OnJumpToProblem
-                        , onPrevious = OnPreviousProblem
-                        , onNext = OnNextProblem
-                        , onMinimize = OnMinimizeProblem True
-                        }
-                        problems
+                    lazy viewProblemPopup problems
                 ]
-
             Nothing ->
               text ""
         , viewNavigation model
@@ -218,10 +211,11 @@ view model =
               if Ui.ColumnDivider.isUpperLimit model.window model.divider then
                 text ""
               else
-                Ui.Problem.viewList OnJumpToProblem problems
+                lazy viewProblemList problems
 
             Nothing ->
               text ""
+
         , iframe
             [ id "output"
             , name "output"
@@ -233,7 +227,6 @@ view model =
             []
         ]
     ]
-
 
 
 -- NAVIGATION
@@ -255,18 +248,41 @@ viewNavigation model =
               if not model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
                 text ""
               else
-                Ui.Problem.viewCarouselMini
-                    { onJump = OnJumpToProblem
-                    , onPrevious = OnPreviousProblem
-                    , onNext = OnNextProblem
-                    , onMinimize = OnMinimizeProblem False
-                    }
-                    problems
+                lazy viewProblemMini problems
 
             Nothing ->
               text ""
         , Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
         ]
     }
+
+
+-- PROBLEMS
+
+
+viewProblemPopup : Problem.Problems -> Html Msg
+viewProblemPopup =
+  Ui.Problem.viewCarousel
+    { onJump = OnJumpToProblem
+    , onPrevious = OnPreviousProblem
+    , onNext = OnNextProblem
+    , onMinimize = OnMinimizeProblem True
+    }
+
+
+viewProblemMini : Problem.Problems -> Html Msg
+viewProblemMini =
+  Ui.Problem.viewCarouselMini
+    { onJump = OnJumpToProblem
+    , onPrevious = OnPreviousProblem
+    , onNext = OnNextProblem
+    , onMinimize = OnMinimizeProblem False
+    }
+
+
+viewProblemList :  Problem.Problems -> Html Msg
+viewProblemList =
+  Ui.Problem.viewList OnJumpToProblem
+
 
 

@@ -56,9 +56,9 @@
         this.dispatchEvent(new Event('save'));
       });
 
-      const sendHintEvent = debounce(() => {
+      const sendHintEvent = (function() {
         this.dispatchEvent(new Event('hint'));
-      });
+      }).bind(this);
 
       this._editor = CodeMirror(this, {
         lineNumbers: true,
@@ -86,8 +86,11 @@
       });
 
       this._editor.on('changes', sendChangeEvent);
-      this._editor.on('cursorActivity', sendHintEvent);
       this._editor.focus();
+      requestIdleCallback((() =>
+        // Make sure Elm is ready to receive messages.
+        this._editor.on('cursorActivity', sendHintEvent)
+      ).bind(this));
 
       this._updateSource();
       this._updateCursor();
