@@ -6,6 +6,7 @@
   --light-theme-green: #44c948;
   --light-theme-orange: #d7670a;
   --light-theme-pink: #f867bb;
+  --light-theme-yellow: #cf9d02;
   --light-theme-gray: #75715e;
   --light-theme-gray-2: #aaaaaa;
   --light-theme-gray-3: #C8C8C8;
@@ -474,11 +475,10 @@ a:hover {
 .cm-s-light span.cm-keyword { color: var(--light-theme-blue); }
 .cm-s-light span.cm-builtin { color: var(--light-theme-blue-2); }
 .cm-s-light span.cm-string  { color: var(--light-theme-pink); }
-.cm-s-light span.cm-number  { color: var(--light-theme-pink); }
+.cm-s-light span.cm-number  { color: var(--light-theme-yellow); }
 
 .cm-s-light span.cm-variable   { color: var(--light-theme-gray-4); }
 .cm-s-light span.cm-variable-2 { color: var(--light-theme-orange); }
-.cm-s-light span.cm-variable-3 { color: var(--light-theme-orange); }
 .cm-s-light span.cm-def        { color: var(--light-theme-blue-2); }
 .cm-s-light span.cm-tag        { color: var(--light-theme-blue); }
 .cm-s-light span.cm-error      { color: white; background: var(--light-theme-blue);  }
