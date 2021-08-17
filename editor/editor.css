@@ -84,6 +84,7 @@ a:hover {
   display: flex;
   margin-left: 10px;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 #popup #errors {
@@ -230,7 +231,8 @@ a:hover {
 #navigation {
   width: 100%;
   max-height: 30px;
-  min-width: max-content;
+  min-width: 100%;
+  overflow-x: auto;
   border-top: 1px solid #E6E6E6;
   background-color: white;
   color: #464646;
@@ -279,6 +281,7 @@ a:hover {
   text-align: center;
   position: relative;
   color: inherit;
+  white-space: nowrap;
 }
 
 .navigation-button:disabled {

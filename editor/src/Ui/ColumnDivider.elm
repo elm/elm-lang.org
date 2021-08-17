@@ -126,8 +126,8 @@ update window msg model =
         Moving _ True ->
           { model | movement = None, percent = clamp window latest }
 
-        Moving initial False ->
-          { model | movement = None, percent = jump window (toPercentage window initial) }
+        Moving _ False ->
+          { model | movement = None, percent = jump window model.percent }
 
         None ->
           { model | movement = None, percent = jump window model.percent }
