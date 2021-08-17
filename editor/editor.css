@@ -2,12 +2,14 @@
   --light-theme-blue: #058eda;
   --light-theme-blue-2: #045ca4;
   --light-theme-blue-3: #eff6ff;
+  --light-theme-turquoise: #14bbb7;
   --light-theme-green: #44c948;
-  --light-theme-orange: #66d9ef;
-  --light-theme-pink: #ed25b0;
+  --light-theme-orange: #d7670a;
+  --light-theme-pink: #f867bb;
   --light-theme-gray: #75715e;
   --light-theme-gray-2: #aaaaaa;
   --light-theme-gray-3: #C8C8C8;
+  --light-theme-gray-4: #555555;
 }
 
 html, head, body {
@@ -454,44 +456,29 @@ a:hover {
 
 /**** LIGHT MODE ****/
 
-.cm-s-light.CodeMirror { background: #fff; color: var(--light-theme-gray-3); }
+.cm-s-light.CodeMirror { background: white; color: var(--light-theme-gray-3); }
 
 /* gutters */
 
-.cm-s-light .CodeMirror-gutters             { background: #fff; border-right: 0px; }
+.cm-s-light .CodeMirror-gutters             { background: white; border-right: 0px; }
 .cm-s-light .CodeMirror-guttermarker        { color: white; }
 .cm-s-light .CodeMirror-guttermarker-subtle { color: var(--light-theme-gray-2); }
 .cm-s-light .CodeMirror-linenumber          { color: var(--light-theme-gray-2); }
-
-.cm-s-light .CodeMirror-activeline-background                           { background: var(--light-theme-blue-3); }
-.cm-s-light .CodeMirror-gutter-background.CodeMirror-activeline-gutter  { background: var(--light-theme-blue-3); }
+.cm-s-light .CodeMirror-activeline-gutter   { background: var(--light-theme-blue-3); }
 
 /* code */
 
-.cm-s-light span.cm-comment { color: var(--light-theme-gray); }
-.cm-s-light span.cm-atom    { color: #ae81ff; }
+.cm-s-light span.cm-comment        { color: var(--light-theme-gray); }
+.cm-s-light span.cm-comment.cm-def { color: var(--light-theme-blue-2); }
+
+.cm-s-light span.cm-keyword { color: var(--light-theme-blue); }
+.cm-s-light span.cm-builtin { color: var(--light-theme-blue-2); }
+.cm-s-light span.cm-string  { color: var(--light-theme-pink); }
 .cm-s-light span.cm-number  { color: var(--light-theme-pink); }
 
-.cm-s-light span.cm-comment.cm-attribute  { color: #97b757; }
-.cm-s-light span.cm-comment.cm-def        { color: var(--light-theme-blue-2); }
-.cm-s-light span.cm-comment.cm-tag        { color: #bc6283; }
-.cm-s-light span.cm-comment.cm-type       { color: #5998a6; }
-
-.cm-s-light span.cm-property  { color: #a6e22e; }
-.cm-s-light span.cm-attribute { color: #a6e22e; }
-.cm-s-light span.cm-keyword   { color: var(--light-theme-blue); }
-.cm-s-light span.cm-builtin   { color: var(--light-theme-blue-2); }
-.cm-s-light span.cm-string    { color: var(--light-theme-pink); }
-
-.cm-s-light span.cm-variable    { color: #555555; }
-.cm-s-light span.cm-variable-2  { color: #d7670a; }
-.cm-s-light span.cm-variable-3  { color: var(--light-theme-orange); }
-.cm-s-light span.cm-type        { color: var(--light-theme-orange); }
-.cm-s-light span.cm-def         { color: var(--light-theme-blue-2); }
-.cm-s-light span.cm-bracket     { color: #000000; }
-.cm-s-light span.cm-tag         { color: var(--light-theme-blue); }
-.cm-s-light span.cm-header      { color: #ae81ff; }
-.cm-s-light span.cm-link        { color: #ae81ff; }
-.cm-s-light span.cm-error       { background: var(--light-theme-blue); color: #f8f8f0; }
-
-.cm-s-light .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
+.cm-s-light span.cm-variable   { color: var(--light-theme-gray-4); }
+.cm-s-light span.cm-variable-2 { color: var(--light-theme-orange); }
+.cm-s-light span.cm-variable-3 { color: var(--light-theme-orange); }
+.cm-s-light span.cm-def        { color: var(--light-theme-blue-2); }
+.cm-s-light span.cm-tag        { color: var(--light-theme-blue); }
+.cm-s-light span.cm-error      { color: white; background: var(--light-theme-blue);  }
