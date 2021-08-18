@@ -18,7 +18,7 @@
   --dark-theme-turquoise: #14bbb7;
   --dark-theme-green: #44c948;
   --dark-theme-orange: #d56c16;
-  --dark-theme-pink: #dd3d9a;
+  --dark-theme-pink: #ff69c1;
   --dark-theme-yellow: #cf9d02;
   --dark-theme-gray: #75715e;
   --dark-theme-gray-2: #5b5a5a;
@@ -416,7 +416,6 @@ a:hover {
 .CodeMirror-linenumber {
   padding: 1px 10px 0 5px;
 }
-
 
 /**** DARK MODE ****/
 
