@@ -4,6 +4,7 @@
   --light-theme-blue-3: #eff6ff;
   --light-theme-turquoise: #14bbb7;
   --light-theme-green: #44c948;
+  --light-theme-red: #d71f0a;
   --light-theme-orange: #d7670a;
   --light-theme-pink: #f867bb;
   --light-theme-yellow: #cf9d02;
@@ -365,7 +366,7 @@ a:hover {
 }
 
 .red {
-  color: rgb(215, 31, 10);
+  color:var(--light-theme-red);
 }
 
 .magenta {
@@ -377,7 +378,7 @@ a:hover {
 }
 
 .cyan {
-  color: #13d5d5;
+  color: var(--light-theme-turquoise);
 }
 
 .white {
