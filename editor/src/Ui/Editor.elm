@@ -92,7 +92,7 @@ init source =
 fetchDepsInfo : Cmd Msg
 fetchDepsInfo =
   Http.get
-    { url = "http://localhost:8000/compile/deps-info.json" -- TODO worker.elm-lang.org
+    { url = "https://worker.elm-lang.org/compile/deps-info.json"
     , expect = Http.expectJson GotDepsInfo Deps.decoder
     }
 

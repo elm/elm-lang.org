@@ -27,12 +27,6 @@ import Ui.ColumnDivider
 import Ui.Editor
 
 
--- TODO
--- remove localhost statics
--- check browser comp
-
-
-
 -- MAIN
 
 
