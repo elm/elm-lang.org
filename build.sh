@@ -57,6 +57,8 @@ function makeExampleHtml {
 <head>
   <meta charset="UTF-8">
   <title>$2 example | Elm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Try out Elm: A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>

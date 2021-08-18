@@ -1,5 +1,11 @@
 (function() {
 
+  const withTouchEvent = function(func) {
+    return function(e) {
+      return func(e.touches[0] || e.changedTouches[0]);
+    };
+  }
+
   class ColumnDivider extends HTMLElement {
       constructor() {
         super();
@@ -36,7 +42,7 @@
           this.dispatchEvent(new Event('_click'));
         }).bind(this);
 
-        this.addEventListener('mousedown', function(e) {
+        const dividerDown = (function(e) {
           if (e.buttons === 2) { // is right click
             return;
           }
@@ -47,7 +53,10 @@
           document.body.addEventListener('mouseup', dividerUp);
           document.body.addEventListener('mouseleave', dividerUp);
           document.body.addEventListener('mousemove', dividerMove);
-        });
+          document.body.addEventListener('touchend', dividerUpTouch);
+          document.body.addEventListener('touchcancel', dividerUpTouch);
+          document.body.addEventListener('touchmove', dividerMoveTouch);
+        }).bind(this);
 
         const dividerUp = (function(e) {
           this._pixels = e.pageX;
@@ -64,6 +73,9 @@
           document.body.removeEventListener('mouseup', dividerUp);
           document.body.removeEventListener('mouseleave', dividerUp);
           document.body.removeEventListener('mousemove', dividerMove);
+          document.body.removeEventListener('touchend', dividerUpTouch);
+          document.body.removeEventListener('touchcancel', dividerUpTouch);
+          document.body.removeEventListener('touchmove', dividerMoveTouch);
         }).bind(this);
 
         const dividerMove = (function(e) {
@@ -77,6 +89,12 @@
           this._pixels = e.pageX;
           sendMoveEvent();
         }).bind(this);
+
+        const dividerUpTouch = withTouchEvent(dividerUp);
+        const dividerMoveTouch = withTouchEvent(dividerMove);
+
+        this.addEventListener('mousedown', dividerDown);
+        this.addEventListener('touchstart', withTouchEvent(dividerDown));
       }
 
       get pixels() {
