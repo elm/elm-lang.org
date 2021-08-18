@@ -31,6 +31,7 @@ import Ui.Editor
 -- Clean up styles
 -- remove localhost statics
 -- check browser comp
+-- text overflow in menu
 
 
 
@@ -188,7 +189,7 @@ view model =
         , case Status.getProblems model.status of
             Just problems ->
               div
-                [ id "popup"
+                [ id "problems-carousel"
                 , if Ui.ColumnDivider.isUpperLimit model.window model.divider
                   then style "transform" "translateY(0)"
                   else style "transform" "translateY(100%)"

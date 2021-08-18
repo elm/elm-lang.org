@@ -1,6 +1,6 @@
 module Ui.Problem exposing (..)
 
-{-| The formatting of compilation errors.
+{-| The formatting of compilation problems.
 
 -}
 
@@ -28,12 +28,11 @@ viewCarousel config problems =
         getFocused problems
   in
   div
-    [ id "errors" ]
+    [ id "problems" ]
     [ viewContainer
         [ viewHeader
             [ viewTitle focused.title
-            , nav
-                [ id "errors-nav" ]
+            , viewNavigation
                 [ viewLocation config.onJump focused.location
                 , viewPreviousButton (config.onPrevious Nothing) problems
                 , viewNextButton (config.onNext Nothing) problems
@@ -62,14 +61,14 @@ viewCarouselMini config problems =
             text ""
 
           Specific specific ->
-            a [ class "error-region", onClick (config.onJump specific.region) ]
+            a [ class "problem-region", onClick (config.onJump specific.region) ]
               [ text (String.fromInt specific.region.start.line ++ "| ") ]
   in
   div
-    [ id "errors-mini" ]
+    [ id "problems-mini" ]
     [ viewLocationMini
     , a [ onClick config.onMinimize ] [ text (getSummary focused) ]
-    , nav [ id "errors-nav" ]
+    , viewNavigation
         [ viewPreviousButton (config.onPrevious previousRegion) problems
         , viewNextButton (config.onNext nextRegion) problems
         ]
@@ -119,12 +118,12 @@ viewList onJumpToProblem problems =
         viewContainer
           [ viewHeader
               [ viewTitle problem.title
-              , nav [] [ viewLocation onJumpToProblem problem.location ]
+              , viewNavigation [ viewLocation onJumpToProblem problem.location ]
               ]
           , viewBody problem.message
           ]
   in
-  div [ id "errors" ] (List.map viewProblem (getAll problems))
+  div [ id "problems" ] (List.map viewProblem (getAll problems))
 
 
 
@@ -133,17 +132,22 @@ viewList onJumpToProblem problems =
 
 viewContainer : List (Html msg) -> Html msg
 viewContainer =
-  div [ class "error-container" ]
+  div [ class "problem-container" ]
 
 
 viewHeader : List (Html msg) -> Html msg
 viewHeader =
-  div [ class "error-header" ]
+  div [ class "problem-header" ]
+
+
+viewNavigation : List (Html msg) -> Html msg
+viewNavigation =
+  nav [ class "problem-navigation" ]
 
 
 viewTitle : String -> Html msg
 viewTitle title =
-  div [ class "error-title"] [ text title ]
+  div [ class "problem-title"] [ text title ]
 
 
 viewLocation : (Error.Region -> msg) -> Location -> Html msg
@@ -155,18 +159,18 @@ viewLocation onJumpToProblem location =
 
 viewRegion : (Error.Region -> msg) -> String -> Error.Region -> Html msg
 viewRegion onJumpToProblem name region =
-  a [ class "error-region", onClick (onJumpToProblem region) ]
+  a [ class "problem-region", onClick (onJumpToProblem region) ]
     [ text "Jump to problem" ]
 
 
 viewModuleName : Maybe String -> Html msg
 viewModuleName name =
-  div [ class "error-region"] [ text (Maybe.withDefault "" name) ]
+  div [ class "problem-region"] [ text (Maybe.withDefault "" name) ]
 
 
 viewBody : List Error.Chunk -> Html msg
 viewBody =
-  div [ class "error-body" ] << viewChunks
+  div [ class "problem-body" ] << viewChunks
 
 
 viewChunks : List Error.Chunk -> List (Html msg)
@@ -191,8 +195,8 @@ viewChunks chunks =
 styleToClasses : Error.Style -> List (Attribute msg)
 styleToClasses { bold, underline, color } =
   [ classList
-      [ ( "error-bold", bold )
-      , ( "error-underline", underline )
+      [ ( "bold", bold )
+      , ( "underline", underline )
       , ( Maybe.map colorToClass color
             |> Maybe.withDefault ""
         , True

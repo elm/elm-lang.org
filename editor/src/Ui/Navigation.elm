@@ -31,14 +31,14 @@ type alias Navigation msg =
 view : Navigation msg -> Html msg
 view config =
   nav
-    [ id "navigation"
+    [ id "menu"
     , classList
         [ ( "open", config.isOpen )
         , ( "closed", not config.isOpen )
         ]
     ]
     [ section
-        [ id "topbar" ]
+        [ id "actions" ]
         [ aside [] config.left
         , aside [] config.right
         ]
@@ -52,14 +52,13 @@ view config =
 {-| -}
 elmLogo : Html msg
 elmLogo =
-  a [ href "/", class "icon-link" ]
+  a [ href "/", class "menu-link" ]
     [ svg
         [ SA.height "14"
         , SA.width "14"
         ]
         [ use [ SA.xlinkHref "#logo" ] []
         ]
-    --, span [] [ text "Elm" ]
     ]
 
 
@@ -203,7 +202,7 @@ iconButton attrs config =
   button
     (attrs ++
       [ attribute "aria-label" config.alt
-      , class "navigation-button"
+      , class "menu-button"
       , case config.onClick of
           Just msg -> onClick msg
           Nothing -> disabled True
@@ -256,7 +255,7 @@ iconLink attrs config =
   a
     (attrs ++
       [ attribute "aria-label" config.alt
-      , class "navigation-button"
+      , class "menu-button"
       , target "_blank"
       , href config.link
       ])
