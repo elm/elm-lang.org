@@ -50,7 +50,7 @@ EOF
 #   $4 = code
 #
 function makeExampleHtml {
-  cat <<EOF > $1
+    cat <<EOF > $1
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -62,66 +62,61 @@ function makeExampleHtml {
 </head>
 
 <body>
-<!-- ICONS -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </symbol>
-  <symbol id="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>
-    <line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-    <line x1="1" y1="12" x2="3" y2="12"/>
-    <line x1="21" y1="12" x2="23" y2="12"/>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-  </symbol>
-  <symbol id="refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="1 4 1 10 7 10"></polyline>
-    <polyline points="23 20 23 14 17 14"></polyline>
-    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
-  </symbol>
-  </symbol id="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18"></line>
-    <line x1="6" y1="6" x2="18" y2="18"></line>
-  </symbol>
-  <symbol id="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="18 15 12 9 6 15"/>
-  </symbol>
-  <symbol id="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="6 9 12 15 18 9"/>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <symbol id="logo" viewBox="-300 -300 600 600" fill="currentColor">
+    <g transform="scale(1 -1)">
+    <polygon points="-280,-90 0,190 280,-90" transform="translate(0 -210) rotate(0)"></polygon>
+      <polygon points="-280,-90 0,190 280,-90" transform="translate(-210 0) rotate(-90)"></polygon>
+      <polygon points="-198,-66 0,132 198,-66" transform="translate(207 207) rotate(-45)"></polygon>
+      <polygon points="-130,0 0,-130 130,0 0,130" transform="translate(150 0) rotate(0)"></polygon>
+      <polygon points="-191,61 69,61 191,-61 -69,-61" transform="translate(-89 239) rotate(0)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(0 106) rotate(-180)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(256 -150) rotate(-270)"></polygon>
+    </g>
   </symbol>
 </svg>
 
-<!-- NAVIGATION -->
-<nav id="navigation">
-  <section id="topbar">
-    <aside>
-      <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
-    </aside>
-    <aside>
-      <button alt="Switch the color scheme" onclick="lights()">
-        <svg class="icon"><use xlink:href="#sun"></svg>
-        <span>Lights</span>
-      </button>
-      <button alt="Compile your code (Ctrl-Enter)" onclick="compile()">
-        <svg class="icon blue"><use xlink:href="#refresh"></svg>
-        <span>Check changes</span>
-      </button>
-    </aside>
-  </section>
-</nav>
+<main id="main"></main>
+<textarea id="original" style="display:none;">$(cat $4)</textarea>
 
-<!-- EDITOR -->
-<form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
-  <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
-</form>
+<script src="/assets/editor-codemirror.js"></script>
+<script src="/assets/editor-custom-elements.js"></script>
+<script src="/assets/editor-elm.js"></script>
+<script>
+  window.addEventListener('load', function() {
+    var originalCode = document.getElementById('original').textContent;
+    main = Elm.Main.init({
+      node: document.getElementById('main'),
+      flags: {
+        name: "$3",
+        width: window.innerWidth,
+        height: window.innerHeight,
+        original: document.getElementById('original').textContent
+      }
+    });
 
-<!-- RESULT -->
-<div id="divider"></div>
-<iframe id="output" name="output" src="/examples/_compiled/$3.html"></iframe>
+    main.ports.submitSource.subscribe(function(source) {
+      var editorNode = document.getElementById('editor');
+      var codeNode = document.getElementById('code');
+      codeNode.value = source;
+      editorNode.submit();
+    });
 
-<script src="/assets/editor.js"></script>
+    window.addEventListener("message", gotErrors, false);
+
+    function gotErrors(event) {
+      // TODO if (event.origin !== "https://worker.elm-lang.org") return;
+      if (event.data == "SUCCESS") {
+        main.ports.gotSuccess.send(null);
+      } else {
+        var message = JSON.parse(event.data);
+        main.ports.gotErrors.send(message);
+      }
+    }
+
+  });
+</script>
+
 </body>
 
 </html>
@@ -141,6 +136,9 @@ if ! [ -x "$(command -v elm)" ]; then
 fi
 if ! [ -x "$(command -v uglifyjs)" ]; then
   npm install uglify-js
+fi
+if ! [ -x "$(command -v babel)" ]; then
+  npm install babel-cli babel-preset-es2015 babel-plugin-transform-custom-element-classes
 fi
 
 
@@ -182,12 +180,24 @@ done
 
 ## editor
 
-if ! [ -f _site/assets/editor.js ]; then
+if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.js ] || ! [ -f _site/assets/editor-custom-elements.js ]; then
   echo "EDITOR"
-  cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
+  # code mirror
+  cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
+
+  # custom elements
+  cat editor/code-editor.js editor/column-divider.js > editor/custom-elements.js
+  babel editor/custom-elements.js --presets es2015 --plugins transform-custom-element-classes --out-file editor/custom-elements-translated.js
+  cat editor/custom-elements-translated.js | uglifyjs -o _site/assets/editor-custom-elements.js
+  rm editor/custom-elements.js editor/custom-elements-translated.js
+
+  # styles
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
-  (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
-  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-hints.js
+
+  # elm
+  (cd editor ; elm make src/Main.elm --output=elm.js)
+  cat editor/elm.js > _site/assets/editor-elm.js
+  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
   rm editor/elm.js
 fi
 
