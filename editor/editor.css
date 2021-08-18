@@ -168,6 +168,7 @@ a:hover {
   position: relative;
   color: inherit;
   white-space: nowrap;
+  font-size: 13px;
 }
 
 .menu-button:disabled {
@@ -186,6 +187,7 @@ a:hover {
   padding: 0 10px;
   color: inherit;
   transition: color 0.25s;
+  font-size: 13px;
 }
 
 .menu-link:hover {

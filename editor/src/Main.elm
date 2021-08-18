@@ -28,10 +28,8 @@ import Ui.Editor
 
 
 -- TODO
--- Clean up styles
 -- remove localhost statics
 -- check browser comp
--- text overflow in menu
 
 
 
