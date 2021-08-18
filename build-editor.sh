@@ -43,7 +43,7 @@ function makeExampleHtml {
 <textarea id="original" style="display:none;">$(cat $4)</textarea>
 
 <script src="/assets/editor.js"></script>
-<script src="/assets/code-editor.js"></script>
+<script src="/assets/custom-elements.js"></script>
 <script src="/assets/editor-navigation.js"></script>
 <script>
   window.addEventListener('load', function() {
@@ -95,6 +95,10 @@ fi
 if ! [ -x "$(command -v uglifyjs)" ]; then
   npm install uglify-js
 fi
+if ! [ -x "$(command -v babel)" ]; then
+  npm install babel-cli babel-preset-es2015 babel-plugin-transform-custom-element-classes
+fi
+
 
 
 ## GENERATE HTML
@@ -111,12 +115,22 @@ cp -r static/* _site/
 
 # if ! [ -f _site/assets/editor.js ]; then
   echo "EDITOR"
+  # code mirror
   cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor.js
-  cat editor/code-editor.js editor/column-divider.js > _site/assets/code-editor.js
+
+  # custom elements
+  cat editor/code-editor.js editor/column-divider.js > editor/custom-elements.js
+  babel editor/custom-elements.js --presets es2015 --plugins transform-custom-element-classes --out-file editor/custom-elements-translated.js
+  cat editor/custom-elements-translated.js | uglifyjs -o _site/assets/custom-elements.js
+  rm editor/custom-elements.js editor/custom-elements-translated.js
+
+  # styles
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
+
+  # elm
   (cd editor ; elm make src/Main.elm --output=elm.js)
   cat editor/elm.js > _site/assets/editor-navigation.js
-  # uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-navigation.js
+  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-navigation.js
   rm editor/elm.js
 # fi
 
