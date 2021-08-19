@@ -2,7 +2,7 @@
 
   const withTouchEvent = function(func) {
     return function(e) {
-      return func(e.touches[0] || e.changedTouches[0]);
+      return func(e, e.touches[0] || e.changedTouches[0]);
     };
   }
 
@@ -42,12 +42,15 @@
           this.dispatchEvent(new Event('_click'));
         }).bind(this);
 
-        const dividerDown = (function(e) {
+        const dividerDown = (function(e, touch) {
+          e.stopPropagation();
+          e.preventDefault();
+          console.log('dividerDown', e.type);
           if (e.buttons === 2) { // is right click
             return;
           }
 
-          this._pixels = e.pageX;
+          this._pixels = e.pageX || touch.pageX;
           sendDownEvent();
           this._isClick = true;
           document.body.addEventListener('mouseup', dividerUp);
@@ -58,8 +61,9 @@
           document.body.addEventListener('touchmove', dividerMoveTouch);
         }).bind(this);
 
-        const dividerUp = (function(e) {
-          this._pixels = e.pageX;
+        const dividerUp = (function(e, touch) {
+          console.log('dividerUp', e.type);
+          this._pixels = e.pageX || touch.pageX;
 
           window.getSelection().empty();
           window.getSelection().removeAllRanges();
@@ -78,7 +82,7 @@
           document.body.removeEventListener('touchmove', dividerMoveTouch);
         }).bind(this);
 
-        const dividerMove = (function(e) {
+        const dividerMove = (function(e, touch) {
           this._isClick = false;
 
           if (e.buttons === 0) {
@@ -86,7 +90,7 @@
             return;
           }
 
-          this._pixels = e.pageX;
+          this._pixels = e.pageX || touch.pageX;
           sendMoveEvent();
         }).bind(this);
 
@@ -94,7 +98,7 @@
         const dividerMoveTouch = withTouchEvent(dividerMove);
 
         this.addEventListener('mousedown', dividerDown);
-        this.addEventListener('touchstart', withTouchEvent(dividerDown));
+        this.addEventListener('touchstart', withTouchEvent(dividerDown), true);
       }
 
       get pixels() {

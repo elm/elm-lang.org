@@ -9,7 +9,7 @@ Relies on column-divider.js being present.
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick, on, onMouseOver, onMouseLeave)
+import Html.Events exposing (onClick, on, preventDefaultOn)
 import Html.Lazy exposing (..)
 import Json.Encode as E
 import Json.Decode as D
@@ -25,7 +25,7 @@ type alias Model =
 
 type Movement
   = None
-  | Moving Float Bool
+  | Moving Float Float Bool
 
 
 isUpperLimit : Window -> Model -> Bool
@@ -69,7 +69,7 @@ isSignificant initial latest =
 isMoving : Model -> Bool
 isMoving model =
   case model.movement of
-    Moving _ _ -> True
+    Moving _ _ _ -> True
     None -> False
 
 
@@ -106,16 +106,16 @@ update : Window -> Msg -> Model -> Model
 update window msg model =
   case msg of
     OnDown initial ->
-      { model | movement = Moving initial False }
+      { model | movement = Moving model.percent initial False }
 
     OnMove latest ->
       case model.movement of
-        Moving initial False ->
+        Moving percent initial False ->
           if isSignificant initial latest
-          then { model | percent = toPercentage window latest, movement = Moving initial True }
+          then { model | percent = toPercentage window latest, movement = Moving percent initial True }
           else { model | percent = toPercentage window latest }
 
-        Moving _ True ->
+        Moving _ _ True ->
           { model | percent = toPercentage window latest }
 
         None ->
@@ -123,11 +123,11 @@ update window msg model =
 
     OnUp latest ->
       case model.movement of
-        Moving _ True ->
+        Moving _ _ True ->
           { model | movement = None, percent = toPercentage window latest }
 
-        Moving _ False ->
-          { model | movement = None, percent = jump window model.percent }
+        Moving percent _ False ->
+          { model | movement = None, percent = jump window percent }
 
         None ->
           { model | movement = None, percent = jump window model.percent }
@@ -136,10 +136,7 @@ update window msg model =
       { model | movement = None, percent = jump window model.percent }
 
     OnClickLeft ->
-      if model.percent <= lowerLimit window then
-        { model | percent = upperLimit window }
-      else
-        model
+      { model | percent = upperLimit window }
 
 
 view : (Msg -> msg) -> Window -> Model -> List (Html msg) -> List (Html msg) -> Html msg
@@ -160,14 +157,21 @@ view onMsg window model leftChildren rightChildren =
 
 viewLeft : (Msg -> msg) -> Window -> Model -> Float -> List (Html msg) -> Html msg
 viewLeft onMsg window model percent =
-  div
+  let events =
+        if percent <= lowerLimit window then
+          [ preventDefaultOn "touchend" (D.succeed ( onMsg OnClickLeft, True ))
+          , onClick (onMsg OnClickLeft)
+          ]
+        else
+          []
+  in
+  div <|
     [ id "left-side"
-    , onClick (onMsg OnClickLeft)
     , style "width" (String.fromFloat percent ++ "%")
     , style "pointer-events" (if isMoving model then "none" else "auto")
     , style "user-select" (if isMoving model then "none" else "auto")
     , style "transition" (if isMoving model then "none" else "width 0.5s")
-    ]
+    ] ++ events
 
 
 viewRight : Window -> Model -> Float -> List (Html msg) -> Html msg
