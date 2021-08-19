@@ -45,7 +45,6 @@
         const dividerDown = (function(e, touch) {
           e.stopPropagation();
           e.preventDefault();
-          console.log('dividerDown', e.type);
           if (e.buttons === 2) { // is right click
             return;
           }
@@ -62,7 +61,6 @@
         }).bind(this);
 
         const dividerUp = (function(e, touch) {
-          console.log('dividerUp', e.type);
           this._pixels = e.pageX || touch.pageX;
 
           window.getSelection().empty();
