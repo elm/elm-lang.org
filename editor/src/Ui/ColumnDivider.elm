@@ -40,7 +40,7 @@ lowerLimit window =
 
 upperLimit : Window -> Float
 upperLimit window =
-  100 - lowerLimit window
+  100 - toPercentage window (if window.width <= 1000 then 20 else 35)
 
 
 halfPoint : Float
