@@ -274,7 +274,7 @@ a:hover {
 
 #problems .problem-body {
   font-family: 'Courier Prime', monospace;
-  white-space: pre-wrap;
+  white-space: pre;
   margin-top: 20px;
 }
 
@@ -321,6 +321,7 @@ a:hover {
   z-index: 90;
   transition: transform 0.25s;
   max-height: calc(100% - 30px);
+  max-width: 100%;
   overflow: scroll;
 }
 
@@ -354,6 +355,11 @@ a:hover {
 
 #problems-carousel .problem-region {
   padding: 0;
+}
+
+#problems-carousel .problem-body {
+  overflow-x: scroll;
+  width: 100%;
 }
 
 
