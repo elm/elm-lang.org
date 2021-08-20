@@ -183,11 +183,8 @@ view model =
               div
                 [ id "problems-carousel"
                 , if Ui.ColumnDivider.isRightMost model.window model.divider
-                  then style "transform" "translateY(0)"
-                  else style "transform" "translateY(100%)"
-                , if Ui.ColumnDivider.isRightMost model.window model.divider
-                  then style "transition-delay" "0.5s;"
-                  else style "transition-delay" "0s;"
+                  then style "transform" "translateX(0)"
+                  else style "transform" "translateX(100%)"
                 ]
                 [ if model.areProblemsMini then
                     text ""
