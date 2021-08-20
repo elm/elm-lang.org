@@ -23,12 +23,12 @@
     }
 
 
-  // EDITOR
+  // DEBOUNCER
 
-  const debounce = func => {
-    let token;
+  var debounce = function(func) {
+    var token;
     return function() {
-      const later = () => {
+      var later = function() {
         token = null;
         func.apply(null, arguments);
       };
@@ -37,190 +37,221 @@
     };
   };
 
-  class CodeEditor extends HTMLElement {
-    constructor() {
-      super();
-      this._editor = null;
-      this._theme = 'light';
-      this._source = null;
-      this._start = null;
-      this._end = null;
-      this._importEnd = 0;
 
-      this._init = this._init.bind(this);
-      this._updateTheme = this._updateTheme.bind(this);
-      this._updateSource = this._updateSource.bind(this);
-      this._updateCursor = this._updateCursor.bind(this);
-    }
+  // EDITOR
 
-    connectedCallback() {
-      this._init();
-    }
+  function CodeEditor() {
+    this._editor = null;
+    this._theme = 'light';
+    this._source = null;
+    this._start = null;
+    this._end = null;
+    this._importEnd = 0;
 
-    disconnectedCallback() {
-      this._editor = null;
-      this._theme = 'light';
-      this._source = null;
-      this._start = null;
-      this._end = null;
-      this._importEnd = 0;
-    }
+    this._init = this._init.bind(this);
+    this._updateTheme = this._updateTheme.bind(this);
+    this._updateSource = this._updateSource.bind(this);
+    this._updateCursor = this._updateCursor.bind(this);
+
+    return Reflect.construct(HTMLElement, [], this.constructor);
+  }
+
+  CodeEditor.prototype = Object.create(HTMLElement.prototype, {
+    constructor: {
+      value: CodeEditor
+    },
+
+    connectedCallback: {
+      value: function () {
+        this._init();
+      }
+    },
+
+    disconnectedCallback: {
+      value: function () {
+        this._editor = null;
+        this._theme = 'light';
+        this._source = null;
+        this._start = null;
+        this._end = null;
+        this._importEnd = 0;
+      }
+    },
 
 
     // INIT EDITOR
 
-    _init() {
-      const sendChangeEvent = debounce(() => {
-        const previous = this._source;
-        this._source = this._editor.getValue();
-        if (previous === this._source) return;
-        this.dispatchEvent(new Event('change'));
-      });
+    _init: {
+      value: function () {
 
-      const sendSaveEvent = debounce(() => {
-        this.dispatchEvent(new Event('save'));
-      });
+        var sendChangeEvent = debounce((function() {
+          var previous = this._source;
+          this._source = this._editor.getValue();
+          if (previous === this._source) return;
+          this.dispatchEvent(new Event('change'));
+        }).bind(this));
 
-      const sendHintEvent = (function() {
-        this.dispatchEvent(new Event('hint'));
-      }).bind(this);
+        var sendSaveEvent = debounce((function() {
+          this.dispatchEvent(new Event('save'));
+        }).bind(this));
 
-      this._editor = CodeMirror(this, {
-        lineNumbers: true,
-        matchBrackets: true,
-        styleActiveLine: true,
-        theme: this._theme,
-        value: this._source,
-        tabSize: 2,
-        indentWithTabs: false,
-        extraKeys: {
-          "'\''": handleOpen("'", "'"),
-          "'\"'": handleOpen('"', '"'),
-          "'('": handleOpen('(', ')'),
-          "'{'": handleOpen('{', '}'),
-          "'['": handleOpen('[', ']'),
-          "')'": handleClose(')'),
-          "'}'": handleClose('}'),
-          "']'": handleClose(']'),
-          "Tab": handleTab,
-          "Shift-Tab": handleUntab,
-          "Backspace": handleBackspace,
-          'Cmd-S': function(cm) { sendSaveEvent(); },
-          "Ctrl-Enter": function(cm) { sendSaveEvent(); }
-        }
-      });
+        var sendHintEvent = (function() {
+          this.dispatchEvent(new Event('hint'));
+        }).bind(this);
 
-      this._editor.on('changes', sendChangeEvent);
-      this._editor.focus();
-      requestIdleCallback((() =>
-        // Make sure Elm is ready to receive messages.
-        this._editor.on('cursorActivity', sendHintEvent)
-      ).bind(this));
+        this._editor = CodeMirror(this, {
+          lineNumbers: true,
+          matchBrackets: true,
+          styleActiveLine: true,
+          theme: this._theme,
+          value: this._source,
+          tabSize: 2,
+          indentWithTabs: false,
+          extraKeys: {
+            "'\''": handleOpen("'", "'"),
+            "'\"'": handleOpen('"', '"'),
+            "'('": handleOpen('(', ')'),
+            "'{'": handleOpen('{', '}'),
+            "'['": handleOpen('[', ']'),
+            "')'": handleClose(')'),
+            "'}'": handleClose('}'),
+            "']'": handleClose(']'),
+            "Tab": handleTab,
+            "Shift-Tab": handleUntab,
+            "Backspace": handleBackspace,
+            'Cmd-S': function(cm) { sendSaveEvent(); },
+            "Ctrl-Enter": function(cm) { sendSaveEvent(); }
+          }
+        });
 
-      this._updateSource();
-      this._updateCursor();
-    }
+        this._editor.on('changes', sendChangeEvent);
+        this._editor.focus();
+        requestIdleCallback((function() {
+          // Make sure Elm is ready to receive messages.
+          this._editor.on('cursorActivity', sendHintEvent)
+        }).bind(this));
+
+        this._updateSource();
+        this._updateCursor();
+      }
+    },
 
 
     // UPDATE EDITOR
 
-    _updateSource() {
-      if (!this._editor) return;
+    _updateSource: {
+      value: function () {
+        if (!this._editor) return;
 
-      this._editor.setValue(this._source);
-    }
-
-    _updateTheme() {
-      if (!this._editor) return;
-
-      this._editor.setOption('theme', this._theme);
-    }
-
-    _updateCursor() {
-      if (!this._editor) return;
-
-      const isStartNull = isPositionNull(this._start);
-      const isEndNull = isPositionNull(this._end);
-
-      if (!(isStartNull && isEndNull)) {
-        const start_ = isStartNull ? this._end : this._start;
-        const end_ = isEndNull ? this._start : this._end;
-        const start = { line: start_.line - 1, ch: start_.column - 1 };
-        const end = { line: end_.line - 1, ch: end_.column - 1 }
-        this._editor.setSelection(start, end, { scroll: false });
-        this._editor.scrollIntoView({ from: start, to: end }, 200);
-        this._editor.focus();
-        this._start = null;
-        this._end = null;
+        this._editor.setValue(this._source);
       }
-    }
+    },
+
+    _updateTheme: {
+      value: function () {
+        if (!this._editor) return;
+
+        this._editor.setOption('theme', this._theme);
+      }
+    },
+
+    _updateCursor: {
+      value: function () {
+        if (!this._editor) return;
+
+        var isStartNull = isPositionNull(this._start);
+        var isEndNull = isPositionNull(this._end);
+
+        if (!(isStartNull && isEndNull)) {
+          var start_ = isStartNull ? this._end : this._start;
+          var end_ = isEndNull ? this._start : this._end;
+          var start = { line: start_.line - 1, ch: start_.column - 1 };
+          var end = { line: end_.line - 1, ch: end_.column - 1 }
+          this._editor.setSelection(start, end, { scroll: false });
+          this._editor.scrollIntoView({ from: start, to: end }, 200);
+          this._editor.focus();
+          this._start = null;
+          this._end = null;
+        }
+      }
+    },
 
 
     // PROPERTY: SOURCE
 
-    get source() {
-      return this._source;
-    }
+    source: {
+      get: function () {
+        return this._source;
+      },
+      set: function (updated) {
+        var oldSource = this._source;
+        this._source = updated;
 
-    set source(updated) {
-      const oldSource = this._source;
-      this._source = updated;
-
-      if (updated !== oldSource) {
-        this._updateSource();
+        if (updated !== oldSource) {
+          this._updateSource();
+        }
       }
-    }
+    },
+
 
     // PROPERTY: THEME
 
-    get theme() {
-      return this._theme;
-    }
+    theme: {
+      get: function () {
+        return this._theme;
+      },
+      set: function (updated) {
+        var oldTheme = this._theme;
+        this._theme = updated;
 
-    set theme(updated) {
-      const oldTheme = this._theme;
-      this._theme = updated;
-
-      if (updated !== oldTheme) {
-        this._updateTheme();
+        if (updated !== oldTheme) {
+          this._updateTheme();
+        }
       }
-    }
+    },
 
 
     // PROPERTY: CURSOR
 
-    get selection() {
-      return { start: this._start, end: this._end };
-    }
+    selection: {
+      get: function () {
+        return { start: this._start, end: this._end };
+      },
+      set: function (updated) {
+        var oldStart = this._start;
+        var oldEnd = this._end;
+        this._start = updated.start;
+        this._end = updated.end;
 
-    set selection(updated) {
-      const oldStart = this._start;
-      const oldEnd = this._end;
-      this._start = updated.start;
-      this._end = updated.end;
+        var isSame = isPositionEqual(updated.start, oldStart) && isPositionEqual(updated.end, oldEnd);
+        if (!isSame) { this._updateCursor(); }
+      }
+    },
 
-      const isSame = isPositionEqual(updated.start, oldStart) && isPositionEqual(updated.end, oldEnd);
-      if (!isSame) { this._updateCursor(); }
-    }
 
     // PROPERTY: IMPORT END
 
-    get importEnd() {
-      return this._importEnd;
-    }
+    importEnd: {
+      get: function () {
+        return this._importEnd;
+      },
+      set: function (updated) {
+        this._importEnd = updated;
+      }
+    },
 
-    set importEnd(updated) {
-      this._importEnd = updated;
-    }
 
     // PROPERTY: HINT
 
-    get hint() {
-      if (!this._editor) return null;
+    hint: {
+      get: function () {
+        if (!this._editor) return null;
 
-      return getHint(this._editor, this._importEnd);
+        return getHint(this._editor, this._importEnd);
+      }
     }
-  }
+
+  });
 
   // HELPERS
 
@@ -437,6 +468,6 @@
     return editor.getTokenAt({ line: line, ch: token.end + 1 });
   }
 
-  customElements.define('code-editor', CodeEditor);
+  window.customElements.define('code-editor', CodeEditor);
 
 })();

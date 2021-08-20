@@ -139,9 +139,6 @@ fi
 if ! [ -x "$(command -v uglifyjs)" ]; then
   npm install uglify-js
 fi
-if ! [ -x "$(command -v babel)" ]; then
-  npm install babel-cli babel-preset-es2015 babel-plugin-transform-custom-element-classes
-fi
 
 
 ## GENERATE HTML
@@ -188,10 +185,7 @@ if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.
   cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
 
   # custom elements
-  cat editor/code-editor.js editor/column-divider.js > editor/custom-elements.js
-  babel editor/custom-elements.js --presets es2015 --plugins transform-custom-element-classes --out-file editor/custom-elements-translated.js
-  cat editor/custom-elements-translated.js | uglifyjs -o _site/assets/editor-custom-elements.js
-  rm editor/custom-elements.js editor/custom-elements-translated.js
+  cat editor/code-editor.js editor/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
 
   # styles
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css

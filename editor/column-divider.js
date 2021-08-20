@@ -1,48 +1,58 @@
 (function() {
 
-  const withTouchEvent = function(func) {
+  var withTouchEvent = function(func) { // TODO
     return function(e) {
       return func(e, e.touches[0] || e.changedTouches[0]);
     };
   }
 
-  class ColumnDivider extends HTMLElement {
-      constructor() {
-        super();
-        this._pixels = null;
-        this._isClick = true;
-        this._init = this._init.bind(this);
-      }
+  function ColumnDivider() {
+    this._pixels = null;
+    this._isClick = true;
+    this._init = this._init.bind(this);
 
-      connectedCallback() {
+    return Reflect.construct(HTMLElement, [], this.constructor);
+  }
+
+  ColumnDivider.prototype = Object.create(HTMLElement.prototype, {
+    constructor: {
+      value: ColumnDivider
+    },
+
+    connectedCallback: {
+      value: function () {
         this._init();
       }
+    },
 
-      disconnectedCallback() {
+    disconnectedCallback: {
+      value: function () {
         this._pixels = null;
         this._isClick = true;
       }
+    },
 
-      _init() {
+    _init: {
+      value: function () {
         this.setAttribute('id', 'divider');
 
-        const sendDownEvent = (() => {
+        var sendDownEvent = (function() {
           this.dispatchEvent(new Event('down'));
         }).bind(this);
 
-        const sendMoveEvent = (() => {
+        var sendMoveEvent = (function() {
           this.dispatchEvent(new Event('move'));
         }).bind(this);
 
-        const sendUpEvent = (() => {
+        var sendUpEvent = (function() {
           this.dispatchEvent(new Event('up'));
         }).bind(this);
 
-        const sendClickEvent = (() => {
+        var sendClickEvent = (function() {
           this.dispatchEvent(new Event('_click'));
         }).bind(this);
 
-        const dividerDown = (function(e, touch) {
+        var dividerDown = (function(e, touch) {
           e.stopPropagation();
           e.preventDefault();
           if (e.buttons === 2) { // is right click
@@ -60,7 +70,7 @@
           document.body.addEventListener('touchmove', dividerMoveTouch);
         }).bind(this);
 
-        const dividerUp = (function(e, touch) {
+        var dividerUp = (function(e, touch) {
           this._pixels = e.pageX || touch.pageX;
 
           window.getSelection().empty();
@@ -80,7 +90,7 @@
           document.body.removeEventListener('touchmove', dividerMoveTouch);
         }).bind(this);
 
-        const dividerMove = (function(e, touch) {
+        var dividerMove = (function(e, touch) {
           this._isClick = false;
 
           if (e.buttons === 0) {
@@ -92,22 +102,24 @@
           sendMoveEvent();
         }).bind(this);
 
-        const dividerUpTouch = withTouchEvent(dividerUp);
-        const dividerMoveTouch = withTouchEvent(dividerMove);
+        var dividerUpTouch = withTouchEvent(dividerUp);
+        var dividerMoveTouch = withTouchEvent(dividerMove);
 
         this.addEventListener('mousedown', dividerDown);
         this.addEventListener('touchstart', withTouchEvent(dividerDown), true);
       }
+    },
 
-      get pixels() {
+    pixels: {
+      get: function () {
         return this._pixels;
-      }
-
-      set pixels(updated) {
+      },
+      set: function (updated) {
         this._pixels = updated;
       }
-  }
+    }
+  });
 
-  customElements.define('column-divider', ColumnDivider);
+  window.customElements.define('column-divider', ColumnDivider);
 
 })();
