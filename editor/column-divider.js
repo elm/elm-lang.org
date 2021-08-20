@@ -1,9 +1,7 @@
 (function() {
 
-  var withTouchEvent = function(func) { // TODO
-    return function(e) {
-      return func(e, e.touches[0] || e.changedTouches[0]);
-    };
+  var getTouchEvent = function(e) {
+    return e.touches[0] || e.changedTouches[0];
   }
 
   function ColumnDivider() {
@@ -52,26 +50,26 @@
           this.dispatchEvent(new Event('_click'));
         }).bind(this);
 
-        var dividerDown = (function(e, touch) {
+        var dividerDown = (function(e) {
           e.stopPropagation();
           e.preventDefault();
           if (e.buttons === 2) { // is right click
             return;
           }
 
-          this._pixels = e.pageX || touch.pageX;
+          this._pixels = e.pageX || getTouchEvent(e).pageX;
           sendDownEvent();
           this._isClick = true;
           document.body.addEventListener('mouseup', dividerUp);
           document.body.addEventListener('mouseleave', dividerUp);
           document.body.addEventListener('mousemove', dividerMove);
-          document.body.addEventListener('touchend', dividerUpTouch);
-          document.body.addEventListener('touchcancel', dividerUpTouch);
-          document.body.addEventListener('touchmove', dividerMoveTouch);
+          document.body.addEventListener('touchend', dividerUp);
+          document.body.addEventListener('touchcancel', dividerUp);
+          document.body.addEventListener('touchmove', dividerMove);
         }).bind(this);
 
-        var dividerUp = (function(e, touch) {
-          this._pixels = e.pageX || touch.pageX;
+        var dividerUp = (function(e) {
+          this._pixels = e.pageX || getTouchEvent(e).pageX;
 
           window.getSelection().empty();
           window.getSelection().removeAllRanges();
@@ -85,12 +83,12 @@
           document.body.removeEventListener('mouseup', dividerUp);
           document.body.removeEventListener('mouseleave', dividerUp);
           document.body.removeEventListener('mousemove', dividerMove);
-          document.body.removeEventListener('touchend', dividerUpTouch);
-          document.body.removeEventListener('touchcancel', dividerUpTouch);
-          document.body.removeEventListener('touchmove', dividerMoveTouch);
+          document.body.removeEventListener('touchend', dividerUp);
+          document.body.removeEventListener('touchcancel', dividerUp);
+          document.body.removeEventListener('touchmove', dividerMove);
         }).bind(this);
 
-        var dividerMove = (function(e, touch) {
+        var dividerMove = (function(e) {
           this._isClick = false;
 
           if (e.buttons === 0) {
@@ -98,15 +96,12 @@
             return;
           }
 
-          this._pixels = e.pageX || touch.pageX;
+          this._pixels = e.pageX || getTouchEvent(e).pageX;
           sendMoveEvent();
         }).bind(this);
 
-        var dividerUpTouch = withTouchEvent(dividerUp);
-        var dividerMoveTouch = withTouchEvent(dividerMove);
-
         this.addEventListener('mousedown', dividerDown);
-        this.addEventListener('touchstart', withTouchEvent(dividerDown), true);
+        this.addEventListener('touchstart', dividerDown, true);
       }
     },
 
