@@ -71,9 +71,6 @@
         var dividerUp = (function(e) {
           this._pixels = e.pageX || getTouchEvent(e).pageX;
 
-          window.getSelection().empty();
-          window.getSelection().removeAllRanges();
-
           if (this._isClick) {
             sendClickEvent();
           } else {
