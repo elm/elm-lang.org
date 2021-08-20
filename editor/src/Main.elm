@@ -182,10 +182,10 @@ view model =
             Just problems ->
               div
                 [ id "problems-carousel"
-                , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                , if Ui.ColumnDivider.isRightMost model.window model.divider
                   then style "transform" "translateY(0)"
                   else style "transform" "translateY(100%)"
-                , if Ui.ColumnDivider.isUpperLimit model.window model.divider
+                , if Ui.ColumnDivider.isRightMost model.window model.divider
                   then style "transition-delay" "0.5s;"
                   else style "transition-delay" "0s;"
                 ]
@@ -200,7 +200,7 @@ view model =
         ]
         [ case Status.getProblems model.status of
             Just problems ->
-              if Ui.ColumnDivider.isUpperLimit model.window model.divider then
+              if Ui.ColumnDivider.isRightMost model.window model.divider then
                 text ""
               else
                 lazy viewProblemList problems
@@ -237,7 +237,7 @@ viewNavigation model =
     , right =
         [ case Status.getProblems model.status of
             Just problems ->
-              if not model.areProblemsMini || not (Ui.ColumnDivider.isUpperLimit model.window model.divider) then
+              if not model.areProblemsMini || not (Ui.ColumnDivider.isRightMost model.window model.divider) then
                 text ""
               else
                 lazy viewProblemMini problems

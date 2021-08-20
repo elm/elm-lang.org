@@ -1,4 +1,4 @@
-module Ui.ColumnDivider exposing (Model, isUpperLimit, init, Msg, update, view)
+module Ui.ColumnDivider exposing (Model, isRightMost, init, Msg, update, view)
 
 
 {-| Control the sizes of the two columns, editor and result.
@@ -28,18 +28,18 @@ type Movement
   | Moving Float Float Bool
 
 
-isUpperLimit : Window -> Model -> Bool
-isUpperLimit window model =
-  model.percent >= upperLimit window
+isRightMost : Window -> Model -> Bool
+isRightMost window model =
+  model.percent >= rightMost window
 
 
-lowerLimit :  Window -> Float
-lowerLimit window =
+leftMost :  Window -> Float
+leftMost window =
   toPercentage window 35
 
 
-upperLimit : Window -> Float
-upperLimit window =
+rightMost : Window -> Float
+rightMost window =
   100 - toPercentage window (if window.width <= 1000 then 20 else 35)
 
 
@@ -50,15 +50,15 @@ halfPoint =
 
 clamp : Window -> Float -> Float
 clamp window =
-  Basics.max (lowerLimit window) >> Basics.min (upperLimit window)
+  Basics.max (leftMost window) >> Basics.min (rightMost window)
 
 
 jump : Window -> Float -> Float
 jump window percent =
-  if percent <= lowerLimit window then upperLimit window
-  else if percent >= upperLimit window then (if window.width <= 1000 then lowerLimit window else halfPoint)
-  else if percent > halfPoint then upperLimit window
-  else lowerLimit window
+  if percent >= rightMost window then leftMost window
+  else if percent <= leftMost window then (if window.width <= 1000 then leftMost window else halfPoint)
+  else if percent >= halfPoint then rightMost window
+  else leftMost window
 
 
 isSignificant : Float -> Float -> Bool
@@ -136,7 +136,7 @@ update window msg model =
       { model | movement = None, percent = jump window model.percent }
 
     OnClickLeft ->
-      { model | percent = upperLimit window }
+      { model | percent = rightMost window }
 
 
 view : (Msg -> msg) -> Window -> Model -> List (Html msg) -> List (Html msg) -> Html msg
@@ -158,7 +158,7 @@ view onMsg window model leftChildren rightChildren =
 viewLeft : (Msg -> msg) -> Window -> Model -> Float -> List (Html msg) -> Html msg
 viewLeft onMsg window model percent =
   let events =
-        if percent <= lowerLimit window then
+        if percent <= leftMost window then
           [ preventDefaultOn "touchend" (D.succeed ( onMsg OnClickLeft, True ))
           , onClick (onMsg OnClickLeft)
           ]
@@ -193,7 +193,7 @@ viewDivider window model percent =
     , on "up" (D.map OnUp decodePixels)
     , on "_click" (D.succeed OnClick)
     , property "pixels" (E.float (fromPercentage window percent))
-    , style "width" (if isUpperLimit window model then "40px" else "10px")
+    , style "width" (if isRightMost window model then "40px" else "10px")
     , style "left" (String.fromFloat percent ++ "%")
     ]
     []
