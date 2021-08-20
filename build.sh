@@ -191,7 +191,7 @@ if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
 
   # elm
-  (cd editor ; elm make src/Main.elm --output=elm.js)
+  (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
   cat editor/elm.js > _site/assets/editor-elm.js
   uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
   rm editor/elm.js
