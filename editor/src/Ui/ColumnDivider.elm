@@ -40,7 +40,7 @@ leftMost window =
 
 rightMost : Window -> Float
 rightMost window =
-  100 - toPercentage window (if window.width <= 1000 then 20 else 35)
+  100 - toPercentage window (if window.width <= 1000 then 25 else 35)
 
 
 halfPoint : Float
@@ -56,7 +56,7 @@ clamp window =
 jump : Window -> Float -> Float
 jump window percent =
   if percent >= rightMost window then leftMost window
-  else if percent <= leftMost window then (if window.width <= 1000 then leftMost window else halfPoint)
+  else if percent <= leftMost window then (if window.width <= 1000 then rightMost window else halfPoint)
   else if percent >= halfPoint then rightMost window
   else leftMost window
 
