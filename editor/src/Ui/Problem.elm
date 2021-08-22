@@ -26,6 +26,12 @@ viewCarousel : Config msg -> Problems -> Html msg
 viewCarousel config problems =
   let focused =
         getFocused problems
+
+      previousRegion =
+        Maybe.andThen getRegion (getPrevious problems)
+
+      nextRegion =
+        Maybe.andThen getRegion (getNext problems)
   in
   div
     [ id "problems" ]
@@ -34,8 +40,8 @@ viewCarousel config problems =
             [ viewTitle focused.title
             , viewNavigation
                 [ viewLocation config.onJump focused.location
-                , viewPreviousButton (config.onPrevious Nothing) problems
-                , viewNextButton (config.onNext Nothing) problems
+                , viewPreviousButton (config.onPrevious previousRegion) problems
+                , viewNextButton (config.onNext nextRegion) problems
                 , viewMinimize config.onMinimize
                 ]
             ]
