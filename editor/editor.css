@@ -24,7 +24,7 @@
   --dark-theme-orange: #d56c16;
   --dark-theme-pink: #ff69c1;
   --dark-theme-yellow: #cf9d02;
-  --dark-theme-gray: #88816D;
+  --dark-theme-gray: #8A8A8A;
   --dark-theme-gray-2: #5b5a5a;
   --dark-theme-gray-3: #f8f8f2;
   --dark-theme-gray-4: #b0b0b0;
@@ -432,7 +432,7 @@ a:hover {
 
 /* code */
 
-.cm-s-dark span.cm-comment { color: var(--light-theme-gray); }
+.cm-s-dark span.cm-comment { color: var(--dark-theme-gray); }
 .cm-s-dark span.cm-comment.cm-def { color: var(--dark-theme-blue-2); }
 
 .cm-s-dark span.cm-keyword  { color: var(--dark-theme-blue); }
