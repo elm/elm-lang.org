@@ -19,7 +19,7 @@ function makePageHtml {
   <meta name="description" content="A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
   <meta name=”robots” content="index, follow">
   <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
-  <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Source+Code+Pro&display=swap">
+  <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
   <script src="/assets/highlight/highlight.pack.js"></script>
@@ -50,28 +50,75 @@ EOF
 #   $4 = code
 #
 function makeExampleHtml {
-  cat <<EOF > $1
-<html>
+    cat <<EOF > $1
+<!DOCTYPE HTML>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>$2</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Try out Elm: A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
+  <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/editor.css"/>
 </head>
 
 <body>
-<form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
-  <div id="options">
-    <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
-    <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile<span></span></div>
-    <div class="button gray" title="Switch the color scheme" onclick="lights()">Lights<span></span></div>
-  </div>
-  <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
-</form>
-<div id="divider"></div>
-<iframe id="output" name="output" src="/examples/_compiled/$3.html"></iframe>
-<script src="/assets/editor.js"></script>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <symbol id="logo" viewBox="-300 -300 600 600" fill="currentColor">
+    <g transform="scale(1 -1)">
+    <polygon points="-280,-90 0,190 280,-90" transform="translate(0 -210) rotate(0)"></polygon>
+      <polygon points="-280,-90 0,190 280,-90" transform="translate(-210 0) rotate(-90)"></polygon>
+      <polygon points="-198,-66 0,132 198,-66" transform="translate(207 207) rotate(-45)"></polygon>
+      <polygon points="-130,0 0,-130 130,0 0,130" transform="translate(150 0) rotate(0)"></polygon>
+      <polygon points="-191,61 69,61 191,-61 -69,-61" transform="translate(-89 239) rotate(0)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(0 106) rotate(-180)"></polygon>
+      <polygon points="-130,-44 0,86  130,-44" transform="translate(256 -150) rotate(-270)"></polygon>
+    </g>
+  </symbol>
+</svg>
+
+<main id="main"></main>
+<textarea id="original" style="display:none;">$(cat $4)</textarea>
+
+<script src="/assets/editor-codemirror.js"></script>
+<script src="/assets/editor-custom-elements.js"></script>
+<script src="/assets/editor-elm.js"></script>
+<script>
+  window.addEventListener('load', function() {
+    var originalCode = document.getElementById('original').textContent;
+    main = Elm.Main.init({
+      node: document.getElementById('main'),
+      flags: {
+        name: "$3",
+        width: window.innerWidth,
+        height: window.innerHeight,
+        original: document.getElementById('original').textContent
+      }
+    });
+
+    main.ports.submitSource.subscribe(function(source) {
+      var editorNode = document.getElementById('editor');
+      var codeNode = document.getElementById('code');
+      codeNode.value = source;
+      editorNode.submit();
+    });
+
+    window.addEventListener("message", gotErrors, false);
+
+    function gotErrors(event) {
+      if (event.origin !== "https://worker.elm-lang.org") return;
+      if (event.data == "SUCCESS") {
+        main.ports.gotSuccess.send(null);
+      } else {
+        var message = JSON.parse(event.data);
+        main.ports.gotErrors.send(message);
+      }
+    }
+
+  });
+</script>
+
 </body>
 
 </html>
@@ -132,12 +179,21 @@ done
 
 ## editor
 
-if ! [ -f _site/assets/editor.js ]; then
+if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.js ] || ! [ -f _site/assets/editor-custom-elements.js ]; then
   echo "EDITOR"
-  cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
+  # code mirror
+  cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
+
+  # custom elements
+  cat editor/code-editor.js editor/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
+
+  # styles
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
+
+  # elm
   (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
-  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-hints.js
+  cat editor/elm.js > _site/assets/editor-elm.js
+  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
   rm editor/elm.js
 fi
 
