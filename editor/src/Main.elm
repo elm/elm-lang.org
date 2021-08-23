@@ -1,31 +1,35 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 
 import Browser
+import Browser.Events
 import Dict exposing (Dict)
-import Deps
-import Header
-import Hint
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick, on, onMouseOver, onMouseLeave)
 import Html.Lazy exposing (..)
+import Svg exposing (svg, use)
+import Svg.Attributes as SA exposing (xlinkHref)
 import Http
+import Json.Encode as E
+import Json.Decode as D
+import Elm.Error as Error
 
-
-
--- PORTS
-
-
-port submissions : (String -> msg) -> Sub msg
-port cursorMoves : (Maybe String -> msg) -> Sub msg
-port importEndLines : Int -> Cmd msg
-
+import Data.Deps as Deps
+import Data.Header as Header
+import Data.Hint as Hint
+import Data.Status as Status
+import Data.Problem as Problem
+import Data.Window exposing (Window)
+import Ui.Problem
+import Ui.Navigation
+import Ui.ColumnDivider
+import Ui.Editor
 
 
 -- MAIN
 
 
-main : Program String Model Msg
 main =
   Browser.element
     { init = init
@@ -40,47 +44,40 @@ main =
 
 
 type alias Model =
-  { token : Maybe String
-  , table : Hint.Table
-  , imports : Header.Imports
-  , dependencies : DepsInfo
+  { name : String
+  , window : Window
+  , editor : Ui.Editor.Model
+  , divider : Ui.ColumnDivider.Model
+  , isLight : Bool
+  , isMenuOpen : Bool
+  , areProblemsMini : Bool
+  , status : Status.Status
   }
-
-
-type DepsInfo
-  = Loading
-  | Failure
-  | Success Deps.Info
 
 
 
 -- INIT
 
 
-init : String -> ( Model, Cmd Msg )
-init source =
-  case Header.parse source of
-    Nothing ->
-      ( Model Nothing Hint.defaultTable Header.defaultImports Loading
-      , fetchDepsInfo
-      )
+init : { original : String, name : String, width : Int, height : Int } -> ( Model, Cmd Msg )
+init flags =
+  let ( editor, editorCmd ) =
+        Ui.Editor.init flags.original
 
-    Just (imports, importEnd) ->
-      ( Model Nothing Hint.defaultTable imports Loading
-      , Cmd.batch
-          [ fetchDepsInfo
-          , importEndLines importEnd
-          ]
-      )
-
-
-fetchDepsInfo : Cmd Msg
-fetchDepsInfo =
-  Http.get
-    { url = "https://worker.elm-lang.org/compile/deps-info.json"
-    , expect = Http.expectJson GotDepsInfo Deps.decoder
+      window =
+        { width = flags.width, height = flags.height }
+  in
+  ( { name = flags.name
+    , window = window
+    , editor = editor
+    , divider = Ui.ColumnDivider.init window
+    , isLight = True
+    , isMenuOpen = False
+    , areProblemsMini = False
+    , status = Status.success
     }
-
+  , Cmd.map OnEditorMsg editorCmd
+  )
 
 
 
@@ -88,54 +85,64 @@ fetchDepsInfo =
 
 
 type Msg
-  = Submitted String
-  | CursorMoved (Maybe String)
-  | GotDepsInfo (Result Http.Error Deps.Info)
+  = OnEditorMsg Ui.Editor.Msg
+  | OnDividerMsg Ui.ColumnDivider.Msg
+  | OnPreviousProblem (Maybe Error.Region)
+  | OnNextProblem (Maybe Error.Region)
+  | OnJumpToProblem Error.Region
+  | OnMinimizeProblem Bool
+  | OnToggleLights
+  | OnToggleMenu
+  | OnWindowSize Int Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    Submitted source ->
-      case Header.parse source of
-        Nothing ->
-          ( model, Cmd.none )
+    OnEditorMsg subMsg ->
+      let ( editor, status, editorCmd ) =
+            Ui.Editor.update subMsg model.editor model.status
+      in
+      ( { model | editor = editor, status = status }
+      , Cmd.map OnEditorMsg editorCmd
+      )
 
-        Just (imports, importEnd) ->
-          case model.dependencies of
-            Failure ->
-              ( model, Cmd.none )
-
-            Loading ->
-              ( model, Cmd.none )
-
-            Success info ->
-              ( { model
-                    | table = Hint.buildTable imports info
-                    , imports = imports
-                }
-              , importEndLines importEnd
-              )
-
-    CursorMoved token ->
-      ( { model | token = token }
+    OnDividerMsg subMsg ->
+      ( { model | divider = Ui.ColumnDivider.update model.window subMsg model.divider }
       , Cmd.none
       )
 
-    GotDepsInfo result ->
-      case result of
-        Err _ ->
-          ( { model | dependencies = Failure }
-          , Cmd.none
-          )
+    OnPreviousProblem maybeRegion ->
+      ( { model | status = Status.withProblems model.status Problem.focusPrevious }
+          |> (Maybe.withDefault identity (Maybe.map jumpToRegion maybeRegion))
+      , Cmd.none
+      )
 
-        Ok info ->
-          ( { model
-                | table = Hint.buildTable model.imports info
-                , dependencies = Success info
-            }
-          , Cmd.none
-          )
+    OnNextProblem maybeRegion ->
+      ( { model | status = Status.withProblems model.status Problem.focusNext }
+          |> (Maybe.withDefault identity (Maybe.map jumpToRegion maybeRegion))
+      , Cmd.none
+      )
+
+    OnJumpToProblem region ->
+      ( jumpToRegion region model, Cmd.none )
+
+    OnMinimizeProblem isMini ->
+      ( { model | areProblemsMini = isMini }, Cmd.none )
+
+    OnToggleLights ->
+      ( { model | isLight = not model.isLight }, Cmd.none )
+
+    OnToggleMenu ->
+      ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
+    OnWindowSize width height ->
+      ( { model | window = { width = width, height = height } }, Cmd.none )
+
+
+jumpToRegion : Error.Region -> Model -> Model
+jumpToRegion region model =
+  { model | editor = Ui.Editor.setSelection region model.editor }
 
 
 
@@ -143,10 +150,11 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscriptions model =
   Sub.batch
-    [ submissions Submitted
-    , cursorMoves CursorMoved
+    [ Ui.Editor.subscriptions model.editor
+        |> Sub.map OnEditorMsg
+    , Browser.Events.onResize OnWindowSize
     ]
 
 
@@ -154,45 +162,116 @@ subscriptions _ =
 -- VIEW
 
 
-view : Model -> Html msg
+view : Model -> Html Msg
 view model =
-  case model.token of
-    Nothing ->
-      viewExamplesLink
+  let hasErrors =
+        Status.hasProblems model.status
+  in
+  main_
+    [ id "main"
+    , classList
+        [ ( "theme-light", model.isLight )
+        , ( "theme-dark", not model.isLight )
+        ]
+    ]
+    [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
+        [ Ui.Editor.viewEditor model.isLight model.editor
+            |> Html.map OnEditorMsg
 
-    Just token ->
-      lazy2 viewHint token model.table
+        , case Status.getProblems model.status of
+            Just problems ->
+              div
+                [ id "problems-carousel"
+                , if Ui.ColumnDivider.isRightMost model.window model.divider
+                  then style "transform" "translateX(0)"
+                  else style "transform" "translateX(100%)"
+                ]
+                [ if model.areProblemsMini then
+                    text ""
+                  else
+                    lazy viewProblemPopup problems
+                ]
+            Nothing ->
+              text ""
+        , viewNavigation model
+        ]
+        [ case Status.getProblems model.status of
+            Just problems ->
+              if Ui.ColumnDivider.isRightMost model.window model.divider then
+                text ""
+              else
+                lazy viewProblemList problems
 
+            Nothing ->
+              text ""
 
-
--- VIEW EXAMPLES LINK
-
-
-viewExamplesLink : Html msg
-viewExamplesLink =
-  div [ class "hint" ]
-    [ text "More Examples "
-    , a [ href "/examples", target "_blank" ] [ text "Here" ]
+        , iframe
+            [ id "output"
+            , name "output"
+            , if Status.hasProblems model.status
+              then style "display" "none"
+              else style "display" "block"
+            , src ("/examples/_compiled/" ++ model.name ++ ".html")
+            ]
+            []
+        ]
     ]
 
 
+-- NAVIGATION
 
--- VIEW HINT
+
+viewNavigation : Model -> Html Msg
+viewNavigation model =
+  Ui.Navigation.view
+    { isLight = model.isLight
+    , isOpen = model.isMenuOpen
+    , left =
+        [ Ui.Navigation.elmLogo
+        , Ui.Navigation.lights OnToggleLights model.isLight
+        , Ui.Editor.viewHint model.editor
+        ]
+    , right =
+        [ case Status.getProblems model.status of
+            Just problems ->
+              if not model.areProblemsMini || not (Ui.ColumnDivider.isRightMost model.window model.divider) then
+                text ""
+              else
+                lazy viewProblemMini problems
+
+            Nothing ->
+              text ""
+        , Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
+        ]
+    }
 
 
-viewHint : String -> Hint.Table -> Html msg
-viewHint token table =
-  case Hint.lookup token table of
-    Just info ->
-      case info of
-        Hint.Ambiguous ->
-          viewExamplesLink
+-- PROBLEMS
 
-        Hint.Specific hint ->
-          div [ class "hint" ]
-            [ text "Hint: "
-            , a [ href hint.href, target "_blank" ] [ text hint.text ]
-            ]
 
-    Nothing ->
-      viewExamplesLink
+viewProblemPopup : Problem.Problems -> Html Msg
+viewProblemPopup =
+  Ui.Problem.viewCarousel
+    { onJump = OnJumpToProblem
+    , onPrevious = OnPreviousProblem
+    , onNext = OnNextProblem
+    , onMinimize = OnMinimizeProblem True
+    }
+
+
+viewProblemMini : Problem.Problems -> Html Msg
+viewProblemMini =
+  Ui.Problem.viewCarouselMini
+    { onJump = OnJumpToProblem
+    , onPrevious = OnPreviousProblem
+    , onNext = OnNextProblem
+    , onMinimize = OnMinimizeProblem False
+    }
+
+
+viewProblemList :  Problem.Problems -> Html Msg
+viewProblemList =
+  Ui.Problem.viewList OnJumpToProblem
+
+
+
