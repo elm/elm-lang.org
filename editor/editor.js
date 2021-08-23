@@ -249,7 +249,6 @@ window.addEventListener("message", jumpToProblem, false);
 
 function jumpToProblem(event)
 {
-	console.log('jump', event.origin, event.data);
 	if (event.origin !== "https://worker.elm-lang.org") return;
 	var region = JSON.parse(event.data);
 	var start = { line: region.start.line - 1, ch: region.start.column - 1 };
