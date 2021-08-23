@@ -42,6 +42,7 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 14px;
   display: flex;
+  -webkit-text-size-adjust: none;
 }
 
 a {
