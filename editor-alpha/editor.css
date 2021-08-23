@@ -42,7 +42,10 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 14px;
   display: flex;
-  -webkit-text-size-adjust: none;
+}
+
+@media screen and (max-device-width: 480px){
+  body { -webkit-text-size-adjust: none; }
 }
 
 a {
