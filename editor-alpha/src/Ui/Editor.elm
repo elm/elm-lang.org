@@ -202,7 +202,7 @@ viewEditor : Bool -> Model -> Html Msg
 viewEditor isLight model =
   Html.form
     [ id "editor"
-    , action "http://localhost:8000/compile/v2"
+    , action "https://worker.elm-lang.org/compile/v2"
     , method "post"
     , enctype "multipart/form-data"
     , target "output"
