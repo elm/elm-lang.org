@@ -1,4 +1,4 @@
-module Data.Deps exposing
+module Deps exposing
   ( Info
   , ModuleInfo
   , decoder
