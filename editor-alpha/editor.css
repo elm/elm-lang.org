@@ -275,7 +275,7 @@ a:hover {
 
 #problems .problem-body {
   font-family: 'Courier Prime', monospace;
-  font-size: inherit;
+  font-size: 13px;
   white-space: pre;
   margin-top: 20px;
 }
