@@ -1,4 +1,4 @@
-module Header exposing
+module Data.Header exposing
   ( Imports(..)
   , Import
   , Exposing(..)
