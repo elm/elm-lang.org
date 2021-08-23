@@ -50,6 +50,44 @@ EOF
 #   $4 = code
 #
 function makeExampleHtml {
+  cat <<EOF > $1
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>$2</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro"/>
+  <link rel="stylesheet" href="/assets/editor.css"/>
+</head>
+
+<body>
+<form id="editor" action="https://worker.elm-lang.org/compile" method="post" enctype="multipart/form-data" target="output">
+  <div id="options">
+    <div class="hint">More Examples <a href="/examples" target="_blank">Here</a></div>
+    <div class="button blue" title="Compile your code (Ctrl-Enter)" onclick="compile()">Compile<span></span></div>
+    <div class="button gray" title="Switch the color scheme" onclick="lights()">Lights<span></span></div>
+  </div>
+  <textarea id="code" name="code" style="display:none;">$(cat $4)</textarea>
+</form>
+<div id="divider"></div>
+<iframe id="output" name="output" src="/examples/_compiled/$3.html"></iframe>
+<script src="/assets/editor.js"></script>
+</body>
+
+</html>
+
+EOF
+
+}
+
+
+# ARGS:
+#   $1 = _site/examples/NAME.html
+#   $2 = <title>
+#   $3 = NAME
+#   $4 = code
+#
+function makeExampleHtmlNew {
     cat <<EOF > $1
 <!DOCTYPE HTML>
 <html lang="en">
@@ -60,7 +98,7 @@ function makeExampleHtml {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Try out Elm: A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
-  <link rel="stylesheet" href="/assets/editor.css"/>
+  <link rel="stylesheet" href="/assets/editor-styles.css"/>
 </head>
 
 <body>
@@ -107,6 +145,7 @@ function makeExampleHtml {
     window.addEventListener("message", gotErrors, false);
 
     function gotErrors(event) {
+      console.log('gotErrors', event.origin, event.data)
       if (event.origin !== "https://worker.elm-lang.org") return;
       if (event.data == "SUCCESS") {
         main.ports.gotSuccess.send(null);
@@ -177,27 +216,18 @@ do
     fi
 done
 
-## editor
+## OLD EDITOR
 
-if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.js ] || ! [ -f _site/assets/editor-custom-elements.js ]; then
+if ! [ -f _site/assets/editor.js ]; then
   echo "EDITOR"
-  # code mirror
-  cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
-
-  # custom elements
-  cat editor/code-editor.js editor/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
-
-  # styles
+  cat editor/cm/lib/codemirror.js editor/cm/mode/elm.js editor/editor.js | uglifyjs -o _site/assets/editor.js
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor.css
-
-  # elm
   (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
-  cat editor/elm.js > _site/assets/editor-elm.js
-  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
+  uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-hints.js
   rm editor/elm.js
 fi
 
-## examples
+## OLD EXAMPLES
 
 echo "EXAMPLES"
 for elm in $(find examples -type f -name "*.elm")
@@ -216,10 +246,39 @@ do
     fi
 done
 
-## try
+## OLD TRY
 
 echo "" | makeExampleHtml _site/try.html "Try Elm!" _try
 cp editor/splash.html _site/examples/_compiled/_try.html
+
+
+## NEW EDITOR
+
+# if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.js ] || ! [ -f _site/assets/editor-custom-elements.js ]; then
+  echo "NEW EDITOR"
+  # code mirror
+  cat editor-alpha/cm/lib/codemirror.js editor-alpha/cm/lib/active-line.js editor-alpha/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
+
+  # custom elements
+  cat editor-alpha/code-editor.js editor-alpha/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
+
+  # styles
+  cat editor-alpha/cm/lib/codemirror.css editor-alpha/editor.css > _site/assets/editor-styles.css
+
+  # elm
+  (cd editor-alpha ; elm make src/Main.elm --optimize --output=elm.js)
+  cat editor-alpha/elm.js > _site/assets/editor-elm.js
+  uglifyjs editor-alpha/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
+  rm editor-alpha/elm.js
+# fi
+
+## NEW EXAMPLES
+
+echo "NEW EXAMPLES"
+echo "Compiling: NEW buttons"
+rm -f elm-stuff/*/Main.elm*
+elm make examples/buttons.elm --output=_site/examples/_compiled/buttons-alpha.html > /dev/null
+cat examples/buttons.elm | makeExampleHtmlNew _site/examples/buttons-alpha.html buttons-alpha buttons-alpha
 
 
 ## REMOVE TEMP FILES
