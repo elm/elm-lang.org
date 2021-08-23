@@ -1,4 +1,4 @@
-module Data.Hint exposing
+module Hint exposing
   ( Table
   , Info(..)
   , Hint
@@ -9,9 +9,9 @@ module Data.Hint exposing
 
 
 import Dict exposing (Dict)
+import Deps
+import Header
 import Set exposing (Set)
-import Data.Deps as Deps
-import Data.Header as Header
 
 
 
