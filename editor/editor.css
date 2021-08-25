@@ -457,11 +457,12 @@ a:hover {
 
 /* gutters */
 
-.cm-s-light .CodeMirror-gutters             { background: white; border-right: 0px; }
-.cm-s-light .CodeMirror-guttermarker        { color: white; }
-.cm-s-light .CodeMirror-guttermarker-subtle { color: var(--light-theme-gray-2); }
-.cm-s-light .CodeMirror-linenumber          { color: var(--light-theme-gray-2); }
-.cm-s-light .CodeMirror-activeline-gutter   { background: var(--light-theme-blue-3); }
+.cm-s-light .CodeMirror-gutters               { background: white; border-right: 0px; }
+.cm-s-light .CodeMirror-guttermarker          { color: white; }
+.cm-s-light .CodeMirror-guttermarker-subtle   { color: var(--light-theme-gray-2); }
+.cm-s-light .CodeMirror-linenumber            { color: var(--light-theme-gray-2); }
+.cm-s-light .CodeMirror-activeline-gutter     { background: var(--light-theme-blue-3); }
+.cm-s-light .CodeMirror-activeline-background { background: var(--light-theme-blue-3); }
 
 /* code */
 
