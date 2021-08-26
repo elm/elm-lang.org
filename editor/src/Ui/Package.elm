@@ -17,14 +17,15 @@ import FeatherIcons as Icon
 
 type alias Model =
   { query : String
-  , all : Packages
-  , installed : Dict String Package
+  , packages : Dict String ( Package, Maybe Version )
   }
 
 
-getInstalled : Model -> Dict String Package
+getInstalled : Model -> List Package
 getInstalled model =
-  model.installed
+  model.packages
+    |> Dict.values
+    |> List.filterMap (\(p, i) -> if Package.isInstalled i then Just p else Nothing)
 
 
 type Packages
@@ -36,8 +37,9 @@ type Packages
 init : ( Model, Cmd Msg )
 init =
   ( { query = ""
-    , all = Loading
-    , installed = Package.toDict Package.defaults
+    , packages =
+        let installed = Package.toDict Package.defaults in
+        Package.merge installed installed
     }
   , fetchAllPackages
   )
@@ -61,12 +63,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
     GotAllPackages (Ok all) ->
-      ( { model | all = Success (Package.toDict all) }
+      ( { model | packages = Package.merge (Dict.map (always Tuple.first) model.packages) (Package.toDict all) }
       , Cmd.none
       )
 
     GotAllPackages (Err err) ->
-      ( { model | all = Failed err }
+      ( model -- TODO
       , Cmd.none
       )
 
@@ -76,7 +78,9 @@ update msg model =
       )
 
     OnInstall package ->
-      ( { model | query = "", installed = Dict.insert (Package.toName package) package model.installed }
+      ( { model | query = ""
+        , packages = Dict.insert (Package.toName package) ( package, Just package.version ) model.packages
+        }
       , Cmd.none
       )
 
@@ -100,33 +104,26 @@ viewQuery model =
     , HA.type_ "text"
     , HA.value model.query
     , HE.onInput OnQuery
-    , HA.placeholder "Filter packages..."
+    , HA.placeholder "author/project"
     ]
     []
 
 
 viewAllFound : Model -> Html Msg
 viewAllFound model =
-  case model.all of
-    Loading ->
-      H.text "Loading..."
-
-    Failed _ ->
-      H.text "Could not load packages."
-
-    Success all ->
-      let results =
-            if String.isEmpty model.query then
-              Package.merge model.installed all
-                |> Dict.values
-                |> List.filter (\( p, installation ) -> Package.isInstalled installation)
-            else
-              Package.merge model.installed all
-                |> Dict.values
-                |> Package.search model.query
-                |> List.sortBy (\( p, installation ) -> if Package.isInstalled installation then 0 else 1)
-      in
-      HK.node "div" [ HA.id "package-options" ] <| List.map viewFoundPackage results
+  let results =
+        if String.isEmpty model.query then
+          model.packages
+            |> Dict.values
+            |> List.filter (\( p, installation ) -> Package.isInstalled installation)
+            |> List.sortBy (\( p, installation ) -> p.order )
+        else
+          model.packages
+            |> Dict.values
+            |> Package.search model.query
+            |> List.sortBy (\( p, installation ) -> ( if Package.isInstalled installation then 0 else 1, p.order ) )
+  in
+  HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
 
 
 viewFoundPackage : ( Package, Maybe Version ) -> ( String, Html Msg )

@@ -7,19 +7,19 @@ import Json.Decode as D
 
 defaults : List Package
 defaults =
-  [ Package "elm" "browser" "" (Version 1 0 1)
-  , Package "elm" "core" "" (Version 1 0 0)
-  , Package "elm" "html" "" (Version 1 0 0)
-  , Package "elm" "json" "" (Version 1 1 3)
-  , Package "elm" "url" "" (Version 1 0 0)
-  , Package "elm" "virtual-dom" "" (Version 1 0 2)
+  [ Package "elm" "browser" "" (Version 1 0 1) 0
+  , Package "elm" "core" "" (Version 1 0 0) 0
+  , Package "elm" "html" "" (Version 1 0 0) 0
+  , Package "elm" "json" "" (Version 1 1 3) 0
+  , Package "elm" "url" "" (Version 1 0 0) 0
+  , Package "elm" "virtual-dom" "" (Version 1 0 2) 0
   ]
 
 
 toDict : List Package -> Dict String Package
 toDict =
-  let toPair p = ( toName p, p ) in
-  Dict.fromList << List.map toPair
+  let toPair i p = ( toName p, { p | order = i } ) in
+  Dict.fromList << List.indexedMap toPair
 
 
 merge : Dict String Package -> Dict String Package -> Dict String ( Package, Maybe Version )
@@ -41,6 +41,7 @@ type alias Package =
   , project : String
   , summary : String
   , version : Version
+  , order : Int
   }
 
 
@@ -68,11 +69,12 @@ decoder =
           [ _, project ]  -> D.succeed project
           _               -> D.fail ("Could not decoder package name: " ++ name)
   in
-  D.map4 Package
+  D.map5 Package
     (D.field "name" <| D.andThen decodeAuthor D.string)
     (D.field "name" <| D.andThen decodeProject D.string)
     (D.field "summary" D.string)
     (D.field "version" Version.decoder)
+    (D.succeed 1)
 
 
 search : String -> List ( Package, Maybe Version ) -> List ( Package, Maybe Version )
