@@ -106,6 +106,7 @@ function makeExampleHtml {
     window.addEventListener("message", gotErrors, false);
 
     function gotErrors(event) {
+      console.log('gotErrors', event.origin, event.data)
       if (event.origin !== "https://worker.elm-lang.org") return;
       if (event.data == "SUCCESS") {
         main.ports.gotSuccess.send(null);

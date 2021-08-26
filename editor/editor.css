@@ -369,23 +369,9 @@ a:hover {
 }
 
 
-/**** PACKAGES ****/
-
-#packages {
-  position: absolute;
-  bottom: 30px;
-  background: white;
-  z-index: 100;
-  padding: 15px;
-  border: 1px solid var(--light-theme-border);
-}
-
-
-
 /**** COLORS ****/
 
 .blue     { color: var(--light-theme-blue); }
-.darkblue { color: var(--light-theme-blue-2); }
 .green    { color: var(--light-theme-green); }
 .red      { color: var(--light-theme-red); }
 .magenta  { color: var(--light-theme-pink); }
@@ -401,11 +387,13 @@ a:hover {
 .theme-dark .yellow   { color: var(--dark-theme-yellow); }
 .theme-dark .cyan     { color: var(--dark-theme-turquoise); }
 
+.bold {
+  font-weight: bold;
+}
 
-.background.lightblue { background: var(--light-theme-blue-3); }
-
-.bold { font-weight: bold; }
-.underline { text-decoration: underline; }
+.underline {
+  text-decoration: underline;
+}
 
 
 /**** CODE MIRROR ****/
