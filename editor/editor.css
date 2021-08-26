@@ -385,7 +385,6 @@ a:hover {
   flex-direction: row;
 }
 
-
 #packages__installed__container {
   margin-right: 20px;
 }
@@ -419,6 +418,10 @@ a:hover {
   border-bottom: 1px solid var(--light-theme-border);
   margin-bottom: 10px;
   line-height: 1.5;
+}
+
+#package-query::placeholder {
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 #package-options {
