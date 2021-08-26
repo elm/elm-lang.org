@@ -27,6 +27,7 @@ import Ui.Problem
 import Ui.Navigation
 import Ui.ColumnDivider
 import Ui.Editor
+import Ui.Package
 
 
 -- MAIN
@@ -55,6 +56,8 @@ type alias Model =
   , areProblemsMini : Bool
   , status : Status.Status
   , packages : Dict String Version
+  , packageUi : Ui.Package.Model
+  , isPackageUiOpen : Bool
   }
 
 
@@ -79,6 +82,8 @@ init flags =
     , areProblemsMini = False
     , status = Status.success
     , packages = Package.defaults
+    , packageUi = Ui.Package.init
+    , isPackageUiOpen = False
     }
   , Cmd.map OnEditorMsg editorCmd
   )
@@ -91,12 +96,14 @@ init flags =
 type Msg
   = OnEditorMsg Ui.Editor.Msg
   | OnDividerMsg Ui.ColumnDivider.Msg
+  | OnPackageMsg Ui.Package.Msg
   | OnPreviousProblem (Maybe Error.Region)
   | OnNextProblem (Maybe Error.Region)
   | OnJumpToProblem Error.Region
   | OnMinimizeProblem Bool
   | OnToggleLights
   | OnToggleMenu
+  | OnTogglePackages
   | OnWindowSize Int Int
 
 
@@ -114,6 +121,14 @@ update msg model =
     OnDividerMsg subMsg ->
       ( { model | divider = Ui.ColumnDivider.update model.window subMsg model.divider }
       , Cmd.none
+      )
+
+    OnPackageMsg subMsg ->
+      let ( packageUi, packages, packageUiCmd ) =
+            Ui.Package.update subMsg model.packageUi model.packages
+      in
+      ( { model | packageUi = packageUi, packages = packages }
+      , Cmd.map OnPackageMsg packageUiCmd
       )
 
     OnPreviousProblem maybeRegion ->
@@ -139,6 +154,9 @@ update msg model =
 
     OnToggleMenu ->
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
+
+    OnTogglePackages ->
+      ( { model | isPackageUiOpen = not model.isPackageUiOpen }, Cmd.none )
 
     OnWindowSize width height ->
       ( { model | window = { width = width, height = height } }, Cmd.none )
@@ -181,6 +199,12 @@ view model =
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
         [ Ui.Editor.viewEditor model.packages model.isLight model.editor
             |> Html.map OnEditorMsg
+
+        , if model.isPackageUiOpen then
+            Ui.Package.view model.packages model.packageUi
+              |> Html.map OnPackageMsg
+          else
+            text ""
 
         , case Status.getProblems model.status of
             Just problems ->
@@ -233,7 +257,7 @@ viewNavigation model =
     , left =
         [ Ui.Navigation.elmLogo
         , Ui.Navigation.lights OnToggleLights model.isLight
-        , Ui.Navigation.packages OnToggleLights
+        , Ui.Navigation.packages OnTogglePackages model.isPackageUiOpen
         , Ui.Editor.viewHint model.editor
         ]
     , right =

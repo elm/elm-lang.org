@@ -66,8 +66,10 @@ elmLogo =
 toggleOpen : msg -> Bool -> Html msg
 toggleOpen onClick_ isMenuOpen =
   iconButton []
-    { icon = if isMenuOpen then I.chevronDown else I.chevronUp
+    { background = Nothing
+    , icon = if isMenuOpen then I.chevronDown else I.chevronUp
     , iconColor = Nothing
+    , labelColor = Nothing
     , label = Nothing
     , alt = if isMenuOpen then "Close menu" else "Open menu"
     , onClick = Just onClick_
@@ -78,8 +80,10 @@ toggleOpen onClick_ isMenuOpen =
 toggleSplit : msg -> Html msg
 toggleSplit onClick_ =
   iconButton [ style "padding" "0 5px" ]
-    { icon = I.code
+    { background = Nothing
+    , icon = I.code
     , iconColor = Nothing
+    , labelColor = Nothing
     , label = Nothing
     , alt = "Open or close result"
     , onClick = Just onClick_
@@ -90,8 +94,10 @@ toggleSplit onClick_ =
 lights : msg -> Bool -> Html msg
 lights onClick_ isLight =
   iconButton []
-    { icon = if isLight then I.moon else I.sun
+    { background = Nothing
+    , icon = if isLight then I.moon else I.sun
     , iconColor = Nothing
+    , labelColor = Nothing
     , label = Just "Lights"
     , alt = "Switch the color scheme"
     , onClick = Just onClick_
@@ -146,21 +152,25 @@ compilation onClick_ status =
             )
   in
   iconButton []
-    { icon = icon
+    { background = Nothing
+    , icon = icon
     , iconColor = iconColor
     , label = Just label
+    , labelColor = Nothing
     , alt = "Compile your code (Ctrl-Enter)"
     , onClick = Just onClick_
     }
 
 
 {-| -}
-packages : msg -> Html msg
-packages onClick_ =
+packages : msg -> Bool -> Html msg
+packages onClick_ isOpen =
   iconButton []
-    { icon = I.package
-    , iconColor = Nothing
+    { background = if isOpen then Just "lightblue" else Nothing
+    , icon = I.package
+    , iconColor = if isOpen then Just "blue" else Nothing
     , label = Just "Packages"
+    , labelColor = if isOpen then Just "blue" else Nothing
     , alt = "Add a package"
     , onClick = Just onClick_
     }
@@ -170,9 +180,11 @@ packages onClick_ =
 share : msg -> Html msg
 share onClick_ =
   iconButton []
-    { icon = I.link
+    { background = Nothing
+    , icon = I.link
     , iconColor = Nothing
     , label = Just "Share"
+    , labelColor = Nothing
     , alt = "Copy link to this code"
     , onClick = Just onClick_
     }
@@ -182,9 +194,11 @@ share onClick_ =
 deploy : msg -> Html msg
 deploy onClick_ =
   iconButton []
-    { icon = I.send
+    { background = Nothing
+    , icon = I.send
     , iconColor = Nothing
     , label = Just "Deploy"
+    , labelColor = Nothing
     , alt = "Deploy this project without editor attached"
     , onClick = Just onClick_
     }
@@ -195,8 +209,10 @@ deploy onClick_ =
 
 
 type alias IconButton msg =
-  { icon : I.Icon
+  { background : Maybe String
+  , icon : I.Icon
   , iconColor : Maybe String
+  , labelColor : Maybe String
   , label : Maybe String
   , alt : String
   , onClick : Maybe msg
@@ -214,14 +230,24 @@ iconButton attrs config =
   button
     (attrs ++
       [ attribute "aria-label" config.alt
-      , class "menu-button"
+      , classList <|
+          case config.background of
+              Just background ->
+                [ ( "menu-button", True )
+                , ( "background", True )
+                , ( background, True )
+                ]
+
+              Nothing ->
+                [ ( "menu-button", True ) ]
+
       , case config.onClick of
           Just msg -> onClick msg
           Nothing -> disabled True
       ])
     [ viewIcon
     , case config.label of
-        Just label -> span [] [ text label ]
+        Just label -> span [ class (Maybe.withDefault "" config.labelColor) ] [ text label ]
         Nothing -> text ""
     ]
 
