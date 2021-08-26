@@ -1,5 +1,7 @@
 module Data.Version exposing (..)
 
+import Json.Decode as D
+
 
 type Version
   = Version Int Int Int
@@ -23,3 +25,16 @@ fromString string =
 
     _ ->
       Nothing
+
+
+decoder : D.Decoder Version
+decoder =
+  let validate s =
+        case fromString s of
+          Just version ->
+            D.succeed version
+
+          Nothing ->
+            D.fail "Version was of wrong format."
+  in
+  D.andThen validate D.string
