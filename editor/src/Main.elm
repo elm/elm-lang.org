@@ -70,9 +70,6 @@ init flags =
   let ( editor, editorCmd ) =
         Ui.Editor.init flags.original
 
-      ( packageUi, packageUiCmd ) =
-        Ui.Package.init
-
       window =
         { width = flags.width, height = flags.height }
   in
@@ -85,13 +82,10 @@ init flags =
     , areProblemsMini = False
     , status = Status.success
     , packages = Package.defaults
-    , packageUi = packageUi
+    , packageUi = Ui.Package.init
     , isPackageUiOpen = False
     }
-  , Cmd.batch
-      [ Cmd.map OnEditorMsg editorCmd
-      , Cmd.map OnPackageMsg packageUiCmd
-      ]
+  , Cmd.map OnEditorMsg editorCmd
   )
 
 
