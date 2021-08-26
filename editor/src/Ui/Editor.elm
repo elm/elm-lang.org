@@ -15,7 +15,6 @@ import Html.Lazy exposing (..)
 import Http
 import Json.Encode as E
 import Json.Decode as D
-import Dict exposing (Dict)
 import Elm.Error as Error exposing (Region)
 import FeatherIcons as I
 
@@ -24,8 +23,6 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
-import Data.Version as Version exposing (Version(..))
-import Data.Package as Package
 import Ui.Navigation as Navigation
 
 
@@ -201,26 +198,18 @@ subscriptions _ =
 -- VIEW
 
 
-viewEditor : Dict String Version -> Bool -> Model -> Html Msg
-viewEditor packages isLight model =
+viewEditor : Bool -> Model -> Html Msg
+viewEditor isLight model =
   Html.form
     [ id "editor"
-    , action "http://localhost:8000/compile/v2" -- TODO
+    , action "https://worker.elm-lang.org/compile/v2"
     , method "post"
     , enctype "multipart/form-data"
     , target "output"
     ]
     [ textarea [ id "code", name "code", style "display" "none" ] []
-    , fieldset
-        [ id "dependencies", name "dependencies", style "display" "none" ]
-        (List.map viewPackage <| Dict.toList packages)
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
     ]
-
-
-viewPackage : ( String, Version ) -> Html Msg
-viewPackage ( package, version ) =
-  input [ name package, value (Version.toString version) ] []
 
 
 viewEditor_ : String -> Maybe Region -> Bool -> Int -> Html Msg

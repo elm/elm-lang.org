@@ -1,6 +1,6 @@
 module Ui.Navigation exposing
   ( Navigation, view
-  , elmLogo, toggleOpen, lights, packages, compilation, share, deploy, toggleSplit
+  , elmLogo, toggleOpen, lights, compilation, share, deploy, toggleSplit
   , IconButton, iconButton
   , IconLink, iconLink
   )
@@ -85,7 +85,6 @@ toggleSplit onClick_ =
     , onClick = Just onClick_
     }
 
-
 {-| -}
 lights : msg -> Bool -> Html msg
 lights onClick_ isLight =
@@ -96,6 +95,7 @@ lights onClick_ isLight =
     , alt = "Switch the color scheme"
     , onClick = Just onClick_
     }
+
 
 
 {-| -}
@@ -155,18 +155,6 @@ compilation onClick_ status =
 
 
 {-| -}
-packages : msg -> Html msg
-packages onClick_ =
-  iconButton []
-    { icon = I.package
-    , iconColor = Nothing
-    , label = Just "Packages"
-    , alt = "Add a package"
-    , onClick = Just onClick_
-    }
-
-
-{-| -}
 share : msg -> Html msg
 share onClick_ =
   iconButton []
@@ -184,8 +172,8 @@ deploy onClick_ =
   iconButton []
     { icon = I.send
     , iconColor = Nothing
-    , label = Just "Deploy"
-    , alt = "Deploy this project without editor attached"
+    , label = Just "Publish"
+    , alt = "Publish this code"
     , onClick = Just onClick_
     }
 

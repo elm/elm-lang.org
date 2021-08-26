@@ -20,9 +20,7 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Status as Status
 import Data.Problem as Problem
-import Data.Package as Package
 import Data.Window exposing (Window)
-import Data.Version exposing (Version)
 import Ui.Problem
 import Ui.Navigation
 import Ui.ColumnDivider
@@ -54,7 +52,6 @@ type alias Model =
   , isMenuOpen : Bool
   , areProblemsMini : Bool
   , status : Status.Status
-  , packages : Dict String Version
   }
 
 
@@ -78,7 +75,6 @@ init flags =
     , isMenuOpen = False
     , areProblemsMini = False
     , status = Status.success
-    , packages = Package.defaults
     }
   , Cmd.map OnEditorMsg editorCmd
   )
@@ -179,7 +175,7 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Ui.Editor.viewEditor model.packages model.isLight model.editor
+        [ Ui.Editor.viewEditor model.isLight model.editor
             |> Html.map OnEditorMsg
 
         , case Status.getProblems model.status of
@@ -233,7 +229,6 @@ viewNavigation model =
     , left =
         [ Ui.Navigation.elmLogo
         , Ui.Navigation.lights OnToggleLights model.isLight
-        , Ui.Navigation.packages OnToggleLights
         , Ui.Editor.viewHint model.editor
         ]
     , right =
@@ -247,8 +242,6 @@ viewNavigation model =
             Nothing ->
               text ""
         , Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
-        --, Ui.Navigation.share (OnEditorMsg Ui.Editor.OnCompile)
-        --, Ui.Navigation.deploy (OnEditorMsg Ui.Editor.OnCompile)
         ]
     }
 
