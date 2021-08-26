@@ -18,12 +18,18 @@ import FeatherIcons as Icon
 type alias Model =
   { query : String
   , all : Packages
+  , installed : Dict String Package
   }
+
+
+getInstalled : Model -> Dict String Package
+getInstalled model =
+  model.installed
 
 
 type Packages
   = Loading
-  | Success (List Package)
+  | Success (Dict String Package)
   | Failed Http.Error
 
 
@@ -31,6 +37,7 @@ init : ( Model, Cmd Msg )
 init =
   ( { query = ""
     , all = Loading
+    , installed = Package.toDict Package.defaults
     }
   , fetchAllPackages
   )
@@ -50,44 +57,36 @@ type Msg
   | OnInstall Package
 
 
-update : Msg -> Model -> Dict String Version -> ( Model, Dict String Version, Cmd Msg )
-update msg model packages =
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
   case msg of
     GotAllPackages (Ok all) ->
-      ( { model | all = Success all }
-      , packages
+      ( { model | all = Success (Package.toDict all) }
       , Cmd.none
       )
 
     GotAllPackages (Err err) ->
       ( { model | all = Failed err }
-      , packages
       , Cmd.none
       )
 
     OnQuery query ->
       ( { model | query = query }
-      , packages
       , Cmd.none
       )
 
     OnInstall package ->
-      ( { model | query = "" }
-      , Dict.insert package.name package.version packages
+      ( { model | query = "", installed = Dict.insert (Package.toName package) package model.installed }
       , Cmd.none
       )
 
 
-view : Dict String Version -> Model -> Html Msg
-view packages model =
+view : Model -> Html Msg
+view model =
   H.div
     [ HA.id "packages" ]
     [ H.div
-        [ HA.id "packages__installed__container" ]
-        [ H.h4 [ HA.id "packages__installed__title" ] [ H.text "Installed" ]
-        , H.div [ HA.id "packages__installed" ] <| List.map viewInstalled (Dict.toList packages)
-        ]
-    , H.div [ HA.id "packages__installer"]
+        [ HA.id "packages__installer"]
         [ viewQuery model
         , viewAllFound model
         ]
@@ -117,20 +116,50 @@ viewAllFound model =
 
     Success all ->
       let results =
-            Package.search model.query all
+            if String.isEmpty model.query then
+              Package.merge model.installed all
+                |> Dict.values
+                |> List.filter (\( p, installation ) -> Package.isInstalled installation)
+            else
+              Package.merge model.installed all
+                |> Dict.values
+                |> Package.search model.query
+                |> List.sortBy (\( p, installation ) -> if Package.isInstalled installation then 0 else 1)
       in
       HK.node "div" [ HA.id "package-options" ] <| List.map viewFoundPackage results
 
 
-viewFoundPackage : Package -> ( String, Html Msg )
-viewFoundPackage package =
-  ( package.name
-  , HL.lazy viewFound package
+viewFoundPackage : ( Package, Maybe Version ) -> ( String, Html Msg )
+viewFoundPackage ( package, installation ) =
+  ( Package.toName package
+  , HL.lazy viewFound ( package, installation )
   )
 
 
-viewFound : Package -> Html Msg
-viewFound package =
+viewFound : ( Package, Maybe Version ) -> Html Msg
+viewFound ( package, installation ) =
+  let viewAction =
+        case installation of
+          Just installed ->
+            if installed == package.version then
+              [ viewVersion (Version.toString package.version)
+              , viewUninstallButton (OnInstall package)
+              ]
+            else
+              [ viewVersion (Version.toString installed ++ " → " ++ Version.toString package.version)
+              , viewUpgradeButton (OnInstall package)
+              ]
+
+          Nothing ->
+            [ viewVersion (Version.toString package.version)
+            , viewInstallButton (OnInstall package)
+            ]
+
+      viewVersion string =
+        H.div
+          [ HA.class "package-option__version" ]
+          [ H.text string ]
+  in
   H.div
     [ HA.class "package-option" ]
     [ H.div
@@ -141,10 +170,34 @@ viewFound package =
         ]
     , H.div
         [ HA.class "package-option__right" ]
-        [ H.div [ HA.class "package-option__version" ] [ H.text (Version.toString package.version) ]
-        , viewInstallButton (OnInstall package)
-        ]
+        viewAction
     ]
+
+
+viewUpgradeButton : Msg -> Html Msg
+viewUpgradeButton onClick =
+  Ui.Navigation.iconButton []
+    { background = Nothing
+    , icon = Icon.arrowUp
+    , iconColor = Just "green"
+    , label = Nothing
+    , labelColor = Nothing
+    , alt = "Upgrade"
+    , onClick = Just onClick
+    }
+
+
+viewUninstallButton : Msg -> Html Msg
+viewUninstallButton onClick =
+  Ui.Navigation.iconButton []
+    { background = Nothing
+    , icon = Icon.x
+    , iconColor = Just "red"
+    , label = Nothing
+    , labelColor = Nothing
+    , alt = "Uninstall"
+    , onClick = Just onClick
+    }
 
 
 viewInstallButton : Msg -> Html Msg
@@ -159,10 +212,3 @@ viewInstallButton onClick =
     , onClick = Just onClick
     }
 
-
-viewInstalled : ( String, Version ) -> Html Msg
-viewInstalled ( name, version ) =
-  H.div [ HA.class "package-option__installed" ]
-    [ H.div [ HA.class "package-option__installed__name" ] [ H.text name ]
-    , H.div [ HA.class "package-option__installed__version" ] [ H.text (Version.toString version) ]
-    ]

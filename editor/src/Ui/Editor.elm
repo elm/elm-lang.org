@@ -25,7 +25,7 @@ import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
 import Data.Version as Version exposing (Version(..))
-import Data.Package as Package
+import Data.Package as Package exposing (Package)
 import Ui.Navigation as Navigation
 
 
@@ -201,8 +201,8 @@ subscriptions _ =
 -- VIEW
 
 
-viewEditor : Dict String Version -> Bool -> Model -> Html Msg
-viewEditor packages isLight model =
+viewEditor : Dict String Package -> Bool -> Model -> Html Msg
+viewEditor installed isLight model =
   Html.form
     [ id "editor"
     , action "http://localhost:8000/compile/v2" -- TODO
@@ -213,14 +213,14 @@ viewEditor packages isLight model =
     [ textarea [ id "code", name "code", style "display" "none" ] []
     , fieldset
         [ id "dependencies", name "dependencies", style "display" "none" ]
-        (List.map viewPackage <| Dict.toList packages)
+        (List.map viewPackage <| Dict.toList installed)
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
     ]
 
 
-viewPackage : ( String, Version ) -> Html Msg
-viewPackage ( package, version ) =
-  input [ name package, value (Version.toString version) ] []
+viewPackage : ( String, Package ) -> Html Msg
+viewPackage ( name_, package ) =
+  input [ name name_, value (Version.toString package.version) ] []
 
 
 viewEditor_ : String -> Maybe Region -> Bool -> Int -> Html Msg

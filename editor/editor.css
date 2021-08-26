@@ -385,32 +385,11 @@ a:hover {
   flex-direction: row;
 }
 
-#packages__installed__container {
-  margin-right: 20px;
-}
-
-#packages__installed__title {
-  margin-top: 0;
-}
-
-.package-option__installed {
-  display: flex;
-  align-content: space-between;
-  flex-direction: row;
-  width: 100%;
-  padding-bottom: 5px;
-}
-
-.package-option__installed__name {
-  flex-grow: 2;
-  width: 200px;
-  overflow-x: auto;
-}
-
 #packages__installer {
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 300px;
 }
 
 #package-query {

@@ -5,26 +5,55 @@ import Data.Version as Version exposing (Version(..))
 import Json.Decode as D
 
 
-defaults : Dict String Version
+defaults : List Package
 defaults =
-  Dict.fromList
-    [ ( "elm/browser", Version 1 0 1 )
-    , ( "elm/core", Version 1 0 2 )
-    , ( "elm/html", Version 1 0 0 )
-    , ( "elm/json", Version 1 1 3 )
-    , ( "elm/time", Version 1 0 0 )
-    , ( "elm/url", Version 1 0 0 )
-    , ( "elm/virtual-dom", Version 1 0 2 )
-    ]
+  [ Package "elm" "browser" "" (Version 1 0 1)
+  , Package "elm" "core" "" (Version 1 0 0)
+  , Package "elm" "html" "" (Version 1 0 0)
+  , Package "elm" "json" "" (Version 1 1 3)
+  , Package "elm" "url" "" (Version 1 0 0)
+  , Package "elm" "virtual-dom" "" (Version 1 0 2)
+  ]
+
+
+toDict : List Package -> Dict String Package
+toDict =
+  let toPair p = ( toName p, p ) in
+  Dict.fromList << List.map toPair
+
+
+merge : Dict String Package -> Dict String Package -> Dict String ( Package, Maybe Version )
+merge installed all =
+  let onlyInInstalled key package =
+        Dict.insert key ( package, Just package.version )
+
+      inBoth key ins package =
+        Dict.insert key ( package, Just ins.version )
+
+      onlyInAll key package =
+        Dict.insert key ( package, Nothing )
+  in
+  Dict.merge onlyInInstalled inBoth onlyInAll installed all Dict.empty
 
 
 type alias Package =
-  { name : String
-  , author : String
+  { author : String
   , project : String
   , summary : String
   , version : Version
   }
+
+
+toName : Package -> String
+toName p =
+  p.author ++ "/" ++ p.project
+
+
+isInstalled : Maybe Version -> Bool
+isInstalled installed =
+  case installed of
+    Just _ -> True
+    Nothing -> False
 
 
 decoder : D.Decoder Package
@@ -39,23 +68,22 @@ decoder =
           [ _, project ]  -> D.succeed project
           _               -> D.fail ("Could not decoder package name: " ++ name)
   in
-  D.map5 Package
-    (D.field "name" D.string)
+  D.map4 Package
     (D.field "name" <| D.andThen decodeAuthor D.string)
     (D.field "name" <| D.andThen decodeProject D.string)
     (D.field "summary" D.string)
     (D.field "version" Version.decoder)
 
 
-search : String -> List Package -> List Package
+search : String -> List ( Package, Maybe Version ) -> List ( Package, Maybe Version )
 search query packages =
   let queryTerms =
         String.words (String.toLower query)
 
-      matchesAllTerms entry =
+      matchesAllTerms ( entry, _ ) =
         let
           lowerName =
-            String.toLower entry.name
+            String.toLower (toName entry)
 
           lowerSummary =
             String.toLower entry.summary

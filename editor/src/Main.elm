@@ -55,7 +55,6 @@ type alias Model =
   , isMenuOpen : Bool
   , areProblemsMini : Bool
   , status : Status.Status
-  , packages : Dict String Version
   , packageUi : Ui.Package.Model
   , isPackageUiOpen : Bool
   }
@@ -84,7 +83,6 @@ init flags =
     , isMenuOpen = False
     , areProblemsMini = False
     , status = Status.success
-    , packages = Package.defaults
     , packageUi = packageUi
     , isPackageUiOpen = False
     }
@@ -130,10 +128,10 @@ update msg model =
       )
 
     OnPackageMsg subMsg ->
-      let ( packageUi, packages, packageUiCmd ) =
-            Ui.Package.update subMsg model.packageUi model.packages
+      let ( packageUi, packageUiCmd ) =
+            Ui.Package.update subMsg model.packageUi
       in
-      ( { model | packageUi = packageUi, packages = packages }
+      ( { model | packageUi = packageUi}
       , Cmd.map OnPackageMsg packageUiCmd
       )
 
@@ -203,11 +201,11 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Ui.Editor.viewEditor model.packages model.isLight model.editor
+        [ Ui.Editor.viewEditor (Ui.Package.getInstalled model.packageUi) model.isLight model.editor
             |> Html.map OnEditorMsg
 
         , if model.isPackageUiOpen then
-            Ui.Package.view model.packages model.packageUi
+            Ui.Package.view model.packageUi
               |> Html.map OnPackageMsg
           else
             text ""
