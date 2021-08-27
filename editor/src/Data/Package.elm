@@ -77,6 +77,14 @@ decoder =
     (D.succeed 1)
 
 
+encodeAsString : List Package -> String
+encodeAsString packages =
+  let encodeOne package =
+        toName package ++ ":" ++ Version.toString package.version
+  in
+  String.join "," (List.map encodeOne packages)
+
+
 search : String -> List ( Package, Maybe Version ) -> List ( Package, Maybe Version )
 search query packages =
   let queryTerms =

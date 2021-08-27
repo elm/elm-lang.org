@@ -211,16 +211,9 @@ viewEditor installed isLight model =
     , target "output"
     ]
     [ textarea [ id "code", name "code", style "display" "none" ] []
-    , fieldset
-        [ id "dependencies", name "dependencies", style "display" "none" ]
-        (List.map viewPackage installed)
+    , input [ name "dependencies", style "display" "none", value (Package.encodeAsString installed) ] []
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
     ]
-
-
-viewPackage : Package -> Html Msg
-viewPackage package =
-  input [ name (Package.toName package), value (Version.toString package.version) ] []
 
 
 viewEditor_ : String -> Maybe Region -> Bool -> Int -> Html Msg
