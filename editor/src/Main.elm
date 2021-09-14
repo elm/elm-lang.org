@@ -20,7 +20,6 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Status as Status
 import Data.Problem as Problem
-import Data.Package as Package
 import Data.Window exposing (Window)
 import Data.Version exposing (Version)
 import Ui.Problem
@@ -201,7 +200,7 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Ui.Editor.viewEditor (Ui.Package.getInstalled model.packageUi) model.isLight model.editor
+        [ Ui.Editor.viewEditor model.isLight model.editor
             |> Html.map OnEditorMsg
 
         , if model.isPackageUiOpen then

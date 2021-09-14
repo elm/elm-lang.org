@@ -7,8 +7,7 @@ import Html.Events as HE
 import Html.Keyed as HK
 import Html.Lazy as HL
 import Data.Version as Version exposing (Version(..))
-import Data.Package as Package exposing (Package)
-import Data.PackageList as PackageList
+import Data.PackageList as PackageList exposing (Package)
 import Dict exposing (Dict)
 import Http
 import Ui.Navigation
@@ -19,76 +18,31 @@ import FeatherIcons as Icon
 
 type alias Model =
   { query : String
-  , packages : Dict String ( Package, Maybe Version )
-  , packageList : List PackageList.Package
+  , packages : PackageList.Packages
   }
-
-
-getInstalled : Model -> List Package
-getInstalled model =
-  model.packages
-    |> Dict.values
-    |> List.filterMap (\(p, i) -> if Package.isInstalled i then Just p else Nothing)
-
-
-type Packages
-  = Loading
-  | Success (Dict String Package)
-  | Failed Http.Error
 
 
 init : ( Model, Cmd Msg )
 init =
   ( { query = ""
-    , packageList = []
-    , packages =
-        let installed = Package.toDict Package.defaults in
-        Package.merge installed installed
+    , packages = PackageList.preinstalled
     }
-  , Cmd.batch [ fetchAllPackages, fetchAllPackageList ]
+  , PackageList.fetch GotPackageList
   )
 
 
-fetchAllPackages : Cmd Msg
-fetchAllPackages =
-  Http.get
-    { url = "https://package.elm-lang.org/search.json"
-    , expect = Http.expectJson GotAllPackages (D.list Package.decoder)
-    }
-
-
-fetchAllPackageList : Cmd Msg
-fetchAllPackageList =
-  Http.get
-    { url = "http://localhost:8000/compile/packages/all"
-    , expect = Http.expectBytes GotPackageList PackageList.decode
-    }
-
-
-
 type Msg
-  = GotAllPackages (Result Http.Error (List Package))
-  | GotPackageList (Result Http.Error (List PackageList.Package))
+  = GotPackageList (Result Http.Error (List PackageList.Package))
   | OnQuery String
   | OnInstall Package
-  | OnInstalled (Result Http.Error String)
+  | OnInstalled Package (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    GotAllPackages (Ok all) ->
-      ( { model | packages = Package.merge (Dict.map (always Tuple.first) model.packages) (Package.toDict all) }
-      , Cmd.none
-      )
-
-    GotAllPackages (Err err) ->
-      ( model -- TODO
-      , Cmd.none
-      )
-
-    GotPackageList (Ok list) ->
-      ( { model | packageList = list }
+    GotPackageList (Ok news) ->
+      ( { model | packages = PackageList.fromNews news }
       , Cmd.none
       )
 
@@ -103,21 +57,16 @@ update msg model =
       )
 
     OnInstall package ->
-      ( { model | query = ""
-        , packages = Dict.insert (Package.toName package) ( package, Just package.version ) model.packages
-        }
-      , Http.riskyRequest
-          { method = "POST"
-          , headers = []
-          , url = "http://localhost:8000/compile/packages/install" -- TODO
-          , body = Http.jsonBody <| E.object [ ( "author", E.string package.author ), ( "project", E.string package.project ) ]
-          , expect = Http.expectString OnInstalled
-          , timeout = Nothing
-          , tracker = Nothing
-          }
+      ( { model | query = "" }
+      , PackageList.attemptInstall OnInstalled package
       )
 
-    OnInstalled result ->
+    OnInstalled package (Ok _) ->
+      ( { model | packages = PackageList.toInstalled package model.packages }
+      , Cmd.none
+      )
+
+    OnInstalled package (Err _) ->
       ( model -- TODO
       , Cmd.none
       )
@@ -150,23 +99,16 @@ viewQuery model =
 viewAllFound : Model -> Html Msg
 viewAllFound model =
   let results =
-        if String.isEmpty model.query then
-          model.packages
-            |> Dict.values
-            |> List.filter (\( p, installation ) -> Package.isInstalled installation)
-            |> List.sortBy (\( p, installation ) -> p.order )
-        else
-          model.packages
-            |> Dict.values
-            |> Package.search model.query
-            |> List.sortBy (\( p, installation ) -> ( if Package.isInstalled installation then 0 else 1, p.order ) )
+        if String.isEmpty model.query
+        then PackageList.getInstalled model.packages
+        else PackageList.getQuery model.query model.packages
   in
   HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
 
 
 viewFoundPackage : ( Package, Maybe Version ) -> ( String, Html Msg )
 viewFoundPackage ( package, installation ) =
-  ( Package.toName package
+  ( PackageList.toName package
   , HL.lazy viewFound ( package, installation )
   )
 

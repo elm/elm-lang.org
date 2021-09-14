@@ -4,14 +4,27 @@ import Dict exposing (Dict)
 import Data.Version as Version exposing (Version(..))
 import Bytes exposing (Endianness(..))
 import Bytes.Decode as D
+import Json.Encode as E
+import Http
 
 
-type alias Package =
-  { author : String
-  , project : String
-  , version : Version
-  , order : Int
-  }
+-- MANY
+
+
+type alias Packages =
+  Dict ( String, String ) ( Package, Maybe Version )
+
+
+
+-- MANY / INIT
+
+
+preinstalled : Packages
+preinstalled =
+  let toPair pkg =
+        ( toKey pkg, ( pkg, Just pkg.version ) )
+  in
+  Dict.fromList (List.map toPair defaults)
 
 
 defaults : List Package
@@ -26,11 +39,144 @@ defaults =
 
 
 
+fetch : (Result Http.Error (List Package) -> msg) -> Cmd msg
+fetch onResult =
+  Http.get
+    { url = "http://localhost:8000/compile/packages/all" -- TODO
+    , expect = Http.expectBytes onResult decoder
+    }
+
+
+
+-- MANY / UPDATE
+
+
+fromNews : List Package -> Packages
+fromNews news =
+  let onlyInInstalled key installed =
+        Dict.insert key ( installed, Just installed.version )
+
+      inBoth key installed package =
+        Dict.insert key ( package, Just installed.version )
+
+      onlyInNews key package =
+        Dict.insert key ( package, Nothing )
+  in
+  Dict.merge onlyInInstalled inBoth onlyInNews (fromList defaults) (fromList news) Dict.empty
+
+
+fromList : List Package -> Dict ( String, String ) Package
+fromList packages =
+  let toPair index pkg =
+        ( toKey pkg, { pkg | order = index } )
+  in
+  Dict.fromList (List.indexedMap toPair packages)
+
+
+
+-- MANY / INSTALLATION
+
+
+attemptInstall : (Package -> Result Http.Error String -> msg) -> Package -> Cmd msg
+attemptInstall onResult package =
+  let payload =
+        E.object
+          [ ( "author", E.string package.author )
+          , ( "project", E.string package.project )
+          ]
+  in
+  Http.riskyRequest
+    { method = "POST"
+    , headers = []
+    , url = "http://localhost:8000/compile/packages/install" -- TODO
+    , body = Http.jsonBody payload
+    , expect = Http.expectString (onResult package)
+    , timeout = Nothing
+    , tracker = Nothing
+    }
+
+
+toInstalled : Package -> Packages -> Packages
+toInstalled pkg =
+  Dict.insert (toKey pkg) ( pkg, Just pkg.version )
+
+
+getInstalled : Packages -> List ( Package, Maybe Version )
+getInstalled packages =
+  let keepInstalled ( pkg, installedVersion ) =
+        case installedVersion of
+          Just _  -> True
+          Nothing -> False
+  in
+  packages
+    |> Dict.values
+    |> List.filter keepInstalled
+    |> List.sortBy (Tuple.first >> .order)
+
+
+
+-- MANY / SEARCH
+
+
+getQuery : String -> Packages -> List ( Package, Maybe Version )
+getQuery query packages =
+  let prioritizeInstalled ( package, installation ) =
+        case installation of
+          Just _  -> ( 1, package.order )
+          Nothing -> ( 0, package.order )
+  in
+  packages
+    |> Dict.values
+    |> List.sortBy prioritizeInstalled
+    |> search query
+
+
+search : String -> List ( Package, Maybe Version ) -> List ( Package, Maybe Version )
+search query packages =
+  let queryTerms =
+        String.words (String.toLower query)
+
+      matchesAllTerms ( entry, _ ) =
+        let
+          lowerName =
+            String.toLower (toName entry)
+
+          matchesTerm term =
+            String.contains term lowerName
+        in
+        List.all matchesTerm queryTerms
+  in
+  List.filter matchesAllTerms packages
+
+
+
+-- SINGLE
+
+
+type alias Package =
+  { author : String
+  , project : String
+  , version : Version
+  , order : Int
+  }
+
+
+toKey : Package -> ( String, String )
+toKey pkg =
+  ( pkg.author, pkg.project )
+
+
+toName : Package -> String
+toName pkg =
+  pkg.author ++ "/" ++ pkg.project
+
+
+
 -- DECODER
 
 
-decode : D.Decoder (List Package)
-decode =
+decoder : D.Decoder (List Package)
+decoder =
   decodeListLength
     |> D.andThen (\len -> D.loop ( len, [] ) listStep)
 

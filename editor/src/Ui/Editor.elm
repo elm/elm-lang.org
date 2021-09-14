@@ -25,7 +25,6 @@ import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
 import Data.Version as Version exposing (Version(..))
-import Data.Package as Package exposing (Package)
 import Ui.Navigation as Navigation
 
 
@@ -201,8 +200,8 @@ subscriptions _ =
 -- VIEW
 
 
-viewEditor : List Package -> Bool -> Model -> Html Msg
-viewEditor installed isLight model =
+viewEditor : Bool -> Model -> Html Msg
+viewEditor isLight model =
   Html.form
     [ id "editor"
     , action "http://localhost:8000/compile" -- TODO
