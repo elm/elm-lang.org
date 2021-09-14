@@ -205,13 +205,12 @@ viewEditor : List Package -> Bool -> Model -> Html Msg
 viewEditor installed isLight model =
   Html.form
     [ id "editor"
-    , action "http://localhost:8000/compile/v2" -- TODO
+    , action "http://localhost:8000/compile" -- TODO
     , method "post"
     , enctype "multipart/form-data"
     , target "output"
     ]
     [ textarea [ id "code", name "code", style "display" "none" ] []
-    , input [ name "dependencies", style "display" "none", value (Package.encodeAsString installed) ] []
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
     ]
 

@@ -8,16 +8,19 @@ import Html.Keyed as HK
 import Html.Lazy as HL
 import Data.Version as Version exposing (Version(..))
 import Data.Package as Package exposing (Package)
+import Data.PackageList as PackageList
 import Dict exposing (Dict)
 import Http
 import Ui.Navigation
 import Json.Decode as D
+import Json.Encode as E
 import FeatherIcons as Icon
 
 
 type alias Model =
   { query : String
   , packages : Dict String ( Package, Maybe Version )
+  , packageList : List PackageList.Package
   }
 
 
@@ -37,11 +40,12 @@ type Packages
 init : ( Model, Cmd Msg )
 init =
   ( { query = ""
+    , packageList = []
     , packages =
         let installed = Package.toDict Package.defaults in
         Package.merge installed installed
     }
-  , fetchAllPackages
+  , Cmd.batch [ fetchAllPackages, fetchAllPackageList ]
   )
 
 
@@ -53,10 +57,21 @@ fetchAllPackages =
     }
 
 
+fetchAllPackageList : Cmd Msg
+fetchAllPackageList =
+  Http.get
+    { url = "http://localhost:8000/compile/packages/all"
+    , expect = Http.expectBytes GotPackageList PackageList.decode
+    }
+
+
+
 type Msg
   = GotAllPackages (Result Http.Error (List Package))
+  | GotPackageList (Result Http.Error (List PackageList.Package))
   | OnQuery String
   | OnInstall Package
+  | OnInstalled (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -72,6 +87,16 @@ update msg model =
       , Cmd.none
       )
 
+    GotPackageList (Ok list) ->
+      ( { model | packageList = list }
+      , Cmd.none
+      )
+
+    GotPackageList (Err err) ->
+      ( model -- TODO
+      , Cmd.none
+      )
+
     OnQuery query ->
       ( { model | query = query }
       , Cmd.none
@@ -81,6 +106,19 @@ update msg model =
       ( { model | query = ""
         , packages = Dict.insert (Package.toName package) ( package, Just package.version ) model.packages
         }
+      , Http.riskyRequest
+          { method = "POST"
+          , headers = []
+          , url = "http://localhost:8000/compile/packages/install" -- TODO
+          , body = Http.jsonBody <| E.object [ ( "author", E.string package.author ), ( "project", E.string package.project ) ]
+          , expect = Http.expectString OnInstalled
+          , timeout = Nothing
+          , tracker = Nothing
+          }
+      )
+
+    OnInstalled result ->
+      ( model -- TODO
       , Cmd.none
       )
 
