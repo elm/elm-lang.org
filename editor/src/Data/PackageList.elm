@@ -38,7 +38,6 @@ defaults =
   ]
 
 
-
 fetch : (Result Http.Error (List Package) -> msg) -> Cmd msg
 fetch onResult =
   Http.get
