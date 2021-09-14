@@ -118,8 +118,8 @@ getInstalled packages =
 -- MANY / SEARCH
 
 
-getQuery : String -> Packages -> List ( Package, Maybe Version )
-getQuery query packages =
+fromQuery : String -> Packages -> List ( Package, Maybe Version )
+fromQuery query packages =
   let prioritizeInstalled ( package, installation ) =
         case installation of
           Just _  -> ( 1, package.order )

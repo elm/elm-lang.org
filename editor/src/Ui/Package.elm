@@ -101,7 +101,7 @@ viewAllFound model =
   let results =
         if String.isEmpty model.query
         then PackageList.getInstalled model.packages
-        else PackageList.getQuery model.query model.packages
+        else PackageList.fromQuery model.query model.packages
   in
   HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
 
