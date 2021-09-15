@@ -124,7 +124,7 @@ viewPopular packages =
   H.div []
     [ HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage popular)
     , H.div [ HA.id "packages__popular-note" ]
-        [ H.text ("Search to explore the other " ++ String.fromInt (Dict.size packages - List.length popular) ++ " great packages.") ]
+        [ H.text ("Search to explore the other great packages.") ]
     ]
 
 
