@@ -137,7 +137,7 @@ viewFound ( package, installation ) =
 
           PackageList.Installing ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon Nothing Icon.loader
+            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] Nothing Icon.loader
             ]
 
           PackageList.Installed installed ->
@@ -152,12 +152,12 @@ viewFound ( package, installation ) =
 
           PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon (Just "orange") Icon.alertCircle
+            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "orange") Icon.alertCircle
             ]
 
           PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon (Just "red") Icon.alertCircle
+            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "red") Icon.alertCircle
             ]
 
       viewVersion string =

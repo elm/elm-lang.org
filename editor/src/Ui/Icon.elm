@@ -15,12 +15,12 @@ import Html.Events as HE
 -- SIMPLE ICON
 
 
-simpleIcon : Maybe String -> I.Icon -> H.Html msg
-simpleIcon color icon =
+simpleIcon : List (H.Attribute msg) -> Maybe String -> I.Icon -> H.Html msg
+simpleIcon attrs color icon =
   icon
     |> I.withSize 14
     |> I.withClass ("icon " ++ Maybe.withDefault "" color)
-    |> I.toHtml []
+    |> I.toHtml attrs
 
 
 
@@ -61,7 +61,7 @@ button attrs config =
   in
   H.button
     (attrs ++ defaultAttrs)
-    [ simpleIcon config.iconColor config.icon
+    [ simpleIcon [] config.iconColor config.icon
     , case config.label of
         Just label -> H.span [ HA.class (Maybe.withDefault "" config.labelColor) ] [ H.text label ]
         Nothing -> H.text ""
@@ -91,7 +91,7 @@ link attrs config =
         ]
   in
   H.a (attrs ++ defaultAttrs)
-    [ simpleIcon config.iconColor config.icon
+    [ simpleIcon [] config.iconColor config.icon
     , case config.label of
         Just label -> H.span [] [ H.text label ]
         Nothing -> H.text ""
