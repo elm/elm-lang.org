@@ -12,8 +12,16 @@ import Http
 
 
 type alias Packages =
-  Dict ( String, String ) ( Package, Maybe Version )
+  Dict ( String, String ) ( Package, Installation )
 
+
+type Installation
+  = NotInstalled
+  | Installing
+  | Installed Version
+  --| Settled Version
+  | Incompatible
+  | Failed
 
 
 -- MANY / INIT
@@ -22,7 +30,7 @@ type alias Packages =
 preinstalled : Packages
 preinstalled =
   let toPair pkg =
-        ( toKey pkg, ( pkg, Just pkg.version ) )
+        ( toKey pkg, ( pkg, Installed pkg.version ) )
   in
   Dict.fromList (List.map toPair defaults)
 
@@ -53,13 +61,13 @@ fetch onResult =
 fromNews : List Package -> Packages
 fromNews news =
   let onlyInInstalled key installed =
-        Dict.insert key ( installed, Just installed.version )
+        Dict.insert key ( installed, Installed installed.version )
 
       inBoth key installed package =
-        Dict.insert key ( package, Just installed.version )
+        Dict.insert key ( package, Installed installed.version )
 
       onlyInNews key package =
-        Dict.insert key ( package, Nothing )
+        Dict.insert key ( package, NotInstalled )
   in
   Dict.merge onlyInInstalled inBoth onlyInNews (fromList defaults) (fromList news) Dict.empty
 
@@ -95,17 +103,20 @@ attemptInstall onResult package =
     }
 
 
-toInstalled : Package -> Packages -> Packages
-toInstalled pkg =
-  Dict.insert (toKey pkg) ( pkg, Just pkg.version )
+setInstallation : Package -> Installation -> Packages -> Packages
+setInstallation pkg installation =
+  Dict.insert (toKey pkg) ( pkg, installation )
 
 
-getInstalled : Packages -> List ( Package, Maybe Version )
+getInstalled : Packages -> List ( Package, Installation )
 getInstalled packages =
   let keepInstalled ( pkg, installedVersion ) =
         case installedVersion of
-          Just _  -> True
-          Nothing -> False
+          NotInstalled  -> False
+          Installing    -> True
+          Installed _   -> True
+          Incompatible  -> True
+          Failed        -> True
   in
   packages
     |> Dict.values
@@ -117,12 +128,15 @@ getInstalled packages =
 -- MANY / SEARCH
 
 
-fromQuery : String -> Packages -> List ( Package, Maybe Version )
+fromQuery : String -> Packages -> List ( Package, Installation )
 fromQuery query packages =
   let prioritizeInstalled ( package, installation ) =
         case installation of
-          Just _  -> ( 1, package.order )
-          Nothing -> ( 0, package.order )
+          NotInstalled  -> ( 0, package.order )
+          Installing    -> ( 1, package.order )
+          Installed _   -> ( 1, package.order )
+          Incompatible  -> ( 1, package.order )
+          Failed        -> ( 1, package.order )
   in
   packages
     |> Dict.values
@@ -130,7 +144,7 @@ fromQuery query packages =
     |> search query
 
 
-search : String -> List ( Package, Maybe Version ) -> List ( Package, Maybe Version )
+search : String -> List ( Package, Installation ) -> List ( Package, Installation )
 search query packages =
   let queryTerms =
         String.words (String.toLower query)

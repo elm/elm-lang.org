@@ -11,6 +11,7 @@ import Data.PackageList as PackageList exposing (Package)
 import Dict exposing (Dict)
 import Http
 import Ui.Navigation
+import Ui.Icon
 import Json.Decode as D
 import Json.Encode as E
 import FeatherIcons as Icon
@@ -57,17 +58,17 @@ update msg model =
       )
 
     OnInstall package ->
-      ( { model | query = "" }
+      ( { model | query = "", packages = PackageList.setInstallation package PackageList.Installing model.packages }
       , PackageList.attemptInstall OnInstalled package
       )
 
     OnInstalled package (Ok _) ->
-      ( { model | packages = PackageList.toInstalled package model.packages }
+      ( { model | packages = PackageList.setInstallation package (PackageList.Installed package.version) model.packages }
       , Cmd.none
       )
 
     OnInstalled package (Err _) ->
-      ( model -- TODO
+      ( { model | packages = PackageList.setInstallation package PackageList.Failed model.packages }
       , Cmd.none
       )
 
@@ -106,18 +107,28 @@ viewAllFound model =
   HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
 
 
-viewFoundPackage : ( Package, Maybe Version ) -> ( String, Html Msg )
+viewFoundPackage : ( Package, PackageList.Installation ) -> ( String, Html Msg )
 viewFoundPackage ( package, installation ) =
   ( PackageList.toName package
   , HL.lazy viewFound ( package, installation )
   )
 
 
-viewFound : ( Package, Maybe Version ) -> Html Msg
+viewFound : ( Package, PackageList.Installation ) -> Html Msg
 viewFound ( package, installation ) =
   let viewAction =
         case installation of
-          Just installed ->
+          PackageList.NotInstalled ->
+            [ viewVersion (Version.toString package.version)
+            , viewInstallButton (OnInstall package)
+            ]
+
+          PackageList.Installing ->
+            [ viewVersion (Version.toString package.version)
+            , Ui.Icon.view Nothing Icon.loader
+            ]
+
+          PackageList.Installed installed ->
             if installed == package.version then
               [ viewVersion (Version.toString package.version)
               , viewUninstallButton (OnInstall package)
@@ -127,9 +138,14 @@ viewFound ( package, installation ) =
               , viewUpgradeButton (OnInstall package)
               ]
 
-          Nothing ->
+          PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
-            , viewInstallButton (OnInstall package)
+            , Ui.Icon.view (Just "orange") Icon.alertCircle
+            ]
+
+          PackageList.Failed ->
+            [ viewVersion (Version.toString package.version)
+            , Ui.Icon.view (Just "red") Icon.alertCircle
             ]
 
       viewVersion string =
