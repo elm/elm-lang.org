@@ -4,7 +4,8 @@ import Dict exposing (Dict)
 import Data.Version as Version exposing (Version(..))
 import Bytes exposing (Endianness(..))
 import Bytes.Decode as D
-import Json.Encode as E
+import Json.Encode as JE
+import Json.Decode as JD
 import Http
 
 
@@ -21,7 +22,7 @@ type Installation
   | Installed Version
   --| Settled Version
   | Incompatible
-  | Failed
+  | Failed String (Maybe String)
 
 
 -- MANY / INIT
@@ -84,12 +85,12 @@ fromList packages =
 -- MANY / INSTALLATION
 
 
-attemptInstall : (Package -> Result Http.Error String -> msg) -> Package -> Cmd msg
+attemptInstall : (Package -> Result Http.Error Installation -> msg) -> Package -> Cmd msg
 attemptInstall onResult package =
   let payload =
-        E.object
-          [ ( "author", E.string package.author )
-          , ( "project", E.string package.project )
+        JE.object
+          [ ( "author", JE.string package.author )
+          , ( "project", JE.string package.project )
           ]
   in
   Http.riskyRequest
@@ -97,10 +98,40 @@ attemptInstall onResult package =
     , headers = []
     , url = "http://localhost:8000/packages/install" -- TODO
     , body = Http.jsonBody payload
-    , expect = Http.expectString (onResult package)
+    , expect = Http.expectJson (onResult package) (decodeInstallResult package)
     , timeout = Nothing
     , tracker = Nothing
     }
+
+
+decodeInstallResult : Package -> JD.Decoder Installation
+decodeInstallResult package =
+  let decodeStatus =
+        JD.string |> JD.andThen (\s ->
+            case s of
+              "Success"                 -> JD.succeed (Installed package.version)
+              "InstallNoOutline"        -> errorWithoutPackage "InstallNoOutline"
+              "InstallBadOutline"       -> errorWithoutPackage "InstallBadOutline"
+              "InstallBadRegistry"      -> errorWithoutPackage "InstallBadRegistry"
+              "InstallNoArgs"           -> errorWithoutPackage "InstallNoArgs"
+              "InstallHadSolverTrouble" -> errorWithoutPackage "InstallHadSolverTrouble"
+              "InstallBadDetails"       -> errorWithoutPackage "InstallBadDetails"
+              "InstallNoOnlineAppSolution"    -> errorWithPackage "InstallNoOnlineAppSolution"
+              "InstallNoOfflineAppSolution"   -> errorWithPackage "InstallNoOfflineAppSolution"
+              "InstallNoOnlinePkgSolution"    -> errorWithPackage "InstallNoOnlinePkgSolution"
+              "InstallNoOfflinePkgSolution"   -> errorWithPackage "InstallNoOfflinePkgSolution"
+              "InstallUnknownPackageOnline"   -> errorWithPackage "InstallUnknownPackageOnline"
+              "InstallUnknownPackageOffline"  -> errorWithPackage "InstallUnknownPackageOffline"
+              _                               -> errorWithoutPackage "UnknownStatus"
+          )
+
+      errorWithoutPackage msg =
+        JD.succeed (Failed msg Nothing)
+
+      errorWithPackage msg =
+        JD.map (Failed msg << Just) (JD.field "package" JD.string)
+  in
+  JD.field "status" decodeStatus
 
 
 setInstallation : Package -> Installation -> Packages -> Packages
@@ -116,7 +147,7 @@ getInstalled packages =
           Installing    -> True
           Installed _   -> True
           Incompatible  -> True
-          Failed        -> True
+          Failed _ _    -> True
   in
   packages
     |> Dict.values
@@ -136,7 +167,7 @@ fromQuery query packages =
           Installing    -> ( 1, package.order )
           Installed _   -> ( 1, package.order )
           Incompatible  -> ( 1, package.order )
-          Failed        -> ( 1, package.order )
+          Failed _ _    -> ( 1, package.order )
   in
   packages
     |> Dict.values
@@ -185,7 +216,7 @@ toName pkg =
 
 
 
--- DECODER
+-- DECODER / ALL PACKAGES
 
 
 decoder : D.Decoder (List Package)

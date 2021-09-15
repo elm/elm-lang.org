@@ -36,7 +36,7 @@ type Msg
   = GotPackageList (Result Http.Error (List PackageList.Package))
   | OnQuery String
   | OnInstall Package
-  | OnInstalled Package (Result Http.Error String)
+  | OnInstalled Package (Result Http.Error PackageList.Installation)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -62,13 +62,13 @@ update msg model =
       , PackageList.attemptInstall OnInstalled package
       )
 
-    OnInstalled package (Ok _) ->
-      ( { model | packages = PackageList.setInstallation package (PackageList.Installed package.version) model.packages }
+    OnInstalled package (Ok result) ->
+      ( { model | packages = PackageList.setInstallation package result model.packages }
       , Cmd.none
       )
 
     OnInstalled package (Err _) ->
-      ( { model | packages = PackageList.setInstallation package PackageList.Failed model.packages }
+      ( { model | packages = PackageList.setInstallation package (PackageList.Failed "HTTP error" Nothing) model.packages }
       , Cmd.none
       )
 
@@ -143,7 +143,7 @@ viewFound ( package, installation ) =
             , Ui.Icon.view (Just "orange") Icon.alertCircle
             ]
 
-          PackageList.Failed ->
+          PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
             , Ui.Icon.view (Just "red") Icon.alertCircle
             ]
