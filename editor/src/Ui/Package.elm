@@ -184,7 +184,7 @@ viewUninstallButton : Msg -> Html Msg
 viewUninstallButton onClick =
   Ui.Navigation.iconButton []
     { background = Nothing
-    , icon = Icon.x
+    , icon = Icon.trash
     , iconColor = Just "red"
     , label = Nothing
     , labelColor = Nothing
