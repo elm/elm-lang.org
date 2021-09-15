@@ -20,7 +20,7 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Status as Status
 import Data.Problem as Problem
-import Data.Window exposing (Window)
+import Data.Window as Window exposing (Window)
 import Data.Version exposing (Version)
 import Ui.Problem
 import Ui.Navigation
@@ -159,7 +159,12 @@ update msg model =
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
     OnTogglePackages ->
-      ( { model | isPackageUiOpen = not model.isPackageUiOpen }, Cmd.none )
+      ( { model
+        | isPackageUiOpen = not model.isPackageUiOpen
+        , divider = Ui.ColumnDivider.openLeft model.window model.divider
+        }
+      , Cmd.none
+      )
 
     OnWindowSize width height ->
       ( { model | window = { width = width, height = height } }, Cmd.none )
@@ -191,6 +196,21 @@ view : Model -> Html Msg
 view model =
   let hasErrors =
         Status.hasProblems model.status
+
+      ( packageStyles, editorStyles ) =
+        if model.isPackageUiOpen then
+          if Window.isLessThan model.window 400 then
+            ( [ style "max-width" "100%", style "border" "0" ]
+            , [ style "max-width" "0" ]
+            )
+          else
+            ( [ style "max-width" "400px" ]
+            , [ style "max-width" "calc(100% - 400px)" ]
+            )
+        else
+          ( [ style "max-width" "0", style "border" "0" ]
+          , [ style "max-width" "100%" ]
+          )
   in
   main_
     [ id "main"
@@ -200,14 +220,11 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Ui.Editor.viewEditor model.isLight model.editor
-            |> Html.map OnEditorMsg
+        [ Ui.Package.view packageStyles model.packageUi
+            |> Html.map OnPackageMsg
 
-        , if model.isPackageUiOpen then
-            Ui.Package.view model.packageUi
-              |> Html.map OnPackageMsg
-          else
-            text ""
+        , Ui.Editor.viewEditor editorStyles model.isLight model.editor
+            |> Html.map OnEditorMsg
 
         , case Status.getProblems model.status of
             Just problems ->

@@ -200,15 +200,16 @@ subscriptions _ =
 -- VIEW
 
 
-viewEditor : Bool -> Model -> Html Msg
-viewEditor isLight model =
+viewEditor : List (Attribute Msg) -> Bool -> Model -> Html Msg
+viewEditor attrs isLight model =
   Html.form
-    [ id "editor"
-    , action "http://localhost:8000/compile" -- TODO
-    , method "post"
-    , enctype "multipart/form-data"
-    , target "output"
-    ]
+    (attrs ++
+      [ id "editor"
+      , action "http://localhost:8000/compile" -- TODO
+      , method "post"
+      , enctype "multipart/form-data"
+      , target "output"
+      ])
     [ textarea [ id "code", name "code", style "display" "none" ] []
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
     ]

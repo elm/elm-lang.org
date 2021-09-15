@@ -1,4 +1,4 @@
-module Ui.ColumnDivider exposing (Model, isRightMost, init, Msg, update, view)
+module Ui.ColumnDivider exposing (Model, isRightMost, openLeft, init, Msg, update, view)
 
 
 {-| Control the sizes of the two columns, editor and result.
@@ -13,7 +13,7 @@ import Html.Events exposing (onClick, on, preventDefaultOn)
 import Html.Lazy exposing (..)
 import Json.Encode as E
 import Json.Decode as D
-import Data.Window exposing (Window)
+import Data.Window as Window exposing (Window)
 
 
 
@@ -33,14 +33,14 @@ isRightMost window model =
   model.percent >= rightMost window
 
 
-leftMost :  Window -> Float
+leftMost : Window -> Float
 leftMost window =
   toPercentage window 35
 
 
 rightMost : Window -> Float
 rightMost window =
-  100 - toPercentage window (if window.width <= 1000 then 25 else 35)
+  100 - toPercentage window (if Window.isMobile window then 25 else 35)
 
 
 halfPoint : Float
@@ -56,7 +56,7 @@ clamp window =
 jump : Window -> Float -> Float
 jump window percent =
   if percent >= rightMost window then leftMost window
-  else if percent <= leftMost window then (if window.width <= 1000 then rightMost window else halfPoint)
+  else if percent <= leftMost window then (if Window.isMobile window then rightMost window else halfPoint)
   else if percent >= halfPoint then rightMost window
   else leftMost window
 
@@ -92,6 +92,10 @@ init window =
   { percent = 50
   , movement = None
   }
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -137,6 +141,15 @@ update window msg model =
 
     OnClickLeft ->
       { model | percent = rightMost window }
+
+
+openLeft : Window -> Model -> Model
+openLeft window model =
+  { model | percent = rightMost window }
+
+
+
+-- VIEW
 
 
 view : (Msg -> msg) -> Window -> Model -> List (Html msg) -> List (Html msg) -> Html msg

@@ -38,12 +38,12 @@ preinstalled =
 
 defaults : List Package
 defaults =
-  [ Package "elm" "browser" (Version 1 0 2) 0
-  , Package "elm" "core" (Version 1 0 5) 0
-  , Package "elm" "html" (Version 1 0 0) 0
-  , Package "elm" "json" (Version 1 1 3) 0
-  , Package "elm" "url" (Version 1 0 0) 0
-  , Package "elm" "virtual-dom" (Version 1 0 2) 0
+  [ Package "elm" "browser" (Version 1 0 2)
+  , Package "elm" "core" (Version 1 0 5)
+  , Package "elm" "html" (Version 1 0 0)
+  , Package "elm" "json" (Version 1 1 3)
+  , Package "elm" "url" (Version 1 0 0)
+  , Package "elm" "virtual-dom" (Version 1 0 2)
   ]
 
 
@@ -76,7 +76,7 @@ fromNews news =
 fromList : List Package -> Dict ( String, String ) Package
 fromList packages =
   let toPair index pkg =
-        ( toKey pkg, { pkg | order = index } )
+        ( toKey pkg, pkg )
   in
   Dict.fromList (List.indexedMap toPair packages)
 
@@ -152,7 +152,12 @@ getInstalled packages =
   packages
     |> Dict.values
     |> List.filter keepInstalled
-    |> List.sortBy (Tuple.first >> .order)
+
+
+getAll : Packages -> List ( Package, Installation )
+getAll packages =
+  packages
+    |> Dict.values
 
 
 
@@ -163,11 +168,11 @@ fromQuery : String -> Packages -> List ( Package, Installation )
 fromQuery query packages =
   let prioritizeInstalled ( package, installation ) =
         case installation of
-          NotInstalled  -> ( 0, package.order )
-          Installing    -> ( 1, package.order )
-          Installed _   -> ( 1, package.order )
-          Incompatible  -> ( 1, package.order )
-          Failed _ _    -> ( 1, package.order )
+          NotInstalled  -> 0
+          Installing    -> 1
+          Installed _   -> 1
+          Incompatible  -> 1
+          Failed _ _    -> 1
   in
   packages
     |> Dict.values
@@ -194,6 +199,30 @@ search query packages =
 
 
 
+-- POPULAR
+
+
+getPopular : Packages -> List ( Package, Installation )
+getPopular packages =
+  let keepPopular key _ =
+        List.member key popular
+  in
+  packages
+    |> Dict.filter keepPopular
+    |> Dict.values
+
+
+popular : List ( String, String )
+popular =
+  [ ( "elm", "http" )
+  , ( "elm", "random" )
+  , ( "elm", "time" )
+  , ( "rtfeldman", "elm-css" )
+  , ( "mdgriffith", "elm-ui" )
+  ]
+
+
+
 -- SINGLE
 
 
@@ -201,7 +230,6 @@ type alias Package =
   { author : String
   , project : String
   , version : Version
-  , order : Int
   }
 
 
@@ -229,7 +257,7 @@ listStep : ( Int, List Package ) -> D.Decoder (D.Step ( Int, List Package ) (Lis
 listStep ( n, pkgs ) =
   if n <= 0
   then D.succeed (D.Done pkgs)
-  else D.map (\pkg -> D.Loop ( n - 1, pkg n :: pkgs )) decodeOne
+  else D.map (\pkg -> D.Loop ( n - 1, pkg :: pkgs )) decodeOne
 
 
 decodeListLength : D.Decoder Int
@@ -241,7 +269,7 @@ decodeListLength =
     (D.unsignedInt32 BE)
 
 
-decodeOne : D.Decoder (Int -> Package)
+decodeOne : D.Decoder Package
 decodeOne =
   D.map3 Package
     decodeSizedString

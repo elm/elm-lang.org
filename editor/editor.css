@@ -14,6 +14,7 @@
   --light-theme-gray-4: #555555;
   --light-theme-border: #E6E6E6;
   --light-theme-text: #464646;
+  --light-theme-shade: #fafafa;
 
   --dark-theme-blue: #238fca;
   --dark-theme-blue-2: #55b0fc;
@@ -63,6 +64,11 @@ a:hover {
   text-decoration: underline;
 }
 
+h3 {
+  font-size: 14px;
+  margin-top: 0px;
+}
+
 #main {
   width: 100%;
   height: 100%;
@@ -92,6 +98,10 @@ a:hover {
   width: 100%;
   height: calc(100% - 30px);
   background-color: white;
+  vertical-align: top;
+  display: inline-block;
+  box-sizing: border-box;
+  transition: max-width 0.5s;
 }
 
 #right-side {
@@ -372,24 +382,35 @@ a:hover {
 /**** PACKAGES ****/
 
 #packages {
-  position: absolute;
-  bottom: 30px;
-  background: white;
-  z-index: 100;
-  padding: 20px;
-  border: 1px solid var(--light-theme-border);
-  max-width: 100%;
-  height: 100%;
-  max-height: 300px;
-  display: flex;
-  flex-direction: row;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 100%;
+  transition: max-width 0.5s;
+  height: calc(100% - 30px);
+  overflow-x: auto;
+  background: var(--light-theme-shade);
+  border-right: 1px solid var(--light-theme-border);
 }
 
 #packages__installer {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
+  width: 400px;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#packages__installed {
+  margin-bottom: 15px;
+}
+
+#packages__popular {
+  margin-bottom: 15px;
+}
+
+#packages__registry {
+
 }
 
 #package-query {
@@ -397,6 +418,8 @@ a:hover {
   border-bottom: 1px solid var(--light-theme-border);
   margin-bottom: 10px;
   line-height: 1.5;
+  width: 100%;
+  background: inherit;
 }
 
 #package-query::placeholder {
@@ -406,6 +429,7 @@ a:hover {
 #package-options {
   height: 100%;
   overflow-y: auto;
+  color: var(--light-theme-gray-4);
 }
 
 .package-option {

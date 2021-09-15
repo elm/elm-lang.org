@@ -73,14 +73,26 @@ update msg model =
       )
 
 
-view : Model -> Html Msg
-view model =
+view : List (H.Attribute Msg) -> Model -> Html Msg
+view attrs model =
+  let installed =
+        PackageList.getInstalled model.packages
+  in
   H.div
-    [ HA.id "packages" ]
+    (attrs ++ [ HA.id "packages" ])
     [ H.div
-        [ HA.id "packages__installer"]
-        [ viewQuery model
-        , viewAllFound model
+        [ HA.id "packages__installer" ]
+        [ H.div
+            [ HA.id "packages__installed" ]
+            [ H.h3 [] [ H.text "Installed" ]
+            , HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage installed)
+            ]
+        , H.div
+            [ HA.id "packages__registry" ]
+            [ H.h3 [] [ H.text "Search" ]
+            , viewQuery model
+            , viewAllFound model
+            ]
         ]
     ]
 
@@ -100,8 +112,8 @@ viewQuery model =
 viewAllFound : Model -> Html Msg
 viewAllFound model =
   let results =
-        if String.isEmpty model.query
-        then PackageList.getInstalled model.packages
+        if String.length model.query < 3
+        then PackageList.getPopular model.packages
         else PackageList.fromQuery model.query model.packages
   in
   HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
@@ -183,7 +195,7 @@ viewUninstallButton onClick =
   Ui.Icon.button [ HA.style "padding-left" "10px" ]
     { background = Nothing
     , icon = Icon.trash
-    , iconColor = Just "red"
+    , iconColor = Nothing
     , label = Nothing
     , labelColor = Nothing
     , alt = "Uninstall"
