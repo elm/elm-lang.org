@@ -159,14 +159,14 @@ a:hover {
 }
 
 
-/**** MENU BUTTONS ****/
+/**** ICON BUTTONS ****/
 
-.menu-button {
+.icon-button {
   display: inline-block;
   font-family: inherit;
   background: transparent;
   border: 0;
-  padding: 0 10px;
+  padding: 0;
   height: 100%;
   cursor: pointer;
   text-align: center;
@@ -176,11 +176,11 @@ a:hover {
   font-size: 13px;
 }
 
-.menu-button:disabled {
+.icon-button:disabled {
   color: var(--dark-theme-gray-4);
 }
 
-.menu-button span:nth-child(2) {
+.icon-button span:nth-child(2) {
   margin-left: 8px;
 }
 

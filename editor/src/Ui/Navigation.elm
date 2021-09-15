@@ -1,8 +1,6 @@
 module Ui.Navigation exposing
   ( Navigation, view
   , elmLogo, toggleOpen, lights, packages, compilation, share, deploy, toggleSplit
-  , IconButton, iconButton
-  , IconLink, iconLink
   )
 
 {-| The navigation bar.
@@ -16,6 +14,7 @@ import Html.Events exposing (onClick, on)
 import Svg exposing (svg, use)
 import Svg.Attributes as SA
 import Data.Status as Status
+import Ui.Icon
 
 
 {-| -}
@@ -65,7 +64,7 @@ elmLogo =
 {-| -}
 toggleOpen : msg -> Bool -> Html msg
 toggleOpen onClick_ isMenuOpen =
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = if isMenuOpen then I.chevronDown else I.chevronUp
     , iconColor = Nothing
@@ -79,7 +78,7 @@ toggleOpen onClick_ isMenuOpen =
 {-| -}
 toggleSplit : msg -> Html msg
 toggleSplit onClick_ =
-  iconButton [ style "padding" "0 5px" ]
+  Ui.Icon.button [ style "padding" "0 5px" ]
     { background = Nothing
     , icon = I.code
     , iconColor = Nothing
@@ -93,7 +92,7 @@ toggleSplit onClick_ =
 {-| -}
 lights : msg -> Bool -> Html msg
 lights onClick_ isLight =
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = if isLight then I.moon else I.sun
     , iconColor = Nothing
@@ -151,7 +150,7 @@ compilation onClick_ status =
             , "Try again later."
             )
   in
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = icon
     , iconColor = iconColor
@@ -165,7 +164,7 @@ compilation onClick_ status =
 {-| -}
 packages : msg -> Bool -> Html msg
 packages onClick_ isOpen =
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = if isOpen then Just "lightblue" else Nothing
     , icon = I.package
     , iconColor = if isOpen then Just "blue" else Nothing
@@ -179,7 +178,7 @@ packages onClick_ isOpen =
 {-| -}
 share : msg -> Html msg
 share onClick_ =
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = I.link
     , iconColor = Nothing
@@ -193,7 +192,7 @@ share onClick_ =
 {-| -}
 deploy : msg -> Html msg
 deploy onClick_ =
-  iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = I.send
     , iconColor = Nothing
@@ -202,103 +201,3 @@ deploy onClick_ =
     , alt = "Deploy this project without editor attached"
     , onClick = Just onClick_
     }
-
-
-
--- BUTTON / GENERAL
-
-
-type alias IconButton msg =
-  { background : Maybe String
-  , icon : I.Icon
-  , iconColor : Maybe String
-  , labelColor : Maybe String
-  , label : Maybe String
-  , alt : String
-  , onClick : Maybe msg
-  }
-
-
-iconButton : List (Attribute msg) -> IconButton msg -> Html msg
-iconButton attrs config =
-  let viewIcon =
-        config.icon
-          |> I.withSize 14
-          |> I.withClass ("icon " ++ Maybe.withDefault "" config.iconColor)
-          |> I.toHtml []
-  in
-  button
-    (attrs ++
-      [ attribute "aria-label" config.alt
-      , classList <|
-          case config.background of
-              Just background ->
-                [ ( "menu-button", True )
-                , ( "background", True )
-                , ( background, True )
-                ]
-
-              Nothing ->
-                [ ( "menu-button", True ) ]
-
-      , case config.onClick of
-          Just msg -> onClick msg
-          Nothing -> disabled True
-      ])
-    [ viewIcon
-    , case config.label of
-        Just label -> span [ class (Maybe.withDefault "" config.labelColor) ] [ text label ]
-        Nothing -> text ""
-    ]
-
-
-type alias LabelButton msg =
-  { label : String
-  , alt : String
-  , onClick : msg
-  }
-
-
-labelButton : List (Attribute msg) -> LabelButton msg -> Html msg
-labelButton attrs config =
-  button
-    (attrs ++
-      [ attribute "aria-label" config.alt
-      , onClick config.onClick
-      ])
-    [ text config.label ]
-
-
-
--- LINK / GENERAL
-
-
-type alias IconLink =
-  { icon : I.Icon
-  , iconColor : Maybe String
-  , label : Maybe String
-  , alt : String
-  , link : String
-  }
-
-
-iconLink : List (Attribute msg) -> IconLink -> Html msg
-iconLink attrs config =
-  let viewIcon =
-        config.icon
-          |> I.withSize 14
-          |> I.withClass ("icon " ++ Maybe.withDefault "" config.iconColor)
-          |> I.toHtml []
-  in
-  a
-    (attrs ++
-      [ attribute "aria-label" config.alt
-      , class "menu-button"
-      , target "_blank"
-      , href config.link
-      ])
-    [ viewIcon
-    , case config.label of
-        Just label -> span [] [ text label ]
-        Nothing -> text ""
-    ]

@@ -125,7 +125,7 @@ viewFound ( package, installation ) =
 
           PackageList.Installing ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.view Nothing Icon.loader
+            , Ui.Icon.simpleIcon Nothing Icon.loader
             ]
 
           PackageList.Installed installed ->
@@ -140,12 +140,12 @@ viewFound ( package, installation ) =
 
           PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.view (Just "orange") Icon.alertCircle
+            , Ui.Icon.simpleIcon (Just "orange") Icon.alertCircle
             ]
 
           PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.view (Just "red") Icon.alertCircle
+            , Ui.Icon.simpleIcon (Just "red") Icon.alertCircle
             ]
 
       viewVersion string =
@@ -161,15 +161,13 @@ viewFound ( package, installation ) =
         , H.text "/"
         , H.span [ HA.class "package-option__project" ] [ H.text package.project ]
         ]
-    , H.div
-        [ HA.class "package-option__right" ]
-        viewAction
+    , H.div [ HA.class "package-option__right" ] viewAction
     ]
 
 
 viewUpgradeButton : Msg -> Html Msg
 viewUpgradeButton onClick =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ HA.style "padding-left" "10px" ]
     { background = Nothing
     , icon = Icon.arrowUp
     , iconColor = Just "green"
@@ -182,7 +180,7 @@ viewUpgradeButton onClick =
 
 viewUninstallButton : Msg -> Html Msg
 viewUninstallButton onClick =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ HA.style "padding-left" "10px" ]
     { background = Nothing
     , icon = Icon.trash
     , iconColor = Just "red"
@@ -195,7 +193,7 @@ viewUninstallButton onClick =
 
 viewInstallButton : Msg -> Html Msg
 viewInstallButton onClick =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ HA.style "padding-left" "10px" ]
     { background = Nothing
     , icon = Icon.plus
     , iconColor = Nothing

@@ -25,7 +25,7 @@ import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
 import Data.Version as Version exposing (Version(..))
-import Ui.Navigation as Navigation
+import Ui.Icon
 
 
 
@@ -257,7 +257,7 @@ viewHint_ token table =
           text ""
 
         Hint.Specific hint ->
-          Navigation.iconLink []
+          Ui.Icon.link [ style "padding" "0 10px" ]
             { icon = I.helpCircle
             , iconColor = Nothing
             , label = Just hint.text

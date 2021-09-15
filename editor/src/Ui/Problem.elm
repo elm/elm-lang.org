@@ -8,7 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
 import Elm.Error as Error
-import Ui.Navigation
+import Ui.Icon
 import FeatherIcons as I
 import Data.Problem exposing (..)
 
@@ -83,7 +83,7 @@ viewCarouselMini config problems =
 
 viewPreviousButton : msg -> Problems -> Html msg
 viewPreviousButton onPrevious problems =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = I.chevronLeft
     , iconColor = Nothing
@@ -96,7 +96,7 @@ viewPreviousButton onPrevious problems =
 
 viewNextButton : msg -> Problems -> Html msg
 viewNextButton onNext problems =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = I.chevronRight
     , iconColor = Nothing
@@ -109,7 +109,7 @@ viewNextButton onNext problems =
 
 viewMinimize : msg -> Html msg
 viewMinimize onMinimize =
-  Ui.Navigation.iconButton []
+  Ui.Icon.button [ style "padding" "0 10px" ]
     { background = Nothing
     , icon = I.minimize2
     , iconColor = Nothing
