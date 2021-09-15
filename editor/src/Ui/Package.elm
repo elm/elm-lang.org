@@ -89,7 +89,7 @@ view attrs model =
             ]
         , H.div
             [ HA.id "packages__registry" ]
-            [ H.h3 [] [ H.text "Search" ]
+            [ H.h3 [] [ H.text "Registry" ]
             , viewQuery model
             , viewAllFound model
             ]
@@ -104,17 +104,34 @@ viewQuery model =
     , HA.type_ "text"
     , HA.value model.query
     , HE.onInput OnQuery
-    , HA.placeholder "author/project"
+    , HA.placeholder "Search"
     ]
     []
 
 
 viewAllFound : Model -> Html Msg
 viewAllFound model =
+  if String.length model.query < 3
+  then HL.lazy viewPopular model.packages
+  else viewSearchResults model
+
+
+viewPopular : PackageList.Packages -> Html Msg
+viewPopular packages =
+  let popular =
+        PackageList.getPopular packages
+  in
+  H.div []
+    [ HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage popular)
+    , H.div [ HA.id "packages__popular-note" ]
+        [ H.text ("Search to explore the other " ++ String.fromInt (Dict.size packages - List.length popular) ++ " great packages.") ]
+    ]
+
+
+viewSearchResults : Model -> Html Msg
+viewSearchResults model =
   let results =
-        if String.length model.query < 3
-        then PackageList.getPopular model.packages
-        else PackageList.fromQuery model.query model.packages
+        PackageList.fromQuery model.query model.packages
   in
   HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage results)
 
