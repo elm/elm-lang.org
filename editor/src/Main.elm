@@ -159,9 +159,8 @@ update msg model =
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
     OnTogglePackages ->
-      ( { model
-        | isPackageUiOpen = not model.isPackageUiOpen
-        , divider = Ui.ColumnDivider.openLeft model.window model.divider
+      ( { model | isPackageUiOpen = not model.isPackageUiOpen
+        , divider = if not model.isPackageUiOpen then Ui.ColumnDivider.openLeft model.window model.divider else model.divider
         }
       , Cmd.none
       )
