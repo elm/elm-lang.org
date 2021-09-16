@@ -142,12 +142,7 @@ setInstallation pkg installation =
 getInstalled : Packages -> List ( Package, Installation )
 getInstalled packages =
   let keepInstalled ( pkg, installedVersion ) =
-        case installedVersion of
-          NotInstalled  -> False
-          Installing    -> True
-          Installed _   -> True
-          Incompatible  -> True
-          Failed _ _    -> True
+        isInstalled installedVersion
   in
   packages
     |> Dict.values
@@ -160,23 +155,28 @@ getAll packages =
     |> Dict.values
 
 
+isInstalled : Installation -> Bool
+isInstalled installation =
+  case installation of
+    NotInstalled  -> False
+    Installing    -> True
+    Installed _   -> True
+    Incompatible  -> True
+    Failed _ _    -> True
+
+
 
 -- MANY / SEARCH
 
 
 fromQuery : String -> Packages -> List ( Package, Installation )
 fromQuery query packages =
-  let prioritizeInstalled ( package, installation ) =
-        case installation of
-          NotInstalled  -> 0
-          Installing    -> 1
-          Installed _   -> 1
-          Incompatible  -> 1
-          Failed _ _    -> 1
+  let onlyNotInstalled ( package, installation ) =
+        not (isInstalled installation)
   in
   packages
     |> Dict.values
-    |> List.sortBy prioritizeInstalled
+    |> List.filter onlyNotInstalled
     |> search query
 
 
@@ -204,8 +204,8 @@ search query packages =
 
 getPopular : Packages -> List ( Package, Installation )
 getPopular packages =
-  let keepPopular key _ =
-        List.member key popular
+  let keepPopular key ( package, installation ) =
+        not (isInstalled installation) && List.member key popular
   in
   packages
     |> Dict.filter keepPopular
