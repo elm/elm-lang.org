@@ -50,7 +50,7 @@ defaults =
 fetch : (Result Http.Error (List Package) -> msg) -> Cmd msg
 fetch onResult =
   Http.get
-    { url = "http://localhost:8000/packages/all" -- TODO
+    { url = "http://localhost:8000/api/packages/all" -- TODO
     , expect = Http.expectBytes onResult decoder
     }
 
@@ -96,7 +96,7 @@ attemptInstall onResult package =
   Http.riskyRequest
     { method = "POST"
     , headers = []
-    , url = "http://localhost:8000/packages/install" -- TODO
+    , url = "http://localhost:8000/api/packages/install" -- TODO
     , body = Http.jsonBody payload
     , expect = Http.expectJson (onResult package) (decodeInstallResult package)
     , timeout = Nothing

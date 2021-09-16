@@ -205,7 +205,7 @@ viewEditor attrs isLight model =
   Html.form
     (attrs ++
       [ id "editor"
-      , action "http://localhost:8000/compile" -- TODO
+      , action "http://localhost:8000/api/compile" -- TODO
       , method "post"
       , enctype "multipart/form-data"
       , target "output"
