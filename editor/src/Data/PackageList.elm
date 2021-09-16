@@ -41,9 +41,6 @@ defaults =
   [ Package "elm" "browser" (Version 1 0 2)
   , Package "elm" "core" (Version 1 0 5)
   , Package "elm" "html" (Version 1 0 0)
-  , Package "elm" "json" (Version 1 1 3)
-  , Package "elm" "url" (Version 1 0 0)
-  , Package "elm" "virtual-dom" (Version 1 0 2)
   ]
 
 
@@ -106,32 +103,35 @@ attemptInstall onResult package =
 
 decodeInstallResult : Package -> JD.Decoder Installation
 decodeInstallResult package =
-  let decodeStatus =
-        JD.string |> JD.andThen (\s ->
-            case s of
-              "Success"                 -> JD.succeed (Installed package.version)
-              "InstallNoOutline"        -> errorWithoutPackage "InstallNoOutline"
-              "InstallBadOutline"       -> errorWithoutPackage "InstallBadOutline"
-              "InstallBadRegistry"      -> errorWithoutPackage "InstallBadRegistry"
-              "InstallNoArgs"           -> errorWithoutPackage "InstallNoArgs"
-              "InstallHadSolverTrouble" -> errorWithoutPackage "InstallHadSolverTrouble"
-              "InstallBadDetails"       -> errorWithoutPackage "InstallBadDetails"
-              "InstallNoOnlineAppSolution"    -> errorWithPackage "InstallNoOnlineAppSolution"
-              "InstallNoOfflineAppSolution"   -> errorWithPackage "InstallNoOfflineAppSolution"
-              "InstallNoOnlinePkgSolution"    -> errorWithPackage "InstallNoOnlinePkgSolution"
-              "InstallNoOfflinePkgSolution"   -> errorWithPackage "InstallNoOfflinePkgSolution"
-              "InstallUnknownPackageOnline"   -> errorWithPackage "InstallUnknownPackageOnline"
-              "InstallUnknownPackageOffline"  -> errorWithPackage "InstallUnknownPackageOffline"
-              _                               -> errorWithoutPackage "UnknownStatus"
-          )
+  let decodeStatusInfo status =
+        case status of
+          "Success"                 -> onSuccess
+          "InstallNoOutline"        -> onErrorWithoutPackage "InstallNoOutline"
+          "InstallBadOutline"       -> onErrorWithoutPackage "InstallBadOutline"
+          "InstallBadRegistry"      -> onErrorWithoutPackage "InstallBadRegistry"
+          "InstallNoArgs"           -> onErrorWithoutPackage "InstallNoArgs"
+          "InstallHadSolverTrouble" -> onErrorWithoutPackage "InstallHadSolverTrouble"
+          "InstallBadDetails"       -> onErrorWithoutPackage "InstallBadDetails"
+          "InstallNoOnlineAppSolution"    -> onErrorWithPackage "InstallNoOnlineAppSolution"
+          "InstallNoOfflineAppSolution"   -> onErrorWithPackage "InstallNoOfflineAppSolution"
+          "InstallNoOnlinePkgSolution"    -> onErrorWithPackage "InstallNoOnlinePkgSolution"
+          "InstallNoOfflinePkgSolution"   -> onErrorWithPackage "InstallNoOfflinePkgSolution"
+          "InstallUnknownPackageOnline"   -> onErrorWithPackage "InstallUnknownPackageOnline"
+          "InstallUnknownPackageOffline"  -> onErrorWithPackage "InstallUnknownPackageOffline"
+          _                               -> onErrorWithoutPackage "UnknownStatus"
 
-      errorWithoutPackage msg =
+      onSuccess =
+        JD.field "dependencies" (JD.dict Version.decoder)
+          |> JD.map (\deps -> Installed <| Maybe.withDefault package.version <| Dict.get (toName package) deps)
+
+      onErrorWithoutPackage msg =
         JD.succeed (Failed msg Nothing)
 
-      errorWithPackage msg =
+      onErrorWithPackage msg =
         JD.map (Failed msg << Just) (JD.field "package" JD.string)
   in
-  JD.field "status" decodeStatus
+  JD.field "status" JD.string
+    |> JD.andThen decodeStatusInfo
 
 
 setInstallation : Package -> Installation -> Packages -> Packages
