@@ -124,7 +124,7 @@ viewPopular packages =
   H.div []
     [ HK.node "div" [ HA.id "package-options" ] (List.map viewFoundPackage popular)
     , H.div [ HA.id "packages__popular-note" ]
-        [ H.text ("Search to explore the other great packages.") ]
+        [ H.text ("Search to explore other great packages.") ]
     ]
 
 
@@ -149,31 +149,37 @@ viewFound ( package, installation ) =
         case installation of
           PackageList.NotInstalled ->
             [ viewVersion (Version.toString package.version)
+            , viewDocsButton package
             , viewInstallButton (OnInstall package)
             ]
 
           PackageList.Installing ->
             [ viewVersion (Version.toString package.version)
+            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] Nothing Icon.loader
             ]
 
           PackageList.Installed installed ->
             if installed == package.version then
               [ viewVersion (Version.toString package.version)
+              , viewDocsButton package
               , viewUninstallButton (OnInstall package)
               ]
             else
               [ viewVersion (Version.toString installed ++ " → " ++ Version.toString package.version)
+              , viewDocsButton package
               , viewUpgradeButton (OnInstall package)
               ]
 
           PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
+            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "orange") Icon.alertCircle
             ]
 
           PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
+            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "red") Icon.alertCircle
             ]
 
@@ -192,6 +198,17 @@ viewFound ( package, installation ) =
         ]
     , H.div [ HA.class "package-option__right" ] viewAction
     ]
+
+
+viewDocsButton : PackageList.Package -> Html Msg
+viewDocsButton package =
+  Ui.Icon.link [ HA.style "padding-left" "10px" ]
+    { icon = Icon.fileText
+    , iconColor = Nothing
+    , label = Nothing
+    , alt = "Go to documentation"
+    , link = PackageList.toDocsLink package
+    }
 
 
 viewUpgradeButton : Msg -> Html Msg

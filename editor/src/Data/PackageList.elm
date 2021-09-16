@@ -243,6 +243,11 @@ toName pkg =
   pkg.author ++ "/" ++ pkg.project
 
 
+toDocsLink : Package -> String
+toDocsLink package =
+  "https://package.elm-lang.org/packages/" ++ toName package ++ "/" ++ Version.toString package.version
+
+
 
 -- DECODER / ALL PACKAGES
 
