@@ -149,37 +149,31 @@ viewFound ( package, installation ) =
         case installation of
           PackageList.NotInstalled ->
             [ viewVersion (Version.toString package.version)
-            , viewDocsButton package
             , viewInstallButton (OnInstall package)
             ]
 
           PackageList.Installing ->
             [ viewVersion (Version.toString package.version)
-            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] Nothing Icon.loader
             ]
 
           PackageList.Installed installed ->
             if installed == package.version then
               [ viewVersion (Version.toString package.version)
-              , viewDocsButton package
               , viewUninstallButton (OnInstall package)
               ]
             else
               [ viewVersion (Version.toString installed ++ " → " ++ Version.toString package.version)
-              , viewDocsButton package
               , viewUpgradeButton (OnInstall package)
               ]
 
           PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
-            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "orange") Icon.alertCircle
             ]
 
           PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
-            , viewDocsButton package
             , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "red") Icon.alertCircle
             ]
 
@@ -190,25 +184,14 @@ viewFound ( package, installation ) =
   in
   H.div
     [ HA.class "package-option" ]
-    [ H.div
-        [ HA.class "package-option__left" ]
-        [ H.span [ HA.class "package-option__author" ] [ H.text package.author ]
-        , H.text "/"
-        , H.span [ HA.class "package-option__project" ] [ H.text package.project ]
+    [ H.a
+        [ HA.class "package-option__left"
+        , HA.target "_blank"
+        , HA.href (PackageList.toDocsLink package)
         ]
+        [ H.text (PackageList.toName package) ]
     , H.div [ HA.class "package-option__right" ] viewAction
     ]
-
-
-viewDocsButton : PackageList.Package -> Html Msg
-viewDocsButton package =
-  Ui.Icon.link [ HA.style "padding-left" "10px" ]
-    { icon = Icon.fileText
-    , iconColor = Nothing
-    , label = Nothing
-    , alt = "Go to documentation"
-    , link = PackageList.toDocsLink package
-    }
 
 
 viewUpgradeButton : Msg -> Html Msg
