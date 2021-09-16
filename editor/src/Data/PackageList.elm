@@ -217,6 +217,12 @@ popular =
   [ ( "elm", "http" )
   , ( "elm", "random" )
   , ( "elm", "time" )
+  , ( "elm", "file" )
+  , ( "elm", "json" )
+  , ( "elm", "svg" )
+  , ( "evancz", "elm-playground" )
+  , ( "elm-explorations", "webgl" )
+  , ( "w0rm", "elm-physics")
   , ( "rtfeldman", "elm-css" )
   , ( "mdgriffith", "elm-ui" )
   ]
