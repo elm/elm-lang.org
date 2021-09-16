@@ -204,12 +204,15 @@ search query packages =
 
 getPopular : Packages -> List ( Package, Installation )
 getPopular packages =
-  let keepPopular key ( package, installation ) =
-        not (isInstalled installation) && List.member key popular
+  let getDictValue key =
+        case Dict.get key packages of
+          Just ( pkg, ins ) ->
+            if isInstalled ins then Nothing else Just ( pkg, ins )
+
+          Nothing ->
+            Nothing
   in
-  packages
-    |> Dict.filter keepPopular
-    |> Dict.values
+  List.filterMap getDictValue popular
 
 
 popular : List ( String, String )
