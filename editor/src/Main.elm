@@ -196,20 +196,13 @@ view model =
   let hasErrors =
         Status.hasProblems model.status
 
-      ( packageStyles, editorStyles ) =
+      packageStyles =
         if model.isPackageUiOpen then
-          if Window.isLessThan model.window 400 then
-            ( [ style "max-width" "100%", style "border" "0" ]
-            , [ style "max-width" "0" ]
-            )
-          else
-            ( [ style "max-width" "400px" ]
-            , [ style "max-width" "calc(100% - 400px)" ]
-            )
+          if Window.isLessThan model.window 400
+          then [ style "max-width" "400px", style "border" "0" ]
+          else [ style "max-width" "400px" ]
         else
-          ( [ style "max-width" "0", style "border" "0" ]
-          , [ style "max-width" "100%" ]
-          )
+          [ style "max-width" "0", style "border" "0" ]
   in
   main_
     [ id "main"
@@ -222,7 +215,7 @@ view model =
         [ Ui.Package.view packageStyles model.packageUi
             |> Html.map OnPackageMsg
 
-        , Ui.Editor.viewEditor editorStyles model.isLight model.editor
+        , Ui.Editor.viewEditor [] model.isLight model.editor
             |> Html.map OnEditorMsg
 
         , case Status.getProblems model.status of

@@ -91,17 +91,20 @@ h3 {
   border-right: 1px solid var(--light-theme-border);
   position: relative;
   overflow: hidden;
+  display: inline-flex;
+  flex-direction: row;
 }
 
 #editor {
   margin: 0;
-  width: 100%;
+  width: 0;
+  min-width: 0;
   height: calc(100% - 30px);
   background-color: white;
   vertical-align: top;
   display: inline-block;
   box-sizing: border-box;
-  transition: max-width 0.5s;
+  flex-grow: 1
 }
 
 #right-side {
@@ -395,7 +398,8 @@ h3 {
 
 #packages__installer {
   height: 100%;
-  width: 400px;
+  width: 100%;
+  min-width: 400px;
   overflow-y: auto;
   padding: 20px;
   box-sizing: border-box;
