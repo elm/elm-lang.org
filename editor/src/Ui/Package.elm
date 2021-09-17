@@ -36,6 +36,7 @@ type Msg
   = GotPackageList (Result Http.Error (List PackageList.Package))
   | OnQuery String
   | OnInstall Package
+  | OnUninstall Package
   | OnInstalled Package (Result Http.Error PackageList.Installation)
 
 
@@ -60,6 +61,11 @@ update msg model =
     OnInstall package ->
       ( { model | query = "", packages = PackageList.setInstallation package PackageList.Installing model.packages }
       , PackageList.attemptInstall OnInstalled package
+      )
+
+    OnUninstall package ->
+      ( { model | packages = PackageList.setInstallation package PackageList.Installing model.packages }
+      , PackageList.attemptUninstall OnInstalled package
       )
 
     OnInstalled package (Ok result) ->
@@ -160,7 +166,7 @@ viewFound ( package, installation ) =
           PackageList.Installed installed ->
             if installed == package.version then
               [ viewVersion (Version.toString package.version)
-              , viewUninstallButton (OnInstall package)
+              , viewUninstallButton (OnUninstall package)
               ]
             else
               [ viewVersion (Version.toString installed ++ " → " ++ Version.toString package.version)

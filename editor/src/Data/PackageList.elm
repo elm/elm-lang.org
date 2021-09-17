@@ -95,14 +95,14 @@ attemptInstall onResult package =
     , headers = []
     , url = "http://localhost:8000/api/packages/install" -- TODO
     , body = Http.jsonBody payload
-    , expect = Http.expectJson (onResult package) (decodeInstallResult package)
+    , expect = Http.expectJson (onResult package) (decodeInstallResult Installed package)
     , timeout = Nothing
     , tracker = Nothing
     }
 
 
-decodeInstallResult : Package -> JD.Decoder Installation
-decodeInstallResult package =
+decodeInstallResult : (Version -> Installation) -> Package -> JD.Decoder Installation
+decodeInstallResult toSuccess package =
   let decodeStatusInfo status =
         case status of
           "Success"                 -> onSuccess
@@ -122,7 +122,7 @@ decodeInstallResult package =
 
       onSuccess =
         JD.field "dependencies" (JD.dict Version.decoder)
-          |> JD.map (\deps -> Installed <| Maybe.withDefault package.version <| Dict.get (toName package) deps)
+          |> JD.map (\deps -> toSuccess <| Maybe.withDefault package.version <| Dict.get (toName package) deps)
 
       onErrorWithoutPackage msg =
         JD.succeed (Failed msg Nothing)
@@ -132,6 +132,25 @@ decodeInstallResult package =
   in
   JD.field "status" JD.string
     |> JD.andThen decodeStatusInfo
+
+
+attemptUninstall : (Package -> Result Http.Error Installation -> msg) -> Package -> Cmd msg
+attemptUninstall onResult package =
+  let payload =
+        JE.object
+          [ ( "author", JE.string package.author )
+          , ( "project", JE.string package.project )
+          ]
+  in
+  Http.riskyRequest
+    { method = "POST"
+    , headers = []
+    , url = "http://localhost:8000/api/packages/uninstall" -- TODO
+    , body = Http.jsonBody payload
+    , expect = Http.expectJson (onResult package) (decodeInstallResult (always NotInstalled) package)
+    , timeout = Nothing
+    , tracker = Nothing
+    }
 
 
 setInstallation : Package -> Installation -> Packages -> Packages
