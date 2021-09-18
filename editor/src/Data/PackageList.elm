@@ -237,6 +237,7 @@ getPopular packages =
 popular : List ( String, String )
 popular =
   [ ( "elm", "http" )
+  , ( "elm", "html" )
   , ( "elm", "random" )
   , ( "elm", "time" )
   , ( "elm", "file" )
@@ -247,6 +248,14 @@ popular =
   , ( "w0rm", "elm-physics")
   , ( "rtfeldman", "elm-css" )
   , ( "mdgriffith", "elm-ui" )
+  ]
+
+
+
+locked : List ( String, String )
+locked =
+  [ ( "elm", "browser" )
+  , ( "elm", "core" )
   ]
 
 

@@ -160,27 +160,24 @@ viewFound ( package, installation ) =
 
           PackageList.Installing ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] Nothing Icon.loader
+            , viewSimpleIcon Nothing Icon.loader
             ]
 
           PackageList.Installed installed ->
-            if installed == package.version then
-              [ viewVersion (Version.toString package.version)
-              , viewUninstallButton (OnUninstall package)
-              ]
-            else
-              [ viewVersion (Version.toString installed ++ " → " ++ Version.toString package.version)
-              , viewUpgradeButton (OnInstall package)
-              ]
+            [ viewVersion (Version.toString package.version)
+            , if List.member ( package.author, package.project ) PackageList.locked
+              then viewSimpleIcon Nothing Icon.lock
+              else viewUninstallButton (OnUninstall package)
+            ]
 
           PackageList.Incompatible ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "orange") Icon.alertCircle
+            , viewSimpleIcon (Just "orange") Icon.alertCircle
             ]
 
           PackageList.Failed _ _ ->
             [ viewVersion (Version.toString package.version)
-            , Ui.Icon.simpleIcon [ HA.style "padding-left" "10px" ] (Just "red") Icon.alertCircle
+            , viewSimpleIcon (Just "red") Icon.alertCircle
             ]
 
       viewVersion string =
@@ -198,6 +195,11 @@ viewFound ( package, installation ) =
         [ H.text (PackageList.toName package) ]
     , H.div [ HA.class "package-option__right" ] viewAction
     ]
+
+
+viewSimpleIcon : Maybe String -> Icon.Icon -> Html msg
+viewSimpleIcon =
+  Ui.Icon.simpleIcon [ HA.style "padding-left" "10px", HA.style "top" "1px" ]
 
 
 viewUpgradeButton : Msg -> Html Msg
