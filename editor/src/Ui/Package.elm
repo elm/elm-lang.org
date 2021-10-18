@@ -33,15 +33,19 @@ type alias Model =
   , registry : Fetched.Fetched Registry.Registry
   , hash : Maybe String
   , debounce : Int
+  , defaultDirect : List Package.Package
+  , defaultIndirect : List Package.Package
   }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : List Package.Package -> List Package.Package -> ( Model, Cmd Msg )
+init direct indirect =
   ( { query = ""
     , registry = Fetched.Loading
     , hash = Nothing
     , debounce = 0
+    , defaultDirect = direct
+    , defaultIndirect = indirect
     }
   , Registry.fetch GotRegistry
   )
@@ -60,8 +64,8 @@ widthPx =
 getRegistry : Model -> Registry.Registry
 getRegistry model =
   case model.registry of
-    Fetched.Loading -> Registry.initial
-    Fetched.Failed _ -> Registry.initial
+    Fetched.Loading -> Registry.initialWithDefaults model.defaultDirect model.defaultIndirect
+    Fetched.Failed _ -> Registry.initialWithDefaults model.defaultDirect model.defaultIndirect
     Fetched.Success registry -> registry
 
 
@@ -104,7 +108,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
     GotRegistry (Ok news) ->
-      ( { model | registry = Fetched.Success (Registry.fromNews news Registry.initial) }
+      ( { model | registry =
+            Registry.initialWithDefaults model.defaultDirect model.defaultIndirect
+              |> Registry.fromNews news
+              |> Fetched.Success
+        }
       , Cmd.none
       )
 

@@ -1,8 +1,10 @@
 module Data.Registry.Defaults exposing
-  ( direct, indirect, locked, popular )
+  ( direct, indirect, locked, popular, decode )
 
 import Data.Registry.Package as Package
 import Data.Version as V
+import Json.Decode as D
+import Dict exposing (Dict)
 
 
 direct : List Package.Package
@@ -10,21 +12,13 @@ direct =
   [ Package.Package "elm" "browser" (V.Version 1 0 2)
   , Package.Package "elm" "core" (V.Version 1 0 5)
   , Package.Package "elm" "html" (V.Version 1 0 0)
-  , Package.Package "elm" "file" (V.Version 1 0 5)
-  , Package.Package "elm" "http" (V.Version 2 0 0)
-  , Package.Package "elm" "json" (V.Version 1 1 3)
-  , Package.Package "elm" "random" (V.Version 1 0 0)
-  , Package.Package "elm" "svg" (V.Version 1 0 1)
-  , Package.Package "elm" "time" (V.Version 1 0 0)
-  , Package.Package "elm-explorations" "linear-algebra" (V.Version 1 0 3)
-  , Package.Package "elm-explorations" "webgl" (V.Version 1 1 0)
-  , Package.Package "evancz" "elm-playground" (V.Version 1 0 2)
   ]
 
 
 indirect : List Package.Package
 indirect =
-  [ Package.Package "elm" "bytes" (V.Version 1 0 8)
+  [ Package.Package "elm" "json" (V.Version 1 1 3)
+  , Package.Package "elm" "time" (V.Version 1 0 0)
   , Package.Package "elm" "url" (V.Version 1 0 0)
   , Package.Package "elm" "virtual-dom" (V.Version 1 0 2)
   ]
@@ -53,3 +47,16 @@ popular =
   , ( "mdgriffith", "elm-ui" )
   ]
 
+
+decode : D.Decoder (List Package.Package)
+decode =
+  let shape ( name, version ) =
+        case Package.keyFromName name of
+          Just ( author, project ) ->
+            Just (Package.Package author project version)
+
+          Nothing ->
+            Nothing
+  in
+  D.dict V.decoder
+    |> D.map (Dict.toList >> List.filterMap shape)

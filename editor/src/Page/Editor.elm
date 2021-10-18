@@ -23,11 +23,14 @@ import Data.Problem as Problem
 import Data.Window as Window exposing (Window)
 import Data.Version exposing (Version)
 import Data.Analytics as Analytics
+import Data.Registry.Defaults as Defaults
+import Data.Registry.Package as Package
 import Ui.Problem
 import Ui.Navigation
 import Ui.ColumnDivider
 import Ui.Editor
 import Ui.Package
+import Dict exposing (Dict)
 
 
 
@@ -78,13 +81,49 @@ getProblems model =
 -- INIT
 
 
-init : { original : String, name : String, width : Int, height : Int } -> ( Model, Cmd Msg )
-init flags =
-  let ( editor, editorCmd ) =
+type alias Flags =
+  { original : String
+  , name : String
+  , width : Int
+  , height : Int
+  , direct : List Package.Package
+  , indirect : List Package.Package
+  }
+
+
+decodeFlags : D.Decoder Flags
+decodeFlags =
+  D.map6 Flags
+    (D.field "original" D.string)
+    (D.field "name" D.string)
+    (D.field "width" D.int)
+    (D.field "height" D.int)
+    (D.at [ "dependencies", "direct"] Defaults.decode)
+    (D.at [ "dependencies", "indirect"] Defaults.decode)
+
+
+defaultFlags : Flags
+defaultFlags =
+  { original = "try"
+  , name = "try"
+  , width = 1000
+  , height = 700
+  , direct = Defaults.direct
+  , indirect = Defaults.indirect
+  }
+
+
+
+init : E.Value -> ( Model, Cmd Msg )
+init flagsRaw =
+  let flags =
+        Result.withDefault defaultFlags (D.decodeValue decodeFlags flagsRaw)
+
+      ( editor, editorCmd ) =
         Ui.Editor.init flags.original
 
       ( packageUi, packageUiCmd ) =
-        Ui.Package.init
+        Ui.Package.init flags.direct flags.indirect
 
       window =
         { width = flags.width, height = flags.height }

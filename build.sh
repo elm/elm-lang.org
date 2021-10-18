@@ -46,7 +46,8 @@ EOF
 #   $1 = _site/examples/NAME.html
 #   $2 = <title>
 #   $3 = NAME
-#   $4 = code
+#   $4 = dependencies.json
+#   $5 = code
 #
 function makeExampleHtml {
     cat <<EOF > $1
@@ -79,7 +80,7 @@ function makeExampleHtml {
 </svg>
 
 <main id="main"></main>
-<textarea id="original" style="display:none;">$(cat $4)</textarea>
+<textarea id="original" style="display:none;">$(cat $5)</textarea>
 <script src="/assets/editor-codemirror.js"></script>
 <script src="/assets/editor-custom-elements.js"></script>
 <script src="/assets/editor-elm.js"></script>
@@ -92,7 +93,8 @@ function makeExampleHtml {
         name: "$3",
         width: window.innerWidth,
         height: window.innerHeight,
-        original: document.getElementById('original').textContent
+        original: document.getElementById('original').textContent,
+        dependencies: $(cat $4)
       }
     });
 
@@ -216,6 +218,7 @@ fi
 echo "EXAMPLES"
 for elm in $(find examples -type f -name "*.elm")
 do
+    deps="${elm%.elm}.json"
     subpath="${elm#examples/}"
     name="${subpath%.elm}"
     html="_site/examples/$name.html"
@@ -226,13 +229,13 @@ do
         echo "Compiling: $elm"
         rm -f elm-stuff/*/Main.elm*
         elm make $elm --output=_site/examples/_compiled/$name.html > /dev/null
-        cat $elm | makeExampleHtml $html $name $name
+        cat $elm | makeExampleHtml $html $name $name $deps
     fi
 done
 
 ## try
 
-echo "" | makeExampleHtml _site/try.html "Try Elm!" _try
+echo "" | makeExampleHtml _site/try.html "Try Elm!" _try "examples/try.json"
 cp editor/splash.html _site/examples/_compiled/_try.html
 
 

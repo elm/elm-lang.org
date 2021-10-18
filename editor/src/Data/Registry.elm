@@ -1,6 +1,7 @@
 module Data.Registry exposing
   ( Registry
-  , initial, fetch, fromNews
+  , initial, initialWithDefaults
+  , fetch, fromNews
   , insert, update
   , setStatus, mapStatus
   , dismissAll
@@ -41,6 +42,13 @@ initial =
   Dict.empty
     |> insert (Status.DirectDep << .version) Defaults.direct
     |> insert (Status.IndirectDep << .version) Defaults.indirect
+
+
+initialWithDefaults : List Package.Package -> List Package.Package -> Registry
+initialWithDefaults direct indirect =
+  Dict.empty
+    |> insert (Status.DirectDep << .version) direct
+    |> insert (Status.IndirectDep << .version) indirect
 
 
 fetch : (Result Http.Error (List Package.Package) -> msg) -> Cmd msg
