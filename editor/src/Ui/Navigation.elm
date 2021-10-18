@@ -51,7 +51,7 @@ view config =
 {-| -}
 elmLogo : Html msg
 elmLogo =
-  a [ href "/", class "menu-link" ]
+  a [ href "/", class "menu-link", target "_blank" ]
     [ svg
         [ SA.height "14"
         , SA.width "14"
