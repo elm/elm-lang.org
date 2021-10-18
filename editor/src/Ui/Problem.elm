@@ -8,7 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on)
 import Elm.Error as Error
-import Ui.Navigation
+import Ui.Icon
 import FeatherIcons as I
 import Data.Problem exposing (..)
 
@@ -83,10 +83,12 @@ viewCarouselMini config problems =
 
 viewPreviousButton : msg -> Problems -> Html msg
 viewPreviousButton onPrevious problems =
-  Ui.Navigation.iconButton []
-    { icon = I.chevronLeft
+  Ui.Icon.button [ style "padding" "0 10px" ]
+    { background = Nothing
+    , icon = I.chevronLeft
     , iconColor = Nothing
     , label = Nothing
+    , labelColor = Nothing
     , alt = "See previous problem"
     , onClick = if hasPrevious problems then Just onPrevious else Nothing
     }
@@ -94,9 +96,11 @@ viewPreviousButton onPrevious problems =
 
 viewNextButton : msg -> Problems -> Html msg
 viewNextButton onNext problems =
-  Ui.Navigation.iconButton []
-    { icon = I.chevronRight
+  Ui.Icon.button [ style "padding" "0 10px" ]
+    { background = Nothing
+    , icon = I.chevronRight
     , iconColor = Nothing
+    , labelColor = Nothing
     , label = Nothing
     , alt = "See next problem"
     , onClick = if hasNext problems then Just onNext else Nothing
@@ -105,10 +109,12 @@ viewNextButton onNext problems =
 
 viewMinimize : msg -> Html msg
 viewMinimize onMinimize =
-  Ui.Navigation.iconButton []
-    { icon = I.minimize2
+  Ui.Icon.button [ style "padding" "0 10px" ]
+    { background = Nothing
+    , icon = I.minimize2
     , iconColor = Nothing
     , label = Nothing
+    , labelColor = Nothing
     , alt = "Minimize problem view"
     , onClick = Just onMinimize
     }

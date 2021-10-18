@@ -4,6 +4,7 @@
   --light-theme-blue-3: #eff6ff;
   --light-theme-turquoise: #0D8280;
   --light-theme-green: #27862A;
+  --light-theme-bright-green: #1ec31e;
   --light-theme-red: #d71f0a;
   --light-theme-orange: #BE5A09;
   --light-theme-pink: #E00B87;
@@ -13,16 +14,20 @@
   --light-theme-gray-3: #C8C8C8;
   --light-theme-gray-4: #555555;
   --light-theme-border: #E6E6E6;
+  --light-theme-border-emph: #A6A6A6;
   --light-theme-text: #464646;
+  --light-theme-text-emph: #060606;
+  --light-theme-shade: #fafafa;
 
   --dark-theme-blue: #238fca;
   --dark-theme-blue-2: #55b0fc;
   --dark-theme-blue-3: #2a2c2c;
   --dark-theme-turquoise: #14bbb7;
   --dark-theme-green: #44c948;
+  --dark-theme-bright-green: #13ad13;
   --dark-theme-red: #F4301A;
   --dark-theme-orange: #d56c16;
-  --dark-theme-pink: #ff69c1;
+  --dark-theme-pink: #ea68d9;
   --dark-theme-yellow: #cf9d02;
   --dark-theme-gray: #8A8A8A;
   --dark-theme-gray-2: #5b5a5a;
@@ -30,6 +35,10 @@
   --dark-theme-gray-4: #b0b0b0;
   --dark-theme-black: #161717;
   --dark-theme-border: #373d3e;
+  --dark-theme-border-emph: #878d8e;
+  --dark-theme-text: #b0b0b0;
+  --dark-theme-text-emph: #f0f0f0;
+  --dark-theme-shade: #252626;
 }
 
 html, head, body {
@@ -63,6 +72,11 @@ a:hover {
   text-decoration: underline;
 }
 
+h3 {
+  font-size: 14px;
+  margin-top: 0px;
+}
+
 #main {
   width: 100%;
   height: 100%;
@@ -85,13 +99,20 @@ a:hover {
   border-right: 1px solid var(--light-theme-border);
   position: relative;
   overflow: hidden;
+  display: inline-flex;
+  flex-direction: row;
 }
 
 #editor {
   margin: 0;
-  width: 100%;
+  width: 0;
+  min-width: 0;
   height: calc(100% - 30px);
   background-color: white;
+  vertical-align: top;
+  display: inline-block;
+  box-sizing: border-box;
+  flex-grow: 1
 }
 
 #right-side {
@@ -159,14 +180,14 @@ a:hover {
 }
 
 
-/**** MENU BUTTONS ****/
+/**** ICON BUTTONS ****/
 
-.menu-button {
+.icon-button {
   display: inline-block;
   font-family: inherit;
   background: transparent;
   border: 0;
-  padding: 0 10px;
+  padding: 0;
   height: 100%;
   cursor: pointer;
   text-align: center;
@@ -176,11 +197,11 @@ a:hover {
   font-size: 13px;
 }
 
-.menu-button:disabled {
+.icon-button:disabled {
   color: var(--dark-theme-gray-4);
 }
 
-.menu-button span:nth-child(2) {
+.icon-button span:nth-child(2) {
   margin-left: 8px;
 }
 
@@ -285,9 +306,15 @@ a:hover {
 }
 
 #problems .problem-region {
+  font-family: 'Courier Prime', monospace;
+  display: inline-block;
   background: inherit;
   z-index: 1;
   padding: 0 10px;
+}
+
+#problems .problem-region:empty {
+  padding: 0;
 }
 
 
@@ -360,7 +387,9 @@ a:hover {
 }
 
 #problems-carousel .problem-region {
+  font-family: 'Courier Prime', monospace;
   padding: 0;
+  display: inline-block;
 }
 
 #problems-carousel .problem-body {
@@ -369,9 +398,122 @@ a:hover {
 }
 
 
+/**** PACKAGES ****/
+
+#packages {
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 100%;
+  transition: max-width 0.5s;
+  height: calc(100% - 30px);
+  overflow-x: auto;
+  background: var(--light-theme-shade);
+  border-right: 1px solid var(--light-theme-border);
+  color: var(--light-theme-gray-4);
+}
+
+.theme-dark #packages {
+  background: var(--dark-theme-shade);
+  border-right: 1px solid var(--dark-theme-border);
+  color: var(--dark-theme-gray-4);
+}
+
+#packages h3 {
+  color: var(--light-theme-text-emph);
+}
+
+.theme-dark #packages h3 {
+  color: var(--dark-theme-text-emph);
+}
+
+#packages__installer {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#packages__installed {
+  margin-bottom: 15px;
+}
+
+#packages__registry {
+
+}
+
+#package-query {
+  border: 0px;
+  border-bottom: 1px solid var(--light-theme-border);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  width: 100%;
+  background: inherit;
+  color: var(--light-theme-text);
+}
+
+.theme-dark #package-query {
+  border-bottom: 1px solid var(--dark-theme-border);
+  color: var(--dark-theme-text);
+}
+
+#package-query::placeholder {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+#package-query {
+  outline-style: none;
+}
+
+#package-query:focus {
+  border-bottom: 1px solid var(--light-theme-border-emph);
+  background: #00000015;
+}
+
+.theme-dark #package-query:focus {
+  border-bottom: 1px solid var(--dark-theme-border-emph);
+  background: #ffffff15;
+}
+
+#package-options {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.package-option {
+  padding-bottom: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.package-option:hover {
+  color: var(--light-theme-text-emph);
+}
+
+.theme-dark .package-option:hover {
+  color: var(--dark-theme-text-emph);
+}
+
+.package-option__right {
+  display: flex;
+}
+
+.package-option__error {
+}
+
+.packages__note {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+
 /**** COLORS ****/
 
 .blue     { color: var(--light-theme-blue); }
+.darkblue { color: var(--light-theme-blue-2); }
 .green    { color: var(--light-theme-green); }
 .red      { color: var(--light-theme-red); }
 .magenta  { color: var(--light-theme-pink); }
@@ -387,13 +529,13 @@ a:hover {
 .theme-dark .yellow   { color: var(--dark-theme-yellow); }
 .theme-dark .cyan     { color: var(--dark-theme-turquoise); }
 
-.bold {
-  font-weight: bold;
-}
 
-.underline {
-  text-decoration: underline;
-}
+.background.lightblue { background: var(--light-theme-blue-3); }
+
+.theme-dark .background.lightblue { background: var(--dark-theme-blue-3); }
+
+.bold { font-weight: bold; }
+.underline { text-decoration: underline; }
 
 
 /**** CODE MIRROR ****/
@@ -406,7 +548,7 @@ a:hover {
 }
 
 .CodeMirror-linenumber {
-  padding: 1px 10px 0 5px;
+  padding: 1px 5px 0 5px;
 }
 
 /**** DARK MODE ****/
@@ -450,6 +592,8 @@ a:hover {
 .cm-s-dark span.cm-def        { color: var(--dark-theme-blue-2); }
 .cm-s-dark span.cm-error      { color: var(--dark-theme-gray-4); background: var(--dark-theme-blue); }
 
+.cm-s-dark span.CodeMirror-matchingbracket { color: var(--dark-theme-bright-green) !important; }
+
 
 /**** LIGHT MODE ****/
 
@@ -478,3 +622,5 @@ a:hover {
 .cm-s-light span.cm-variable-2 { color: var(--light-theme-orange); }
 .cm-s-light span.cm-def        { color: var(--light-theme-blue-2); }
 .cm-s-light span.cm-error      { color: white; background: var(--light-theme-blue);  }
+
+.cm-s-light span.CodeMirror-matchingbracket { color: var(--light-theme-bright-green) !important; }

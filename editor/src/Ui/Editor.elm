@@ -15,6 +15,7 @@ import Html.Lazy exposing (..)
 import Http
 import Json.Encode as E
 import Json.Decode as D
+import Dict exposing (Dict)
 import Elm.Error as Error exposing (Region)
 import FeatherIcons as I
 
@@ -23,7 +24,10 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Problem as Problem
 import Data.Status as Status
-import Ui.Navigation as Navigation
+import Data.Registry.Solution as Solution
+import Data.Registry.Package as Package
+import Data.Version as Version exposing (Version(..))
+import Ui.Icon
 
 
 
@@ -92,7 +96,7 @@ init source =
 fetchDepsInfo : Cmd Msg
 fetchDepsInfo =
   Http.get
-    { url = "https://worker.elm-lang.org/compile/deps-info.json"
+    { url = "https://elm.studio/api/compile/deps-info.json"
     , expect = Http.expectJson GotDepsInfo Deps.decoder
     }
 
@@ -198,17 +202,36 @@ subscriptions _ =
 -- VIEW
 
 
-viewEditor : Bool -> Model -> Html Msg
-viewEditor isLight model =
+viewEditor : Solution.Solution -> Bool -> Model -> Html Msg
+viewEditor solution isLight model =
   Html.form
     [ id "editor"
-    , action "https://worker.elm-lang.org/compile/v2"
+    , action "https://elm.studio/api/compile"
     , method "post"
     , enctype "multipart/form-data"
     , target "output"
     ]
     [ textarea [ id "code", name "code", style "display" "none" ] []
+    , case solution.hash of
+        Just hash -> viewSolutionInput solution hash
+        Nothing -> text ""
     , lazy4 viewEditor_ model.source model.selection isLight model.importEnd
+    ]
+
+
+viewSolutionInput : Solution.Solution -> String -> Html msg
+viewSolutionInput solution hash =
+  let toString dict =
+        dict
+          |> Dict.toList
+          |> List.map (\(key, version) -> Package.nameFromKey key ++ ":" ++ Version.toString version)
+          |> String.join ","
+  in
+  fieldset
+    [ style "display" "none" ]
+    [ input [ id "hash", name "hash", value hash ] []
+    , input [ id "direct", name "direct", value (toString solution.direct) ] []
+    , input [ id "indirect", name "indirect", value (toString solution.indirect) ] []
     ]
 
 
@@ -255,7 +278,7 @@ viewHint_ token table =
           text ""
 
         Hint.Specific hint ->
-          Navigation.iconLink []
+          Ui.Icon.link [ style "padding" "0 10px" ]
             { icon = I.helpCircle
             , iconColor = Nothing
             , label = Just hint.text

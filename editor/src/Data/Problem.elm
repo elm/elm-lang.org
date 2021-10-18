@@ -1,4 +1,16 @@
-module Data.Problem exposing (..)
+module Data.Problem exposing
+  ( Problem, Location(..)
+  , toIndexedProblems, toManyIndexedProblems
+  , reindex
+  , getRegion
+  , generic
+  , Problems, init, merge
+  , getAll, getFocused
+  , getPrevious, getNext
+  , hasPrevious, hasNext
+  , focusPrevious, focusNext
+  , getSummary, getPlainText
+  )
 
 {-| The formatting of compilation errors.
 
@@ -28,7 +40,7 @@ type Location
   | Specific { path : String, name : String, region : Error.Region }
 
 
-toIndexedProblems : Error.Error -> List  Problem
+toIndexedProblems : Error.Error -> List Problem
 toIndexedProblems errors =
   case errors of
     Error.GeneralProblem problem ->
@@ -62,12 +74,37 @@ toIndexedProblems errors =
         |> Tuple.second
 
 
+toManyIndexedProblems : List Error.Error -> List Problem
+toManyIndexedProblems errors =
+  reindex <| List.concatMap toIndexedProblems errors
+
+
+reindex : List Problem -> List Problem
+reindex =
+  List.indexedMap (\i p -> { p | index = i } )
+
+
 getRegion : Problem -> Maybe Error.Region
 getRegion problem =
   case problem.location of
     General _ -> Nothing
     Specific specific -> Just specific.region
 
+
+
+-- GENERIC ERROR
+
+
+generic : Problem
+generic =
+  { index = 0
+  , location = General { path = Nothing }
+  , title = "INTERNAL ERROR"
+  , message =
+      [ Error.Unstyled "Oops, something went wrong.\n\nThe problem has been reported and will be addressed "
+      , Error.Unstyled "as soon as possible. Please\ntry again later!"
+      ]
+  }
 
 
 -- MANY
@@ -82,6 +119,11 @@ init pbs =
   case pbs of
     first :: rest -> Just ( [], first, rest )
     _ -> Nothing
+
+
+merge : Problems -> Problems -> Problems
+merge ( prevA, currA, nextA ) pbs =
+  ( prevA, currA, nextA ++ getAll pbs )
 
 
 getAll : Problems -> List Problem

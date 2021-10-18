@@ -171,7 +171,7 @@
       while (source.skipTo('\\"')) { source.next(); source.next(); }
       if (source.skipTo('"'))
       {
-      	source.next();
+        source.next();
         setState(normal());
         return 'string';
       }
@@ -234,7 +234,11 @@
         var type = state.f(stream, function(s) { state.f = s; });
         var word = stream.current();
         return (wellKnownWords.hasOwnProperty(word)) ? 'keyword' : type;
-      }
+      },
+
+      blockCommentStart: "{-",
+      blockCommentEnd: "-}",
+      lineComment: "--"
     };
 
   });

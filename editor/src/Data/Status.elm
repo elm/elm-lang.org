@@ -27,7 +27,7 @@ getProblems status =
     Changed                       -> Nothing
     Compiling                     -> Nothing
     Success                       -> Nothing
-    Failed _                      -> Nothing
+    Failed _                      -> Just ( [], Problem.generic, [] )
     HasProblems pbs               -> Just pbs
     HasProblemsButChanged pbs     -> Just pbs
     HasProblemsButRecompiling pbs -> Just pbs
@@ -39,7 +39,7 @@ hasProblems status =
     Changed                       -> False
     Compiling                     -> False
     Success                       -> False
-    Failed _                      -> False
+    Failed _                      -> True
     HasProblems _                 -> True
     HasProblemsButChanged _       -> True
     HasProblemsButRecompiling _   -> True
@@ -75,7 +75,7 @@ changed status =
     Changed                       -> Changed
     Compiling                     -> Changed
     Success                       -> Changed
-    Failed _                      -> Changed
+    Failed _                      -> HasProblemsButChanged ( [], Problem.generic, [] )
     HasProblems pbs               -> HasProblemsButChanged pbs
     HasProblemsButChanged pbs     -> HasProblemsButChanged pbs
     HasProblemsButRecompiling pbs -> HasProblemsButChanged pbs
@@ -87,7 +87,7 @@ compiling status =
     Changed                       -> Compiling
     Compiling                     -> Compiling
     Success                       -> Compiling
-    Failed _                      -> Compiling
+    Failed _                      -> HasProblemsButRecompiling ( [], Problem.generic, [] )
     HasProblems pbs               -> HasProblemsButRecompiling pbs
     HasProblemsButChanged pbs     -> HasProblemsButRecompiling pbs
     HasProblemsButRecompiling pbs -> HasProblemsButRecompiling pbs
@@ -106,7 +106,6 @@ problems value =
         Just pbs -> HasProblems pbs
         Nothing -> Failed "Somehow returned zero problems."
 
-    Err _ ->
-      Failed "Could not decode compilation problems." -- TODO
-
+    Err err ->
+      Failed ("Could not decode compilation problems: " ++ D.errorToString err)
 

@@ -56,6 +56,7 @@ function makeExampleHtml {
 <head>
   <meta charset="UTF-8">
   <title>$2</title>
+  <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128 256x256" href="/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Try out Elm: A delightful language with friendly error messages, great performance, small assets, and no runtime exceptions.">
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
@@ -79,14 +80,13 @@ function makeExampleHtml {
 
 <main id="main"></main>
 <textarea id="original" style="display:none;">$(cat $4)</textarea>
-
 <script src="/assets/editor-codemirror.js"></script>
 <script src="/assets/editor-custom-elements.js"></script>
 <script src="/assets/editor-elm.js"></script>
 <script>
   window.addEventListener('load', function() {
     var originalCode = document.getElementById('original').textContent;
-    main = Elm.Main.init({
+    main = Elm.Page.Editor.init({
       node: document.getElementById('main'),
       flags: {
         name: "$3",
@@ -106,8 +106,7 @@ function makeExampleHtml {
     window.addEventListener("message", gotErrors, false);
 
     function gotErrors(event) {
-      console.log('gotErrors', event.origin, event.data)
-      if (event.origin !== "https://worker.elm-lang.org") return;
+      if (event.origin !== "https://elm.studio") return;
       if (event.data == "SUCCESS") {
         main.ports.gotSuccess.send(null);
       } else {
@@ -115,6 +114,11 @@ function makeExampleHtml {
         main.ports.gotErrors.send(message);
       }
     }
+
+    window.addEventListener("error", function (e) {
+      main.ports.gotJsError.send(e.error.message);
+      return false;
+    });
 
   });
 </script>
@@ -182,7 +186,18 @@ done
 if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.js ] || ! [ -f _site/assets/editor-custom-elements.js ]; then
   echo "EDITOR"
   # code mirror
-  cat editor/cm/lib/codemirror.js editor/cm/lib/active-line.js editor/cm/mode/elm.js | uglifyjs -o _site/assets/editor-codemirror.js
+  cat editor/cm/lib/codemirror.js \
+      editor/cm/mode/elm.js \
+      editor/cm/addon/edit/closebrackets.js \
+      editor/cm/addon/edit/matchbrackets.js \
+      editor/cm/addon/comment/comment.js \
+      editor/cm/addon/search/searchcursor.js \
+      editor/cm/addon/search/search.js \
+      editor/cm/addon/dialog/dialog.js \
+      editor/cm/lib/active-line.js \
+      editor/cm/addon/dialog/dialog.js \
+      editor/cm/keymap/sublime.js \
+      | uglifyjs -o _site/assets/editor-codemirror.js
 
   # custom elements
   cat editor/code-editor.js editor/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
@@ -191,8 +206,7 @@ if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.
   cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor-styles.css
 
   # elm
-  (cd editor ; elm make src/Main.elm --optimize --output=elm.js)
-  cat editor/elm.js > _site/assets/editor-elm.js
+  (cd editor ; elm make src/Page/Editor.elm --optimize --output=elm.js)
   uglifyjs editor/elm.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle -o _site/assets/editor-elm.js
   rm editor/elm.js
 fi
