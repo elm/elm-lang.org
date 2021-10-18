@@ -91,10 +91,10 @@ keywordsAndConventions =
     , ("def:init", tea_)
     , ("def:subscriptions", subs_)
 
---  TODO add hints for `let` and `as` patterns
+--  IMPROVE add hints for `let` and `as` patterns
 --  , ("let", let_)
 --  , ("in", let_)
---  , ("as", hint "As Patterns" "/TODO")
+--  , ("as", hint "As Patterns" "/IMPROVE")
     ]
 
 

@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Page.Editor exposing (main)
 
 
 import Browser
@@ -20,11 +20,15 @@ import Data.Header as Header
 import Data.Hint as Hint
 import Data.Status as Status
 import Data.Problem as Problem
-import Data.Window exposing (Window)
+import Data.Window as Window exposing (Window)
+import Data.Version exposing (Version)
+import Data.Analytics as Analytics
 import Ui.Problem
 import Ui.Navigation
 import Ui.ColumnDivider
 import Ui.Editor
+import Ui.Package
+
 
 
 -- MAIN
@@ -52,7 +56,22 @@ type alias Model =
   , isMenuOpen : Bool
   , areProblemsMini : Bool
   , status : Status.Status
+  , packageUi : Ui.Package.Model
+  , isPackageUiOpen : Bool
   }
+
+
+getProblems : Model -> Maybe Problem.Problems
+getProblems model =
+  case ( Ui.Package.getProblems model.packageUi, Status.getProblems model.status ) of
+    ( Just problems, _ ) ->
+      Just problems
+
+    ( Nothing, Just problems ) ->
+      Just problems
+
+    ( Nothing, Nothing ) ->
+      Nothing
 
 
 
@@ -63,6 +82,9 @@ init : { original : String, name : String, width : Int, height : Int } -> ( Mode
 init flags =
   let ( editor, editorCmd ) =
         Ui.Editor.init flags.original
+
+      ( packageUi, packageUiCmd ) =
+        Ui.Package.init
 
       window =
         { width = flags.width, height = flags.height }
@@ -75,8 +97,13 @@ init flags =
     , isMenuOpen = False
     , areProblemsMini = False
     , status = Status.success
+    , packageUi = packageUi
+    , isPackageUiOpen = False
     }
-  , Cmd.map OnEditorMsg editorCmd
+  , Cmd.batch
+      [ Cmd.map OnEditorMsg editorCmd
+      , Cmd.map OnPackageMsg packageUiCmd
+      ]
   )
 
 
@@ -87,13 +114,17 @@ init flags =
 type Msg
   = OnEditorMsg Ui.Editor.Msg
   | OnDividerMsg Ui.ColumnDivider.Msg
+  | OnPackageMsg Ui.Package.Msg
   | OnPreviousProblem (Maybe Error.Region)
   | OnNextProblem (Maybe Error.Region)
   | OnJumpToProblem Error.Region
   | OnMinimizeProblem Bool
   | OnToggleLights
   | OnToggleMenu
+  | OnTogglePackages
   | OnWindowSize Int Int
+  | OnReportResult (Result Http.Error String)
+  | OnJsError String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -102,14 +133,36 @@ update msg model =
     OnEditorMsg subMsg ->
       let ( editor, status, editorCmd ) =
             Ui.Editor.update subMsg model.editor model.status
+
+          packageUi =
+            if Status.isCompiling status then
+              Ui.Package.dismissAll model.packageUi
+            else
+              model.packageUi
       in
-      ( { model | editor = editor, status = status }
-      , Cmd.map OnEditorMsg editorCmd
+      ( { model | editor = editor, status = status, packageUi = packageUi }
+      , Cmd.batch
+          [ Cmd.map OnEditorMsg editorCmd
+          , case status of
+              Status.Failed errMsg ->
+                Analytics.reportError OnReportResult errMsg
+
+              _ ->
+                Cmd.none
+          ]
       )
 
     OnDividerMsg subMsg ->
       ( { model | divider = Ui.ColumnDivider.update model.window subMsg model.divider }
       , Cmd.none
+      )
+
+    OnPackageMsg subMsg ->
+      let ( packageUi, packageUiCmd ) =
+            Ui.Package.update subMsg model.packageUi
+      in
+      ( { model | packageUi = packageUi }
+      , Cmd.map OnPackageMsg packageUiCmd
       )
 
     OnPreviousProblem maybeRegion ->
@@ -136,8 +189,24 @@ update msg model =
     OnToggleMenu ->
       ( { model | isMenuOpen = not model.isMenuOpen }, Cmd.none )
 
+    OnTogglePackages ->
+      let isOpenNow = not model.isPackageUiOpen
+          push = if isOpenNow then Ui.ColumnDivider.pushLeft else Ui.ColumnDivider.pushRight
+      in
+      ( { model | isPackageUiOpen = isOpenNow
+        , divider = push model.window Ui.Package.width model.divider
+        }
+      , Cmd.none
+      )
+
     OnWindowSize width height ->
       ( { model | window = { width = width, height = height } }, Cmd.none )
+
+    OnReportResult _ ->
+      ( model, Cmd.none )
+
+    OnJsError errMsg ->
+      ( model, Analytics.reportError OnReportResult errMsg )
 
 
 jumpToRegion : Error.Region -> Model -> Model
@@ -155,6 +224,7 @@ subscriptions model =
     [ Ui.Editor.subscriptions model.editor
         |> Sub.map OnEditorMsg
     , Browser.Events.onResize OnWindowSize
+    , Analytics.gotJsError OnJsError
     ]
 
 
@@ -164,8 +234,13 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-  let hasErrors =
-        Status.hasProblems model.status
+  let packageStyles =
+        if model.isPackageUiOpen then
+          if Window.isLessThan model.window Ui.Package.width
+          then [ style "max-width" Ui.Package.widthPx, style "border" "0" ]
+          else [ style "max-width" Ui.Package.widthPx ]
+        else
+          [ style "max-width" "0", style "border" "0" ]
   in
   main_
     [ id "main"
@@ -175,10 +250,13 @@ view model =
         ]
     ]
     [ Ui.ColumnDivider.view OnDividerMsg model.window model.divider
-        [ Ui.Editor.viewEditor model.isLight model.editor
+        [ Ui.Package.view packageStyles model.packageUi
+            |> Html.map OnPackageMsg
+
+        , Ui.Editor.viewEditor (Ui.Package.getSolution model.packageUi) model.isLight model.editor
             |> Html.map OnEditorMsg
 
-        , case Status.getProblems model.status of
+        , case getProblems model of
             Just problems ->
               div
                 [ id "problems-carousel"
@@ -191,11 +269,13 @@ view model =
                   else
                     lazy viewProblemPopup problems
                 ]
+
             Nothing ->
               text ""
+
         , viewNavigation model
         ]
-        [ case Status.getProblems model.status of
+        [ case getProblems model of
             Just problems ->
               if Ui.ColumnDivider.isRightMost model.window model.divider then
                 text ""
@@ -208,9 +288,9 @@ view model =
         , iframe
             [ id "output"
             , name "output"
-            , if Status.hasProblems model.status
-              then style "display" "none"
-              else style "display" "block"
+            , case getProblems model of
+                Just _  -> style "display" "none"
+                Nothing -> style "display" "block"
             , src ("/examples/_compiled/" ++ model.name ++ ".html")
             ]
             []
@@ -229,10 +309,11 @@ viewNavigation model =
     , left =
         [ Ui.Navigation.elmLogo
         , Ui.Navigation.lights OnToggleLights model.isLight
+        , Ui.Navigation.packages OnTogglePackages model.isPackageUiOpen
         , Ui.Editor.viewHint model.editor
         ]
     , right =
-        [ case Status.getProblems model.status of
+        [ case getProblems model of
             Just problems ->
               if not model.areProblemsMini || not (Ui.ColumnDivider.isRightMost model.window model.divider) then
                 text ""
@@ -242,6 +323,8 @@ viewNavigation model =
             Nothing ->
               text ""
         , Ui.Navigation.compilation (OnEditorMsg Ui.Editor.OnCompile) model.status
+        --, Ui.Navigation.share (OnEditorMsg Ui.Editor.OnCompile)
+        --, Ui.Navigation.deploy (OnEditorMsg Ui.Editor.OnCompile)
         ]
     }
 
@@ -272,6 +355,4 @@ viewProblemMini =
 viewProblemList :  Problem.Problems -> Html Msg
 viewProblemList =
   Ui.Problem.viewList OnJumpToProblem
-
-
 
