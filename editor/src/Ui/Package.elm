@@ -251,15 +251,7 @@ viewPopular registry =
   in
   H.div []
     [ viewKeyedContainer [] (List.map viewKeyedPackage popular)
-    , viewNote "Search to explore more packages."
     ]
-
-
-viewNote : String -> Html msg
-viewNote str =
-  H.div
-    [ HA.class "packages__note" ]
-    [ H.text str ]
 
 
 
