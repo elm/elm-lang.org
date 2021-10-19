@@ -85,7 +85,7 @@ getProblems model =
 
 dismissAll : Model -> Model
 dismissAll model =
-  Tuple.first <| updateRegistry model <| \registry ->
+  (\(m, _, _) -> m) <| updateRegistry model False <| \registry ->
     ( model, Registry.dismissAll registry, Cmd.none )
 
 
@@ -104,7 +104,7 @@ type Msg
   | OnReportResult (Result Http.Error String)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Bool, Cmd Msg )
 update msg model =
   case msg of
     GotRegistry (Ok news) ->
@@ -113,52 +113,57 @@ update msg model =
               |> Registry.fromNews news
               |> Fetched.Success
         }
+      , False
       , Cmd.none
       )
 
     GotRegistry (Err (Http.BadBody errMsg as err)) ->
       ( { model | registry = Fetched.Failed err }
+      , False
       , Analytics.reportError OnReportResult errMsg
       )
 
     GotRegistry (Err err) ->
       ( { model | registry = Fetched.Failed err }
+      , False
       , Cmd.none
       )
 
     OnQuery query ->
       ( { model | query = query, debounce = model.debounce + 1 }
+      , False
       , Task.perform (\_ -> OnDebounce) (Process.sleep 300)
       )
 
     OnDebounce ->
       ( { model | debounce = model.debounce - 1 }
+      , False
       , Cmd.none
       )
 
     OnInstall package ->
-      updateRegistry model <| \registry ->
+      updateRegistry model False <| \registry ->
         ( model
         , Registry.setStatus package Status.Loading registry
         , Registry.attemptEdit Registry.Install (OnEdited package) registry package
         )
 
     OnUninstall package ->
-      updateRegistry model <| \registry ->
+      updateRegistry model False <| \registry ->
         ( model
         , Registry.setStatus package Status.Loading registry
         , Registry.attemptEdit Registry.Uninstall (OnEdited package) registry package
         )
 
     OnDismiss package ->
-      updateRegistry model <| \registry ->
+      updateRegistry model False <| \registry ->
         ( model
         , Registry.setStatus package Status.NotInstalled registry
         , Cmd.none
         )
 
     OnEdited package (Ok solution) ->
-      updateRegistry model <| \registry ->
+      updateRegistry model True <| \registry ->
         ( { model | hash = solution.hash }
         , registry
             |> Registry.setStatus package Status.NotInstalled
@@ -167,28 +172,28 @@ update msg model =
         )
 
     OnEdited package (Err err) ->
-      updateRegistry model <| \registry ->
+      updateRegistry model False <| \registry ->
         ( model
         , Registry.setStatus package (Status.Failed err) registry
         , Cmd.none
         )
 
     OnReportResult _ ->
-      ( model, Cmd.none )
+      ( model, False, Cmd.none )
 
 
-updateRegistry : Model -> (Registry.Registry -> ( Model, Registry.Registry, Cmd Msg )) -> ( Model, Cmd Msg )
-updateRegistry model updater =
+updateRegistry : Model -> Bool -> (Registry.Registry -> ( Model, Registry.Registry, Cmd Msg )) -> ( Model, Bool, Cmd Msg )
+updateRegistry model shouldRebuild updater =
   case model.registry of
     Fetched.Loading ->
-      ( model, Cmd.none )
+      ( model, shouldRebuild, Cmd.none )
 
     Fetched.Failed _ ->
-      ( model, Cmd.none )
+      ( model, shouldRebuild, Cmd.none )
 
     Fetched.Success registry ->
       let ( newModel, newRegistry, cmd ) = updater registry in
-      ( { newModel | registry = Fetched.Success newRegistry }, cmd )
+      ( { newModel | registry = Fetched.Success newRegistry }, shouldRebuild, cmd )
 
 
 

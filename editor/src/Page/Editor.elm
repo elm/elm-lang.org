@@ -197,10 +197,12 @@ update msg model =
       )
 
     OnPackageMsg subMsg ->
-      let ( packageUi, packageUiCmd ) =
+      let ( packageUi, shouldRebuild, packageUiCmd ) =
             Ui.Package.update subMsg model.packageUi
       in
-      ( { model | packageUi = packageUi }
+      ( { model | packageUi = packageUi
+        , status = if shouldRebuild then Status.changed model.status else model.status
+        }
       , Cmd.map OnPackageMsg packageUiCmd
       )
 
