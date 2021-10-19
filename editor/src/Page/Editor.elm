@@ -135,7 +135,7 @@ init flagsRaw =
     , isLight = True
     , isMenuOpen = False
     , areProblemsMini = False
-    , status = Status.success
+    , status = Status.changed Status.success
     , packageUi = packageUi
     , isPackageUiOpen = False
     }
