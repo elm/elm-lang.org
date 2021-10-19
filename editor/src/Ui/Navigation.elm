@@ -111,7 +111,7 @@ compilation onClick_ status =
           Status.Changed ->
             ( I.refreshCcw
             , Just "blue"
-            , "Apply changes"
+            , "Rebuild"
             )
 
           Status.Compiling ->
@@ -135,7 +135,7 @@ compilation onClick_ status =
           Status.HasProblemsButChanged _ ->
             ( I.refreshCcw
             , Just "blue"
-            , "Apply changes"
+            , "Rebuild"
             )
 
           Status.HasProblemsButRecompiling _ ->
