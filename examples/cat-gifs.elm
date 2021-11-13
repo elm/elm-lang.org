@@ -118,4 +118,4 @@ getRandomCatGif =
 
 gifDecoder : Decoder String
 gifDecoder =
-  field "data" (field "image_url" string)
+  field "data" (field "images" (field "original" (field "url" string)))
