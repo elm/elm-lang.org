@@ -312,7 +312,7 @@
       case '.':
         var next = getTokenAfter(editor, line, token);
         return next.type === 'variable' ? getLowerHint(editor, line, next)
-          : next.type === 'variable-2' ? getUpperHint(editor, line, next) : null;
+          : next.type === 'variable-2' ? getUpperHint(editor, importEnd, line, next) : null;
 
       case 'type':
         return /^type\salias\b/.test(editor.getLine(line)) ? 'alias' : 'type';
