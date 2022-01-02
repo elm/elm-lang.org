@@ -800,7 +800,7 @@ sources =
 
 copyRight : E.Element Msg
 copyRight =
-  E.text "© 2012-2021 Evan Czaplicki"
+  E.text "© 2012-2022 Evan Czaplicki"
 
 
 
