@@ -17,13 +17,17 @@ community = """
 
 # Community
 
-Folks tend to congregate in the following forums:
+For the latest posts, podcasts, and packages:
 
-* [Slack](https://elmlang.herokuapp.com/)
+- [Twitter](https://twitter.com/elmlang)
+- [Elm Weekly](https://www.elmweekly.nl/)
+
+For more in-depth conversation:
+
 * [Discourse](https://discourse.elm-lang.org/)
-* [Twitter](https://twitter.com/elmlang)
-* [Reddit](http://www.reddit.com/r/elm)
+* [Slack](https://elmlang.herokuapp.com/)
 * [Meetups](https://www.meetup.com/topics/elm-programming/all/)
+* [Reddit](http://www.reddit.com/r/elm)
 
 <br>
 
