@@ -2,7 +2,5 @@
   Access-Control-Allow-Origin: https://worker.elm-lang.org
 /assets/public-opinion.txt
   Access-Control-Allow-Origin: *
-/api/random-quotes
-  Access-Control-Allow-Origin: *
 /images/*
   Access-Control-Allow-Origin: https://worker.elm-lang.org
