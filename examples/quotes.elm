@@ -6,10 +6,10 @@
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (style)
 import Html.Events exposing (..)
 import Http
-import Json.Decode as D exposing (Decoder, field, int, string)
+import Json.Decode exposing (Decoder, map4, field, int, string)
 
 
 
@@ -89,12 +89,12 @@ view : Model -> Html Msg
 view model =
   div []
     [ h2 [] [ text "Random Quotes" ]
-    , viewGif model
+    , viewQuote model
     ]
 
 
-viewGif : Model -> Html Msg
-viewGif model =
+viewQuote : Model -> Html Msg
+viewQuote model =
   case model of
     Failure ->
       div []
@@ -108,9 +108,12 @@ viewGif model =
     Success quote ->
       div []
         [ button [ onClick MorePlease, style "display" "block" ] [ text "More Please!" ]
-        , h3 [] [ text quote.title ]
-        , p [] [ text (quote.author ++ " (" ++ String.fromInt quote.year ++ ")") ]
-        , p [] [ text quote.text ]
+        , blockquote [] [ text quote.text ]
+        , p [ style "text-align" "right" ]
+            [ text "— "
+            , cite [] [ text quote.title ]
+            , text (" by " ++ quote.author ++ " (" ++ String.fromInt quote.year ++ ")")
+            ]
         ]
 
 
@@ -128,7 +131,7 @@ getRandomQuote =
 
 quoteDecoder : Decoder Quote
 quoteDecoder =
-  D.map4 Quote
+  map4 Quote
     (field "title" string)
     (field "author" string)
     (field "year" int)
