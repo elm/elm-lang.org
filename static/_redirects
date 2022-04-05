@@ -1,3 +1,6 @@
+# for JSON example in the guide
+/api/random-quotes https://worker.elm-lang.org/quotes 200
+
 # 20 Jul 2019 - hints for 0.19.1
 /0.19.1/docs          https://package.elm-lang.org/help/documentation-format
 /0.19.1/ports         https://guide.elm-lang.org/interop/ports.html
