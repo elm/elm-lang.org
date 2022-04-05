@@ -36,10 +36,10 @@ type Model
 
 
 type alias Quote =
-  { title : String
+  { quote : String
+  , source : String
   , author : String
   , year : Int
-  , text : String
   }
 
 
@@ -108,10 +108,10 @@ viewQuote model =
     Success quote ->
       div []
         [ button [ onClick MorePlease, style "display" "block" ] [ text "More Please!" ]
-        , blockquote [] [ text quote.text ]
+        , blockquote [] [ text quote.quote ]
         , p [ style "text-align" "right" ]
             [ text "— "
-            , cite [] [ text quote.title ]
+            , cite [] [ text quote.source ]
             , text (" by " ++ quote.author ++ " (" ++ String.fromInt quote.year ++ ")")
             ]
         ]
@@ -132,8 +132,8 @@ getRandomQuote =
 quoteDecoder : Decoder Quote
 quoteDecoder =
   map4 Quote
-    (field "title" string)
+    (field "quote" string)
+    (field "source" string)
     (field "author" string)
     (field "year" int)
-    (field "text" string)
 
