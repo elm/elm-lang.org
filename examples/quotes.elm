@@ -126,7 +126,7 @@ getRandomQuote =
     }
 
 
-quoteDecoder : Decoder String
+quoteDecoder : Decoder Quote
 quoteDecoder =
   D.map4 Quote
     (field "title" string)
