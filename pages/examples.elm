@@ -33,7 +33,7 @@ main =
                 ]
             , viewExamples "HTTP"
                 [ "Book"
-                , "Cat GIFs"
+                , "Quotes"
                 ]
             , viewExamples "Time"
                 [ "Time"
