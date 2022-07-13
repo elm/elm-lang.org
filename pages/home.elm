@@ -80,7 +80,7 @@ init window =
         (QuoteByEmployee "It is the most productive programming language I have used." "Rupert Smith" (Just "https://github.com/the-sett") "Software Engineer" "The Sett Ltd" Nothing)
         [ QuoteByEmployee "[My favorite thing] is the feeling of joy and relaxation when writing Elm code." "Luca Mugnaini" (Just "https://github.com/lucamug") "Software Engineer" "Rakuten" (Just "https://www.rakuten.com/")
         , QuoteByEmployee "Using Elm, I can deploy and go to sleep!" "Mario Uher" (Just "https://github.com/ream88") "CTO" "yodel.io" (Just "https://www.yodel.io/")
-        , QuoteByAuthor "You just follow the compiler errors and come out the other end with a working app." "James Carlson" (Just "https://jxxcarlson.io/")
+        , QuoteByEmployee "You just follow the compiler errors and come out the other end with a working app." "James Carlson"  (Just "https://jxxcarlson.io/") "Software Engineer" "Brilliant" (Just "https://brilliant.org/")
         , QuoteByAuthor "You can learn it in a day and keep it in your head even if you don’t use it for weeks." "Jeremy Brown" (Just "https://github.com/jhbrown94")
         , QuoteByAuthor "The language helps steer you towards writing api’s that are simple and clear." "Eric Henry" Nothing
         , QuoteByAuthor "My favorite thing about Elm is that I don’t have to worry when coding" "David Andrews" (Just "https://github.com/DavidDTA")
