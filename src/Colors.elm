@@ -23,6 +23,11 @@ darkGray =
   E.rgb255 100 100 100
 
 
+lightishGray : Color
+lightishGray =
+  E.rgb255 205 205 205
+
+
 lightGray : Color
 lightGray =
   E.rgb255 250 250 250

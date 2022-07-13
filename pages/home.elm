@@ -202,16 +202,11 @@ subscriptions model =
 view : Model -> List (Html Msg)
 view model =
   if model.window.width > 950 then
-    positionStickySafariFix :: viewLarge model
+    viewLarge model
   else if model.window.width > 750 then
     viewMedium model
   else
     viewSmall model
-
-
-positionStickySafariFix : Html msg
-positionStickySafariFix =
-  Html.node "style" [] [ text "body { height: unset !important; }" ]
 
 
 
@@ -235,17 +230,35 @@ viewLarge model =
       E.column
         [ E.width E.fill
         ]
-        [ E.el
+        [ E.row
+            [ E.width pageColumn
+            , E.spaceEvenly
+            , E.centerX
+            , F.size 14
+            , E.paddingXY 0 20
+            ]
+            [ elmTitle 30
+            , E.row
+                [ E.width E.fill
+                , E.alignRight
+                , E.alignBottom
+                , E.spacing 20
+                , R.navigation
+                ]
+                (List.map (Ui.link [ E.alignRight, F.size 16 ]) toplevel)
+            ]
+        , E.el
             [ E.width E.fill
             ] <|
             E.row
               [ E.htmlAttribute <|
                   if model.window.height > 900 then
-                    style "height" "calc(900px - 135px)"
+                    style "height" "calc(900px - 170px)"
                   else
-                    style "min-height" "calc(100vh - 135px)"
+                    style "min-height" "calc(100vh - 170px)"
               , E.width pageColumn
               , E.centerX
+              , E.paddingXY 30 0
               ]
               [ E.el
                   [ E.width E.fill
@@ -278,9 +291,9 @@ viewLarge model =
             , R.mainContent
             ] <|
             List.map viewFeature features
+        , footer
         ]
   --, fixedPointer
-  , fixedMenu
   ]
 
 
@@ -291,14 +304,19 @@ fixedPointer =
     [ text "↓" ]
 
 
-fixedMenu : Html Msg
-fixedMenu =
-  Html.div
-    [ class "fixed-menu", attribute "role" "menu" ]
-    [ subContainer <|
+footer : E.Element Msg
+footer =
+  E.el
+    [ R.footer
+    , E.width E.fill
+    , Bo.widthEach { top = 1, bottom = 0, left = 0, right = 0 }
+    , Bo.color C.lightishGray
+    ] <|
         E.column
           [ E.width pageColumn
           , E.centerX
+          , Bo.widthEach { top = 1, bottom = 0, left = 0, right = 0 }
+          , Bo.color C.lightGray
           ]
           [ E.row
               [ E.width E.fill
@@ -317,7 +335,6 @@ fixedMenu =
               ] <|
               (List.map Ui.grayLink sources) ++ [ copyRight ]
           ]
-    ]
 
 
 navColumn : { title : String, links : List Link } -> E.Element msg
@@ -859,7 +876,7 @@ features =
     , image =
         featureQuote
           { quote = "Whether it's renaming a function or a type, or making a drastic change in a core data type, you just follow the compiler errors and come out the other end with a working app."
-          , author = "James Carlson, Software engineer"
+          , author = "James Carlson, Software engineer, Brilliant"
           , link = Nothing
           }
     }
