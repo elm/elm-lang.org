@@ -30,13 +30,13 @@ minor syntactic difference.
 
 
 syntaxTable : String -> List (Value, Value) -> Html msg
-syntaxTable subtitle comparisions =
+syntaxTable subtitle comparisons =
   div
     (Center.styles "800px")
     [ h2 [] [text subtitle]
     , div [class "comparison"]
         [ table []
-            [ tbody [] (header :: List.map row comparisions)
+            [ tbody [] (header :: List.map row comparisons)
             ]
         ]
     , br [] []
