@@ -202,7 +202,7 @@ parser that is extremely fast, standards compliant, and light-weight.
 
 ## Thank you
 
-Huge thank you to [Michael B. James][michael] and [Andrew Shulayev][andrew] who
+Huge thank you to [Michael B. James][michael] and [Andrew Shulaev][andrew] who
 joined the Elm team as interns this summer! The major parts of their projects
 will be coming out in the following days and weeks, but some improvements can
 already be announced. Thanks to Michael for figuring out how to build the
