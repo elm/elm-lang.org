@@ -98,7 +98,7 @@ type&rdquo; and `(::)` is cons. This is how it is in SML, OCaml, Coq, and Agda.
 Given the relative frequency of type annotations, it makes sense to give types
 a lighter syntax.
 
-You can also add type aliases. This lets you give nice consise names
+You can also add type aliases. This lets you give nice concise names
 for larger types. This is most useful for records:
 
 ```elm
