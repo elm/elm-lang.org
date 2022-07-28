@@ -432,7 +432,7 @@ learn more about making games in Elm, try tackling some of these challenges:
 
  * Add the ability to reset the game (besides refreshing the page!)
 
- * Make ball collisions more complicated. Possiblities:
+ * Make ball collisions more complicated. Possibilities:
 
      * When the ball hits the corner of a paddle, it changes direction.
 

@@ -166,7 +166,7 @@ don't want ugly code! Ultimately the idea of a &ldquo;syntactic tax&rdquo; did
 not feel like a successful experiment.
 
 So there is nicer syntax, but this is still the least prefered way to import of
-[the four possiblities](/docs/syntax#modules). It is convenient for quickly
+[the four possibilities](/docs/syntax#modules). It is convenient for quickly
 prototyping or hacking something together, but it does not scale well. Imagine
 you do [26 imports like this][imports], bringing tons of functions into local
 scope. When I want to find the definition of [`isFunPtrTy`][function] I have no
