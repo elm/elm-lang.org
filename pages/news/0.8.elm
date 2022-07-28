@@ -359,7 +359,7 @@ list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
 [`WebSocket` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
-This API may change to accomadate more usage scenarios. Please let me
+This API may change to accommodate more usage scenarios. Please let me
 know how you want to use it!
 
 #### Application Operators
