@@ -18,7 +18,7 @@ the recently added [extensible records][recs] and partly an effort to
 make Elm a better choice for mobile devices. This version:
 
 - introduces the [`Keyboard`][keys], [`Touch`][touch], and [`Either`][either] libraries
-- make names more consistent and easier to remember accross libraries
+- make names more consistent and easier to remember across libraries
 - fixes a couple bizarre bugs
 
 Touch is a brand new addition to Elm, and as far as I know, brand
