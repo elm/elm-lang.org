@@ -232,7 +232,7 @@ Our `Game` data structure holds all of the information needed to represent the
 game at any moment. In this section we will define a *step function* that steps
 from `Game` to `Game`, moving the game forward as new inputs come in.
 
-To make our step function more managable, we can break it up into smaller
+To make our step function more manageable, we can break it up into smaller
 functions. This next chunk of code defines some not-so-interesting helper
 functions: `near` and `within` for detecting collisions and `stepV` for safely
 stepping velocity.
