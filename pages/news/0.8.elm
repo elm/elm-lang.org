@@ -232,7 +232,7 @@ content3 = """
 
 ```elm
 -- Create two rectangles that cross at the origin. We use
--- the group function to flatten them into a signle Form.
+-- the group function to flatten them into a single Form.
 twoRects : Color -> Form
 twoRects colr =
     group (List.map (filled colr) [ rect 8 30, rect 30 8 ])
