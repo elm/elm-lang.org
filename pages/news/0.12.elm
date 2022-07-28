@@ -160,7 +160,7 @@ module into local scope you use this syntax:
 import List (..)
 ```
 
-The `open` syntax did not look great. It was indended to discourage importing
+The `open` syntax did not look great. It was intended to discourage importing
 everything into local scope by imposing a &ldquo;syntactic tax&rdquo;. People
 don't want ugly code! Ultimately the idea of a &ldquo;syntactic tax&rdquo; did
 not feel like a successful experiment.
