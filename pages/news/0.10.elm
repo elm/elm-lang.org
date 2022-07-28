@@ -149,7 +149,7 @@ falseRight = True || (False || False)
 ```
 
 Where you add the parentheses *does not* change the result,
-but since `(||)` [short ciruits](http://en.wikipedia.org/wiki/Short-circuit_evaluation),
+but since `(||)` [short circuits](http://en.wikipedia.org/wiki/Short-circuit_evaluation),
 it *does* change how much computation needs to be done. Making `(||)` right
 associative ensures that we use the faster way when parentheses are left off.
 
