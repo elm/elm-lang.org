@@ -37,7 +37,7 @@ The best part is that it is easy to get these results. No need to write your cod
 
 The rest of this post will explore (1) the new optimizations that make these results possible, (2) how the new compiler became extremely fast for large projects, and (3) some nice improvements and simplifications.
 
-> **Note:** Check out the full [release notes](https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md) to see everything that is new in Elm 0.19. The installers are available in the freshly updated [official guide](https://guide.elm-lang.org)!
+> **Note:** Check out the full [release notes](https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.19.0.md) to see everything that is new in Elm 0.19. The installers are available in the freshly updated [official guide](https://guide.elm-lang.org)!
 
 
 ## Dead Code Elimination
@@ -98,7 +98,7 @@ I feel like a robot talking about all those numbers. That stuff is nice and all,
 - A simpler way to think about time and time zones in [`elm/time`](https://package.elm-lang.org/packages/elm/time/latest/).
 - The [`getViewport`](https://package.elm-lang.org/packages/elm/browser/latest/Browser-Dom#getViewport) family of functions for getting scroll positions.
 
-These examples showcase the effort that has gone into continually making Elm simpler and friendlier, but there are a bunch of other improvements listed in [the release notes](https://github.com/elm/compiler/blob/master/upgrade-docs/0.19.md) in the same spirit!
+These examples showcase the effort that has gone into continually making Elm simpler and friendlier, but there are a bunch of other improvements listed in [the release notes](https://github.com/elm/compiler/blob/master/docs/upgrade-instructions/0.19.0.md) in the same spirit!
 
 
 ## Conclusion
