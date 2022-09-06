@@ -68,7 +68,7 @@ update msg model =
       )
 
     InviteMe ->
-      ( model
+      ( { model | status = Waiting }
       , Http.post
           { url = "https://worker.elm-lang.org/slack-invite?email=" ++ model.email
           , body = Http.emptyBody
