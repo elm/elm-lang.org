@@ -126,12 +126,7 @@ viewContent model =
         ]
     , p [] (viewStatus model.status)
     , p []
-        [ text "After clicking "
-        , code [] [ text "Invite Me" ]
-        , text ", you should get an invitation email within a few minutes. From there, you can chat on "
-        , a [ href "https://elmlang.slack.com" ] [ code [] [ text "https://elmlang.slack.com" ] ]
-        , text " like any other Slack workspace you might use."
-        ]
+
     ]
 
 
@@ -148,11 +143,15 @@ viewStatus : Status -> List (Html msg)
 viewStatus status =
   case status of
     Unsent ->
-      [ text "\u{200b}"
+      [ text "After clicking "
+      , code [] [ text "Invite Me" ]
+      , text ", you should get an invitation email within a few minutes. From there, you can chat on "
+      , a [ href "https://elmlang.slack.com" ] [ code [] [ text "https://elmlang.slack.com" ] ]
+      , text " like any other Slack workspace you might use."
       ]
 
     Waiting  ->
-      [ text "\u{200b}"
+      [ text "Processing..."
       ]
 
     Sent outcome ->
@@ -182,7 +181,7 @@ viewStatus status =
           ]
 
     Error ->
-      [ text "The request did not go through! Is your internet fully working? If that is not the issue, please try to contact an admin in another community forum so they can look into it further."
+      [ text "The request did not go through. Is your internet fully working? If that is not the issue, please try to contact an admin in another community forum so they can look into it further."
       ]
 
 
