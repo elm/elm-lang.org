@@ -155,7 +155,9 @@ viewStatus status =
     Sent outcome ->
       case outcome of
         InvinteSent ->
-          [ text "Sent!"
+          [ text "Sent! You should get an invitation email within a few minutes. From there, you can chat on "
+          , a [ href "https://elmlang.slack.com" ] [ code [] [ text "https://elmlang.slack.com" ] ]
+          , text " like any other Slack workspace you might use."
           ]
 
         AlreadyInvited ->
