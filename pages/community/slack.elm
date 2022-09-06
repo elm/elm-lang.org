@@ -111,21 +111,20 @@ viewContent model =
     , p []
         [ text "The way Slack works, you must be a member of a workspace before you can log in and start chatting. This is nice for companies using Slack internally because they can just add your email when you get hired, but we have to do this process a bit more manually:"
         ]
-    , div [ style "display" "flex-box" ]
-        [ input
-            [ placeholder "Email"
-            , value model.email
-            , onInput ChangeEmail
-            , disabled (isWaiting model.status)
-            ]
-            []
-        , button
-            [ onClick InviteMe
-            , disabled (isWaiting model.status)
-            ]
-            [ text "Invite Me!"
-            ]
+    , input
+        [ placeholder "Email"
+        , value model.email
+        , onInput ChangeEmail
+        , disabled (isWaiting model.status)
         ]
+        []
+    , button
+        [ onClick InviteMe
+        , disabled (isWaiting model.status)
+        ]
+        [ text "Invite Me!"
+        ]
+    , p [] (viewStatus model.status)
     , p []
         [ text "After clicking "
         , code [] [ text "Invite Me" ]
@@ -143,6 +142,48 @@ isWaiting status =
     Waiting -> True
     Sent _  -> False
     Error   -> False
+
+
+viewStatus : Status -> List (Html msg)
+viewStatus status =
+  case status of
+    Unsent ->
+      [ text "\u{200b}"
+      ]
+
+    Waiting  ->
+      [ text "\u{200b}"
+      ]
+
+    Sent outcome ->
+      case outcome of
+        InvinteSent ->
+          [ text "Sent!"
+          ]
+
+        AlreadyInvited ->
+          [ text "Already invited! Go to "
+          , a [ href "https://elmlang.slack.com" ] [ code [] [ text "https://elmlang.slack.com" ] ]
+          , text " and log in."
+          ]
+
+        AlreadyInTeam ->
+          [ text "Already a member! Go to "
+          , a [ href "https://elmlang.slack.com" ] [ code [] [ text "https://elmlang.slack.com" ] ]
+          , text " and log in."
+          ]
+
+        InvalidEmail ->
+          [ text "Invalid email address."
+          ]
+
+        ConfigError ->
+          [ text "Something went wrong! Please try to let an admin know in another community forum."
+          ]
+
+    Error ->
+      [ text "The request did not go through! Is your internet fully working? If that is not the issue, please try to contact an admin in another community forum so they can look into it further."
+      ]
 
 
 
