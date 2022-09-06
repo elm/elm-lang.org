@@ -125,8 +125,6 @@ viewContent model =
         [ text "Invite Me!"
         ]
     , p [] (viewStatus model.status)
-    , p []
-
     ]
 
 
