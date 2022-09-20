@@ -789,7 +789,7 @@ grouped =
   , { title = "Community"
     , links =
         [ Link "News" "/news"
-        , Link "Slack" "https://elmlang.herokuapp.com/"
+        , Link "Slack" "/community/slack"
         , Link "Discourse" "https://discourse.elm-lang.org/"
         , Link "Twitter" "https://twitter.com/elmlang"
         , Link "Meetup" "https://www.meetup.com/topics/elm-programming/all/"

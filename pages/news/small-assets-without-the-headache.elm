@@ -107,7 +107,7 @@ I am excited to finally share this release publicly! I hope it will help you out
 
 As folks with 50k+ lines upgrade to Elm 0.19, I encourage you to share your new asset sizes and compile times. You can send feedback to the core team directly to help explore further optimizations like code splitting as described [here](https://gist.github.com/evancz/fc6ff4995395a1643155593a182e2de7). And if you run that script and are excited about the results, please blog about it!
 
-And finally, **if you decide to give Elm a try, start with [the official guide](https://guide.elm-lang.org/) and ask questions on [Discourse](https://discourse.elm-lang.org/) and [Slack](http://elmlang.herokuapp.com/) if you need help with anything.** We will do our best to help you out, but everyone has different projects and preferences. So even if you find it is not the right fit for you, I hope you will come away with a positive learning experience!
+And finally, **if you decide to give Elm a try, start with [the official guide](https://guide.elm-lang.org/) and ask questions on [Discourse](https://discourse.elm-lang.org/) and [Slack](/community/slack) if you need help with anything.** We will do our best to help you out, but everyone has different projects and preferences. So even if you find it is not the right fit for you, I hope you will come away with a positive learning experience!
 
 
 <br>

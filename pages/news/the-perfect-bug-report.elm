@@ -169,7 +169,7 @@ Again, all these cases are covered in more detail in [the migration guide][upgra
 
 [range]: http://package.elm-lang.org/packages/elm-lang/core/5.0.0/List#range
 [alt]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.18.md#backticks-and-andthen
-[slack]: http://elmlang.herokuapp.com/
+[slack]: /community/slack
 
 
 # Thank You
