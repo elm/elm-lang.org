@@ -18,6 +18,7 @@ import Json.Decode as D
 import Dict exposing (Dict)
 import Elm.Error as Error exposing (Region)
 import FeatherIcons as I
+import Constant
 
 import Data.Deps as Deps
 import Data.Header as Header
@@ -96,7 +97,7 @@ init source =
 fetchDepsInfo : Cmd Msg
 fetchDepsInfo =
   Http.get
-    { url = "https://elm.studio/api/compile/deps-info.json"
+    { url = Constant.server ++ "/api/compile/deps-info.json"
     , expect = Http.expectJson GotDepsInfo Deps.decoder
     }
 
@@ -206,7 +207,7 @@ viewEditor : Solution.Solution -> Bool -> Model -> Html Msg
 viewEditor solution isLight model =
   Html.form
     [ id "editor"
-    , action "https://elm.studio/api/compile"
+    , action (Constant.server ++ "/api/compile")
     , method "post"
     , enctype "multipart/form-data"
     , target "output"

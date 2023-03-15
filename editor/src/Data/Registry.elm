@@ -26,6 +26,7 @@ import Data.Registry.Solution as Solution
 import Data.Registry.Defaults as Defaults
 import Data.Http
 import Elm.Error as Error
+import Constant
 
 
 
@@ -54,7 +55,7 @@ initialWithDefaults direct indirect =
 fetch : (Result Http.Error (List Package.Package) -> msg) -> Cmd msg
 fetch onResult =
   Http.get
-    { url = "https://elm.studio/api/packages/all"
+    { url = Constant.server ++ "/api/packages/all"
     , expect = Http.expectBytes onResult decoder
     }
 
@@ -221,7 +222,7 @@ attemptEdit action toMsg registry package =
   Http.riskyRequest
     { method = "POST"
     , headers = []
-    , url = "https://elm.studio/api/packages/edit"
+    , url = Constant.server ++ "/api/packages/edit"
     , body = Http.jsonBody payload
     , expect = Data.Http.expectJson toMsg Error.decoder Solution.decoder
     , timeout = Nothing
