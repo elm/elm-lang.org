@@ -25,7 +25,7 @@ For the latest posts, podcasts, and packages:
 For more in-depth conversation:
 
 * [Discourse](https://discourse.elm-lang.org/)
-* [Slack](https://elmlang.herokuapp.com/)
+* [Slack](/community/slack)
 * [Meetups](https://www.meetup.com/topics/elm-programming/all/)
 * [Reddit](http://www.reddit.com/r/elm)
 

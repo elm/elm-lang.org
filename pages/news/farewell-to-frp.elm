@@ -200,7 +200,7 @@ upgrading old code. Just ask!
 [guide]: http://guide.elm-lang.org/
 [arch]: http://guide.elm-lang.org/architecture/index.html
 [ports]: http://guide.elm-lang.org/interop/javascript.html
-[slack]: http://elmlang.herokuapp.com/
+[slack]: /community/slack
 
 
 ## A Farewell to FRP
@@ -295,7 +295,7 @@ remaining APIs. This is best because:
 I know some people are eager to help with creating these libraries. Please give
 me some time to develop a coherent process for making sure a desire to help can
 also translate into great results. In the meantime, the best way to make
-progress is to meet people on [the Elm slack](http://elmlang.herokuapp.com/)
+progress is to meet people on [the Elm slack](/community/slack)
 and learn what is going on in the community. (You should always do that before
 you start trying to make contributions!)
 

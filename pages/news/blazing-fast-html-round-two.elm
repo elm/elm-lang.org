@@ -353,7 +353,7 @@ without doing all this work!
 
 [guide]: http://guide.elm-lang.org/
 [work]: /news/how-to-use-elm-at-work
-[slack]: http://elmlang.herokuapp.com/
+[slack]: /community/slack
 [elm-discuss]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
 [xy]: http://meta.stackexchange.com/questions/66377/what-is-the-xy-problem
 
