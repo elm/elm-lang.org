@@ -110,6 +110,9 @@
           value: this._source,
           tabSize: 2,
           indentWithTabs: false,
+          // Increase off-screen lines CodeMirror puts in DOM, for browser's native search.
+          // Won't scale to huge files, hopefully fine for Elm examples.
+          viewportMargin: 500,
           extraKeys: {
             "Tab": handleTab,
             "Shift-Tab": handleUntab,
