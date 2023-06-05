@@ -113,6 +113,9 @@
           extraKeys: {
             "Tab": handleTab,
             "Shift-Tab": handleUntab,
+            // "findPersistent" behavior is closer to browser's native search than "find".
+            "Cmd-F": "findPersistent",
+            "Ctrl-F": "findPersistent",
             "Cmd-S": function(cm) { sendSaveEvent(); },
             "Ctrl-Enter": function(cm) { sendSaveEvent(); }
           }
