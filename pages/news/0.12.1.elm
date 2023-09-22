@@ -150,7 +150,7 @@ port prettyText : Signal Json.Value
 port prettyText = toJson <~ prettyTexts
 ```
 
-It would *definitely* be nicer to to just allow ADTs to travel through ports
+It would *definitely* be nicer to just allow ADTs to travel through ports
 with some systematic conversion to JavaScript objects. Well, that is [in the
 pipeline][issue]! But until that is implemented, `Json.Value` at least makes
 it *possible* to send recursive ADTs through ports.
