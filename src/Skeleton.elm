@@ -94,7 +94,7 @@ footer =
     , a [ class "grey-link", href "https://github.com/elm/compiler/" ] [ text "Compiler Source" ]
     , text " — "
     , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Site Source" ]
-    , text " — © 2012-2021 Evan Czaplicki"
+    , text " — © 2012-2022 Evan Czaplicki"
     ]
 
 
