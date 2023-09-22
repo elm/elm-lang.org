@@ -3,6 +3,7 @@ html, head, body, pre {
 }
 
 body {
+  background: #fff;
   font-family: 'IBM Plex Sans', sans-serif;
   color: #000E16;
   line-height: 1.5;
