@@ -98,7 +98,7 @@ for infix operators, so that should be arriving in a future release.
 #### Notes on the Type Checker
 
 With this build infrastructure in place, cross-module type checking became
-possible. The next task was understand and implement an efficienct type inference
+possible. The next task was understand and implement an efficient type inference
 algorithm.
 
 To summarize, it is very tricky and there are few resources available that even

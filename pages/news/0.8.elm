@@ -98,7 +98,7 @@ type&rdquo; and `(::)` is cons. This is how it is in SML, OCaml, Coq, and Agda.
 Given the relative frequency of type annotations, it makes sense to give types
 a lighter syntax.
 
-You can also add type aliases. This lets you give nice consise names
+You can also add type aliases. This lets you give nice concise names
 for larger types. This is most useful for records:
 
 ```elm
@@ -232,7 +232,7 @@ content3 = """
 
 ```elm
 -- Create two rectangles that cross at the origin. We use
--- the group function to flatten them into a signle Form.
+-- the group function to flatten them into a single Form.
 twoRects : Color -> Form
 twoRects colr =
     group (List.map (filled colr) [ rect 8 30, rect 30 8 ])
@@ -359,7 +359,7 @@ list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
 [`WebSocket` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
-This API may change to accomadate more usage scenarios. Please let me
+This API may change to accommodate more usage scenarios. Please let me
 know how you want to use it!
 
 #### Application Operators

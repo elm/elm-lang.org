@@ -43,7 +43,7 @@ This library is based on the very clever ideas introduced by [Arrowized FRP][afr
 I have made an effort to make it easier to understand and use for people unfamiliar with
 &ldquo;Arrows&rdquo; and other concepts that are largely orthogonal to doing-things-in-real-life.
 I am hoping that the term [&ldquo;automaton&rdquo;][wiki] is somewhat familiar (or at least
-a better anology than &ldquo;arrow&rdquo;). Huge thanks to Joey Adams for suggesting this library
+a better analogy than &ldquo;arrow&rdquo;). Huge thanks to Joey Adams for suggesting this library
 and working through the details with me!
 
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they

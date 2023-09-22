@@ -780,7 +780,7 @@ grouped =
         , Link "Examples" "/examples"
         , Link "Try online" "/try"
         , Link "Syntax" "/docs/syntax"
-        , Link "From Javascript?" "/docs/from-javascript"
+        , Link "From JavaScript?" "/docs/from-javascript"
         , Link "FAQ" "http://faq.elm-community.org/"
         , Link "Advanced Topics" "/docs/advanced-topics"
         -- , Link "Limitations" TODO

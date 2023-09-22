@@ -47,7 +47,7 @@ roots as languages like Haskell and Elm. OCaml strongly encourages a
 purely functional style but has easy-to-use safety valves for ducking
 into imperative or object-oriented styles when necessary. It's very similar to the
 formula that has made Scala attractive for JVM users. So why is Haskell&mdash;a
-more ideologicly extreme language&mdash;gaining more traction these days?
+more ideologically extreme language&mdash;gaining more traction these days?
 
 I think the primary factor is that [until 2013](http://opam.ocaml.org/),
 OCaml did not have a way to share libraries. User would inevitably face
