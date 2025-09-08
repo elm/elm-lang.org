@@ -2,4 +2,4 @@ module Constant exposing (server)
 
 
 server =
-  "https://social.elm.studio"
+  "https://worker.elm-lang.org"

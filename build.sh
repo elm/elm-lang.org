@@ -132,7 +132,7 @@ function makeExampleHtml {
     window.addEventListener("message", gotErrors, false);
 
     function gotErrors(event) {
-      if (event.origin !== "https://elm.studio" && event.origin !== "https://social.elm.studio") return;
+      if (event.origin !== "https://worker.elm-lang.org") return;
       if (event.data == "SUCCESS") {
         main.ports.gotSuccess.send(null);
       } else {
