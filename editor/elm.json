@@ -20,7 +20,7 @@
             "feathericons/elm-feather": "1.5.0",
             "justinmimbs/time-extra": "1.1.0",
             "mdgriffith/elm-ui": "1.1.8",
-            "ryannhg/date-format": "2.3.0",
+            "ryan-haskell/date-format": "1.0.0",
             "terezka/charts": "18.0.6",
             "terezka/intervals": "2.0.1"
         },
