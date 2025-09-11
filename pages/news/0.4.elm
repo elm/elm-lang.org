@@ -215,7 +215,7 @@ images : Signal String -> Signal Element
 ```
 
 The old `image src` is almost the same as `images (constant src)`, but
-instead of yeilding an `Element`, the new version produces `Signal Element`.
+instead of yielding an `Element`, the new version produces `Signal Element`.
 This is actually the correct API because it captures the fact that
 the image loads asynchronously.
 

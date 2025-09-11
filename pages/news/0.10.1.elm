@@ -117,7 +117,7 @@ expressions](http://www.amazon.com/Introduction-Theory-Computation-Michael-Sipse
 * Errors for duplicate constructors in Algebraic Data Types (Thanks to Ben Darwin)
 * Fix silly String API errors (Thanks to [Tim Hobbs](https://github.com/timthelion))
 * The `--print-types` flag works every time (Thanks to [Justin Leitgeb](https://github.com/jsl))
-* Warnings for corrupted and incompatable intermediate files (Thanks again to Justin
+* Warnings for corrupted and incompatible intermediate files (Thanks again to Justin
   Leitgeb who made persuasive arguments and collected data when I was being
   frustratingly conservative.)
 

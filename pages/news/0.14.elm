@@ -394,7 +394,7 @@ planned that builds on top of this foundation. I think we are headed in a
 good direction, so I will write more about the vision for `elm-package` in a
 future blog post.
 
-Big thanks to [Andrew Shulayev](https://github.com/ddrone) who did the first
+Big thanks to [Andrew Shulaev](https://github.com/ddrone) who did the first
 iteration of the most important `elm-package` features during his summer
 internship. And huge thanks to Prezi for making this internship possible!
 

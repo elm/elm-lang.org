@@ -171,7 +171,7 @@ communicate between Elm and JS. The two biggest inspirations for ports were:
   The key abstraction from Concurrent ML is the *channels* which allow messages to
   be passed between components that run concurrently know nothing about each other (similar
   to Go and Erlang). I cannot say enough good things about this style of
-  programming. Message-passing is the essense of ports and the component model,
+  programming. Message-passing is the essence of ports and the component model,
   and I really hope it becomes more known and accepted in the JS community.
 
 * **Flow-based Programming**: I was mostly inspired by the strong visual language
