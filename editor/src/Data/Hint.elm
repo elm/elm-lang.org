@@ -65,7 +65,7 @@ keywordsAndConventions =
     tea_ = hint "The Elm Architecture" "https://guide.elm-lang.org/architecture/"
     subs_ = hint "Subscriptions" "https://guide.elm-lang.org/effects/"
     case_ = hint "Pattern Matching" "https://guide.elm-lang.org/types/pattern_matching.html"
-    import_ = hint "Imports" "https://github.com/elm/compiler/blob/master/hints/imports.md"
+    import_ = hint "Imports" "https://github.com/elm/compiler/blob/main/hints/imports.md"
   in
   Dict.fromList
     [ ("if", if_)
