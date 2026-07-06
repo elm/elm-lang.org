@@ -145,7 +145,7 @@ the [initial announcement][v7], or [this academic paper][records].
 
 [exp]: /docs/records "Records in Elm"
 [v7]:  /news/0.7 "Elm version 0.7"
-[records]: https://research.microsoft.com/pubs/65409/scopedlabels.pdf "Extensible records with scoped labels"
+[records]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/scopedlabels.pdf "Extensible records with scoped labels"
 
 ```elm
 -- create records
