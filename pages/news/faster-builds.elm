@@ -28,7 +28,7 @@ I have a lot of compiler improvements piled up, and the road to 1.0 is essential
 
 ## Faster Builds with Elm 0.19.2
 
-I love a fast compiler. So many powerful corporations are competing to waste my time, and if you give them a second, they will show you some statistically optimal “content” and try to take as much time as they can. So I like my incremental compiles to take <400ms so there is no time to switch away to something else.
+I love a fast compiler. When a programmer switches to a browser tab, their focus is potentially disrupted for minutes, even if compilation finishes earlier than that. If we can get incremental compiles to take <400ms, there will be no time to switch away to something else!
 
 So I was very happy to see that Elm 0.19.2 compiles 850k lines of Elm code from scratch in 5.7 seconds, and then takes <350ms for incremental builds. Nice! My compiler can help me stay focused and happy with my work!
 
