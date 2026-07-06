@@ -20,9 +20,7 @@ main =
         , ul [] (List.map viewNews news)
         , h2 [] [ text "Releases" ]
         , p []
-            [ text "Elm 0.19.1 will be stable for quite some time, but you can get some idea of the ongoing compiler work "
-            , a [ href "https://github.com/elm/compiler/blob/main/roadmap.md" ] [ text "here" ]
-            , text "."
+            [ text "Elm has been stable for many years, and the current plan is to do some small non-breaking releases as we work towards 1.0."
             ]
         , table [ class "releases" ]
             [ tbody [] (List.map viewRelease releases)
@@ -100,7 +98,8 @@ viewRelease release =
 
 releases : List Release
 releases =
-  [ Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints, faster builds" "Oct 2019"
+  [ Release "0.19.2" "/news/faster-builds" "Faster builds, and the Road to Elm 1.0" "Jul 2026"
+  , Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints, faster builds" "Oct 2019"
   , Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets, faster builds" "Aug 2018"
   , Release "0.18" "/news/the-perfect-bug-report" "New debugger with import/export" "Nov"
   , Release "0.17" "/news/farewell-to-frp" "Add subscriptions, remove signals" "May 2016"
