@@ -50,7 +50,8 @@ viewNews article =
 
 news : List News
 news =
-  [ News "The Syntax Cliff" "/news/the-syntax-cliff"
+  [ News "The Road to Elm 1.0" "/news/faster-builds"
+  , News "The Syntax Cliff" "/news/the-syntax-cliff"
   , News "Towards a Homegrown Programming Language" "/news/elm-and-bekk"
   , News "Working with Files" "/news/working-with-files"
   , News "Small Assets without the Headache" "/news/small-assets-without-the-headache"
