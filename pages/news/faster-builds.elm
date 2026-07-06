@@ -23,6 +23,8 @@ content = """
 
 I have a lot of compiler improvements piled up, and the road to 1.0 is essentially to incorporate them into Elm in a sequence of small releases. The release today is a little compiler performance improvement to just get things started, and I hope you will give it a try!
 
+> **Note:** This is a patch release, so existing users should be able to just download [the new version](https://github.com/elm/compiler/releases/tag/0.19.2) and start using it with existing projects.
+
 
 ## Faster Builds with Elm 0.19.2
 
