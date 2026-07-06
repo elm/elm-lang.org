@@ -781,7 +781,7 @@ grouped =
         , Link "Try online" "/try"
         , Link "Syntax" "/docs/syntax"
         , Link "From Javascript?" "/docs/from-javascript"
-        , Link "FAQ" "http://faq.elm-community.org/"
+        , Link "FAQ" "https://faq.elm-community.org/"
         , Link "Advanced Topics" "/docs/advanced-topics"
         -- , Link "Limitations" TODO
         ]
@@ -947,7 +947,7 @@ features =
     }
   , { title = "JavaScript Interop"
     , description =
-        paragraphLinked "http://guide.elm-lang.org/interop/"
+        paragraphLinked "https://guide.elm-lang.org/interop/"
         [ text "Elm can take over a single node, so you can try it out on a small part of an existing project. Try it for something small. See if you like it. "
         ]
     , image = E.html <|

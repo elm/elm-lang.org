@@ -27,7 +27,7 @@ For more in-depth conversation:
 * [Discourse](https://discourse.elm-lang.org/)
 * [Slack](/community/slack)
 * [Meetups](https://www.meetup.com/topics/elm-programming/all/)
-* [Reddit](http://www.reddit.com/r/elm)
+* [Reddit](https://www.reddit.com/r/elm)
 
 <br>
 
@@ -42,7 +42,7 @@ Read the full [Code of Conduct](https://github.com/elm-community/discussions/blo
 ## Share Code
 
 * [Applications](https://ellie-app.com) &mdash; edit programs online and share them with others
-* [Packages](http://package.elm-lang.org/) &mdash; learn about the packages you use
+* [Packages](https://package.elm-lang.org/) &mdash; learn about the packages you use
 
 
 ## Participate

@@ -85,8 +85,8 @@ too!
 
 
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
-[arch]: http://guide.elm-lang.org/architecture/index.html
-[guide]: http://guide.elm-lang.org/
+[arch]: https://guide.elm-lang.org/architecture/index.html
+[guide]: https://guide.elm-lang.org/
 
 
 ## What are subscriptions?
@@ -119,7 +119,7 @@ the current time, updated every second. New times (like `Tick 1462487781991`)
 are fed into the `update` function, just like messages resulting from mouse
 clicks or HTTP requests.
 
-[every]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Time#every
+[every]: https://package.elm-lang.org/packages/elm-lang/core/4.0.0/Time#every
 
 So besides subscriptions, everything about The Elm Architecture is the same as
 before. It is just easier to passively wait for stuff. Let's see this in a
@@ -176,7 +176,7 @@ is handled automatically. The connection is opened if anyone is subscribed to
 it, and it is closed if no one needs it anymore. All the queuing and
 reconnecting happens behind the scenes.
 
-[ws]: http://package.elm-lang.org/packages/elm-lang/websocket/1.0.0/WebSocket
+[ws]: https://package.elm-lang.org/packages/elm-lang/websocket/1.0.0/WebSocket
 
 
 ## Learning More
@@ -197,9 +197,9 @@ We are a friendly bunch that is happy to help folks learning new stuff or
 upgrading old code. Just ask!
 
 [plan]: https://github.com/elm-lang/elm-platform/blob/master/upgrade-docs/0.17.md
-[guide]: http://guide.elm-lang.org/
-[arch]: http://guide.elm-lang.org/architecture/index.html
-[ports]: http://guide.elm-lang.org/interop/javascript.html
+[guide]: https://guide.elm-lang.org/
+[arch]: https://guide.elm-lang.org/architecture/index.html
+[ports]: https://guide.elm-lang.org/interop/javascript.html
 [slack]: /community/slack
 
 
@@ -251,9 +251,9 @@ know this stuff to be an Elm expert. Just like with my thesis,
 [Concurrent FRP][thesis], the goal is to get the benefits of concurrency for
 free.
 
-[docs1]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
-[docs2]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process#future-plans
-[mgmt]: http://guide.elm-lang.org/effect_managers/index.html
+[docs1]: https://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
+[docs2]: https://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process#future-plans
+[mgmt]: https://guide.elm-lang.org/effect_managers/index.html
 
 So is Elm about FRP anymore? No. Those days are over now. Elm is just a
 functional language that takes concurrency very seriously. And from a user's
@@ -312,6 +312,6 @@ patience waiting for 0.17 and (2) testing the pre-release binaries out and
 finding bugs. Special thanks to [@gdotdesign](https://github.com/gdotdesign),
 [@colinmccabe](https://github.com/colinmccabe), and
 [@lukewestby](https://github.com/lukewestby) who all found sneaky issues in
-the new HTML renderer and created great [SSCCE](http://sscce.org/)'s.
+the new HTML renderer and created great [SSCCE](https://sscce.org/)'s.
 
 """

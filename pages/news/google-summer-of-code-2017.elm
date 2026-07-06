@@ -66,7 +66,7 @@ I have outlined [a bunch of good community projects](https://github.com/elm-lang
 
 ### Package Search
 
-The search feature of [package.elm-lang.org](http://package.elm-lang.org/) is quite rudimentary. Community members have already created “type search” [like this](http://klaftertief.github.io/elm-search/) which is really cool, but I think we would benefit from a more traditional search feature as well. I outline some ideas for this [right here](https://github.com/elm-lang/projects/blob/master/README.md#package-search).
+The search feature of [package.elm-lang.org](https://package.elm-lang.org/) is quite rudimentary. Community members have already created “type search” [like this](http://klaftertief.github.io/elm-search/) which is really cool, but I think we would benefit from a more traditional search feature as well. I outline some ideas for this [right here](https://github.com/elm-lang/projects/blob/master/README.md#package-search).
 
 In the end we’d want this service to live on its own server, so if it goes down, it does not take down the package website. It would also take in JSON and give out JSON, so the scope is limited to writing servers, which can be a great learning experience.
 

@@ -52,7 +52,7 @@ type system works the same, but there is not syntax for field addition and
 deletion. You can read about why [here][16].
 
 [records]: /docs/records
-[daan]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf
+[daan]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/scopedlabels.pdf
 [16]: /news/compilers-as-assistants#simplified-records
 
 
@@ -62,7 +62,7 @@ Elm is moving towards a heavier emphasis on concurrency. You can read a bit
 about where we are and where we are going in [the documentation][docs] of the
 `Process` module.
 
-[docs]: http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Process
+[docs]: https://package.elm-lang.org/packages/elm/core/latest/Process
 
 The following talk will give some additional perspective that guides The Elm
 Architecture and the move towards explicit concurrency in general:
@@ -91,6 +91,6 @@ That thesis was distilled into [Asynchronous FRP][async] which was published
 at PLDI 2013. It is basically a harder to read version of the thesis.
 
 [conc]: /assets/papers/concurrent-frp.pdf
-[async]: http://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html
+[async]: https://people.seas.harvard.edu/~chong/abstracts/CzaplickiC13.html
 
 """

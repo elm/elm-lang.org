@@ -30,7 +30,7 @@ easier:
   * [elm-router][] &mdash; generate pages dynamically based on the URL
   * [elm-storage][] &mdash; work with local storage
 
-[elm-http]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/
+[elm-http]: https://package.elm-lang.org/packages/evancz/elm-http/1.0.0/
 [elm-history]: https://github.com/TheSeamau5/elm-history/
 [elm-router]: https://github.com/TheSeamau5/elm-router/
 [elm-storage]: https://github.com/TheSeamau5/elm-storage/
@@ -78,7 +78,7 @@ working fine. We have noticed a couple really nice benefits so far:
   * **Rendering is extremely fast.** [elm-html][] makes it really simple to
     optimize by just sprinkling [`lazy`][lazy] into your rendering code.
 
-[lazy]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Lazy
+[lazy]: https://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Lazy
 
 At this point, Richard's big question is &ldquo;how can we write more in
 Elm?&rdquo; So this release is all about how we can write more in Elm and
@@ -94,15 +94,15 @@ writing to a database. Tasks also work like light-weight threads in Elm, so
 you can have a bunch running at the same time and the [runtime][rts] will hop
 between them if they are blocked. As a simple example, let’s get the README
 for Elm&rsquo;s core libraries from the
-[Elm Package Catalog](http://package.elm-lang.org/).
+[Elm Package Catalog](https://package.elm-lang.org/).
 
-[rts]: http://en.wikipedia.org/wiki/Runtime_system
+[rts]: https://en.wikipedia.org/wiki/Runtime_system
 
 ```elm
 import Http
 
 pkgUrl =
-  "http://package.elm-lang.org/packages/elm-lang/core/2.0.0/README.md"
+  "https://package.elm-lang.org/packages/elm-lang/core/2.0.0/README.md"
 
 getReadme : Task Http.Error String
 getReadme =
@@ -113,7 +113,7 @@ So `getReadme` is a `Task` that can be performed by Elm&rsquo;s runtime. When
 we run the task, it will either fail with an [`Http.Error`][error] or succeed
 with a string of markdown.
 
-[error]: http://package.elm-lang.org/packages/evancz/elm-http/1.0.0/Http#Error
+[error]: https://package.elm-lang.org/packages/evancz/elm-http/1.0.0/Http#Error
 
 To actually perform a task, you send it out a [port][]. Currently Richard sends
 certain values out to CoffeeScript which performs all sorts of effects and then
@@ -123,7 +123,7 @@ describe the whole task in Elm and send it to Elm&rsquo;s runtime which will
 go through and make it all happen. The end result is the same, but now Richard
 has a code base that is easier to refactor and debug!
 
-[port]: http://guide.elm-lang.org/interop/javascript.html
+[port]: https://guide.elm-lang.org/interop/javascript.html
 
 To learn more about tasks, check out [the tutorial](/guide/reactivity#tasks) and then
 the [zip codes](/examples/zip-codes) and
@@ -142,7 +142,7 @@ us render to canvas much more efficiently:
 Graphics.Collage.text : Text -> Form
 ```
 
-We get to reuse the whole [`Text`](http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Text)
+We get to reuse the whole [`Text`](https://package.elm-lang.org/packages/elm-lang/core/2.0.0/Text)
 API but we then render direct to canvas to get much better performance. I am
 looking forward to seeing this used in practice!
 
@@ -233,9 +233,9 @@ locally rename the module to `Attr` so if there is ever a name collision, we
 can say [`Attr.width`][width] to make it unambiguous. You can read more about
 the new import syntax [here](/docs/syntax#modules).
 
-[id]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#id
-[href]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#href
-[width]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#width
+[id]: https://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#id
+[href]: https://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#href
+[width]: https://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Attributes#width
 
 This syntax seems like a minor change, but it has made a huge difference in how
 it feels to work with imports. I have been really happy with it so far. When
@@ -278,7 +278,7 @@ There are a few ways to talk to a particular mailbox. The most common is via
 the event handlers in [`Html.Events`][events]. For example, the `onClick`
 function takes an address to send to and a value to send.
 
-[events]: http://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Events
+[events]: https://package.elm-lang.org/packages/evancz/elm-html/3.0.0/Html-Events
 
 ```elm
 onClick : Address a -> a -> Attribute
@@ -305,7 +305,7 @@ explanation of mailboxes. For those of you with 0.14 code to upgrade, first
 take a look at [the whole API][mailbox] to get a feel for it. The core concepts
 are pretty much the same, so the changes are mostly find and replace:
 
-[mailbox]: http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#Mailbox
+[mailbox]: https://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#Mailbox
 
   * `Signal.Channel` becomes `Signal.Mailbox` in your types
   * `Signal.channel` becomes `Signal.mailbox` when creating mailboxes
@@ -314,7 +314,7 @@ are pretty much the same, so the changes are mostly find and replace:
   * Any talk of `LocalChannel` is replaced by `Address` and [`forwardTo`][forwardTo]
   * Handlers like `onClick` have a simpler API with the latest [elm-html][]
 
-[forwardTo]: http://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#forwardTo
+[forwardTo]: https://package.elm-lang.org/packages/elm-lang/core/2.0.0/Signal#forwardTo
 
 
 ## Return of the `elm` command
@@ -333,7 +333,7 @@ Usage: elm <command> [<args>]
 Available commands include:
 
   make      Compile an Elm file or project into JS or HTML
-  package   Manage packages from <http://package.elm-lang.org>
+  package   Manage packages from <https://package.elm-lang.org>
   reactor   Develop with compile-on-refresh and time-travel debugging
   repl      A REPL for running individual expressions
 

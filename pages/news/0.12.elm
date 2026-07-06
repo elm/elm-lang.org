@@ -67,18 +67,18 @@ important among them is the new [`Trampoline`][trampoline] library which
 is really cool and deserves a post of its own, but to keep things brief I am
 just going to list all of the new stuff:
 
- [gi]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input
- [gif]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input-Field
- [text]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Text
- [regex]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex
- [trampoline]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Trampoline
+ [gi]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input
+ [gif]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input-Field
+ [text]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Text
+ [regex]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex
+ [trampoline]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Trampoline
 
 #### Breaking Changes:
 
   * Overhaul the [`Graphics.Input`][gi] library, making interactive UI elements
     easy as described [here](/learn/Interactive-UI-Elements.elm).
     <span style="opacity:0.3;">
-    Inspired by [Spiros Eliopoulos](http://github.com/seliopou) and
+    Inspired by [Spiros Eliopoulos](https://github.com/seliopou) and
     [Jeff Smits](https://github.com/Apanatshka).
     </span>
 
@@ -110,11 +110,11 @@ just going to list all of the new stuff:
     JavaScript's lack of tail call elimination in a fully general way.
     <span style="opacity:0.3;">
     Thanks to [Tim Hobbs](https://github.com/timthelion) for making a strong
-    case for this library and to [Max New](http://github.com/maxsnew) for
+    case for this library and to [Max New](https://github.com/maxsnew) for
     the great design and implementation!
     </span>
 
-  * Add [`Debug`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Debug)
+  * Add [`Debug`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Debug)
     library which lets you log values to the developer console. This is intended
     specifically for debugging!
     <span style="opacity:0.3;">
@@ -182,10 +182,10 @@ perhaps `import List (..)` can be removed entirely someday.
 
 #### Machine-readable types
 
-All libraries uploaded to [package.elm-lang.org](http://package.elm-lang.org/)
+All libraries uploaded to [package.elm-lang.org](https://package.elm-lang.org/)
 generate a JSON file filled with types, documentation, and precedence/associativity
 for all exported values ([like
-this](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/documentation.json)). The goals
+this](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/documentation.json)). The goals
 is to make it really easy to work with library metadata to create tools like
 Elmoogle and auto-complete in IDEs. This release improves the format for types,
 making them much easier to work with.

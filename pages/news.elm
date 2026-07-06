@@ -65,12 +65,12 @@ news =
   , News "Compiler Errors for Humans" "/news/compiler-errors-for-humans"
   , News "Time Travel made Easy" "/news/time-travel-made-easy"
   , News "Blazing Fast HTML" "/news/blazing-fast-html"
---  , News "Elm&rsquo;s Time Traveling Debugger" "http://debug.elm-lang.org"
+--  , News "Elm&rsquo;s Time Traveling Debugger" "https://debug.elm-lang.org"
   , News "Elm package manager" "/news/package-manager"
   , News "Elm REPL" "/news/repl"
   , News "Hot-swapping in Elm" "/news/interactive-programming"
   , News "Concepts behind the Elm Logo" "https://prezi.com/oqd48bv5ef0s/tangrams-logo/"
---  , News "Elm in VentureBeat" "http://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/"
+--  , News "Elm in VentureBeat" "https://venturebeat.com/2013/07/26/why-i-designed-a-front-end-programming-language-from-scratch/"
   , News "Elm and Prezi" "/news/elm-and-prezi"
 --  , News "Escape from Callback Hell" "/news/escape-from-callback-hell"
 --  , News "Making Pong" "/news/making-pong"
@@ -171,9 +171,9 @@ videos =
       "This talk examines references, objects, and reactivity in terms of concurrency. This reframing is a useful way of understanding the “accidental complexity” in your code base."
   , Video "Controlling Time and Space" "https://youtu.be/Agu6jipKfYw" 2015
       "Categorizes the many formulations of FRP, showing how they relate to Elm and what benefits you get from doing it the Elm way."
-  , Video "Functional Reactive Programming in Elm" "http://www.infoq.com/presentations/elm-reactive-programming" 2013
+  , Video "Functional Reactive Programming in Elm" "https://www.infoq.com/presentations/elm-reactive-programming" 2013
       "Teaches the basics of graphics and FRP in Elm and builds up to implementing a basic Mario game, which is pretty fun to watch."
-  , Video "Elm: Making the Web Functional" "http://www.infoq.com/presentations/Elm" 2012
+  , Video "Elm: Making the Web Functional" "https://www.infoq.com/presentations/Elm" 2012
       "First conference talk ever. Covers the basics of graphics and FRP before Elm even had its record system!"
   ]
 

@@ -121,7 +121,7 @@ delta =
 Now we put that together with the [keyboard][] inputs to make a signal representing
 all inputs.
 
- [keyboard]: http://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard
+ [keyboard]: https://package.elm-lang.org/packages/elm-lang/core/latest/Keyboard
 
 ```elm
 input : Signal Input
@@ -421,7 +421,7 @@ it is specific to Arrowized FRP, which is supported by Elm&rsquo;s
 [Automaton][automaton] library.
 
  [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/01/yampa-arcade.pdf
- [automaton]: http://package.elm-lang.org/packages/evancz/automaton/latest
+ [automaton]: https://package.elm-lang.org/packages/evancz/automaton/latest
 
 Learning by doing is a great way to improve your skills, so if you want to
 learn more about making games in Elm, try tackling some of these challenges:

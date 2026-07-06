@@ -23,13 +23,13 @@ mainly gets the compiler in shape for:
 Besides that stuff, this release focuses on improving Elm's standard libraries.
 New and improved libraries include:
 
-  * [`List`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/List) &mdash;
+  * [`List`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/List) &mdash;
     add general sorting functions
-  * [`Transform2D`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D) &mdash;
+  * [`Transform2D`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D) &mdash;
     greatly expanded API
-  * [`Bitwise`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Bitwise) &mdash;
+  * [`Bitwise`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Bitwise) &mdash;
     for your bitwise operation needs
-  * [`Regex`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex) &mdash;
+  * [`Regex`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex) &mdash;
     for when parser combinators are too much
 
 There are also many miscellaneous fixes and improvements. Most notably,
@@ -46,10 +46,10 @@ and core libraries.
 ## Sorting
 
 In addition to a standard `sort` for any comparable values,
-[the list library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/List)
+[the list library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/List)
 can now do some more flexible sorting with
-[`sortBy`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/List#sortBy) and
-[`sortWith`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/List#sortWith).
+[`sortBy`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/List#sortBy) and
+[`sortWith`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/List#sortWith).
 First, `sortBy` lets you sort values by a derived property:
 
 ```elm
@@ -93,22 +93,22 @@ about the `sortBy` function.
 
 ## Transform2D, Bitwise, and Regex
 
-[`Transform2D`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D)
+[`Transform2D`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D)
 was significantly fleshed out by [Michael Søndergaard](https://github.com/Sheeo)
 (Thank you!). Using `groupTransform` should be quite a bit more pleasant now.
 
-I added the [`Bitwise`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Bitwise)
+I added the [`Bitwise`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Bitwise)
 library for low-level bit manipulations of integers.
 This may come in handy if you are writing a random number generator,
 as [Joe Collard is](https://github.com/jcollard/elm-random).
 
-I also added the [`Regex`](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex)
+I also added the [`Regex`](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Regex)
 library for searching through strings. It seemed like
 a logical step after Elm [got a proper string representation in
 0.10](/news/0.10). Note: I decided to call it `Regex` rather
 than `RegExp` to distinguish between the [monstrosity that is
-regex](http://stackoverflow.com/a/1732454) and [beauty and joy of regular
-expressions](http://www.amazon.com/Introduction-Theory-Computation-Michael-Sipser/dp/0534950973).
+regex](https://stackoverflow.com/a/1732454) and [beauty and joy of regular
+expressions](https://www.amazon.com/Introduction-Theory-Computation-Michael-Sipser/dp/0534950973).
 
 ## Fixes
 

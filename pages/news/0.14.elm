@@ -24,8 +24,8 @@ to start making beautiful projects with Elm:
     aspects of Elm, making relatively untouched things like [elm-html][] feel
     like they got upgraded too.
 
-[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/1.1.0
-[elm-markdown]: http://package.elm-lang.org/packages/evancz/elm-markdown/1.0.0
+[elm-html]: https://package.elm-lang.org/packages/evancz/elm-html/1.1.0
+[elm-markdown]: https://package.elm-lang.org/packages/evancz/elm-markdown/1.0.0
 
   * **New package manager and build tool.**<br>
     The new package manager, [`elm-package`][elm-package], has a fresh take on
@@ -150,7 +150,7 @@ shows a bunch of examples.
 
 [union]: https://guide.elm-lang.org/types/custom_types.html
 [gist]: https://gist.github.com/evancz/06fe634245a3aab4a61b
-[tagged]: http://en.wikipedia.org/wiki/Tagged_union
+[tagged]: https://en.wikipedia.org/wiki/Tagged_union
 
 
 ### List Types
@@ -213,8 +213,8 @@ List.map2 (+) [1,2,3] [1,2,3] == [2,4,6]
 These changes are paralleled in the Signal library, where the map functions all
 work exactly the same way. This naming scheme is more in line with
 [Clojure](https://clojuredocs.org/clojure.core/map),
-[Racket](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._racket%2Fprivate%2Fmap..rkt%29._map%29%29),
-and [OCaml](http://caml.inria.fr/pub/docs/old-311/libref/List.html#VALmap2).
+[Racket](https://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._racket%2Fprivate%2Fmap..rkt%29._map%29%29),
+and [OCaml](https://caml.inria.fr/pub/docs/old-311/libref/List.html#VALmap2).
 
 ### Signal Channels
 
@@ -230,7 +230,7 @@ send : Channel a -> a -> Message
 So now routing events in view code feels much more natural. If you are using
 [elm-html][] your event handlers will look more like this:
 
-[elm-html]: http://package.elm-lang.org/packages/evancz/elm-html/1.1.0
+[elm-html]: https://package.elm-lang.org/packages/evancz/elm-html/1.1.0
 
 ```elm
 viewButton : Int -> Html
@@ -274,7 +274,7 @@ point =
 -- decodeString point "{ \\"x\\": 3, \\"y\\": 4 }" == Point 3 4
 ```
 
-[decode]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Json-Decode
+[decode]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Json-Decode
 
 There are a ton more examples [here][decode]. It may be possible to do some
 code generation when the JSON is very simple, but that is an idea for another
@@ -293,16 +293,16 @@ tools for generating as many random values as you want, whenever you want.
 Furthermore, it does it in a way that works great with time travel in
 [Elm Reactor][reactor].
 
-[random]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random
+[random]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random
 [reactor]: /news/time-travel-made-easy
 
 There is more info in [the `Random`
-docs](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),
+docs](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Random),
 but Joe also did a nice dice rolling example. You can check out the source code
 [here](https://github.com/jcollard/random-examples/blob/master/src/Dice.elm).
 
 <iframe
-    src="http://jcollard.github.io/dice-example/"
+    src="https://jcollard.github.io/dice-example/"
     style="display: block; margin: 0 auto;"
     width="300"
     height="320"
@@ -315,7 +315,7 @@ The `Either` library has been removed in favor of [the `Result` library][result]
 A `Result` is intended to be a very obvious choice for error handling. The core
 type there is called a `Result`.
 
-[result]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Result
+[result]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Result
 
 ```elm
 type Result err value

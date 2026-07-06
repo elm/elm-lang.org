@@ -15,7 +15,7 @@ content = """
 
 The first release of [`elm-repl`](https://github.com/elm-lang/elm-repl#elm-repl)
 is now available. Like any traditional
-[REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop),
+[REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop),
 it lets you interact with functions and expressions buried deep inside a
 large project with many modules.
 
@@ -112,7 +112,7 @@ and see how a specific function behaves.
 
 When I announced [hot-swapping in Elm](/news/interactive-programming), I
 called it a new kind of REPL. Riffing on Stephen Wolfram's
-[New Kind of Science](http://en.wikipedia.org/wiki/A_New_Kind_of_Science) definitely
+[New Kind of Science](https://en.wikipedia.org/wiki/A_New_Kind_of_Science) definitely
 makes for a provocative title, but perhaps unsurprisingly, the old kind
 of REPL is still very important.
 
@@ -121,7 +121,7 @@ changes how we tweak and perfect our programs. It changes how we debug.
 It changes how beginners learn to program. It changes how developers dig
 into existing codebases. That is all great, but for some reason we still had
 folks on [the list][repl-request] asking for a good old fashioned
-[Read-eval-print-loop](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop).
+[Read-eval-print-loop](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop).
 My initial feeling was &ldquo;Don't you see!
 [REPLs are so 2000 and late](https://youtu.be/4m48GqaOz90?t=54)&rdquo;
 but I was missing the bigger picture.
@@ -133,7 +133,7 @@ have direct impact on the things displayed by the program. In other words,
 a REPL is the unit test of interactive programming.
 
 <p style="text-align:center;">
-[REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) : [unit testing](http://en.wikipedia.org/wiki/Unit_testing) :: [hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping) : [system testing](http://en.wikipedia.org/wiki/System_testing)
+[REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) : [unit testing](https://en.wikipedia.org/wiki/Unit_testing) :: [hot-swapping](https://en.wikipedia.org/wiki/Hot_swapping) : [system testing](https://en.wikipedia.org/wiki/System_testing)
 </p>
 
 Once I put together the basics of `elm-repl` it was obvious that REPLs and
@@ -145,7 +145,7 @@ easier in their own way.
 Thank you to Joe Collard for [explaining to me why he needed a
 REPL][repl-request].
 Once I fully understood the problem, I had to do it. It was like a happier version
-of [The Tell-Tale Heart](http://en.wikipedia.org/wiki/The_Tell-Tale_Heart).
+of [The Tell-Tale Heart](https://en.wikipedia.org/wiki/The_Tell-Tale_Heart).
 Thank you to [Thomas Bereknyei](https://github.com/tomberek) for figuring out
 how to catch `Ctrl-c` presses in a platform independent way. Thanks to
 the [haskeline](http://hackage.haskell.org/package/haskeline) project

@@ -73,7 +73,7 @@ explains all of the details of the API.
 The following video is a short demo of how to embed Elm in a `<div>`.
 
 <div class="intrinsic-container">
-  <iframe src="http://www.youtube.com/embed/xt07tLqa_m8?rel=0" allowfullscreen></iframe>
+  <iframe src="https://www.youtube.com/embed/xt07tLqa_m8?rel=0" allowfullscreen></iframe>
 </div>
 
 So it is no longer an all-or-nothing choice. You can use Elm where it
@@ -126,7 +126,7 @@ of type-classes, but that is for another day.
 
 ## Dynamic Inputs
 
-The new [`Graphics.Input` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input)
+The new [`Graphics.Input` library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Input)
 introduces text boxes, buttons, and checkboxes that can be created dynamically and
 updated programmatically.
 
@@ -146,7 +146,7 @@ as described by apfelmus.
 
 The `collage` API has been streamlined and now permits grouping
 and 2D matrix transforms. It also uses a proper [cartesian coordinate
-system](http://en.wikipedia.org/wiki/Cartesian_coordinate_system).
+system](https://en.wikipedia.org/wiki/Cartesian_coordinate_system).
 
 
 #### Cartesian Coordinates
@@ -165,7 +165,7 @@ With the inverted y-axis, it is easy to find yourself randomly adding
 minus signs to try to
 get your code to work in this coordinate system, especially when you
 are trying to work with rotations and [polar
-coordinates](http://en.wikipedia.org/wiki/Polar_coordinate_system).
+coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system).
 
 <img src="/assets/blog/0.8/cartesian.jpg"
      alt="cartesian coordinates"
@@ -187,7 +187,7 @@ circle : Float -> Shape
 toForm : Element -> Form
 ```
 You can see the full API in the
-[`Graphics.Collage` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Collage).
+[`Graphics.Collage` library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Graphics-Collage).
 For now we will look at some smaller examples and uses.
 
 The following example creates four colorful dots. It shows a basic
@@ -257,7 +257,7 @@ crosses =
 ```
 
 This example also shows that rotations are based on the
-[unit circle](http://en.wikipedia.org/wiki/Unit_circle).
+[unit circle](https://en.wikipedia.org/wiki/Unit_circle).
 Angles start on the positive x-axis and go counterclockwise,
 just like with `sin`, `cos`, etc.
 
@@ -275,9 +275,9 @@ to remember that.
 The `groupTransform` function works just like `group` except that
 it applies a matrix transformation to the flattened `Form`.
 This allows you to build up a traditional
-[scene graph](http://en.wikipedia.org/wiki/Scene_graph)
+[scene graph](https://en.wikipedia.org/wiki/Scene_graph)
 and do fancier transformations like reflections and skews with
-the new [`Matrix2D` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D).
+the new [`Matrix2D` library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Transform2D).
 
 
 ## Faster currying and data structures
@@ -358,7 +358,7 @@ Please let me know what you think of it on the [mailing
 list](groups.google.com/forum/?fromgroups#!forum/elm-discuss).
 
 You can also work with websockets via the
-[`WebSocket` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
+[`WebSocket` library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/WebSocket).
 This API may change to accomadate more usage scenarios. Please let me
 know how you want to use it!
 

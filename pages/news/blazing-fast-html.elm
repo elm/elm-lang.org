@@ -80,7 +80,7 @@ profile user =
 Notice that we set a class so the whole thing can be styled from CSS. Paired
 with Elm&rsquo;s module system, this makes it easy to abstract out common
 patterns and reuse code. You can check out the full API and documentation
-[here](http://package.elm-lang.org/packages/evancz/elm-html/latest/) and we will
+[here](https://package.elm-lang.org/packages/evancz/elm-html/latest/) and we will
 explore more example uses soon in the section on [reusable
 widgets](#reusable-widgets).
 
@@ -91,7 +91,7 @@ This technique is actually [widely used in the game industry][scene] and
 performs shockingly well for DOM updates when you use two relatively simple
 techniques: diffing and laziness.
 
-[scene]: http://en.wikipedia.org/wiki/Scene_graph
+[scene]: https://en.wikipedia.org/wiki/Scene_graph
 
 React popularized the idea of &ldquo;diffing&rdquo; to figure out how the DOM
 needs to be modified. **Diffing means taking the *current* virtual DOM and the
@@ -153,13 +153,13 @@ frame by comparing the old and new values by *reference*. This is super cheap,
 and if they are the same, the `lazy` function can often avoid a ton of work.
 This is a pretty simple trick that can speed things up significantly.
 
-[pure]: http://en.wikipedia.org/wiki/Pure_function
-[immutable]: http://en.wikipedia.org/wiki/Immutable_object
+[pure]: https://en.wikipedia.org/wiki/Pure_function
+[immutable]: https://en.wikipedia.org/wiki/Immutable_object
 
 If you have been following Elm, you may begin to see a pattern:
 purity and immutability are kind of a big deal. Read about [hot-swapping in
 Elm](/news/interactive-programming) and the [time traveling
-debugger](http://debug.elm-lang.org/) to learn more about this.
+debugger](https://debug.elm-lang.org/) to learn more about this.
 
 ## Reusable Widgets
 

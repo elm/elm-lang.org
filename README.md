@@ -1,6 +1,6 @@
 # Elm Home Page
 
-All of [elm-lang.org](http://elm-lang.org) is written in Elm!
+All of [elm-lang.org](https://elm-lang.org) is written in Elm!
 
 
 ## Build Instructions

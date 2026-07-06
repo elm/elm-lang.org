@@ -21,7 +21,7 @@ content = """
 CircuitHub, Prezi, Gizra, Beautiful Destinations, Your CRM Link, TruQu, and
 more. Website traffic tripled, and folks are creating tons of great
 [projects](http://builtwithelm.co/) and
-[packages](http://package.elm-lang.org/). **It took 45 years, but ML-style
+[packages](https://package.elm-lang.org/). **It took 45 years, but ML-style
 typed functional programming is finally catching on!** So 2015 was pretty
 great, but we already have some exciting news for 2016.
 

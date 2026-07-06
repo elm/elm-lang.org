@@ -401,7 +401,7 @@ Elm uses a very cool record system. It is based on [an excellent paper][daan]
 by Daan Leijen that lets you add and remove fields from records, all while
 keeping the types simple. I really love this mix of power and simplicity!
 
-[daan]: http://research.microsoft.com/pubs/65409/scopedlabels.pdf
+[daan]: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/scopedlabels.pdf
 
 I added support for this back in 0.7, and at the time, I had never seen a
 language (with a real working compiler) that allowed field addition and

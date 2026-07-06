@@ -43,18 +43,18 @@ Our tools are finally allowing the kind of interactivity that makes
 programming more fun and more productive.
 
 [Elm](/) is taking the next step by supporting
-[*hot-swapping*](http://en.wikipedia.org/wiki/Hot_swapping#Software), the
+[*hot-swapping*](https://en.wikipedia.org/wiki/Hot_swapping#Software), the
 key component in truly *interactive programming*. Before diving into
 details, we need to define these two terms to help formalize where we are
 going and the challenges we face:
 
-* **[Interactive Programming](http://en.wikipedia.org/wiki/Interactive_programming)
+* **[Interactive Programming](https://en.wikipedia.org/wiki/Interactive_programming)
   &ndash; coding with immediate feedback**<br/>
   Tighten the development loop by integrating compilation, error messages, documentation,
   testing, and more into the *process* of coding.
   This encompasses the general goals of Learnable Programming and LightTable.
 
-* **[Hot-swapping](http://en.wikipedia.org/wiki/Hot_swapping) &ndash;
+* **[Hot-swapping](https://en.wikipedia.org/wiki/Hot_swapping) &ndash;
   modifying running code**<br/>This is a specific technique used by compilers
   and runtime systems to swap new functions and values into a program while it
   is running. This technique is required for fully Interactive Programming.
@@ -195,9 +195,9 @@ and functions. When we copy over the old state, we know that there is no shared
 or hidden state that we are missing. This is made possible by the following
 two features:
 
-* [Immutable Data](http://en.wikipedia.org/wiki/Immutable_object) &ndash;
+* [Immutable Data](https://en.wikipedia.org/wiki/Immutable_object) &ndash;
   data cannot be modified after creation
-* [Pure Functions](http://en.wikipedia.org/wiki/Pure_function) &ndash;
+* [Pure Functions](https://en.wikipedia.org/wiki/Pure_function) &ndash;
   same arguments, same result
 
 Both have already been very successful for concurrency in languages
@@ -236,8 +236,8 @@ still some open technical questions:
   a limited subset of &ldquo;safe&rdquo; changes?
 
 * Even in a pure language, it is possible to associate state with functions by using
-  [continuation passing style](http://en.wikipedia.org/wiki/Continuation-passing_style) (CPS).
-  This comes up in [the Automaton library](http://package.elm-lang.org/packages/evancz/automaton/1.0.0),
+  [continuation passing style](https://en.wikipedia.org/wiki/Continuation-passing_style) (CPS).
+  This comes up in [the Automaton library](https://package.elm-lang.org/packages/evancz/automaton/1.0.0),
   which is an alternate way to write reactive code. Is it possible to persist state *and*
   update functions when using CPS?
 

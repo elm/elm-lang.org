@@ -22,8 +22,8 @@ For a full listing of Elm's current libraries, see [this page][docs].
 
 Elm now has [dictionaries][Dict] and [sets][Set]!
 
-  [Dict]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Dict "Dictionary library"
-  [Set]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Set "Set library"
+  [Dict]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Dict "Dictionary library"
+  [Set]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Set "Set library"
 
 The Dict and Set libraries could be used from JavaScript. I can make this easier if people are interested. Let me know!
 
@@ -32,7 +32,7 @@ The Dict and Set libraries could be used from JavaScript. I can make this easier
 This version also introduces the [Automaton][auto] library. This library will
 make it easier to create dynamic components that can be switched in and out of a program.
 
-  [auto]: http://package.elm-lang.org/packages/evancz/automaton/1.0.0/ "Automaton Library"
+  [auto]: https://package.elm-lang.org/packages/evancz/automaton/1.0.0/ "Automaton Library"
 
 &ldquo;But what is an automaton?&rdquo; you might be asking. An automaton is like a little robot that
 takes inputs and produces outputs. Without input, an automaton just sits quietly, waiting for something to do.
@@ -49,7 +49,7 @@ and working through the details with me!
 I plan on writing some blog posts on automatons, so hopefully that will make it clearer why they
 are totally rad.
 
-  [wiki]: http://en.wikipedia.org/wiki/Automata_theory#Informal_description "automaton wiki"
+  [wiki]: https://en.wikipedia.org/wiki/Automata_theory#Informal_description "automaton wiki"
   [afrp]: http://haskell.cs.yale.edu/wp-content/uploads/2011/02/workshop-02.pdf "Arrowized FRP"
 
 ### Escape from &ldquo;Callback Hell&rdquo; (new HTTP library)
@@ -68,8 +68,8 @@ because I think it is an important and novel part of Elm.
 JS developers struggle with &ldquo;callback hell&rdquo; on a daily basis, and
 now they do not have to!
 
-  [send]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http#send "send"
-  [http]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http "HTTP docs"
+  [send]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http#send "send"
+  [http]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Http "HTTP docs"
   [zips]: /examples/zip-codes
 
 ### New Functions and Syntax
@@ -83,7 +83,7 @@ now they do not have to!
     * `readFloat : String -> Maybe Float`
 - [`(complement : Color -> Color)`][color] which computes complementary colors! Surprisingly difficult to do!
 
-  [color]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color library"
+  [color]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Color "Color library"
 
 ### Fewer Library Prefixes
 

@@ -34,12 +34,12 @@ additionalResources = """
 ### Additional Resources
 
 * [Install](https://guide.elm-lang.org/install/elm.html)
-* [FAQ](http://elm-community.github.io/elm-faq/)
+* [FAQ](https://elm-community.github.io/elm-faq/)
 * [Syntax](/docs/syntax)
 * [Syntax vs JS](/docs/from-javascript)
 * [Style Guide](/docs/style-guide)
-* [Package Design](http://package.elm-lang.org/help/design-guidelines)
-* [Writing Documentation](http://package.elm-lang.org/help/documentation-format)
+* [Package Design](https://package.elm-lang.org/help/design-guidelines)
+* [Writing Documentation](https://package.elm-lang.org/help/documentation-format)
 * [Advanced Topics](/docs/advanced-topics)
 
 """

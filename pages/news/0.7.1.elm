@@ -79,9 +79,9 @@ based on the `arrows` and `space` signals.
 This takes only 20 physical lines of code, which you can see and modify
 in the interactive editor [here][src].
 
- [keys]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Keyboard "Keyboard Library"
- [arrows]: http://en.wikipedia.org/wiki/Arrow_keys "alternative cursor movement keys"
- [wasd]: http://en.wikipedia.org/wiki/Arrow_keys#WASD_keys "wasd"
+ [keys]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Keyboard "Keyboard Library"
+ [arrows]: https://en.wikipedia.org/wiki/Arrow_keys "alternative cursor movement keys"
+ [wasd]: https://en.wikipedia.org/wiki/Arrow_keys#WASD_keys "wasd"
  [src]: /edit/examples/Intermediate/Turtle.elm "Turtle Source"
 
 ## Touch
@@ -90,7 +90,7 @@ in the interactive editor [here][src].
 These provide the low-level building blocks for detecting gestures. We will
 discuss some ideas for a higher-level API for defining gestures in a moment.
 
- [touch]: http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Touch "Touch Library"
+ [touch]: https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Touch "Touch Library"
 
 Warning: I do not have any Microsoft touch devices to test on, so I am not
 sure how well this will work there. Please let me know if you have any problems.
@@ -173,12 +173,12 @@ mergeEither : Signal a -> Signal b -> Signal (Either a b)
 This lets you combine two signals without losing information about
 the original source of the signal.
 
- [either]: http://package.elm-lang.org/packages/imeckler/either/1.0.0/ "Either"
+ [either]: https://package.elm-lang.org/packages/imeckler/either/1.0.0/ "Either"
 
 
 ## Consistency
 
-I have simplified [the `Maybe` library](http://package.elm-lang.org/packages/elm-lang/core/1.0.0/Maybe)
+I have simplified [the `Maybe` library](https://package.elm-lang.org/packages/elm-lang/core/1.0.0/Maybe)
 a little bit. Names are now consistent with the new `Either` library. For example,
 when working with lists of Maybes or Eithers, you just ask to extract the
 values you want:

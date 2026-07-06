@@ -23,10 +23,10 @@ Elm out on a specific problem and see if it works for you.
      style="width:480px; height:320px; margin-left: auto; margin-right: auto; display:block;">
 
 To make this “component model” possible, Elm 0.11 introduces
-[ports](http://guide.elm-lang.org/interop/javascript.html) which make it easy to
+[ports](https://guide.elm-lang.org/interop/javascript.html) which make it easy to
 communicate between Elm and JavaScript. Check out
 [how to embed Elm in HTML](https://guide.elm-lang.org/interop/) and
-[how to communicate between Elm and JS](http://guide.elm-lang.org/interop/javascript.html)
+[how to communicate between Elm and JS](https://guide.elm-lang.org/interop/javascript.html)
 to learn the specifics of these new features. This post will focus
 on why ports are extremely important for Elm and how to understand
 and use ports effectively.
@@ -36,7 +36,7 @@ and use ports effectively.
 The success stories I have heard for JVM languages like Scala and Clojure
 go something like this: “There was some module that was a terrible
 quagmire of state and bugs and slowness. [There did not appear to be any
-solution](http://youtu.be/WzEhoyXpqzQ?t=31s). An individual rewrote it in
+solution](https://youtu.be/WzEhoyXpqzQ?t=31s). An individual rewrote it in
 language X. It was a third as long, ran faster, and was easier to maintain.
 There was much rejoicing and language X became the primary language of that team.”
 The key components of these stories are:
@@ -119,7 +119,7 @@ out. Ports also do some conversions so that you get nice
 colloquial data structures in both Elm and JS.
 
 The particular types that can be sent in and out of ports is
-actually quite flexible. It covers pretty much [all valid JSON values](http://www.json.org/). Incoming
+actually quite flexible. It covers pretty much [all valid JSON values](https://www.json.org/). Incoming
 ports can handle [all JS values](https://github.com/elm-lang/elm-compiler/blob/0.11/libraries/JavaScript.elm)
 and the following Elm types:
 
@@ -165,7 +165,7 @@ So the biggest goal for this API was to make it easy and fun to
 communicate between Elm and JS. The two biggest inspirations for ports were:
 
 * **Message-passing concurrency**:
-  [Concurrent ML](http://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
+  [Concurrent ML](https://people.cs.uchicago.edu/~jhr/papers/2009/icfp-parallel-cml.pdf)
   was extremely influential in [the theoretical work underlying
   Elm](/assets/papers/concurrent-frp.pdf).
   The key abstraction from Concurrent ML is the *channels* which allow messages to
@@ -175,9 +175,9 @@ communicate between Elm and JS. The two biggest inspirations for ports were:
   and I really hope it becomes more known and accepted in the JS community.
 
 * **Flow-based Programming**: I was mostly inspired by the strong visual language
-  of [flow-based programming](http://en.wikipedia.org/wiki/Flow-based_programming).
+  of [flow-based programming](https://en.wikipedia.org/wiki/Flow-based_programming).
   Although the diagrams I see are usually [sad looking UML with randomly selected
-  colors schemes](http://en.wikipedia.org/wiki/File:FBP_-_Simple_network.png), they
+  colors schemes](https://en.wikipedia.org/wiki/File:FBP_-_Simple_network.png), they
   make the core concepts of a “component model” extremely clear and have the *potential*
   to be beautiful. This is also where I got the term “port”.
 
@@ -213,7 +213,7 @@ REPL](https://github.com/elm-lang/elm-repl#elm-repl). Thank
 you to [Joe Collard](https://github.com/jcollard/) for continuing to improve
 [elm-mode](https://github.com/jcollard/elm-mode) for emacs, now [with REPL
 integration](https://groups.google.com/forum/#!searchin/elm-discuss/elm-mode/elm-discuss/t82zCnn89Ps/5gLkvG9iE3EJ)
-and super easy to install from [MELPA](http://melpa.milkbox.net/).
+and super easy to install from [MELPA](https://melpa.milkbox.net/).
 
 Thank you to [Joseph Hager](https://github.com/ajhager) and
 [John P. Mayer](https://github.com/johnpmayer) for some nice bug fixes.

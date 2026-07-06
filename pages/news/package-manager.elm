@@ -16,7 +16,7 @@ content = """
 Elm now has a basic package manager, so you can easily discover and
 use community libraries. This comes in two parts:
 
-  1. [Elm Public Library](http://package.elm-lang.org/) which has
+  1. [Elm Public Library](https://package.elm-lang.org/) which has
      a catalog of all published libraries along with their documentation
 
   2. [`elm-get` command line tool](https://github.com/elm-lang/elm-get#elm-get)
@@ -26,7 +26,7 @@ use community libraries. This comes in two parts:
 integration with `elm-get` to make things easy to use. So once you [install
 `elm-get`](https://github.com/elm-lang/elm-get#install) with `cabal install elm-get`,
 you will be all set to start using any library in
-[the catalog](http://package.elm-lang.org/) in your projects!
+[the catalog](https://package.elm-lang.org/) in your projects!
 
 For more information on how to use `elm-get` see [the usage
 instructions](https://github.com/elm-lang/elm-get#elm-get). The rest of this post
@@ -81,7 +81,7 @@ choosing an approach. I wanted package management in Elm to:
    writing your own. That brings us to...
 
  * **Guide authors towards high quality APIs and implementations.**
-   The first step is having a basic set of [design guidelines](http://package.elm-lang.org/help/design-guidelines)
+   The first step is having a basic set of [design guidelines](https://package.elm-lang.org/help/design-guidelines)
    to have some level of consistency across projects. Social tools can push
    quality higher too, like clearly associating projects with authors.
 
@@ -98,11 +98,11 @@ for the simple set of things that Elm needs. npm would make discoverability
 really tough. And crucially, neither provide a way to have nicely formatted
 documentation for all libraries. So no matter what option I chose, I would
 still need a way to upload metadata to a central repo to have
-[a catalog](http://package.elm-lang.org/) with documentation.
+[a catalog](https://package.elm-lang.org/) with documentation.
 
 I decided to take a route inspired by Go and [OCaml](http://opam.ocaml.org/)
 (of course without the versioning issues with `go get`). The [Elm Public
-Library](http://package.elm-lang.org/) is backed by GitHub, which
+Library](https://package.elm-lang.org/) is backed by GitHub, which
 covers a decent amount of functionality, but leaves the more language
 specific tasks to me. This makes it easy to display documentation,
 work on discoverability, and integrate with the compiler and tools
@@ -119,7 +119,7 @@ and minimizes the amount of work needed.
 
 There is still a lot of work to do on
 [`elm-get`](https://github.com/elm-lang/elm-get#elm-get)
-and [the Elm Public Library](http://package.elm-lang.org/), so the roadmap
+and [the Elm Public Library](https://package.elm-lang.org/), so the roadmap
 breaks up into fairly distinct topics.
 
 **Versioning:** Right now, `elm-get` ensures that you are always publishing
@@ -156,14 +156,14 @@ variety of reasons, but I imagine it'd help library authors do a better job.
 
 **Extensions:** All of the info used to run the Public Library is just JSON data.
 It is currently possible to download any of it from the site directly, giving you
-access to [a list of every uploaded library](http://package.elm-lang.org/all-packages)
+access to [a list of every uploaded library](https://package.elm-lang.org/all-packages)
 and [docs for each version of each
-library](http://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
+library](https://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
 This is great if you want to work on search tool like
 [Hayoo](http://holumbus.fh-wedel.de/hayoo/hayoo.html) or
 [Hoogle](http://www.haskell.org/hoogle/), implement autocomplete in an editor,
 or estimate maximal dependency ranges based on
-[`elm-doc` data](http://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
+[`elm-doc` data](https://package.elm-lang.org/packages/evancz/automaton/latest/documentation.json).
 
 There is a ton of work, so check out [the repo](https://github.com/elm-lang/elm-get)
 if you are interested in contributing! I am slowly becoming better at managing

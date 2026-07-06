@@ -17,7 +17,7 @@ main =
 body =
   [ Center.markdown "600px" contentOne
   , iframe
-        [ src "http://debug.elm-lang.org/edit/Thwomp.elm"
+        [ src "https://debug.elm-lang.org/edit/Thwomp.elm"
         , style "border" "none"
         , style "overflow" "hidden"
         , style "height" "400px"
@@ -38,7 +38,7 @@ a nice new UI written in Elm, and can now be used with *any* text editor. Elm
 Reactor is distributed with [Elm Platform 0.13][13], so it is easy to
 [install][] and use right now.
 
-[debug]: http://debug.elm-lang.org/
+[debug]: https://debug.elm-lang.org/
 [13]: /news/0.13
 [install]: /install
 
@@ -190,13 +190,13 @@ Thwomp. Try it out!
 
 contentTwo = """
 
-This is running at [debug.elm-lang.org](http://debug.elm-lang.org) where there
+This is running at [debug.elm-lang.org](https://debug.elm-lang.org) where there
 are some other examples you can explore, such as [the Mario example][mario]
 where you can play with physics and [a simple stamping app][stamp] where it is
 fun to change the size and shape of each stamp.
 
-[mario]: http://debug.elm-lang.org/edit/Mario.elm
-[stamp]: http://debug.elm-lang.org/edit/Stamps.elm
+[mario]: https://debug.elm-lang.org/edit/Mario.elm
+[stamp]: https://debug.elm-lang.org/edit/Stamps.elm
 
 # In your workflow
 
@@ -242,7 +242,7 @@ useful for testing specific functions in a large project. Imagine an in-browser
 REPL that knows about your code so you can explore an idea in a scratchpad or
 make sure a function does what you expect.
 
-[repl]: http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
+[repl]: https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
 
 * **Ports** - [Ports][] make it easy for Elm programs to send messages to and
 from JS, where there may be all sorts of side-effects. It is not immediately
@@ -266,7 +266,7 @@ you could give these inputs to someone else, you could easily file an
 informative bug report that shows *exactly* how to reproduce an error.
 
 * **Improved visualizations** - It may help to use techniques like
-[sparklines](http://en.wikipedia.org/wiki/Sparkline) to visualize
+[sparklines](https://en.wikipedia.org/wiki/Sparkline) to visualize
 tracked values (e.g., mouse position).
 
 * **Plug-ins** - Elm Reactor may be a nice way to expose lots of functionality

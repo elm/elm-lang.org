@@ -85,7 +85,7 @@ or read about [how folks use Elm at work][work]. See if you like it! Otherwise,
 I hope the information in this post will be helpful to all these different
 communities.
 
-[guide]: http://guide.elm-lang.org/
+[guide]: https://guide.elm-lang.org/
 [work]: /news/how-to-use-elm-at-work
 
 
@@ -351,11 +351,11 @@ section about the concrete tradeoffs between each of these different projects,
 so I hope that breadth of experience can help folks make technical decisions
 without doing all this work!
 
-[guide]: http://guide.elm-lang.org/
+[guide]: https://guide.elm-lang.org/
 [work]: /news/how-to-use-elm-at-work
 [slack]: /community/slack
 [elm-discuss]: https://groups.google.com/forum/?fromgroups#!forum/elm-discuss
-[xy]: http://meta.stackexchange.com/questions/66377/what-is-the-xy-problem
+[xy]: https://meta.stackexchange.com/questions/66377/what-is-the-xy-problem
 
 
 # Thank You
