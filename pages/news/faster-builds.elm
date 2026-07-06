@@ -19,9 +19,7 @@ main =
 content : String
 content = """
 
-I have a lot of compiler improvements piled up, and the road to 1.0 is essentially to incorporate them into Elm in a sequence of small releases. The release today is a little compiler performance improvement to just get things started, and I hope you will give it a try!
-
-> **Note:** This is a patch release, so existing users should be able to just download [the new version](https://github.com/elm/compiler/releases/tag/0.19.2) and start using it with existing projects.
+I have a lot of compiler improvements piled up, and the road to 1.0 is essentially to incorporate them into Elm in a sequence of small releases. The release today is a little compiler performance improvement to just get things started, and I hope you will [give it a try](https://github.com/elm/compiler/releases/tag/0.19.2)!
 
 
 ## Faster Builds with Elm 0.19.2
@@ -44,4 +42,6 @@ In real world testing, results ranged from slight improvements to a 1.9x improve
 ## What is Next?
 
 As some of you may know, I have been working on a database-related compiler called [Acadia](https://acadia.engineering) for a while. That work went really well! It is currently in private alpha, and I am excited to share it publicly later this year. In doing all that work, I figured out a bunch of compiler/language ideas that are useful in Elm as well. Some are simple performance things (like the faster parser) and others are more visible features like `equatable` and `hashable` types. To get these ideas integrated into Elm in a nice way, it makes sense to do a series of small non-breaking releases, and then go 1.0 for the final touches.
+
+I hope you will follow along for these improvements! If you are new to Elm, you can get started with [the online examples](https://elm-lang.org/examples) and [the guide](https://guide.elm-lang.org/). And if you have been using Elm for years, thank you! This is a patch release, so you should be able to just download [the new version](https://github.com/elm/compiler/releases/tag/0.19.1) and start using it with your existing projects.
 """
