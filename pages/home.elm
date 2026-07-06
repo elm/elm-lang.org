@@ -817,7 +817,7 @@ sources =
 
 copyRight : E.Element Msg
 copyRight =
-  E.text "© 2012-2025 Evan Czaplicki"
+  E.text "© 2012-2026 Evan Czaplicki"
 
 
 
