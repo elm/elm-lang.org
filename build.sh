@@ -226,7 +226,6 @@ if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.
       editor/cm/addon/search/search.js \
       editor/cm/addon/dialog/dialog.js \
       editor/cm/lib/active-line.js \
-      editor/cm/addon/dialog/dialog.js \
       editor/cm/keymap/sublime.js \
       | uglifyjs -o _site/assets/editor-codemirror.js
 
@@ -234,7 +233,7 @@ if ! [ -f _site/assets/editor-codemirror.js ] || ! [ -f _site/assets/editor-elm.
   cat editor/code-editor.js editor/column-divider.js | uglifyjs -o _site/assets/editor-custom-elements.js
 
   # styles
-  cat editor/cm/lib/codemirror.css editor/editor.css > _site/assets/editor-styles.css
+  cat editor/cm/lib/codemirror.css editor/cm/addon/dialog/dialog.css editor/editor.css > _site/assets/editor-styles.css
 
   # elm
   (cd editor ; elm make src/Page/Editor.elm --optimize --output=elm.js)
