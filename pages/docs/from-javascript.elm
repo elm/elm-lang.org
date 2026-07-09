@@ -84,7 +84,7 @@ literals =
   [ (Code "3", Code "3")
   , (Code "3.1415", Code "3.1415")
   , (Code "\"Hello world!\"", Code "\"Hello world!\"")
-  , (Message "Multiline strings not widely supported", Code "\"\"\"multiline string\"\"\"")
+  , (Code "`multiline string`", Code "\"\"\"multiline string\"\"\"")
   , (Code "'Hello world!'", Message "Cannot use single quotes for strings")
   , (Message "No distinction between characters and strings", Code "'a'")
   , (Code "true", Code "True")
@@ -100,17 +100,17 @@ records =
 
 
 functions =
-  [ (Code "function(x, y) { return x + y; }", Code "\\x y -> x + y")
+  [ (Code "(x, y) => x + y", Code "\\x y -> x + y")
   , (Code "Math.max(3, 4)", Code "max 3 4")
   , (Code "Math.min(1, Math.pow(2, 4))", Code "min 1 (2^4)")
   , (Code "numbers.map(Math.sqrt)", Code "List.map sqrt numbers")
-  , (Code "points.map(function(p) { return p.x })", Code "List.map .x points")
+  , (Code "points.map(p => p.x)", Code "List.map .x points")
   ]
 
 
 controlFlow =
   [ (Code "3 > 2 ? 'cat' : 'dog'", Code "if 3 > 2 then \"cat\" else \"dog\"")
-  , (Code "var x = 42; ...", Code "let x = 42 in ...")
+  , (Code "let x = 42; ...", Code "let x = 42 in ...")
   , (Code "return 42", Message "Everything is an expression, no need for return")
   ]
 
