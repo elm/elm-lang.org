@@ -48,7 +48,8 @@ viewNews article =
 
 news : List News
 news =
-  [ News "The Road to Elm 1.0" "/news/faster-builds"
+  [ News "Another Step Towards Elm 1.0" "/news/another-step-towards-elm-v1"
+  , News "The Road to Elm 1.0" "/news/faster-builds"
   , News "The Syntax Cliff" "/news/the-syntax-cliff"
   , News "Towards a Homegrown Programming Language" "/news/elm-and-bekk"
   , News "Working with Files" "/news/working-with-files"
@@ -98,7 +99,8 @@ viewRelease release =
 
 releases : List Release
 releases =
-  [ Release "0.19.2" "/news/faster-builds" "Faster builds, and the Road to Elm 1.0" "Jul 2026"
+  [ Release "0.19.3" "/news/another-step-towards-elm-v1" "Rough roadmap, and improved compiler infrastructure" "Oct 2026"
+  , Release "0.19.2" "/news/faster-builds" "Faster builds, and the Road to Elm 1.0" "Jul 2026"
   , Release "0.19.1" "/news/the-syntax-cliff" "Friendly syntax hints, faster builds" "Oct 2019"
   , Release "0.19" "/news/small-assets-without-the-headache" "Smaller assets, faster builds" "Aug 2018"
   , Release "0.18" "/news/the-perfect-bug-report" "New debugger with import/export" "Nov"
