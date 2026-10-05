@@ -46,7 +46,7 @@ function makePageHtml {
   <link rel="stylesheet" rel="preload" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Courier+Prime&display=swap">
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="/assets/highlight/styles/default.css">
-  <script src="/assets/highlight/highlight.pack.js"></script>
+  <script src="/assets/highlight/highlight.min.js"></script>
 </head>
 
 <body>
