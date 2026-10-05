@@ -19,11 +19,11 @@ main =
 content : String
 content = """
 
-People love Elm for the friendly error messages and easy refactoring, and we have been hard at work expanding the “the Elm experience” to the server and database in a thoughtful and coherent way. Check out [Acadia](https://acadia.engineering/) and [`elm-simple-server`](https://github.com/acadia-engineering/elm-simple-server) if you are interested in that! Acadia is also the “Patreon” for Elm, so we are also on the way to a stable and sustainable financial foundation. (Thank you! This work is not possible without your [support](https://acadia.engineering/support)!)
+People love Elm for the friendly error messages, easy refactoring, and strong correctness guarantees. Many people have such a nice time writing their frontend code with Elm that they end up wanting the same level of quality in their backend code as well. So we have been hard at work expanding the “the Elm experience” to the server and database in a thoughtful and coherent way. Check out [Acadia](https://acadia.engineering/) and [`elm-simple-server`](https://github.com/acadia-engineering/elm-simple-server) if you are interested in that! Acadia is also the “Patreon” for Elm, so we are also on the way to a stable and sustainable financial foundation. (Thank you! This work is not possible without your [support](https://acadia.engineering/support)!)
 
 Today marks another step on the road to “the end-to-end Elm experience” with the second incremental Elm release. You can get the 0.19.3 binaries [here](https://github.com/elm/compiler/releases/tag/0.19.3)!
 
-The rest of this post gets into (1) the rough roadmap for the next few Elm releases and (2) the infrastructure improvements in Elm 0.19.3 which focus on making the compiler “correct by construction”. These “correct by construction” techniques are useful in any program, so hopefully some readers will be inspired to clean up their front-end code based with the same ideas!
+The rest of this post gets into (1) the rough roadmap for the next few Elm releases and (2) the infrastructure improvements in Elm 0.19.3 which focus on making the compiler “correct by construction”. These “correct by construction” techniques are useful in any program, so hopefully you will be inspired to improve your own code with these ideas!
 
 
 ## The Rough Roadmap
@@ -105,13 +105,18 @@ Rendering these non-linear cyclic graphs in a clear way is not very easy, especi
 So we took the approach of making our `Graph` types more precise with an API like this:
 
 ```elm
-module Graph exposing (Node, SCC(..), Cycle, toSCCs, MinimalCycle(..), toMinimalCycle)
+module Graph exposing
+  ( Node, SCC(..), Component, toStronglyConnectedComponents
+  , MinimalCycle(..), toMinimalCycle
+  )
 
 type alias Node key value =
   { key : key
   , value : value
   , edges : List key
   }
+
+toStronglyConnectedComponents : List (Node k v) -> List (SCC k v)
 
 type SCC k v
   = Acyclic (Node k v)
@@ -120,22 +125,27 @@ type SCC k v
 type Component k v =
   Component (Node k v) (List (Node k v))
 
-toStronglyConnectedComponents : List (Node k v) -> List (SCC k v)
+toMinimalCycle : (k -> v -> a) -> Component k v -> MinimalCycle a
 
 type MinimalCycle a =
   MinimalCycle a (List a)
-
-toMinimalCycle : (k -> v -> a) -> Component k v -> MinimalCycle a
 ```
 
-The first thing to notice here is the `Component` and `MinimalCycle` types. They use a common technique for guaranteeing “this list is never empty”. A `Component` must have one `Node` and then it may have zero-or-more additional nodes stored in a `List` of `Node` values. So a `Component` can never be empty. That would not make sense! There is always one node in there. Same for `MinimalCycle`. There must always be one value in a cycle, and then there is a list of any additional values. **Now we have a 100% guarantee that our cycles are non-empty.**
+There is a lot to process here, so we will start with the `MinimalCycle` type at the very end. There are a couple of things we want to guarantee about these cycles:
 
-From there, the only thing we can do with a `Component` is convert it into a `MinimalCycle`. So our core algorithm still just detects strongly connected components, but if we want to render them in error messages, we have to do an additional graph traversal to find the the minimal linear cycle within that component. **Now we have a 100% guarantee that we always render nice linear cycles in our error messages!**
+  1. The cycles are never empty. There is always at least one module in a cycle.
+  2. The cycles are always linear. The arrows we draw in the error messages should show the shortest path from one module back to itself.
+
+For our first guarantee, we use a common technique for guaranteeing that “this list is never empty”. Notice that the `MinimalCycle` type requires that you provide one value, and then a list of additional values, like `MinimalCycle 1 [2,3]` or `MinimalCycle 1 []`. This makes it is impossible to create a `MinimalCycle` with zero entries! There must always be one value, and then the list with any additional values. **Now we have a 100% guarantee that our cycles are non-empty.** They are “correct by construction”.
+
+The second guarantee is enforced by having strong module boundaries. Running `toStronglyConnectedComponents` will produce a cyclic `Component` value when there are module cycles, and these components may have all sorts of confusing edges that are difficult to render. We keep these details internal to the `Graph` module. if you want to see what is inside a `Component`, the only option is to call `toMinimalCycle` to convert it into a minimal linear cycle. There is no other way! **Now we have a 100% guarantee that we always render nice linear cycles in our error messages!** All code outside of the `Graph` module must convert a `Component` to a `MinimalCycle` if they want to look at the values.
+
+Next time you run into a cycle in an Elm error message, perhaps you will be reminded of these techniques for getting strong guarantees in your own code!
 
 
 ## Conclusion
 
-**When our programs are “correct by construction”, we rule out entire categories of bugs.** It is not a matter of testing or vigilance. The bugs are just not possible! The simple techniques we discussed here are useful whether you are writing websites, databases, or compilers, and I hope you will give them a try with the online [examples](https://elm-lang.org/examples) or with [Elm 0.19.3](https://github.com/elm/compiler/releases/tag/0.19.3) and the [guide](https://guide.elm-lang.org)!
+**When our programs are “correct by construction”, we rule out entire categories of bugs.** It is no longer a matter of testing or vigilance. The bugs are just not possible! The simple techniques we discussed here are useful whether you are writing websites, databases, or compilers, and I hope you will give them a try with the online [examples](https://elm-lang.org/examples) or with [Elm 0.19.3](https://github.com/elm/compiler/releases/tag/0.19.3) and the [guide](https://guide.elm-lang.org)!
 
 In addition to the compiler changes described in this post, we also made improvements to our primitives for concurrency, binary serialization, and file locking. All the changes are within the overall theme of “correct by construction” such that guarantees like “file writes can only happen when you have a valid project lock” are enforced by the type system. These more precise primitives give us a strong foundation for the user-facing language work we have lined up.
 
