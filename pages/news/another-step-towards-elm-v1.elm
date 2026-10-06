@@ -19,7 +19,7 @@ main =
 content : String
 content = """
 
-Elm is known for friendly error messages, easy refactoring, and strong correctness guarantees. Many people have such a nice time writing their frontend code with Elm that they end up wanting the same level of quality in their backend code as well. So we have been hard at work expanding the “the Elm experience” to the server and database in a thoughtful and coherent way. Check out [Acadia](https://acadia.engineering/) and [`elm-simple-server`](https://github.com/acadia-engineering/elm-simple-server) if you are interested in that! Acadia is also the “Patreon” for Elm, so we are also on the way to a stable and sustainable financial foundation. (Thank you! This work is not possible without your [support](https://acadia.engineering/support)!)
+Elm is known for friendly error messages, easy refactoring, and strong correctness guarantees. Many people have such a nice time writing their frontend code with Elm that they end up wanting the same level of quality in their backend code as well. So we have been hard at work expanding “the Elm experience” to the server and database in a thoughtful and coherent way. Check out [Acadia](https://acadia.engineering/) and [`elm-simple-server`](https://github.com/acadia-engineering/elm-simple-server) if you are interested in that! Acadia is also the “Patreon” for Elm, so we are also on the way to a stable and sustainable financial foundation. (Thank you! This work is not possible without your [support](https://acadia.engineering/support)!)
 
 Today marks another step on the road to “the end-to-end Elm experience” with the second incremental Elm release. You can get the 0.19.3 binaries [here](https://github.com/elm/compiler/releases/tag/0.19.3)!
 
