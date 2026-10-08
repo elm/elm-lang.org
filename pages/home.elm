@@ -817,7 +817,10 @@ sources =
 
 copyRight : E.Element Msg
 copyRight =
-  E.text "© 2012-2026 Evan Czaplicki"
+  E.row []
+    [ E.text "© 2012-2026 "
+    , Ui.grayLink (Link "Acadia Engineering ApS" "https://acadia.engineering")
+    ]
 
 
 

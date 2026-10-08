@@ -89,12 +89,16 @@ viewTab currentTab targetTab name link =
 footer : Html msg
 footer =
   div [class "footer"]
-    [ a [ class "grey-link", href "https://guide.elm-lang.org/install/elm.html" ] [ text "Install" ]
-    , text " — "
-    , a [ class "grey-link", href "https://github.com/elm/compiler/" ] [ text "Compiler Source" ]
-    , text " — "
-    , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Site Source" ]
-    , text " — © 2012-2026 Evan Czaplicki"
+    [ div [ style "margin-bottom" "0.5em" ] [ text "We make everything by hand. Compiler, website, docs, blog, and everything in between." ]
+    , div []
+        [ a [ class "grey-link", href "https://guide.elm-lang.org/install/elm.html" ] [ text "Install" ]
+        , text " — "
+        , a [ class "grey-link", href "https://github.com/elm/compiler/" ] [ text "Compiler Source" ]
+        , text " — "
+        , a [ class "grey-link", href "https://github.com/elm/elm-lang.org/" ] [ text "Site Source" ]
+        , text " — © 2012-2026 "
+        , a [ class "grey-link", href "https://acadia.engineering" ] [ text "Acadia Engineering ApS" ]
+        ]
     ]
 
 
